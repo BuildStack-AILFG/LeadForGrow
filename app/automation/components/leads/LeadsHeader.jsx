@@ -38,8 +38,8 @@ export default function LeadsHeader({
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 flex-1 lg:max-w-xl">
-            <div className="relative flex-1">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 flex-1 lg:max-w-3xl">
+            <div className="relative flex-1 min-w-[200px]" data-tour="leads-search">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
                 type="search"
@@ -65,6 +65,7 @@ export default function LeadsHeader({
                 </button>
                 <button
                   type="button"
+                  data-tour="leads-pipeline-toggle"
                   onClick={() => onViewModeChange('kanban')}
                   className={`p-2 ${viewMode === 'kanban' ? 'bg-blue-600 text-white' : 'bg-white dark:bg-slate-900 text-slate-600'}`}
                   title="Pipeline view"
@@ -112,6 +113,7 @@ export default function LeadsHeader({
 
               <Link
                 href="/automation/leads/new"
+                data-tour="leads-add-btn"
                 className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm"
               >
                 <Plus className="w-4 h-4" />

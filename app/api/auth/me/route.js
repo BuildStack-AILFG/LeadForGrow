@@ -44,6 +44,10 @@ export const GET = withAuth()(async (req) => {
         businessId: business._id,
         companyName: business.businessName,
         plan: business.plan || 'free',
+        // Hard kill switch — independent of plan. When true, the client
+        // fully disables /automation and shows a "contact team" screen.
+        frozen: business.frozen === true,
+        frozenReason: business.frozenReason || '',
         quotas: business.quotas || {},
         usage: business.usage || {},
         onboardingComplete: business.onboardingComplete || false,

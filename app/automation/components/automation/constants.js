@@ -39,12 +39,65 @@ export const FILTER_OPTIONS = [
   { id: 'paused', label: 'Paused only' }
 ];
 
-export const CREATABLE_TYPES = [
-  { id: 'instant_acknowledgement', label: 'Lead welcome message' },
-  { id: 'notify_team', label: 'Notify team' },
-  { id: 'auto_assign', label: 'Auto-assign leads' },
-  { id: 'follow_up_reminder', label: 'Follow-up reminder' },
-  { id: 'lost_lead_reengagement', label: 'Missed lead recovery' }
+/**
+ * Template gallery shown in "Create automation" (spec section 11: "Start
+ * from template" / "Build from scratch"). Each entry describes the fixed
+ * trigger→action pair the backend actually runs for that type — the WHEN/
+ * THEN copy here is presentational, it doesn't compose a new trigger, it
+ * just explains the one the type already has so a non-technical owner
+ * understands what they're turning on before they turn it on.
+ */
+export const AUTOMATION_TEMPLATES = [
+  {
+    id: 'instant_acknowledgement',
+    name: 'New Lead Follow-up',
+    tone: 'emerald',
+    when: 'A new lead is created',
+    then: 'Send an instant WhatsApp / email welcome message',
+    description: 'The moment someone enquires, they get a friendly reply — before they even think to look elsewhere.',
+    defaultName: 'Instant Lead Welcome',
+    defaultDescription: 'Send a professional Email & WhatsApp greeting immediately to build trust.',
+  },
+  {
+    id: 'notify_team',
+    name: 'Lead Assignment',
+    tone: 'blue',
+    when: 'A new lead is created',
+    then: 'Notify the assigned team member instantly',
+    description: 'Your team finds out about a new lead the second it arrives, not at end-of-day cleanup.',
+    defaultName: 'Notify Team on New Lead',
+    defaultDescription: 'High-speed instant notification to the assigned team member.',
+  },
+  {
+    id: 'auto_assign',
+    name: 'Round-robin Assignment',
+    tone: 'violet',
+    when: 'A new lead is created',
+    then: 'Automatically assign it to the next available teammate',
+    description: 'Distributes new leads evenly across your team — nobody is stuck doing all the work, nothing sits unowned.',
+    defaultName: 'Auto-assign New Leads',
+    defaultDescription: 'Distribute new leads across the team automatically.',
+  },
+  {
+    id: 'follow_up_reminder',
+    name: 'Deal / Lead Follow-up',
+    tone: 'amber',
+    when: 'A lead has no activity for a set time',
+    then: 'Create a follow-up task for its owner',
+    description: 'Smart fallback: if a lead goes quiet, someone gets a nudge to reach back out — nothing goes cold silently.',
+    defaultName: 'Follow-up Reminder',
+    defaultDescription: 'Smart fallback: automatically create a task if a lead stays stale.',
+  },
+  {
+    id: 'lost_lead_reengagement',
+    name: 'Inactive Lead Re-engagement',
+    tone: 'rose',
+    when: 'A lead is marked Lost or goes cold',
+    then: 'Send a re-engagement WhatsApp / email message',
+    description: "Give lost leads one more honest shot — a lot of \"no\" today turns into \"actually, yes\" a few weeks later.",
+    defaultName: 'Missed Lead Recovery',
+    defaultDescription: 'Re-engage leads that have gone cold with a friendly check-in message.',
+  },
 ];
 
 export const RULE_ICONS = {

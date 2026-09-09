@@ -64,8 +64,9 @@ export default function RetentionChartCard({ retention, onRefresh }) {
 
         <div className="flex-1 min-h-[180px]">
           {monthly.length === 0 ? (
-            <div className="flex items-center justify-center h-full text-[13px] text-[#98A2B3]">
-              No retention data yet
+            <div className="flex flex-col items-center justify-center h-full text-center px-4">
+              <p className="text-[13px] font-medium text-[#475569]">No retention data yet</p>
+              <p className="text-[12px] text-[#98A2B3] mt-1">This fills in once customers start coming back for repeat business.</p>
             </div>
           ) : (
             <div className="flex items-end justify-between gap-2 h-full pt-2">

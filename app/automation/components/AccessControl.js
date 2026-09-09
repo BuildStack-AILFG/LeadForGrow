@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Lock, Sparkles, ArrowRight } from 'lucide-react';
+import { Lock, Sparkles, ArrowRight, ShieldAlert, MessageCircle, Mail } from 'lucide-react';
 import { authFetch } from '@/lib/apiClient';
 import WorkspaceBootLoader from './WorkspaceBootLoader';
 
@@ -13,11 +13,15 @@ export default function AccessControl({ children }) {
   const [checking, setChecking] = useState(true);
   const [bootDone, setBootDone] = useState(false);
   const [userPlan, setUserPlan] = useState('');
+  const [frozen, setFrozen] = useState(false);
+  const [frozenReason, setFrozenReason] = useState('');
 
   useEffect(() => {
     const checkAccess = async () => {
       const userId = localStorage.getItem('userid');
       let plan = localStorage.getItem('userPlan') || '';
+      let isFrozen = localStorage.getItem('accountFrozen') === 'true';
+      let reason = localStorage.getItem('accountFrozenReason') || '';
 
       if (userId) {
         try {
@@ -26,6 +30,10 @@ export default function AccessControl({ children }) {
           if (data.success) {
             plan = data.data.plan || plan;
             localStorage.setItem('userPlan', plan);
+            isFrozen = data.data.frozen === true;
+            reason = data.data.frozenReason || '';
+            localStorage.setItem('accountFrozen', String(isFrozen));
+            localStorage.setItem('accountFrozenReason', reason);
             // Force-rotate gate — if the user closed the browser mid-rotation
             // and came back with a still-valid access token, /me tells us the
             // server flag is still set. Bounce them back to /rotate-password
@@ -37,10 +45,12 @@ export default function AccessControl({ children }) {
               return;
             }
           }
-        } catch { /* use cached plan */ }
+        } catch { /* use cached plan/frozen state */ }
       }
 
       setUserPlan(plan);
+      setFrozen(isFrozen);
+      setFrozenReason(reason);
       const lowerPlan = (plan || '').toLowerCase();
       const isFree = lowerPlan === 'free' || !lowerPlan;
       setHasAccess(!isFree);
@@ -49,12 +59,65 @@ export default function AccessControl({ children }) {
     checkAccess();
   }, []);
 
-  if (checking || (hasAccess && !bootDone)) {
+  if (checking || ((hasAccess || frozen) && !bootDone)) {
     return (
       <WorkspaceBootLoader
         complete={!checking}
         onFinished={() => setBootDone(true)}
       />
+    );
+  }
+
+  // Hard kill switch — takes priority over plan. A frozen account gets a
+  // full-stop screen no matter what plan it's on; nothing under /automation
+  // renders. Distinct from the free-plan upsell below: this is not "upgrade
+  // to unlock," it's "your access was turned off, contact us."
+  if (frozen) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-red-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 flex items-center justify-center p-6">
+        <div className="max-w-lg w-full">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-10 text-center border border-slate-100 dark:border-slate-800">
+            <div className="w-20 h-20 bg-gradient-to-br from-red-500 to-rose-600 rounded-3xl flex items-center justify-center mx-auto mb-7 shadow-xl shadow-red-200 dark:shadow-red-950/50">
+              <ShieldAlert className="w-10 h-10 text-white" />
+            </div>
+
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-3">
+              Your plan has ended
+            </h1>
+            <p className="text-base text-slate-600 dark:text-slate-400 mb-2 leading-relaxed">
+              This workspace has been paused and access to LeadForGrow is temporarily disabled.
+            </p>
+            <p className="text-sm text-slate-500 dark:text-slate-500 mb-8">
+              {frozenReason || 'Please renew your subscription or contact our team to restore access.'}
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <a
+                href="https://wa.me/918810873052"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-semibold transition-all"
+              >
+                <MessageCircle className="w-4 h-4" /> WhatsApp our team
+              </a>
+              <a
+                href="mailto:hello@leadforgrow.com?subject=Renew%20my%20LeadForGrow%20plan"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 rounded-2xl font-semibold border-2 border-slate-200 dark:border-slate-700 hover:border-slate-300 transition-all"
+              >
+                <Mail className="w-4 h-4" /> Email us
+              </a>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => router.push('/user/home')}
+              className="mt-6 text-sm text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+            >
+              Go back
+            </button>
+          </div>
+        </div>
+      </div>
     );
   }
 

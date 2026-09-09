@@ -13,6 +13,7 @@ import ContactsPagination from '../components/contacts/ContactsPagination';
 import ContactCreateModal from '../components/contacts/ContactCreateModal';
 import ContactDrawer from '../components/contacts/ContactDrawer';
 import ContactsSkeleton from '../components/contacts/ContactsSkeleton';
+import AutoPageIntro from '@/app/automation/components/shared/tour/AutoPageIntro';
 
 function ContactsEmptyState({ onCreate }) {
   return (
@@ -59,6 +60,8 @@ function ContactsContent() {
           showSort={ws.showSort}
           onToggleSort={() => ws.setShowSort((v) => !v)}
         />
+
+        <AutoPageIntro />
 
         <ContactsKpiCards stats={ws.stats} loading={ws.statsLoading} />
 

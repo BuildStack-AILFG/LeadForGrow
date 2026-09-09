@@ -8,6 +8,7 @@ import AudiencePicker from './AudiencePicker';
 import VariableMapping from './VariableMapping';
 import BroadcastDetail from './BroadcastDetail';
 import QualityRatingBanner from './QualityRatingBanner';
+import AutoPageIntro from '../components/shared/tour/AutoPageIntro';
 import PageLoader from '../components/PageLoader';
 
 const STATUS_STYLES = {
@@ -255,6 +256,8 @@ export default function BroadcastsPage() {
           <Plus className="w-4 h-4" /> New broadcast
         </button>
       </div>
+
+      <AutoPageIntro />
 
       {showCreate && (
         <div className="mb-8 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-5">
@@ -587,7 +590,17 @@ export default function BroadcastsPage() {
       {broadcasts.length === 0 ? (
         <div className="text-center py-16 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700">
           <Send className="w-10 h-10 mx-auto text-slate-400 mb-3" />
-          <p className="text-slate-500">No broadcasts yet</p>
+          <p className="text-slate-900 dark:text-white font-semibold">No broadcasts yet</p>
+          <p className="text-sm text-slate-500 mt-1 max-w-sm mx-auto mb-5">
+            Send an approved WhatsApp template to a filtered list — a promotion, an announcement, or a reminder.
+          </p>
+          <button
+            type="button"
+            onClick={() => setShowCreate(true)}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold"
+          >
+            <Plus className="w-4 h-4" /> New broadcast
+          </button>
         </div>
       ) : (
         <div className="space-y-3">

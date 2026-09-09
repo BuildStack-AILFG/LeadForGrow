@@ -5,6 +5,7 @@ import IntegrationCard from '../../components/integrations/IntegrationCard';
 import IntegrationDetailPanel from '../../components/integrations/IntegrationDetailPanel';
 import { useIntegrations } from '../../hooks/useIntegrations';
 import { HEALTH_FILTERS } from '../../components/integrations/constants';
+import AutoPageIntro from '../../components/shared/tour/AutoPageIntro';
 
 export default function IntegrationsSettingsPage() {
   const {
@@ -33,6 +34,13 @@ export default function IntegrationsSettingsPage() {
 
   return (
     <div className="space-y-5">
+      <div>
+        <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-50">Integrations</h1>
+        <p className="text-sm text-slate-500 mt-0.5">Connect the outside tools LeadForGrow talks to — WhatsApp, email, payments, and calendars.</p>
+      </div>
+
+      <AutoPageIntro />
+
       {/* Stats row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[

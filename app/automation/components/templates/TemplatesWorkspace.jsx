@@ -10,6 +10,7 @@ import TemplateLibrary from './TemplateLibrary';
 import TemplateEditorDrawer from './TemplateEditorDrawer';
 import AutomatedFlowPanel from './AutomatedFlowPanel';
 import VariablePanel from './VariablePanel';
+import AutoPageIntro from '../shared/tour/AutoPageIntro';
 
 export default function TemplatesWorkspace() {
   const t = useTemplates();
@@ -30,6 +31,8 @@ export default function TemplatesWorkspace() {
       />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
+        <AutoPageIntro />
+
         <TemplateStatsBar stats={t.stats} />
 
         {/* Tabs */}

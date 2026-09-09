@@ -130,6 +130,27 @@ export function useAdminPanel() {
     }
   };
 
+  const handleToggleFreeze = async (doc) => {
+    const nextFrozen = !doc.frozen;
+    if (nextFrozen && !confirm(`Freeze "${doc.businessName || doc._id}"? They will lose all access to /automation immediately.`)) return;
+    setLoading(true);
+    setError('');
+    try {
+      const updateData = { frozen: nextFrozen, frozenAt: nextFrozen ? new Date().toISOString() : null };
+      const result = await adminFetch(password, {
+        action: 'update',
+        modelName: 'Business',
+        id: doc._id,
+        updateData,
+      });
+      setData((prev) => prev.map((d) => (d._id === doc._id ? result.data : d)));
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const openEditModal = (doc) => {
     setEditingDoc(doc);
     setFormData(doc);
@@ -215,7 +236,7 @@ export function useAdminPanel() {
     dashboard, sidebarOpen, setSidebarOpen,
     isModalOpen, setIsModalOpen, editingDoc, viewMode, setViewMode,
     formData, jsonText, handleFieldChange, handleJsonChange,
-    fetchData, handleSearch, handleDelete, openEditModal, openCreateModal, handleSave,
+    fetchData, handleSearch, handleDelete, handleToggleFreeze, openEditModal, openCreateModal, handleSave,
     goToOverview, selectModel, loadDashboard,
   };
 }

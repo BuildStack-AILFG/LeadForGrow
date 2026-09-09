@@ -11,6 +11,7 @@ import TasksEmptyState from '../components/tasks/TasksEmptyState';
 import CreateTaskModal from '../components/tasks/CreateTaskModal';
 import RescheduleTaskModal from '../components/tasks/RescheduleTaskModal';
 import TasksSkeleton from '../components/tasks/TasksSkeleton';
+import AutoPageIntro from '@/app/automation/components/shared/tour/AutoPageIntro';
 
 function TasksWorkspaceContent() {
   const ws = useTasksWorkspace();
@@ -28,6 +29,8 @@ function TasksWorkspaceContent() {
           onRefresh={ws.refresh}
           onCreate={() => ws.setShowCreateModal(true)}
         />
+
+        <AutoPageIntro />
 
         <div className="mt-4 mb-4">
           <TaskStatCards

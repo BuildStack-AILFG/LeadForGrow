@@ -122,6 +122,7 @@ export default function PremiumDashboardHeader({
         <div className="flex flex-wrap items-center gap-2.5">
           <button
             type="button"
+            data-tour="dashboard-ask-ai"
             onClick={openAssistant}
             className="inline-flex items-center gap-2 h-9 px-3.5 text-[13px] font-medium text-white bg-[#2563EB] rounded-lg shadow-sm transition-all duration-200 hover:bg-[#1D4ED8] hover:shadow-md active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB]/40"
           >

@@ -6,6 +6,7 @@ import { authFetch } from '@/lib/apiClient';
 import LeadsSkeleton from '../components/leads/LeadsSkeleton';
 import { GripVertical, Save, Plus, Trash2, ChevronUp, ChevronDown } from 'lucide-react';
 import { normalizePipelineStages, slugifyStageKey } from '@/lib/crm/pipelineUtils';
+import AutoPageIntro from '@/app/automation/components/shared/tour/AutoPageIntro';
 
 function PipelinesContent() {
   const [pipelines, setPipelines] = useState([]);
@@ -142,6 +143,8 @@ function PipelinesContent() {
       <p className="text-sm text-slate-500 mt-1 mb-6">
         Customize stage names, win probability scores, and colors. Changes appear instantly across Kanban, deals table, and deal detail.
       </p>
+
+      <AutoPageIntro />
 
       {pipelines.length > 1 && (
         <select

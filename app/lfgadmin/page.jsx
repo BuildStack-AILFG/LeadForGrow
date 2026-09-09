@@ -67,6 +67,7 @@ export default function LFGAdminPage() {
               onCreate={admin.openCreateModal}
               onEdit={admin.openEditModal}
               onDelete={admin.handleDelete}
+              onToggleFreeze={admin.handleToggleFreeze}
               onPageChange={(page) => admin.fetchData(admin.selectedModel, page)}
             />
           )}

@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import {
-  Plus, RefreshCw, Search, Edit, Trash2, ChevronLeft, ChevronRight, Download, Crown, Users, FileText
+  Plus, RefreshCw, Search, Edit, Trash2, ChevronLeft, ChevronRight, Download, Crown, Users, FileText, Snowflake, Sun
 } from 'lucide-react';
 import { getColumnsForModel, formatCellValue, planBadgeClass, PLAN_QUOTAS, PLAN_LABELS } from '../constants';
 
 export default function AdminModelView({
   modelName, data, loading, error, search, pagination,
-  onSearch, onRefresh, onCreate, onEdit, onDelete, onPageChange,
+  onSearch, onRefresh, onCreate, onEdit, onDelete, onToggleFreeze, onPageChange,
 }) {
   const [localSearch, setLocalSearch] = useState(search);
 
@@ -113,6 +113,14 @@ export default function AdminModelView({
                           <span className={`inline-flex px-2 py-0.5 rounded-md text-xs font-semibold capitalize border ${planBadgeClass(doc[col], 'light')}`}>
                             {doc[col]}
                           </span>
+                        ) : col === 'frozen' ? (
+                          doc[col] ? (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold border bg-red-100 text-red-700 border-red-200">
+                              <Snowflake className="w-3 h-3" /> Frozen
+                            </span>
+                          ) : (
+                            <span className="text-xs text-slate-400">—</span>
+                          )
                         ) : col === 'enabled' ? (
                           <span className={`text-xs font-semibold ${doc[col] ? 'text-emerald-600' : 'text-slate-400'}`}>
                             {doc[col] ? 'ON' : 'OFF'}
@@ -123,6 +131,20 @@ export default function AdminModelView({
                       </td>
                     ))}
                     <td className="px-4 py-3 text-right whitespace-nowrap">
+                      {modelName === 'Business' && onToggleFreeze && (
+                        <button
+                          type="button"
+                          onClick={() => onToggleFreeze(doc)}
+                          title={doc.frozen ? 'Unfreeze — restore access' : 'Freeze — disable /automation immediately'}
+                          className={`p-1.5 rounded-lg inline-flex mr-1 ${
+                            doc.frozen
+                              ? 'text-amber-500 hover:text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950/30'
+                              : 'text-slate-400 hover:text-sky-600 hover:bg-sky-50 dark:hover:bg-sky-950/30'
+                          }`}
+                        >
+                          {doc.frozen ? <Sun className="w-4 h-4" /> : <Snowflake className="w-4 h-4" />}
+                        </button>
+                      )}
                       <button type="button" onClick={() => onEdit(doc)} className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/30 inline-flex">
                         <Edit className="w-4 h-4" />
                       </button>

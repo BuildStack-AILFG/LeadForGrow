@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Loader2, BarChart3, GitBranch, Send, Activity } from 'lucide-react';
 import { authFetch } from '@/lib/apiClient';
 import PageLoader from '../components/PageLoader';
+import AutoPageIntro from '../components/shared/tour/AutoPageIntro';
 
 export default function AutomationAnalyticsPage() {
   const [loading, setLoading] = useState(true);
@@ -32,6 +33,8 @@ export default function AutomationAnalyticsPage() {
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
       <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Automation Analytics</h1>
       <p className="text-sm text-slate-500 mb-8">Platform-wide workflow performance</p>
+
+      <AutoPageIntro />
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
         {[

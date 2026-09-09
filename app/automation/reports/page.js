@@ -9,6 +9,8 @@ import KPIGrid from '../components/reports/KPIGrid';
 import ReportsSkeleton from '../components/reports/ReportsSkeleton';
 import InsightsPanel from '../components/reports/InsightsPanel';
 import ActivityFeed from '../components/reports/ActivityFeed';
+import AutoPageIntro from '@/app/automation/components/shared/tour/AutoPageIntro';
+import DiscoveryLink from '@/app/automation/components/shared/tour/DiscoveryLink';
 
 const RevenueChart = dynamic(() => import('../components/reports/RevenueChart'), {
   loading: () => <div className="h-64 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl animate-pulse" />,
@@ -45,6 +47,8 @@ function ReportsContent() {
           onApplyView={ws.applySavedView}
         />
 
+        <AutoPageIntro />
+
         {ws.error && (
           <div className="mt-4 px-4 py-3 text-sm text-red-700 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 rounded-lg">
             {ws.error}
@@ -76,6 +80,12 @@ function ReportsContent() {
           </div>
 
           <InsightsPanel insights={ws.insights} />
+
+          <DiscoveryLink
+            text="Want deeper insights?"
+            cta="Explore Automation Analytics"
+            href="/automation/automation-analytics"
+          />
 
           <LeadAnalyticsSection
             sources={ws.filteredSources}

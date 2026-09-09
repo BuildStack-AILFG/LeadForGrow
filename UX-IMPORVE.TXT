@@ -1,0 +1,1480 @@
+You are now the lead product designer, senior UX architect, SaaS usability expert, frontend engineer, and product strategist for LeadForGrow.
+
+Your job is NOT to give me suggestions.
+
+Your job is to OPEN THE EXISTING LEADFORGROW APPLICATION IN CHROME, deeply inspect it, understand the current product, identify UX/UI problems, and then ACTUALLY IMPLEMENT the improvements.
+
+You have full responsibility for making the product feel like a polished, premium, modern SaaS product that a completely new user can understand without needing a human to explain it.
+
+Think at the level of:
+- HubSpot
+- Interakt
+- Linear
+- Stripe
+- Notion
+- Attio
+- modern AI SaaS products
+- premium enterprise CRM products
+
+Use the best UX patterns from these products as inspiration, but DO NOT copy their design.
+
+Reference websites:
+https://www.interakt.shop/
+https://www.hubspot.com/
+
+You should inspect these websites in Chrome where useful to understand:
+- information hierarchy
+- onboarding
+- navigation
+- empty states
+- cards
+- buttons
+- tooltips
+- colors
+- spacing
+- typography
+- product education
+- settings organization
+- visual hierarchy
+- SaaS interaction patterns
+
+Then adapt the best ideas specifically for LeadForGrow.
+
+==================================================
+1. FIRST: FULL PRODUCT AUDIT
+==================================================
+
+Before changing anything, inspect the ENTIRE LeadForGrow application in Chrome.
+
+Do not only inspect the Dashboard.
+
+Go through every major sidebar section and important sub-page.
+
+The current sidebar includes areas such as:
+
+CRM
+- Dashboard
+- Leads
+- Lead Pipeline
+- Deals
+- Deal Pipeline
+- Bills
+- Tasks
+- Companies
+- Contacts
+
+COMMUNICATION
+- Inbox
+- Automation Rules
+- Sequences
+- WhatsApp Flows
+- Broadcasts
+- Customer Journeys
+- Meetings & Scheduling
+- Templates
+- WhatsApp Templates
+- Chatbot
+- Forms
+- Call Recovery
+
+INSIGHTS
+- Reports
+- Automation Analytics
+- Events & Sessions
+- AI Knowledge
+- AI Settings
+
+SETTINGS
+- Team & Permissions
+- Integrations
+- Settings
+
+SUPPORT
+- Guide
+
+There may be additional pages or functionality.
+
+Find them.
+
+Inspect all of them.
+
+For every section ask:
+
+1. What does this page do?
+2. Would a first-time user understand it?
+3. What is the primary action?
+4. Is the primary CTA obvious?
+5. Are empty states useful?
+6. Are tooltips/help available?
+7. Does the page explain WHY the feature exists?
+8. Is the hierarchy clear?
+9. Does it visually belong to the same product?
+10. Is anything confusing, redundant, broken, inconsistent, or unnecessarily complicated?
+11. Are loading states good?
+12. Are error states good?
+13. Are success states good?
+14. Are destructive actions safe?
+15. Does the UI feel premium?
+16. Can a new user discover the feature naturally?
+
+Create an internal UX audit while inspecting.
+
+DO NOT stop after identifying problems.
+
+FIX THEM.
+
+==================================================
+2. CORE PRODUCT GOAL
+==================================================
+
+The final LeadForGrow experience should satisfy this:
+
+A completely new user signs up and enters the application.
+
+They should immediately understand:
+
+- What LeadForGrow is
+- What this dashboard means
+- What Leads are
+- How to create/import leads
+- How Lead Pipeline works
+- How Deals work
+- How automation works
+- How Sequences work
+- How WhatsApp flows work
+- How broadcasts work
+- How customer journeys work
+- How meetings work
+- How templates work
+- How chatbot works
+- How forms work
+- How call recovery works
+- How reports work
+- What AI Knowledge does
+- What AI Settings do
+- Where integrations are
+- Where team settings are
+- Where account settings are
+- Where to get help
+
+WITHOUT requiring an external tutorial.
+
+The application itself should teach the user.
+
+==================================================
+3. BUILD A REAL PRODUCT ONBOARDING SYSTEM
+==================================================
+
+I want a proper SaaS onboarding experience.
+
+Do NOT create annoying popups everywhere.
+
+Create a smart contextual onboarding system.
+
+For important sections, implement:
+
+- first-time tooltips
+- coach marks
+- contextual explanations
+- guided walkthroughs
+- "Next" buttons
+- "Back" buttons
+- "Skip tour"
+- "Don't show again"
+- progress indicator
+- completion state
+- contextual help
+- links to the Guide
+- ability to restart a tour
+
+The experience should feel like a friendly product expert is personally walking the user through the application.
+
+Example:
+
+User enters Automation Rules for the first time.
+
+A beautiful floating glass tooltip appears:
+
+"Welcome to Automation Rules 👋
+
+This is where LeadForGrow automatically performs actions for you when something happens to a lead.
+
+For example:
+New lead → send WhatsApp message → assign salesperson → create follow-up task.
+
+Let's take a quick look."
+
+Button:
+"Next →"
+
+Then highlight the Create Automation button.
+
+Next:
+
+"Start here.
+
+Create your first automation by choosing what should trigger it."
+
+Button:
+"Next →"
+
+Then highlight Trigger.
+
+Then:
+
+"Now choose what should happen."
+
+Highlight Action.
+
+Then:
+
+"Finally, activate your automation."
+
+Then completion:
+
+"You're ready 🎉
+
+You've created the foundation of your first LeadForGrow automation."
+
+This is the quality of onboarding I want.
+
+==================================================
+4. MAKE THE ONBOARDING FEEL LIKE A FRIEND
+==================================================
+
+The UX copy should feel human.
+
+NOT:
+
+"Click this button to configure automation."
+
+Instead:
+
+"Let's build your first automation."
+
+NOT:
+
+"This section contains lead information."
+
+Instead:
+
+"All your leads live here. You can import them, add new ones, filter them, and move them through your sales process."
+
+Use concise, friendly, intelligent microcopy.
+
+The UI should feel like:
+
+"Hey, here's what this does."
+
+rather than:
+
+"Documentation."
+
+But keep it professional enough for a serious B2B SaaS product.
+
+Avoid childish language.
+
+Avoid excessive emojis.
+
+Use emojis only when they genuinely improve warmth.
+
+==================================================
+5. GLOBAL PRODUCT GUIDE SYSTEM
+==================================================
+
+The existing Guide page should be completely redesigned.
+
+Do not treat Guide as a simple documentation page.
+
+Make it the PRODUCT LEARNING CENTER.
+
+The Guide should include:
+
+GETTING STARTED
+- Welcome to LeadForGrow
+- Understanding the Dashboard
+- Add your first lead
+- Import leads
+- Set up your pipeline
+- Create your first deal
+- Create your first automation
+- Send your first WhatsApp message
+- Create your first sequence
+- Create your first campaign
+- Connect integrations
+- Invite your team
+
+CRM
+- Leads
+- Companies
+- Contacts
+- Deals
+- Pipelines
+- Tasks
+- Bills
+
+COMMUNICATION
+- Inbox
+- Automation Rules
+- Sequences
+- WhatsApp Flows
+- Broadcasts
+- Customer Journeys
+- Meetings
+- Templates
+- Chatbot
+- Forms
+- Call Recovery
+
+AI
+- AI Knowledge
+- AI Settings
+- AI-powered workflows
+
+INSIGHTS
+- Reports
+- Automation Analytics
+- Events & Sessions
+
+SETTINGS
+- Team & Permissions
+- Integrations
+- Account Settings
+
+The Guide should have:
+
+- search
+- categories
+- cards
+- progress tracking
+- "Start here"
+- recommended next steps
+- recently viewed
+- popular guides
+- contextual links
+- completion states
+
+Example:
+
+"Start here 👋"
+
+1. Set up your workspace
+2. Add your first lead
+3. Build your pipeline
+4. Create your first automation
+5. Connect WhatsApp
+6. Invite your team
+
+Show:
+
+3 / 6 completed
+
+Make it visually excellent.
+
+==================================================
+6. CONTEXTUAL HELP
+==================================================
+
+Every complicated feature should have contextual help.
+
+Use:
+
+ⓘ icons
+? icons
+tooltips
+hover explanations
+small "Learn more" links
+
+But don't clutter the interface.
+
+For example:
+
+Automation Trigger
+
+[ New Lead Created ▼ ]
+
+ⓘ
+"When a new lead enters LeadForGrow, this automation will start."
+
+Action
+
+[ Send WhatsApp Message ▼ ]
+
+ⓘ
+"Automatically send a WhatsApp message to the lead."
+
+The user should never wonder:
+
+"What does this field mean?"
+
+==================================================
+7. GLASSMORPHISM DESIGN SYSTEM
+==================================================
+
+Give the application a premium modern glass-style visual language.
+
+IMPORTANT:
+
+Do NOT turn everything into transparent glass.
+
+Use glass strategically.
+
+Use:
+
+- subtle translucent surfaces
+- soft borders
+- backdrop blur
+- layered backgrounds
+- subtle shadows
+- soft gradients
+- rounded cards
+- floating panels
+- glass tooltips
+- glass modals
+- glass onboarding coach marks
+- subtle hover elevation
+
+The result should feel:
+
+Premium
+Modern
+Clean
+Fast
+Enterprise-ready
+AI SaaS
+Elegant
+
+NOT:
+
+Gaming UI
+Over-designed
+Neon
+Cheap glassmorphism
+Unreadable transparent panels
+
+Maintain excellent contrast and accessibility.
+
+==================================================
+8. COLOR SYSTEM
+==================================================
+
+Study the visual language of:
+
+https://www.interakt.shop/
+https://www.hubspot.com/
+
+Understand how they use:
+
+- primary brand color
+- secondary colors
+- success
+- warning
+- danger
+- informational colors
+- backgrounds
+- cards
+- CTA colors
+
+Then create a proper LeadForGrow design token system.
+
+Do not randomly assign colors.
+
+Different product areas may have subtle visual identities.
+
+For example:
+
+CRM
+Blue / indigo family
+
+Communication
+Green / WhatsApp-inspired accents where appropriate
+
+Automation
+Purple / indigo / AI-oriented accents
+
+Analytics
+Blue / cyan style
+
+AI
+Subtle violet / gradient accents
+
+Settings
+Neutral
+
+But keep ONE unified LeadForGrow brand.
+
+The colors must communicate meaning, not just decoration.
+
+==================================================
+9. SIDEBAR UX
+==================================================
+
+The sidebar is extremely important.
+
+Use the screenshots I provided as the current reference.
+
+Analyze the entire sidebar and improve it.
+
+The sidebar should feel:
+
+- premium
+- organized
+- calm
+- easy to scan
+- predictable
+- responsive
+
+Improve:
+
+- section grouping
+- active state
+- hover state
+- icon consistency
+- spacing
+- typography
+- badges
+- notification counts
+- collapse behavior
+- tooltips when collapsed
+
+Potential structure:
+
+CRM
+Communication
+Insights
+Settings
+Support
+
+Make sure users understand what category each feature belongs to.
+
+If there are too many items, use smart grouping or progressive disclosure without hiding important functionality.
+
+The active route should be extremely clear.
+
+==================================================
+10. DASHBOARD
+==================================================
+
+The dashboard must immediately answer:
+
+"What is happening in my business?"
+
+Improve:
+
+- KPI cards
+- revenue
+- conversion rate
+- sales cycle
+- active deals
+- pipeline
+- calendar
+- charts
+- lead management
+- retention
+- customer locations
+
+Empty dashboard currently feels too empty.
+
+When there is no data, don't simply show:
+
+0
+
+Instead use intelligent empty states.
+
+Example:
+
+"Your pipeline is empty"
+
+"Let's get your first lead into LeadForGrow."
+
+[Import Leads]
+[Add Lead]
+
+Or:
+
+"Your automation data will appear here once you activate your first workflow."
+
+[Create Automation]
+
+Make empty states actionable.
+
+==================================================
+11. AUTOMATION RULES — PRIORITY AREA
+==================================================
+
+Automation is one of the most important areas.
+
+Give this section special attention.
+
+The automation builder should feel extremely simple.
+
+A non-technical business owner should understand it.
+
+Use a visual builder.
+
+Example:
+
+WHEN
+[ Lead Status Changes ]
+
+↓
+
+IF
+[ Lead Source = WhatsApp ]
+
+↓
+
+THEN
+[ Send WhatsApp Message ]
+
+↓
+
+AND
+[ Assign to Sales Team ]
+
+↓
+
+THEN
+[ Create Follow-up Task ]
+
+Make the flow visually understandable.
+
+Use clear nodes.
+
+Use subtle glass surfaces.
+
+Use meaningful icons.
+
+Use status colors.
+
+Provide templates.
+
+Example templates:
+
+"New Lead Follow-up"
+"Missed Lead Recovery"
+"WhatsApp Lead Response"
+"Lead Assignment"
+"Deal Follow-up"
+"Meeting Reminder"
+"Inactive Lead Re-engagement"
+
+Give users:
+
+"Start from template"
+
+or
+
+"Build from scratch"
+
+This dramatically reduces cognitive load.
+
+==================================================
+12. AUTOMATION FIRST-TIME EXPERIENCE
+==================================================
+
+When user enters Automation Rules for the first time:
+
+Show a lightweight onboarding overlay.
+
+Example:
+
+"Automations save your team from repetitive work.
+
+Tell LeadForGrow what should happen when something happens to a lead."
+
+Then:
+
+[Create your first automation]
+
+and:
+
+[Explore examples]
+
+Then guide the user.
+
+Don't force them through the tour every time.
+
+==================================================
+13. EVERY MAJOR PAGE NEEDS A PURPOSE
+==================================================
+
+For every major page, create a clear top-level structure:
+
+PAGE TITLE
+Short explanation
+
+Primary CTA
+
+Optional secondary actions
+
+Main content
+
+Empty state / data state
+
+Help
+
+Example:
+
+Automation Rules
+
+"Automatically handle repetitive sales and communication tasks."
+
+[+ Create Automation]
+
+[Templates]
+
+[Learn how automations work]
+
+This makes every page self-explanatory.
+
+==================================================
+14. MICRO-INTERACTIONS
+==================================================
+
+Add polished micro-interactions.
+
+Examples:
+
+- button hover
+- card hover
+- subtle elevation
+- smooth dropdown
+- tooltip animation
+- modal animation
+- onboarding transition
+- step transition
+- success animation
+- loading skeleton
+- progress animation
+- toggle animation
+- save confirmation
+
+Use animation carefully.
+
+Everything should feel smooth.
+
+Avoid excessive animations.
+
+Use consistent timing and easing.
+
+==================================================
+15. TOOLTIP SYSTEM
+==================================================
+
+Create a reusable tooltip / product-tour system.
+
+Do NOT hardcode random tooltips page-by-page.
+
+Build a reusable architecture.
+
+It should support:
+
+- target element
+- title
+- description
+- placement
+- step number
+- total steps
+- next
+- previous
+- skip
+- completion
+- persistence
+- first-time-only behavior
+
+Example conceptual API:
+
+ProductTour({
+  id: "automation-introduction",
+  steps: [...]
+})
+
+Make it reusable throughout the application.
+
+==================================================
+16. SMART HELP BUTTON
+==================================================
+
+Consider adding a small persistent help / guide entry point.
+
+Example:
+
+bottom-right:
+
+"Need help?"
+
+or
+
+"Guide"
+
+Clicking opens:
+
+- Search Guide
+- Start tour
+- Ask AI
+- Contact support
+
+It should NOT interfere with the existing chatbot / Grovia UI.
+
+Respect the current application architecture.
+
+==================================================
+17. AI EXPERIENCE
+==================================================
+
+LeadForGrow has AI-related functionality.
+
+Make AI features feel integrated into the product rather than randomly placed.
+
+AI Knowledge should clearly explain:
+
+"What does your AI know?"
+
+AI Settings:
+
+"How should your AI behave?"
+
+If there are AI actions, make them discoverable.
+
+Use clear language.
+
+Avoid AI jargon.
+
+==================================================
+18. EMPTY STATES
+==================================================
+
+Audit EVERY empty state.
+
+Every empty state should answer:
+
+1. What is this?
+2. Why does it matter?
+3. What should I do next?
+
+Bad:
+
+"No leads found."
+
+Better:
+
+"No leads yet.
+
+Your leads will appear here when you add them or import them.
+
+[Add Lead]
+[Import Leads]"
+
+Apply this across the entire product.
+
+==================================================
+19. LOADING STATES
+==================================================
+
+Audit loading states.
+
+Replace ugly spinners where appropriate with:
+
+- skeleton loaders
+- progressive loading
+- contextual loading messages
+
+Example:
+
+"Loading your pipeline..."
+
+"Preparing your automation..."
+
+Use consistent loading behavior.
+
+==================================================
+20. ERROR STATES
+==================================================
+
+Errors should explain:
+
+What happened
+Why
+What to do
+
+Bad:
+
+"Something went wrong."
+
+Better:
+
+"We couldn't connect your WhatsApp account.
+
+Check your connection and try again."
+
+[Try Again]
+
+==================================================
+21. SUCCESS STATES
+==================================================
+
+Every important action should provide clear confirmation.
+
+Examples:
+
+"Automation activated successfully."
+
+"Lead imported successfully."
+
+"WhatsApp template submitted."
+
+"Team member invited."
+
+Use toast notifications where appropriate.
+
+Do not overuse them.
+
+==================================================
+22. RESPONSIVE DESIGN
+==================================================
+
+Check desktop.
+
+Check tablet if supported.
+
+Check smaller viewport behavior.
+
+Sidebar should collapse intelligently.
+
+Tables should remain usable.
+
+Modals should not overflow.
+
+Tooltips should reposition correctly.
+
+Onboarding should work at different viewport sizes.
+
+==================================================
+23. ACCESSIBILITY
+==================================================
+
+Do not sacrifice accessibility for visual design.
+
+Ensure:
+
+- contrast
+- keyboard navigation
+- focus states
+- aria labels
+- readable font sizes
+- clear interactive states
+- tooltip accessibility
+- modal accessibility
+
+Glass UI must remain readable.
+
+==================================================
+24. PERFORMANCE
+==================================================
+
+Do not create a beautiful but slow application.
+
+Avoid unnecessary:
+
+- animations
+- heavy blur
+- huge assets
+- unnecessary rerenders
+
+Keep the UI smooth.
+
+==================================================
+25. DO NOT BREAK EXISTING FUNCTIONALITY
+==================================================
+
+Very important.
+
+Before modifying anything:
+
+Understand the existing architecture.
+
+Do not rewrite the entire application unnecessarily.
+
+Do not remove working functionality.
+
+Do not change APIs without necessity.
+
+Do not break routing.
+
+Do not break authentication.
+
+Do not break backend functionality.
+
+Do not replace working components just for visual reasons.
+
+Improve progressively.
+
+==================================================
+26. CREATE A REAL DESIGN SYSTEM
+==================================================
+
+Create or improve reusable components for:
+
+- Button
+- Input
+- Select
+- Dropdown
+- Modal
+- Drawer
+- Card
+- GlassCard
+- Tooltip
+- ProductTour
+- EmptyState
+- LoadingState
+- ErrorState
+- SuccessState
+- Badge
+- Tabs
+- Breadcrumb
+- PageHeader
+- Search
+- Table
+- Filter
+- Toast
+- Confirmation Dialog
+
+Use consistent spacing.
+
+Use consistent radius.
+
+Use consistent shadows.
+
+Use consistent typography.
+
+Use consistent transitions.
+
+Use design tokens instead of random CSS values.
+
+==================================================
+27. GUIDE EVERY IMPORTANT FEATURE
+==================================================
+
+Create tours for important sections.
+
+At minimum:
+
+Dashboard
+Leads
+Lead Pipeline
+Deals
+Deal Pipeline
+Tasks
+Inbox
+Automation Rules
+Sequences
+WhatsApp Flows
+Broadcasts
+Customer Journeys
+Meetings & Scheduling
+Templates
+Chatbot
+Forms
+Call Recovery
+Reports
+Automation Analytics
+AI Knowledge
+AI Settings
+Integrations
+Team & Permissions
+Settings
+
+Not every page needs a long tour.
+
+Some can have a 2-step introduction.
+
+Complex pages can have 5–8 steps.
+
+Use judgment.
+
+==================================================
+28. FIRST-TIME USER JOURNEY
+==================================================
+
+Design the ideal journey.
+
+Example:
+
+SIGN UP
+
+↓
+
+Welcome
+
+"Let's get your workspace ready."
+
+↓
+
+Workspace setup
+
+↓
+
+Import / add first lead
+
+↓
+
+Create pipeline
+
+↓
+
+Connect communication channel
+
+↓
+
+Create first automation
+
+↓
+
+View dashboard
+
+↓
+
+Invite team
+
+↓
+
+Explore reports
+
+↓
+
+Completion
+
+"You're ready to grow 🚀"
+
+The system should track onboarding progress.
+
+Show something like:
+
+Workspace setup
+████████░░ 80%
+
+Don't make it annoying.
+
+Allow skipping.
+
+==================================================
+29. PRODUCT DISCOVERY
+==================================================
+
+Users often don't know that a feature exists.
+
+Help users discover features naturally.
+
+Examples:
+
+On Leads page:
+
+"Want to automatically follow up with new leads?"
+
+[Create Automation →]
+
+On Automation page:
+
+"Need inspiration?"
+
+[Browse Templates →]
+
+On Reports:
+
+"Want deeper insights?"
+
+[Explore Automation Analytics →]
+
+This creates a connected product experience.
+
+==================================================
+30. GUIDE LINKS THROUGHOUT THE PRODUCT
+==================================================
+
+Every complicated page should have:
+
+"Learn how this works →"
+
+Clicking should open the relevant Guide article.
+
+Not the generic Guide homepage.
+
+Make contextual documentation.
+
+==================================================
+31. DO A SECOND FULL PASS
+==================================================
+
+After implementing everything:
+
+GO BACK THROUGH THE ENTIRE PRODUCT AGAIN.
+
+Use Chrome.
+
+Pretend you are a completely new business owner.
+
+Do not rely on your developer knowledge.
+
+Ask:
+
+"Would I know what to do?"
+
+"Would I understand this?"
+
+"Would I know what happens after clicking this?"
+
+"Would I know why this feature exists?"
+
+"Would I know where to find something?"
+
+"Would I trust this software?"
+
+Fix every problem you find.
+
+==================================================
+32. VISUAL QUALITY CHECK
+==================================================
+
+Perform a visual QA pass.
+
+Look for:
+
+- inconsistent spacing
+- inconsistent typography
+- random colors
+- bad borders
+- excessive shadows
+- inconsistent radius
+- misaligned icons
+- broken layouts
+- text overflow
+- awkward empty areas
+- poor mobile behavior
+- bad hover states
+- weak active states
+- inconsistent button sizes
+- inconsistent table styling
+- ugly dropdowns
+- ugly modals
+- poor tooltips
+- broken onboarding
+
+Fix everything.
+
+==================================================
+33. COMPARE AGAINST PREMIUM SAAS QUALITY
+==================================================
+
+After implementation compare LeadForGrow mentally against:
+
+HubSpot
+Interakt
+Linear
+Notion
+Stripe
+Attio
+
+Ask:
+
+Does LeadForGrow look amateur compared with them?
+
+If yes → improve it.
+
+Does anything feel like a generic template?
+
+If yes → improve it.
+
+Does anything feel unfinished?
+
+If yes → improve it.
+
+Does anything feel unnecessarily complicated?
+
+Simplify it.
+
+==================================================
+34. IMPORTANT — DO NOT JUST TELL ME WHAT TO DO
+==================================================
+
+I want implementation.
+
+Do not respond with:
+
+"Here are some recommendations."
+
+Do not stop after creating a design plan.
+
+Do not only modify one page.
+
+Do not say:
+
+"you should add tooltips."
+
+Actually ADD the tooltips.
+
+Do not say:
+
+"you should improve the Guide."
+
+Actually IMPROVE the Guide.
+
+Do not say:
+
+"the dashboard could have better empty states."
+
+Actually IMPLEMENT them.
+
+==================================================
+35. USE CHROME AGGRESSIVELY FOR VALIDATION
+==================================================
+
+Use Chrome to inspect the running application.
+
+Navigate through routes.
+
+Click buttons.
+
+Open dropdowns.
+
+Open modals.
+
+Test onboarding.
+
+Test sidebar.
+
+Test Guide.
+
+Test automation creation.
+
+Test empty states.
+
+Test settings.
+
+Test responsive behavior where possible.
+
+If something looks wrong, fix the code and check Chrome again.
+
+Repeat until polished.
+
+==================================================
+36. IMPORTANT DESIGN PHILOSOPHY
+==================================================
+
+The product should feel:
+
+"Powerful underneath, simple on the surface."
+
+A beginner should understand it.
+
+An advanced user should not feel restricted.
+
+Every page should answer:
+
+"What is this?"
+
+"What can I do here?"
+
+"What should I do next?"
+
+The user should never feel lost.
+
+==================================================
+37. FINAL ACCEPTANCE CRITERIA
+==================================================
+
+DO NOT CONSIDER THIS TASK COMPLETE UNTIL:
+
+[ ] Every major sidebar section has been inspected
+[ ] Dashboard feels premium
+[ ] Sidebar feels premium
+[ ] Navigation is intuitive
+[ ] Active states are obvious
+[ ] Tooltips exist where needed
+[ ] Product tours exist
+[ ] Product tours have Next / Back / Skip
+[ ] First-time users understand major features
+[ ] Guide page has been redesigned
+[ ] Guide has categories
+[ ] Guide has search
+[ ] Guide has onboarding progress
+[ ] Guide connects to contextual help
+[ ] Automation UX is simple
+[ ] Automation templates exist where appropriate
+[ ] Empty states are actionable
+[ ] Loading states are polished
+[ ] Error states are understandable
+[ ] Success states are clear
+[ ] UI has a consistent glass design language
+[ ] Colors are systematic
+[ ] Typography is consistent
+[ ] Spacing is consistent
+[ ] Components are reusable
+[ ] Micro-interactions are polished
+[ ] No unnecessary visual clutter
+[ ] Accessibility is respected
+[ ] Responsive behavior is good
+[ ] Existing functionality still works
+[ ] No broken routes
+[ ] No obvious console errors
+[ ] No obvious visual bugs
+[ ] Product feels like a serious SaaS product
+[ ] A new user can understand the product without external help
+
+==================================================
+38. FINAL SELF-CRITIQUE
+==================================================
+
+Before finishing, score LeadForGrow yourself from 1–10 in:
+
+Visual Design
+UX
+Navigation
+Onboarding
+Product Education
+Automation UX
+Consistency
+Accessibility
+Responsiveness
+Premium SaaS Feel
+First-Time User Experience
+
+If ANY category is below 9:
+
+DO ANOTHER IMPROVEMENT PASS.
+
+Do not tell me it is 10/10 just because you completed the task.
+
+Actually inspect it again.
+
+The final goal is not "code completed."
+
+The final goal is:
+
+A user opens LeadForGrow for the first time and thinks:
+
+"Okay, I understand this."
+
+Then:
+
+"Wow, this looks really good."
+
+Then:
+
+"I know exactly what I should do next."
+
+That is the standard.
+
+START NOW.
+
+First inspect the current LeadForGrow application in Chrome and its codebase.
+
+Then audit.
+
+Then implement.
+
+Then test.
+
+Then improve.
+
+Do not stop until the complete experience is polished.

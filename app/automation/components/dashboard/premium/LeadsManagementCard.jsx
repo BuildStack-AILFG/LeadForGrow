@@ -82,8 +82,23 @@ export default function LeadsManagementCard({ leadsManagement, onRefresh }) {
       </div>
 
       {items.length === 0 ? (
-        <div className="flex-1 flex items-center justify-center py-10">
-          <p className="text-[13px] text-[#98A2B3]">No lead data yet</p>
+        <div className="flex-1 flex flex-col items-center justify-center text-center py-8 px-4">
+          <p className="text-[13px] font-medium text-[#475569]">Your pipeline is empty</p>
+          <p className="text-[12px] text-[#98A2B3] mt-1 mb-4 max-w-[220px]">Let's get your first lead into LeadForGrow.</p>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/automation/leads/bulk"
+              className="px-3 py-1.5 text-[12px] font-medium text-[#475569] bg-white border border-[#E8ECEF] rounded-lg hover:bg-[#FAFBFB] transition-colors"
+            >
+              Import Leads
+            </Link>
+            <Link
+              href="/automation/leads/new"
+              className="px-3 py-1.5 text-[12px] font-semibold text-white bg-[#2563EB] rounded-lg hover:bg-[#1D4ED8] transition-colors"
+            >
+              Add Lead
+            </Link>
+          </div>
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-3">

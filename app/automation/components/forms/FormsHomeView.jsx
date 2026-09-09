@@ -5,6 +5,7 @@ import { Plus, FileInput, TrendingUp, ArrowRight, MoreVertical, Trash2, Pencil }
 import { motion } from 'framer-motion';
 import { calcConversionRate } from './constants';
 import { FormPreviewThumbnail } from './FormPreview';
+import AutoPageIntro from '../shared/tour/AutoPageIntro';
 
 export default function FormsHomeView({ forms, stats, maxForms, onCreate, onSelect, onDelete }) {
   const [menuId, setMenuId] = useState(null);
@@ -34,6 +35,8 @@ export default function FormsHomeView({ forms, stats, maxForms, onCreate, onSele
           <Plus className="w-4 h-4" /> Create form
         </button>
       </div>
+
+      <AutoPageIntro />
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10">
         {[

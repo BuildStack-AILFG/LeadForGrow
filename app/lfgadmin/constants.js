@@ -44,7 +44,7 @@ export const HARDCODED_ENUMS = {
 
 export const MODEL_DISPLAY_COLUMNS = {
   User: ['email', 'firstName', 'lastName', 'role', 'businessId'],
-  Business: ['businessName', 'plan', 'ownerId', 'createdAt'],
+  Business: ['businessName', 'plan', 'frozen', 'ownerId', 'createdAt'],
   Agency: ['name', 'planName', 'ownerId', 'createdAt'],
   Lead: ['name', 'phone', 'email', 'status', 'source'],
   Form: ['name', 'active', 'submissionCount', 'businessId'],
