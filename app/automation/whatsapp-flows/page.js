@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
+import AutoPageIntro from '../components/shared/tour/AutoPageIntro';
 import {
   Plus,
   Workflow,
@@ -184,6 +185,8 @@ export default function WhatsAppFlowsPage() {
             </button>
           </div>
         </div>
+
+        <AutoPageIntro />
 
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-8">
           {stats.map((s, i) => (

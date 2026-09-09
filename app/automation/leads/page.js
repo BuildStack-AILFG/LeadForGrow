@@ -17,9 +17,13 @@ import QuotationSentModal from '../components/leads/QuotationSentModal';
 import LeadsPagination from '../components/leads/LeadsPagination';
 import MobileLeadCard from '../components/leads/MobileLeadCard';
 import LeadsSkeleton from '../components/leads/LeadsSkeleton';
+import { useAutoStartTour } from '../components/shared/tour/useAutoStartTour';
+import { TOURS } from '../components/shared/tour/registry';
+import DiscoveryLink from '../components/shared/tour/DiscoveryLink';
 
 function LeadsWorkspaceContent() {
   const ws = useLeadsWorkspace();
+  useAutoStartTour(TOURS.leads, !ws.loading);
 
   const handleSearch = useCallback((value) => ws.setSearchInput(value), [ws]);
 
@@ -38,6 +42,14 @@ function LeadsWorkspaceContent() {
           onViewModeChange={ws.setViewMode}
           onExport={ws.exportLeads}
         />
+
+        <div className="mt-4">
+          <DiscoveryLink
+            text="Want to automatically follow up with new leads?"
+            cta="Create Automation"
+            href="/automation/automation-rules"
+          />
+        </div>
 
         <div className="mt-4 mb-4 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm">
           <CRMFilterBar

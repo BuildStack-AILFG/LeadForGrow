@@ -454,6 +454,22 @@ const BusinessSchema = new mongoose.Schema({
     default: 'active'
   },
 
+  // Account freeze — a hard, admin-only kill switch independent of `plan` or
+  // `status`. When true, the entire /automation app is disabled for this
+  // business (see AccessControl.js) regardless of what plan they're on —
+  // used for e.g. non-payment, until the team manually renews/unfreezes.
+  frozen: {
+    type: Boolean,
+    default: false
+  },
+  frozenReason: {
+    type: String,
+    trim: true
+  },
+  frozenAt: {
+    type: Date
+  },
+
   // Billing
   billingEmail: {
     type: String,

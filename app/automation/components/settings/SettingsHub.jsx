@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Settings, ChevronRight, Search, Plug, Users } from 'lucide-react';
 import { SETTINGS_HUB_CARDS, SECTION_COLORS } from './constants';
 import { CrmHubIcon } from './crm/CrmIcons';
+import AutoPageIntro from '../shared/tour/AutoPageIntro';
 
 export default function SettingsHub() {
   const [search, setSearch] = useState('');
@@ -65,6 +66,8 @@ export default function SettingsHub() {
             />
           </div>
         </header>
+
+        <AutoPageIntro />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map((card) => {

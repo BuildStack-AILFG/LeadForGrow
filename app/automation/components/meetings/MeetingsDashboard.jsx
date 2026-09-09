@@ -17,6 +17,7 @@ import DashboardCard from '../dashboard/primitives/DashboardCard';
 import { MEETING_STATUS_COLORS } from '@/lib/meetings/constants';
 import CalendarIntegrationsPanel from './CalendarIntegrationsPanel';
 import toast from 'react-hot-toast';
+import AutoPageIntro from '../shared/tour/AutoPageIntro';
 
 function formatTime(d) {
   return new Date(d).toLocaleString('en-IN', {
@@ -66,6 +67,8 @@ export default function MeetingsDashboard({ dashboard, onCreate, onNoShow, onCom
           </button>
         </div>
       </header>
+
+      <AutoPageIntro />
 
       <MeetingsKpiRow kpis={dashboard?.kpis} />
 

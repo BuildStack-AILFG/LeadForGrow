@@ -7,6 +7,7 @@ import {
   Folder, FolderOpen, Star, Pencil, Copy, Archive
 } from 'lucide-react';
 import ConfirmDialog from '../shared/ConfirmDialog';
+import AutoPageIntro from '../shared/tour/AutoPageIntro';
 
 const STATUS_STYLES = {
   active: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400',
@@ -47,6 +48,8 @@ export default function SequencesHomeView({
           Create sequence
         </button>
       </div>
+
+      <AutoPageIntro />
 
       <div className="flex gap-6">
         {/* Folder sidebar */}

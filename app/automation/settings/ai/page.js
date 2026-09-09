@@ -8,6 +8,7 @@ import {
 import { authFetch } from '@/lib/apiClient';
 import { toast } from 'react-hot-toast';
 import PageLoader from '../../components/PageLoader';
+import AutoPageIntro from '../../components/shared/tour/AutoPageIntro';
 
 const TONES = ['professional', 'friendly', 'formal', 'casual', 'persuasive'];
 const PERSONALITIES = ['helpful sales advisor', 'consultative expert', 'energetic closer', 'empathetic support'];
@@ -72,6 +73,8 @@ export default function AiSettingsPage() {
           <p className="text-sm text-slate-500">Configure Grovia — tone, handoff, languages, and agent behavior</p>
         </div>
       </div>
+
+      <AutoPageIntro />
 
       <div className={`flex items-center gap-2 px-4 py-3 rounded-xl border ${settings?.configured ? 'bg-emerald-50 border-emerald-200 text-emerald-800' : 'bg-amber-50 border-amber-200 text-amber-800'}`}>
         {settings?.configured ? <CheckCircle2 className="w-4 h-4" /> : <AlertTriangle className="w-4 h-4" />}

@@ -12,6 +12,7 @@ import ChatbotCustomizePanel from './ChatbotCustomizePanel';
 import ChatbotInstallPanel from './ChatbotInstallPanel';
 import ChatbotPreviewFrame from './ChatbotPreviewFrame';
 import { WORKSPACE_TABS } from './constants';
+import AutoPageIntro from '../shared/tour/AutoPageIntro';
 
 export default function ChatbotWorkspace() {
   const ws = useChatbotWorkspace();
@@ -74,6 +75,8 @@ export default function ChatbotWorkspace() {
       </div>
 
       <div className="max-w-[1400px] mx-auto px-6 py-8">
+        <AutoPageIntro />
+
         {/* Status + stats */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <StatCard

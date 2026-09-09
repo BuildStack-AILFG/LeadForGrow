@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { authFetch } from '@/lib/apiClient';
+import AutoPageIntro from '../components/shared/tour/AutoPageIntro';
 
 export default function CallIntegrationPage() {
   const [usage, setUsage] = useState({
@@ -370,6 +371,8 @@ export default function CallIntegrationPage() {
           </button>
         </div>
       </div>
+
+      <AutoPageIntro />
 
       {wizardStep === 1 && (
         <div className="max-w-xl">

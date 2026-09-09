@@ -429,3 +429,77 @@
   color: #059669;
 }
 
+/* ══════════════════════════════════════════════════════════════════════
+   Product tour / onboarding / contextual-help design language.
+   Used by app/automation/components/shared/ProductTour.jsx, PageIntro.jsx,
+   HelpHint.jsx and the Guide (Help Center) redesign. Glass is used
+   strategically here — floating coach marks, tooltips, and the tour
+   backdrop — not on ordinary page surfaces.
+   ══════════════════════════════════════════════════════════════════════ */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes lfg-tour-pop {
+  0% { opacity: 0; transform: scale(0.96) translateY(4px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes lfg-spotlight-pulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.35), 0 0 0 9999px rgba(15, 23, 42, 0.55); }
+  50% { box-shadow: 0 0 0 7px rgba(99, 102, 241, 0.22), 0 0 0 9999px rgba(15, 23, 42, 0.55); }
+}
+
+.lfg-tour-pop {
+  animation: lfg-tour-pop 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.lfg-tour-spotlight {
+  animation: lfg-spotlight-pulse 2.2s ease-in-out infinite;
+}
+
+/* Glass surface — floating panels, coach marks, onboarding modals.
+   Kept translucent-but-legible: no surface here drops below the contrast
+   a body-text-on-white pairing gives you. */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 8px 32px -8px rgba(15, 23, 42, 0.18), 0 2px 8px -2px rgba(15, 23, 42, 0.08);
+}
+.dark .glass-panel {
+  background: rgba(15, 23, 42, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.45);
+}
+
+/* Dark glass — used for coach-mark tooltips over highlighted elements,
+   where the tooltip must read clearly against any page background. */
+.glass-dark {
+  background: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 40px -8px rgba(0, 0, 0, 0.4);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px -8px rgba(15, 23, 42, 0.08);
+  transition: box-shadow 180ms ease, transform 180ms ease, border-color 180ms ease;
+}
+.glass-card:hover {
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06), 0 16px 32px -12px rgba(15, 23, 42, 0.14);
+  border-color: rgba(203, 213, 225, 0.9);
+}
+.dark .glass-card {
+  background: rgba(30, 41, 59, 0.9);
+  border-color: rgba(51, 65, 85, 0.8);
+}
+

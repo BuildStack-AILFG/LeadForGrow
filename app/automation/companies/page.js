@@ -13,6 +13,7 @@ import CompaniesPagination from '../components/companies/CompaniesPagination';
 import CompanyCreateModal from '../components/companies/CompanyCreateModal';
 import CompanyDrawer from '../components/companies/CompanyDrawer';
 import CompaniesSkeleton from '../components/companies/CompaniesSkeleton';
+import AutoPageIntro from '@/app/automation/components/shared/tour/AutoPageIntro';
 
 function CompaniesEmptyState({ onCreate }) {
   return (
@@ -61,6 +62,8 @@ function CompaniesContent() {
           showGroup={ws.showGroup}
           onToggleGroup={() => ws.setShowGroup((v) => !v)}
         />
+
+        <AutoPageIntro />
 
         <CompaniesKpiCards stats={ws.stats} loading={ws.statsLoading} />
 

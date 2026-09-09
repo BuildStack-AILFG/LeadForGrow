@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { authFetch } from '@/lib/apiClient';
 import PageLoader from '../components/PageLoader';
+import AutoPageIntro from '../components/shared/tour/AutoPageIntro';
 import {
     Calendar,
     Plus,
@@ -135,6 +136,8 @@ export default function EventsPage() {
                     Create New Event
                 </button>
             </div>
+
+            <AutoPageIntro />
 
             {/* Stats Overview */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">

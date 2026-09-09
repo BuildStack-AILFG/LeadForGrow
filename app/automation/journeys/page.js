@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { Loader2, Map, CheckCircle2, Clock, XCircle, ChevronRight } from 'lucide-react';
 import { authFetch } from '@/lib/apiClient';
 import PageLoader from '../components/PageLoader';
+import Link from 'next/link';
+import AutoPageIntro from '../components/shared/tour/AutoPageIntro';
 
 const STATUS_ICON = {
   running: Clock,
@@ -51,10 +53,21 @@ export default function JourneysPage() {
         <p className="text-sm text-slate-500 mt-1">Real-time progress across all active workflow executions</p>
       </div>
 
+      <AutoPageIntro />
+
       {journeys.length === 0 ? (
         <div className="text-center py-16 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700">
           <Map className="w-10 h-10 mx-auto text-slate-400 mb-3" />
-          <p className="text-slate-500">No active journeys — workflows will appear here when leads are enrolled</p>
+          <p className="text-slate-900 dark:text-white font-semibold mb-1">No active journeys yet</p>
+          <p className="text-slate-500 text-sm max-w-sm mx-auto mb-5">
+            Journeys appear here once a lead is enrolled in a Sequence. Build one to see it tracked live.
+          </p>
+          <Link
+            href="/automation/sequences"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-700 text-white text-sm font-semibold"
+          >
+            Go to Sequences
+          </Link>
         </div>
       ) : (
         <div className="space-y-4">

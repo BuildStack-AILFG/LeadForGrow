@@ -7,6 +7,8 @@ import GlobalDialer from './components/GlobalDialer';
 import ReminderMonitor from './components/ReminderMonitor';
 import BusinessAssistantRoot from './components/assistant/BusinessAssistantRoot';
 import NotificationsHost from './components/NotificationsHost';
+import { TourProvider } from './components/shared/tour/TourProvider';
+import HelpLauncher from './components/shared/tour/HelpLauncher';
 
 export const metadata = {
   title: 'Automation - LeadForGrow',
@@ -17,6 +19,7 @@ export default function AutomationLayout({ children }) {
   return (
     <AccessControl>
       <AccessProvider>
+      <TourProvider>
       <BusinessAssistantRoot>
         <div className="flex h-screen bg-white dark:bg-slate-950 relative overflow-hidden transition-colors duration-300">
           <style dangerouslySetInnerHTML={{
@@ -34,9 +37,11 @@ export default function AutomationLayout({ children }) {
               browser notifications on new lead / message events. Global so
               it works from any page, not just Inbox. */}
           <NotificationsHost />
+          <HelpLauncher />
         </div>
       </BusinessAssistantRoot>
       <UpgradeGateModal />
+      </TourProvider>
       </AccessProvider>
     </AccessControl>
   );

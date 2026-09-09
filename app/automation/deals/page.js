@@ -16,6 +16,7 @@ import DealsSkeleton from '../components/deals/DealsSkeleton';
 import DemoScheduledModal from '../components/leads/DemoScheduledModal';
 import QuotationSentModal from '../components/leads/QuotationSentModal';
 import LostReasonModal from '../components/leads/LostReasonModal';
+import AutoPageIntro from '@/app/automation/components/shared/tour/AutoPageIntro';
 
 function filterAndSortDeals(deals, filters, stages) {
   let list = [...(deals || [])];
@@ -116,6 +117,8 @@ function DealsContent() {
           viewMode={ws.viewMode}
           onViewModeChange={ws.setViewMode}
         />
+
+        <AutoPageIntro />
 
         <DealsKpiCards stats={ws.stats} loading={ws.statsLoading} />
 

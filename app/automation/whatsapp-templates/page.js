@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast';
 import { authFetch } from '@/lib/apiClient';
 import TemplateBuilder from './TemplateBuilder';
 import PageLoader from '../components/PageLoader';
+import AutoPageIntro from '../components/shared/tour/AutoPageIntro';
 
 const STATUS_STYLES = {
   DRAFT: 'bg-slate-100 text-slate-700',
@@ -114,6 +115,8 @@ export default function WhatsAppTemplatesPage() {
           </button>
         </div>
       </div>
+
+      <AutoPageIntro />
 
       {/* Filters + search */}
       <div className="flex flex-wrap items-center gap-3 mb-5">

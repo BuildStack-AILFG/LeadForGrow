@@ -13,6 +13,65 @@ Related decisions: <link to DECISIONS.md entry, if any>
 
 ---
 
+## 2026-09-09 — Help Center: drop "Start here" checklist, add photo hero banner
+Branch: saurabh
+Files:
+- `app/help/HelpCenterClient.jsx` (removed the "Start here" onboarding checklist section and its now-unused `StartHereChecklist`/`START_HERE_CHECKLIST` imports; hero rebuilt as a photo banner — full-bleed `object-cover` image with a dark gradient overlay for legibility, white heading/subtitle text, and the search input as a floating white card overlapping the banner's bottom edge, matching the classic Zendesk/Freshdesk-style help-center hero)
+- `app/help/StartHereChecklist.jsx` (deleted — orphaned once its only call site was removed; confirmed via repo-wide grep no other file imported it)
+- `lib/help/guides.js` (removed the now-unused `START_HERE_CHECKLIST` export; `storage.js`'s generic `toggleChecklistItem`/`getGuideProgress` helpers were left in place — they're general-purpose and unrelated to this specific checklist)
+
+What changed: per explicit user request, removed the onboarding progress checklist from the Help Center index (it was the "Start here 👋 · 5/6 completed" card with the 6-item list) and added a real photographic banner at the top of the hero. Image is a free-license Pexels photo (`images.pexels.com/photos/8192185/...`, Pexels License — free for commercial use, no attribution required), fetched and verified via curl before wiring in. Rest of the page stays fully white below the banner.
+Related decisions: see DECISIONS.md 2026-09-09 help-center-docs-redesign entry (image sourcing note added there).
+
+## 2026-09-09 — Help Center redesigned as Stripe/Mintlify-style documentation
+Branch: saurabh
+Files:
+- `app/help/[slug]/GuideToc.jsx` (new — sticky right-rail "On this page" navigator; IntersectionObserver-based scroll-spy highlights the active section, click smooth-scrolls + updates the URL hash, no scroll-event polling)
+- `app/help/[slug]/page.js` (rebuilt: dark marketing hero replaced with a white top bar + breadcrumb + plain header; body now a two-column docs layout — reading column (max-w-720px) + sticky `GuideToc` rail; every section (`overview`, `prerequisites`, each `step-N`, `tips`, `common-issues`, `related`) carries a matching `id` + `scroll-mt-20` that `GuideToc` watches; font weights pulled back from bold/extrabold to medium/semibold; all `dark:` variants stripped so the page renders white regardless of the site's global theme toggle)
+- `app/help/StepVisuals.jsx` (dropped all `dark:` variants; step mockup cards — browser bar, form, WhatsApp bubble, checklist, nav highlight, payment link, bill card — restyled with a consistent layered shadow (`shadow-[...]` + `ring-1 ring-slate-200`) so they read as crisp inline "product screenshots" against the white page)
+- `app/help/HelpCenterClient.jsx` (index page: dark dot-grid hero replaced with a plain top bar + light `slate-50` hero band; search input restyled as a bordered white field instead of a shadow-heavy pill on black; `FeaturedGuide`/`GuideCard`/search-results headings pulled back from bold to medium/semibold; dark `slate-900` `SupportCallout` band converted to a light bordered card; all `dark:` variants stripped)
+- `app/help/StartHereChecklist.jsx`, `app/help/FeatureTours.jsx`, `app/help/RecentAndPopular.jsx` (stripped remaining `dark:` variants for consistency with the now fully-white Help Center)
+
+What changed: rebuilt the Help Center to match the "professional documentation site" reference the user linked (interakt.shop's WhatsApp API guide) — fully white theme, restrained font weights, and a Stripe/Mintlify-style right-side "On this page" table of contents on every guide that scroll-spies as you read and smooth-scrolls when clicked. Every one of the 26 guides gets this automatically since it's the shared `[slug]/page.js` template. Images stayed as the existing hand-built UI mockups (browser chrome, WhatsApp bubbles, nav highlights, bill cards) rather than real app screenshots — restyled to look like crisp inline product screenshots — per explicit user choice over scraping the live app. Verified live in Chrome: scroll-spy correctly tracks section changes while scrolling, clicking a ToC entry (tested via dispatched click on "Related guides") smooth-scrolls and updates both the active highlight and the URL hash, and both `/help` and `/help/getting-started` render with no console errors.
+Related decisions: see DECISIONS.md 2026-09-09 help-center-docs-redesign entry.
+
+## 2026-09-09 — Tour popup light theme + Grovia FAB icon-only
+Branch: saurabh
+Files:
+- `app/automation/components/shared/tour/TourOverlay.jsx` (spotlight tour popup switched from dark `glass-dark`/white-text to light `glass-panel`/slate-text "classic" card; dropped the Sparkles icon next to the step-count label, now plain uppercase text; progress dots, Back/Skip/Next buttons and links recolored for a light surface)
+- `app/automation/components/assistant/BusinessAssistantFab.jsx` (Grovia floating action button reduced from an icon+name+tagline pill to an icon-only `w-11 h-11` circle — same footprint as the `HelpLauncher` compass button it sits below — with a native `title` tooltip replacing the dropped text; removed now-unused `ASSISTANT_TAGLINE` import)
+
+What changed: user feedback on the just-shipped onboarding pass (screenshots of the Leads tour popup and the Grovia FAB) asked for the tour card to be a plain white/light "classic" card with no icon on the label, and for the Grovia FAB to drop its text and become icon-only at the same size as the neighboring help button. Both addressed directly; `BusinessAssistantTrigger` (the compact header variant, unrelated to the floating FAB) was left untouched.
+Related decisions: none — straightforward visual-only change, no new pattern introduced.
+
+## 2026-09-09 — Product-wide onboarding, contextual help & UX polish pass
+Branch: saurabh
+Files (new):
+- `app/components/ui/HelpHint.jsx` (reusable ⓘ tooltip — accessible, keyboard-focusable, glass-styled popover)
+- `app/automation/components/shared/tour/storage.js` (flat localStorage helpers for tour/intro completion + Guide progress/recent-guides)
+- `app/automation/components/shared/tour/TourProvider.jsx` + `TourOverlay.jsx` (reusable spotlight product-tour engine — Next/Back/Skip/progress dots/keyboard nav/auto-scroll-to-target, portal-rendered)
+- `app/automation/components/shared/tour/useAutoStartTour.js` (fires a tour once per browser, first time a page's data is ready)
+- `app/automation/components/shared/tour/PageIntro.jsx` + `AutoPageIntro.jsx` (one-shot dismissible "what is this page" banner, auto-resolved from the route via a registry — zero-prop drop-in per page)
+- `app/automation/components/shared/tour/registry.js` (single source of truth: 3 full spotlight tours — Dashboard, Leads, Automation Rules — + 25 lightweight page intros, each with copy + guide deep link)
+- `app/automation/components/shared/tour/HelpLauncher.jsx` (persistent "Need help?" floating button — Search Guide / Restart this page's tour / Browse all guides / Contact support — parked above the existing Grovia FAB with a clear gap so neither overlaps)
+- `app/automation/components/shared/tour/DiscoveryLink.jsx` (small cross-page "did you know" nudge, e.g. Leads → Create Automation)
+- `app/help/StartHereChecklist.jsx`, `RecentAndPopular.jsx`, `FeatureTours.jsx`, `TrackGuideView.jsx` (Guide/Help Center additions — onboarding progress tracker with persisted checkboxes, recently-viewed + popular guides, a "restart a tour" list, and view tracking for the detail page)
+
+Files (modified — highlights):
+- `app/automation/layout.js` — mounts `TourProvider` + `HelpLauncher` globally (purely additive wrap, no existing behavior changed)
+- `app/automation/components/automation/CreateAutomationModal.jsx` + `constants.js` (new `AUTOMATION_TEMPLATES`) — rebuilt as a two-step flow: a template gallery with WHEN/THEN visual cards (5 templates, mapped to the existing fixed trigger→action types) or "Build from scratch", then the create form with contextual ⓘ hints
+- `app/automation/components/automation/{AutomationHeader,AutomationList,AutomationSettingsPanel,ChannelSelector}.jsx` — "Learn how automations work" link, richer first-run empty state with CTA, ⓘ hints on Channel + Trigger, tour target attributes
+- `app/automation/page.js`, `leads/page.js`, `automation-rules/page.js` — wired the three full spotlight tours (`useAutoStartTour`) + `data-tour` targets
+- 21 other page/workspace files (deals, pipelines, bills, tasks, companies, contacts, sequences, whatsapp-flows, broadcasts, journeys, meetings, templates, whatsapp-templates, chatbot, forms, call-integration, automation-analytics, events, ai/knowledge, settings/ai, settings/team-permissions, settings/integrations, settings) — each gets one `<AutoPageIntro />` drop-in
+- `app/automation/components/dashboard/premium/{LeadsManagementCard,RetentionChartCard}.jsx`, `automation/broadcasts/page.js`, `ai/knowledge/page.js` — empty states rewritten to be actionable (title + why-it-matters + CTA button) instead of a bare "No X yet" line
+- `app/automation/settings/integrations/page.js` — added a page title + description; this page previously had no heading explaining what it does at all
+- `lib/help/guides.js` — added 3 categories (CRM / AI / Insights) and 15 new guide articles (Leads, Companies & Contacts, Deals & Pipelines, Tasks, WhatsApp Flows, Customer Journeys, Meetings, Chatbot, Forms, Call Recovery, AI Knowledge, AI Settings, Reports & Analytics, Integrations, Account Settings) plus a `START_HERE_CHECKLIST` export; 11 pre-existing guides untouched
+- `app/help/HelpCenterClient.jsx`, `app/help/[slug]/page.js` — wired in the new categories/components
+- `app/globals.css` — added a "Product tour / onboarding / glass design language" block: `fadeIn`/`lfg-tour-pop`/`lfg-spotlight-pulse` keyframes, `.glass-panel` / `.glass-dark` / `.glass-card` utilities
+
+What changed: implemented the UX-IMPORVE.TXT brief end-to-end — a reusable spotlight ProductTour engine (used on Dashboard, Leads, and Automation Rules, matching the brief's own example almost verbatim), a lightweight PageIntro banner auto-wired onto every other major page via a central registry, a persistent Guide-aware help launcher that never collides with the existing Grovia assistant, an Automation Rules template gallery (the brief's priority area) with WHEN/THEN visual cards and contextual ⓘ hints, 15 new Guide articles covering every previously-undocumented sidebar section plus a "Start here" progress checklist / recently-viewed / popular-guides / restart-a-tour surface on the Help Center, and an actionable-empty-state pass across the dashboard, AI Knowledge, and Broadcasts. Verified live in Chrome against the real Pistons Garage workspace data (full tour flow, template gallery, HelpHint tooltips, Guide checklist persistence, and ~10 pages' intros/empty-states) with no console errors. Not done: a true drag-and-drop trigger/condition/action visual builder for Automation Rules (the backend only supports 5 fixed trigger→action types — building a real composable engine was out of scope for a UX pass and risked exactly the kind of backend rewrite the brief said not to do); the Inbox's three-pane layout was deliberately left without a PageIntro banner (too narrow to hold one without cramping the conversation list).
+Related decisions: see DECISIONS.md 2026-09-09 entries.
+
 ## 2026-09-04 — Rich WYSIWYG signature editor + multi-signature per mailbox
 Branch: feature/rich-signature-editor
 Files:

@@ -2,13 +2,17 @@
 
 import { Mail, Smartphone, Zap } from 'lucide-react';
 import { CHANNEL_OPTIONS } from './constants';
+import HelpHint from '@/app/components/ui/HelpHint';
 
 const ICONS = { email: Mail, whatsapp: Smartphone, both: Zap };
 
 export default function ChannelSelector({ value, onChange }) {
   return (
     <div>
-      <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">Channel</label>
+      <label className="flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">
+        Channel
+        <HelpHint text="Where this automation sends its message. 'Both' sends WhatsApp when available and falls back to email." />
+      </label>
       <div className="grid grid-cols-3 gap-2">
         {CHANNEL_OPTIONS.map((ch) => {
           const Icon = ICONS[ch.id];

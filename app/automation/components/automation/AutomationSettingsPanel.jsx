@@ -6,6 +6,15 @@ import AutomationStatusBadge from './StatusBadge';
 import ChannelSelector from './ChannelSelector';
 import TemplateEditor from './TemplateEditor';
 import { getChannelLabel, getTriggerLabel } from './constants';
+import HelpHint from '@/app/components/ui/HelpHint';
+
+const TRIGGER_EXPLANATIONS = {
+  'Incoming WhatsApp': 'Fires the moment a WhatsApp message arrives from this lead.',
+  'New lead': 'Fires the instant a new lead is created in LeadForGrow, from any source.',
+  'Status change': 'Fires when a lead moves to a different pipeline stage.',
+  'No response': 'Fires when a lead has gone quiet for the configured time.',
+  'Manual': 'This automation only runs when triggered manually or by another workflow.',
+};
 
 function SequenceRunnerPanel({ rule, onClose }) {
   return (
@@ -98,8 +107,11 @@ function PanelContent({
               <AutomationStatusBadge rule={rule} size="xs" />
             </div>
             <p className="text-xs text-slate-500 mt-0.5 line-clamp-2">{rule.description}</p>
-            <div className="flex flex-wrap gap-2 mt-2 text-[10px] text-slate-400">
-              <span>{getTriggerLabel(rule)}</span>
+            <div className="flex flex-wrap items-center gap-2 mt-2 text-[10px] text-slate-400">
+              <span className="inline-flex items-center gap-1">
+                Trigger: {getTriggerLabel(rule)}
+                <HelpHint size="xs" text={TRIGGER_EXPLANATIONS[getTriggerLabel(rule)] || 'What starts this automation.'} />
+              </span>
               {form.channel && (
                 <>
                   <span>·</span>

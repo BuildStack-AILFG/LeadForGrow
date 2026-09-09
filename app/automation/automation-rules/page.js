@@ -9,10 +9,14 @@ import AutomationList from '../components/automation/AutomationList';
 import AutomationSettingsPanel from '../components/automation/AutomationSettingsPanel';
 import CreateAutomationModal from '../components/automation/CreateAutomationModal';
 import AutomationSkeleton from '../components/automation/AutomationSkeleton';
+import { useAutoStartTour } from '../components/shared/tour/useAutoStartTour';
+import { TOURS } from '../components/shared/tour/registry';
+import DiscoveryLink from '../components/shared/tour/DiscoveryLink';
 
 function AutomationRulesContent() {
   const ws = useAutomationRules();
   const [mobilePanel, setMobilePanel] = useState(false);
+  useAutoStartTour(TOURS.automationRules, !ws.loading);
 
   const handleSelect = (rule) => {
     ws.selectRule(rule);
@@ -70,17 +74,23 @@ function AutomationRulesContent() {
           </Link>
         </div>
 
+        <div className="mt-4">
+          <DiscoveryLink text="Need inspiration?" cta="Browse templates" href="#" onClickOverride={() => ws.setShowCreateModal(true)} />
+        </div>
+
         <div className="mt-4 grid grid-cols-1 lg:grid-cols-5 gap-4">
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-3" data-tour="automation-list">
             <AutomationList
               rules={ws.rules}
               selectedId={ws.selectedRule?._id}
               onSelect={handleSelect}
               onToggle={ws.toggleRule}
+              isFirstRun={ws.allRules.length === 0}
+              onCreate={() => ws.setShowCreateModal(true)}
             />
           </div>
 
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2" data-tour="automation-settings-panel">
             <AutomationSettingsPanel
               rule={ws.selectedRule}
               form={ws.editForm}

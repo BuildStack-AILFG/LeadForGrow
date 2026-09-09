@@ -16,6 +16,7 @@ import { useTeamWorkspace } from '../../hooks/useTeamWorkspace';
 import EnterprisePermissionMatrix from './EnterprisePermissionMatrix';
 import AddMemberModal from '../team/AddMemberModal';
 import PageLoader from '../PageLoader';
+import AutoPageIntro from '../shared/tour/AutoPageIntro';
 
 const SECTIONS = [
   { id: 'members', label: 'Team Members', icon: Users },
@@ -90,6 +91,8 @@ export default function TeamPermissionsWorkspace() {
       </aside>
 
       <main className="flex-1 p-4 sm:p-6 overflow-y-auto max-w-[1400px]">
+        <AutoPageIntro />
+
         {!canManage && (
           <div className="mb-4 p-4 rounded-xl bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/40 text-sm text-amber-800 dark:text-amber-200">
             View-only mode — contact your workspace owner to change permissions.

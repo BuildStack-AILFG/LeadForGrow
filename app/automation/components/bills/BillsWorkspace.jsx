@@ -12,6 +12,7 @@ import {
 import { authFetch } from '@/lib/apiClient';
 import PageLoader from '../PageLoader';
 import ConfirmDialog from '../shared/ConfirmDialog';
+import AutoPageIntro from '../shared/tour/AutoPageIntro';
 
 /**
  * BillsWorkspace — list + editor + detail in a single component switched by
@@ -83,6 +84,8 @@ function BillsList({ onNew, onOpen }) {
             <Plus className="w-4 h-4" /> New bill
           </button>
         </div>
+
+        <AutoPageIntro />
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
           <StatCard label="Total billed"    value={`₹${summary.total.toLocaleString('en-IN')}`} tone="slate" />

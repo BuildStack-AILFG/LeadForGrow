@@ -11,10 +11,13 @@ import CalendarScheduleCard from './components/dashboard/premium/CalendarSchedul
 import LeadsManagementCard from './components/dashboard/premium/LeadsManagementCard';
 import RetentionChartCard from './components/dashboard/premium/RetentionChartCard';
 import TopLocationsCard from './components/dashboard/premium/TopLocationsCard';
+import { useAutoStartTour } from './components/shared/tour/useAutoStartTour';
+import { TOURS } from './components/shared/tour/registry';
 
 export default function AutomationDashboard() {
   const [searchQuery, setSearchQuery] = useState('');
   const { loading, refreshing, error, refresh, dash, currency } = useDashboardData();
+  useAutoStartTour(TOURS.dashboard, !loading);
 
   if (loading) return <DashboardSkeleton />;
 
@@ -43,9 +46,9 @@ export default function AutomationDashboard() {
             [ Revenue chart        ] | (spans) |
           */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-            <div className="lg:col-span-7 xl:col-span-8 grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-3 content-start auto-rows-min">
+            <div className="lg:col-span-7 xl:col-span-8 grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-3 content-start auto-rows-min" data-tour="dashboard-kpis">
               <HeroKpiRow heroKpis={dash?.heroKpis} />
-              <div className="col-span-2 sm:col-span-3 xl:col-span-5">
+              <div className="col-span-2 sm:col-span-3 xl:col-span-5" data-tour="dashboard-revenue">
                 <RevenueChartCard revenue={dash?.revenue} currency={currency} onRefresh={refresh} />
               </div>
             </div>
