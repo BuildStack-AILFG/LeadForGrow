@@ -10,7 +10,7 @@ const CARDS = [
     icon: UserCircle,
     title: 'Our founders',
     description:
-      'Meet Saurabh Singh, Honey Singh, and S.S Chauhan — the co-founders building LeadForGrow.',
+      'Meet S.Singh, Honey Singh, and S.S Chauhan — the co-founders building LeadForGrow.',
     href: '/founders',
     linkText: 'Meet the team',
   },

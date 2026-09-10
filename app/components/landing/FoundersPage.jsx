@@ -28,7 +28,7 @@ export default function FoundersPage() {
               Meet the co-founders behind LeadForGrow
             </h1>
             <p className="landing-subhead mx-auto mt-6 max-w-2xl">
-              <strong className="font-semibold text-[#111827]">Saurabh Singh</strong>,{' '}
+              <strong className="font-semibold text-[#111827]">S.Singh</strong>,{' '}
               <strong className="font-semibold text-[#111827]">Honey Singh</strong>, and{' '}
               <strong className="font-semibold text-[#111827]">S.S Chauhan</strong> founded{' '}
               {COMPANY.name} under {COMPANY.parent} to help businesses capture leads from Meta,
@@ -120,7 +120,7 @@ export default function FoundersPage() {
                 </div>
               </div>
               <p className="mt-6 text-[15px] leading-relaxed text-[#4B5563]">
-                Saurabh Singh leads technology as Co-Founder &amp; CTO across LeadForGrow and the
+                S.Singh leads technology as Co-Founder &amp; CTO across LeadForGrow and the
                 broader Scaledesk product ecosystem — from CRM to automation to custom enterprise
                 software.
               </p>

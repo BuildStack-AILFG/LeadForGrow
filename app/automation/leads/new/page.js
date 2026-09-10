@@ -352,7 +352,7 @@ export default function NewLeadPage() {
                         type="text"
                         value={formData.name}
                         onChange={(e) => set('name', e.target.value)}
-                        placeholder="e.g. Saurabh Singh"
+                        placeholder="e.g. S.Singh"
                         className={inputClass}
                         autoComplete="name"
                       />

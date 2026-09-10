@@ -13,6 +13,20 @@ Related decisions: <link to DECISIONS.md entry, if any>
 
 ---
 
+## 2026-09-10 — New-lead sound notification: fill gaps + fix realtime pub/sub bug
+Branch: saurabh
+Files:
+- `lib/realtime/hub.js` (root-cause fix — pinned the in-process `EventEmitter` singleton to `globalThis` instead of a plain module-scope `const`)
+- `lib/omnichannel/customerMatching.js` (`matchCustomer` now emits `LEAD_UPDATED action:'created'` itself, right after creating a lead — centralizes the notification for WhatsApp, Instagram DM, Instagram comment, and Gmail inbound, all of which create leads through this one shared function)
+- `lib/automation/leadManager.js` (removed the WhatsApp-path's own duplicate `action:'created'` emit — now redundant since `matchCustomer` fires it — and narrowed the remaining emit to only the existing-lead-plus-ad-referral case, relabeled `action:'updated'` so it silently refreshes the grid without chiming, since that's not actually a new lead)
+- `lib/leadProcessor.js` (`ingestLead` — the "MANDATORY: every lead must pass through this" central engine — now emits on the new-lead branch; covers manual "+ Add Lead", `/api/forms/submit`, and any future caller)
+- `app/api/website-funnel/leads/route.js`, `lib/meetings/crmSync.js`, `app/api/automation/whatsapp-flows/webhook/[secret]/route.js` (three more standalone `Lead.create` paths that bypass both `ingestLead` and `matchCustomer` — added the same emit directly)
+
+What changed: the user asked for a beep whenever a lead is added. A sound system already existed (`lib/notifications/soundPlayer.js`'s `playLeadChime()`, wired into `useAppNotifications.js`, mounted globally via `NotificationsHost` in the automation layout) — but only the WhatsApp inbound-message path actually fired the `LEAD_UPDATED` realtime event that triggers it. Manual "Add Lead", form submissions, website-funnel captures, meeting-booking lead creation, Instagram, Gmail, and the WhatsApp Flows webhook never fired it. Traced every `Lead.create` site in the codebase and added the emit to each one that represents a genuine new lead (deliberately skipped CSV bulk-import — a 200-row import chiming 200 times is not what anyone wants — and the agency-client leads route, which isn't tied to a `business._id` realtime channel).
+
+While verifying live (direct SSE listener + a POST to `/api/automation/leads`), discovered the emit call was firing correctly but the event never reached the browser at all — not even for the pre-existing WhatsApp path. Isolated it with a throwaway debug route publishing directly to `lib/realtime/hub.js`: a route that only *publishes* and a route that only *subscribes* were not sharing the same in-process `EventEmitter`. Root cause: this dev environment has no `REDIS_URL` configured, so the hub falls back to an in-process bus, and Next.js/Turbopack can give the same source module a separate instance per route-handler bundle — so `publishEvent` (one route) and `subscribe` (a different route) were operating on two different `EventEmitter` objects. Fixed by pinning the bus to `globalThis`, which is immune to per-bundle module duplication. Re-verified with the same debug route (event now arrives) and cleaned up all test leads/debug files afterward. This fix benefits every realtime event in the app (chat messages, bill-paid, task updates), not just leads — it was silently broken for all of them in any environment without Redis configured.
+Related decisions: see DECISIONS.md 2026-09-10 lead-notification-coverage and realtime-hub-globalthis entries.
+
 ## 2026-09-09 — Help Center: drop "Start here" checklist, add photo hero banner
 Branch: saurabh
 Files:

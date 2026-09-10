@@ -66,6 +66,14 @@ export async function POST(request) {
       // Don't fail the lead capture if automation fails
     }
 
+    // 4. Real-time: notify the workspace (sound + toast) of the new lead.
+    try {
+      const { emitLeadUpdated } = await import('@/lib/realtime/publish');
+      emitLeadUpdated(businessId, { leadId: lead._id, action: 'created', source: 'Website Funnel' }).catch(() => {});
+    } catch (err) {
+      console.warn('[API:WebsiteLeads] emitLeadUpdated failed:', err.message);
+    }
+
     return NextResponse.json({ success: true, leadId: lead._id });
   } catch (error) {
     console.error('Error submitting lead from website:', error);

@@ -31,14 +31,14 @@ export default function LeadsHeader({
     <header className="sticky top-0 z-30 bg-[#f8f9fc]/95 dark:bg-slate-950/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 -mx-4 sm:-mx-6 px-4 sm:px-6 py-4">
       <div className="flex flex-col gap-4">
         <div className="flex flex-col lg:flex-row lg:items-center gap-4">
-          <div className="flex-1 min-w-0">
+          <div className="min-w-0">
             <h1 className="text-lg sm:text-xl font-semibold text-slate-900 dark:text-slate-50">Leads</h1>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
               {total.toLocaleString()} leads · Sales workspace
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 flex-1 lg:max-w-3xl">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full lg:w-auto lg:ml-auto lg:max-w-3xl">
             <div className="relative flex-1 min-w-[200px]" data-tour="leads-search">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
@@ -53,8 +53,8 @@ export default function LeadsHeader({
               />
             </div>
 
-            <div className="flex items-center gap-2">
-              <div className="flex rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
+            <div className="flex items-center gap-2 shrink-0">
+              <div className="flex rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden shrink-0">
                 <button
                   type="button"
                   onClick={() => onViewModeChange('table')}
@@ -78,16 +78,16 @@ export default function LeadsHeader({
                 type="button"
                 onClick={onRefresh}
                 disabled={refreshing}
-                className="p-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 hover:bg-slate-50 disabled:opacity-50"
+                className="p-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 hover:bg-slate-50 disabled:opacity-50 shrink-0"
               >
                 <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
               </button>
 
-              <div className="relative">
+              <div className="relative shrink-0">
                 <button
                   type="button"
                   onClick={() => setExportOpen(!exportOpen)}
-                  className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50"
+                  className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 whitespace-nowrap"
                 >
                   <Download className="w-4 h-4" />
                   <span className="hidden sm:inline">Export</span>
@@ -106,7 +106,7 @@ export default function LeadsHeader({
 
               <Link
                 href="/automation/leads/bulk"
-                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50"
+                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 shrink-0 whitespace-nowrap"
               >
                 <Upload className="w-4 h-4" /> Import
               </Link>
@@ -114,7 +114,7 @@ export default function LeadsHeader({
               <Link
                 href="/automation/leads/new"
                 data-tour="leads-add-btn"
-                className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm"
+                className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm shrink-0 whitespace-nowrap"
               >
                 <Plus className="w-4 h-4" />
                 <span className="hidden sm:inline">Add Lead</span>
