@@ -3,7 +3,7 @@ export const FEATURE_CATEGORIES = ['All', 'Platform', 'Automation'];
 export const BLOG_AUTHORS = {
   'saurabh-singh': {
     slug: 'saurabh-singh',
-    name: 'Saurabh Singh',
+    name: 'S.Singh',
     role: 'Co-Founder & CTO',
     bio: 'Leads product and engineering at LeadForGrow — writing about CRM, automation, and AI for revenue teams.',
     initials: 'SS',

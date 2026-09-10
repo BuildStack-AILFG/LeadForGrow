@@ -38,7 +38,7 @@ export default function Sidebar() {
 
       <aside
         style={{ width: sidebar.isMobile ? SIDEBAR_WIDTH.expanded : width }}
-        className={`flex flex-col h-screen flex-shrink-0 z-50 bg-white border-r border-[#E8EAED] transition-[width,transform] duration-300 ease-out ${
+        className={`flex flex-col h-screen flex-shrink-0 z-50 bg-[#F4F5F7] border-r border-[#E8EAED] transition-[width,transform] duration-300 ease-out ${
           sidebar.isMobile
             ? `fixed top-0 left-0 shadow-2xl ${sidebar.mobileOpen ? 'translate-x-0' : '-translate-x-full'}`
             : 'sticky top-0'
@@ -70,7 +70,7 @@ export default function Sidebar() {
           ))}
         </nav>
 
-        <div className="flex-shrink-0 border-t border-[#E8EAED] bg-[#FAFBFC]">
+        <div className="flex-shrink-0 border-t border-[#E8EAED] bg-[#EEF0F2]">
           <WorkspaceSwitcher
             workspace={sidebar.userData.workspace}
             plan={sidebar.userData.plan}

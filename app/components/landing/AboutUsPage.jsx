@@ -208,7 +208,7 @@ export default function AboutUsPage() {
                   AI, we build tools that help teams scale without chaos.
                 </p>
                 <p className="mt-4 text-[15px] text-[#4B5563]">
-                  <strong className="font-semibold text-[#111827]">Saurabh Singh</strong>, Co-Founder
+                  <strong className="font-semibold text-[#111827]">S.Singh</strong>, Co-Founder
                   &amp; CTO, leads technology across LeadForGrow and the Scaledesk product ecosystem.
                 </p>
               </div>

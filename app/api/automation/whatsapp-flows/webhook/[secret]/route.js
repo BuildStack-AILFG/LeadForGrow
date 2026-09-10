@@ -38,6 +38,14 @@ export async function POST(req, { params }) {
           whatsapp: digits || body.phone,
           source: 'whatsapp_flow_webhook',
         });
+
+        // Real-time: notify the workspace (sound + toast) of the new lead.
+        try {
+          const { emitLeadUpdated } = await import('@/lib/realtime/publish');
+          emitLeadUpdated(flow.businessId, { leadId: lead._id, action: 'created', source: 'whatsapp_flow_webhook' }).catch(() => {});
+        } catch (err) {
+          console.warn('[whatsapp-flows webhook] emitLeadUpdated failed:', err.message);
+        }
       }
     }
 

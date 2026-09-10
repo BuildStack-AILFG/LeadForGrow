@@ -17,7 +17,7 @@ export default function SidebarHeader({ collapsed, isMobile, onToggle, onMobileC
 
   return (
     <div
-      className={`flex-shrink-0 border-b border-[#E8EAED] bg-white ${
+      className={`flex-shrink-0 border-b border-[#E8EAED] bg-[#F4F5F7] ${
         collapsed ? 'px-2 py-3' : 'px-3 py-3.5'
       }`}
     >
