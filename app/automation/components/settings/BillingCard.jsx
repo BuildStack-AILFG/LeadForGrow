@@ -13,14 +13,14 @@ export default function BillingCard({ billing }) {
         <div className="flex items-start justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <CreditCard className="w-4 h-4 text-blue-600" />
+              <CreditCard className="w-4 h-4 text-teal-600" />
               <span className="text-xs font-medium text-slate-500">Current plan</span>
             </div>
             <p className="text-xl font-semibold text-slate-900 dark:text-slate-50">{plan}</p>
             <p className="text-sm text-slate-600 dark:text-slate-400 mt-0.5">{price}</p>
             <p className="text-xs text-slate-400 mt-1">Renews {renewsAt}</p>
           </div>
-          <button type="button" className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-blue-600 bg-blue-50 dark:bg-blue-950/40 rounded-lg hover:bg-blue-100">
+          <button type="button" className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-teal-600 bg-teal-50 dark:bg-teal-950/40 rounded-lg hover:bg-teal-100">
             Upgrade <ArrowUpRight className="w-3 h-3" />
           </button>
         </div>
@@ -41,7 +41,7 @@ export default function BillingCard({ billing }) {
                 <span className="text-xs font-normal text-slate-400"> / {data.limit}{key === 'storage' ? ' GB' : ''}</span>
               </p>
               <div className="mt-2 h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                <div className={`h-full rounded-full ${pct > 80 ? 'bg-amber-500' : 'bg-blue-600'}`} style={{ width: `${pct}%` }} />
+                <div className={`h-full rounded-full ${pct > 80 ? 'bg-amber-500' : 'bg-teal-600'}`} style={{ width: `${pct}%` }} />
               </div>
             </div>
           );

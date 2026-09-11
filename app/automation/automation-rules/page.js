@@ -51,14 +51,14 @@ function AutomationRulesContent() {
           </div>
           <Link
             href="/automation/settings/crm"
-            className="inline-flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 shrink-0"
+            className="inline-flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg bg-teal-600 text-white hover:bg-teal-700 shrink-0"
           >
             <Settings2 className="w-3.5 h-3.5" />
             CRM automation settings
           </Link>
         </div>
 
-        <div className="mt-4 mb-4 p-4 bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="mt-4 mb-4 p-4 bg-slate-50 dark:from-slate-900 dark:to-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
             <p className="text-sm font-medium text-slate-900 dark:text-slate-100">💬 WhatsApp Interactive Flows</p>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">

@@ -114,7 +114,7 @@ export function getWhatsAppStatus(lead) {
   if (!isWa) return { key: 'none', label: '—', dot: 'bg-slate-300' };
 
   if (!lead.isRead) {
-    return { key: 'unread', label: 'Unread', dot: 'bg-blue-500' };
+    return { key: 'unread', label: 'Unread', dot: 'bg-teal-500' };
   }
   if (lead.status === 'contacted' || lead.status === 'interested' || lead.status === 'converted' || lead.status === 'first_contact' || lead.status === 'won') {
     return { key: 'replied', label: 'Replied', dot: 'bg-emerald-500' };

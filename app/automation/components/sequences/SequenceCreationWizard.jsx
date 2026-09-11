@@ -72,12 +72,12 @@ export default function SequenceCreationWizard({
         {[1, 2].map((s) => (
           <div key={s} className="flex items-center gap-2 flex-1">
             <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
-              step >= s ? 'bg-blue-600 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-500'
+              step >= s ? 'bg-teal-600 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-500'
             }`}>{s}</div>
             <span className={`text-xs font-medium hidden sm:block ${step >= s ? 'text-slate-900 dark:text-white' : 'text-slate-400'}`}>
               {s === 1 ? 'Details & trigger' : 'Choose template'}
             </span>
-            {s === 1 && <div className={`flex-1 h-0.5 ${step > 1 ? 'bg-blue-600' : 'bg-slate-200 dark:bg-slate-700'}`} />}
+            {s === 1 && <div className={`flex-1 h-0.5 ${step > 1 ? 'bg-teal-600' : 'bg-slate-200 dark:bg-slate-700'}`} />}
           </div>
         ))}
       </div>
@@ -96,7 +96,7 @@ export default function SequenceCreationWizard({
                   value={draft.name}
                   onChange={(e) => onChange({ name: e.target.value })}
                   placeholder="e.g. New Lead WhatsApp Nurture"
-                  className="mt-1 w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="mt-1 w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm focus:ring-2 focus:ring-teal-500 outline-none"
                 />
               </div>
               <div>
@@ -106,7 +106,7 @@ export default function SequenceCreationWizard({
                   onChange={(e) => onChange({ description: e.target.value })}
                   rows={2}
                   placeholder="What does this sequence do?"
-                  className="mt-1 w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm focus:ring-2 focus:ring-blue-500 outline-none resize-none"
+                  className="mt-1 w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm focus:ring-2 focus:ring-teal-500 outline-none resize-none"
                 />
               </div>
               <div className="grid sm:grid-cols-2 gap-4">
@@ -141,7 +141,7 @@ export default function SequenceCreationWizard({
                 type="button"
                 onClick={onNext}
                 disabled={!draft.name?.trim()}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-semibold disabled:opacity-50"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-teal-600 text-white text-sm font-semibold disabled:opacity-50"
               >
                 Continue <ArrowRight className="w-4 h-4" />
               </button>
@@ -163,7 +163,7 @@ export default function SequenceCreationWizard({
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search templates by name, purpose, or industry…"
-                className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/30"
               />
             </div>
 
@@ -175,8 +175,8 @@ export default function SequenceCreationWizard({
                   onClick={() => setIndustry(ind.id)}
                   className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
                     industry === ind.id
-                      ? 'bg-blue-600 text-white border-blue-600'
-                      : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:border-blue-400'
+                      ? 'bg-teal-600 text-white border-teal-600'
+                      : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:border-teal-400'
                   }`}
                 >
                   <span>{ind.emoji}</span>
@@ -201,7 +201,7 @@ export default function SequenceCreationWizard({
                       key={tpl.id}
                       type="button"
                       onClick={() => setPreviewTpl(tpl)}
-                      className="group text-left p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/10 transition-all"
+                      className="group text-left p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-teal-400 hover:shadow-lg hover:shadow-teal-500/10 transition-all"
                     >
                       <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${tpl.gradient} flex items-center justify-center mb-3 shadow-md group-hover:scale-105 transition-transform`}>
                         <Icon className="w-5 h-5 text-white" />
@@ -214,7 +214,7 @@ export default function SequenceCreationWizard({
                 <button
                   type="button"
                   onClick={() => onFinish('blank')}
-                  className="p-4 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-600 hover:border-blue-400 text-left transition-all"
+                  className="p-4 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-600 hover:border-teal-400 text-left transition-all"
                 >
                   <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-3">
                     <GitBranch className="w-5 h-5 text-slate-400" />
@@ -308,7 +308,7 @@ function TemplatePreviewModal({ tpl, onClose, onUse }) {
             return (
               <div key={i} className="flex gap-3">
                 <div className="flex flex-col items-center shrink-0">
-                  <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 flex items-center justify-center text-xs font-semibold">
+                  <div className="w-8 h-8 rounded-full bg-teal-100 dark:bg-teal-950/40 text-teal-700 dark:text-teal-300 flex items-center justify-center text-xs font-semibold">
                     {i + 1}
                   </div>
                   {i < steps.length - 1 && (
@@ -346,7 +346,7 @@ function TemplatePreviewModal({ tpl, onClose, onUse }) {
                         </span>
                       )}
                       {s.exitOnAnyReply && !s.pauseOnReply && (
-                        <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-blue-100 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 font-medium">
+                        <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-teal-100 dark:bg-teal-950/40 text-teal-700 dark:text-teal-300 font-medium">
                           ✓ Exits on any reply
                         </span>
                       )}
@@ -377,7 +377,7 @@ function TemplatePreviewModal({ tpl, onClose, onUse }) {
           <button
             type="button"
             onClick={onUse}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-teal-600 text-white text-sm font-semibold hover:bg-teal-700"
           >
             Use this template <ArrowRight className="w-4 h-4" />
           </button>

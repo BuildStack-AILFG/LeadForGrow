@@ -7,7 +7,7 @@ import HelpHint from '@/app/components/ui/HelpHint';
 
 const TONE_CLASSES = {
   emerald: { chip: 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400', ring: 'hover:border-emerald-300 dark:hover:border-emerald-800', badge: 'bg-emerald-100 text-emerald-700' },
-  blue:    { chip: 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400', ring: 'hover:border-blue-300 dark:hover:border-blue-800', badge: 'bg-blue-100 text-blue-700' },
+  blue:    { chip: 'bg-teal-50 dark:bg-teal-950/40 text-teal-600 dark:text-teal-400', ring: 'hover:border-teal-300 dark:hover:border-teal-800', badge: 'bg-teal-100 text-teal-700' },
   violet:  { chip: 'bg-violet-50 dark:bg-violet-950/40 text-violet-600 dark:text-violet-400', ring: 'hover:border-violet-300 dark:hover:border-violet-800', badge: 'bg-violet-100 text-violet-700' },
   amber:   { chip: 'bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400', ring: 'hover:border-amber-300 dark:hover:border-amber-800', badge: 'bg-amber-100 text-amber-700' },
   rose:    { chip: 'bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400', ring: 'hover:border-rose-300 dark:hover:border-rose-800', badge: 'bg-rose-100 text-rose-700' },
@@ -174,7 +174,7 @@ export default function CreateAutomationModal({ open, form, onChange, onClose, o
                 className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg resize-none"
               />
             </div>
-            <button type="submit" className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors">
+            <button type="submit" className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 text-sm font-semibold text-white bg-teal-600 hover:bg-teal-700 rounded-lg transition-colors">
               Create automation <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </form>

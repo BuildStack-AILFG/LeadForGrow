@@ -7,7 +7,7 @@ import {
 import { TRIGGER_TYPES, ACTION_TYPES, AI_ACTION_TYPES } from '@/lib/sequences/constants';
 
 const SECTIONS = [
-  { id: 'triggers', label: 'Triggers', icon: Zap, items: TRIGGER_TYPES, iconClass: 'text-blue-500' },
+  { id: 'triggers', label: 'Triggers', icon: Zap, items: TRIGGER_TYPES, iconClass: 'text-teal-500' },
   { id: 'actions', label: 'Actions', icon: MessageCircle, items: ACTION_TYPES.filter((a) => a.category === 'action'), iconClass: 'text-emerald-500' },
   { id: 'logic', label: 'Logic', icon: Split, items: ACTION_TYPES.filter((a) => a.category === 'logic' || a.category === 'end'), iconClass: 'text-amber-500' },
   { id: 'ai', label: 'AI Actions', icon: Sparkles, items: AI_ACTION_TYPES, iconClass: 'text-cyan-500' },
@@ -47,7 +47,7 @@ export default function NodeSidebar({ onAddNode }) {
                     key={item.type}
                     type="button"
                     onClick={() => handleAdd(item.type)}
-                    className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-left text-xs text-slate-600 dark:text-slate-400 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 dark:hover:from-blue-950/30 dark:hover:to-indigo-950/20 hover:text-blue-700 dark:hover:text-blue-300 transition-all"
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-left text-xs text-slate-600 dark:text-slate-400 hover:bg-gradient-to-r hover:from-teal-50 hover:to-indigo-50 dark:hover:from-teal-950/30 dark:hover:to-indigo-950/20 hover:text-teal-700 dark:hover:text-teal-300 transition-all"
                   >
                     {item.type.includes('whatsapp') ? <MessageCircle className="w-3.5 h-3.5 text-emerald-500" /> :
                       item.type.includes('email') ? <Mail className="w-3.5 h-3.5 text-violet-500" /> :

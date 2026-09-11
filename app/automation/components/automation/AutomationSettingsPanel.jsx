@@ -41,9 +41,9 @@ function SequenceRunnerPanel({ rule, onClose }) {
         </div>
       </div>
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        <div className="p-4 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/20 border border-blue-100 dark:border-blue-900/40">
+        <div className="p-4 rounded-xl bg-teal-50 dark:from-teal-950/30 dark:to-indigo-950/20 border border-teal-100 dark:border-teal-900/40">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
+            <div className="w-10 h-10 rounded-xl bg-teal-500 flex items-center justify-center shadow-sm">
               <GitBranch className="w-5 h-5 text-white" />
             </div>
             <div>
@@ -53,7 +53,7 @@ function SequenceRunnerPanel({ rule, onClose }) {
           </div>
           <Link
             href="/automation/sequences"
-            className="inline-flex items-center gap-2 text-xs font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400"
+            className="inline-flex items-center gap-2 text-xs font-medium text-teal-600 hover:text-teal-700 dark:text-teal-400"
           >
             <ExternalLink className="w-3.5 h-3.5" />
             Edit workflow in Sequences
@@ -161,7 +161,7 @@ function PanelContent({
             type="button"
             onClick={onSave}
             disabled={saving}
-            className="w-full inline-flex items-center justify-center gap-2 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg disabled:opacity-50"
+            className="w-full inline-flex items-center justify-center gap-2 py-2.5 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-lg disabled:opacity-50"
           >
             {saving ? (
               <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />

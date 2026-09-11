@@ -25,7 +25,7 @@ export default function LeadDetailProfile({
   return (
     <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm overflow-hidden">
       <div className="p-5 border-b border-slate-100 dark:border-slate-800">
-        <div className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg font-semibold mb-3">
+        <div className="w-12 h-12 rounded-xl bg-teal-50 dark:bg-teal-950/40 text-teal-600 dark:text-teal-400 flex items-center justify-center text-lg font-semibold mb-3">
           {lead.name?.charAt(0)?.toUpperCase() || '?'}
         </div>
         <h2 className="text-base font-semibold text-slate-900 dark:text-slate-50">{lead.name}</h2>
@@ -127,8 +127,8 @@ export default function LeadDetailProfile({
 
       {intelligence?.nextAction && (
         <div className="p-5 border-b border-slate-100 dark:border-slate-800">
-          <div className="p-3 rounded-lg bg-blue-50/80 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900">
-            <p className="text-xs font-semibold text-blue-800 dark:text-blue-300 flex items-center gap-1 mb-1">
+          <div className="p-3 rounded-lg bg-teal-50/80 dark:bg-teal-950/20 border border-teal-100 dark:border-teal-900">
+            <p className="text-xs font-semibold text-teal-800 dark:text-teal-300 flex items-center gap-1 mb-1">
               <Sparkles className="w-3.5 h-3.5" /> Suggested action
             </p>
             <p className="text-sm text-slate-700 dark:text-slate-300">{intelligence.nextAction.action || intelligence.nextAction.text}</p>

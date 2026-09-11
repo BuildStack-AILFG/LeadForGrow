@@ -58,7 +58,7 @@ export function StepIcon({ icon = 'next', tone = 'blue' }) {
 }
 
 const TONE_WRAPPER = {
-  blue:    { bg: 'bg-blue-50',    text: 'text-blue-600',    ring: 'ring-blue-200/60' },
+  blue:    { bg: 'bg-teal-50',    text: 'text-teal-600',    ring: 'ring-teal-200/60' },
   emerald: { bg: 'bg-emerald-50', text: 'text-emerald-600', ring: 'ring-emerald-200/60' },
   amber:   { bg: 'bg-amber-50',   text: 'text-amber-600',   ring: 'ring-amber-200/60' },
   violet:  { bg: 'bg-violet-50',  text: 'text-violet-600',  ring: 'ring-violet-200/60' },
@@ -166,10 +166,10 @@ export function StepVisual({ kind, data = {} }) {
       const Icon = data.icon ? (ICON_MAP[data.icon] || ChevronRight) : ChevronRight;
       return (
         <div className="mt-3 rounded-xl ring-1 ring-slate-200 bg-slate-900 p-3 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_10px_24px_-14px_rgba(15,23,42,0.35)]">
-          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-blue-500/20 border border-blue-400/40">
-            <Icon className="w-4 h-4 text-blue-300" />
+          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-teal-500/20 border border-teal-400/40">
+            <Icon className="w-4 h-4 text-teal-300" />
             <span className="text-sm font-medium text-white">{data.item}</span>
-            {data.description && <span className="ml-auto text-[10px] text-blue-200">{data.description}</span>}
+            {data.description && <span className="ml-auto text-[10px] text-teal-200">{data.description}</span>}
           </div>
         </div>
       );
@@ -187,7 +187,7 @@ export function StepVisual({ kind, data = {} }) {
               <div className="text-xs text-slate-500">Pay {data.business}</div>
               <div className="text-lg font-semibold text-slate-900 tabular-nums">₹{data.amount}</div>
             </div>
-            <div className="text-xs text-blue-600 font-mono truncate max-w-[140px]">{data.link || 'rzp.io/i/abc123'}</div>
+            <div className="text-xs text-teal-600 font-mono truncate max-w-[140px]">{data.link || 'rzp.io/i/abc123'}</div>
           </div>
         </div>
       );
@@ -202,7 +202,7 @@ export function StepVisual({ kind, data = {} }) {
                 <div className="text-[10px] uppercase tracking-wider text-slate-500">Bill</div>
                 <div className="text-lg font-semibold font-mono text-slate-900">{data.title || 'PG-2026-001'}</div>
               </div>
-              <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded bg-blue-50 text-blue-700">Sent</span>
+              <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded bg-teal-50 text-teal-700">Sent</span>
             </div>
             <div className="text-xs text-slate-500 mt-2">{data.subtitle || 'Total ₹3,400 · sent to Daksh'}</div>
           </div>

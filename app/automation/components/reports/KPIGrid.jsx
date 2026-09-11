@@ -5,7 +5,7 @@ import Sparkline from './Sparkline';
 import { buildSparkline } from './utils';
 
 const ACCENTS = {
-  blue: { bg: 'bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400', spark: '#2563eb' },
+  blue: { bg: 'bg-teal-50 text-teal-600 dark:bg-teal-950/40 dark:text-teal-400', spark: '#2563eb' },
   green: { bg: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400', spark: '#059669' },
   amber: { bg: 'bg-amber-50 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400', spark: '#d97706' },
   slate: { bg: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400', spark: '#64748b' }

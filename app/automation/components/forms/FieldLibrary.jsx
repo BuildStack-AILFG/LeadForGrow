@@ -46,8 +46,8 @@ export default function FieldLibrary({ onAddField }) {
                           onClick={() => onAddField(field)}
                           className="w-full group flex items-start gap-3 p-2.5 rounded-xl text-left bg-white/60 dark:bg-slate-800/40 hover:bg-white dark:hover:bg-slate-800 shadow-sm hover:shadow-md transition-all duration-200"
                         >
-                          <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-950/50 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
-                            <Icon className="w-4 h-4 text-blue-600" />
+                          <div className="w-8 h-8 rounded-lg bg-teal-50 dark:bg-teal-950/50 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+                            <Icon className="w-4 h-4 text-teal-600" />
                           </div>
                           <div className="min-w-0">
                             <p className="text-xs font-medium text-slate-800 dark:text-slate-200">{field.label}</p>

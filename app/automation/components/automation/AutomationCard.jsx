@@ -21,7 +21,7 @@ function Toggle({ enabled, onChange }) {
         onChange();
       }}
       className={`relative w-10 h-5 rounded-full transition-colors flex-shrink-0 ${
-        enabled ? 'bg-blue-600' : 'bg-slate-300 dark:bg-slate-600'
+        enabled ? 'bg-teal-600' : 'bg-slate-300 dark:bg-slate-600'
       }`}
     >
       <span
@@ -50,7 +50,7 @@ function AutomationCard({ rule, selected, onSelect, onToggle }) {
       }}
       className={`w-full text-left p-3.5 rounded-xl border transition-all cursor-pointer ${
         selected
-          ? 'bg-blue-50/60 dark:bg-blue-950/20 border-blue-200 dark:border-blue-900 shadow-sm'
+          ? 'bg-teal-50/60 dark:bg-teal-950/20 border-teal-200 dark:border-teal-900 shadow-sm'
           : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-sm'
       }`}
     >
@@ -58,7 +58,7 @@ function AutomationCard({ rule, selected, onSelect, onToggle }) {
         <div
           className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
             rule.enabled
-              ? 'bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400'
+              ? 'bg-teal-50 text-teal-600 dark:bg-teal-950/40 dark:text-teal-400'
               : 'bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500'
           }`}
         >

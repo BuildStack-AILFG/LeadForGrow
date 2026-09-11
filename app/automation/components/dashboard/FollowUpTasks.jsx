@@ -28,7 +28,7 @@ export default function FollowUpTasks({ tasks = [] }) {
       title="Follow-ups & Tasks"
       subtitle="Due today and upcoming"
       action={
-        <Link href="/automation/tasks" className="text-xs font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1">
+        <Link href="/automation/tasks" className="text-xs font-medium text-teal-600 hover:text-teal-700 flex items-center gap-1">
           All tasks <ArrowRight className="w-3 h-3" />
         </Link>
       }
@@ -38,7 +38,7 @@ export default function FollowUpTasks({ tasks = [] }) {
         <div className="py-8 text-center">
           <CheckSquare className="w-8 h-8 text-slate-300 dark:text-slate-600 mx-auto mb-2" />
           <p className="text-sm text-slate-500 dark:text-slate-400">No tasks due today</p>
-          <Link href="/automation/tasks" className="text-xs text-blue-600 hover:underline mt-1 inline-block">
+          <Link href="/automation/tasks" className="text-xs text-teal-600 hover:underline mt-1 inline-block">
             Create a follow-up
           </Link>
         </div>

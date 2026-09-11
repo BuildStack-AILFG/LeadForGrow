@@ -9,7 +9,7 @@ import PageLoader from '../components/PageLoader';
 
 const STATUS_META = {
   sent: { label: 'Sent', color: 'text-slate-700', bg: 'bg-slate-100', Icon: Send },
-  delivered: { label: 'Delivered', color: 'text-blue-700', bg: 'bg-blue-100', Icon: CheckCircle2 },
+  delivered: { label: 'Delivered', color: 'text-teal-700', bg: 'bg-teal-100', Icon: CheckCircle2 },
   read: { label: 'Read', color: 'text-emerald-700', bg: 'bg-emerald-100', Icon: Eye },
   failed: { label: 'Failed', color: 'text-red-700', bg: 'bg-red-100', Icon: AlertCircle },
   pending: { label: 'Pending', color: 'text-amber-700', bg: 'bg-amber-100', Icon: Loader2 },
@@ -259,7 +259,7 @@ function FailureCell({ error, failureCode, failureTitle }) {
 function StatTile({ label, value, tone = 'slate', hint }) {
   const toneMap = {
     slate: 'text-slate-900 dark:text-white',
-    blue: 'text-blue-600',
+    blue: 'text-teal-600',
     emerald: 'text-emerald-600',
     red: 'text-red-600',
   };

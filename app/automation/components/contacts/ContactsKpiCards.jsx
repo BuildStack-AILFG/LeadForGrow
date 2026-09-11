@@ -79,7 +79,7 @@ export default function ContactsKpiCards({ stats, loading }) {
       value: stats.businessContacts?.toLocaleString() || '0',
       trendLabel: 'business type',
       sparkData: stats.sparklines?.business,
-      accent: '#1A45A5',
+      accent: '#059669',
     },
     {
       label: 'Engaged',

@@ -4,7 +4,7 @@ import { Users, Building2, FileText, GitBranch, Crown, TrendingUp, ArrowUpRight 
 import { PLAN_LABELS, planBadgeClass } from '../constants';
 
 const STAT_CARDS = [
-  { key: 'users', label: 'Users', icon: Users, iconClass: 'text-blue-500' },
+  { key: 'users', label: 'Users', icon: Users, iconClass: 'text-teal-500' },
   { key: 'businesses', label: 'Businesses', icon: Building2, iconClass: 'text-emerald-500' },
   { key: 'forms', label: 'Forms', icon: FileText, iconClass: 'text-violet-500' },
   { key: 'leads', label: 'Leads', icon: TrendingUp, iconClass: 'text-amber-500' },
@@ -16,7 +16,7 @@ export default function AdminDashboard({ dashboard, onSelectModel, loading }) {
   if (loading && !dashboard) {
     return (
       <div className="flex items-center justify-center py-24">
-        <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-teal-600 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -62,7 +62,7 @@ export default function AdminDashboard({ dashboard, onSelectModel, loading }) {
                     {label}
                   </span>
                   <div className="flex-1 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                    <div className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full" style={{ width: `${pct}%` }} />
+                    <div className="h-full bg-teal-700 rounded-full" style={{ width: `${pct}%` }} />
                   </div>
                   <span className="text-xs text-slate-500 w-12 text-right">{item.count}</span>
                 </div>
@@ -74,7 +74,7 @@ export default function AdminDashboard({ dashboard, onSelectModel, loading }) {
         </div>
 
         {/* Quick actions */}
-        <div className="rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 p-5 text-white">
+        <div className="rounded-2xl bg-teal-600 p-5 text-white">
           <h3 className="text-sm font-bold mb-4">Quick access</h3>
           <div className="grid grid-cols-2 gap-2">
             {[

@@ -42,7 +42,7 @@ export default function AddMemberModal({
                 </div>
               </div>
             </div>
-            <button type="button" onClick={onClose} className="w-full py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg">
+            <button type="button" onClick={onClose} className="w-full py-2.5 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-lg">
               Done
             </button>
           </div>
@@ -105,7 +105,7 @@ export default function AddMemberModal({
               <button type="button" onClick={onClose} className="flex-1 py-2.5 text-sm font-medium text-slate-700 bg-slate-100 dark:bg-slate-800 rounded-lg">
                 Cancel
               </button>
-              <button type="submit" disabled={saving} className="flex-1 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg disabled:opacity-50">
+              <button type="submit" disabled={saving} className="flex-1 py-2.5 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-lg disabled:opacity-50">
                 {saving ? 'Adding…' : 'Add member'}
               </button>
             </div>

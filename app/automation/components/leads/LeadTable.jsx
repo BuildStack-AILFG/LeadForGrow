@@ -8,8 +8,8 @@ import LeadRow from './LeadRow';
 function SortIcon({ field, sortField, sortDir }) {
   if (sortField !== field) return <ChevronDown className="w-3 h-3 text-[#D0D5DD]" />;
   return sortDir === 'asc'
-    ? <ChevronUp className="w-3 h-3 text-[#1A45A5]" />
-    : <ChevronDown className="w-3 h-3 text-[#1A45A5]" />;
+    ? <ChevronUp className="w-3 h-3 text-[#059669]" />
+    : <ChevronDown className="w-3 h-3 text-[#059669]" />;
 }
 
 function headerAlignClass(align) {
@@ -41,8 +41,8 @@ export default function LeadTable({
           <thead className={`sticky top-0 z-10 bg-[#FAFBFC] ${TABLE_ROW_LINE}`}>
             <tr>
               <th className={`py-3.5 pl-3 pr-2 w-10 ${TABLE_COL_LINE}`}>
-                <button type="button" onClick={onToggleSelectAll} className="text-[#98A2B3] hover:text-[#1A45A5]">
-                  {allSelected ? <CheckSquare className="w-4 h-4 text-[#1A45A5]" /> : <Square className="w-4 h-4" />}
+                <button type="button" onClick={onToggleSelectAll} className="text-[#98A2B3] hover:text-[#059669]">
+                  {allSelected ? <CheckSquare className="w-4 h-4 text-[#059669]" /> : <Square className="w-4 h-4" />}
                 </button>
               </th>
               {TABLE_COLUMNS.map((col) => (
@@ -86,7 +86,7 @@ export default function LeadTable({
                     </div>
                     <Link
                       href="/automation/integrations"
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium text-white bg-[#1A45A5] hover:bg-[#163B8E] rounded-lg"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium text-white bg-[#059669] hover:bg-[#163B8E] rounded-lg"
                     >
                       <Plus className="w-4 h-4" /> Add lead source
                     </Link>

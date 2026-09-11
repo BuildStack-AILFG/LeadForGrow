@@ -13,7 +13,7 @@ function Field({ label, children }) {
 }
 
 const inputClass =
-  'w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/25 focus:border-blue-400 transition';
+  'w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/25 focus:border-teal-400 transition';
 
 // Helper to count total rows across all sections
 function getTotalRows(sections) {
@@ -198,7 +198,7 @@ export default function NodeEditor({ node, onChange, onDelete, variables = [] })
                     type="button"
                     onClick={syncTemplatesFromMeta}
                     disabled={syncingTemplates}
-                    className="text-[11px] font-medium text-blue-600 hover:text-blue-700 hover:underline disabled:opacity-50"
+                    className="text-[11px] font-medium text-teal-600 hover:text-teal-700 hover:underline disabled:opacity-50"
                   >
                     ↻ Sync templates from WhatsApp
                   </button>
@@ -253,7 +253,7 @@ export default function NodeEditor({ node, onChange, onDelete, variables = [] })
               {(data.buttons || []).length < 3 && (
                 <button
                   type="button"
-                  className="text-xs font-medium text-blue-600 hover:text-blue-700"
+                  className="text-xs font-medium text-teal-600 hover:text-teal-700"
                   onClick={() =>
                     set('buttons', [
                       ...(data.buttons || []),
@@ -321,7 +321,7 @@ export default function NodeEditor({ node, onChange, onDelete, variables = [] })
             <Field label="Sections">
               <div className="space-y-3 border border-slate-200 rounded-lg p-3 bg-slate-50">
                 {(data.sections || []).map((section, sIdx) => (
-                  <div key={sIdx} className="border-l-2 border-blue-400 pl-3 py-2 bg-white rounded px-2">
+                  <div key={sIdx} className="border-l-2 border-teal-400 pl-3 py-2 bg-white rounded px-2">
                     {/* Section Title */}
                     <div className="mb-2">
                       <label className="text-[11px] font-medium text-slate-600">Section Title</label>
@@ -434,7 +434,7 @@ export default function NodeEditor({ node, onChange, onDelete, variables = [] })
                     });
                     set('sections', newSections);
                   }}
-                  className="text-[11px] font-medium text-blue-600 hover:text-blue-700 w-full py-1"
+                  className="text-[11px] font-medium text-teal-600 hover:text-teal-700 w-full py-1"
                 >
                   + Add Section
                 </button>
@@ -458,7 +458,7 @@ export default function NodeEditor({ node, onChange, onDelete, variables = [] })
             </Field>
 
             {/* WhatsApp Preview */}
-            <div className="mt-4 p-3 bg-gradient-to-b from-emerald-50 to-emerald-50 border border-emerald-200 rounded-lg">
+            <div className="mt-4 p-3 bg-emerald-50 border border-emerald-200 rounded-lg">
               <p className="text-[10px] font-semibold text-emerald-800 mb-2">📱 WhatsApp Preview</p>
               <div className="text-[11px] space-y-2">
                 {data.header && <div className="font-medium text-slate-900">{data.header}</div>}
@@ -476,7 +476,7 @@ export default function NodeEditor({ node, onChange, onDelete, variables = [] })
                     </div>
                   ))}
                 </div>
-                <div className="text-center text-slate-600 font-medium text-[10px] bg-blue-100 py-1 rounded">
+                <div className="text-center text-slate-600 font-medium text-[10px] bg-teal-100 py-1 rounded">
                   {data.buttonText || 'View options'}
                 </div>
               </div>
@@ -594,7 +594,7 @@ export default function NodeEditor({ node, onChange, onDelete, variables = [] })
           <label className="flex items-center gap-2 text-sm text-slate-700">
             <input
               type="checkbox"
-              className="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+              className="rounded border-slate-300 text-teal-600 focus:ring-teal-500"
               checked={Boolean(data.markConverted)}
               onChange={(e) => set('markConverted', e.target.checked)}
             />
@@ -609,7 +609,7 @@ export default function NodeEditor({ node, onChange, onDelete, variables = [] })
               <button
                 key={v.key}
                 type="button"
-                className="text-[10px] px-2 py-1 rounded-lg bg-slate-50 text-emerald-700 border border-slate-200 hover:border-blue-300 hover:bg-blue-50 transition-colors"
+                className="text-[10px] px-2 py-1 rounded-lg bg-slate-50 text-emerald-700 border border-slate-200 hover:border-teal-300 hover:bg-teal-50 transition-colors"
                 onClick={() => insertVar(v.key)}
               >
                 {`{{${v.key}}}`}

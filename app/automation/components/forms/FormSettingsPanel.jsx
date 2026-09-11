@@ -13,8 +13,8 @@ export default function FormSettingsPanel({ field, fieldIndex, onChange, mobile 
           animate={{ opacity: 1, y: 0 }}
           className="text-center max-w-[220px]"
         >
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/40 dark:to-indigo-950/40 flex items-center justify-center mx-auto mb-5">
-            <MousePointerClick className="w-7 h-7 text-blue-600" />
+          <div className="w-16 h-16 rounded-2xl bg-teal-50 dark:from-teal-950/40 dark:to-indigo-950/40 flex items-center justify-center mx-auto mb-5">
+            <MousePointerClick className="w-7 h-7 text-teal-600" />
           </div>
           <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-200">Select a field</h3>
           <p className="text-xs text-slate-500 mt-2 leading-relaxed">Click any field on the canvas to customize its label, validation, and appearance.</p>
@@ -42,7 +42,7 @@ export default function FormSettingsPanel({ field, fieldIndex, onChange, mobile 
         className={mobile ? 'flex flex-col' : 'hidden xl:flex w-72 flex-shrink-0 flex-col'}
       >
         <div className="mb-4">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-blue-600">{field.type}</p>
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-teal-600">{field.type}</p>
           <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50 mt-0.5">Field settings</h3>
         </div>
 
@@ -59,7 +59,7 @@ export default function FormSettingsPanel({ field, fieldIndex, onChange, mobile 
 
           <label className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl cursor-pointer">
             <span className="text-xs font-medium text-slate-700 dark:text-slate-300">Required field</span>
-            <div className={`relative w-9 h-5 rounded-full transition-colors ${field.required ? 'bg-blue-600' : 'bg-slate-300 dark:bg-slate-600'}`}>
+            <div className={`relative w-9 h-5 rounded-full transition-colors ${field.required ? 'bg-teal-600' : 'bg-slate-300 dark:bg-slate-600'}`}>
               <input type="checkbox" checked={!!field.required} onChange={(e) => update('required', e.target.checked)} className="sr-only" />
               <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${field.required ? 'translate-x-4' : 'translate-x-0.5'}`} onClick={() => update('required', !field.required)} />
             </div>
@@ -84,7 +84,7 @@ export default function FormSettingsPanel({ field, fieldIndex, onChange, mobile 
                   type="button"
                   onClick={() => update('width', w)}
                   className={`flex-1 py-2 text-xs font-medium rounded-lg transition-colors ${
-                    (field.width || 'full') === w ? 'bg-blue-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600'
+                    (field.width || 'full') === w ? 'bg-teal-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600'
                   }`}
                 >
                   {w === 'full' ? 'Full' : 'Half'}
@@ -107,7 +107,7 @@ export default function FormSettingsPanel({ field, fieldIndex, onChange, mobile 
   );
 }
 
-const inputClass = 'w-full px-3 py-2.5 text-sm bg-slate-50 dark:bg-slate-800/80 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/25';
+const inputClass = 'w-full px-3 py-2.5 text-sm bg-slate-50 dark:bg-slate-800/80 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/25';
 
 function SettingField({ label, children }) {
   return (

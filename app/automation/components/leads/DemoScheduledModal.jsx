@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 
 const inputCls =
-  'w-full px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500';
+  'w-full px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-500/40 focus:border-teal-500';
 
 const PLATFORMS = [
   { value: 'google_meet', label: 'Google Meet' },
@@ -93,7 +93,7 @@ export default function DemoScheduledModal({ open, leadName, entityName, onConfi
           )}
           <div className="flex gap-2 pt-2">
             <button type="button" onClick={onCancel} disabled={saving} className="flex-1 py-2 text-sm font-medium rounded-lg border border-slate-200 dark:border-slate-700">Cancel</button>
-            <button type="submit" disabled={saving} className="flex-1 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50">
+            <button type="submit" disabled={saving} className="flex-1 py-2 text-sm font-medium rounded-lg bg-teal-600 text-white hover:bg-teal-700 disabled:opacity-50">
               {saving ? 'Saving…' : 'Schedule & notify'}
             </button>
           </div>

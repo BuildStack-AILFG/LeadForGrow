@@ -80,7 +80,7 @@ export default function SimpleLineChart({
       {secondaryKey && (
         <div className="flex items-center gap-4 mt-2 text-[11px]">
           <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
-            <span className="w-3 h-0.5 rounded bg-blue-600" /> Leads
+            <span className="w-3 h-0.5 rounded bg-teal-600" /> Leads
           </span>
           <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
             <span className="w-3 h-0.5 rounded bg-emerald-500" /> Conversions

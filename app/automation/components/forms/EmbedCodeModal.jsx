@@ -48,7 +48,7 @@ export default function EmbedCodeModal({ form, onClose }) {
               type="button"
               onClick={() => setTab(t.id)}
               className={`px-3 py-2 text-xs font-medium rounded-t-lg transition-colors ${
-                tab === t.id ? 'text-blue-600 border-b-2 border-blue-600' : 'text-slate-500 hover:text-slate-700'
+                tab === t.id ? 'text-teal-600 border-b-2 border-teal-600' : 'text-slate-500 hover:text-slate-700'
               }`}
             >
               {t.label}
@@ -79,16 +79,16 @@ export default function EmbedCodeModal({ form, onClose }) {
           )}
           {tab === 'api' && <APIDocumentation form={form} baseUrl={baseUrl} />}
           {tab === 'hosted' && (
-            <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900 rounded-xl p-4">
+            <div className="bg-teal-50 dark:bg-teal-950/30 border border-teal-100 dark:border-teal-900 rounded-xl p-4">
               <div className="flex items-start gap-3">
-                <Globe className="w-5 h-5 text-blue-600 mt-0.5" />
+                <Globe className="w-5 h-5 text-teal-600 mt-0.5" />
                 <div className="flex-1">
                   <p className="text-sm font-medium text-slate-900 dark:text-slate-100">Public form URL</p>
                   <p className="text-xs text-slate-500 mt-1 mb-3">Share in ads, WhatsApp, or email — no website needed.</p>
                   <div className="flex gap-2">
                     <code className="flex-1 text-xs bg-white dark:bg-slate-900 p-2 rounded-lg border break-all">{snippets.hostedLink}</code>
-                    <button type="button" onClick={() => copy(snippets.hostedLink)} className="p-2 text-blue-600"><Copy className="w-4 h-4" /></button>
-                    <a href={snippets.hostedLink} target="_blank" rel="noopener noreferrer" className="p-2 text-blue-600"><ExternalLink className="w-4 h-4" /></a>
+                    <button type="button" onClick={() => copy(snippets.hostedLink)} className="p-2 text-teal-600"><Copy className="w-4 h-4" /></button>
+                    <a href={snippets.hostedLink} target="_blank" rel="noopener noreferrer" className="p-2 text-teal-600"><ExternalLink className="w-4 h-4" /></a>
                   </div>
                 </div>
               </div>
@@ -105,7 +105,7 @@ function CodeBlock({ label, code, onCopy }) {
     <div>
       <div className="flex items-center justify-between mb-2">
         <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">{label}</span>
-        <button type="button" onClick={onCopy} className="flex items-center gap-1 text-xs text-blue-600 font-medium">
+        <button type="button" onClick={onCopy} className="flex items-center gap-1 text-xs text-teal-600 font-medium">
           <Copy className="w-3.5 h-3.5" /> Copy
         </button>
       </div>

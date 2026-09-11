@@ -11,7 +11,7 @@ export default function MobileLeadCard({ lead, selected, onSelect, onOpen }) {
   return (
     <div
       className={`p-4 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm active:scale-[0.99] transition-transform ${
-        selected ? 'ring-2 ring-blue-500/30' : ''
+        selected ? 'ring-2 ring-teal-500/30' : ''
       } ${!rowBg ? 'bg-white dark:bg-slate-900' : ''}`}
       style={rowBg}
       onClick={() => onOpen(lead._id)}

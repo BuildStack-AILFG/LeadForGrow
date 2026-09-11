@@ -30,12 +30,12 @@ const CATEGORY_META = {
   'settings':      { Icon: SlidersHorizontal,  tone: 'slate' },
 };
 const TONE_TEXT = {
-  blue: 'text-blue-600', indigo: 'text-indigo-600', emerald: 'text-emerald-600',
+  blue: 'text-teal-600', indigo: 'text-indigo-600', emerald: 'text-emerald-600',
   amber: 'text-amber-600', violet: 'text-violet-600', purple: 'text-purple-600',
   cyan: 'text-cyan-600', slate: 'text-slate-600',
 };
 const TONE_BG_SOFT = {
-  blue: 'bg-blue-50', indigo: 'bg-indigo-50', emerald: 'bg-emerald-50',
+  blue: 'bg-teal-50', indigo: 'bg-indigo-50', emerald: 'bg-emerald-50',
   amber: 'bg-amber-50', violet: 'bg-violet-50', purple: 'bg-purple-50',
   cyan: 'bg-cyan-50', slate: 'bg-slate-100',
 };
@@ -213,13 +213,13 @@ export default async function GuidePage({ params }) {
                     <Link
                       key={rslug}
                       href={`/help/${rslug}`}
-                      className="group flex items-center justify-between p-4 rounded-xl border border-slate-200 hover:border-blue-300 hover:shadow-sm transition"
+                      className="group flex items-center justify-between p-4 rounded-xl border border-slate-200 hover:border-teal-300 hover:shadow-sm transition"
                     >
                       <div className="min-w-0 pr-3">
                         <p className="font-medium text-slate-900 text-sm truncate">{g.title}</p>
                         <p className="text-xs text-slate-500 mt-0.5 truncate">{g.summary}</p>
                       </div>
-                      <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-blue-500 group-hover:translate-x-0.5 shrink-0 transition" />
+                      <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-teal-500 group-hover:translate-x-0.5 shrink-0 transition" />
                     </Link>
                   );
                 })}

@@ -15,7 +15,7 @@ export default function WorkspaceSwitcher({ compact = false }) {
         onClick={() => setOpen(!open)}
         className={`flex items-center gap-2 w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors ${compact ? 'p-2' : 'p-3'}`}
       >
-        <div className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-950/50 text-blue-700 dark:text-blue-400 flex items-center justify-center flex-shrink-0">
+        <div className="w-8 h-8 rounded-lg bg-teal-100 dark:bg-teal-950/50 text-teal-700 dark:text-teal-400 flex items-center justify-center flex-shrink-0">
           <Building2 className="w-4 h-4" />
         </div>
         {!compact && (
@@ -36,7 +36,7 @@ export default function WorkspaceSwitcher({ compact = false }) {
                 key={ws.id}
                 type="button"
                 onClick={() => { switchWorkspace(ws.id); setOpen(false); }}
-                className={`w-full text-left px-3 py-2 text-xs hover:bg-slate-50 dark:hover:bg-slate-800 ${ws.id === workspace.id ? 'text-blue-600 font-medium' : 'text-slate-700 dark:text-slate-300'}`}
+                className={`w-full text-left px-3 py-2 text-xs hover:bg-slate-50 dark:hover:bg-slate-800 ${ws.id === workspace.id ? 'text-teal-600 font-medium' : 'text-slate-700 dark:text-slate-300'}`}
               >
                 {ws.name}
                 <span className="text-slate-400 ml-1">· {ws.plan}</span>

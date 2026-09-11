@@ -30,7 +30,7 @@ export default function SettingsSidebar({ mobileOpen, onMobileClose }) {
             placeholder="Search settings…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-8 pr-8 py-2 text-xs border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+            className="w-full pl-8 pr-8 py-2 text-xs border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
           />
           {search && (
             <button type="button" onClick={() => setSearch('')} className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400">
@@ -55,7 +55,7 @@ export default function SettingsSidebar({ mobileOpen, onMobileClose }) {
                   href={href}
                   onClick={onMobileClose}
                   className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs transition-colors ${
-                    active ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-400 font-medium' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                    active ? 'bg-teal-50 text-teal-700 dark:bg-teal-950/40 dark:text-teal-400 font-medium' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
                   }`}
                 >
                   <Icon className="w-3.5 h-3.5 flex-shrink-0" />
@@ -91,7 +91,7 @@ export default function SettingsSidebar({ mobileOpen, onMobileClose }) {
                           onClick={onMobileClose}
                           className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs transition-colors ${
                             active
-                              ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-400 font-medium border-l-2 border-blue-600 -ml-px pl-[11px]'
+                              ? 'bg-teal-50 text-teal-700 dark:bg-teal-950/40 dark:text-teal-400 font-medium border-l-2 border-teal-600 -ml-px pl-[11px]'
                               : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
                           }`}
                         >

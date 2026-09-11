@@ -45,7 +45,7 @@ export default function HelpHint({ text, title, placement = 'top', size = 'sm', 
         onKeyDown={(e) => {
           if (e.key === 'Escape') setOpen(false);
         }}
-        className="inline-flex items-center justify-center rounded-full text-slate-400 hover:text-blue-600 dark:text-slate-500 dark:hover:text-blue-400 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-1"
+        className="inline-flex items-center justify-center rounded-full text-slate-400 hover:text-teal-600 dark:text-slate-500 dark:hover:text-teal-400 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/50 focus-visible:ring-offset-1"
       >
         <Info className={iconSize} strokeWidth={2} />
       </button>

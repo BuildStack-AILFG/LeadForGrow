@@ -198,7 +198,7 @@ export default function SequenceWorkflowSettings({ draftMeta, setDraftMeta, sequ
           <button
             type="button"
             onClick={enableAbTest}
-            className="text-xs font-medium text-blue-600 hover:underline"
+            className="text-xs font-medium text-teal-600 hover:underline"
           >
             {abTest.enabled ? 'Disable' : 'Enable'}
           </button>

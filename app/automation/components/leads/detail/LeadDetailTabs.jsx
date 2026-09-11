@@ -58,7 +58,7 @@ export function LeadNotesTab({ notes = [], onAdd, updating }) {
         <button
           type="submit"
           disabled={updating || !text.trim()}
-          className="px-3 py-2 text-sm font-medium bg-blue-600 text-white rounded-lg disabled:opacity-50"
+          className="px-3 py-2 text-sm font-medium bg-teal-600 text-white rounded-lg disabled:opacity-50"
         >
           <Send className="w-4 h-4" />
         </button>
@@ -106,7 +106,7 @@ export function LeadTasksTab({ tasks = [], teamMembers, onCreate, onComplete }) 
         <button
           type="button"
           onClick={() => setShowForm(!showForm)}
-          className="text-xs font-medium text-blue-600 hover:underline"
+          className="text-xs font-medium text-teal-600 hover:underline"
         >
           {showForm ? 'Cancel' : '+ Schedule follow-up'}
         </button>
@@ -138,7 +138,7 @@ export function LeadTasksTab({ tasks = [], teamMembers, onCreate, onComplete }) 
               className="text-sm px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900"
             />
           </div>
-          <button type="submit" className="w-full py-2 text-sm font-medium bg-blue-600 text-white rounded-lg">
+          <button type="submit" className="w-full py-2 text-sm font-medium bg-teal-600 text-white rounded-lg">
             Create task
           </button>
         </form>

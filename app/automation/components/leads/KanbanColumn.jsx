@@ -9,7 +9,7 @@ export default function KanbanColumn({ id, title, count, children, color = '#94a
     <div
       ref={setNodeRef}
       className={`flex-shrink-0 w-72 flex flex-col rounded-xl border ${
-        isOver ? 'border-blue-400 bg-blue-50/30 dark:bg-blue-950/20' : 'border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50'
+        isOver ? 'border-teal-400 bg-teal-50/30 dark:bg-teal-950/20' : 'border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50'
       }`}
     >
       <div className="px-3 py-3 border-b border-slate-200 dark:border-slate-800 flex items-center gap-2">

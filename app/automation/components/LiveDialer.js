@@ -248,7 +248,7 @@ export default function LiveDialer({ callData, onHangup }) {
                     <button
                         onClick={handleEndCall}
                         disabled={savingNotes}
-                        className="flex-[1.5] flex items-center justify-center gap-2 py-4 bg-rose-600 text-white rounded-[18px] hover:bg-rose-700 transition-all shadow-lg shadow-rose-100 font-black text-xs uppercase tracking-widest disabled:opacity-50"
+                        className="flex-[1.5] flex items-center justify-center gap-2 py-4 bg-rose-600 text-white rounded-[18px] hover:bg-rose-700 transition-all shadow-sm font-black text-xs uppercase tracking-widest disabled:opacity-50"
                     >
                         <PhoneOff className="w-4 h-4" />
                         {savingNotes ? 'Saving...' : 'End Call'}

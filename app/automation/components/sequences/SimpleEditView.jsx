@@ -30,7 +30,7 @@ export default function SimpleEditView({
     return (
       <div className="max-w-3xl mx-auto py-10 px-4">
         <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-8 text-center">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-950/40 text-blue-600 mb-3">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-teal-50 dark:bg-teal-950/40 text-teal-600 mb-3">
             <GitBranch className="w-6 h-6" />
           </div>
           <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-1">
@@ -44,7 +44,7 @@ export default function SimpleEditView({
           <button
             type="button"
             onClick={onSwitchToBuilder}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-teal-600 text-white text-sm font-semibold hover:bg-teal-700"
           >
             <Layers className="w-4 h-4" /> Open Builder
           </button>
@@ -111,11 +111,11 @@ export default function SimpleEditView({
 
   return (
     <div className="max-w-3xl mx-auto py-6 px-4">
-      <div className="mb-4 flex items-start gap-3 rounded-xl bg-blue-50 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900/40 p-3">
-        <Info className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
-        <div className="text-xs text-blue-900 dark:text-blue-200">
+      <div className="mb-4 flex items-start gap-3 rounded-xl bg-teal-50 dark:bg-teal-950/30 border border-teal-100 dark:border-teal-900/40 p-3">
+        <Info className="w-4 h-4 text-teal-600 dark:text-teal-400 shrink-0 mt-0.5" />
+        <div className="text-xs text-teal-900 dark:text-teal-200">
           <p className="font-semibold">Simple edit — no canvas needed.</p>
-          <p className="mt-0.5 text-blue-800/80 dark:text-blue-300/80">
+          <p className="mt-0.5 text-teal-800/80 dark:text-teal-300/80">
             Trigger: <strong>{triggerLabel}</strong> · {steps.length} {steps.length === 1 ? 'message' : 'messages'} · edits save
             with <em>Save draft</em> at the top.
           </p>
@@ -149,7 +149,7 @@ export default function SimpleEditView({
         <button
           type="button"
           onClick={() => handleAddStep(steps.length - 1)}
-          className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 text-slate-500 hover:text-blue-600 hover:border-blue-400 text-sm font-medium transition-colors"
+          className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 text-slate-500 hover:text-teal-600 hover:border-teal-400 text-sm font-medium transition-colors"
         >
           <Plus className="w-4 h-4" /> Add another step
         </button>
@@ -173,7 +173,7 @@ function StepCard({
   return (
     <li className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
       <div className="px-4 py-2.5 flex items-center gap-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
-        <span className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 flex items-center justify-center text-[11px] font-semibold shrink-0">
+        <span className="w-6 h-6 rounded-full bg-teal-100 dark:bg-teal-950/40 text-teal-700 dark:text-teal-300 flex items-center justify-center text-[11px] font-semibold shrink-0">
           {index + 1}
         </span>
         <div className="flex items-center gap-1.5 text-[11px] font-medium text-slate-500 uppercase tracking-wide">
@@ -274,7 +274,7 @@ function StepCard({
         <button
           type="button"
           onClick={onInsertAfter}
-          className="inline-flex items-center gap-1 text-[11px] text-slate-500 hover:text-blue-600 font-medium"
+          className="inline-flex items-center gap-1 text-[11px] text-slate-500 hover:text-teal-600 font-medium"
         >
           <Plus className="w-3 h-3" /> Insert step below
         </button>
@@ -302,7 +302,7 @@ function BranchingBadges({ data }) {
         </span>
       )}
       {exitOnAnyReply && !pauseOnReply && (
-        <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-blue-100 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 font-medium">
+        <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-teal-100 dark:bg-teal-950/40 text-teal-700 dark:text-teal-300 font-medium">
           ✓ Exits on any reply
         </span>
       )}

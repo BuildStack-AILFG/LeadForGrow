@@ -19,7 +19,7 @@ export default function TaskStatCards({ counts, activeFilter, onFilterChange }) 
           type="button"
           onClick={() => onFilterChange(card.id)}
           className={`text-left rounded-xl transition-all ${
-            activeFilter === card.id ? 'ring-2 ring-blue-500/40 ring-offset-2 ring-offset-[#f8f9fc] dark:ring-offset-slate-950' : ''
+            activeFilter === card.id ? 'ring-2 ring-teal-500/40 ring-offset-2 ring-offset-[#f8f9fc] dark:ring-offset-slate-950' : ''
           }`}
         >
           <StatCard label={card.label} value={card.value} icon={card.icon} accent={card.accent} />

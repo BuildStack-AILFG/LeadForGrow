@@ -3,19 +3,30 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #F8FAFC;
+  /* App shell — light neutral canvas + white working surfaces, Interakt-style
+     (subtle grey-blue background, not pure white everywhere). */
+  --background: #F5F6F8;
   --foreground: #111827;
-  --primary: #2563EB;
+  /* Brand primary — deep teal-green, replacing the old indigo/blue as the
+     single consistent action color across the app. #1D4B3E / #F0F9F5 are
+     scraped from app.interakt.ai's own computed CSS (see Sidebar.jsx) —
+     kept in sync here so the token and the sidebar match exactly. Tailwind's
+     teal-* scale (very close in hue/luminosity) is used for everything else
+     rather than hardcoding this hex everywhere. */
+  --primary: #1D4B3E;
+  --primary-hover: #163A30;
+  --primary-soft: #F0F9F5;
+  --primary-soft-border: #99F6E4;
   --primary-dark: #0F172A;
   --success: #10B981;
   --warning: #F59E0B;
   --danger: #EF4444;
   --card: #FFFFFF;
-  --card-border: #E2E8F0;
+  --card-border: #E5E7EB;
   --text-main: #111827;
   --text-secondary: #64748B;
   --text-muted: #94A3B8;
-  --radius-card: 8px;
+  --radius-card: 10px;
   --font-inter-tight: 'Inter Tight', 'Inter', system-ui, sans-serif;
   --font-plus-jakarta: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
   --font-barlow: 'Barlow', 'Inter', system-ui, sans-serif;
@@ -29,6 +40,8 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-soft: var(--primary-soft);
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-danger: var(--danger);

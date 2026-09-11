@@ -8,7 +8,7 @@ import { memberName } from '../team/constants';
 
 const ROLE_COLORS = {
   owner: 'bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400',
-  admin: 'bg-blue-50 text-blue-700 dark:bg-blue-950/30 dark:text-blue-400',
+  admin: 'bg-teal-50 text-teal-700 dark:bg-teal-950/30 dark:text-teal-400',
   team_member: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400',
   manager: 'bg-violet-50 text-violet-700 dark:bg-violet-950/30 dark:text-violet-400',
   agent: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400',
@@ -59,7 +59,7 @@ export default function TeamSettingsPanel({
         title="Team members"
         description={`${roleStats.total} of ${roleStats.limit} seats used`}
         footer={
-          <button type="button" onClick={onAdd} className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-600 hover:text-blue-700">
+          <button type="button" onClick={onAdd} className="inline-flex items-center gap-1.5 text-xs font-medium text-teal-600 hover:text-teal-700">
             <UserPlus className="w-3.5 h-3.5" /> Add team member
           </button>
         }
@@ -69,7 +69,7 @@ export default function TeamSettingsPanel({
         ) : members.length === 0 ? (
           <div className="py-8 text-center">
             <p className="text-sm text-slate-600 dark:text-slate-400">No team members yet.</p>
-            <button type="button" onClick={onAdd} className="mt-3 text-xs font-medium text-blue-600 hover:text-blue-700">
+            <button type="button" onClick={onAdd} className="mt-3 text-xs font-medium text-teal-600 hover:text-teal-700">
               Add your first team member
             </button>
           </div>
@@ -82,7 +82,7 @@ export default function TeamSettingsPanel({
 
               return (
                 <div key={member._id} className="flex items-center gap-3 py-3 border-b border-slate-100 dark:border-slate-800 last:border-0 group">
-                  <div className="w-9 h-9 rounded-lg bg-blue-100 dark:bg-blue-950/50 text-blue-700 dark:text-blue-400 flex items-center justify-center text-xs font-bold">
+                  <div className="w-9 h-9 rounded-lg bg-teal-100 dark:bg-teal-950/50 text-teal-700 dark:text-teal-400 flex items-center justify-center text-xs font-bold">
                     {name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase()}
                   </div>
                   <div className="flex-1 min-w-0">

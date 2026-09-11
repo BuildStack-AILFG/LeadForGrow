@@ -26,8 +26,8 @@ export default function CRMFilterBar({
             type="button"
             onClick={() => onFilterChange({ view: view.id, status: 'all' })}
             className={`px-3 py-1.5 text-xs font-medium rounded-lg whitespace-nowrap transition-colors ${filters.view === view.id
-                ? 'bg-blue-600 text-white shadow-sm'
-                : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-blue-300'
+                ? 'bg-teal-600 text-white shadow-sm'
+                : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-teal-300'
               }`}
           >
             {view.label}
@@ -139,7 +139,7 @@ export default function CRMFilterBar({
             <button
               type="button"
               onClick={() => onFilterChange({ dateFrom: '', dateTo: '' })}
-              className="text-xs text-blue-600 hover:underline"
+              className="text-xs text-teal-600 hover:underline"
             >
               Clear dates
             </button>

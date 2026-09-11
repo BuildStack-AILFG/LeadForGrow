@@ -20,21 +20,21 @@ export default function FormCreationWizard({ step, draft, onChange, onNext, onBa
           {[1, 2].map((s) => (
             <div key={s} className="flex items-center gap-2">
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-all ${
-                step >= s ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25' : 'bg-slate-200 dark:bg-slate-700 text-slate-500'
+                step >= s ? 'bg-teal-600 text-white shadow-sm' : 'bg-slate-200 dark:bg-slate-700 text-slate-500'
               }`}>
                 {s}
               </div>
-              {s < 2 && <div className={`w-12 h-0.5 rounded ${step > s ? 'bg-blue-600' : 'bg-slate-200 dark:bg-slate-700'}`} />}
+              {s < 2 && <div className={`w-12 h-0.5 rounded ${step > s ? 'bg-teal-600' : 'bg-slate-200 dark:bg-slate-700'}`} />}
             </div>
           ))}
         </div>
 
         <AnimatePresence mode="wait">
           {step === 1 && (
-            <motion.div key="step1" {...slide} className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-none p-8 sm:p-10">
+            <motion.div key="step1" {...slide} className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm dark:shadow-none p-8 sm:p-10">
               <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/50 mb-4">
-                  <Sparkles className="w-6 h-6 text-blue-600" />
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-teal-50 dark:bg-teal-950/50 mb-4">
+                  <Sparkles className="w-6 h-6 text-teal-600" />
                 </div>
                 <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-50 tracking-tight">Form basics</h1>
                 <p className="text-sm text-slate-500 mt-2 max-w-sm mx-auto">Tell us about your form. You can change everything later.</p>
@@ -68,7 +68,7 @@ export default function FormCreationWizard({ step, draft, onChange, onNext, onBa
                         onClick={() => onChange({ formType: ft.id })}
                         className={`px-3 py-2.5 text-xs font-medium rounded-xl transition-all ${
                           draft.formType === ft.id
-                            ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
+                            ? 'bg-teal-600 text-white shadow-sm'
                             : 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700'
                         }`}
                       >
@@ -112,14 +112,14 @@ export default function FormCreationWizard({ step, draft, onChange, onNext, onBa
                       type="button"
                       onClick={() => onChange({ templateId: tpl.id, templateFields: tpl.fields, formType: tpl.formType })}
                       className={`group text-left rounded-2xl overflow-hidden transition-all duration-200 ${
-                        selected ? 'ring-2 ring-blue-500 ring-offset-2 dark:ring-offset-slate-950 scale-[1.02]' : 'hover:scale-[1.01] hover:shadow-lg'
+                        selected ? 'ring-2 ring-teal-500 ring-offset-2 dark:ring-offset-slate-950 scale-[1.02]' : 'hover:scale-[1.01] hover:shadow-lg'
                       }`}
                     >
                       <div className={`h-24 bg-gradient-to-br ${tpl.gradient} flex items-center justify-center relative`}>
                         <Icon className="w-10 h-10 text-white/90" />
                         {selected && (
                           <div className="absolute top-3 right-3 w-5 h-5 bg-white rounded-full flex items-center justify-center">
-                            <div className="w-2.5 h-2.5 bg-blue-600 rounded-full" />
+                            <div className="w-2.5 h-2.5 bg-teal-600 rounded-full" />
                           </div>
                         )}
                       </div>
@@ -151,7 +151,7 @@ function WizardActions({ onCancel, onBack, onNext, nextLabel, nextDisabled }) {
         type="button"
         onClick={onNext}
         disabled={nextDisabled}
-        className="inline-flex items-center gap-1.5 px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-lg shadow-blue-600/20 disabled:opacity-40 disabled:shadow-none transition-all"
+        className="inline-flex items-center gap-1.5 px-5 py-2.5 text-sm font-semibold text-white bg-teal-600 hover:bg-teal-700 rounded-xl shadow-sm disabled:opacity-40 disabled:shadow-none transition-all"
       >
         {nextLabel} <ArrowRight className="w-4 h-4" />
       </button>
@@ -159,7 +159,7 @@ function WizardActions({ onCancel, onBack, onNext, nextLabel, nextDisabled }) {
   );
 }
 
-const inputClass = 'w-full px-4 py-3 text-sm bg-slate-50 dark:bg-slate-800/80 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/30 text-slate-900 dark:text-slate-100 placeholder:text-slate-400';
+const inputClass = 'w-full px-4 py-3 text-sm bg-slate-50 dark:bg-slate-800/80 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/30 text-slate-900 dark:text-slate-100 placeholder:text-slate-400';
 
 function Field({ label, children }) {
   return (

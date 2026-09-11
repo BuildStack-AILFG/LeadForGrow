@@ -43,7 +43,7 @@ export default function PublishPanel({ form, styling, onStylingChange, onPublish
           type="button"
           onClick={() => onPublish(!isPublished)}
           className={`px-4 py-2 text-xs font-semibold rounded-xl transition-colors ${
-            isPublished ? 'bg-white dark:bg-slate-800 text-slate-700 shadow-sm' : 'bg-blue-600 text-white shadow-lg shadow-blue-600/20'
+            isPublished ? 'bg-white dark:bg-slate-800 text-slate-700 shadow-sm' : 'bg-teal-600 text-white shadow-lg shadow-teal-600/20'
           }`}
         >
           {isPublished ? 'Unpublish' : 'Publish now'}
@@ -72,8 +72,8 @@ export default function PublishPanel({ form, styling, onStylingChange, onPublish
           <p className="text-xs text-slate-500">Share in ads, WhatsApp, or email — no website needed.</p>
           <div className="flex gap-2">
             <code className="flex-1 text-xs bg-slate-50 dark:bg-slate-800 p-3 rounded-xl break-all">{snippets.hostedLink}</code>
-            <button type="button" onClick={() => copy(snippets.hostedLink)} className="p-3 text-blue-600 hover:bg-blue-50 rounded-xl"><Copy className="w-4 h-4" /></button>
-            <a href={snippets.hostedLink} target="_blank" rel="noopener noreferrer" className="p-3 text-blue-600 hover:bg-blue-50 rounded-xl"><ExternalLink className="w-4 h-4" /></a>
+            <button type="button" onClick={() => copy(snippets.hostedLink)} className="p-3 text-teal-600 hover:bg-teal-50 rounded-xl"><Copy className="w-4 h-4" /></button>
+            <a href={snippets.hostedLink} target="_blank" rel="noopener noreferrer" className="p-3 text-teal-600 hover:bg-teal-50 rounded-xl"><ExternalLink className="w-4 h-4" /></a>
           </div>
         </div>
       )}
@@ -109,7 +109,7 @@ export default function PublishPanel({ form, styling, onStylingChange, onPublish
                   ...styling,
                   automation: { ...styling.automation, [item.key]: e.target.checked },
                 })}
-                className="mt-0.5 rounded text-blue-600"
+                className="mt-0.5 rounded text-teal-600"
               />
               <div>
                 <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{item.label}</p>
@@ -128,7 +128,7 @@ function CodeBlock({ label, code, onCopy }) {
     <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 shadow-sm">
       <div className="flex items-center justify-between mb-3">
         <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{label}</span>
-        <button type="button" onClick={onCopy} className="flex items-center gap-1 text-xs text-blue-600 font-medium">
+        <button type="button" onClick={onCopy} className="flex items-center gap-1 text-xs text-teal-600 font-medium">
           <Copy className="w-3.5 h-3.5" /> Copy
         </button>
       </div>

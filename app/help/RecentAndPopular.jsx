@@ -43,7 +43,7 @@ function Chip({ title, Icon, guides }) {
           <li key={g.slug}>
             <Link
               href={`/help/${g.slug}`}
-              className="block text-sm text-slate-700 hover:text-blue-600 py-1 truncate"
+              className="block text-sm text-slate-700 hover:text-teal-600 py-1 truncate"
             >
               {g.title}
             </Link>

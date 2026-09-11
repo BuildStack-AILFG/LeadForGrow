@@ -274,9 +274,9 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
               >
                 <defs>
                   <linearGradient id="revenueGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#1A45A5" stopOpacity="0.2" />
-                    <stop offset="55%" stopColor="#1A45A5" stopOpacity="0.06" />
-                    <stop offset="100%" stopColor="#1A45A5" stopOpacity="0" />
+                    <stop offset="0%" stopColor="#059669" stopOpacity="0.2" />
+                    <stop offset="55%" stopColor="#059669" stopOpacity="0.06" />
+                    <stop offset="100%" stopColor="#059669" stopOpacity="0" />
                   </linearGradient>
                 </defs>
 
@@ -323,7 +323,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
                   <path
                     d={chart.lineD}
                     fill="none"
-                    stroke="#1A45A5"
+                    stroke="#059669"
                     strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -339,7 +339,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
                       x2={hovered.x}
                       y1={PAD.top}
                       y2={100 - PAD.bottom}
-                      stroke="#1A45A5"
+                      stroke="#059669"
                       strokeWidth="1"
                       strokeDasharray="3 3"
                       opacity="0.4"
@@ -349,7 +349,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
                       cx={hovered.x}
                       cy={hovered.y}
                       r="4"
-                      fill="#1A45A5"
+                      fill="#059669"
                       opacity="0.12"
                       vectorEffect="non-scaling-stroke"
                     />
@@ -357,7 +357,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
                       cx={hovered.x}
                       cy={hovered.y}
                       r="2"
-                      fill="#1A45A5"
+                      fill="#059669"
                       stroke="white"
                       strokeWidth="1.5"
                       vectorEffect="non-scaling-stroke"

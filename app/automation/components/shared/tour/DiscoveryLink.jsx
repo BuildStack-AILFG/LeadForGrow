@@ -19,13 +19,13 @@ export default function DiscoveryLink({ text, cta, href, onClickOverride }) {
   return (
     <Tag
       {...extraProps}
-      className="group w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-dashed border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-800 hover:bg-blue-50/40 dark:hover:bg-blue-950/10 transition-colors text-left"
+      className="group w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-dashed border-slate-200 dark:border-slate-700 hover:border-teal-300 dark:hover:border-teal-800 hover:bg-teal-50/40 dark:hover:bg-teal-950/10 transition-colors text-left"
     >
       <span className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
         <Compass className="w-4 h-4 text-slate-400 shrink-0" />
         {text}
       </span>
-      <span className="inline-flex items-center gap-1 text-sm font-semibold text-blue-600 dark:text-blue-400 shrink-0 group-hover:translate-x-0.5 transition-transform">
+      <span className="inline-flex items-center gap-1 text-sm font-semibold text-teal-600 dark:text-teal-400 shrink-0 group-hover:translate-x-0.5 transition-transform">
         {cta} <ArrowRight className="w-3.5 h-3.5" />
       </span>
     </Tag>

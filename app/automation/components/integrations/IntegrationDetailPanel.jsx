@@ -113,7 +113,7 @@ export default function IntegrationDetailPanel({
               type="button"
               onClick={() => onConnect?.(integration.id)}
               disabled={connecting}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-lg disabled:opacity-50"
             >
               <Plug className="w-4 h-4" /> Connect with {integration.oauthProvider || 'OAuth'}
             </button>
@@ -132,7 +132,7 @@ export default function IntegrationDetailPanel({
                     type="checkbox"
                     checked={integration.config?.syncEnabled !== false}
                     onChange={(e) => onUpdateConfig?.(integration.id, { config: { syncEnabled: e.target.checked } })}
-                    className="rounded border-slate-300 text-blue-600"
+                    className="rounded border-slate-300 text-teal-600"
                   />
                 </label>
                 <label className="flex items-center justify-between text-xs">
@@ -141,7 +141,7 @@ export default function IntegrationDetailPanel({
                     type="checkbox"
                     checked={integration.config?.autoSync === true}
                     onChange={(e) => onUpdateConfig?.(integration.id, { config: { autoSync: e.target.checked } })}
-                    className="rounded border-slate-300 text-blue-600"
+                    className="rounded border-slate-300 text-teal-600"
                   />
                 </label>
                 <label className="flex items-center justify-between text-xs">
@@ -150,7 +150,7 @@ export default function IntegrationDetailPanel({
                     type="checkbox"
                     checked={integration.config?.webhookEnabled !== false}
                     onChange={(e) => onUpdateConfig?.(integration.id, { config: { webhookEnabled: e.target.checked } })}
-                    className="rounded border-slate-300 text-blue-600"
+                    className="rounded border-slate-300 text-teal-600"
                   />
                 </label>
               </div>
@@ -162,7 +162,7 @@ export default function IntegrationDetailPanel({
                     <code className="flex-1 text-[10px] font-mono text-slate-600 dark:text-slate-400 break-all">
                       {integration.webhookUrl}
                     </code>
-                    <button type="button" onClick={copyWebhook} className="p-1.5 text-slate-400 hover:text-blue-600">
+                    <button type="button" onClick={copyWebhook} className="p-1.5 text-slate-400 hover:text-teal-600">
                       {copied ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
                     </button>
                   </div>
@@ -236,7 +236,7 @@ export default function IntegrationDetailPanel({
                 <button
                   type="button"
                   onClick={() => setEditMode((v) => !v)}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2 text-xs font-medium text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/20 rounded-lg"
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2 text-xs font-medium text-teal-600 hover:bg-teal-50 dark:hover:bg-teal-950/20 rounded-lg"
                 >
                   <Settings2 className="w-3.5 h-3.5" /> {editMode ? 'Cancel edit' : 'Edit credentials'}
                 </button>

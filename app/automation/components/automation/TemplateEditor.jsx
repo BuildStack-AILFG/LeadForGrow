@@ -13,7 +13,7 @@ function VariableChips({ onInsert }) {
           key={v.key}
           type="button"
           onClick={() => onInsert(` {{${v.key}}}`)}
-          className="text-[10px] font-medium px-2 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-blue-50 hover:text-blue-700 dark:hover:bg-blue-950/30 dark:hover:text-blue-400 transition-colors"
+          className="text-[10px] font-medium px-2 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-teal-50 hover:text-teal-700 dark:hover:bg-teal-950/30 dark:hover:text-teal-400 transition-colors"
         >
           {`{{${v.key}}}`}
         </button>
@@ -82,7 +82,7 @@ export default function TemplateEditor({
               value={form.emailSubject}
               onChange={(e) => onChange({ ...form, emailSubject: e.target.value })}
               placeholder="Thanks for reaching out, {{name}}"
-              className="w-full px-3 py-2 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              className="w-full px-3 py-2 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500/20"
             />
             <VariableChips onInsert={(t) => insertVar(t, 'emailSubject')} />
           </div>
@@ -107,7 +107,7 @@ export default function TemplateEditor({
               value={form.messageTemplate}
               onChange={(e) => onChange({ ...form, messageTemplate: e.target.value })}
               placeholder="Hi {{name}}, thank you for your interest in {{serviceInterest}}..."
-              className="w-full px-3 py-2 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 resize-none font-mono"
+              className="w-full px-3 py-2 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500/20 resize-none font-mono"
             />
             <VariableChips onInsert={(t) => insertVar(t, 'messageTemplate')} />
             {showPreview && <PreviewBox title="Email preview" content={form.messageTemplate} />}
@@ -128,7 +128,7 @@ export default function TemplateEditor({
               onChange={(e) => onChange({ ...form, whatsappTemplate: e.target.value })}
               disabled={waLocked}
               placeholder="Hi {{name}}, we received your inquiry..."
-              className={`w-full px-3 py-2 text-sm border rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500/20 ${
+              className={`w-full px-3 py-2 text-sm border rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-teal-500/20 ${
                 waLocked
                   ? 'bg-slate-100 dark:bg-slate-800 border-slate-200 text-slate-500 cursor-not-allowed'
                   : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700'
@@ -160,7 +160,7 @@ export default function TemplateEditor({
                     whatsappTemplate: bodyText,
                   });
                 }}
-                className="w-full px-3 py-2 pr-8 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                className="w-full px-3 py-2 pr-8 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-teal-500/20"
               >
                 <option value="">Custom text message</option>
                 {approvedTemplates.length > 0 && (
@@ -195,7 +195,7 @@ export default function TemplateEditor({
                 value={form.whatsappHeaderMedia}
                 onChange={(e) => onChange({ ...form, whatsappHeaderMedia: e.target.value })}
                 placeholder="https://..."
-                className="flex-1 px-3 py-2 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                className="flex-1 px-3 py-2 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500/20"
               />
               <label className="cursor-pointer px-3 py-2 text-xs font-medium text-slate-600 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700">
                 Upload
@@ -241,7 +241,7 @@ export default function TemplateEditor({
             min={0}
             value={form.delayHours}
             onChange={(e) => onChange({ ...form, delayHours: parseInt(e.target.value, 10) || 0 })}
-            className="w-full px-3 py-2 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+            className="w-full px-3 py-2 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500/20"
           />
         </div>
       )}
@@ -249,7 +249,7 @@ export default function TemplateEditor({
       <button
         type="button"
         onClick={() => setShowPreview(!showPreview)}
-        className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-600 hover:text-blue-700"
+        className="inline-flex items-center gap-1.5 text-xs font-medium text-teal-600 hover:text-teal-700"
       >
         <Send className="w-3.5 h-3.5" />
         {showPreview ? 'Hide preview' : 'Test message preview'}

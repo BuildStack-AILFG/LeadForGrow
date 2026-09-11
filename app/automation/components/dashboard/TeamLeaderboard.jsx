@@ -12,7 +12,7 @@ export default function TeamLeaderboard({ teamPerformance = [] }) {
       title="Team Performance"
       subtitle="Conversions by assignee · 30 days"
       action={
-        <Link href="/automation/team" className="text-xs font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1">
+        <Link href="/automation/team" className="text-xs font-medium text-teal-600 hover:text-teal-700 flex items-center gap-1">
           Team <ArrowRight className="w-3 h-3" />
         </Link>
       }

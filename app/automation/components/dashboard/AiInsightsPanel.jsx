@@ -84,7 +84,7 @@ export default function AiInsightsPanel() {
               label="Customers Waiting"
               value={data.customersWaiting || 0}
               sub="Unread conversations"
-              color="text-blue-600 bg-blue-50 dark:bg-blue-950/30"
+              color="text-teal-600 bg-teal-50 dark:bg-teal-950/30"
               href="/automation/chat"
             />
             <InsightTile

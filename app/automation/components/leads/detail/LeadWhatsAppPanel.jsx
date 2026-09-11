@@ -25,7 +25,7 @@ export default function LeadWhatsAppPanel({ lead, messages = [], onSend, sending
         <p className="text-sm font-medium text-slate-700 dark:text-slate-300">WhatsApp conversation</p>
         <Link
           href={`/automation/chat?leadId=${lead._id}`}
-          className="text-xs font-medium text-blue-600 hover:underline"
+          className="text-xs font-medium text-teal-600 hover:underline"
         >
           Open full inbox →
         </Link>
@@ -44,12 +44,12 @@ export default function LeadWhatsAppPanel({ lead, messages = [], onSend, sending
               <div
                 className={`max-w-[85%] px-3.5 py-2.5 rounded-xl text-sm ${
                   msg.direction === 'outgoing'
-                    ? 'bg-blue-600 text-white rounded-tr-sm'
+                    ? 'bg-teal-600 text-white rounded-tr-sm'
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 rounded-tl-sm border border-slate-200 dark:border-slate-700'
                 }`}
               >
                 <p className="whitespace-pre-wrap">{msg.content?.body || msg.text}</p>
-                <p className={`text-[10px] mt-1 ${msg.direction === 'outgoing' ? 'text-blue-100' : 'text-slate-400'}`}>
+                <p className={`text-[10px] mt-1 ${msg.direction === 'outgoing' ? 'text-teal-100' : 'text-slate-400'}`}>
                   {msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}
                 </p>
               </div>
@@ -65,7 +65,7 @@ export default function LeadWhatsAppPanel({ lead, messages = [], onSend, sending
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Type a WhatsApp message..."
-          className="flex-1 text-sm px-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+          className="flex-1 text-sm px-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 resize-none focus:outline-none focus:ring-2 focus:ring-teal-500/20"
           onKeyDown={(e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
               e.preventDefault();
@@ -76,7 +76,7 @@ export default function LeadWhatsAppPanel({ lead, messages = [], onSend, sending
         <button
           type="submit"
           disabled={!text.trim() || sending}
-          className="p-2.5 rounded-lg bg-blue-600 text-white disabled:opacity-40 hover:bg-blue-700 flex-shrink-0"
+          className="p-2.5 rounded-lg bg-teal-600 text-white disabled:opacity-40 hover:bg-teal-700 flex-shrink-0"
         >
           <Send className="w-4 h-4" />
         </button>

@@ -5,7 +5,7 @@ import { Zap, MessageCircle, Split, ChevronDown, ChevronRight, Sparkles } from '
 import { TRIGGER_TYPES, ACTION_TYPES, LOGIC_TYPES } from '@/lib/whatsappFlows/constants';
 
 const SECTIONS = [
-  { id: 'triggers', label: 'Triggers', icon: Zap, items: TRIGGER_TYPES, iconClass: 'text-blue-500' },
+  { id: 'triggers', label: 'Triggers', icon: Zap, items: TRIGGER_TYPES, iconClass: 'text-teal-500' },
   { id: 'actions', label: 'Actions', icon: MessageCircle, items: ACTION_TYPES, iconClass: 'text-emerald-500' },
   { id: 'logic', label: 'Logic', icon: Split, items: LOGIC_TYPES, iconClass: 'text-amber-500' },
 ];
@@ -47,12 +47,12 @@ export default function NodePalette({ onAdd }) {
                       e.dataTransfer.effectAllowed = 'move';
                     }}
                     onClick={() => onAdd(item.type)}
-                    className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-left text-xs text-slate-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-700 transition-all"
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-left text-xs text-slate-600 hover:bg-gradient-to-r hover:from-teal-50 hover:to-indigo-50 hover:text-teal-700 transition-all"
                   >
                     {item.type.includes('whatsapp') || item.type.includes('send') ? (
                       <MessageCircle className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
                     ) : item.type.includes('trigger') ? (
-                      <Zap className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+                      <Zap className="w-3.5 h-3.5 text-teal-500 shrink-0" />
                     ) : (
                       <Sparkles className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                     )}

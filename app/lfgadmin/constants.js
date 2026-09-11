@@ -57,7 +57,7 @@ export function planBadgeClass(plan, variant = 'dark') {
   if (variant === 'light') {
     const map = {
       free: 'bg-slate-100 text-slate-600 border-slate-200',
-      trial: 'bg-blue-100 text-blue-700 border-blue-200',
+      trial: 'bg-teal-100 text-teal-700 border-teal-200',
       growth: 'bg-emerald-100 text-emerald-700 border-emerald-200',
       pro: 'bg-violet-100 text-violet-700 border-violet-200',
       premium: 'bg-amber-100 text-amber-800 border-amber-200',
@@ -68,7 +68,7 @@ export function planBadgeClass(plan, variant = 'dark') {
   }
   const map = {
     free: 'bg-slate-500/15 text-slate-400 border-slate-500/20',
-    trial: 'bg-blue-500/15 text-blue-400 border-blue-500/20',
+    trial: 'bg-teal-500/15 text-teal-400 border-teal-500/20',
     growth: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20',
     pro: 'bg-violet-500/15 text-violet-400 border-violet-500/20',
     premium: 'bg-amber-500/15 text-amber-400 border-amber-500/20',

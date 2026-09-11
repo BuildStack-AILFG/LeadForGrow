@@ -24,7 +24,7 @@ const TYPE_META = {
 
 const STATUS_COLORS = {
   ready: 'text-emerald-600 bg-emerald-50',
-  indexing: 'text-blue-600 bg-blue-50',
+  indexing: 'text-teal-600 bg-teal-50',
   pending: 'text-amber-600 bg-amber-50',
   error: 'text-red-600 bg-red-50',
 };

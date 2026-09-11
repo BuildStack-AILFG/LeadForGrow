@@ -48,7 +48,7 @@ function MediaContent({ message }) {
         rel="noopener noreferrer"
         className="flex items-center gap-2 p-2.5 mb-1 rounded-lg bg-slate-100/80 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 hover:bg-slate-200/80 transition-colors"
       >
-        <FileText className="w-5 h-5 text-blue-600 flex-shrink-0" />
+        <FileText className="w-5 h-5 text-teal-600 flex-shrink-0" />
         <div className="min-w-0 flex-1">
           <p className="text-xs font-medium truncate">{fileName}</p>
           {content?.fileSize && <p className="text-[10px] text-slate-500">{formatFileSize(content.fileSize)}</p>}
@@ -130,7 +130,7 @@ function MessageBubble({ message, onAction }) {
           <button
             type="button"
             onClick={() => onAction(message._id, message.isDeleted ? 'restore' : 'trash')}
-            className={`p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 ${message.isDeleted ? 'text-blue-500' : 'text-slate-400 hover:text-rose-600'}`}
+            className={`p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 ${message.isDeleted ? 'text-teal-500' : 'text-slate-400 hover:text-rose-600'}`}
             title={message.isDeleted ? 'Restore from trash' : 'Move to trash'}
           >
             {message.isDeleted ? <RotateCcw className="w-3.5 h-3.5" /> : <Trash2 className="w-3.5 h-3.5" />}

@@ -16,7 +16,7 @@ export default function SequenceAnalytics({ analytics, loading }) {
   }
 
   const cards = [
-    { label: 'Enrolled', value: analytics.enrolled, icon: Users, iconClass: 'text-blue-500' },
+    { label: 'Enrolled', value: analytics.enrolled, icon: Users, iconClass: 'text-teal-500' },
     { label: 'Completion rate', value: `${analytics.completionRate}%`, icon: CheckCircle2, iconClass: 'text-emerald-500' },
     { label: 'Active runs', value: analytics.activeRuns, icon: Activity, iconClass: 'text-amber-500' },
     { label: 'Response rate', value: `${analytics.responseRate}%`, icon: TrendingUp, iconClass: 'text-violet-500' },

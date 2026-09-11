@@ -167,7 +167,7 @@ function StatCard({ label, value, icon: Icon, accent }) {
     emerald: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30',
     amber: 'text-amber-600 bg-amber-50 dark:bg-amber-950/30',
     teal: 'text-teal-600 bg-teal-50 dark:bg-teal-950/30',
-    blue: 'text-blue-600 bg-blue-50 dark:bg-blue-950/30',
+    blue: 'text-teal-600 bg-teal-50 dark:bg-teal-950/30',
     slate: 'text-slate-600 bg-slate-100 dark:bg-slate-800',
   };
   return (

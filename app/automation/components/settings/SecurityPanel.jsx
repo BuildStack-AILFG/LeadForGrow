@@ -55,7 +55,7 @@ export default function SecurityPanel({ security, onToggle2FA }) {
               <span className="text-[10px] text-slate-400">Used {token.lastUsed}</span>
             </div>
           ))}
-          <button type="button" className="text-xs font-medium text-blue-600 hover:text-blue-700">+ Generate new token</button>
+          <button type="button" className="text-xs font-medium text-teal-600 hover:text-teal-700">+ Generate new token</button>
         </div>
       </SettingsCard>
 

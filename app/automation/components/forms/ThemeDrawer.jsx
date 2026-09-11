@@ -25,8 +25,8 @@ export default function ThemeDrawer({ open, styling, onChange, onClose }) {
       >
         <div className="flex items-center justify-between px-6 py-5">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-950/50 flex items-center justify-center">
-              <Palette className="w-4 h-4 text-blue-600" />
+            <div className="w-9 h-9 rounded-xl bg-teal-50 dark:bg-teal-950/50 flex items-center justify-center">
+              <Palette className="w-4 h-4 text-teal-600" />
             </div>
             <div>
               <h2 className="text-base font-semibold text-slate-900 dark:text-slate-50">Theme & design</h2>

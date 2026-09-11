@@ -76,7 +76,7 @@ export default function TemplateEditorDrawer({ open, template, onClose, onSave, 
                       onClick={() => update({ channel: ch.id })}
                       className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs font-medium rounded-xl transition-all ${
                         active
-                          ? ch.color === 'emerald' ? 'bg-emerald-600 text-white' : 'bg-blue-600 text-white'
+                          ? ch.color === 'emerald' ? 'bg-emerald-600 text-white' : 'bg-teal-600 text-white'
                           : 'bg-slate-100 dark:bg-slate-800 text-slate-600'
                       }`}
                     >
@@ -106,7 +106,7 @@ export default function TemplateEditorDrawer({ open, template, onClose, onSave, 
               <button
                 type="button"
                 onClick={() => setShowPreview(!showPreview)}
-                className="inline-flex items-center gap-1 text-xs text-blue-600 font-medium"
+                className="inline-flex items-center gap-1 text-xs text-teal-600 font-medium"
               >
                 <Eye className="w-3.5 h-3.5" /> {showPreview ? 'Edit' : 'Preview'}
               </button>
@@ -135,7 +135,7 @@ export default function TemplateEditorDrawer({ open, template, onClose, onSave, 
             Cancel
           </button>
           {!isReadOnly && (
-            <button type="button" onClick={handleSave} className="flex-1 py-2.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl">
+            <button type="button" onClick={handleSave} className="flex-1 py-2.5 text-sm font-semibold text-white bg-teal-600 hover:bg-teal-700 rounded-xl">
               Done
             </button>
           )}
@@ -145,4 +145,4 @@ export default function TemplateEditorDrawer({ open, template, onClose, onSave, 
   );
 }
 
-const inputClass = 'w-full px-4 py-2.5 text-sm bg-slate-50 dark:bg-slate-800/80 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/25 disabled:opacity-60';
+const inputClass = 'w-full px-4 py-2.5 text-sm bg-slate-50 dark:bg-slate-800/80 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/25 disabled:opacity-60';

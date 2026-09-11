@@ -101,7 +101,7 @@ export default function WhatsAppSettingsPage() {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <Link href="/automation/settings/integrations" className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            <Link href="/automation/settings/integrations" className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium bg-teal-600 text-white rounded-lg hover:bg-teal-700">
               {wa.enabled ? 'Edit credentials' : 'Connect WhatsApp'}
             </Link>
             <button type="button" onClick={handleSync} disabled={syncing} className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 disabled:opacity-50">

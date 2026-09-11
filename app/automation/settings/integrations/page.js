@@ -44,7 +44,7 @@ export default function IntegrationsSettingsPage() {
       {/* Stats row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
-          { label: 'Available', value: stats.total, icon: Plug, accent: 'text-blue-600 bg-blue-50 dark:bg-blue-950/40' },
+          { label: 'Available', value: stats.total, icon: Plug, accent: 'text-teal-600 bg-teal-50 dark:bg-teal-950/40' },
           { label: 'Connected', value: stats.connected, icon: CheckCircle2, accent: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40' },
           { label: 'Healthy', value: stats.healthy, icon: CheckCircle2, accent: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40' },
           { label: 'Needs attention', value: stats.needsAttention, icon: AlertTriangle, accent: 'text-amber-600 bg-amber-50 dark:bg-amber-950/40' }
@@ -72,7 +72,7 @@ export default function IntegrationsSettingsPage() {
               placeholder="Search integrations…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-8 pr-3 py-2 text-xs border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              className="w-full pl-8 pr-3 py-2 text-xs border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
             />
           </div>
           <button
@@ -93,7 +93,7 @@ export default function IntegrationsSettingsPage() {
               onClick={() => setCategory(cat.id)}
               className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
                 category === cat.id
-                  ? 'bg-blue-600 text-white'
+                  ? 'bg-teal-600 text-white'
                   : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-slate-300'
               }`}
             >

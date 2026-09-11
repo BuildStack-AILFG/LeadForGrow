@@ -124,7 +124,7 @@ export default function SequencesWorkspace() {
               type="button"
               onClick={() => ws.saveSequence(true)}
               disabled={ws.saving}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold shadow-lg shadow-blue-500/20 disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-teal-700 text-white text-sm font-semibold shadow-sm disabled:opacity-50"
             >
               <Play className="w-4 h-4" /> Activate
             </button>
@@ -141,7 +141,7 @@ export default function SequencesWorkspace() {
               }}
               className={`inline-flex items-center gap-1.5 px-4 py-2.5 text-xs font-medium border-b-2 transition-colors ${
                 ws.builderTab === tab.id
-                  ? 'border-blue-600 text-blue-600'
+                  ? 'border-teal-600 text-teal-600'
                   : 'border-transparent text-slate-500 hover:text-slate-700'
               }`}
             >

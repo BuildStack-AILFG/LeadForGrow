@@ -39,9 +39,9 @@ export default function CrmDealsWidget({ crmDashboard }) {
           <p className="text-lg font-bold text-emerald-700 dark:text-emerald-400">{formatValue(deals?.wonValue)}</p>
           <p className="text-[10px] text-slate-400 mt-0.5">{deals?.wonCount || 0} deals closed</p>
         </div>
-        <div className="p-3 bg-blue-50/60 dark:bg-blue-950/20 rounded-lg">
+        <div className="p-3 bg-teal-50/60 dark:bg-teal-950/20 rounded-lg">
           <p className="text-xs text-slate-500">In Pipeline</p>
-          <p className="text-lg font-bold text-blue-700 dark:text-blue-400">{formatValue(pipelineValue)}</p>
+          <p className="text-lg font-bold text-teal-700 dark:text-teal-400">{formatValue(pipelineValue)}</p>
           <p className="text-[10px] text-slate-400 mt-0.5">{openDeals} open deals</p>
         </div>
         <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg col-span-2 sm:col-span-1">

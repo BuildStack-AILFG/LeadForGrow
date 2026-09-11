@@ -21,12 +21,12 @@ export default function SettingsHub() {
   return (
     <div className="min-h-full bg-[#f8f9fc] dark:bg-slate-950 relative overflow-hidden">
       {/* Soft top gradient wash */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-blue-50/60 via-violet-50/20 to-transparent dark:from-blue-950/20 dark:via-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-teal-50/60 via-violet-50/20 to-transparent dark:from-teal-950/20 dark:via-transparent" />
 
       <div className="relative px-4 sm:px-6 pb-10 max-w-5xl mx-auto">
         <header className="pt-6 pb-8">
           <div className="flex items-center gap-3 mb-1">
-            <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-teal-100 dark:bg-teal-950/50 text-teal-600 dark:text-teal-400 flex items-center justify-center">
               <Settings className="w-5 h-5" strokeWidth={2} />
             </div>
             <div>
@@ -38,7 +38,7 @@ export default function SettingsHub() {
           {/* Quick stats */}
           <div className="grid grid-cols-3 gap-3 mt-6">
             {[
-              { label: 'Sections', value: String(SETTINGS_HUB_CARDS.length), icon: Settings, accent: 'text-blue-600 bg-blue-50 dark:bg-blue-950/40' },
+              { label: 'Sections', value: String(SETTINGS_HUB_CARDS.length), icon: Settings, accent: 'text-teal-600 bg-teal-50 dark:bg-teal-950/40' },
               { label: 'Integrations', value: '25+ apps', icon: Plug, accent: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40' },
               { label: 'Team', value: 'Roles & access', icon: Users, accent: 'text-violet-600 bg-violet-50 dark:bg-violet-950/40' }
             ].map((s) => {
@@ -62,7 +62,7 @@ export default function SettingsHub() {
               placeholder="Search settings sections…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2.5 text-sm border border-slate-200 dark:border-slate-700 rounded-xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400"
+              className="w-full pl-9 pr-4 py-2.5 text-sm border border-slate-200 dark:border-slate-700 rounded-xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400"
             />
           </div>
         </header>
@@ -95,7 +95,7 @@ export default function SettingsHub() {
                       <Icon className="w-5 h-5" strokeWidth={1.75} />
                     )}
                   </div>
-                  <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-blue-500 group-hover:translate-x-0.5 transition-all mt-1" />
+                  <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-teal-500 group-hover:translate-x-0.5 transition-all mt-1" />
                 </div>
 
                 <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-50 mt-4">{card.title}</h2>

@@ -38,7 +38,7 @@ export default function TemplatesHeader({ stats, saving, syncing, onSave, onSync
               type="button"
               onClick={onSave}
               disabled={saving}
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-md shadow-blue-600/20 disabled:opacity-50 transition-all"
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-teal-600 hover:bg-teal-700 rounded-lg shadow-md shadow-teal-600/20 disabled:opacity-50 transition-all"
             >
               {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
               Save changes
