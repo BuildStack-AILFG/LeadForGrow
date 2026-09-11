@@ -206,6 +206,28 @@ function ChatInboxContent() {
             {inbox.selectedChat?.channel === 'email' && (
               <EmailFolderBar active={emailFolder} onChange={setEmailFolder} />
             )}
+            {/* Sticky email subject bar — frozen at the top of the pane so
+                agents don't lose thread context when scrolling through a
+                long conversation. Only shown for email channel where the
+                subject actually matters. */}
+            {inbox.selectedChat?.channel === 'email' && (() => {
+              const firstEmailMsg = visibleMessages.find((m) => m.type === 'email' && m.subject);
+              const subject = firstEmailMsg?.subject || inbox.selectedChat.lastMessagePreview || '(no subject)';
+              const cleanSubject = subject.replace(/^(Re:|Fwd?:|Fw:)\s*/i, '');
+              const msgCount = visibleMessages.filter((m) => m.type === 'email').length;
+              return (
+                <div className="sticky top-0 z-10 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-b border-slate-200 dark:border-slate-700 px-4 py-2 flex items-baseline gap-2">
+                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate flex-1" title={subject}>
+                    {cleanSubject}
+                  </p>
+                  {msgCount > 0 && (
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400 flex-shrink-0">
+                      {msgCount} message{msgCount !== 1 ? 's' : ''}
+                    </span>
+                  )}
+                </div>
+              );
+            })()}
             <MessageList
               messages={visibleMessages}
               loading={inbox.messagesLoading}
@@ -214,6 +236,11 @@ function ChatInboxContent() {
               loadingMore={inbox.loadingMore}
               onMessageAction={inbox.messageAction}
               emptyLabel={emptyLabel}
+              // Passed so MessageBubble's EmailSenderHeader can fall back
+              // to the conversation's participant when a specific Message's
+              // content.participantName/Email aren't populated (older rows
+              // saved before that field became standard).
+              conversation={inbox.selectedChat}
             />
             {canReply && !showTemplateBar && (
               <AiReplyBar
@@ -222,7 +249,14 @@ function ChatInboxContent() {
                 lastMessage={inbox.messages.filter((m) => m.direction === 'incoming').pop()?.content?.body}
                 leadId={inbox.selectedChat?.leadId?._id || inbox.selectedChat?.leadId}
                 conversationId={inbox.selectedChat?._id}
-                onApply={(text) => setAiReplyText(text)}
+                onApply={(text) => {
+                  setAiReplyText(text);
+                  // Push the text straight into the composer instead of only
+                  // populating the passive suggestion tile (which needed a
+                  // second click). ChatInput listens for this and fills the
+                  // active reply box (textarea or email editor).
+                  window.dispatchEvent(new CustomEvent('lfg:insert-reply', { detail: { text } }));
+                }}
                 onSend={async (text) => inbox.sendMessage(text)}
               />
             )}
@@ -248,6 +282,8 @@ function ChatInboxContent() {
                 onEmailSubjectChange={inbox.setEmailSubject}
                 emailCc={inbox.emailCc}
                 onEmailCcChange={inbox.setEmailCc}
+                emailBcc={inbox.emailBcc}
+                onEmailBccChange={inbox.setEmailBcc}
                 // Pin sender identity when replying on an existing thread.
                 // The Conversation carries its own emailAccountId (Step 4);
                 // ChatInput uses this to lock the From-picker so replies

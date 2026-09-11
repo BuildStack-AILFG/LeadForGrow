@@ -1,13 +1,124 @@
 'use client';
 
-import { memo, useState } from 'react';
+import { memo, useState, useMemo } from 'react';
 import {
   Check, CheckCheck, Clock, StickyNote, Download, FileText, AlertCircle,
-  Star, Trash2, RotateCcw,
+  Star, Trash2, RotateCcw, Image as ImageIcon, Film, Music, File as FileIcon,
+  Reply, CornerUpLeft,
 } from 'lucide-react';
 import { formatFileSize } from '@/lib/omnichannel/mediaTypes';
 import { decodeMetaError, extractErrorCode } from '@/lib/whatsapp/metaErrors';
 import { ORIGIN_META } from './constants';
+
+/**
+ * Rewrite a Cloudinary URL so the file downloads instead of trying to
+ * open in the browser. This sidesteps two real UX problems:
+ *   1. Cloudinary blocks in-browser delivery of PDFs / ZIPs by default
+ *      (their anti-abuse setting), so preview attempts fail silently.
+ *   2. Different browsers preview vs download the same file inconsistently,
+ *      which confuses agents ("wait, why did it just open?").
+ *
+ * The `fl_attachment` flag makes Cloudinary respond with the
+ * Content-Disposition: attachment header so browsers always save the file.
+ * Non-Cloudinary URLs (external links) get the plain `download` attribute
+ * on the anchor as a fallback — same effect for most files.
+ */
+function toDownloadUrl(url) {
+  if (!url || typeof url !== 'string') return url;
+  if (!url.includes('res.cloudinary.com')) return url;
+  if (url.includes('/fl_attachment/')) return url;
+  return url.replace('/upload/', '/upload/fl_attachment/');
+}
+
+/**
+ * Icon color + component for an attachment based on its MIME type. Kept
+ * data-driven so adding a new file type is a one-line entry.
+ */
+function iconForMime(mimeType = '') {
+  const t = mimeType.toLowerCase();
+  if (t.startsWith('image/')) return { Icon: ImageIcon, color: 'text-emerald-600' };
+  if (t.startsWith('video/')) return { Icon: Film, color: 'text-violet-600' };
+  if (t.startsWith('audio/')) return { Icon: Music, color: 'text-amber-600' };
+  if (t.includes('pdf')) return { Icon: FileText, color: 'text-rose-600' };
+  if (t.includes('word') || t.includes('officedocument.word')) {
+    return { Icon: FileText, color: 'text-blue-600' };
+  }
+  if (t.includes('sheet') || t.includes('excel') || t.includes('officedocument.spreadsheet')) {
+    return { Icon: FileText, color: 'text-green-700' };
+  }
+  return { Icon: FileIcon, color: 'text-slate-500' };
+}
+
+/**
+ * Renders `content.attachments[]` — every file gets its own card, including
+ * inline images from Gmail-style CID embeds (user preference: card-per-attachment
+ * over inline HTML rendering, so agents get a consistent UX across all types).
+ *
+ * Images use an inline thumbnail preview; everything else is a filename + size
+ * download card. The click always opens/downloads via the Cloudinary URL.
+ */
+function AttachmentCards({ attachments }) {
+  if (!Array.isArray(attachments) || attachments.length === 0) return null;
+  return (
+    <div className="flex flex-col gap-1.5 mb-1.5">
+      {attachments.map((att, i) => {
+        // Every anchor uses the download URL — Cloudinary's fl_attachment
+        // flag + the HTML download attribute together guarantee the browser
+        // saves the file instead of trying to preview it. User preference:
+        // download over preview across all file types for consistency.
+        const href = toDownloadUrl(att.url);
+        const isImage = (att.mimeType || '').toLowerCase().startsWith('image/');
+        if (isImage) {
+          return (
+            <a
+              key={att.url || i}
+              href={href}
+              download={att.fileName}
+              className="block rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 max-w-[280px] hover:border-slate-300 dark:hover:border-slate-600 transition-colors"
+              title={`Download ${att.fileName}`}
+            >
+              {/* Preview thumbnail uses the ORIGINAL URL (not fl_attachment)
+                  so the <img> tag can render the image; clicking the anchor
+                  still downloads via fl_attachment. */}
+              <img
+                src={att.url}
+                alt={att.fileName}
+                className="w-full max-h-64 object-cover"
+                loading="lazy"
+              />
+              <div className="flex items-center justify-between gap-2 px-2 py-1 bg-slate-50 dark:bg-slate-900/60 text-[10px] text-slate-600 dark:text-slate-400">
+                <span className="truncate flex-1">{att.fileName}</span>
+                <span className="flex items-center gap-1 flex-shrink-0">
+                  {att.size ? <span>{formatFileSize(att.size)}</span> : null}
+                  <Download className="w-3 h-3" />
+                </span>
+              </div>
+            </a>
+          );
+        }
+        const { Icon, color } = iconForMime(att.mimeType);
+        return (
+          <a
+            key={att.url || i}
+            href={href}
+            download={att.fileName}
+            className="flex items-center gap-2 p-2.5 rounded-lg bg-slate-100/80 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 hover:bg-slate-200/80 transition-colors max-w-[320px]"
+            title={`Download ${att.fileName}`}
+          >
+            <Icon className={`w-5 h-5 flex-shrink-0 ${color}`} />
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-medium truncate">{att.fileName}</p>
+              {att.size ? (
+                <p className="text-[10px] text-slate-500">{formatFileSize(att.size)}</p>
+              ) : null}
+            </div>
+            <Download className="w-4 h-4 text-slate-400 flex-shrink-0" />
+          </a>
+        );
+      })}
+    </div>
+  );
+}
 
 function MediaContent({ message }) {
   const { type, content } = message;
@@ -61,7 +172,129 @@ function MediaContent({ message }) {
   return null;
 }
 
-function MessageBubble({ message, onAction }) {
+/**
+ * Small colored avatar circle built from the first letter of a name. Used
+ * to identify email senders without needing to load real Gravatar-style
+ * avatars (that would be a separate feature + network cost per contact).
+ * Same name always produces the same color — deterministic hash of the
+ * first character.
+ */
+function InitialAvatar({ name = '?', size = 'sm' }) {
+  const ch = (name.trim()[0] || '?').toUpperCase();
+  // Palette rotated by char code — matches Gmail's approach of "same
+  // sender = same tile color forever," which agents rely on for quick
+  // visual scan of a thread.
+  const palette = [
+    'bg-emerald-100 text-emerald-800',
+    'bg-blue-100 text-blue-800',
+    'bg-violet-100 text-violet-800',
+    'bg-rose-100 text-rose-800',
+    'bg-amber-100 text-amber-800',
+    'bg-cyan-100 text-cyan-800',
+    'bg-fuchsia-100 text-fuchsia-800',
+    'bg-teal-100 text-teal-800',
+  ];
+  const color = palette[ch.charCodeAt(0) % palette.length];
+  const dim = size === 'sm' ? 'w-6 h-6 text-[10px]' : 'w-8 h-8 text-xs';
+  return (
+    <span className={`inline-flex items-center justify-center rounded-full font-semibold flex-shrink-0 ${dim} ${color}`}>
+      {ch}
+    </span>
+  );
+}
+
+/**
+ * Gmail-style header shown above email bubbles when the sender changes or
+ * a 5-minute gap opens. Displays the sender's display name + email address +
+ * timestamp. Not rendered on WhatsApp / Instagram — those channels have
+ * only two participants so direction alone conveys who sent it.
+ */
+function EmailSenderHeader({ message, outgoing, conversation }) {
+  // Fallback chain — Message.content is the source of truth on new emails,
+  // but rows saved before participantName/Email became standard don't have
+  // them. Fall back to the conversation's participant (correct for INCOMING
+  // in a 1:1 email thread). For OUTGOING, "You" is the safe label; we can
+  // upgrade to the connected mailbox display name later.
+  const senderName = outgoing
+    ? (message.content?.participantName || 'You')
+    : (
+      message.content?.participantName ||
+      conversation?.participantName ||
+      conversation?.leadId?.name ||
+      message.content?.participantEmail?.split('@')[0] ||
+      conversation?.participantEmail?.split('@')[0] ||
+      'Contact'
+    );
+  const senderEmail = outgoing
+    ? (message.content?.participantEmail || '')
+    : (
+      message.content?.participantEmail ||
+      conversation?.participantEmail ||
+      conversation?.leadId?.email ||
+      ''
+    );
+  const time = message.timestamp
+    ? new Date(message.timestamp).toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+      })
+    : '';
+  // CC list rendered under the sender line when the email had CC recipients.
+  // Formatted as Gmail-style: "cc: Alice, Bob <bob@x.com>, +2 more" if long.
+  const ccList = Array.isArray(message.content?.cc) ? message.content.cc : [];
+  const ccPreview = ccList.length
+    ? ccList.slice(0, 3).map((c) => c.name || c.address).join(', ') + (ccList.length > 3 ? `, +${ccList.length - 3} more` : '')
+    : null;
+
+  return (
+    <div className={`flex flex-col mb-1 px-1 ${outgoing ? 'items-end' : 'items-start'}`}>
+      <div className={`flex items-center gap-2 ${outgoing ? 'flex-row-reverse' : ''}`}>
+        <InitialAvatar name={senderName} />
+        <div className={`flex items-baseline gap-1.5 ${outgoing ? 'text-right' : 'text-left'}`}>
+          <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">{senderName}</span>
+          {senderEmail && (
+            <span className="text-[10px] text-slate-500 dark:text-slate-400 truncate max-w-[200px]">
+              &lt;{senderEmail}&gt;
+            </span>
+          )}
+          <span className="text-[10px] text-slate-400 dark:text-slate-500">·&nbsp;{time}</span>
+        </div>
+      </div>
+      {ccPreview && (
+        <div className={`text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 ${outgoing ? 'mr-8' : 'ml-8'}`}>
+          cc: {ccPreview}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/**
+ * Renders sanitized email HTML body inside a bubble. Isolates the HTML
+ * from bleeding into the surrounding chat layout by wrapping in a
+ * constrained container with reset styles. All external images inside
+ * are given loading=lazy and max-width so a marketing email with 10 huge
+ * hero images doesn't tank scroll performance.
+ */
+function EmailHtmlBody({ html }) {
+  return (
+    <div
+      className="email-html-body max-w-full overflow-hidden text-sm leading-relaxed"
+      // eslint-disable-next-line react/no-danger
+      dangerouslySetInnerHTML={{ __html: html }}
+      style={{
+        wordBreak: 'break-word',
+      }}
+    />
+  );
+}
+
+function MessageBubble({ message, onAction, showSenderHeader = false, groupedWithPrev = false, conversation }) {
+  // Toggle to fall back to plain text when a rich HTML email is too wild.
+  // Off by default (rich rendering); persist choice per-bubble in state.
+  const [showRawText, setShowRawText] = useState(false);
+  const emailHtml = message.type === 'email' ? message.content?.html : null;
+  const hasRichHtml = !!emailHtml && !showRawText;
   if (message.isInternal) {
     return (
       <div className="flex justify-center my-2">
@@ -91,7 +324,53 @@ function MessageBubble({ message, onAction }) {
     ? new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     : '';
   const hasMedia = message.type !== 'text' || message.content?.mediaUrl;
-  const bodyText = message.content?.body || message.content?.caption;
+  const rawBody = message.content?.body || message.content?.caption || '';
+  // Split email body into NEW content vs QUOTED reply chain instead of
+  // dropping the quote entirely — Gmail/Outlook both keep the quote behind
+  // a "..." toggle so agents can peek at prior thread context without it
+  // dominating the bubble. `newBody` is what shows by default; `quotedBody`
+  // is the collapsed section revealed on click.
+  const { newBody, quotedBody } = useMemo(() => {
+    if (message.type !== 'email' || !rawBody) return { newBody: rawBody, quotedBody: '' };
+
+    // Find where the quoted section starts. Priority order matches how the
+    // three major mail clients wrap replies:
+    //   - Gmail:   "On <date>, <name> <email> wrote:"
+    //   - Outlook: "-----Original Message-----" divider
+    //   - Outlook: "From: X\nSent: Y" header block
+    //   - Everyone: leading ">" line prefixes (older clients)
+    const markers = [
+      /(^|\n)\s*On\s[\s\S]+?wrote:/i,
+      /(^|\n)\s*-----\s*Original Message\s*-----/i,
+      /(^|\n)\s*From:\s.+\r?\nSent:\s/i,
+    ];
+    let splitAt = -1;
+    for (const m of markers) {
+      const match = rawBody.match(m);
+      if (match) {
+        splitAt = match.index + (match[1] ? match[1].length : 0);
+        break;
+      }
+    }
+    // Fallback — if no explicit marker, look for the first run of ">" quoted
+    // lines and split there. Catches older mail clients that don't emit a
+    // "wrote:" preamble.
+    if (splitAt < 0) {
+      const lines = rawBody.split('\n');
+      const quoteStartIdx = lines.findIndex((line) => /^\s*>/.test(line));
+      if (quoteStartIdx > 0) {
+        splitAt = lines.slice(0, quoteStartIdx).join('\n').length;
+      }
+    }
+    if (splitAt < 0) return { newBody: rawBody, quotedBody: '' };
+
+    return {
+      newBody: rawBody.slice(0, splitAt).trim(),
+      quotedBody: rawBody.slice(splitAt).trim(),
+    };
+  }, [rawBody, message.type]);
+  const bodyText = newBody;
+  const [quoteExpanded, setQuoteExpanded] = useState(false);
 
   // Bubble palette — failed sends get a red/amber tint so they can't be
   // mistaken for a normal outbound at a glance. That was a real complaint:
@@ -109,8 +388,17 @@ function MessageBubble({ message, onAction }) {
     tailClass = 'left-1 bg-white dark:bg-[#202c33]';
   }
 
+  // Wrapper spacing shrinks when this bubble is grouped with the previous
+  // one (same sender, <5min gap) — Gmail-style visual grouping so a burst
+  // of consecutive replies reads as one exchange, not five.
+  const wrapperSpacing = groupedWithPrev ? 'mt-[2px]' : 'mt-3';
+
   return (
-    <div className={`group flex ${outgoing ? 'justify-end' : 'justify-start'} mb-[3px] px-1`}>
+    <div className={`flex flex-col ${wrapperSpacing} px-1`}>
+      {showSenderHeader && (
+        <EmailSenderHeader message={message} outgoing={outgoing} conversation={conversation} />
+      )}
+      <div className={`group flex ${outgoing ? 'justify-end' : 'justify-start'}`}>
       {/* Hover actions — floating icons that appear next to the bubble.
           Placed OUTSIDE the bubble so they don't shift the message layout.
           Star turns amber when active. Trash flips to Restore for isDeleted
@@ -119,6 +407,19 @@ function MessageBubble({ message, onAction }) {
         <div
           className={`opacity-0 group-hover:opacity-100 transition-opacity self-center flex flex-col gap-0.5 mx-1 ${outgoing ? 'order-first' : 'order-last'}`}
         >
+          {/* Reply — email-only for now; WhatsApp threading uses a
+              different UX (long-press quote). Fires the 'reply' action so
+              the parent hook can prefill the composer. */}
+          {message.type === 'email' && (
+            <button
+              type="button"
+              onClick={() => onAction(message._id, 'reply')}
+              className="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-blue-600"
+              title="Reply to this message"
+            >
+              <CornerUpLeft className="w-3.5 h-3.5" />
+            </button>
+          )}
           <button
             type="button"
             onClick={() => onAction(message._id, message.starred ? 'unstar' : 'star')}
@@ -170,9 +471,50 @@ function MessageBubble({ message, onAction }) {
         {message.subject && message.type === 'email' && (
           <p className="text-xs font-semibold mb-1 text-[#111b21]/80 dark:text-[#e9edef]/80">{message.subject}</p>
         )}
+        {/* Email-style multi-attachment cards (new). Renders every file in
+            content.attachments[] as its own card. Legacy MediaContent below
+            still handles WhatsApp/Instagram single-file media. */}
+        {Array.isArray(message.content?.attachments) && message.content.attachments.length > 0 && (
+          <AttachmentCards attachments={message.content.attachments} />
+        )}
         {hasMedia && <MediaContent message={message} />}
-        {bodyText && (
+        {hasRichHtml ? (
+          <EmailHtmlBody html={emailHtml} />
+        ) : bodyText ? (
           <p className={`leading-[1.35] whitespace-pre-wrap break-words pr-10 ${failed ? 'text-red-950/80 dark:text-red-100/80' : ''}`}>{bodyText}</p>
+        ) : null}
+        {/* Collapsible quoted reply — Gmail/Outlook-style "..." button
+            hides the prior thread by default and expands on click. Only
+            shows when a real quote was detected in the parsed body. */}
+        {message.type === 'email' && quotedBody && (
+          <div className="mt-1">
+            <button
+              type="button"
+              onClick={() => setQuoteExpanded((v) => !v)}
+              className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-slate-500 hover:text-slate-800 hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition-colors leading-none"
+              title={quoteExpanded ? 'Hide quoted history' : 'Show quoted history'}
+              aria-expanded={quoteExpanded}
+            >
+              <span className="text-[13px] tracking-wide font-bold">…</span>
+            </button>
+            {quoteExpanded && (
+              <div className="mt-1 pl-3 border-l-2 border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400 text-[12px] leading-[1.4] whitespace-pre-wrap break-words">
+                {quotedBody}
+              </div>
+            )}
+          </div>
+        )}
+        {/* Rich/plain toggle — only visible on email messages that have
+            both an HTML and a plain-text version. Lets agents drop into
+            plain view if a marketing email renders oddly. */}
+        {message.type === 'email' && emailHtml && bodyText && (
+          <button
+            type="button"
+            onClick={() => setShowRawText((v) => !v)}
+            className="text-[10px] text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 mt-1 underline underline-offset-2"
+          >
+            {showRawText ? 'Show rich view' : 'Show plain text'}
+          </button>
         )}
         <div className={`flex items-center justify-end gap-1 -mt-1 float-right ${
           failed
@@ -196,6 +538,7 @@ function MessageBubble({ message, onAction }) {
             )
           )}
         </div>
+      </div>
       </div>
     </div>
   );

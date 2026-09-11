@@ -81,8 +81,13 @@ async function handler(req) {
         businessId: user.businessId,
         conversationId: conversation?._id,
         leadId: lead._id,
+        // Pin the mailbox so the scheduled sender uses the same From the user
+        // chose. Falls back to the conversation's pinned account, then the
+        // user's default, inside sendChannelEmail when absent.
+        emailAccountId: emailAccountId || conversation?.emailAccountId || undefined,
         to: [{ email: lead.email, name: lead.name }],
         cc: cc || [],
+        bcc: bcc || [],
         subject,
         bodyHtml: bodyHtml || message,
         bodyText: message,
