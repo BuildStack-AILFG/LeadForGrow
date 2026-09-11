@@ -30,7 +30,7 @@ function LeadsWorkspaceContent() {
   if (ws.loading) return <LeadsSkeleton />;
 
   return (
-    <div className="min-h-full bg-[#f8f9fc] dark:bg-slate-950">
+    <div className="min-h-full bg-[#F8F9FA] dark:bg-slate-950">
       <div className="px-4 sm:px-6 pb-8">
         <LeadsHeader
           search={ws.searchInput}
@@ -51,7 +51,7 @@ function LeadsWorkspaceContent() {
           />
         </div>
 
-        <div className="mt-4 mb-4 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm">
+        <div className="mt-4 mb-4 p-4 bg-[#F8F9FA] dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm">
           <CRMFilterBar
             filters={ws.filters}
             onFilterChange={ws.updateFilter}

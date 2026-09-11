@@ -3,7 +3,6 @@
 import { memo, useRef, useState } from 'react';
 import { CheckSquare, Square, MessageSquare, Phone, Palette } from 'lucide-react';
 import StatusBadge from './StatusBadge';
-import FollowupChip from './FollowupChip';
 import LeadScoreBadge from './LeadScoreBadge';
 import LeadActionsMenu from './LeadActionsMenu';
 import LeadColorPicker from './LeadColorPicker';
@@ -22,7 +21,6 @@ function LeadRow({
   onCall,
   onRowColorChange
 }) {
-  const message = lead.lastMessagePreview || lead.message || '';
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
   const paletteRef = useRef(null);
   const rowBg = getLeadRowBackgroundStyle(lead);
@@ -52,18 +50,18 @@ function LeadRow({
             />
           )}
           <div className="min-w-0">
-            <p className="text-[13px] font-semibold text-[#101828] dark:text-slate-100 truncate">{lead.name}</p>
-            {lead.email && <p className="text-[11px] text-[#667085] truncate mt-0.5">{lead.email}</p>}
+            <p className="text-[14px] font-normal text-[#222222] dark:text-slate-100 truncate">{lead.name}</p>
+            {lead.email && <p className="text-[12px] text-[#667085] truncate mt-0.5">{lead.email}</p>}
           </div>
         </div>
       </td>
 
-      <td className={`py-3 px-3 text-center text-[13px] text-[#344054] dark:text-slate-400 tabular-nums whitespace-nowrap ${TABLE_COL_LINE}`}>
+      <td className={`py-3 px-3 text-center text-[14px] font-normal text-[#222222] dark:text-slate-400 tabular-nums whitespace-nowrap ${TABLE_COL_LINE}`}>
         {lead.phone || '—'}
       </td>
 
       <td className={`py-3 px-3 text-center ${TABLE_COL_LINE}`}>
-        <span className="inline-flex text-[12px] font-medium text-[#475467] dark:text-slate-400 whitespace-nowrap">
+        <span className="inline-flex text-[14px] font-normal text-[#222222] dark:text-slate-400 whitespace-nowrap">
           {formatSource(lead.source)}
         </span>
       </td>
@@ -75,21 +73,15 @@ function LeadRow({
       </td>
 
       <td className={`py-3 px-3 text-center ${TABLE_COL_LINE}`}>
-        <span className="inline-block text-[12px] font-medium text-[#475467] dark:text-slate-400 truncate max-w-[130px]">
+        <span className="inline-block text-[14px] font-normal text-[#222222] dark:text-slate-400 truncate max-w-[130px]">
           {assigneeName(lead.assignedTo)}
         </span>
       </td>
 
       <td className={`py-3 px-3 text-center ${TABLE_COL_LINE}`}>
-        <span className="inline-flex text-[12px] text-[#667085] dark:text-slate-400 whitespace-nowrap">
+        <span className="inline-flex text-[14px] font-normal text-[#222222] dark:text-slate-400 whitespace-nowrap">
           {formatRelative(lead.lastContactedAt || lead.updatedAt)}
         </span>
-      </td>
-
-      <td className={`py-3 px-3 text-center ${TABLE_COL_LINE}`}>
-        <div className="flex justify-center">
-          <FollowupChip date={lead.nextFollowUpAt} />
-        </div>
       </td>
 
       <td className={`py-3 px-3 text-center ${TABLE_COL_LINE}`}>
@@ -98,24 +90,8 @@ function LeadRow({
         </div>
       </td>
 
-      <td className={`py-3 px-3 text-left ${TABLE_COL_LINE}`}>
-        {message ? (
-          <span
-            className="inline-flex items-center gap-1 text-[12px] text-[#475467] dark:text-slate-400 truncate max-w-[240px]"
-            title={message}
-          >
-            {lead.lastMessageDirection === 'incoming' && (
-              <MessageSquare className="w-3 h-3 text-emerald-500 shrink-0" />
-            )}
-            <span className="truncate">{message}</span>
-          </span>
-        ) : (
-          <span className="text-[12px] text-[#98A2B3]">—</span>
-        )}
-      </td>
-
       <td className={`py-3 px-3 text-center ${TABLE_COL_LINE}`}>
-        <span className="inline-flex text-[12px] text-[#667085] dark:text-slate-400 whitespace-nowrap tabular-nums">
+        <span className="inline-flex text-[14px] font-normal text-[#222222] dark:text-slate-400 whitespace-nowrap tabular-nums">
           {formatDate(lead.receivedAt)}
         </span>
       </td>
@@ -128,7 +104,7 @@ function LeadRow({
               type="button"
               title="Choose row color"
               onClick={() => setColorPickerOpen((v) => !v)}
-              className={`inline-flex items-center gap-1 px-1.5 py-1 rounded-md hover:bg-[#F2F4F7] dark:hover:bg-slate-800 ${colorPickerOpen || lead.rowColor
+              className={`inline-flex items-center gap-1 px-1.5 py-1 rounded hover:bg-[#F2F4F7] dark:hover:bg-slate-800 ${colorPickerOpen || lead.rowColor
                   ? 'text-[#059669] bg-[#EFF8FF]'
                   : 'text-[#667085]'
                 }`}
@@ -146,17 +122,23 @@ function LeadRow({
               }}
             />
           </div>
+          {/* Always visible — not hover-revealed. `group-hover:opacity-100`
+              lives behind Tailwind's `@media (hover: hover)`, which reads
+              false on touchscreen laptops even with a mouse actively
+              driving the pointer, so these silently never appeared for
+              that class of device. Interakt's own actions column is
+              always-visible too, not a hover reveal. */}
           <button
             type="button"
             onClick={() => onCall(lead)}
-            className="p-1.5 rounded-md text-[#98A2B3] hover:text-[#059669] hover:bg-[#F2F4F7] dark:hover:bg-slate-800 opacity-0 group-hover:opacity-100 transition-opacity"
+            className="p-1.5 rounded text-[#667085] hover:text-[#059669] hover:bg-[#F2F4F7] dark:hover:bg-slate-800"
           >
             <Phone className="w-3.5 h-3.5" />
           </button>
           <a
             href={`/automation/chat?leadId=${lead._id}`}
             onClick={(e) => e.stopPropagation()}
-            className="p-1.5 rounded-md text-[#98A2B3] hover:text-emerald-600 hover:bg-[#F2F4F7] dark:hover:bg-slate-800 opacity-0 group-hover:opacity-100 transition-opacity"
+            className="p-1.5 rounded text-[#667085] hover:text-emerald-600 hover:bg-[#F2F4F7] dark:hover:bg-slate-800"
           >
             <MessageSquare className="w-3.5 h-3.5" />
           </a>

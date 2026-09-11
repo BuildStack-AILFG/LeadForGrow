@@ -131,7 +131,7 @@ function ContactRow({
           <button
             type="button"
             onClick={() => setMenuOpen(!menuOpen)}
-            className="p-1.5 rounded-md text-[#98A2B3] hover:text-[#344054] hover:bg-[#F2F4F7] opacity-0 group-hover:opacity-100 transition-opacity"
+            className="p-1.5 rounded-md text-[#98A2B3] hover:text-[#344054] hover:bg-[#F2F4F7] transition-opacity"
           >
             <MoreHorizontal className="w-4 h-4" />
           </button>

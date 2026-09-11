@@ -45,10 +45,13 @@ export default function LeadActionsMenu({
 
   return (
     <div className="relative" ref={ref} onClick={(e) => e.stopPropagation()}>
+      {/* Always visible — see LeadRow.jsx's comment on why the old
+          `opacity-0 group-hover:opacity-100` reveal never showed this
+          button at all on touchscreen devices. */}
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="p-1.5 rounded-md text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-slate-200 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity"
+        className="p-1.5 rounded-md text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-slate-200"
       >
         <MoreHorizontal className="w-4 h-4" />
       </button>

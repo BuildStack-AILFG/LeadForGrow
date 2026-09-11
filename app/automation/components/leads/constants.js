@@ -47,8 +47,9 @@ export const SMART_VIEWS = [
 
 export const SAVED_VIEWS_KEY = 'lfg_leads_saved_views';
 
-/** 10 row highlight colors for the leads table */
+/** 11 row highlight colors for the leads table */
 export const LEAD_ROW_COLORS = [
+  { id: 'white', value: '#ffffff', dark: 'rgba(255, 255, 255, 0.06)', label: 'White' },
   { id: 'amber', value: '#fef3c7', dark: 'rgba(254, 243, 199, 0.15)', label: 'Amber' },
   { id: 'blue', value: '#dbeafe', dark: 'rgba(219, 234, 254, 0.15)', label: 'Blue' },
   { id: 'green', value: '#dcfce7', dark: 'rgba(220, 252, 231, 0.15)', label: 'Green' },
@@ -68,12 +69,11 @@ export const TABLE_COLUMNS = [
   { key: 'status', label: 'Status', sortable: true, minWidth: 120, align: 'center' },
   { key: 'assignedTo', label: 'Assigned To', sortable: true, minWidth: 130, align: 'center' },
   { key: 'lastActivity', label: 'Last Activity', sortable: true, minWidth: 120, align: 'center' },
-  { key: 'nextFollowUp', label: 'Follow-up', sortable: true, minWidth: 130, align: 'center' },
   { key: 'score', label: 'Score', sortable: true, minWidth: 80, align: 'center' },
-  { key: 'message', label: 'Message', sortable: false, minWidth: 180, align: 'left' },
   { key: 'receivedAt', label: 'Created', sortable: true, minWidth: 100, align: 'center' },
 ];
 
 /** White vertical divider between table columns */
 export const TABLE_COL_LINE = 'border-r border-solid border-white';
-export const TABLE_ROW_LINE = 'border-b border-solid border-white';
+/** Row divider — #E5E5E7 matches Interakt's own Contacts table border exactly. */
+export const TABLE_ROW_LINE = 'border-b border-solid border-[#E5E5E7]';

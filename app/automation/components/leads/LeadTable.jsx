@@ -35,10 +35,10 @@ export default function LeadTable({
   const allSelected = leads.length > 0 && selectedIds.length === leads.length;
 
   return (
-    <div className="bg-white border border-[#E8ECEF] rounded-[12px] shadow-[0_1px_2px_rgba(16,24,40,0.04)] overflow-hidden">
+    <div className="bg-[#F8F9FA] border border-[#E8ECEF] rounded-[4px] shadow-[0_1px_2px_rgba(16,24,40,0.04)] overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full min-w-[1100px] border-separate border-spacing-0">
-          <thead className={`sticky top-0 z-10 bg-[#FAFBFC] ${TABLE_ROW_LINE}`}>
+          <thead className={`sticky top-0 z-10 bg-[#F8F9FA] ${TABLE_ROW_LINE}`}>
             <tr>
               <th className={`py-3.5 pl-3 pr-2 w-10 ${TABLE_COL_LINE}`}>
                 <button type="button" onClick={onToggleSelectAll} className="text-[#98A2B3] hover:text-[#059669]">
@@ -48,14 +48,14 @@ export default function LeadTable({
               {TABLE_COLUMNS.map((col) => (
                 <th
                   key={col.key}
-                  className={`py-3.5 px-3 text-[11px] font-semibold uppercase tracking-[0.06em] text-[#667085] whitespace-nowrap ${headerAlignClass(col.align)} ${TABLE_COL_LINE}`}
+                  className={`py-3.5 px-3 text-[14px] font-semibold text-[#0A0B10] whitespace-nowrap ${headerAlignClass(col.align)} ${TABLE_COL_LINE}`}
                   style={{ minWidth: col.minWidth }}
                 >
                   {col.sortable ? (
                     <button
                       type="button"
                       onClick={() => onSort(col.key)}
-                      className={`inline-flex items-center gap-1 hover:text-[#344054] transition-colors ${
+                      className={`inline-flex items-center gap-1 hover:text-[#059669] transition-colors ${
                         col.align === 'center' ? 'justify-center w-full' : ''
                       }`}
                     >
@@ -67,7 +67,7 @@ export default function LeadTable({
                   )}
                 </th>
               ))}
-              <th className="py-3.5 px-2 w-28 text-[11px] font-semibold uppercase tracking-[0.06em] text-[#667085] text-center">
+              <th className="py-3.5 px-2 w-28 text-[14px] font-semibold text-[#0A0B10] text-center">
                 Actions
               </th>
             </tr>
@@ -86,7 +86,7 @@ export default function LeadTable({
                     </div>
                     <Link
                       href="/automation/integrations"
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium text-white bg-[#059669] hover:bg-[#163B8E] rounded-lg"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium text-white bg-[#059669] hover:bg-[#163B8E] rounded"
                     >
                       <Plus className="w-4 h-4" /> Add lead source
                     </Link>

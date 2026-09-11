@@ -100,7 +100,7 @@ function TaskRow({ task, onMarkDone, onReschedule, onCommunicate }) {
           <button
             type="button"
             onClick={() => onMarkDone(task._id)}
-            className="p-1.5 rounded-md text-slate-400 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 opacity-0 group-hover:opacity-100 transition-opacity"
+            className="p-1.5 rounded-md text-slate-400 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition-opacity"
             title="Mark done"
           >
             <CheckCircle2 className="w-3.5 h-3.5" />
@@ -108,7 +108,7 @@ function TaskRow({ task, onMarkDone, onReschedule, onCommunicate }) {
           <button
             type="button"
             onClick={() => onReschedule(task)}
-            className="p-1.5 rounded-md text-slate-400 hover:text-teal-600 hover:bg-slate-100 dark:hover:bg-slate-800 opacity-0 group-hover:opacity-100 transition-opacity"
+            className="p-1.5 rounded-md text-slate-400 hover:text-teal-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition-opacity"
             title="Reschedule"
           >
             <Calendar className="w-3.5 h-3.5" />
@@ -116,7 +116,7 @@ function TaskRow({ task, onMarkDone, onReschedule, onCommunicate }) {
           {lead?._id && (
             <Link
               href={`/automation/leads/${lead._id}`}
-              className="p-1.5 rounded-md text-slate-400 hover:text-teal-600 hover:bg-slate-100 dark:hover:bg-slate-800 opacity-0 group-hover:opacity-100 transition-opacity"
+              className="p-1.5 rounded-md text-slate-400 hover:text-teal-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition-opacity"
               title="Open lead"
             >
               <ExternalLink className="w-3.5 h-3.5" />

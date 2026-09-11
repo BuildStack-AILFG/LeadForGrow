@@ -13,6 +13,40 @@ Related decisions: <link to DECISIONS.md entry, if any>
 
 ---
 
+## 2026-09-11 — Leads table restyled to match Interakt Contacts + dev server hang fixed
+Branch: saurabh
+Files:
+- `app/automation/components/leads/constants.js` (`TABLE_ROW_LINE` border color changed from invisible white to `#E5E5E7`, matching Interakt's Contacts table row divider exactly; added an 11th `white` entry to `LEAD_ROW_COLORS` — `#ffffff` swatch, first in the grid)
+- `app/automation/components/leads/LeadTable.jsx` (header row: `text-[11px] uppercase tracking` → `text-[14px] font-semibold`, no uppercase — matches Interakt's plain-case bold header; container radius `rounded-[12px]` → `rounded-[4px]`; table/thead bg → `#F8F9FA` light grey)
+- `app/automation/components/leads/LeadRow.jsx` (every data cell unified to `text-[14px] font-normal text-[#222222]` — previously a mix of 11-13px with varying weights/grays; action-icon buttons `rounded-md` → `rounded` to match the 4px-radius rectangle language)
+- `app/automation/components/leads/LeadsHeader.jsx` (search box widened — `min-w-[200px]` → `lg:min-w-[380px]`, group `max-w-3xl` → `max-w-4xl`; header bg `#f8f9fc` tint → pure white; every toolbar button/input `rounded-lg` → `rounded`, border color → `#D0D4E1` matching Interakt's filter-button border exactly)
+- `app/automation/components/leads/CRMFilterBar.jsx` (same `rounded-lg` → `rounded` + border-color sweep across the smart-view pills, status/source/agent selects, date-range button, save-view input)
+- `app/automation/leads/page.js` (page canvas + the filter-bar section wrapper → `#F8F9FA` light grey, so the table and filter *sections* read as tinted panels while every button/input inside them stays pure white — explicit follow-up correction after an initial pure-white pass)
+Colors/sizes for this pass were scraped live from `app.interakt.ai/contacts/list`'s own computed CSS (same DevTools-Protocol technique as the sidebar reskin) — title 16px/600/#222222, table header 14px/600/#0A0B10 no uppercase, body cells 14px/400/#222222, filter buttons `border-radius: 4px` + `border: 1px solid #D0D4E1`.
+
+**Dev server hang (found + fixed):** partway through this pass the Leads page got stuck on its loading skeleton indefinitely. Diagnosed precisely, not guessed: an authenticated `fetch('/api/automation/leads')` from the browser timed out after 8s+, while the identical unauthenticated request via `curl` returned in 6ms (fails auth before ever touching the DB) — proving the server was accepting connections fine but hanging on the authenticated code path specifically, most likely a stuck Mongoose connection pool after a very long dev session with dozens of Turbopack Fast Refresh cycles. Confirmed with the user, then killed the `npm run dev` process tree (PIDs found via `Get-CimInstance Win32_Process`) and started a fresh instance — the hang was gone immediately after. Not a bug in any of the styling edits above (none of them touch data-fetching code); flagging here in case it recurs in a future long session, since the fix is "restart the dev server," not "find a code bug."
+Related decisions: see DECISIONS.md 2026-09-11 leads-interakt-styling entry.
+
+## 2026-09-11 — Sidebar reskin to Interakt's UI kit + touchscreen hover bug fix
+Branch: saurabh
+Files:
+- `app/automation/components/layout/Sidebar.jsx` (white bg replacing `#F4F5F7`; collapsed rail now `position: fixed` with a layout spacer, so hovering it expands into a floating overlay without reflowing the page — mirrors Interakt's own collapsed-rail behavior; renders new `SidebarQuickLinks` above the groups)
+- `app/automation/components/layout/SidebarItem.jsx` (icon always brand-teal `#1D4B3E` at rest — not just on active; active state is a solid edge-to-edge teal fill with near-white text, no rounding/no accent stripe; hover is a medium mint `#BAE0CF` fill with teal text — colors scraped live from `app.interakt.ai`'s own computed CSS via DevTools Protocol)
+- `app/automation/components/layout/SidebarSection.jsx` (group headers restyled from a small uppercase-caps label to a full nav-row: icon + normal-case label + trailing chevron, same size as a leaf item — matches Interakt's "Market/Support/Automation" rows, not its "QUICK LINKS" divider style; open/closed is click-only via the chevron, no hover-to-toggle; the open panel's mint background is one continuous rect spanning the header + items with no gap between them)
+- `app/automation/components/layout/SidebarQuickLinks.jsx` (new — static "Quick Links" strip: Dashboard/Leads/Inbox, always open, no chevron, matching Interakt's own Quick Links pattern)
+- `app/automation/components/layout/SidebarHeader.jsx` (white bg; removed the "CRM Management" subtitle under the wordmark)
+- `app/automation/components/layout/WorkspaceSwitcher.jsx` (avatar/accent recolored from emerald to the same brand teal)
+- `app/automation/components/layout/constants.js` (nav fully regrouped/renamed per explicit spec: `CRM/Communication/Insights/Settings/Support` → `Overview, Sales, Communication, Automation, Insights & AI, Workspace`; several items renamed — Deal Pipeline→Sales Pipeline, Automation Rules→Automations, Meetings & Scheduling→Meetings, Automation Analytics→Automation Performance, Events & Sessions→Activity & Events, Team & Permissions→Team & Access, Guide→Help Center; every item's `id`/href/icon/badge/role is unchanged — only `name` and group membership moved, since `id` is the key existing per-tenant `navAccess` locks are stored under; added a lucide `icon` per group for the new header style; removed the unused per-category `NAV_GROUP_TONES` now that the whole nav is monochrome teal)
+- `lib/help/...` not touched this entry — scope was the automation app shell only
+
+**Touchscreen hover bug (found + fixed, broader than the sidebar):** mid-session the user reported hover wasn't working; traced it to `window.matchMedia('(hover: hover)').matches === false` on their device (a touchscreen laptop — Tailwind wraps every `hover:` utility in `@media (hover: hover)`, which several touchscreen/2-in-1 Windows laptops report as false even with a physical mouse actively driving the pointer). Fixed in the sidebar by switching from Tailwind's `hover:` variant to `onMouseEnter`/`onMouseLeave`-driven React state in `SidebarItem.jsx` and `SidebarSection.jsx`. Grepped the rest of the app for the specific `opacity-0 group-hover:opacity-100` "hover-to-reveal" pattern (used to hide row-action icons until hover) and found it in 30 files — this means those icons never appear at all for this user anywhere they're used. Fixed the CRM list-row siblings while in the area:
+- `app/automation/components/leads/LeadRow.jsx`, `LeadActionsMenu.jsx` (row action icons + the "⋯" menu trigger — were fully invisible, not just delayed)
+- `app/automation/components/contacts/ContactRow.jsx`, `deals/DealRow.jsx`, `companies/CompanyRow.jsx`, `tasks/TaskRow.jsx` (same `opacity-0 group-hover:opacity-100` "⋯" menu / quick-action pattern, same mechanical fix — always-visible now)
+The remaining ~24 files with this pattern (chat, forms, sequences, agency pages, templates, etc.) are NOT fixed — out of scope for this session, flagged here so a future pass can sweep the rest.
+
+**Leads table:** removed the Follow-up and Message columns from `app/automation/components/leads/constants.js`'s `TABLE_COLUMNS` and their `<td>`s in `LeadRow.jsx` (per explicit ask, matching Interakt's Contacts table's leaner column set) — no data model change, just fewer columns rendered.
+Related decisions: see DECISIONS.md 2026-09-11 sidebar-interakt-reskin and touchscreen-hover-media-bug entries.
+
 ## 2026-09-10 — New-lead sound notification: fill gaps + fix realtime pub/sub bug
 Branch: saurabh
 Files:
