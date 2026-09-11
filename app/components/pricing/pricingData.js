@@ -1,202 +1,208 @@
+/**
+ * Pricing page data — layout/UI pattern is a deliberate close copy of
+ * app.interakt.shop/pricing (grouped feature-matrix table, per-tier accent
+ * colors, Monthly/Yearly toggle with a savings badge) at the user's explicit
+ * request. Numbers and features are entirely our own — nothing here is
+ * copied from Interakt's pricing.
+ *
+ * Tier -> backend `plan` enum mapping (see lib/plans.js for the source of
+ * truth on quotas). This page is marketing-facing; the display names below
+ * are intentionally friendlier than the internal enum. If/when checkout is
+ * wired to real billing, a plan selection here should set the backend
+ * `plan` field to the mapped value so quotas enforce automatically:
+ *   Starter    -> 'growth'      (maxForms 3, maxTeamMembers 3, maxAutomationRules 15, maxLeadsPerMonth 500)
+ *   Growth     -> 'pro'         (maxForms 7, maxTeamMembers 7, maxAutomationRules 30, maxLeadsPerMonth 2000)
+ *   Scale      -> 'premium'     (maxForms 10, maxTeamMembers 10, maxAutomationRules 50, maxLeadsPerMonth 5000)
+ *   Enterprise -> 'enterprise'  (unlimited)
+ */
+
+// Yearly price = ~23% off monthly on every tier (same ratio as the
+// user-specified Starter: ₹999 / ₹1,299 = 76.9%) — one consistent,
+// defensible "save 23% yearly" story instead of a different % per tier.
+// Quarterly = 8% off monthly, matching Interakt's own Monthly/Quarterly/Yearly
+// toggle shape (their badges read ▼8% / ▼20%; we use ▼8% / ▼23%).
+export const YEARLY_DISCOUNT_LABEL = '23%';
+export const QUARTERLY_DISCOUNT_LABEL = '8%';
+
+// accent keys map 1:1 to the ACCENT palette in PricingTable.jsx, which is a
+// deliberate close copy of Interakt's own per-tier colors (amber / teal /
+// blue / forest) — scraped live from interakt.shop/pricing at the user's
+// explicit "100% same to same UI" request. Only our copy/numbers are ours.
 export const PRICING_PLANS = [
   {
     id: 'starter',
     name: 'Starter',
-    label: 'For early-stage sales teams.',
+    accent: 'amber',
+    tagline: 'For solo founders getting their first leads under control.',
     monthlyPrice: 1299,
+    quarterlyPrice: 1199,
     yearlyPrice: 999,
+    planMapping: 'growth',
     cta: 'Start Free Trial',
-    href: '/user/register',
-    highlighted: false,
+    href: '/register',
+    popular: false,
     enterprise: false,
-    features: [
-      '2 team members',
-      'CRM dashboard',
-      'Lead pipeline',
-      'WhatsApp inbox',
-      'Meta Ads integration',
-      'Website forms',
-      'Lead assignment',
-      'Tasks & reminders',
-      'Basic automations',
-      'Basic reports',
-      '1 WhatsApp number',
-      'Mobile responsive dashboard',
-    ],
-    limits: ['2,000 contacts', '500 automation actions/month'],
+    seats: '3 team members',
+    channels: { whatsapp: true, instagram: false, email: true },
   },
   {
     id: 'growth',
     name: 'Growth',
-    label: 'For teams that need speed and accountability.',
-    monthlyPrice: 3999,
-    yearlyPrice: 2999,
-    badge: 'Most Popular',
-    cta: 'Start 14-Day Trial',
-    href: '/user/register',
-    highlighted: true,
+    accent: 'teal',
+    tagline: 'For teams ready to run WhatsApp + Instagram from one inbox.',
+    monthlyPrice: 2999,
+    quarterlyPrice: 2699,
+    yearlyPrice: 2499,
+    planMapping: 'pro',
+    cta: 'Start Free Trial',
+    href: '/register',
+    popular: true,
     enterprise: false,
-    features: [
-      'Everything in Starter, plus:',
-      '10 team members',
-      'Sequences',
-      'Team inbox',
-      'Round-robin assignment',
-      'SLA reminders',
-      'Call recovery',
-      'Advanced automations',
-      'Google Ads integration',
-      'Razorpay integration',
-      'Revenue analytics',
-      'Team performance tracking',
-      'Multiple pipelines',
-      'Export reports',
-      'Workflow templates',
-      'Role permissions',
-    ],
-    limits: ['25,000 contacts', '10,000 automation actions/month'],
+    seats: '7 team members',
+    channels: { whatsapp: true, instagram: true, email: true },
   },
   {
     id: 'scale',
     name: 'Scale',
-    label: 'For high-performance operations.',
-    monthlyPrice: 9999,
-    yearlyPrice: 7999,
-    cta: 'Book Demo',
-    href: '/contact',
-    highlighted: false,
+    accent: 'blue',
+    tagline: 'For high-volume teams that need AI doing the first reply.',
+    monthlyPrice: 5999,
+    quarterlyPrice: 5499,
+    yearlyPrice: 4999,
+    planMapping: 'premium',
+    cta: 'Start Free Trial',
+    href: '/register',
+    popular: false,
     enterprise: false,
-    features: [
-      'Everything in Growth, plus:',
-      'Unlimited team members',
-      'AI WhatsApp assistant',
-      'AI reply suggestions',
-      'AI lead qualification',
-      'Multi-workspace support',
-      'Multi-number WhatsApp',
-      'API access',
-      'Webhooks',
-      'Funnel intelligence',
-      'Custom dashboards',
-      'Audit logs',
-      'SSO login',
-      'Advanced permissions',
-      'SLA monitoring',
-      'Priority support',
-    ],
-    limits: ['100,000 contacts', '100,000 automation actions/month'],
+    seats: '10 team members',
+    channels: { whatsapp: true, instagram: true, email: true },
   },
   {
     id: 'enterprise',
     name: 'Enterprise',
-    label: 'Enterprise-grade revenue infrastructure.',
+    accent: 'forest',
+    tagline: 'For businesses that need unlimited scale and a dedicated team.',
     monthlyPrice: null,
+    quarterlyPrice: null,
     yearlyPrice: null,
-    cta: 'Contact Sales',
-    href: '/contact',
-    highlighted: false,
+    planMapping: 'enterprise',
+    cta: 'Talk to Sales',
+    href: 'https://wa.me/916366966120',
+    popular: false,
     enterprise: true,
-    features: [
-      'Everything unlimited',
-      'Dedicated infrastructure',
-      'White-label mode',
-      'Agency mode',
-      'AI calling system',
-      'Salesforce sync',
-      'ERP integrations',
-      'Dedicated account manager',
-      'Compliance support',
-      'Security review',
-      'Multi-region deployment',
-      'Internal workflow consulting',
+    seats: 'Unlimited team members',
+    channels: { whatsapp: true, instagram: true, email: true },
+  },
+];
+
+// Bottom-of-page integrations teaser — mirrors Interakt's "Unifying Your
+// Processes with 60+ Plug & Play integrations" band, which shows a real
+// company logo per integration chip. We do the same: every entry below maps
+// to a real brand-icon component (see IntegrationBrandIcons.jsx, Simple
+// Icons paths — same source as WhatsApp/Instagram/Gmail's existing icons in
+// BrandIcons.jsx). "Webhooks" isn't a company, so it uses lucide's generic
+// Webhook glyph instead of a fabricated brand mark.
+export const INTEGRATIONS_COUNT = '17+';
+export const INTEGRATIONS = [
+  { name: 'WhatsApp', icon: 'whatsapp', color: '#25D366' },
+  { name: 'Instagram', icon: 'instagram', color: '#DD2A7B' },
+  { name: 'Gmail', icon: 'email', color: '#EA4335' },
+  { name: 'Meta Lead Ads', icon: 'meta', color: '#0866FF' },
+  { name: 'Google Calendar', icon: 'googleCalendar', color: '#4285F4' },
+  { name: 'Salesforce', icon: 'salesforce', color: '#00A1E0' },
+  { name: 'HubSpot', icon: 'hubspot', color: '#FF7A59' },
+  { name: 'Shopify', icon: 'shopify', color: '#95BF47' },
+  { name: 'Zoho', icon: 'zoho', color: '#C8202F' },
+  { name: 'Slack', icon: 'slack', color: '#4A154B' },
+  { name: 'Calendly', icon: 'calendly', color: '#006BFF' },
+  { name: 'Razorpay', icon: 'razorpay', color: '#0C2451' },
+  { name: 'Stripe', icon: 'stripe', color: '#635BFF' },
+  { name: 'Twilio', icon: 'twilio', color: '#F22F46' },
+  { name: 'Zapier', icon: 'zapier', color: '#FF4A00' },
+  { name: 'Webhooks', icon: 'webhooks', color: '#111827' },
+  { name: 'Google Sheets', icon: 'googleSheets', color: '#0F9D58' },
+];
+
+// v = true | false | string (shown as-is) | { starter, growth, scale, enterprise } per-plan override
+// A plain value applies to every plan; use an object only when it differs.
+export const FEATURE_CATEGORIES = [
+  {
+    id: 'channels',
+    label: 'Channels',
+    rows: [
+      { label: 'WhatsApp Business API', v: true },
+      { label: 'Instagram DMs & comments', v: { starter: false, growth: true, scale: true, enterprise: true } },
+      { label: 'Email (Gmail / SMTP)', v: true, note: 'Included on every plan — even your free trial' },
+      { label: 'Unified inbox (all channels, one view)', v: true },
     ],
-    limits: ['Custom limits', 'Dedicated SLA'],
+  },
+  {
+    id: 'crm',
+    label: 'CRM & Sales',
+    rows: [
+      { label: 'Leads, Deals & Pipelines', v: true },
+      { label: 'Companies & Contacts', v: true },
+      { label: 'Bills & payment links', v: { starter: false, growth: true, scale: true, enterprise: true } },
+      { label: 'Custom fields & tags', v: { starter: '15', growth: '30', scale: 'Unlimited', enterprise: 'Unlimited' } },
+      { label: 'Team seats', v: { starter: '3', growth: '7', scale: '10', enterprise: 'Unlimited' } },
+    ],
+  },
+  {
+    id: 'automation',
+    label: 'Automation',
+    rows: [
+      { label: 'Automation rules', v: { starter: '15', growth: '30', scale: '50', enterprise: 'Unlimited' } },
+      { label: 'Sequences (multi-step drip)', v: { starter: false, growth: true, scale: true, enterprise: true } },
+      { label: 'Broadcasts', v: true },
+      { label: 'WhatsApp Flows', v: { starter: false, growth: true, scale: true, enterprise: true } },
+      { label: 'Forms', v: { starter: '3', growth: '7', scale: '10', enterprise: 'Unlimited' } },
+      { label: 'Customer Journeys', v: { starter: false, growth: false, scale: true, enterprise: true } },
+    ],
+  },
+  {
+    id: 'ai',
+    label: 'AI',
+    rows: [
+      { label: 'Chatbot builder', v: { starter: false, growth: true, scale: true, enterprise: true } },
+      { label: 'AI Knowledge Base', v: { starter: false, growth: 'Limited', scale: true, enterprise: true } },
+      { label: 'AI lead qualification & scoring', v: { starter: false, growth: false, scale: true, enterprise: true } },
+      { label: 'SLA safety-net auto-reply', v: { starter: false, growth: true, scale: true, enterprise: true } },
+    ],
+  },
+  {
+    id: 'insights',
+    label: 'Insights & Support',
+    rows: [
+      { label: 'Reports & analytics', v: true },
+      { label: 'Automation performance analytics', v: { starter: false, growth: false, scale: true, enterprise: true } },
+      { label: 'Support', v: { starter: 'Email support', growth: 'Priority chat', scale: 'Priority chat', enterprise: 'Dedicated account manager' } },
+    ],
+  },
+  {
+    id: 'limits',
+    label: 'Monthly limits',
+    rows: [
+      { label: 'Leads captured / month', v: { starter: '500', growth: '2,000', scale: '5,000', enterprise: 'Unlimited' } },
+    ],
   },
 ];
 
-export const ADDONS = [
-  {
-    name: 'AI Calling Assistant',
-    price: '2,999',
-    period: '/ month',
-    bullets: ['AI voice follow-ups', 'Missed call recovery', 'Automated reminders'],
-  },
-  {
-    name: 'Extra WhatsApp Number',
-    price: '999',
-    period: '/ number / month',
-    bullets: ['Additional business line', 'Separate routing rules', 'Team assignment per number'],
-  },
-  {
-    name: 'Additional Team Member',
-    price: '299',
-    period: '/ user / month',
-    bullets: ['Add seats beyond plan', 'Full CRM access', 'Role-based permissions'],
-  },
-  {
-    name: 'Advanced Analytics Pack',
-    price: '1,999',
-    period: '/ month',
-    bullets: ['Funnel intelligence', 'Conversion heatmaps', 'Sales forecasting'],
-  },
-  {
-    name: 'API & Webhook Upgrade',
-    price: '2,499',
-    period: '/ month',
-    bullets: ['Higher API limits', 'Advanced integrations', 'Custom event streams'],
-  },
-  {
-    name: 'Dedicated Onboarding',
-    price: '9,999',
-    period: ' one-time',
-    bullets: ['Setup support', 'Workflow migration', 'Team training'],
-  },
-];
-
-export const COMPARISON_ROWS = [
-  { feature: 'Instant lead response', lfg: true, crm: 'Manual', manual: false },
-  { feature: 'WhatsApp automation', lfg: true, crm: 'Add-on', manual: false },
-  { feature: 'Team accountability', lfg: true, crm: 'Limited', manual: false },
-  { feature: 'Auto follow-ups', lfg: true, crm: 'Partial', manual: false },
-  { feature: 'Revenue visibility', lfg: true, crm: 'Reports only', manual: false },
-  { feature: 'SLA tracking', lfg: true, crm: 'Optional', manual: false },
-  { feature: 'AI assistance', lfg: true, crm: 'Rare', manual: false },
-  { feature: 'Call recovery', lfg: true, crm: 'No', manual: false },
-  { feature: 'Workflow automation', lfg: true, crm: 'Complex setup', manual: false },
-];
-
-export const USAGE_LIMITS = [
-  { label: 'Contacts', starter: 2000, growth: 25000, scale: 100000, enterprise: 'Unlimited' },
-  { label: 'Automation actions / mo', starter: 500, growth: 10000, scale: 100000, enterprise: 'Unlimited' },
-  { label: 'WhatsApp conversations', starter: 2000, growth: 10000, scale: 50000, enterprise: 'Unlimited' },
-  { label: 'API requests / mo', starter: 5000, growth: 50000, scale: 250000, enterprise: 'Custom' },
-  { label: 'Storage', starter: '5 GB', growth: '25 GB', scale: '100 GB', enterprise: 'Custom' },
-  { label: 'Team seats', starter: 2, growth: 10, scale: 'Unlimited', enterprise: 'Unlimited' },
-];
-
-export const ONBOARDING_STEPS = [
-  { step: '1', title: 'Connect WhatsApp', desc: 'Link your official WhatsApp Business API in minutes.' },
-  { step: '2', title: 'Import leads', desc: 'Sync Meta ads, forms, spreadsheets, or your existing CRM.' },
-  { step: '3', title: 'Setup automations', desc: 'Deploy follow-up sequences, routing, and SLA rules.' },
-  { step: '4', title: 'Invite team', desc: 'Assign roles, pipelines, and accountability dashboards.' },
-  { step: '5', title: 'Go live', desc: 'Start converting with real-time revenue visibility.' },
+// Pay-as-you-grow add-ons — stack on top of any paid plan, so a team that's
+// close to their limit doesn't have to jump a whole tier just for headroom.
+export const PRICING_ADDONS = [
+  { id: 'leads', name: 'Extra 1,000 leads', description: 'Add more monthly lead-capture headroom to any plan.', price: 499, unit: '/month' },
+  { id: 'seat', name: 'Extra team member', description: 'Add one more seat beyond your plan\'s included team members.', price: 99, unit: '/month' },
 ];
 
 export const PRICING_FAQ = [
-  { q: 'Do I need Meta API?', a: 'Yes, for official WhatsApp automation at scale. We guide you through Meta Business verification and API setup during onboarding — typically within one business day.' },
-  { q: 'Can I migrate from Zoho?', a: 'Yes. Import contacts, deals, and activity history. Our onboarding team helps map pipelines and automations so you do not lose momentum during migration.' },
-  { q: 'Is onboarding included?', a: 'Self-serve onboarding is included on all plans. Growth and above include guided setup. Dedicated onboarding is available as a one-time add-on.' },
-  { q: 'Can I use multiple WhatsApp numbers?', a: 'Starter includes one number. Scale and Enterprise support multi-number routing. Additional numbers are available as add-ons on any plan.' },
-  { q: 'Does LeadForGrow support agencies?', a: 'Yes. Enterprise includes agency mode and white-label deployment. Manage multiple client workspaces with consolidated reporting and billing.' },
-  { q: 'Can I upgrade anytime?', a: 'Upgrade instantly from your billing settings. Downgrades apply at the next billing cycle. No lock-in contracts on standard plans.' },
-  { q: 'Is AI calling available?', a: 'AI Calling Assistant is available as an add-on on Growth+, and included in Enterprise custom packages.' },
-  { q: 'What happens after trial ends?', a: 'Your data is preserved for 14 days. Choose a plan to continue, or export your leads and conversation history before the grace period ends.' },
-];
-
-export const TRUST_BADGES = [
-  'Official WhatsApp API',
-  'Setup in 1 day',
-  'Used by growing Indian sales teams',
+  { q: 'Does every plan really include Email?', a: 'Yes — Email (Gmail or SMTP) is included on every plan, including your free trial. WhatsApp is included from Starter up, and Instagram unlocks from Growth up.' },
+  { q: 'What happens when my free trial ends?', a: 'Your data is kept safe. Pick a plan to keep going, or export your leads and conversation history — nothing is deleted without warning.' },
+  { q: 'Can I switch between Monthly and Yearly billing?', a: 'Yes, any time from your billing settings. Switching to yearly applies the discount immediately; switching back to monthly applies from your next cycle.' },
+  { q: 'What counts as a "lead captured"?', a: 'Any new contact created automatically from WhatsApp, Instagram, Email, your website forms, or a manual add. Replies within an existing conversation don\'t count again.' },
+  { q: 'Can I upgrade or downgrade later?', a: 'Upgrade instantly, any time — your new limits apply immediately. Downgrades take effect at the start of your next billing cycle.' },
+  { q: 'Do I need my own Meta / WhatsApp Business API access?', a: 'You need a Meta Business Manager account with WhatsApp Business API access. Our onboarding walks you through connecting it — most teams are live the same day.' },
+  { q: 'Is there a setup fee?', a: 'No. Self-serve setup is included on every plan. Scale and Enterprise also get a guided onboarding call at no extra cost.' },
+  { q: 'What does Enterprise include that Scale doesn\'t?', a: 'Unlimited everything (leads, automations, seats), a dedicated account manager, and custom terms for compliance, security review, or multi-workspace / agency needs.' },
 ];
 
 export function formatINR(amount) {

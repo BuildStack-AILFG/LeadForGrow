@@ -9,7 +9,7 @@ import AutomationInActionSection from '@/app/components/landing/AutomationInActi
 import OnePlatformSection from '@/app/components/landing/OnePlatformSection';
 import CustomerJourneySection from '@/app/components/landing/CustomerJourneySection';
 import LeadForGrowComparisonSection from '@/app/components/landing/LeadForGrowComparisonSection';
-import SimplePricingSection from '@/app/components/landing/SimplePricingSection';
+import HomePricingSection from '@/app/components/landing/HomePricingSection';
 import FAQSection from '@/app/components/landing/FAQSection';
 import LandingCTA from '@/app/components/landing/LandingCTA';
 import ScrollToTopButton from '@/app/components/landing/ScrollToTopButton';
@@ -38,7 +38,7 @@ export default function LeadForGrowHeroPage() {
       <OnePlatformSection onGetStarted={handleGetStarted} onBookDemo={handleBookDemo} />
       <CustomerJourneySection onGetStarted={handleGetStarted} onBookDemo={handleBookDemo} />
       <LeadForGrowComparisonSection />
-      <SimplePricingSection onGetStarted={handleGetStarted} />
+      <HomePricingSection />
       <FAQSection onBookDemo={handleBookDemo} />
       <LandingCTA onGetStarted={handleGetStarted} onBookDemo={handleBookDemo} />
       <ScrollToTopButton />

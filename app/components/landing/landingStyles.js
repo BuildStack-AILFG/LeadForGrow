@@ -45,6 +45,3 @@ export const LANDING = {
   linkArrow: 'inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#33475B] hover:text-[#FF5C35] transition-colors group',
   checkItem: 'flex items-start gap-3 text-[15px] text-[#374151] leading-relaxed',
 };
-
-/** @deprecated Import from @/app/components/pricing/pricingData */
-export { PRICING_PLANS, TRUST_BADGES as PRICING_TRUST } from '@/app/components/pricing/pricingData';

@@ -1,29 +1,24 @@
-'use client';
-
 import MarketingShell from '@/app/components/marketing/MarketingShell';
 import PricingHero from '@/app/components/pricing/PricingHero';
-import PricingPlans from '@/app/components/pricing/PricingPlans';
-import ComparisonMatrix from '@/app/components/pricing/ComparisonMatrix';
-import AddonsSection from '@/app/components/pricing/AddonsSection';
-import RoiCalculator from '@/app/components/pricing/RoiCalculator';
-import UsageLimitsSection from '@/app/components/pricing/UsageLimitsSection';
-import OnboardingTimeline from '@/app/components/pricing/OnboardingTimeline';
-import EnterpriseSection from '@/app/components/pricing/EnterpriseSection';
+import PricingTable from '@/app/components/pricing/PricingTable';
+import PricingAddOns from '@/app/components/pricing/PricingAddOns';
+import IntegrationsTeaser from '@/app/components/pricing/IntegrationsTeaser';
 import PricingFAQ from '@/app/components/pricing/PricingFAQ';
 import PricingFinalCTA from '@/app/components/pricing/PricingFinalCTA';
+
+export const metadata = {
+  title: 'Pricing — LeadForGrow',
+  description: 'WhatsApp, Instagram & Email automation with affordable plans. Every plan includes Email — even your free trial.',
+};
 
 export default function PricingPage() {
   return (
     <MarketingShell>
       <main className="bg-white">
         <PricingHero />
-        <PricingPlans />
-        <ComparisonMatrix />
-        <AddonsSection />
-        <RoiCalculator />
-        <UsageLimitsSection />
-        <OnboardingTimeline />
-        <EnterpriseSection />
+        <PricingTable />
+        <PricingAddOns />
+        <IntegrationsTeaser />
         <PricingFAQ />
         <PricingFinalCTA />
       </main>
