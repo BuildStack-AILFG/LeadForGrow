@@ -33,7 +33,7 @@ export default function MediaAttachmentStrip({ uploads, onRemove, onRetry }) {
           {u.status === 'uploading' && (
             <div className="absolute inset-0 bg-black/40 flex items-end">
               <div className="w-full h-1 bg-slate-200">
-                <div className="h-full bg-blue-500 transition-all" style={{ width: `${u.progress}%` }} />
+                <div className="h-full bg-teal-500 transition-all" style={{ width: `${u.progress}%` }} />
               </div>
             </div>
           )}

@@ -61,7 +61,7 @@ export const AUTOMATION_TEMPLATES = [
   {
     id: 'notify_team',
     name: 'Lead Assignment',
-    tone: 'blue',
+    tone: 'sky',
     when: 'A new lead is created',
     then: 'Notify the assigned team member instantly',
     description: 'Your team finds out about a new lead the second it arrives, not at end-of-day cleanup.',

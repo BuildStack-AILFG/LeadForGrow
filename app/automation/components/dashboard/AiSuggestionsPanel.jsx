@@ -8,7 +8,7 @@ function Suggestion({ icon: Icon, title, description, href, accent }) {
   return (
     <Link
       href={href}
-      className="flex items-start gap-3 p-3 rounded-lg border border-slate-100 dark:border-slate-800 hover:border-blue-200 dark:hover:border-blue-900 hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-all group"
+      className="flex items-start gap-3 p-3 rounded-lg border border-slate-100 dark:border-slate-800 hover:border-teal-200 dark:hover:border-teal-900 hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-all group"
     >
       <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${accent}`}>
         <Icon className="w-4 h-4" />
@@ -17,7 +17,7 @@ function Suggestion({ icon: Icon, title, description, href, accent }) {
         <p className="text-sm font-medium text-slate-800 dark:text-slate-200">{title}</p>
         <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{description}</p>
       </div>
-      <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-blue-500 flex-shrink-0 mt-1 transition-colors" />
+      <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-teal-500 flex-shrink-0 mt-1 transition-colors" />
     </Link>
   );
 }
@@ -61,14 +61,14 @@ export default function AiSuggestionsPanel({ notContacted = 0, overdueTasks = 0,
       title: 'Pipeline looks healthy',
       description: 'No urgent actions — focus on nurturing warm leads.',
       href: '/automation/leads',
-      accent: 'bg-blue-50 text-blue-600 dark:bg-blue-950/30 dark:text-blue-400'
+      accent: 'bg-teal-50 text-teal-600 dark:bg-teal-950/30 dark:text-teal-400'
     });
   }
 
   return (
     <DashboardCard padding="p-5">
       <div className="flex items-center gap-2 mb-4">
-        <Sparkles className="w-4 h-4 text-blue-600" />
+        <Sparkles className="w-4 h-4 text-teal-600" />
         <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Suggested Actions</h3>
         <span className="text-[10px] font-medium text-slate-400 uppercase tracking-wide ml-auto">Smart</span>
       </div>

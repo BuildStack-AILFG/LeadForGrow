@@ -24,7 +24,7 @@ export default function ChannelSelector({ value, onChange }) {
               onClick={() => onChange(ch.id)}
               className={`flex flex-col items-center gap-1 py-2.5 px-2 rounded-lg border text-xs font-medium transition-colors ${
                 active
-                  ? 'border-blue-600 bg-blue-50 text-blue-700 dark:bg-blue-950/30 dark:text-blue-400 dark:border-blue-800'
+                  ? 'border-teal-600 bg-teal-50 text-teal-700 dark:bg-teal-950/30 dark:text-teal-400 dark:border-teal-800'
                   : 'border-slate-200 dark:border-slate-700 text-slate-500 hover:border-slate-300 dark:hover:border-slate-600'
               }`}
             >

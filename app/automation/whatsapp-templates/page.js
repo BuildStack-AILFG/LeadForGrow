@@ -14,7 +14,7 @@ const STATUS_STYLES = {
   APPROVED: 'bg-emerald-100 text-emerald-800',
   REJECTED: 'bg-red-100 text-red-800',
   DISABLED: 'bg-slate-100 text-slate-500',
-  PAUSED: 'bg-blue-100 text-blue-700',
+  PAUSED: 'bg-teal-100 text-teal-700',
 };
 
 const FILTERS = ['ALL', 'DRAFT', 'PENDING', 'APPROVED', 'REJECTED'];

@@ -84,7 +84,7 @@ export default function JourneysPage() {
                     j.completed ? 'bg-emerald-100 text-emerald-700' :
                     j.failed ? 'bg-red-100 text-red-700' :
                     j.waiting ? 'bg-amber-100 text-amber-700' :
-                    'bg-blue-100 text-blue-700'
+                    'bg-teal-100 text-teal-700'
                   }`}>
                     <Icon className="w-3 h-3" /> {j.status}
                   </span>
@@ -93,7 +93,7 @@ export default function JourneysPage() {
                 <div className="relative">
                   <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden mb-3">
                     <div
-                      className="h-full rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 transition-all duration-500"
+                      className="h-full rounded-full bg-teal-700 transition-all duration-500"
                       style={{ width: `${j.progress}%` }}
                     />
                   </div>
@@ -102,9 +102,9 @@ export default function JourneysPage() {
                       <p className="text-slate-400 mb-0.5">Previous</p>
                       <p className="font-medium text-slate-700 dark:text-slate-300 truncate">{j.previousStage || '—'}</p>
                     </div>
-                    <div className="p-2 rounded-lg bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800">
-                      <p className="text-blue-500 mb-0.5">Current</p>
-                      <p className="font-medium text-blue-700 dark:text-blue-300 truncate">{j.currentStage}</p>
+                    <div className="p-2 rounded-lg bg-teal-50 dark:bg-teal-950/30 border border-teal-200 dark:border-teal-800">
+                      <p className="text-teal-500 mb-0.5">Current</p>
+                      <p className="font-medium text-teal-700 dark:text-teal-300 truncate">{j.currentStage}</p>
                     </div>
                     <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50">
                       <p className="text-slate-400 mb-0.5">Next</p>

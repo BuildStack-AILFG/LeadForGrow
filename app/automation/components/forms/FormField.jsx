@@ -24,7 +24,7 @@ export default function FormField({ field, index, isSelected, onSelect, onRemove
       onClick={() => onSelect(index)}
       className={`group relative flex items-start gap-3 p-4 rounded-2xl cursor-pointer transition-shadow duration-200 ${
         isSelected
-          ? 'bg-white dark:bg-slate-900 shadow-lg shadow-blue-500/10 ring-2 ring-blue-500/40'
+          ? 'bg-white dark:bg-slate-900 shadow-lg shadow-teal-500/10 ring-2 ring-teal-500/40'
           : 'bg-white/80 dark:bg-slate-900/80 shadow-sm hover:shadow-md hover:bg-white dark:hover:bg-slate-900'
       }`}
     >
@@ -66,7 +66,7 @@ export default function FormField({ field, index, isSelected, onSelect, onRemove
           type="button"
           title="Duplicate"
           onClick={(e) => { e.stopPropagation(); onDuplicate(index); }}
-          className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/30 rounded-lg transition-colors"
+          className="p-1.5 text-slate-400 hover:text-teal-600 hover:bg-teal-50 dark:hover:bg-teal-950/30 rounded-lg transition-colors"
         >
           <Copy className="w-3.5 h-3.5" />
         </button>

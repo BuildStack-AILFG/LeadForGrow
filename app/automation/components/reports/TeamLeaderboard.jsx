@@ -28,7 +28,7 @@ export default function TeamLeaderboard({ team = [] }) {
       render: (r) => (
         <div className="flex items-center gap-2 min-w-[100px]">
           <div className="flex-1 h-1.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-            <div className="h-full bg-blue-600 rounded-full" style={{ width: `${Math.min(r.rate, 100)}%` }} />
+            <div className="h-full bg-teal-600 rounded-full" style={{ width: `${Math.min(r.rate, 100)}%` }} />
           </div>
           <span className="text-xs font-semibold tabular-nums">{r.rate}%</span>
         </div>

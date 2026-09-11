@@ -116,9 +116,9 @@ export default function TemplatesWorkspace() {
                 </p>
               </div>
             )}
-            <div className="hidden lg:block bg-blue-50 dark:bg-blue-950/30 rounded-2xl p-5">
-              <p className="text-xs font-semibold text-blue-800 dark:text-blue-200 mb-1">WhatsApp templates</p>
-              <p className="text-xs text-blue-700/80 dark:text-blue-300/80 leading-relaxed">
+            <div className="hidden lg:block bg-teal-50 dark:bg-teal-950/30 rounded-2xl p-5">
+              <p className="text-xs font-semibold text-teal-800 dark:text-teal-200 mb-1">WhatsApp templates</p>
+              <p className="text-xs text-teal-700/80 dark:text-teal-300/80 leading-relaxed">
                 Sync from Meta to import approved business templates for outbound messaging.
               </p>
             </div>

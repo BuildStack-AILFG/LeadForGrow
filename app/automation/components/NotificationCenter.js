@@ -78,7 +78,7 @@ export default function NotificationCenter() {
       case 'whatsapp_message': return <MessageCircle className="w-4 h-4 text-emerald-600" />;
       case 'instagram_message': return <Instagram className="w-4 h-4 text-pink-600" />;
       case 'email_message': return <Mail className="w-4 h-4 text-indigo-600" />;
-      case 'conversation_assigned': return <UserPlus className="w-4 h-4 text-blue-600" />;
+      case 'conversation_assigned': return <UserPlus className="w-4 h-4 text-teal-600" />;
       case 'internal_mention': return <Info className="w-4 h-4 text-amber-600" />;
       case 'new_lead': return <UserPlus className="w-4 h-4 text-indigo-600" />;
       case 'task_reminder': return <Clock className="w-4 h-4 text-amber-600" />;

@@ -37,7 +37,7 @@ export default function ReportsHeader({
                 onClick={() => onPeriodChange(p.id)}
                 className={`px-3 py-1.5 text-xs font-medium transition-colors ${
                   period === p.id
-                    ? 'bg-blue-600 text-white'
+                    ? 'bg-teal-600 text-white'
                     : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'
                 }`}
               >
@@ -75,7 +75,7 @@ export default function ReportsHeader({
                   <button
                     type="button"
                     onClick={() => { onSaveView(); setViewsOpen(false); }}
-                    className="w-full px-3 py-2 text-left text-xs text-blue-600 border-t border-slate-100 dark:border-slate-800"
+                    className="w-full px-3 py-2 text-left text-xs text-teal-600 border-t border-slate-100 dark:border-slate-800"
                   >
                     Save current view
                   </button>

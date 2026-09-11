@@ -16,7 +16,7 @@ export default function TeamGrid({ team, userPlan, maxTeamMembers = 1, onAdd, on
         <button
           type="button"
           onClick={onAdd}
-          className="mt-4 inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg"
+          className="mt-4 inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-lg"
         >
           <UserPlus className="w-4 h-4" /> Add first member
         </button>

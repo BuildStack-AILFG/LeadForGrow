@@ -13,7 +13,7 @@ import PageLoader from '../components/PageLoader';
 
 const STATUS_STYLES = {
   draft: 'bg-amber-100 text-amber-700',
-  scheduled: 'bg-blue-100 text-blue-700',
+  scheduled: 'bg-teal-100 text-teal-700',
   sending: 'bg-violet-100 text-violet-700',
   sent: 'bg-emerald-100 text-emerald-700',
   failed: 'bg-red-100 text-red-700',
@@ -251,7 +251,7 @@ export default function BroadcastsPage() {
         <button
           type="button"
           onClick={() => setShowCreate(true)}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-teal-700 text-white text-sm font-semibold"
         >
           <Plus className="w-4 h-4" /> New broadcast
         </button>
@@ -548,7 +548,7 @@ export default function BroadcastsPage() {
                     <div className="space-y-1 pt-1 border-t border-emerald-200 dark:border-emerald-900">
                       {samplePreview.whatsapp.buttons.map((btn, i) => (
                         <div key={i}
-                          className="flex items-center justify-center gap-1.5 py-1.5 text-[12px] text-blue-600 font-medium bg-white dark:bg-slate-900 rounded">
+                          className="flex items-center justify-center gap-1.5 py-1.5 text-[12px] text-teal-600 font-medium bg-white dark:bg-slate-900 rounded">
                           {btn.type === 'URL' && '🔗'}
                           {btn.type === 'PHONE_NUMBER' && '📞'}
                           {btn.type === 'QUICK_REPLY' && '↩️'}
@@ -576,7 +576,7 @@ export default function BroadcastsPage() {
               Test send
             </button>
             <button type="button" onClick={() => createBroadcast(false)} disabled={saving || !canSend}
-              className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold disabled:opacity-50">
+              className="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold disabled:opacity-50">
               {saving
                 ? 'Sending…'
                 : audienceCount?.count > 0
@@ -597,7 +597,7 @@ export default function BroadcastsPage() {
           <button
             type="button"
             onClick={() => setShowCreate(true)}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-teal-700 text-white text-sm font-semibold"
           >
             <Plus className="w-4 h-4" /> New broadcast
           </button>
@@ -615,7 +615,7 @@ export default function BroadcastsPage() {
               <div
                 key={b._id}
                 onClick={() => setDetailId(b._id)}
-                className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-between gap-4 cursor-pointer hover:border-blue-300 hover:shadow-sm transition-all"
+                className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-between gap-4 cursor-pointer hover:border-teal-300 hover:shadow-sm transition-all"
               >
                 <div className="flex items-center gap-3 min-w-0">
                   {b.channel === 'email' ? <Mail className="w-5 h-5 text-violet-500 shrink-0" /> : <MessageCircle className="w-5 h-5 text-emerald-500 shrink-0" />}
@@ -623,7 +623,7 @@ export default function BroadcastsPage() {
                     <p className="font-medium text-slate-900 dark:text-white truncate">{b.name}</p>
                     <p className="text-xs text-slate-500">
                       <span className="text-slate-700 dark:text-slate-300">{a.sent || 0}</span> sent
-                      {' · '}<span className="text-blue-600">{reached}</span> delivered
+                      {' · '}<span className="text-teal-600">{reached}</span> delivered
                       {a.read ? <> · <span className="text-emerald-600">{a.read}</span> read</> : null}
                       {a.failed ? <> · <span className="text-red-600">{a.failed}</span> failed</> : null}
                       {a.optedOut ? <> · <span className="text-purple-600">{a.optedOut}</span> opted-out</> : null}

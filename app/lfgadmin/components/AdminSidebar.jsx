@@ -23,7 +23,7 @@ export default function AdminSidebar({
     <div className="flex flex-col h-full">
       <div className="p-5 border-b border-white/5">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg">
+          <div className="w-9 h-9 rounded-xl bg-teal-500 flex items-center justify-center shadow-lg">
             <Database className="w-4 h-4 text-white" />
           </div>
           <div>
@@ -39,7 +39,7 @@ export default function AdminSidebar({
           onClick={onOverview}
           className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
             activeView === 'overview'
-              ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30'
+              ? 'bg-teal-600/20 text-teal-400 border border-teal-500/30'
               : 'text-slate-400 hover:text-white hover:bg-white/5'
           }`}
         >

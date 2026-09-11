@@ -59,7 +59,7 @@ export default function LeadColorPicker({ open, onClose, currentColor, onSelect,
             onClick={() => onSelect(c.value)}
             className={`w-8 h-8 rounded-lg border-2 transition-transform hover:scale-110 ${
               currentColor === c.value
-                ? 'border-blue-500 ring-2 ring-blue-200 dark:ring-blue-800'
+                ? 'border-teal-500 ring-2 ring-teal-200 dark:ring-teal-800'
                 : 'border-slate-200 dark:border-slate-600'
             }`}
             style={{ backgroundColor: c.value }}

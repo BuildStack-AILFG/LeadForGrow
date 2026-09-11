@@ -15,7 +15,7 @@ export const TASK_TYPES = {
 };
 
 export const TASK_TYPE_ACCENTS = {
-  blue: 'bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400',
+  blue: 'bg-teal-50 text-teal-600 dark:bg-teal-950/40 dark:text-teal-400',
   green: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400',
   purple: 'bg-violet-50 text-violet-600 dark:bg-violet-950/40 dark:text-violet-400',
   amber: 'bg-amber-50 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400',

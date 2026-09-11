@@ -51,14 +51,14 @@ export const DASHBOARD_THEME = {
   radiusSm: '10px',
 };
 
-// Chart palette — ~30% darker blue
+// Chart palette — matches the emerald brand primary above.
 export const CHART = {
-  line: '#1A45A5',
-  lineSoft: '#2563EB',
-  gradTop: 'rgba(26,69,165,0.24)',
-  gradBottom: 'rgba(26,69,165,0)',
+  line: '#059669',
+  lineSoft: '#059669',
+  gradTop: 'rgba(5,150,105,0.20)',
+  gradBottom: 'rgba(5,150,105,0)',
   grid: '#EEF1F0',
-  segments: ['#153A8A', '#1A45A5', '#3B6BC4'],
+  segments: ['#047857', '#059669', '#10B981'],
 };
 
 // Typography — premium SaaS: Inter, regular/medium only, no bold.

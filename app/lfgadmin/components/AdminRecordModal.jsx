@@ -23,21 +23,21 @@ export default function AdminRecordModal({
             <h3 className="text-base font-bold text-slate-900 dark:text-white">
               {editingDoc ? 'Edit record' : 'Create record'}
             </h3>
-            <span className="text-xs text-blue-600 font-mono">{modelName}</span>
+            <span className="text-xs text-teal-600 font-mono">{modelName}</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="bg-slate-200/70 dark:bg-slate-700/70 p-0.5 rounded-lg flex">
               <button
                 type="button"
                 onClick={() => setViewMode('form')}
-                className={`px-2.5 py-1.5 text-xs font-semibold rounded-md flex items-center gap-1 ${viewMode === 'form' ? 'bg-white dark:bg-slate-900 text-blue-600 shadow-sm' : 'text-slate-500'}`}
+                className={`px-2.5 py-1.5 text-xs font-semibold rounded-md flex items-center gap-1 ${viewMode === 'form' ? 'bg-white dark:bg-slate-900 text-teal-600 shadow-sm' : 'text-slate-500'}`}
               >
                 <LayoutTemplate className="w-3.5 h-3.5" /> Form
               </button>
               <button
                 type="button"
                 onClick={() => setViewMode('json')}
-                className={`px-2.5 py-1.5 text-xs font-semibold rounded-md flex items-center gap-1 ${viewMode === 'json' ? 'bg-white dark:bg-slate-900 text-blue-600 shadow-sm' : 'text-slate-500'}`}
+                className={`px-2.5 py-1.5 text-xs font-semibold rounded-md flex items-center gap-1 ${viewMode === 'json' ? 'bg-white dark:bg-slate-900 text-teal-600 shadow-sm' : 'text-slate-500'}`}
               >
                 <Code className="w-3.5 h-3.5" /> JSON
               </button>
@@ -104,7 +104,7 @@ export default function AdminRecordModal({
                         type="checkbox"
                         checked={Boolean(val)}
                         onChange={(e) => onFieldChange(key, e.target.checked)}
-                        className="w-4 h-4 rounded text-blue-600"
+                        className="w-4 h-4 rounded text-teal-600"
                       />
                       <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{key}</label>
                     </div>
@@ -151,7 +151,7 @@ export default function AdminRecordModal({
             type="button"
             onClick={onSave}
             disabled={loading}
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold disabled:opacity-50"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold disabled:opacity-50"
           >
             {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             {editingDoc ? 'Save changes' : 'Create'}

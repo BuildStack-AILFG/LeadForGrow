@@ -302,7 +302,7 @@ export default function CompanyDetailWorkspace({ companyId }) {
               >
                 <ul className="space-y-2">
                   {(c.meetings || []).map((m) => (
-                    <li key={m._id} className="text-sm border-l-2 border-blue-300 pl-2.5 py-0.5">
+                    <li key={m._id} className="text-sm border-l-2 border-teal-300 pl-2.5 py-0.5">
                       <p className="font-medium text-slate-800 dark:text-slate-200">{m.guest?.name || 'Meeting'}</p>
                       <p className="text-xs text-slate-400">{formatDateTime(m.startTime)} · {m.status}</p>
                     </li>

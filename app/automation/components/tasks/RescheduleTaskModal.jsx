@@ -32,7 +32,7 @@ export default function RescheduleTaskModal({ open, task, dueDate, onDueDateChan
               required
               value={dueDate}
               onChange={(e) => onDueDateChange(e.target.value)}
-              className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500/20"
             />
           </div>
           <div className="flex gap-2 pt-1">
@@ -45,7 +45,7 @@ export default function RescheduleTaskModal({ open, task, dueDate, onDueDateChan
             </button>
             <button
               type="submit"
-              className="flex-1 px-3 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg"
+              className="flex-1 px-3 py-2 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-lg"
             >
               Save
             </button>

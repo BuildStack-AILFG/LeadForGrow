@@ -357,7 +357,7 @@ export default function CallIntegrationPage() {
 
           <button
             onClick={handleTestBridge}
-            className="group relative flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-[14px] font-bold text-sm hover:bg-indigo-700 transition-all duration-300 shadow-xl shadow-indigo-200 active:scale-95"
+            className="group relative flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-[14px] font-bold text-sm hover:bg-indigo-700 transition-all duration-300 shadow-sm active:scale-95"
           >
             <Play className="w-4 h-4 fill-white group-hover:scale-110 transition-transform" />
             Test Call Flow
@@ -376,7 +376,7 @@ export default function CallIntegrationPage() {
 
       {wizardStep === 1 && (
         <div className="max-w-xl">
-          <div className="bg-white rounded-[32px] p-12 shadow-2xl shadow-slate-200/50 border border-slate-100 relative overflow-hidden">
+          <div className="bg-white rounded-[32px] p-12 shadow-sm border border-slate-100 relative overflow-hidden">
             <div className="relative z-10 text-left mb-10">
               <div className="w-20 h-20 bg-indigo-50 text-indigo-600 rounded-[24px] flex items-center justify-center mb-8">
                 <Phone className="w-10 h-10" />
@@ -398,7 +398,7 @@ export default function CallIntegrationPage() {
               <button
                 onClick={handleConnect}
                 disabled={connecting}
-                className="w-full py-5 bg-indigo-600 text-white rounded-[20px] font-bold text-lg hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-100 disabled:opacity-50"
+                className="w-full py-5 bg-indigo-600 text-white rounded-[20px] font-bold text-lg hover:bg-indigo-700 transition-all shadow-sm disabled:opacity-50"
               >
                 {connecting ? 'Connecting...' : 'Continue'}
               </button>
@@ -411,7 +411,7 @@ export default function CallIntegrationPage() {
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 lg:gap-12 items-start animate-in fade-in slide-in-from-bottom-8 duration-700">
           {/* Provider Settings (Left) */}
           <div className="xl:col-span-7">
-            <div className="bg-white rounded-[32px] p-8 lg:p-12 shadow-2xl shadow-slate-200/40 border border-slate-100 flex flex-col h-full">
+            <div className="bg-white rounded-[32px] p-8 lg:p-12 shadow-sm border border-slate-100 flex flex-col h-full">
               <div className="flex items-center gap-4 mb-10">
                 <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center">
                   <Settings className="w-6 h-6 text-indigo-600" />
@@ -532,7 +532,7 @@ export default function CallIntegrationPage() {
                 <button
                   onClick={handleVerifyCredentials}
                   disabled={verifying}
-                  className="w-full py-5 bg-indigo-600 text-white rounded-[24px] font-bold text-lg hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-100 mt-6 disabled:opacity-50 flex items-center justify-center gap-2 group"
+                  className="w-full py-5 bg-indigo-600 text-white rounded-[24px] font-bold text-lg hover:bg-indigo-700 transition-all shadow-sm mt-6 disabled:opacity-50 flex items-center justify-center gap-2 group"
                 >
                   {verifying ? <RefreshCcw className="w-5 h-5 animate-spin" /> : <><ShieldCheck className="w-5 h-5 group-hover:scale-110 transition-transform" /> Complete Setup</>}
                 </button>
@@ -542,7 +542,7 @@ export default function CallIntegrationPage() {
 
           {/* Setup Blueprint (Right) */}
           <div className="xl:col-span-5 h-full">
-            <div className="bg-slate-900 rounded-[32px] p-10 h-full text-white shadow-2xl shadow-indigo-900/10 flex flex-col relative overflow-hidden">
+            <div className="bg-slate-900 rounded-[32px] p-10 h-full text-white shadow-sm flex flex-col relative overflow-hidden">
                <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-600/10 blur-[100px] -mr-32 -mt-32"></div>
                
                <div className="relative z-10 flex-1">
@@ -572,7 +572,7 @@ export default function CallIntegrationPage() {
                    {/* Step 2 */}
                    <div className="flex gap-5 relative">
                      <div className="absolute top-10 left-5 w-px h-[calc(100%+24px)] bg-slate-800"></div>
-                     <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shrink-0 shadow-lg shadow-indigo-600/20 relative z-10">
+                     <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shrink-0 shadow-sm relative z-10">
                        <Cpu className="w-5 h-5 text-white" />
                      </div>
                      <div className="pt-1">
@@ -753,7 +753,7 @@ export default function CallIntegrationPage() {
 
                 <div className="space-y-10 mb-12">
                   <div className="flex gap-6">
-                    <div className="w-10 h-10 bg-indigo-600 text-white rounded-[14px] flex items-center justify-center font-bold text-sm flex-shrink-0 shadow-lg shadow-indigo-200">1</div>
+                    <div className="w-10 h-10 bg-indigo-600 text-white rounded-[14px] flex items-center justify-center font-bold text-sm flex-shrink-0 shadow-sm">1</div>
                     <div className="flex-1 pt-1.5">
                       <p className="text-slate-900 font-bold text-sm mb-2">Enable Call Forwarding</p>
                       <p className="text-slate-400 text-[11px] font-medium leading-relaxed mb-4">Set your line to forward to our capture node when unanswered.</p>
@@ -792,7 +792,7 @@ export default function CallIntegrationPage() {
                       <p className="text-slate-400 text-[11px] font-medium leading-relaxed mb-6">Verify incoming signals reach your recovery system successfully.</p>
                       <button
                         onClick={handleTestBridge}
-                        className="w-full py-4 bg-indigo-600 text-white rounded-[18px] font-bold text-sm hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-indigo-100"
+                        className="w-full py-4 bg-indigo-600 text-white rounded-[18px] font-bold text-sm hover:scale-[1.02] active:scale-95 transition-all shadow-sm"
                       >
                         Test Call Flow
                       </button>

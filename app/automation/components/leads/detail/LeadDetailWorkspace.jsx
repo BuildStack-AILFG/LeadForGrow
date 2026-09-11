@@ -35,13 +35,13 @@ export default function LeadDetailWorkspace({
             onClick={() => setTab(t.id)}
             className={`px-4 py-3 text-sm font-medium whitespace-nowrap border-b-2 -mb-px transition-colors ${
               tab === t.id
-                ? 'border-blue-600 text-blue-600'
+                ? 'border-teal-600 text-teal-600'
                 : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
             }`}
           >
             {t.label}
             {t.id === 'whatsapp' && lead.messages?.length > 0 && (
-              <span className="ml-1.5 text-[10px] px-1.5 py-0.5 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300">
+              <span className="ml-1.5 text-[10px] px-1.5 py-0.5 rounded-full bg-teal-100 text-teal-700 dark:bg-teal-950/40 dark:text-teal-300">
                 {lead.messages.length}
               </span>
             )}

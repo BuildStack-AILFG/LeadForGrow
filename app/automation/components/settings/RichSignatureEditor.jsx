@@ -107,7 +107,7 @@ import { SIGNATURE_TEMPLATES, renderTemplate } from './signatureTemplates';
 const COLOR_SWATCHES = [
   '#111827', '#374151', '#6B7280', '#DC2626',
   '#EA580C', '#CA8A04', '#16A34A', '#0891B2',
-  '#2563EB', '#7C3AED', '#DB2777', '#FFFFFF',
+  '#059669', '#7C3AED', '#DB2777', '#FFFFFF',
 ];
 
 function ToolbarButton({ active, disabled, title, onClick, children }) {
@@ -714,7 +714,7 @@ export default function RichSignatureEditor({
           white-space: pre-line;
         }
         .signature-editor-content a {
-          color: #2563eb;
+          color: #059669;
           text-decoration: underline;
         }
         .signature-editor-content img,
@@ -728,7 +728,7 @@ export default function RichSignatureEditor({
           margin: 0.15rem 0;
         }
         .signature-preview a {
-          color: #2563eb;
+          color: #059669;
           text-decoration: underline;
         }
         /* Preserve inline table styles from signature templates — TipTap's

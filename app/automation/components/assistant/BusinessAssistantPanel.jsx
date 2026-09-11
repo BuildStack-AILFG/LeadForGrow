@@ -100,7 +100,7 @@ export default function BusinessAssistantPanel() {
 
                 {chat.context?.metrics && (
                   <div className="grid grid-cols-3 gap-2 mt-4">
-                    <MetricPill icon={Users} label="Leads" value={chat.context.metrics.totalLeads} color="text-blue-400" />
+                    <MetricPill icon={Users} label="Leads" value={chat.context.metrics.totalLeads} color="text-teal-400" />
                     <MetricPill icon={TrendingUp} label="Pipeline" value={formatCur(chat.context.metrics.totalPipelineValue)} color="text-emerald-400" />
                     <MetricPill icon={Zap} label="SLA" value={`${chat.context.metrics.slaCompliance}%`} color="text-amber-400" />
                   </div>
@@ -181,12 +181,12 @@ export default function BusinessAssistantPanel() {
                   }}
                   rows={1}
                   placeholder="Ask about pipeline, leads, automations…"
-                  className="flex-1 resize-none px-4 py-3 rounded-xl bg-white/[0.06] border border-white/10 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40 max-h-28"
+                  className="flex-1 resize-none px-4 py-3 rounded-xl bg-white/[0.06] border border-white/10 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500/40 max-h-28"
                 />
                 <button
                   type="submit"
                   disabled={!chat.input.trim() || chat.loading}
-                  className="p-3 rounded-xl bg-gradient-to-r from-teal-600 to-teal-700 text-white shadow-lg shadow-teal-900/30 disabled:opacity-40 hover:from-teal-500 hover:to-teal-600 transition-all"
+                  className="p-3 rounded-xl bg-teal-700 text-white shadow-sm disabled:opacity-40 hover:bg-teal-800 transition-all"
                 >
                   <Send className="w-4 h-4" />
                 </button>

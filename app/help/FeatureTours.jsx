@@ -30,7 +30,7 @@ export default function FeatureTours() {
               <p className="text-sm font-semibold text-slate-900">{tour.label}</p>
               <p className="text-xs text-slate-500 mt-0.5">{tour.steps.length} steps · Walks you through the page live</p>
             </div>
-            <span className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 shrink-0">
+            <span className="inline-flex items-center gap-1 text-xs font-semibold text-teal-600 shrink-0">
               Open & restart <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
             </span>
           </Link>

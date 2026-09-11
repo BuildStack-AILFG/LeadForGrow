@@ -37,7 +37,7 @@ export default function DashboardHeader({
                   router.push(`/automation/leads?search=${encodeURIComponent(searchQuery.trim())}`);
                 }
               }}
-              className="w-full pl-9 pr-3 py-2 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+              className="w-full pl-9 pr-3 py-2 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500"
             />
           </div>
 
@@ -54,7 +54,7 @@ export default function DashboardHeader({
 
             <Link
               href="/automation/leads/new"
-              className="inline-flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-sm"
+              className="inline-flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-lg transition-colors shadow-sm"
             >
               <Plus className="w-4 h-4" />
               <span className="hidden sm:inline">Create Lead</span>

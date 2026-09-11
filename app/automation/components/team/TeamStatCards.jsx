@@ -3,7 +3,7 @@
 import { Users, UserCheck, TrendingUp, Crown } from 'lucide-react';
 
 const CARDS = [
-  { key: 'total', label: 'Team size', icon: Users, accent: 'bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400' },
+  { key: 'total', label: 'Team size', icon: Users, accent: 'bg-teal-50 text-teal-600 dark:bg-teal-950/40 dark:text-teal-400' },
   { key: 'active', label: 'Active now', icon: UserCheck, accent: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400' },
   { key: 'totalLeads', label: 'Leads handled', icon: TrendingUp, accent: 'bg-violet-50 text-violet-600 dark:bg-violet-950/40 dark:text-violet-400' },
   { key: 'owners', label: 'Owners', icon: Crown, accent: 'bg-amber-50 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400' }

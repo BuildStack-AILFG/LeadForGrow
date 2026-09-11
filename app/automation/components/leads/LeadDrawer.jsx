@@ -236,7 +236,7 @@ export default function LeadDrawer({
                     key={t}
                     type="button"
                     onClick={() => setTab(t)}
-                    className={`px-3 py-2.5 text-xs font-medium capitalize border-b-2 -mb-px ${tab === t ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500'
+                    className={`px-3 py-2.5 text-xs font-medium capitalize border-b-2 -mb-px ${tab === t ? 'border-teal-600 text-teal-600' : 'border-transparent text-slate-500'
                       }`}
                   >
                     {t}
@@ -347,8 +347,8 @@ export default function LeadDrawer({
                     </div>
 
                     {intelligence && (
-                      <div className="p-3 rounded-lg border border-blue-100 dark:border-blue-900 bg-blue-50/50 dark:bg-blue-950/20">
-                        <p className="text-xs font-semibold text-blue-800 dark:text-blue-300 flex items-center gap-1 mb-1">
+                      <div className="p-3 rounded-lg border border-teal-100 dark:border-teal-900 bg-teal-50/50 dark:bg-teal-950/20">
+                        <p className="text-xs font-semibold text-teal-800 dark:text-teal-300 flex items-center gap-1 mb-1">
                           <Sparkles className="w-3.5 h-3.5" /> Suggested next step
                         </p>
                         <p className="text-sm text-slate-700 dark:text-slate-300">{intelligence.nextAction?.text || 'Review and follow up'}</p>
@@ -411,7 +411,7 @@ export default function LeadDrawer({
                         className="flex-1 text-sm px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900"
                         onKeyDown={(e) => e.key === 'Enter' && addNote()}
                       />
-                      <button type="button" onClick={addNote} className="px-3 py-2 text-xs font-medium bg-blue-600 text-white rounded-lg">
+                      <button type="button" onClick={addNote} className="px-3 py-2 text-xs font-medium bg-teal-600 text-white rounded-lg">
                         Add
                       </button>
                     </div>

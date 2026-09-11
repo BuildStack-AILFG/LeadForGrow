@@ -12,7 +12,7 @@ const LEVELS = [
 const LEVEL_COLORS = {
   none: 'bg-slate-100 text-slate-400 dark:bg-slate-800',
   view: 'bg-sky-50 text-sky-700 dark:bg-sky-950/40 dark:text-sky-400',
-  edit: 'bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-400',
+  edit: 'bg-teal-50 text-teal-700 dark:bg-teal-950/40 dark:text-teal-400',
   full: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400'
 };
 

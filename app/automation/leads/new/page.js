@@ -24,7 +24,7 @@ import { toast } from 'react-hot-toast';
 import { authFetch, getAuthToken } from '@/lib/apiClient';
 import { PRIORITY_CONFIG, SOURCE_OPTIONS } from '../../components/leads/constants';
 
-const BLUE = '#1A45A5';
+const BLUE = '#059669';
 const BLUE_LIGHT = '#E8EFFC';
 const PRIORITIES = ['low', 'medium', 'high', 'urgent'];
 const MANUAL_SOURCES = SOURCE_OPTIONS.filter((s) => s.value && !['whatsapp', 'bot'].includes(s.value));
@@ -36,7 +36,7 @@ const STEPS = [
 ];
 
 const inputClass =
-  'w-full h-10 px-3 text-[13px] rounded-lg border border-[#E5E7EB] bg-white text-[#101828] placeholder:text-[#98A2B3] focus:outline-none focus:ring-2 focus:ring-[#1A45A5]/15 focus:border-[#1A45A5] transition-all';
+  'w-full h-10 px-3 text-[13px] rounded-lg border border-[#E5E7EB] bg-white text-[#101828] placeholder:text-[#98A2B3] focus:outline-none focus:ring-2 focus:ring-[#059669]/15 focus:border-[#059669] transition-all';
 
 function Field({ label, required, children, hint, className = '' }) {
   return (
@@ -57,7 +57,7 @@ function Section({ step, title, subtitle, children, activeStep }) {
     <section
       className={`bg-white border rounded-xl overflow-hidden transition-shadow duration-200 ${
         isActive
-          ? 'border-[#1A45A5]/30 shadow-[0_4px_16px_rgba(26,69,165,0.08)]'
+          ? 'border-[#059669]/30 shadow-[0_4px_16px_rgba(26,69,165,0.08)]'
           : 'border-[#E5E7EB] shadow-[0_1px_2px_rgba(16,24,40,0.04)]'
       }`}
     >
@@ -145,7 +145,7 @@ function PreviewPanel({ formData }) {
             <span className={`text-[10px] font-medium px-2 py-0.5 rounded-md border ${priorityCfg?.badge || 'bg-slate-100 text-slate-700 border-slate-200'}`}>
               {priorityCfg?.label || formData.priority}
             </span>
-            <span className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-[#E8EFFC] text-[#1A45A5] border border-[#C7D7F5]">
+            <span className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-[#E8EFFC] text-[#059669] border border-[#C7D7F5]">
               New Lead
             </span>
           </div>
@@ -280,7 +280,7 @@ export default function NewLeadPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
           <Link
             href="/automation/leads"
-            className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#667085] hover:text-[#1A45A5] transition-colors group"
+            className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#667085] hover:text-[#059669] transition-colors group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
             Back to Leads
@@ -298,7 +298,7 @@ export default function NewLeadPage() {
                     active
                       ? 'text-white'
                       : done
-                        ? 'text-[#1A45A5] bg-[#E8EFFC]'
+                        ? 'text-[#059669] bg-[#E8EFFC]'
                         : 'text-[#98A2B3] hover:bg-[#F2F4F7]'
                   }`}
                   style={active ? { backgroundColor: BLUE } : undefined}

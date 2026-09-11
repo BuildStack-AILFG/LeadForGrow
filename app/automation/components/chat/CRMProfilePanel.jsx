@@ -121,7 +121,7 @@ function FollowUpActionRow({ date, onUpdate }) {
                 type="button"
                 onClick={() => customDate && run(new Date(`${customDate}T09:00`).toISOString())}
                 disabled={!customDate || busy}
-                className="text-[10px] font-medium px-2 py-1 rounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+                className="text-[10px] font-medium px-2 py-1 rounded-md bg-teal-600 text-white hover:bg-teal-700 disabled:opacity-50"
               >
                 Set
               </button>
@@ -137,7 +137,7 @@ function FollowUpActionRow({ date, onUpdate }) {
             <button
               type="button"
               onClick={() => setShowPicker(true)}
-              className="w-full text-[10px] font-medium text-slate-500 hover:text-blue-600 py-0.5"
+              className="w-full text-[10px] font-medium text-slate-500 hover:text-teal-600 py-0.5"
             >
               Pick a specific date…
             </button>
@@ -206,7 +206,7 @@ export default function CRMProfilePanel({
       <div className="flex-shrink-0 px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
         <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50">Customer profile</h3>
         <div className="flex items-center gap-1">
-          <Link href={`/automation/leads/${lead._id}`} className="p-1.5 rounded-md text-slate-400 hover:text-blue-600">
+          <Link href={`/automation/leads/${lead._id}`} className="p-1.5 rounded-md text-slate-400 hover:text-teal-600">
             <ExternalLink className="w-4 h-4" />
           </Link>
           {mobile && onClose && (
@@ -409,7 +409,7 @@ export default function CRMProfilePanel({
             <button
               type="button"
               onClick={() => { onAddNote(note); setNote(''); }}
-              className="px-2.5 py-2 text-xs font-medium bg-blue-600 text-white rounded-lg"
+              className="px-2.5 py-2 text-xs font-medium bg-teal-600 text-white rounded-lg"
             >
               Add
             </button>

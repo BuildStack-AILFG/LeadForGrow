@@ -44,7 +44,7 @@ export function SettingsField({ label, hint, children, className = '' }) {
 export function SettingsInput({ className = '', ...props }) {
   return (
     <input
-      className={`w-full px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 ${className}`}
+      className={`w-full px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 ${className}`}
       {...props}
     />
   );
@@ -53,7 +53,7 @@ export function SettingsInput({ className = '', ...props }) {
 export function SettingsSelect({ className = '', children, ...props }) {
   return (
     <select
-      className={`w-full px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 ${className}`}
+      className={`w-full px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 ${className}`}
       {...props}
     >
       {children}
@@ -73,7 +73,7 @@ export function SettingsToggle({ enabled, onChange, label, description }) {
         role="switch"
         aria-checked={enabled}
         onClick={() => onChange(!enabled)}
-        className={`relative w-10 h-5 rounded-full transition-colors flex-shrink-0 ${enabled ? 'bg-blue-600' : 'bg-slate-200 dark:bg-slate-700'}`}
+        className={`relative w-10 h-5 rounded-full transition-colors flex-shrink-0 ${enabled ? 'bg-teal-600' : 'bg-slate-200 dark:bg-slate-700'}`}
       >
         <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${enabled ? 'translate-x-5' : 'translate-x-0.5'}`} />
       </button>
@@ -91,7 +91,7 @@ export function SettingsTabs({ tabs, active, onChange }) {
           onClick={() => onChange(tab.id)}
           className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
             active === tab.id
-              ? 'bg-blue-600 text-white shadow-sm'
+              ? 'bg-teal-600 text-white shadow-sm'
               : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
@@ -109,7 +109,7 @@ export function SettingsSaveBar({ onSave, saving, label = 'Save changes' }) {
         type="button"
         onClick={onSave}
         disabled={saving}
-        className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg disabled:opacity-50"
+        className="px-4 py-2 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-lg disabled:opacity-50"
       >
         {saving ? 'Saving…' : label}
       </button>
@@ -117,7 +117,7 @@ export function SettingsSaveBar({ onSave, saving, label = 'Save changes' }) {
   );
 }
 
-export function SettingsTagList({ items, onRemove, colorClass = 'bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-400' }) {
+export function SettingsTagList({ items, onRemove, colorClass = 'bg-teal-50 text-teal-700 dark:bg-teal-950/40 dark:text-teal-400' }) {
   return (
     <div className="flex flex-wrap gap-2">
       {items.map((item, i) => (

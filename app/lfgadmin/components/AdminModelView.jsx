@@ -33,23 +33,23 @@ export default function AdminModelView({
         <div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
             {modelName}
-            <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300">
+            <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-teal-100 dark:bg-teal-950 text-teal-700 dark:text-teal-300">
               {pagination.total} records
             </span>
           </h1>
           <p className="text-sm text-slate-500 mt-0.5">Direct database access · use with care</p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
-          <button type="button" onClick={handleExport} className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-blue-600 hover:border-blue-200 transition-colors" title="Export JSON">
+          <button type="button" onClick={handleExport} className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-teal-600 hover:border-teal-200 transition-colors" title="Export JSON">
             <Download className="w-4 h-4" />
           </button>
-          <button type="button" onClick={onRefresh} className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-blue-600 transition-colors">
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-blue-600' : ''}`} />
+          <button type="button" onClick={onRefresh} className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-teal-600 transition-colors">
+            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-teal-600' : ''}`} />
           </button>
           <button
             type="button"
             onClick={onCreate}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow-lg shadow-blue-500/20"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold shadow-sm"
           >
             <Plus className="w-4 h-4" /> New record
           </button>
@@ -67,7 +67,7 @@ export default function AdminModelView({
           onChange={(e) => setLocalSearch(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && onSearch(localSearch)}
           placeholder={`Search ${modelName}…`}
-          className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+          className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:ring-2 focus:ring-teal-500 outline-none"
         />
       </div>
 
@@ -95,7 +95,7 @@ export default function AdminModelView({
               {loading && !data.length ? (
                 <tr>
                   <td colSpan={columns.length + 1} className="px-4 py-16 text-center">
-                    <RefreshCw className="w-6 h-6 animate-spin text-blue-600 mx-auto" />
+                    <RefreshCw className="w-6 h-6 animate-spin text-teal-600 mx-auto" />
                   </td>
                 </tr>
               ) : data.length === 0 ? (
@@ -106,7 +106,7 @@ export default function AdminModelView({
                 </tr>
               ) : (
                 data.map((doc, i) => (
-                  <tr key={doc._id || i} className="hover:bg-blue-50/50 dark:hover:bg-blue-950/20 transition-colors group">
+                  <tr key={doc._id || i} className="hover:bg-teal-50/50 dark:hover:bg-teal-950/20 transition-colors group">
                     {columns.map((col) => (
                       <td key={col} className="px-4 py-3 text-sm text-slate-700 dark:text-slate-300 truncate max-w-[200px]">
                         {col === 'plan' && doc[col] ? (
@@ -145,7 +145,7 @@ export default function AdminModelView({
                           {doc.frozen ? <Sun className="w-4 h-4" /> : <Snowflake className="w-4 h-4" />}
                         </button>
                       )}
-                      <button type="button" onClick={() => onEdit(doc)} className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/30 inline-flex">
+                      <button type="button" onClick={() => onEdit(doc)} className="p-1.5 rounded-lg text-slate-400 hover:text-teal-600 hover:bg-teal-50 dark:hover:bg-teal-950/30 inline-flex">
                         <Edit className="w-4 h-4" />
                       </button>
                       <button type="button" onClick={() => onDelete(doc._id)} className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 inline-flex ml-1">
@@ -193,9 +193,9 @@ export default function AdminModelView({
 function BusinessPlanGuide() {
   return (
     <div className="grid lg:grid-cols-3 gap-4">
-      <div className="lg:col-span-2 p-5 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/20 border border-blue-100 dark:border-blue-900/40">
+      <div className="lg:col-span-2 p-5 rounded-2xl bg-teal-50 dark:from-teal-950/30 dark:to-indigo-950/20 border border-teal-100 dark:border-teal-900/40">
         <div className="flex items-center gap-2 mb-3">
-          <Crown className="w-4 h-4 text-blue-600" />
+          <Crown className="w-4 h-4 text-teal-600" />
           <h3 className="text-sm font-bold text-slate-800 dark:text-white">Plan & quota defaults</h3>
         </div>
         <p className="text-xs text-slate-600 dark:text-slate-400 mb-4">

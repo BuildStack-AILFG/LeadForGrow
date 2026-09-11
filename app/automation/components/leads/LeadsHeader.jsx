@@ -49,7 +49,7 @@ export default function LeadsHeader({
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') onSearchChange(search);
                 }}
-                className="w-full pl-9 pr-3 py-2 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                className="w-full pl-9 pr-3 py-2 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500"
               />
             </div>
 
@@ -58,7 +58,7 @@ export default function LeadsHeader({
                 <button
                   type="button"
                   onClick={() => onViewModeChange('table')}
-                  className={`p-2 ${viewMode === 'table' ? 'bg-blue-600 text-white' : 'bg-white dark:bg-slate-900 text-slate-600'}`}
+                  className={`p-2 ${viewMode === 'table' ? 'bg-teal-600 text-white' : 'bg-white dark:bg-slate-900 text-slate-600'}`}
                   title="Table view"
                 >
                   <LayoutList className="w-4 h-4" />
@@ -67,7 +67,7 @@ export default function LeadsHeader({
                   type="button"
                   data-tour="leads-pipeline-toggle"
                   onClick={() => onViewModeChange('kanban')}
-                  className={`p-2 ${viewMode === 'kanban' ? 'bg-blue-600 text-white' : 'bg-white dark:bg-slate-900 text-slate-600'}`}
+                  className={`p-2 ${viewMode === 'kanban' ? 'bg-teal-600 text-white' : 'bg-white dark:bg-slate-900 text-slate-600'}`}
                   title="Pipeline view"
                 >
                   <Columns3 className="w-4 h-4" />
@@ -114,7 +114,7 @@ export default function LeadsHeader({
               <Link
                 href="/automation/leads/new"
                 data-tour="leads-add-btn"
-                className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm shrink-0 whitespace-nowrap"
+                className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-lg shadow-sm shrink-0 whitespace-nowrap"
               >
                 <Plus className="w-4 h-4" />
                 <span className="hidden sm:inline">Add Lead</span>

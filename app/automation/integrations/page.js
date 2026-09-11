@@ -91,7 +91,7 @@ export default function IntegrationsPage() {
     indigo: { bg: 'bg-indigo-50', text: 'text-indigo-600' },
     purple: { bg: 'bg-purple-50', text: 'text-purple-600' },
     emerald: { bg: 'bg-emerald-50', text: 'text-emerald-600' },
-    blue: { bg: 'bg-blue-50', text: 'text-blue-600' },
+    blue: { bg: 'bg-teal-50', text: 'text-teal-600' },
   };
 
   const activeSources = [
@@ -175,8 +175,8 @@ export default function IntegrationsPage() {
 
         {/* Desktop Header */}
         <div className="hidden lg:flex items-center gap-3 mb-10">
-          <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
-            <Globe className="w-5 h-5 text-blue-600" strokeWidth={2.5} />
+          <div className="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center">
+            <Globe className="w-5 h-5 text-teal-600" strokeWidth={2.5} />
           </div>
           <div>
             <h1 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight leading-tight">Lead Integrations</h1>

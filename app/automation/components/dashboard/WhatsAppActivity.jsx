@@ -21,7 +21,7 @@ export default function WhatsAppActivity({ conversations = [] }) {
       title="WhatsApp Inbox"
       subtitle="Recent conversations needing attention"
       action={
-        <Link href="/automation/chat" className="text-xs font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1">
+        <Link href="/automation/chat" className="text-xs font-medium text-teal-600 hover:text-teal-700 flex items-center gap-1">
           Open inbox <ArrowRight className="w-3 h-3" />
         </Link>
       }
@@ -31,7 +31,7 @@ export default function WhatsAppActivity({ conversations = [] }) {
         <div className="py-8 text-center">
           <MessageSquare className="w-8 h-8 text-slate-300 dark:text-slate-600 mx-auto mb-2" />
           <p className="text-sm text-slate-500 dark:text-slate-400">No unread conversations</p>
-          <Link href="/automation/chat" className="text-xs text-blue-600 hover:underline mt-1 inline-block">
+          <Link href="/automation/chat" className="text-xs text-teal-600 hover:underline mt-1 inline-block">
             View all chats
           </Link>
         </div>
@@ -64,7 +64,7 @@ export default function WhatsAppActivity({ conversations = [] }) {
                     <p className="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">{preview}</p>
                   </div>
                   {unread && (
-                    <span className="w-2 h-2 rounded-full bg-blue-600 flex-shrink-0 mt-2" />
+                    <span className="w-2 h-2 rounded-full bg-teal-600 flex-shrink-0 mt-2" />
                   )}
                 </Link>
               </li>

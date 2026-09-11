@@ -23,7 +23,7 @@ export default function CreateFormModal({ onClose, onCreate }) {
           </div>
           <div className="flex gap-2 pt-2">
             <button type="button" onClick={onClose} className="flex-1 py-2.5 text-sm font-medium text-slate-600 bg-slate-100 dark:bg-slate-800 rounded-lg">Cancel</button>
-            <button type="submit" className="flex-1 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg">Create</button>
+            <button type="submit" className="flex-1 py-2.5 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-lg">Create</button>
           </div>
         </form>
       </div>

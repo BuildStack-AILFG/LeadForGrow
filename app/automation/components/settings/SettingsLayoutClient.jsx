@@ -29,7 +29,7 @@ function SettingsLayoutInner({ children }) {
 
   return (
     <div className="flex flex-col min-h-full bg-[#f8f9fc] dark:bg-slate-950">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-blue-50/50 to-transparent dark:from-blue-950/15 dark:to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-teal-50/50 to-transparent dark:from-teal-950/15 dark:to-transparent" />
       <SettingsHeader section={section} />
       <div className="flex-1 overflow-y-auto relative">
         <div className={`mx-auto px-4 sm:px-6 py-6 pb-10 ${wide ? 'max-w-6xl' : 'max-w-4xl'}`}>

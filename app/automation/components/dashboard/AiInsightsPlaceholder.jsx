@@ -6,7 +6,7 @@ import DashboardCard from './primitives/DashboardCard';
 const PLACEHOLDERS = [
   { id: 'hot-deal', icon: Flame, label: 'Hot Deal', desc: 'AI will surface deals most likely to close', color: 'text-orange-600 bg-orange-50 dark:bg-orange-950/30' },
   { id: 'at-risk', icon: AlertTriangle, label: 'Deals at Risk', desc: 'Stalled deals needing intervention', color: 'text-red-600 bg-red-50 dark:bg-red-950/30' },
-  { id: 'waiting', icon: MessageSquare, label: 'Customers Waiting', desc: 'Unanswered leads and pending replies', color: 'text-blue-600 bg-blue-50 dark:bg-blue-950/30' },
+  { id: 'waiting', icon: MessageSquare, label: 'Customers Waiting', desc: 'Unanswered leads and pending replies', color: 'text-teal-600 bg-teal-50 dark:bg-teal-950/30' },
   { id: 'forecast', icon: TrendingUp, label: 'Revenue Forecast', desc: 'Projected revenue based on pipeline velocity', color: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30' },
 ];
 

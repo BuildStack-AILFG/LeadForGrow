@@ -24,7 +24,7 @@ const CHANNEL_ICON_COLOR = {
 // Stable per-name color for avatar backgrounds — feels alive without being random
 const AVATAR_TONES = [
   { bg: 'bg-emerald-100 dark:bg-emerald-900/40', fg: 'text-emerald-700 dark:text-emerald-300' },
-  { bg: 'bg-blue-100 dark:bg-blue-900/40',       fg: 'text-blue-700 dark:text-blue-300' },
+  { bg: 'bg-teal-100 dark:bg-teal-900/40',       fg: 'text-teal-700 dark:text-teal-300' },
   { bg: 'bg-violet-100 dark:bg-violet-900/40',   fg: 'text-violet-700 dark:text-violet-300' },
   { bg: 'bg-amber-100 dark:bg-amber-900/40',     fg: 'text-amber-700 dark:text-amber-300' },
   { bg: 'bg-pink-100 dark:bg-pink-900/40',       fg: 'text-pink-700 dark:text-pink-300' },
@@ -133,7 +133,7 @@ function ConversationItem({ chat, active, onClick }) {
   let deliveryClass = '';
   if (showingOutgoing) {
     const s = String(chat.lastMessageStatus || '').toLowerCase();
-    if (s === 'read')          { DeliveryIcon = CheckCheck; deliveryClass = 'text-blue-500'; }
+    if (s === 'read')          { DeliveryIcon = CheckCheck; deliveryClass = 'text-teal-500'; }
     else if (s === 'delivered'){ DeliveryIcon = CheckCheck; deliveryClass = unread ? 'text-slate-500' : 'text-slate-400'; }
     else if (s === 'sent' || s === 'accepted') { DeliveryIcon = Check; deliveryClass = unread ? 'text-slate-500' : 'text-slate-400'; }
   }
@@ -144,7 +144,7 @@ function ConversationItem({ chat, active, onClick }) {
       onClick={onClick}
       className={`group w-full text-left flex items-center gap-3 pl-2 pr-3 py-2.5 border-b border-slate-100 dark:border-slate-800/80 border-l-[3px] transition-colors ${
         active
-          ? 'bg-blue-50/60 dark:bg-blue-950/30 border-l-blue-600'
+          ? 'bg-teal-50/60 dark:bg-teal-950/30 border-l-teal-600'
           : unread
             ? 'bg-emerald-50/30 dark:bg-emerald-950/10 border-l-emerald-500 hover:bg-emerald-50/60'
             : 'hover:bg-slate-50 dark:hover:bg-slate-800/40 border-l-transparent'
@@ -162,7 +162,7 @@ function ConversationItem({ chat, active, onClick }) {
             {displayName}
           </span>
           <div className="flex items-center gap-1.5 flex-shrink-0">
-            {chat.isPinned && <Pin className="w-3 h-3 text-blue-500" />}
+            {chat.isPinned && <Pin className="w-3 h-3 text-teal-500" />}
             {chat.isFavorite && <Star className="w-3 h-3 text-amber-500 fill-amber-500" />}
             {intervened && (
               <span className="text-[9px] font-bold px-1.5 py-[1px] rounded-full bg-violet-100 dark:bg-violet-950/40 text-violet-700 dark:text-violet-300 uppercase tracking-wide">Live</span>

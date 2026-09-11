@@ -89,7 +89,7 @@ export default function SubmissionsTable({ submissions, loading, formName }) {
                   </td>
                   <td className="px-4 py-3 text-slate-500">{new Date(s.receivedAt).toLocaleString()}</td>
                   <td className="px-4 py-3">
-                    <Link href={`/automation/leads/${s._id}`} className="text-blue-600 hover:underline inline-flex items-center gap-1">
+                    <Link href={`/automation/leads/${s._id}`} className="text-teal-600 hover:underline inline-flex items-center gap-1">
                       View <ExternalLink className="w-3 h-3" />
                     </Link>
                   </td>

@@ -94,7 +94,7 @@ export default function IntegrationConfigForm({ integration, onSubmit, submittin
               <select
                 value={values[field.key] ?? field.default ?? ''}
                 onChange={(e) => handleChange(field.key, e.target.value)}
-                className="w-full px-3 py-2 text-xs border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                className="w-full px-3 py-2 text-xs border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
               >
                 {(field.options || []).map((opt) => (
                   <option key={opt} value={opt}>{opt}</option>
@@ -109,7 +109,7 @@ export default function IntegrationConfigForm({ integration, onSubmit, submittin
                   placeholder={placeholder}
                   required={effectiveRequired}
                   disabled={submitting}
-                  className={`w-full px-3 py-2 text-xs border rounded-lg bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 pr-9 ${
+                  className={`w-full px-3 py-2 text-xs border rounded-lg bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500/20 pr-9 ${
                     alreadySaved
                       ? 'border-emerald-200 dark:border-emerald-900 placeholder:text-emerald-700/60'
                       : 'border-slate-200 dark:border-slate-700'
@@ -134,7 +134,7 @@ export default function IntegrationConfigForm({ integration, onSubmit, submittin
         <button
           type="submit"
           disabled={submitting}
-          className="w-full mt-2 px-4 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg disabled:opacity-50"
+          className="w-full mt-2 px-4 py-2.5 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-lg disabled:opacity-50"
         >
           {submitting ? 'Connecting…' : submitLabel}
         </button>

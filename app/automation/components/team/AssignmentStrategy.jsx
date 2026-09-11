@@ -36,7 +36,7 @@ export default function AssignmentStrategy({ value, onChange, onSave, saving }) 
                   <div className="flex items-center justify-between gap-2">
                     <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{s.title}</p>
                     {selected && (
-                      <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-blue-600 dark:text-blue-400">
+                      <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-teal-600 dark:text-teal-400">
                         <Check className="w-3 h-3" /> Active
                       </span>
                     )}
@@ -54,7 +54,7 @@ export default function AssignmentStrategy({ value, onChange, onSave, saving }) 
           type="button"
           onClick={onSave}
           disabled={saving}
-          className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg disabled:opacity-50"
+          className="px-4 py-2 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-lg disabled:opacity-50"
         >
           {saving ? 'Saving…' : 'Save strategy'}
         </button>

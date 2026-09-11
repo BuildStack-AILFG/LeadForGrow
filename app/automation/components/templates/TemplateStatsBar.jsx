@@ -17,7 +17,7 @@ export default function TemplateStatsBar({ stats }) {
         const Icon = c.icon;
         return (
           <div key={c.label} className="bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm">
-            <Icon className="w-4 h-4 text-blue-600 mb-2" />
+            <Icon className="w-4 h-4 text-teal-600 mb-2" />
             <p className="text-xl font-semibold text-slate-900 dark:text-slate-50 tabular-nums">{c.value}</p>
             <p className="text-xs text-slate-500 mt-0.5">{c.label}</p>
           </div>

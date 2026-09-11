@@ -121,7 +121,7 @@ export default function InstagramSettingsPage() {
 
           <div className="flex flex-wrap gap-2">
             {!ig.enabled ? (
-              <button type="button" onClick={handleConnect} disabled={connecting} className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:opacity-90 disabled:opacity-50">
+              <button type="button" onClick={handleConnect} disabled={connecting} className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium bg-purple-600 text-white rounded-lg hover:opacity-90 disabled:opacity-50">
                 <Instagram className="w-4 h-4" /> Connect with Meta
               </button>
             ) : (

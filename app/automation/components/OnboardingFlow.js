@@ -170,7 +170,7 @@ export default function OnboardingFlow({ onComplete }) {
                 <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
-                      <Bell className="w-5 h-5 text-blue-600" />
+                      <Bell className="w-5 h-5 text-teal-600" />
                     </div>
                     <div>
                       <p className="font-bold text-slate-900 text-sm">Internal Notification</p>

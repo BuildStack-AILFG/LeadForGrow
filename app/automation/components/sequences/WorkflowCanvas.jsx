@@ -87,7 +87,7 @@ export default function WorkflowCanvas({
         <button
           type="button"
           onClick={() => { setConnectMode(!connectMode); setConnectFrom(null); }}
-          className={`p-2 rounded-lg ${connectMode ? 'bg-blue-100 text-blue-600' : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600'}`}
+          className={`p-2 rounded-lg ${connectMode ? 'bg-teal-100 text-teal-600' : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600'}`}
           title="Connect nodes"
         >
           <Link2 className="w-4 h-4" />
@@ -99,7 +99,7 @@ export default function WorkflowCanvas({
       <div className="absolute bottom-3 right-3 z-30 w-32 h-24 rounded-lg bg-white/80 dark:bg-slate-900/80 backdrop-blur border border-slate-200 dark:border-slate-700 shadow-lg overflow-hidden hidden md:block">
         <div className="relative w-full h-full scale-[0.15] origin-top-left" style={{ width: 800, height: 600 }}>
           {nodes.map((n) => (
-            <div key={n.id} className="absolute w-[220px] h-[20px] bg-blue-400/60 rounded" style={{ left: n.position?.x, top: n.position?.y }} />
+            <div key={n.id} className="absolute w-[220px] h-[20px] bg-teal-400/60 rounded" style={{ left: n.position?.x, top: n.position?.y }} />
           ))}
         </div>
       </div>
@@ -175,7 +175,7 @@ export default function WorkflowCanvas({
       </div>
 
       {connectMode && (
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-30 px-4 py-2 rounded-full bg-blue-600 text-white text-xs font-medium shadow-lg">
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-30 px-4 py-2 rounded-full bg-teal-600 text-white text-xs font-medium shadow-lg">
           {connectFrom ? 'Click target node' : 'Click source node to connect'}
         </div>
       )}

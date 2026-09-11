@@ -30,7 +30,7 @@ export default function AutomationHeader({
             </p>
             <Link
               href="/help/automation-rules"
-              className="inline-flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 mt-1.5"
+              className="inline-flex items-center gap-1 text-xs font-medium text-teal-600 hover:text-teal-700 dark:text-teal-400 mt-1.5"
             >
               <BookOpen className="w-3 h-3" /> Learn how automations work
             </Link>
@@ -50,7 +50,7 @@ export default function AutomationHeader({
               placeholder="Search automations..."
               value={search}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+              className="w-full pl-9 pr-3 py-2 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500"
             />
           </div>
 
@@ -77,7 +77,7 @@ export default function AutomationHeader({
                           setFilterOpen(false);
                         }}
                         className={`w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-800 ${
-                          statusFilter === f.id ? 'text-blue-600 font-medium' : 'text-slate-700 dark:text-slate-300'
+                          statusFilter === f.id ? 'text-teal-600 font-medium' : 'text-slate-700 dark:text-slate-300'
                         }`}
                       >
                         {f.label}
@@ -101,7 +101,7 @@ export default function AutomationHeader({
               type="button"
               data-tour="automation-create-btn"
               onClick={onCreate}
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-colors hover:shadow-md"
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-lg shadow-sm transition-colors hover:shadow-md"
             >
               <Plus className="w-4 h-4" />
               <span className="hidden sm:inline">Create Automation</span>

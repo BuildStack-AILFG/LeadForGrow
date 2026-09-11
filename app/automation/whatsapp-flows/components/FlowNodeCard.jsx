@@ -7,8 +7,8 @@ import { getNodeMeta } from '@/lib/whatsappFlows/constants';
 
 const CATEGORY_STYLE = {
   trigger: {
-    bar: 'from-blue-500 to-indigo-600',
-    iconBg: 'from-blue-500 to-indigo-600',
+    bar: 'from-teal-500 to-indigo-600',
+    iconBg: 'from-teal-500 to-indigo-600',
     Icon: Zap,
   },
   action: {
@@ -33,7 +33,7 @@ function FlowNodeCard({ data, selected, type }) {
     <div
       className={`min-w-[200px] max-w-[250px] rounded-2xl bg-white/95 shadow-lg border border-slate-200/80 overflow-hidden transition-shadow ${
         selected
-          ? 'ring-2 ring-blue-500 ring-offset-2 ring-offset-[#eef1f8] shadow-blue-500/20'
+          ? 'ring-2 ring-teal-500 ring-offset-2 ring-offset-[#eef1f8] shadow-teal-500/20'
           : 'hover:shadow-xl'
       }`}
     >
@@ -88,7 +88,7 @@ function FlowNodeCard({ data, selected, type }) {
           type="source"
           position={Position.Right}
           id="default"
-          className="!w-3 !h-3 !bg-blue-500 !border-2 !border-white !-right-1.5"
+          className="!w-3 !h-3 !bg-teal-500 !border-2 !border-white !-right-1.5"
         />
       )}
     </div>

@@ -66,7 +66,7 @@ export default function GuideToc({ items }) {
                   'block -ml-px border-l-2 py-1.5 leading-snug transition-colors',
                   item.indent ? 'pl-7 text-[12.5px]' : 'pl-3.5',
                   active
-                    ? 'border-blue-600 text-blue-600 font-medium'
+                    ? 'border-teal-600 text-teal-600 font-medium'
                     : 'border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-800',
                 ].join(' ')}
               >

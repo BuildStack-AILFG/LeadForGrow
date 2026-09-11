@@ -24,7 +24,7 @@ export default function ActivityFeed({ activities = [], recentLeads = [] }) {
         title="Recent Conversions"
         subtitle="Latest won and contacted leads"
         action={
-          <Link href="/automation/leads" className="text-xs font-medium text-blue-600 hover:text-blue-700">
+          <Link href="/automation/leads" className="text-xs font-medium text-teal-600 hover:text-teal-700">
             All leads
           </Link>
         }

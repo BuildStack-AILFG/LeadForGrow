@@ -12,7 +12,7 @@ export default function FormsSidebar({ forms, selectedId, onSelect, onCreate, ma
           type="button"
           onClick={onCreate}
           disabled={forms.length >= maxForms}
-          className="w-full flex items-center justify-center gap-2 px-3 py-2.5 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg disabled:opacity-50"
+          className="w-full flex items-center justify-center gap-2 px-3 py-2.5 text-xs font-semibold text-white bg-teal-600 hover:bg-teal-700 rounded-lg disabled:opacity-50"
         >
           <Plus className="w-4 h-4" /> New form
         </button>
@@ -28,7 +28,7 @@ export default function FormsSidebar({ forms, selectedId, onSelect, onCreate, ma
               onClick={() => onSelect(form._id)}
               className={`w-full text-left p-2.5 rounded-xl border transition-all ${
                 selected
-                  ? 'border-blue-500 bg-blue-50/50 dark:bg-blue-950/20'
+                  ? 'border-teal-500 bg-teal-50/50 dark:bg-teal-950/20'
                   : 'border-transparent hover:bg-slate-50 dark:hover:bg-slate-800/50'
               }`}
             >

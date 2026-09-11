@@ -23,7 +23,7 @@ import { WhatsAppIcon, InstagramIcon, GmailIcon } from '../automation/components
 //   - SlidersHorizontal — mixer-desk controls read as "adjust settings"
 //     more concretely than a generic gear which every app uses.
 const CATEGORY_META = {
-  'get-started':   { Icon: Rocket,             tone: 'blue',    tint: 'from-blue-500/20 to-blue-500/5',       ring: 'ring-blue-500/20' },
+  'get-started':   { Icon: Rocket,             tone: 'blue',    tint: 'from-teal-500/20 to-teal-500/5',       ring: 'ring-teal-500/20' },
   'crm':           { Icon: Users2,             tone: 'indigo',  tint: 'from-indigo-500/20 to-indigo-500/5',   ring: 'ring-indigo-500/20' },
   'communication': { Icon: MessageCircle,      tone: 'emerald', tint: 'from-emerald-500/20 to-emerald-500/5', ring: 'ring-emerald-500/20' },
   'automation':    { Icon: Workflow,           tone: 'amber',   tint: 'from-amber-500/20 to-amber-500/5',     ring: 'ring-amber-500/20' },
@@ -34,12 +34,12 @@ const CATEGORY_META = {
 };
 
 const TONE_TEXT = {
-  blue: 'text-blue-600', indigo: 'text-indigo-600', emerald: 'text-emerald-600',
+  blue: 'text-teal-600', indigo: 'text-indigo-600', emerald: 'text-emerald-600',
   amber: 'text-amber-600', violet: 'text-violet-600', purple: 'text-purple-600',
   cyan: 'text-cyan-600', slate: 'text-slate-600',
 };
 const TONE_BG_SOFT = {
-  blue: 'bg-blue-50', indigo: 'bg-indigo-50', emerald: 'bg-emerald-50',
+  blue: 'bg-teal-50', indigo: 'bg-indigo-50', emerald: 'bg-emerald-50',
   amber: 'bg-amber-50', violet: 'bg-violet-50', purple: 'bg-purple-50',
   cyan: 'bg-cyan-50', slate: 'bg-slate-100',
 };
@@ -106,7 +106,7 @@ export default function HelpCenterClient() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search guides — templates, broadcast, bill…"
-              className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-white text-slate-900 text-sm placeholder:text-slate-400 border border-slate-200 shadow-lg shadow-slate-900/10 focus:outline-none focus:ring-4 focus:ring-blue-500/15 focus:border-blue-300"
+              className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-white text-slate-900 text-sm placeholder:text-slate-400 border border-slate-200 shadow-lg shadow-slate-900/10 focus:outline-none focus:ring-4 focus:ring-teal-500/15 focus:border-teal-300"
             />
             {q && (
               <div className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-slate-500">
@@ -178,7 +178,7 @@ function FeaturedGuide({ guide }) {
   return (
     <Link
       href={`/help/${guide.slug}`}
-      className={`group block rounded-2xl border border-slate-200 bg-gradient-to-br ${meta.tint} p-6 sm:p-8 mb-10 hover:border-blue-300 transition`}
+      className={`group block rounded-2xl border border-slate-200 bg-gradient-to-br ${meta.tint} p-6 sm:p-8 mb-10 hover:border-teal-300 transition`}
     >
       <div className="flex flex-col sm:flex-row sm:items-center gap-4">
         <div className={`w-14 h-14 rounded-2xl ${TONE_BG_SOFT[meta.tone]} ring-4 ${meta.ring} flex items-center justify-center shrink-0`}>
@@ -194,7 +194,7 @@ function FeaturedGuide({ guide }) {
             <Clock className="w-3.5 h-3.5" /> {guide.time}
           </div>
         </div>
-        <div className="inline-flex items-center gap-1.5 self-start sm:self-center text-sm font-medium text-blue-600 group-hover:translate-x-0.5 transition-transform">
+        <div className="inline-flex items-center gap-1.5 self-start sm:self-center text-sm font-medium text-teal-600 group-hover:translate-x-0.5 transition-transform">
           Open guide <ArrowRight className="w-4 h-4" />
         </div>
       </div>
@@ -219,7 +219,7 @@ function GuideCard({ guide }) {
         <div className="inline-flex items-center gap-1 text-[11px] text-slate-400 uppercase tracking-wide">
           <Clock className="w-3 h-3" /> {guide.time}
         </div>
-        <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-blue-500 group-hover:translate-x-0.5 transition" />
+        <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-teal-500 group-hover:translate-x-0.5 transition" />
       </div>
     </Link>
   );

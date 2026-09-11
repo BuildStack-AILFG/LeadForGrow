@@ -79,7 +79,7 @@ function BillsList({ onNew, onOpen }) {
           <button
             type="button"
             onClick={onNew}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold shadow"
           >
             <Plus className="w-4 h-4" /> New bill
           </button>
@@ -123,7 +123,7 @@ function BillsList({ onNew, onOpen }) {
             <Receipt className="w-12 h-12 text-slate-300 mx-auto mb-3" />
             <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">No bills yet</p>
             <p className="text-xs text-slate-500 mt-1 mb-4">Create your first bill and send it directly to the customer on WhatsApp.</p>
-            <button type="button" onClick={onNew} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-semibold">
+            <button type="button" onClick={onNew} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-teal-600 text-white text-sm font-semibold">
               <Plus className="w-4 h-4" /> Create bill
             </button>
           </div>
@@ -292,7 +292,7 @@ function BillEditor({ existingBill, onCancel, onSaved }) {
               </div>
             ))}
           </div>
-          <button type="button" onClick={addItem} className="text-xs font-semibold text-blue-600 hover:text-blue-700 mb-5">
+          <button type="button" onClick={addItem} className="text-xs font-semibold text-teal-600 hover:text-teal-700 mb-5">
             + Add another item
           </button>
 
@@ -480,7 +480,7 @@ function BillDetail({ billId, onBack }) {
           {bill.pdfUrl && (
             <div className="text-[11px] text-slate-500 inline-flex items-center gap-1.5">
               <span>PDF hosted at:</span>
-              <a href={bill.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline break-all">{bill.pdfUrl}</a>
+              <a href={bill.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-teal-600 hover:underline break-all">{bill.pdfUrl}</a>
               <button type="button" onClick={() => { navigator.clipboard.writeText(bill.pdfUrl); toast.success('Copied'); }}
                       className="text-slate-400 hover:text-slate-700"><Copy className="w-3 h-3" /></button>
             </div>
@@ -585,7 +585,7 @@ function StatCard({ label, value, tone = 'slate' }) {
 function StatusPill({ status, big = false }) {
   const map = {
     draft:  { label: 'Draft',  cls: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400' },
-    sent:   { label: 'Sent',   cls: 'bg-blue-100 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300' },
+    sent:   { label: 'Sent',   cls: 'bg-teal-100 text-teal-700 dark:bg-teal-950/40 dark:text-teal-300' },
     viewed: { label: 'Viewed', cls: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-300' },
     paid:   { label: 'Paid',   cls: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300' },
     void:   { label: 'Void',   cls: 'bg-red-100 text-red-700 dark:bg-red-950/40 dark:text-red-300' },

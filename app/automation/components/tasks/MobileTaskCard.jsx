@@ -66,7 +66,7 @@ export default function MobileTaskCard({ task, onMarkDone, onReschedule, onCommu
             type="button"
             disabled={!lead}
             onClick={() => onCommunicate(task, 'call')}
-            className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-blue-700 bg-blue-50 dark:bg-blue-950/30 rounded-lg disabled:opacity-40"
+            className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-teal-700 bg-teal-50 dark:bg-teal-950/30 rounded-lg disabled:opacity-40"
           >
             <Phone className="w-3.5 h-3.5" /> Call
           </button>
@@ -108,7 +108,7 @@ export default function MobileTaskCard({ task, onMarkDone, onReschedule, onCommu
         {lead?._id && (
           <Link
             href={`/automation/leads/${lead._id}`}
-            className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-blue-600 bg-blue-50 dark:bg-blue-950/30 rounded-lg"
+            className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-teal-600 bg-teal-50 dark:bg-teal-950/30 rounded-lg"
           >
             <ExternalLink className="w-3.5 h-3.5" /> Lead
           </Link>

@@ -5,7 +5,7 @@ import { ArrowRight } from 'lucide-react';
 import ChartCard from './primitives/ChartCard';
 
 const STAGES = [
-  { key: 'new', label: 'New', color: 'bg-blue-500' },
+  { key: 'new', label: 'New', color: 'bg-teal-500' },
   { key: 'contacted', label: 'Contacted', color: 'bg-indigo-500' },
   { key: 'follow-up', label: 'Follow-up', color: 'bg-violet-500' },
   { key: 'converted', label: 'Won', color: 'bg-emerald-500' },
@@ -26,7 +26,7 @@ export default function PipelineOverview({ statusCounts = {} }) {
       action={
         <Link
           href="/automation/leads"
-          className="text-xs font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1"
+          className="text-xs font-medium text-teal-600 hover:text-teal-700 flex items-center gap-1"
         >
           View all <ArrowRight className="w-3 h-3" />
         </Link>
@@ -52,7 +52,7 @@ export default function PipelineOverview({ statusCounts = {} }) {
             <Link
               key={stage.key}
               href={`/automation/leads?filter=${stage.key === 'follow-up' ? 'follow-up' : stage.key}`}
-              className="group p-3 rounded-lg border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 hover:border-blue-200 dark:hover:border-blue-900 hover:bg-white dark:hover:bg-slate-800 transition-all"
+              className="group p-3 rounded-lg border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 hover:border-teal-200 dark:hover:border-teal-900 hover:bg-white dark:hover:bg-slate-800 transition-all"
             >
               <div className="flex items-center gap-2 mb-1">
                 <span className={`w-2 h-2 rounded-full ${stage.color}`} />

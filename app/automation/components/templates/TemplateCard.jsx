@@ -19,7 +19,7 @@ export default function TemplateCard({ template, index, onEdit, onDelete }) {
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="flex items-center gap-3 min-w-0">
             <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
-              isWhatsApp ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600' : 'bg-blue-50 dark:bg-blue-950/40 text-blue-600'
+              isWhatsApp ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600' : 'bg-teal-50 dark:bg-teal-950/40 text-teal-600'
             }`}>
               {isWhatsApp ? <MessageCircle className="w-5 h-5" /> : <Mail className="w-5 h-5" />}
             </div>
@@ -30,7 +30,7 @@ export default function TemplateCard({ template, index, onEdit, onDelete }) {
           </div>
           <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
             {!template.isMetaTemplate && (
-              <button type="button" onClick={() => onEdit(template)} className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/30 rounded-lg">
+              <button type="button" onClick={() => onEdit(template)} className="p-2 text-slate-400 hover:text-teal-600 hover:bg-teal-50 dark:hover:bg-teal-950/30 rounded-lg">
                 <Pencil className="w-3.5 h-3.5" />
               </button>
             )}
@@ -58,7 +58,7 @@ export default function TemplateCard({ template, index, onEdit, onDelete }) {
       <button
         type="button"
         onClick={() => onEdit(template)}
-        className="w-full px-5 py-3 text-xs font-medium text-blue-600 bg-slate-50 dark:bg-slate-800/50 hover:bg-blue-50 dark:hover:bg-blue-950/20 border-t border-slate-100 dark:border-slate-800 transition-colors text-left"
+        className="w-full px-5 py-3 text-xs font-medium text-teal-600 bg-slate-50 dark:bg-slate-800/50 hover:bg-teal-50 dark:hover:bg-teal-950/20 border-t border-slate-100 dark:border-slate-800 transition-colors text-left"
       >
         {template.isMetaTemplate ? 'View template' : 'Edit template →'}
       </button>

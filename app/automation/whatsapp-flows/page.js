@@ -140,7 +140,7 @@ export default function WhatsAppFlowsPage() {
   }
 
   const stats = [
-    { label: 'Total executions', value: analytics?.totalExecutions ?? 0, icon: Activity, iconClass: 'text-blue-500' },
+    { label: 'Total executions', value: analytics?.totalExecutions ?? 0, icon: Activity, iconClass: 'text-teal-500' },
     { label: 'Active flows', value: analytics?.activeFlows ?? 0, icon: Zap, iconClass: 'text-emerald-500' },
     { label: 'Completed', value: analytics?.completedFlows ?? 0, icon: CheckCircle2, iconClass: 'text-violet-500' },
     { label: 'Drop-off rate', value: analytics ? `${analytics.dropOffRate}%` : '0%', icon: TrendingDown, iconClass: 'text-amber-500' },
@@ -178,7 +178,7 @@ export default function WhatsAppFlowsPage() {
               type="button"
               onClick={createFlow}
               disabled={creating}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all hover:scale-[1.02] disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-teal-700 text-white text-sm font-semibold shadow-sm hover:shadow-md transition-all hover:scale-[1.02] disabled:opacity-50"
             >
               <Plus className="w-4 h-4" />
               Create flow
@@ -212,7 +212,7 @@ export default function WhatsAppFlowsPage() {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search flows…"
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 bg-white/80 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 bg-white/80 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-400"
           />
         </div>
 
@@ -224,7 +224,7 @@ export default function WhatsAppFlowsPage() {
           </div>
         ) : flows.length === 0 ? (
           <div className="text-center py-16 px-6 rounded-2xl border-2 border-dashed border-slate-200 bg-white/50">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-xl shadow-emerald-500/20 mb-4">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-emerald-500 shadow-sm mb-4">
               <Workflow className="w-8 h-8 text-white" />
             </div>
             <p className="text-slate-900 font-semibold text-lg">No flows yet</p>
@@ -234,7 +234,7 @@ export default function WhatsAppFlowsPage() {
             <button
               type="button"
               onClick={createFlow}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold shadow-lg shadow-blue-500/25"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-teal-700 text-white text-sm font-semibold shadow-sm"
             >
               <Plus className="w-4 h-4" /> Create flow
             </button>
@@ -247,17 +247,17 @@ export default function WhatsAppFlowsPage() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.03 }}
-                className="group p-5 rounded-2xl bg-white border border-slate-200 hover:border-blue-300 hover:shadow-xl hover:shadow-blue-500/10 transition-all"
+                className="group p-5 rounded-2xl bg-white border border-slate-200 hover:border-teal-300 hover:shadow-md transition-all"
               >
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-md shadow-emerald-500/20 shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-500 flex items-center justify-center shadow-sm shrink-0">
                     <MessageCircle className="w-5 h-5 text-white" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <Link
                         href={`/automation/whatsapp-flows/${flow._id}`}
-                        className="font-semibold text-slate-900 group-hover:text-blue-600 truncate transition-colors"
+                        className="font-semibold text-slate-900 group-hover:text-teal-600 truncate transition-colors"
                       >
                         {flow.name}
                       </Link>
@@ -281,7 +281,7 @@ export default function WhatsAppFlowsPage() {
                 <div className="flex items-center gap-1 mt-4 pt-3 border-t border-slate-100">
                   <Link
                     href={`/automation/whatsapp-flows/${flow._id}`}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-blue-600 hover:bg-blue-50 transition-colors"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-teal-600 hover:bg-teal-50 transition-colors"
                   >
                     <Play className="w-3.5 h-3.5" /> Open
                   </Link>

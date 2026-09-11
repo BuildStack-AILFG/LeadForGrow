@@ -47,7 +47,7 @@ function IntegrationCard({ integration, onConnect, onSettings, onOpen }) {
             <button
               type="button"
               onClick={() => onSettings?.(integration.id)}
-              className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-blue-600"
+              className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-teal-600"
             >
               <ExternalLink className="w-3.5 h-3.5" />
             </button>
@@ -56,7 +56,7 @@ function IntegrationCard({ integration, onConnect, onSettings, onOpen }) {
           <button
             type="button"
             onClick={() => onConnect?.(integration.id)}
-            className="flex-1 px-3 py-1.5 text-xs font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg inline-flex items-center justify-center gap-1"
+            className="flex-1 px-3 py-1.5 text-xs font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-lg inline-flex items-center justify-center gap-1"
           >
             <Plug className="w-3 h-3" /> Connect
           </button>

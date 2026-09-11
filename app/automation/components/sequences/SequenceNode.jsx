@@ -42,7 +42,7 @@ export default function SequenceNode({
       }}
     >
       <div className={`relative rounded-2xl overflow-hidden shadow-lg transition-all duration-200 ${
-        selected ? 'ring-2 ring-blue-500 ring-offset-2 ring-offset-[#eef1f8] dark:ring-offset-slate-950 scale-[1.02]' : 'hover:shadow-xl'
+        selected ? 'ring-2 ring-teal-500 ring-offset-2 ring-offset-[#eef1f8] dark:ring-offset-slate-950 scale-[1.02]' : 'hover:shadow-xl'
       } ${connectingFrom === node.id ? 'ring-2 ring-emerald-400' : ''}`}>
         <div className={`h-1.5 bg-gradient-to-r ${gradient}`} />
         <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm p-3 border border-slate-200/80 dark:border-slate-700/80">
@@ -67,11 +67,11 @@ export default function SequenceNode({
       {!isTrigger && (
         <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-slate-300 border-2 border-white dark:border-slate-900" />
       )}
-      <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-blue-500 border-2 border-white dark:border-slate-900 shadow-sm" />
+      <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-teal-500 border-2 border-white dark:border-slate-900 shadow-sm" />
 
       {selected && (
         <div className="absolute -top-10 right-0 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button type="button" onClick={(e) => { e.stopPropagation(); onDuplicate?.(node.id); }} className="p-1 rounded-lg bg-white dark:bg-slate-800 shadow border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-blue-600">
+          <button type="button" onClick={(e) => { e.stopPropagation(); onDuplicate?.(node.id); }} className="p-1 rounded-lg bg-white dark:bg-slate-800 shadow border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-teal-600">
             <Copy className="w-3 h-3" />
           </button>
           <button type="button" onClick={(e) => { e.stopPropagation(); onDelete?.(node.id); }} className="p-1 rounded-lg bg-white dark:bg-slate-800 shadow border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-red-500">

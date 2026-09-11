@@ -1,6 +1,6 @@
 export const STAGE_BADGE = {
   discovery: 'bg-indigo-50 text-indigo-700 border-indigo-200',
-  demo_scheduled: 'bg-blue-50 text-blue-700 border-blue-200',
+  demo_scheduled: 'bg-teal-50 text-teal-700 border-teal-200',
   proposal_sent: 'bg-purple-50 text-purple-700 border-purple-200',
   negotiation: 'bg-amber-50 text-amber-800 border-amber-200',
   contract_sent: 'bg-orange-50 text-orange-800 border-orange-200',

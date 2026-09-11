@@ -87,7 +87,7 @@ export default function CompaniesKpiCards({ stats, loading }) {
       value: stats.activeDeals?.toLocaleString() || '0',
       pipelineText: `${formatCurrency(stats.pipelineValue, stats.currency)} Pipeline`,
       sparkData: stats.sparklines?.deals,
-      accent: '#1A45A5',
+      accent: '#059669',
     },
     {
       label: 'Avg Deal Value',

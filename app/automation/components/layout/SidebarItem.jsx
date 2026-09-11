@@ -1,31 +1,36 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { Lock } from 'lucide-react';
 import NotificationBadge from './NotificationBadge';
 
 /**
- * Nav item.
+ * Nav item — styled to match Interakt's sidebar kit exactly (colors/spacing
+ * scraped live from app.interakt.ai's own computed CSS):
  *
- * REST state: icon + label render monochrome slate, matching every other
- * item — keeps the sidebar scannable.
+ * REST: icon is ALWAYS brand teal (#1D4B3E), text is near-black (#0A0B10).
+ *   Icons are never gray/slate at rest — that's the key Interakt trait.
+ * HOVER: a "little dark[er]" medium-mint fill (#BAE0CF — matches Interakt's
+ *   own live computed hover style exactly), text + icon turn brand teal.
+ *   Deliberately NOT the same as ACTIVE — active is a much darker solid
+ *   fill with near-white text, hover is a lighter preview a shade darker
+ *   than an open group's own #F0F9F5 panel tint.
+ * ACTIVE: solid brand-teal fill edge-to-edge (no rounding, no side inset,
+ *   no accent stripe — Interakt highlights the whole row, not a pill).
+ *   Text + icon both go near-white (#F0F9F5).
  *
- * ACTIVE state: applies the group's category tone (blue for CRM,
- * emerald for Communication, violet for Insights, etc.) to the icon,
- * the left stripe, and the pill background. This is the "colour only on
- * active" pattern — richness without visual noise.
+ * One monochrome teal for every section — Interakt doesn't rainbow-code
+ * nav categories by group, so there's no per-category tone here anymore.
+ *
+ * Hover is driven by onMouseEnter/onMouseLeave state, NOT Tailwind's
+ * `hover:` variant. Tailwind wraps `hover:` in `@media (hover: hover)`,
+ * which evaluates false on touchscreen laptops/2-in-1s even with a mouse
+ * plugged in and actively driving the pointer — on that class of device
+ * every `hover:` utility in the app is silently inert. A real mouseenter
+ * event doesn't care what the media feature says, so it's the only
+ * reliable way to drive hover-only styling here.
  */
-
-// Every tone maps to matched shades so the active pill, stripe, and icon
-// look coherent. Fallback tone is slate (kept intentionally quiet).
-const ACTIVE_TONE = {
-  blue:    { pill: 'bg-blue-50 text-blue-800',       stripe: 'bg-blue-600',    icon: 'text-blue-600' },
-  emerald: { pill: 'bg-emerald-50 text-emerald-800', stripe: 'bg-emerald-600', icon: 'text-emerald-600' },
-  amber:   { pill: 'bg-amber-50 text-amber-800',     stripe: 'bg-amber-600',   icon: 'text-amber-600' },
-  violet:  { pill: 'bg-violet-50 text-violet-800',   stripe: 'bg-violet-600',  icon: 'text-violet-600' },
-  rose:    { pill: 'bg-rose-50 text-rose-800',       stripe: 'bg-rose-600',    icon: 'text-rose-600' },
-  slate:   { pill: 'bg-[#F3F4F6] text-black',        stripe: 'bg-black',       icon: 'text-black' },
-};
 
 export default function SidebarItem({
   item,
@@ -34,27 +39,28 @@ export default function SidebarItem({
   badgeCount,
   onNavigate,
   onLockedClick,
-  tone = 'slate',
 }) {
   const Icon = item.icon;
   const locked = item.locked;
-  const t = ACTIVE_TONE[tone] || ACTIVE_TONE.slate;
+  const [hovered, setHovered] = useState(false);
 
   if (locked) {
     return (
       <button
         type="button"
         onClick={() => onLockedClick?.(item.name, item.requiredTier || 'growth')}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
         title={collapsed ? `${item.name} (Upgrade)` : undefined}
-        className={`group relative flex w-full items-center gap-3 rounded-xl text-[13px] transition-all duration-200 ${
-          collapsed ? 'justify-center px-2 py-2.5' : 'px-2.5 py-2'
-        } cursor-pointer text-black/50 hover:bg-white/70 dark:hover:bg-emerald-950/20`}
+        className={`group relative flex w-full items-center gap-3 text-[14px] font-medium transition-colors duration-150 ${
+          collapsed ? 'justify-center px-2 py-3 rounded-lg' : 'px-4 py-3'
+        } cursor-pointer text-black/40 ${hovered ? 'bg-[#F0F9F5]' : ''}`}
       >
-        <Icon className="h-[18px] w-[18px] text-black/50" strokeWidth={1.75} />
+        <Icon className="h-[18px] w-[18px] text-black/40" strokeWidth={1.75} />
         {!collapsed && (
           <>
-            <span className="flex-1 truncate text-left text-black/50">{item.name}</span>
-            <Lock className="h-3.5 w-3.5 shrink-0 text-black/40" />
+            <span className="flex-1 truncate text-left">{item.name}</span>
+            <Lock className="h-3.5 w-3.5 shrink-0 text-black/30" />
           </>
         )}
       </button>
@@ -65,22 +71,22 @@ export default function SidebarItem({
     <Link
       href={item.href}
       onClick={onNavigate}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       title={collapsed ? item.name : undefined}
-      className={`group relative flex items-center gap-3 rounded-xl text-[13px] transition-all duration-200 ${
-        collapsed ? 'justify-center px-2 py-2.5' : 'px-2.5 py-2'
+      className={`group relative flex items-center gap-3 text-[14px] font-medium transition-colors duration-150 ${
+        collapsed ? 'justify-center px-2 py-3 rounded-lg' : 'px-4 py-3'
       } ${
         active
-          ? `${t.pill} font-medium`
-          : 'text-black hover:bg-[#F8F9FA] hover:text-black'
+          ? 'bg-[#1D4B3E] text-[#F0F9F5]'
+          : hovered
+            ? 'bg-[#BAE0CF] text-[#1D4B3E]'
+            : 'text-[#0A0B10]'
       }`}
     >
-      {active && (
-        <span className={`absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full transition-all duration-200 ${t.stripe}`} />
-      )}
-
-      <span className={`relative shrink-0 transition-transform duration-200 ${active ? '' : 'group-hover:scale-[1.03]'}`}>
+      <span className="relative shrink-0">
         <Icon
-          className={`h-[18px] w-[18px] transition-colors duration-200 ${active ? t.icon : 'text-black'}`}
+          className={`h-[18px] w-[18px] ${active ? 'text-[#F0F9F5]' : 'text-[#1D4B3E]'}`}
           strokeWidth={1.75}
         />
         {collapsed && (

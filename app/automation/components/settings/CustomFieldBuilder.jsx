@@ -51,7 +51,7 @@ export default function CustomFieldBuilder({ fields: initialFields, onChange }) 
       </div>
 
       {showAdd ? (
-        <div className="mt-4 p-4 rounded-lg border border-blue-200 dark:border-blue-800 bg-blue-50/30 dark:bg-blue-950/20 space-y-3">
+        <div className="mt-4 p-4 rounded-lg border border-teal-200 dark:border-teal-800 bg-teal-50/30 dark:bg-teal-950/20 space-y-3">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <SettingsField label="Field name">
               <SettingsInput value={draft.name} onChange={(e) => setDraft({ ...draft, name: e.target.value })} placeholder="e.g. Budget" />
@@ -63,12 +63,12 @@ export default function CustomFieldBuilder({ fields: initialFields, onChange }) 
             </SettingsField>
           </div>
           <div className="flex gap-2">
-            <button type="button" onClick={addField} className="px-3 py-1.5 text-xs font-medium text-white bg-blue-600 rounded-lg">Add field</button>
+            <button type="button" onClick={addField} className="px-3 py-1.5 text-xs font-medium text-white bg-teal-600 rounded-lg">Add field</button>
             <button type="button" onClick={() => setShowAdd(false)} className="px-3 py-1.5 text-xs font-medium text-slate-600">Cancel</button>
           </div>
         </div>
       ) : (
-        <button type="button" onClick={() => setShowAdd(true)} className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium text-blue-600 hover:text-blue-700">
+        <button type="button" onClick={() => setShowAdd(true)} className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium text-teal-600 hover:text-teal-700">
           <Plus className="w-3.5 h-3.5" /> Add custom field
         </button>
       )}

@@ -60,7 +60,7 @@ export default function APIDocumentation({ form, baseUrl }) {
       <section>
         <h4 className="text-xs font-bold uppercase tracking-wide text-slate-400 mb-2">cURL</h4>
         <pre className="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs overflow-x-auto"><code>{curl}</code></pre>
-        <button type="button" onClick={() => copy(curl)} className="mt-2 text-xs text-blue-600 font-medium">Copy cURL</button>
+        <button type="button" onClick={() => copy(curl)} className="mt-2 text-xs text-teal-600 font-medium">Copy cURL</button>
       </section>
 
       <section>

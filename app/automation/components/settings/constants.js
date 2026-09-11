@@ -103,7 +103,7 @@ export const SECTION_META = {
 };
 
 export const SECTION_COLORS = {
-  blue: { icon: 'bg-blue-100 text-blue-600 dark:bg-blue-950/50 dark:text-blue-400', bar: 'bg-blue-500', ring: 'hover:border-blue-200 dark:hover:border-blue-800', glow: 'hover:shadow-blue-100/80 dark:hover:shadow-blue-950/20' },
+  blue: { icon: 'bg-teal-100 text-teal-600 dark:bg-teal-950/50 dark:text-teal-400', bar: 'bg-teal-500', ring: 'hover:border-teal-200 dark:hover:border-teal-800', glow: 'hover:shadow-teal-100/80 dark:hover:shadow-teal-950/20' },
   violet: { icon: 'bg-violet-100 text-violet-600 dark:bg-violet-950/50 dark:text-violet-400', bar: 'bg-violet-500', ring: 'hover:border-violet-200 dark:hover:border-violet-800', glow: 'hover:shadow-violet-100/80 dark:hover:shadow-violet-950/20' },
   amber: { icon: 'bg-amber-100 text-amber-600 dark:bg-amber-950/50 dark:text-amber-400', bar: 'bg-amber-500', ring: 'hover:border-amber-200 dark:hover:border-amber-800', glow: 'hover:shadow-amber-100/80 dark:hover:shadow-amber-950/20' },
   cyan: { icon: 'bg-cyan-100 text-cyan-600 dark:bg-cyan-950/50 dark:text-cyan-400', bar: 'bg-cyan-500', ring: 'hover:border-cyan-200 dark:hover:border-cyan-800', glow: 'hover:shadow-cyan-100/80 dark:hover:shadow-cyan-950/20' },

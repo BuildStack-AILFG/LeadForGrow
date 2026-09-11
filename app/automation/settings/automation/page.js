@@ -58,7 +58,7 @@ export default function AutomationSettingsPage() {
   return (
     <div className="space-y-5">
       <div className="flex justify-end">
-        <button type="button" onClick={save} disabled={saving} className="px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-medium disabled:opacity-50">
+        <button type="button" onClick={save} disabled={saving} className="px-4 py-2 rounded-xl bg-teal-600 text-white text-sm font-medium disabled:opacity-50">
           {saving ? 'Saving…' : 'Save settings'}
         </button>
       </div>
@@ -89,7 +89,7 @@ export default function AutomationSettingsPage() {
               <button key={d} type="button" onClick={() => {
                 const days = (config.businessHours?.days || []).includes(d) ? config.businessHours.days.filter((x) => x !== d) : [...(config.businessHours?.days || []), d];
                 setConfig({ ...config, businessHours: { ...config.businessHours, days } });
-              }} className={`px-3 py-1.5 text-xs font-medium rounded-lg capitalize ${(config.businessHours?.days || []).includes(d) ? 'bg-blue-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600'}`}>{d}</button>
+              }} className={`px-3 py-1.5 text-xs font-medium rounded-lg capitalize ${(config.businessHours?.days || []).includes(d) ? 'bg-teal-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600'}`}>{d}</button>
             ))}
           </div>
         </SettingsCard>

@@ -275,7 +275,7 @@ function FlowBuilderInner({ flowId }) {
           <ArrowLeft className="w-4 h-4" />
         </Link>
 
-        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-sm shadow-emerald-500/20 hidden sm:flex">
+        <div className="w-8 h-8 rounded-xl bg-emerald-500 flex items-center justify-center shadow-sm shadow-emerald-500/20 hidden sm:flex">
           <MessageCircle className="w-4 h-4 text-white" />
         </div>
 
@@ -285,7 +285,7 @@ function FlowBuilderInner({ flowId }) {
             setFlow((f) => ({ ...f, name: e.target.value }));
             setDirty(true);
           }}
-          className="text-lg font-bold bg-transparent text-slate-900 focus:outline-none border-b border-transparent focus:border-blue-400 min-w-[140px] max-w-[240px]"
+          className="text-lg font-bold bg-transparent text-slate-900 focus:outline-none border-b border-transparent focus:border-teal-400 min-w-[140px] max-w-[240px]"
         />
 
         <span className={`text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full ${STATUS_PILL[flow?.status] || STATUS_PILL.draft}`}>
@@ -340,7 +340,7 @@ function FlowBuilderInner({ flowId }) {
           <button
             type="button"
             onClick={publish}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-all"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-teal-700 text-white text-sm font-semibold shadow-sm hover:shadow-md transition-all"
           >
             <Rocket className="w-3.5 h-3.5" />
             Publish
@@ -397,7 +397,7 @@ function FlowBuilderInner({ flowId }) {
                   key={v._id || v.version}
                   type="button"
                   onClick={() => restoreVersion(v.version)}
-                  className="w-full text-left px-3 py-2 rounded-xl hover:bg-blue-50 text-xs mb-1 transition-colors"
+                  className="w-full text-left px-3 py-2 rounded-xl hover:bg-teal-50 text-xs mb-1 transition-colors"
                 >
                   <div className="text-slate-900 font-semibold">
                     v{v.version} {v.published ? '· published' : ''}
@@ -422,7 +422,7 @@ function FlowBuilderInner({ flowId }) {
               <button
                 type="button"
                 onClick={runTest}
-                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white text-sm font-semibold shadow-md shadow-amber-500/20"
+                className="w-full py-2.5 rounded-xl bg-amber-500 text-white text-sm font-semibold shadow-sm"
               >
                 Run simulation
               </button>

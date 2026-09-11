@@ -170,8 +170,8 @@ export default function EventsPage() {
                 <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                     <div className="flex items-center justify-between mb-2">
                         <span className="text-slate-500 text-sm font-medium">Active Events</span>
-                        <div className="bg-blue-50 p-2 rounded-lg">
-                            <Calendar className="w-5 h-5 text-blue-600" />
+                        <div className="bg-teal-50 p-2 rounded-lg">
+                            <Calendar className="w-5 h-5 text-teal-600" />
                         </div>
                     </div>
                     <div className="text-3xl font-bold text-slate-900">{events.length}</div>

@@ -1,5 +1,5 @@
 export const AVATAR_PALETTE = [
-  { bg: 'bg-blue-100 dark:bg-blue-950/50', text: 'text-blue-700 dark:text-blue-400', ring: 'ring-blue-200/60', bar: 'bg-blue-500' },
+  { bg: 'bg-teal-100 dark:bg-teal-950/50', text: 'text-teal-700 dark:text-teal-400', ring: 'ring-teal-200/60', bar: 'bg-teal-500' },
   { bg: 'bg-violet-100 dark:bg-violet-950/50', text: 'text-violet-700 dark:text-violet-400', ring: 'ring-violet-200/60', bar: 'bg-violet-500' },
   { bg: 'bg-emerald-100 dark:bg-emerald-950/50', text: 'text-emerald-700 dark:text-emerald-400', ring: 'ring-emerald-200/60', bar: 'bg-emerald-500' },
   { bg: 'bg-amber-100 dark:bg-amber-950/50', text: 'text-amber-700 dark:text-amber-400', ring: 'ring-amber-200/60', bar: 'bg-amber-500' },
@@ -14,8 +14,8 @@ export const STRATEGIES = [
     description: 'Every new lead assigns to you. Best when you handle sales personally.',
     icon: 'UserCircle',
     accent: 'blue',
-    selectedClass: 'border-blue-500/60 bg-blue-50/80 dark:bg-blue-950/20',
-    iconClass: 'bg-blue-100 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400'
+    selectedClass: 'border-teal-500/60 bg-teal-50/80 dark:bg-teal-950/20',
+    iconClass: 'bg-teal-100 text-teal-600 dark:bg-teal-950/40 dark:text-teal-400'
   },
   {
     id: 'round-robin',

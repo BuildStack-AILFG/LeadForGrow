@@ -77,7 +77,7 @@ export default function AccessControl({ children }) {
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-red-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 flex items-center justify-center p-6">
         <div className="max-w-lg w-full">
           <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-10 text-center border border-slate-100 dark:border-slate-800">
-            <div className="w-20 h-20 bg-gradient-to-br from-red-500 to-rose-600 rounded-3xl flex items-center justify-center mx-auto mb-7 shadow-xl shadow-red-200 dark:shadow-red-950/50">
+            <div className="w-20 h-20 bg-red-500 rounded-3xl flex items-center justify-center mx-auto mb-7 shadow-sm dark:shadow-red-950/50">
               <ShieldAlert className="w-10 h-10 text-white" />
             </div>
 
@@ -126,7 +126,7 @@ export default function AccessControl({ children }) {
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 flex items-center justify-center p-6">
         <div className="max-w-2xl w-full">
           <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-12 text-center border border-slate-100 dark:border-slate-800">
-            <div className="w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-xl shadow-indigo-200 dark:shadow-indigo-950/50">
+            <div className="w-24 h-24 bg-indigo-500 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-sm dark:shadow-indigo-950/50">
               <Lock className="w-12 h-12 text-white" />
             </div>
 
@@ -144,7 +144,7 @@ export default function AccessControl({ children }) {
               </div>
             )}
 
-            <div className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950/40 dark:to-purple-950/30 rounded-2xl p-8 mb-8 text-left">
+            <div className="bg-indigo-50 dark:from-indigo-950/40 dark:to-purple-950/30 rounded-2xl p-8 mb-8 text-left">
               <div className="flex items-center gap-3 mb-6">
                 <Sparkles className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
                 <h3 className="text-xl font-bold text-slate-900 dark:text-slate-50">What you&apos;ll get:</h3>
@@ -174,7 +174,7 @@ export default function AccessControl({ children }) {
               <button
                 type="button"
                 onClick={() => router.push('/user/home#pricing')}
-                className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl font-bold text-lg hover:shadow-2xl hover:shadow-indigo-200 dark:hover:shadow-indigo-950/50 transition-all flex items-center justify-center gap-2 group"
+                className="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold text-lg hover:shadow-2xl hover:shadow-indigo-200 dark:hover:shadow-indigo-950/50 transition-all flex items-center justify-center gap-2 group"
               >
                 Upgrade to Growth Plan
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

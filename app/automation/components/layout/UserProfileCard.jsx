@@ -22,7 +22,7 @@ export default function UserProfileCard({
         type="button"
         onClick={onLogout}
         title={`${displayName} · Sign out`}
-        className="mx-auto w-9 h-9 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-sm font-semibold text-slate-700 dark:text-slate-200 hover:ring-2 hover:ring-blue-500/30 transition-all"
+        className="mx-auto w-9 h-9 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-sm font-semibold text-slate-700 dark:text-slate-200 hover:ring-2 hover:ring-teal-500/30 transition-all"
       >
         {initial}
       </button>

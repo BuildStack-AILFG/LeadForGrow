@@ -12,10 +12,10 @@ const TABS = [
 ];
 
 const STATUS_COLORS = {
-  open: '#1A45A5',
-  in_progress: '#2563EB',
+  open: '#059669',
+  in_progress: '#059669',
   lost: '#E5484D',
-  won: '#153A8A',
+  won: '#047857',
 };
 
 function LeadStatBox({ item, color }) {
@@ -29,7 +29,7 @@ function LeadStatBox({ item, color }) {
       <div className="h-1.5 rounded-full bg-[#EEF1F0] overflow-hidden">
         <div
           className="h-full rounded-full transition-[width] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
-          style={{ width: `${item.progress}%`, backgroundColor: color || '#1A45A5' }}
+          style={{ width: `${item.progress}%`, backgroundColor: color || '#059669' }}
         />
       </div>
     </div>
@@ -51,7 +51,7 @@ export default function LeadsManagementCard({ leadsManagement, onRefresh }) {
       action={
         <Link
           href="/automation/leads"
-          className="inline-flex items-center gap-0.5 text-[12.5px] font-normal text-[#1A45A5] hover:text-[#153A8A] transition-colors"
+          className="inline-flex items-center gap-0.5 text-[12.5px] font-normal text-[#059669] hover:text-[#047857] transition-colors"
         >
           View all
           <ArrowUpRight className="w-3.5 h-3.5" />
@@ -94,7 +94,7 @@ export default function LeadsManagementCard({ leadsManagement, onRefresh }) {
             </Link>
             <Link
               href="/automation/leads/new"
-              className="px-3 py-1.5 text-[12px] font-semibold text-white bg-[#2563EB] rounded-lg hover:bg-[#1D4ED8] transition-colors"
+              className="px-3 py-1.5 text-[12px] font-semibold text-white bg-[#059669] rounded-lg hover:bg-[#047857] transition-colors"
             >
               Add Lead
             </Link>
@@ -106,7 +106,7 @@ export default function LeadsManagementCard({ leadsManagement, onRefresh }) {
             <LeadStatBox
               key={item.key}
               item={item}
-              color={tab === 'status' ? STATUS_COLORS[item.key] : '#1A45A5'}
+              color={tab === 'status' ? STATUS_COLORS[item.key] : '#059669'}
             />
           ))}
         </div>

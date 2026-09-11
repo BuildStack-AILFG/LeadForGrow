@@ -30,7 +30,7 @@ export default function FormsHomeView({ forms, stats, maxForms, onCreate, onSele
           type="button"
           onClick={onCreate}
           disabled={forms.length >= maxForms}
-          className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-lg shadow-blue-600/20 disabled:opacity-50 transition-all"
+          className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-teal-600 hover:bg-teal-700 rounded-xl shadow-lg shadow-teal-600/20 disabled:opacity-50 transition-all"
         >
           <Plus className="w-4 h-4" /> Create form
         </button>
@@ -48,7 +48,7 @@ export default function FormsHomeView({ forms, stats, maxForms, onCreate, onSele
           const Icon = c.icon;
           return (
             <div key={c.label} className="bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm">
-              <Icon className="w-4 h-4 text-blue-600 mb-2" />
+              <Icon className="w-4 h-4 text-teal-600 mb-2" />
               <p className="text-2xl font-semibold text-slate-900 dark:text-slate-50 tabular-nums">{c.value}</p>
               <p className="text-xs text-slate-500 mt-0.5">{c.label}</p>
             </div>
@@ -58,12 +58,12 @@ export default function FormsHomeView({ forms, stats, maxForms, onCreate, onSele
 
       {forms.length === 0 ? (
         <div className="text-center py-20 bg-white dark:bg-slate-900 rounded-2xl shadow-sm">
-          <div className="w-16 h-16 rounded-2xl bg-blue-50 dark:bg-blue-950/50 flex items-center justify-center mx-auto mb-4">
-            <FileInput className="w-8 h-8 text-blue-600" />
+          <div className="w-16 h-16 rounded-2xl bg-teal-50 dark:bg-teal-950/50 flex items-center justify-center mx-auto mb-4">
+            <FileInput className="w-8 h-8 text-teal-600" />
           </div>
           <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">No forms yet</h2>
           <p className="text-sm text-slate-500 mt-2 max-w-xs mx-auto">Create your first lead capture form in under 2 minutes.</p>
-          <button type="button" onClick={onCreate} className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-xl">
+          <button type="button" onClick={onCreate} className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-teal-600 rounded-xl">
             <Plus className="w-4 h-4" /> Get started
           </button>
         </div>
@@ -100,7 +100,7 @@ export default function FormsHomeView({ forms, stats, maxForms, onCreate, onSele
                         {form.active !== false ? 'Live' : 'Draft'}
                       </span>
                     </div>
-                    <div className="flex items-center gap-1 mt-3 text-xs font-medium text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="flex items-center gap-1 mt-3 text-xs font-medium text-teal-600 opacity-0 group-hover:opacity-100 transition-opacity">
                       Open builder <ArrowRight className="w-3.5 h-3.5" />
                     </div>
                   </div>
