@@ -13,7 +13,7 @@ import MessageBubble from './MessageBubble';
  * <500 messages per convo. If we ever hit ~thousands, swap in react-virtuoso
  * which handles variable-height rows properly.
  */
-export default function MessageList({ messages, loading, hasMore, onLoadMore, loadingMore, onMessageAction, emptyLabel }) {
+export default function MessageList({ messages, loading, hasMore, onLoadMore, loadingMore, onMessageAction, emptyLabel, conversation }) {
   const containerRef = useRef(null);
   const bottomRef = useRef(null);
   const prevLengthRef = useRef(0);
@@ -71,10 +71,29 @@ export default function MessageList({ messages, loading, hasMore, onLoadMore, lo
           <div className="w-5 h-5 border-2 border-[#25d366] border-t-transparent rounded-full animate-spin" />
         </div>
       )}
-      {messages.map((msg) => {
+      {messages.map((msg, idx) => {
         const d = msg.timestamp ? new Date(msg.timestamp).toDateString() : '';
         const showDate = d && d !== lastDate;
         if (showDate) lastDate = d;
+
+        // Sender-grouping rule: email messages get a Gmail-style header
+        // (sender name + timestamp) UNLESS the message directly above is
+        // from the same sender within 5 minutes AND on the same date. This
+        // stops the header noise when someone sends 3 replies in a row, while
+        // still surfacing identity on every conversation break.
+        //
+        // We limit the header to `type === 'email'` — WhatsApp/Instagram
+        // don't need it (there are only ever 2 participants and direction
+        // already conveys who sent it).
+        const prev = idx > 0 ? messages[idx - 1] : null;
+        const prevSameSender =
+          prev &&
+          prev.direction === msg.direction &&
+          prev.type === msg.type &&
+          Math.abs(new Date(msg.timestamp) - new Date(prev.timestamp)) < 5 * 60 * 1000 &&
+          new Date(prev.timestamp).toDateString() === d;
+        const showSenderHeader = msg.type === 'email' && !prevSameSender;
+
         return (
           <div key={msg._id || msg.messageId} data-msg-id={msg._id}>
             {showDate && (
@@ -84,7 +103,13 @@ export default function MessageList({ messages, loading, hasMore, onLoadMore, lo
                 </span>
               </div>
             )}
-            <MessageBubble message={msg} onAction={onMessageAction} />
+            <MessageBubble
+              message={msg}
+              onAction={onMessageAction}
+              showSenderHeader={showSenderHeader}
+              groupedWithPrev={!!prevSameSender}
+              conversation={conversation}
+            />
           </div>
         );
       })}

@@ -33,6 +33,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Plus, Trash2, Star, ChevronDown, Check } from 'lucide-react';
 import RichSignatureEditor from './RichSignatureEditor';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
 function newId() {
   return `sig_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
@@ -77,6 +78,7 @@ export default function MultiSignatureEditor({
   onChange,
   embedded = false,
 }) {
+  const confirm = useConfirm();
   // Local draft state — parent persists via onSave. We only push on Save,
   // so users can experiment without every keystroke round-tripping.
   const initial = useMemo(() => {
@@ -136,9 +138,9 @@ export default function MultiSignatureEditor({
     setPickerOpen(false);
   };
 
-  const deleteSelected = () => {
+  const deleteSelected = async () => {
     if (!selected) return;
-    if (!window.confirm(`Delete signature "${selected.name}"? This can't be undone.`)) return;
+    if (!(await confirm({ title: 'Delete signature', message: `Delete signature "${selected.name}"? This can't be undone.`, confirmLabel: 'Delete', danger: true }))) return;
     setSignatures((prev) => {
       const next = prev.filter((s) => s.id !== selectedId);
       // If we deleted the default, promote the first remaining one so we

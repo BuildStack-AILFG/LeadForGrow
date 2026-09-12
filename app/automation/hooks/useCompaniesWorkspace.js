@@ -3,10 +3,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { authFetch } from '@/lib/apiClient';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 import { DEFAULT_FILTERS, EMPTY_FORM } from '../components/companies/constants';
 import { buildCompaniesQuery } from '../components/companies/utils';
 
 export function useCompaniesWorkspace() {
+  const confirm = useConfirm();
   const [companies, setCompanies] = useState([]);
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -135,7 +137,7 @@ export function useCompaniesWorkspace() {
 
   const handleMenuAction = async (action, id) => {
     if (action === 'delete') {
-      if (!window.confirm('Delete this company?')) return;
+      if (!(await confirm({ title: 'Delete company', message: 'Delete this company?', confirmLabel: 'Delete', danger: true }))) return;
       const res = await authFetch('/api/automation/companies/bulk', {
         method: 'POST',
         body: JSON.stringify({ ids: [id], action: 'delete' }),
@@ -160,13 +162,13 @@ export function useCompaniesWorkspace() {
     }
   };
 
-  const bulkAssign = () => {
-    const ownerId = window.prompt('Enter owner user ID (or use team picker in full version)');
+  const bulkAssign = async () => {
+    const ownerId = await confirm({ mode: 'prompt', title: 'Assign owner', message: 'Enter owner user ID', required: true });
     if (ownerId) bulkAction('assignOwner', { ownerId });
   };
 
-  const bulkAddTags = () => {
-    const tags = window.prompt('Enter tags separated by comma');
+  const bulkAddTags = async () => {
+    const tags = await confirm({ mode: 'prompt', title: 'Add tags', message: 'Enter tags separated by comma', placeholder: 'vip, priority', required: true });
     if (tags) bulkAction('addTags', { tags: tags.split(',').map((t) => t.trim()).filter(Boolean) });
   };
 

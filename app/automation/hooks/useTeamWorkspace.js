@@ -3,10 +3,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { authFetch } from '@/lib/apiClient';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
 const EMPTY_MEMBER = { email: '', firstName: '', lastName: '', phone: '', password: '' };
 
 export function useTeamWorkspace() {
+  const confirm = useConfirm();
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -86,7 +88,7 @@ export function useTeamWorkspace() {
   }, [assignmentStrategy]);
 
   const deleteMember = useCallback(async (memberId) => {
-    if (!window.confirm('Remove this team member?')) return;
+    if (!(await confirm({ title: 'Remove member', message: 'Remove this team member?', confirmLabel: 'Remove', danger: true }))) return;
     try {
       const res = await authFetch(`/api/automation/team?memberId=${memberId}`, { method: 'DELETE' });
       const data = await res.json();
@@ -97,7 +99,7 @@ export function useTeamWorkspace() {
     } catch {
       toast.error('Error removing member');
     }
-  }, []);
+  }, [confirm]);
 
   const addMember = useCallback(async () => {
     if (team.length >= maxTeamMembers) {

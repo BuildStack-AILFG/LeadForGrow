@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
 const SESSION_KEY = 'lfg_admin_session';
 
@@ -16,6 +17,7 @@ async function adminFetch(password, payload) {
 }
 
 export function useAdminPanel() {
+  const confirm = useConfirm();
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [models, setModels] = useState([]);
@@ -117,7 +119,7 @@ export function useAdminPanel() {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Permanently delete this record?')) return;
+    if (!(await confirm({ title: 'Delete record', message: 'Permanently delete this record?', confirmLabel: 'Delete', danger: true }))) return;
     setLoading(true);
     try {
       await adminFetch(password, { action: 'delete', modelName: selectedModel, id });
@@ -132,7 +134,7 @@ export function useAdminPanel() {
 
   const handleToggleFreeze = async (doc) => {
     const nextFrozen = !doc.frozen;
-    if (nextFrozen && !confirm(`Freeze "${doc.businessName || doc._id}"? They will lose all access to /automation immediately.`)) return;
+    if (nextFrozen && !(await confirm({ title: 'Freeze business', message: `Freeze "${doc.businessName || doc._id}"? They will lose all access to /automation immediately.`, confirmLabel: 'Freeze', danger: true }))) return;
     setLoading(true);
     setError('');
     try {

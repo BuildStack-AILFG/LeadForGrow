@@ -3,12 +3,13 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import {
   Send, Smile, Paperclip, Sparkles, Hand, StickyNote, MessageSquare,
-  Bold, Italic, Link2, Clock, Save, Mail, ChevronDown, ChevronUp, PenLine,
+  Bold, Italic, Link2, Clock, Save, Mail, ChevronDown, ChevronUp, PenLine, X,
 } from 'lucide-react';
 import { QUICK_EMOJIS } from './constants';
 import MediaAttachmentStrip from './MediaAttachmentStrip';
 import { useMediaUpload } from '@/app/automation/hooks/useMediaUpload';
 import { authFetch } from '@/lib/apiClient';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
 export default function ChatInput({
   canSend,
@@ -23,10 +24,13 @@ export default function ChatInput({
   onEmailSubjectChange,
   emailCc = '',
   onEmailCcChange,
+  emailBcc = '',
+  onEmailBccChange,
   // Set by the parent for email replies — pins the send to the conversation's
   // original mailbox. Read-only in that case; picker is hidden.
   pinnedEmailAccountId,
 }) {
+  const confirm = useConfirm();
   const [text, setText] = useState('');
   const [mode, setMode] = useState('message');
   const [emojiOpen, setEmojiOpen] = useState(false);
@@ -38,6 +42,23 @@ export default function ChatInput({
   const editorRef = useRef(null);
   const { uploads, uploadFile, removeUpload, retryUpload, clearUploads } = useMediaUpload();
 
+  // Insert a link into the contentEditable email body. The confirm modal blurs
+  // the editor, so we snapshot the selection first and restore it before
+  // execCommand — otherwise createLink has nothing to wrap.
+  const insertEmailLink = async () => {
+    const sel = typeof window !== 'undefined' ? window.getSelection() : null;
+    const savedRange = sel && sel.rangeCount ? sel.getRangeAt(0).cloneRange() : null;
+    const url = await confirm({ mode: 'prompt', title: 'Insert link', message: 'Enter URL', placeholder: 'https://…' });
+    if (!url) return;
+    editorRef.current?.focus?.();
+    if (savedRange) {
+      const s = window.getSelection();
+      s.removeAllRanges();
+      s.addRange(savedRange);
+    }
+    document.execCommand('createLink', false, url);
+  };
+
   const isNote = mode === 'note';
   const isEmail = channel === 'email' && !isNote;
   const readyUploads = uploads.filter((u) => u.status === 'done');
@@ -48,7 +69,67 @@ export default function ChatInput({
   // formatting / suggested-reply tile / emoji-attach-schedule row).
   // WhatsApp/Instagram composers stay as-is; only email needs this treatment.
   const [emailExpanded, setEmailExpanded] = useState(false);
-  const collapsedEmail = isEmail && !emailExpanded && !text && !emailSubject && readyUploads.length === 0;
+  // Explicit minimize: the chevron sets this so the composer collapses even
+  // when a draft exists. Without it, the content check below (which auto-opens
+  // the composer when there's a subject/body to show) would defeat the click.
+  const [emailMinimized, setEmailMinimized] = useState(false);
+  const collapsedEmail =
+    isEmail &&
+    (emailMinimized || (!emailExpanded && !text && !emailSubject && readyUploads.length === 0));
+
+  // Cc is hidden behind a toggle (Gmail-style) so the compact composer stays
+  // clean when it isn't needed. Auto-opens when a draft loads with existing Cc.
+  const [showCc, setShowCc] = useState(false);
+  const [ccUserOpened, setCcUserOpened] = useState(false);
+  const [showBcc, setShowBcc] = useState(false);
+  const [bccUserOpened, setBccUserOpened] = useState(false);
+  useEffect(() => {
+    if (emailCc && emailCc.trim()) setShowCc(true);
+  }, [emailCc]);
+  useEffect(() => {
+    if (emailBcc && emailBcc.trim()) setShowBcc(true);
+  }, [emailBcc]);
+
+  // Focus the composer when a MessageBubble's Reply icon fires the DOM
+  // event. Loose coupling — the emitter (useChatInbox) doesn't need a ref
+  // to this input, keeps the component tree cleaner. Also expands the
+  // collapsed email composer so users see where their cursor landed.
+  useEffect(() => {
+    const onReply = () => {
+      setEmailMinimized(false);
+      setEmailExpanded(true);
+      setTimeout(() => {
+        try {
+          editorRef.current?.focus?.();
+          editorRef.current?.scrollIntoView?.({ behavior: 'smooth', block: 'nearest' });
+        } catch { /* focus can throw on stale refs, safe to ignore */ }
+      }, 60);
+    };
+    window.addEventListener('lfg:reply-to-message', onReply);
+    return () => window.removeEventListener('lfg:reply-to-message', onReply);
+  }, []);
+
+  // Insert AI-generated (or otherwise applied) text directly into the active
+  // reply box. Fills the plain textarea via `text` state and the email
+  // contentEditable via innerText, so it works on every channel, then focuses.
+  useEffect(() => {
+    const onInsert = (e) => {
+      const val = e?.detail?.text;
+      if (!val) return;
+      setEmailMinimized(false);
+      setEmailExpanded(true);
+      setText(val);
+      setTimeout(() => {
+        try {
+          if (editorRef.current) editorRef.current.innerText = val;
+          editorRef.current?.focus?.();
+          editorRef.current?.scrollIntoView?.({ behavior: 'smooth', block: 'nearest' });
+        } catch { /* stale ref, safe to ignore */ }
+      }, 60);
+    };
+    window.addEventListener('lfg:insert-reply', onInsert);
+    return () => window.removeEventListener('lfg:insert-reply', onInsert);
+  }, []);
 
   // From-picker state — only fetched when the email composer is active.
   const [accounts, setAccounts] = useState([]);
@@ -70,7 +151,7 @@ export default function ChatInput({
     if (!isEmail || !onSaveDraft) return;
     // Don't autosave an empty draft (that'd create empty rows on every mount).
     const bodyContent = editorRef.current?.innerHTML?.trim();
-    const hasContent = !!(bodyContent || emailSubject?.trim() || emailCc?.trim());
+    const hasContent = !!(bodyContent || emailSubject?.trim() || emailCc?.trim() || emailBcc?.trim());
     if (!hasContent) return;
 
     if (draftTimerRef.current) clearTimeout(draftTimerRef.current);
@@ -80,6 +161,7 @@ export default function ChatInput({
           subject: emailSubject,
           body: editorRef.current?.innerHTML,
           cc: emailCc,
+          bcc: emailBcc,
           silent: true,
         });
         setDraftSavedAt(new Date());
@@ -91,7 +173,7 @@ export default function ChatInput({
     return () => {
       if (draftTimerRef.current) clearTimeout(draftTimerRef.current);
     };
-  }, [text, emailSubject, emailCc, isEmail, onSaveDraft]);
+  }, [text, emailSubject, emailCc, emailBcc, isEmail, onSaveDraft]);
 
   useEffect(() => {
     if (!isEmail) return;
@@ -188,6 +270,7 @@ export default function ChatInput({
       bodyHtml: isEmail ? body : undefined,
       subject: isEmail ? emailSubject : undefined,
       cc: isEmail && emailCc ? emailCc.split(',').map((e) => ({ email: e.trim() })).filter((c) => c.email) : undefined,
+      bcc: isEmail && emailBcc ? emailBcc.split(',').map((e) => ({ email: e.trim() })).filter((c) => c.email) : undefined,
       scheduledAt: scheduleOpen && scheduledAt ? scheduledAt : undefined,
       attachments: readyUploads.map((u) => ({
         url: u.url,
@@ -267,14 +350,14 @@ export default function ChatInput({
       <div className="flex items-center gap-2 px-3 py-2">
         <button
           type="button"
-          onClick={() => setEmailExpanded(true)}
+          onClick={() => { setEmailMinimized(false); setEmailExpanded(true); }}
           className="flex-1 text-left text-sm px-3 py-2 rounded bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-500 transition-colors"
         >
           Reply…
         </button>
         <button
           type="button"
-          onClick={() => { setMode('note'); setEmailExpanded(true); }}
+          onClick={() => { setMode('note'); setEmailMinimized(false); setEmailExpanded(true); }}
           className="inline-flex items-center gap-1 px-2.5 py-2 text-[11px] font-medium rounded text-green-700 hover:bg-green-50 dark:hover:bg-green-950/40"
           title="Add internal note"
         >
@@ -282,7 +365,7 @@ export default function ChatInput({
         </button>
         <button
           type="button"
-          onClick={() => setEmailExpanded(true)}
+          onClick={() => { setEmailMinimized(false); setEmailExpanded(true); }}
           className="inline-flex items-center gap-1 px-3 py-2 text-xs font-semibold text-white bg-[#1D4B3E] hover:bg-[#163c32] rounded"
         >
           Compose
@@ -303,7 +386,7 @@ export default function ChatInput({
         {isEmail && (
           <button
             type="button"
-            onClick={() => setEmailExpanded(false)}
+            onClick={() => { setEmailExpanded(false); setEmailMinimized(true); }}
             className="ml-auto inline-flex items-center gap-1 px-2 py-1 text-[11px] text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded"
             title="Minimize composer"
           >
@@ -317,7 +400,7 @@ export default function ChatInput({
                 ✓ Saved
               </span>
             )}
-            <button type="button" onClick={() => { onSaveDraft({ subject: emailSubject, body: editorRef.current?.innerHTML, cc: emailCc }); setDraftSavedAt(new Date()); }} className="inline-flex items-center gap-1 px-2 py-1 text-[11px] text-slate-500 hover:bg-slate-100 rounded-md">
+            <button type="button" onClick={() => { onSaveDraft({ subject: emailSubject, body: editorRef.current?.innerHTML, cc: emailCc, bcc: emailBcc }); setDraftSavedAt(new Date()); }} className="inline-flex items-center gap-1 px-2 py-1 text-[11px] text-slate-500 hover:bg-slate-100 rounded-md">
               <Save className="w-3 h-3" /> Save draft
             </button>
           </>
@@ -371,12 +454,24 @@ export default function ChatInput({
               </select>
             </div>
           )}
-          <input type="text" value={emailSubject} onChange={(e) => onEmailSubjectChange?.(e.target.value)} placeholder="Subject" className="w-full text-sm px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg" />
-          <input type="text" value={emailCc} onChange={(e) => onEmailCcChange?.(e.target.value)} placeholder="CC (comma separated)" className="w-full text-xs px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg" />
-          <div className="flex gap-1 text-slate-500">
-            <button type="button" onClick={() => document.execCommand('bold')} className="p-1.5 rounded hover:bg-slate-100 dark:hover:bg-slate-800"><Bold className="w-3.5 h-3.5" /></button>
-            <button type="button" onClick={() => document.execCommand('italic')} className="p-1.5 rounded hover:bg-slate-100 dark:hover:bg-slate-800"><Italic className="w-3.5 h-3.5" /></button>
-            <button type="button" onClick={() => { const url = prompt('URL'); if (url) document.execCommand('createLink', false, url); }} className="p-1.5 rounded hover:bg-slate-100 dark:hover:bg-slate-800"><Link2 className="w-3.5 h-3.5" /></button>
+          {showCc && (
+            <RecipientRow label="Cc" value={emailCc} onChange={onEmailCcChange} autoFocus={ccUserOpened} />
+          )}
+          {showBcc && (
+            <RecipientRow label="Bcc" value={emailBcc} onChange={onEmailBccChange} autoFocus={bccUserOpened} />
+          )}
+          <div className="flex items-center gap-1.5">
+            <input type="text" value={emailSubject} onChange={(e) => onEmailSubjectChange?.(e.target.value)} placeholder="Subject" className="flex-1 text-sm px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg" />
+            {!showCc && (
+              <button type="button" onClick={() => { setShowCc(true); setCcUserOpened(true); }} className="shrink-0 px-2.5 py-1.5 text-[11px] font-semibold text-slate-500 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg" title="Add Cc recipients">
+                Cc
+              </button>
+            )}
+            {!showBcc && (
+              <button type="button" onClick={() => { setShowBcc(true); setBccUserOpened(true); }} className="shrink-0 px-2.5 py-1.5 text-[11px] font-semibold text-slate-500 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg" title="Add Bcc recipients">
+                Bcc
+              </button>
+            )}
           </div>
         </div>
       )}
@@ -410,7 +505,14 @@ export default function ChatInput({
         )}
         <input ref={fileRef} type="file" multiple className="hidden" accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.xls,.xlsx,.zip" onChange={(e) => { handleFiles(e.target.files); e.target.value = ''; }} />
         {isEmail && (
-          <button type="button" onClick={() => setScheduleOpen(!scheduleOpen)} className="p-2 rounded hover:bg-slate-100" title="Schedule send"><Clock className="w-4 h-4" /></button>
+          <>
+            <span className="mx-0.5 h-4 w-px bg-slate-200 dark:bg-slate-700" />
+            <button type="button" onClick={() => document.execCommand('bold')} className="p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800" title="Bold"><Bold className="w-4 h-4" /></button>
+            <button type="button" onClick={() => document.execCommand('italic')} className="p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800" title="Italic"><Italic className="w-4 h-4" /></button>
+            <button type="button" onClick={insertEmailLink} className="p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800" title="Insert link"><Link2 className="w-4 h-4" /></button>
+            <span className="mx-0.5 h-4 w-px bg-slate-200 dark:bg-slate-700" />
+            <button type="button" onClick={() => setScheduleOpen(!scheduleOpen)} className="p-2 rounded hover:bg-slate-100" title="Schedule send"><Clock className="w-4 h-4" /></button>
+          </>
         )}
         {isEmail && accountSignatures.length > 0 && (
           <div className="relative">
@@ -509,5 +611,87 @@ export default function ChatInput({
         </button>
       </form>
     </>
+  );
+}
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Gmail/Hostinger-style recipient field, reused for both Cc and Bcc. Source of
+// truth stays a comma-separated string (parent contract is unchanged), but
+// recipients render as removable bordered pills with per-address validation.
+// Typing an address and pressing Enter/comma/Tab — or pasting a list, or
+// blurring — commits it to a chip; Backspace on an empty input removes the last.
+function RecipientRow({ label, value, onChange, autoFocus }) {
+  const [draft, setDraft] = useState('');
+  const inputRef = useRef(null);
+  const chips = (value || '').split(',').map((s) => s.trim()).filter(Boolean);
+
+  const setChips = (arr) => onChange?.(arr.join(', '));
+
+  const commit = (raw) => {
+    const parts = raw.split(/[,\s]+/).map((s) => s.trim()).filter(Boolean);
+    if (!parts.length) return;
+    const next = [...chips];
+    parts.forEach((p) => { if (!next.includes(p)) next.push(p); });
+    setChips(next);
+    setDraft('');
+  };
+
+  const removeAt = (i) => setChips(chips.filter((_, idx) => idx !== i));
+
+  const onKeyDown = (e) => {
+    if ((e.key === 'Enter' || e.key === ',' || e.key === 'Tab') && draft.trim()) {
+      e.preventDefault();
+      commit(draft);
+    } else if (e.key === 'Backspace' && !draft && chips.length) {
+      removeAt(chips.length - 1);
+    }
+  };
+
+  return (
+    <div
+      onClick={() => inputRef.current?.focus()}
+      className="flex flex-wrap items-center gap-1.5 w-full text-xs px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg cursor-text focus-within:border-emerald-400 focus-within:ring-1 focus-within:ring-emerald-100 dark:focus-within:ring-emerald-900/40"
+    >
+      <span className="pr-0.5 text-[11px] font-semibold text-slate-400 select-none w-7 shrink-0">{label}</span>
+      {chips.map((c, i) => {
+        const valid = EMAIL_RE.test(c);
+        return (
+          <span
+            key={`${c}-${i}`}
+            title={valid ? c : 'Invalid email address'}
+            className={`inline-flex items-center gap-1 pl-2 pr-1 py-0.5 rounded-md text-[11px] max-w-full ${
+              valid
+                ? 'bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200'
+                : 'bg-rose-50 dark:bg-rose-950/40 border border-rose-300 dark:border-rose-800 text-rose-700 dark:text-rose-300'
+            }`}
+          >
+            <span className="truncate">{c}</span>
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); removeAt(i); }}
+              className="shrink-0 rounded p-0.5 text-slate-400 hover:text-slate-700 hover:bg-slate-200 dark:hover:bg-slate-500 dark:hover:text-slate-100"
+              aria-label={`Remove ${c}`}
+            >
+              <X className="w-3 h-3" />
+            </button>
+          </span>
+        );
+      })}
+      <input
+        ref={inputRef}
+        value={draft}
+        autoFocus={autoFocus}
+        onChange={(e) => setDraft(e.target.value)}
+        onKeyDown={onKeyDown}
+        onBlur={() => { if (draft.trim()) commit(draft); }}
+        onPaste={(e) => {
+          const t = e.clipboardData.getData('text');
+          if (/[,\s]/.test(t)) { e.preventDefault(); commit(`${draft} ${t}`); }
+        }}
+        placeholder={chips.length ? '' : 'name@example.com'}
+        className="flex-1 min-w-[120px] bg-transparent outline-none py-0.5 text-xs placeholder:text-slate-400"
+      />
+    </div>
   );
 }

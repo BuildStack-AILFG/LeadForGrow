@@ -21,6 +21,11 @@ const EmailDraftSchema = new mongoose.Schema(
     }],
     replyToMessageId: String,
     scheduledAt: Date,
+    // Scheduled-send retry bookkeeping (see lib/omnichannel/scheduledEmailSender).
+    // A draft that fails to send is retried up to a cap, then scheduledAt is
+    // cleared and sendError explains why, so it reverts to a normal draft.
+    sendAttempts: { type: Number, default: 0 },
+    sendError: String,
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   },
   { timestamps: true }

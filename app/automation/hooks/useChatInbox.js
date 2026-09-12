@@ -34,6 +34,12 @@ export function useChatInbox() {
   const CONV_PAGE_SIZE = 50;
   const [emailSubject, setEmailSubject] = useState('');
   const [emailCc, setEmailCc] = useState('');
+  const [emailBcc, setEmailBcc] = useState('');
+  // Composer fields are per-conversation. This ref tracks which conversation
+  // the current draft belongs to so switching threads clears it (see effect
+  // below) — otherwise one thread's subject/Cc/Bcc leaks into the next.
+  const composerConvIdRef = useRef(null);
+  const [subjectAutofilled, setSubjectAutofilled] = useState(false);
   const initialLeadId = useRef(searchParams.get('leadId'));
   const selectedLeadIdRef = useRef(null);
   selectedLeadIdRef.current = selectedChat?.leadId?._id;
@@ -286,11 +292,57 @@ export function useChatInbox() {
   useEffect(() => {
     if (!selectedChat) return;
     const leadId = selectedChat.leadId?._id || selectedChat.leadId;
-    if (!leadId) return;
+
+    // Messages fetch works with just conversationId — must always run so
+    // clicking a lead-less conversation (e.g. email from unknown sender)
+    // actually swaps the thread instead of showing the previous one.
     fetchMessages(selectedChat, true);
-    fetchLeadDetail(leadId);
+
+    // Lead-related state must sync EVERY conversation switch — otherwise
+    // the previous conversation's customer profile lingers on the right
+    // pane when the newly-clicked one has no lead attached.
+    if (leadId) {
+      fetchLeadDetail(leadId);
+    } else {
+      setLeadDetail(null);
+    }
+
     if (selectedChat._id) fetchConversationDetail(selectedChat._id);
   }, [selectedChat, fetchMessages, fetchLeadDetail, fetchConversationDetail]);
+
+  // #1 — Draft isolation. Clear the email composer fields when the user
+  // switches to a DIFFERENT conversation (gated on _id via a ref so a mere
+  // list refresh that swaps selectedChat's object identity — same thread —
+  // never wipes a draft the user is actively typing).
+  useEffect(() => {
+    const convId = selectedChat?._id || null;
+    if (convId === composerConvIdRef.current) return;
+    composerConvIdRef.current = convId;
+    setEmailCc('');
+    setEmailBcc('');
+    setEmailSubject('');
+    setSubjectAutofilled(false);
+  }, [selectedChat?._id]);
+
+  // #2 — Prefill "Re: <subject>" for email replies once this thread's
+  // messages have loaded. Runs only while the subject is empty and hasn't
+  // been auto-filled yet for this conversation, so it never clobbers a subject
+  // the user typed (or deliberately cleared). Gated on conversationId match so
+  // it can't read a stale thread's messages during the fetch gap.
+  useEffect(() => {
+    if (selectedChat?.channel !== 'email') return;
+    if (subjectAutofilled || emailSubject) return;
+    const convId = selectedChat?._id;
+    const firstEmailMsg = messages.find(
+      (m) => m.type === 'email' && m.subject && String(m.conversationId) === String(convId),
+    );
+    if (!firstEmailMsg) return;
+    const clean = firstEmailMsg.subject.replace(/^(Re:|Fwd?:|Fw:)\s*/i, '').trim();
+    if (clean) {
+      setEmailSubject(`Re: ${clean}`);
+      setSubjectAutofilled(true);
+    }
+  }, [messages, selectedChat?._id, selectedChat?.channel, subjectAutofilled, emailSubject]);
 
   const filteredConversations = useMemo(() => {
     let list = [...conversations];
@@ -448,6 +500,7 @@ export function useChatInbox() {
         bodyHtml,
         subject,
         cc,
+        bcc,
         scheduledAt,
         template, // { name, language, headerMediaUrl, variables }
         emailAccountId, // From-picker choice for email sends
@@ -484,6 +537,7 @@ export function useChatInbox() {
             isInternal,
             subject: subject ?? emailSubject,
             cc,
+            bcc,
             bodyHtml,
             scheduledAt,
             mediaUrl: mediaItem?.url,
@@ -571,6 +625,7 @@ export function useChatInbox() {
           subject: draft.subject,
           bodyHtml: draft.body,
           cc: draft.cc ? draft.cc.split(',').map((e) => ({ email: e.trim() })) : [],
+          bcc: draft.bcc ? draft.bcc.split(',').map((e) => ({ email: e.trim() })) : [],
         }),
       });
       const data = await res.json();
@@ -588,6 +643,18 @@ export function useChatInbox() {
    */
   const messageAction = useCallback(async (messageId, action) => {
     if (!messageId || !action) return;
+
+    // "Reply" isn't a persisted message state — it just tells the composer
+    // to focus. Dispatch a DOM event that ChatInput listens for; keeps the
+    // wiring loose so the hook doesn't need a ref to the input. Also
+    // early-returns so we don't hit the PATCH endpoint with an unknown action.
+    if (action === 'reply') {
+      try {
+        window.dispatchEvent(new CustomEvent('lfg:reply-to-message', { detail: { messageId } }));
+      } catch { /* SSR/no-window safety */ }
+      return;
+    }
+
     // Optimistic update.
     const patch =
       action === 'star' ? { starred: true }
@@ -832,6 +899,8 @@ export function useChatInbox() {
     setEmailSubject,
     emailCc,
     setEmailCc,
+    emailBcc,
+    setEmailBcc,
     saveEmailDraft,
     conversationAction,
     refresh: () => fetchConversations(true)

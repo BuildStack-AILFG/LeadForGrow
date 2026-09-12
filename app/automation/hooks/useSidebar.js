@@ -2,8 +2,10 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { authFetch } from '@/lib/apiClient';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
 export function useSidebar() {
+  const confirm = useConfirm();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -115,12 +117,18 @@ export function useSidebar() {
     if (isMobile) setMobileOpen(false);
   }, [isMobile]);
 
-  const logout = useCallback(() => {
-    if (!window.confirm('Sign out of LeadForGrow?')) return;
+  const logout = useCallback(async () => {
+    const ok = await confirm({
+      title: 'Sign out',
+      message: 'Sign out of LeadForGrow?',
+      confirmLabel: 'Sign out',
+      danger: true,
+    });
+    if (!ok) return;
     localStorage.clear();
     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     window.location.href = '/';
-  }, []);
+  }, [confirm]);
 
   const userRole = typeof window !== 'undefined' ? (localStorage.getItem('userRole') || 'member') : 'member';
   const displayName =

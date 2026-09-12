@@ -8,6 +8,7 @@ import TemplateBuilder from './TemplateBuilder';
 import PageLoader from '../components/PageLoader';
 import AutoPageIntro from '../components/shared/tour/AutoPageIntro';
 import { TEMPLATE_CATEGORIES } from './templateCategories';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
 const STATUS_STYLES = {
   DRAFT: 'bg-slate-100 text-slate-700',
@@ -76,6 +77,7 @@ function TemplateCard({ template, onExpand }) {
 }
 
 export default function WhatsAppTemplatesPage() {
+  const confirm = useConfirm();
   const [templates, setTemplates] = useState([]);
   const [deletedTemplates, setDeletedTemplates] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -134,7 +136,7 @@ export default function WhatsAppTemplatesPage() {
   };
 
   const deleteTemplate = async (t) => {
-    if (!confirm(`Delete "${t.name}"?${t.metaTemplateId ? ' This will also delete it from Meta.' : ''}`)) return;
+    if (!(await confirm({ title: 'Delete template', message: `Delete "${t.name}"?${t.metaTemplateId ? ' This will also delete it from Meta.' : ''}`, confirmLabel: 'Delete', danger: true }))) return;
     try {
       const res = await authFetch(`/api/automation/whatsapp-templates/${t._id}`, { method: 'DELETE' });
       const data = await res.json();

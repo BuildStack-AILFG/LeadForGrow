@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-hot-toast';
 import { 
   Plus, 
   Globe, 
@@ -83,10 +84,10 @@ function DashboardContent() {
         
         fetchProjects();
       } else {
-        alert("Failed to publish: " + result.error);
+        toast.error("Failed to publish: " + result.error);
       }
     } catch (error) {
-      alert("Error publishing website.");
+      toast.error("Error publishing website.");
     }
   };
 
@@ -235,7 +236,7 @@ function DashboardContent() {
                             <button 
                                 onClick={() => {
                                     navigator.clipboard.writeText(window.location.origin + `/preview/${project.templateId}?id=${project._id}`);
-                                    alert('Link copied to clipboard!');
+                                    toast.success('Link copied to clipboard!');
                                 }}
                                 className="flex-1 lg:flex-none px-4 py-2.5 bg-white text-slate-400 border border-slate-100 rounded-lg font-bold text-xs flex items-center justify-center gap-2 hover:text-slate-900 hover:border-slate-300 transition-all active:scale-95"
                             >

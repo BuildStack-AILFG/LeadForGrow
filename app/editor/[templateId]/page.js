@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, Suspense } from 'react';
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
+import { toast } from 'react-hot-toast';
 import { 
   Save, 
   Share2, 
@@ -107,7 +108,7 @@ function EditorContent() {
 
   const handleSave = async () => {
     if (!projectId) {
-      alert("No project ID found to save.");
+      toast.error("No project ID found to save.");
       return;
     }
 
@@ -124,11 +125,11 @@ function EditorContent() {
         setShowStatus(true);
         setTimeout(() => setShowStatus(false), 3000);
       } else {
-        alert("Failed to save: " + result.error);
+        toast.error("Failed to save: " + result.error);
         setIsSaving(false);
       }
     } catch (error) {
-      alert("Error saving project.");
+      toast.error("Error saving project.");
       setIsSaving(false);
     }
   };
@@ -159,11 +160,11 @@ function EditorContent() {
           websiteName: content.hero?.heading?.split(':')[0] || 'Your Site'
         });
       } else {
-        alert("Failed to publish: " + result.error);
+        toast.error("Failed to publish: " + result.error);
         setIsSaving(false);
       }
     } catch (error) {
-      alert("Error publishing project.");
+      toast.error("Error publishing project.");
       setIsSaving(false);
     }
   };

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import { authFetch, getUserId } from '@/lib/apiClient';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
 const EMPTY_FORM = {
   name: '',
@@ -17,6 +18,7 @@ const EMPTY_FORM = {
 };
 
 export function useCompanyDetail(companyId) {
+  const confirm = useConfirm();
   const router = useRouter();
   const [company, setCompany] = useState(null);
   const [teamMembers, setTeamMembers] = useState([]);
@@ -103,13 +105,13 @@ export function useCompanyDetail(companyId) {
   };
 
   const archiveCompany = async () => {
-    if (!window.confirm('Archive this company? It will be hidden from active lists.')) return;
+    if (!(await confirm({ title: 'Archive company', message: 'Archive this company? It will be hidden from active lists.', confirmLabel: 'Archive' }))) return;
     await updateCompany({ archived: true });
     router.push('/automation/companies');
   };
 
   const deleteCompany = async () => {
-    if (!window.confirm('Permanently delete this company? This cannot be undone.')) return;
+    if (!(await confirm({ title: 'Delete company', message: 'Permanently delete this company? This cannot be undone.', confirmLabel: 'Delete', danger: true }))) return;
     setSaving(true);
     try {
       const res = await authFetch(`/api/automation/companies/${companyId}`, { method: 'DELETE' });

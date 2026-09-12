@@ -2,6 +2,7 @@
 
 import React, { Suspense, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import { toast } from 'react-hot-toast';
 import { 
   ArrowRight, 
   Sparkles,
@@ -34,7 +35,7 @@ function DetailsContent() {
 
   const handleCreate = async () => {
     if (!formData.websiteName || !formData.brandName || !formData.email) {
-      alert("Please fill in the required fields.");
+      toast.error("Please fill in the required fields.");
       return;
     }
 
@@ -60,11 +61,11 @@ function DetailsContent() {
         await new Promise(resolve => setTimeout(resolve, 3000));
         router.push('/website-funnel/dashboard');
       } else {
-        alert("Failed to create website: " + result.error);
+        toast.error("Failed to create website: " + result.error);
         setIsCreating(false);
       }
     } catch (error) {
-      alert("Something went wrong while creating your website.");
+      toast.error("Something went wrong while creating your website.");
       setIsCreating(false);
     }
   };

@@ -4,10 +4,12 @@ import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import { authFetch } from '@/lib/apiClient';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 import { resolveStages } from '@/lib/crm/pipelineUtils';
 import { useDealStageModals } from './useDealStageModals';
 
 export function useDealDetail(dealId) {
+  const confirm = useConfirm();
   const router = useRouter();
   const [deal, setDeal] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -60,7 +62,7 @@ export function useDealDetail(dealId) {
   );
 
   const archiveDeal = async () => {
-    if (!window.confirm('Archive this deal?')) return;
+    if (!(await confirm({ title: 'Archive deal', message: 'Archive this deal?', confirmLabel: 'Archive' }))) return;
     const ok = await updateDeal({ archived: true });
     if (ok) router.push('/automation/deals');
   };

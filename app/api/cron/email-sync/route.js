@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import EmailAccount from '@/models/omnichannel/EmailAccount';
 import { syncEmailAccount } from '@/lib/omnichannel/emailSync';
+import { runScheduledEmailSends } from '@/lib/omnichannel/scheduledEmailSender';
 
 /**
  * GET /api/cron/email-sync
@@ -68,12 +69,26 @@ export async function GET(req) {
       });
     }
 
+    // Flush any due scheduled emails on the same tick, so scheduled-send works
+    // out of the box off the existing 5-min cron with no extra scheduler.
+    // Safe to also run from /api/cron/scheduled-email — the atomic claim in
+    // the sender means overlapping runs can't double-send. Isolated so a
+    // scheduled-send failure never fails the IMAP sync.
+    let scheduledEmail = null;
+    try {
+      scheduledEmail = await runScheduledEmailSends();
+    } catch (err) {
+      console.error('[Cron:email-sync] scheduled-email flush failed', err);
+      scheduledEmail = { error: err.message };
+    }
+
     return NextResponse.json({
       success: true,
       totalAccounts: accounts.length,
       totalSynced: results.reduce((n, r) => n + (r.synced || 0), 0),
       durationMs: Date.now() - startedAt,
       results,
+      scheduledEmail,
     });
   } catch (error) {
     console.error('[Cron:email-sync]', error);

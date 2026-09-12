@@ -6,8 +6,10 @@ import { authJson } from '@/lib/apiClient';
 import { useAccess } from '../../context/AccessContext';
 import toast from 'react-hot-toast';
 import PageLoader from '../../components/PageLoader';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
 export default function ApiKeysSettingsPage() {
+  const confirm = useConfirm();
   const { access, showUpgrade } = useAccess();
   const [keys, setKeys] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,7 +28,7 @@ export default function ApiKeysSettingsPage() {
   }, [access]);
 
   const createKey = async () => {
-    const name = prompt('API key name');
+    const name = await confirm({ mode: 'prompt', title: 'New API key', message: 'API key name', placeholder: 'e.g. Zapier integration', required: true });
     if (!name) return;
     const res = await authJson('/api/access/api-keys', {
       method: 'POST',

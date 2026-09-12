@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 
 export default function PublicFormPage() {
     const { id: token } = useParams();
@@ -64,10 +65,10 @@ export default function PublicFormPage() {
                     }, 2000);
                 }
             } else {
-                alert(data.error || 'Submission failed');
+                toast.error(data.error || 'Submission failed');
             }
         } catch (err) {
-            alert('Error submitting form');
+            toast.error('Error submitting form');
         } finally {
             setSubmitting(false);
         }

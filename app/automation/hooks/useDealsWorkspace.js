@@ -3,11 +3,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { authFetch } from '@/lib/apiClient';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 import { DEFAULT_FILTERS, EMPTY_FORM } from '../components/deals/constants';
 import { getDefaultStageKey, resolveStages, getStageLabel } from '@/lib/crm/pipelineUtils';
 import { useDealStageModals } from './useDealStageModals';
 
 export function useDealsWorkspace() {
+  const confirm = useConfirm();
   const [deals, setDeals] = useState([]);
   const [pipeline, setPipeline] = useState([]);
   const [pipelines, setPipelines] = useState([]);
@@ -187,7 +189,7 @@ export function useDealsWorkspace() {
   };
 
   const deleteDeal = async (dealId, dealTitle) => {
-    if (!window.confirm(`Delete deal "${dealTitle || 'this deal'}"? This cannot be undone.`)) return;
+    if (!(await confirm({ title: 'Delete deal', message: `Delete deal "${dealTitle || 'this deal'}"? This cannot be undone.`, confirmLabel: 'Delete', danger: true }))) return;
     const res = await authFetch(`/api/automation/deals/${dealId}`, { method: 'DELETE' });
     const data = await res.json();
     if (data.success) {

@@ -3,6 +3,7 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import { authFetch } from '@/lib/apiClient';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 import { INTEGRATION_CATEGORIES, HEALTH_STYLES } from '../components/integrations/constants';
 
 function formatRelativeTime(dateStr) {
@@ -19,6 +20,7 @@ function formatRelativeTime(dateStr) {
 }
 
 export function useIntegrations() {
+  const confirm = useConfirm();
   const [integrations, setIntegrations] = useState([]);
   const [categories, setCategories] = useState(INTEGRATION_CATEGORIES);
   const [stats, setStats] = useState({ total: 0, connected: 0, healthy: 0, needsAttention: 0 });
@@ -120,7 +122,7 @@ export function useIntegrations() {
       const item = integrations.find((i) => i.id === id);
 
       if (item?.authType === 'oauth') {
-        const email = prompt('Enter connected account email (OAuth simulation):');
+        const email = await confirm({ mode: 'prompt', title: 'Connect account', message: 'Enter connected account email', placeholder: 'you@example.com', required: true });
         if (!email) { setConnecting(false); return; }
 
         const res = await authFetch(`/api/integrations/${id}/oauth`, {
@@ -158,7 +160,7 @@ export function useIntegrations() {
     } finally {
       setConnecting(false);
     }
-  }, [integrations, updateIntegrationInState]);
+  }, [integrations, updateIntegrationInState, confirm]);
 
   const disconnect = useCallback(async (id) => {
     setConnecting(true);

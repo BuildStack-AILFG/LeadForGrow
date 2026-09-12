@@ -17,6 +17,7 @@ import EnterprisePermissionMatrix from './EnterprisePermissionMatrix';
 import AddMemberModal from '../team/AddMemberModal';
 import PageLoader from '../PageLoader';
 import AutoPageIntro from '../shared/tour/AutoPageIntro';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
 const SECTIONS = [
   { id: 'members', label: 'Team Members', icon: Users },
@@ -28,6 +29,7 @@ const SECTIONS = [
 ];
 
 export default function TeamPermissionsWorkspace() {
+  const confirm = useConfirm();
   const [section, setSection] = useState('members');
   const ac = useAccessControl();
   const team = useTeamWorkspace();
@@ -167,8 +169,8 @@ export default function TeamPermissionsWorkspace() {
               {canManage && ac.access?.tierFeatures?.custom_roles && (
                 <button
                   type="button"
-                  onClick={() => {
-                    const name = prompt('Role name');
+                  onClick={async () => {
+                    const name = await confirm({ mode: 'prompt', title: 'New role', message: 'Role name', placeholder: 'e.g. Sales Manager', required: true });
                     if (name) ac.createRole(name, '');
                   }}
                   className="text-sm font-medium text-indigo-600 hover:underline"

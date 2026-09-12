@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { toast } from 'react-hot-toast';
 import { Cookie, Mail, MessageCircle, Phone, X } from 'lucide-react';
 import { CONTACT_FORM_TOKEN, getFormSubmitUrl } from '@/lib/publicForms';
 import { getConsentPayloadForForms } from '@/lib/consent/client';
@@ -174,10 +175,10 @@ export default function LeadForGrowWidget({ onBookDemo }) {
         e.target.reset();
         setTimeout(() => setFormOpen(false), 3000);
       } else {
-        alert(res.error || 'Failed to send. Please try again.');
+        toast.error(res.error || 'Failed to send. Please try again.');
       }
     } catch {
-      alert('Network error. Please check your connection and try again.');
+      toast.error('Network error. Please check your connection and try again.');
     } finally {
       setIsSending(false);
     }

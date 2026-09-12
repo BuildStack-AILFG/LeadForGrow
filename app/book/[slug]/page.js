@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'react-hot-toast';
 import {
   Loader2,
   Clock,
@@ -96,10 +97,10 @@ export default function PublicBookingPage() {
         setBooked(json.data);
         setStep('success');
       } else {
-        alert(json.error || 'Booking failed');
+        toast.error(json.error || 'Booking failed');
       }
     } catch {
-      alert('Booking failed');
+      toast.error('Booking failed');
     } finally {
       setSubmitting(false);
     }

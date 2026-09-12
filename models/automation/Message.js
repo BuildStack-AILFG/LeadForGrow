@@ -70,12 +70,38 @@ const MessageSchema = new mongoose.Schema({
   },
   content: {
     body: String,
+    // Sanitized HTML for email messages so we can render marketing / rich
+    // emails the way recipients see them in Gmail. Only populated for
+    // incoming email; other channels leave this null.
+    html: String,
+    // Email CC list (semicolon or comma separated in original headers) —
+    // stored as an array of {name, address} for clean UI rendering.
+    cc: [{ name: String, address: String, _id: false }],
     caption: String,
     fileName: String,
     mimeType: String,
     sha256: String,
     mediaId: String, // Meta's media ID
-    mediaUrl: String  // If already resolved
+    mediaUrl: String, // If already resolved
+    // Multi-attachment support for email — an email can carry many files
+    // (CV + cover letter + references). WhatsApp / Instagram legacy code
+    // still uses the single-file fields above; this array is additive.
+    // Inline images embedded in HTML bodies also live here as isInline=true
+    // so the UI can render every attachment as a card (Gmail-style body
+    // rendering is intentionally NOT used — user chose card-per-attachment).
+    attachments: [
+      new mongoose.Schema(
+        {
+          url: { type: String, required: true },
+          fileName: { type: String, required: true },
+          mimeType: { type: String, default: 'application/octet-stream' },
+          size: { type: Number, default: 0 },
+          isInline: { type: Boolean, default: false },
+          contentId: { type: String }, // <foo@bar> — for HTML img src="cid:foo"
+        },
+        { _id: false }
+      ),
+    ],
   },
   timestamp: {
     type: Date,

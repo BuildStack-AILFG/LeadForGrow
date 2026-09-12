@@ -24,6 +24,7 @@ export const metadata = {
 const currentYear = new Date().getFullYear();
 // FIXED: Remove manual head tags - let Next.js handle it
 import { ThemeProvider } from "./components/ThemeContext";
+import { ConfirmProvider } from "./components/ConfirmProvider";
 
 export default function RootLayout({ children }) {
   return (
@@ -86,11 +87,13 @@ export default function RootLayout({ children }) {
 
 
         <ThemeProvider>
-          {children}
-          <CookieConsentManager />
-          <LeadForGrowWidget />
-          <Toaster position="top-right" />
-          <Footer></Footer>
+          <ConfirmProvider>
+            {children}
+            <CookieConsentManager />
+            <LeadForGrowWidget />
+            <Toaster position="top-right" />
+            <Footer></Footer>
+          </ConfirmProvider>
         </ThemeProvider>
       </body>
     </html>

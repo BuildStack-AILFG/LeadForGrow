@@ -10,6 +10,7 @@ import BroadcastDetail from './BroadcastDetail';
 import QualityRatingBanner from './QualityRatingBanner';
 import AutoPageIntro from '../components/shared/tour/AutoPageIntro';
 import PageLoader from '../components/PageLoader';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
 const STATUS_STYLES = {
   draft: 'bg-amber-100 text-amber-700',
@@ -33,6 +34,7 @@ const emptyDraft = {
 };
 
 export default function BroadcastsPage() {
+  const confirm = useConfirm();
   const [loading, setLoading] = useState(true);
   const [broadcasts, setBroadcasts] = useState([]);
   const [approvedTemplates, setApprovedTemplates] = useState([]);
@@ -163,12 +165,12 @@ export default function BroadcastsPage() {
     let testRecipients = [];
     if (testSend) {
       if (isWhatsApp) {
-        const phone = prompt('Enter a phone number to send the test WhatsApp to (with country code, e.g. 919876543210):');
+        const phone = await confirm({ mode: 'prompt', title: 'Test WhatsApp', message: 'Enter a phone number to send the test WhatsApp to (with country code, e.g. 919876543210)', placeholder: '919876543210', required: true });
         if (!phone?.trim()) return;
         testRecipients.push({ name: 'Test recipient', phone: phone.trim().replace(/\D/g, ''), email: '' });
       }
       if (isEmail) {
-        const email = prompt('Enter an email address to send the test email to:');
+        const email = await confirm({ mode: 'prompt', title: 'Test email', message: 'Enter an email address to send the test email to', placeholder: 'you@example.com', required: true });
         if (!email?.trim()) return;
         const existing = testRecipients[0];
         if (existing) existing.email = email.trim();
