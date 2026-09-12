@@ -9,6 +9,7 @@ import { QUICK_EMOJIS } from './constants';
 import MediaAttachmentStrip from './MediaAttachmentStrip';
 import { useMediaUpload } from '@/app/automation/hooks/useMediaUpload';
 import { authFetch } from '@/lib/apiClient';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
 export default function ChatInput({
   canSend,
@@ -29,6 +30,7 @@ export default function ChatInput({
   // original mailbox. Read-only in that case; picker is hidden.
   pinnedEmailAccountId,
 }) {
+  const confirm = useConfirm();
   const [text, setText] = useState('');
   const [mode, setMode] = useState('message');
   const [emojiOpen, setEmojiOpen] = useState(false);
@@ -39,6 +41,23 @@ export default function ChatInput({
   const fileRef = useRef(null);
   const editorRef = useRef(null);
   const { uploads, uploadFile, removeUpload, retryUpload, clearUploads } = useMediaUpload();
+
+  // Insert a link into the contentEditable email body. The confirm modal blurs
+  // the editor, so we snapshot the selection first and restore it before
+  // execCommand — otherwise createLink has nothing to wrap.
+  const insertEmailLink = async () => {
+    const sel = typeof window !== 'undefined' ? window.getSelection() : null;
+    const savedRange = sel && sel.rangeCount ? sel.getRangeAt(0).cloneRange() : null;
+    const url = await confirm({ mode: 'prompt', title: 'Insert link', message: 'Enter URL', placeholder: 'https://…' });
+    if (!url) return;
+    editorRef.current?.focus?.();
+    if (savedRange) {
+      const s = window.getSelection();
+      s.removeAllRanges();
+      s.addRange(savedRange);
+    }
+    document.execCommand('createLink', false, url);
+  };
 
   const isNote = mode === 'note';
   const isEmail = channel === 'email' && !isNote;
@@ -490,7 +509,7 @@ export default function ChatInput({
             <span className="mx-0.5 h-4 w-px bg-slate-200 dark:bg-slate-700" />
             <button type="button" onClick={() => document.execCommand('bold')} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800" title="Bold"><Bold className="w-4 h-4" /></button>
             <button type="button" onClick={() => document.execCommand('italic')} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800" title="Italic"><Italic className="w-4 h-4" /></button>
-            <button type="button" onClick={() => { const url = prompt('URL'); if (url) document.execCommand('createLink', false, url); }} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800" title="Insert link"><Link2 className="w-4 h-4" /></button>
+            <button type="button" onClick={insertEmailLink} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800" title="Insert link"><Link2 className="w-4 h-4" /></button>
             <span className="mx-0.5 h-4 w-px bg-slate-200 dark:bg-slate-700" />
             <button type="button" onClick={() => setScheduleOpen(!scheduleOpen)} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800" title="Schedule send"><Clock className="w-4 h-4" /></button>
           </>

@@ -10,6 +10,7 @@ import { authFetch } from '@/lib/apiClient';
 import { toast } from 'react-hot-toast';
 import PageLoader from '../../components/PageLoader';
 import AutoPageIntro from '../../components/shared/tour/AutoPageIntro';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
 const TYPE_META = {
   website: { label: 'Website', icon: Globe },
@@ -30,6 +31,7 @@ const STATUS_COLORS = {
 };
 
 export default function KnowledgeBasePage() {
+  const confirm = useConfirm();
   const [sources, setSources] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
@@ -89,7 +91,7 @@ export default function KnowledgeBasePage() {
   };
 
   const remove = async (id) => {
-    if (!confirm('Delete this knowledge source?')) return;
+    if (!(await confirm({ title: 'Delete source', message: 'Delete this knowledge source?', confirmLabel: 'Delete', danger: true }))) return;
     try {
       const res = await authFetch(`/api/ai/knowledge/sources/${id}`, { method: 'DELETE' });
       const data = await res.json();

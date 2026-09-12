@@ -6,17 +6,19 @@ import { motion } from 'framer-motion';
 import { calcConversionRate } from './constants';
 import { FormPreviewThumbnail } from './FormPreview';
 import AutoPageIntro from '../shared/tour/AutoPageIntro';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
 export default function FormsHomeView({ forms, stats, maxForms, onCreate, onSelect, onDelete }) {
+  const confirm = useConfirm();
   const [menuId, setMenuId] = useState(null);
 
-  const handleDelete = (e, form) => {
+  const handleDelete = async (e, form) => {
     e.stopPropagation();
     setMenuId(null);
     const msg = form.submissionCount > 0
       ? `Delete "${form.name}"? Past submissions will stay in your CRM. This cannot be undone.`
       : `Delete "${form.name}"? This cannot be undone.`;
-    if (confirm(msg)) onDelete(form._id);
+    if (await confirm({ title: 'Delete form', message: msg, confirmLabel: 'Delete', danger: true })) onDelete(form._id);
   };
 
   return (

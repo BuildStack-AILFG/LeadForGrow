@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { authFetch } from '@/lib/apiClient';
 import { toast } from 'react-hot-toast';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
 function StatusRow({ label, value, ok }) {
   return (
@@ -21,6 +22,7 @@ function StatusRow({ label, value, ok }) {
 }
 
 export default function InstagramSettingsPage() {
+  const confirm = useConfirm();
   const [status, setStatus] = useState(null);
   const [loading, setLoading] = useState(true);
   const [connecting, setConnecting] = useState(false);
@@ -61,7 +63,7 @@ export default function InstagramSettingsPage() {
   };
 
   const handleDisconnect = async () => {
-    if (!confirm('Disconnect Instagram?')) return;
+    if (!(await confirm({ title: 'Disconnect Instagram', message: 'Disconnect Instagram?', confirmLabel: 'Disconnect', danger: true }))) return;
     const res = await authFetch('/api/business/settings/instagram-connect', { method: 'DELETE' });
     const data = await res.json();
     if (data.success) { toast.success('Disconnected'); load(); }

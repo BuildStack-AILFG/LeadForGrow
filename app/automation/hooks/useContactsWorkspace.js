@@ -3,10 +3,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { authFetch } from '@/lib/apiClient';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 import { DEFAULT_FILTERS, EMPTY_FORM } from '../components/contacts/constants';
 import { buildContactsQuery } from '../components/contacts/utils';
 
 export function useContactsWorkspace() {
+  const confirm = useConfirm();
   const [contacts, setContacts] = useState([]);
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -144,7 +146,7 @@ export function useContactsWorkspace() {
 
   const handleMenuAction = async (action, id) => {
     if (action === 'delete') {
-      if (!window.confirm('Delete this contact?')) return;
+      if (!(await confirm({ title: 'Delete contact', message: 'Delete this contact?', confirmLabel: 'Delete', danger: true }))) return;
       const res = await authFetch('/api/automation/contacts/bulk', {
         method: 'POST',
         body: JSON.stringify({ ids: [id], action: 'delete' }),
@@ -163,13 +165,13 @@ export function useContactsWorkspace() {
     }
   };
 
-  const bulkAssign = () => {
-    const ownerId = window.prompt('Enter owner user ID');
+  const bulkAssign = async () => {
+    const ownerId = await confirm({ mode: 'prompt', title: 'Assign owner', message: 'Enter owner user ID', required: true });
     if (ownerId) bulkAction('assignOwner', { ownerId });
   };
 
-  const bulkAddTags = () => {
-    const tags = window.prompt('Enter tags separated by comma');
+  const bulkAddTags = async () => {
+    const tags = await confirm({ mode: 'prompt', title: 'Add tags', message: 'Enter tags separated by comma', placeholder: 'vip, priority', required: true });
     if (tags) bulkAction('addTags', { tags: tags.split(',').map((t) => t.trim()).filter(Boolean) });
   };
 

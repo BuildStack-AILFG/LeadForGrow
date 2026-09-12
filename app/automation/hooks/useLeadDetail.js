@@ -6,8 +6,10 @@ import { toast } from 'react-hot-toast';
 import { authFetch, getUserId } from '@/lib/apiClient';
 import { computeLeadIntelligence } from '@/lib/leadIntelligence';
 import { validateStageTransition } from '@/lib/crm/leadStages';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
 export function useLeadDetail(leadId) {
+  const confirm = useConfirm();
   const router = useRouter();
   const [lead, setLead] = useState(null);
   const [tasks, setTasks] = useState([]);
@@ -340,7 +342,7 @@ export function useLeadDetail(leadId) {
   );
 
   const deleteLead = useCallback(async () => {
-    if (!window.confirm('Permanently delete this lead and all history?')) return;
+    if (!(await confirm({ title: 'Delete lead', message: 'Permanently delete this lead and all history?', confirmLabel: 'Delete', danger: true }))) return;
     setUpdating(true);
     try {
       const res = await authFetch(`/api/automation/leads/${leadId}`, { method: 'DELETE' });
@@ -354,7 +356,7 @@ export function useLeadDetail(leadId) {
     } finally {
       setUpdating(false);
     }
-  }, [leadId, router]);
+  }, [leadId, router, confirm]);
 
   const convertLead = useCallback(
     async (form) => {

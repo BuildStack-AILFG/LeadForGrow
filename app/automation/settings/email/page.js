@@ -23,6 +23,7 @@ import PageLoader from '../../components/PageLoader';
 import RichSignatureEditor from '../../components/settings/RichSignatureEditor';
 import MultiSignatureEditor from '../../components/settings/MultiSignatureEditor';
 import AiBadgeIcon from '@/app/components/icons/AiBadgeIcon';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
 // Gmail-specific defaults. Users don't need to know these — the wizard fills
 // them in from the "Connect Gmail" flow. If Google ever changes them (they
@@ -318,6 +319,7 @@ function GmailConnectModal({ open, onClose, onConnected }) {
  * (recipients' email clients render it without hitting our servers).
  */
 function SignatureEditor({ account, busy, onSave, onSavePatch }) {
+  const confirm = useConfirm();
   const [draft, setDraft] = useState(account.signature || '');
   const [uploading, setUploading] = useState(false);
   const [showUrlInput, setShowUrlInput] = useState(false);
@@ -374,8 +376,8 @@ function SignatureEditor({ account, busy, onSave, onSavePatch }) {
     }
   };
 
-  const removeLogo = () => {
-    if (!confirm('Remove the logo from your signature?')) return;
+  const removeLogo = async () => {
+    if (!(await confirm({ title: 'Remove logo', message: 'Remove the logo from your signature?', confirmLabel: 'Remove', danger: true }))) return;
     onSavePatch(account._id, { signatureLogoUrl: null });
   };
 
@@ -719,6 +721,7 @@ function AutoReplyConfig({ cfg, onSave, saving }) {
 }
 
 export default function EmailSettingsPage() {
+  const confirm = useConfirm();
   const [accounts, setAccounts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showGmail, setShowGmail] = useState(false);
@@ -815,7 +818,7 @@ export default function EmailSettingsPage() {
   };
 
   const handleDisconnect = async (accountId) => {
-    if (!confirm('Disconnect this mailbox? History is kept but sync stops.')) return;
+    if (!(await confirm({ title: 'Disconnect mailbox', message: 'Disconnect this mailbox? History is kept but sync stops.', confirmLabel: 'Disconnect', danger: true }))) return;
     setBusyId(accountId);
     const res = await authFetch(
       `/api/automation/inbox/email-accounts/${accountId}`,

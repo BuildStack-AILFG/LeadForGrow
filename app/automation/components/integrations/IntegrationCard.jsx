@@ -2,18 +2,16 @@
 
 import { memo } from 'react';
 import { Settings, Plug, RefreshCw, ExternalLink } from 'lucide-react';
-import { COLOR_MAP, HEALTH_STYLES } from './constants';
+import { HEALTH_STYLES } from './constants';
+import IntegrationLogo from './IntegrationLogo';
 
 function IntegrationCard({ integration, onConnect, onSettings, onOpen }) {
   const health = HEALTH_STYLES[integration.health] || HEALTH_STYLES.disconnected;
-  const colorClass = COLOR_MAP[integration.color] || COLOR_MAP.blue;
 
   return (
     <div className="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 shadow-sm hover:shadow-md hover:border-slate-300 dark:hover:border-slate-700 transition-all flex flex-col">
       <div className="flex items-start gap-3 mb-3">
-        <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-xs font-bold flex-shrink-0 ${colorClass}`}>
-          {integration.initials}
-        </div>
+        <IntegrationLogo integration={integration} size={44} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50 truncate">{integration.name}</h3>

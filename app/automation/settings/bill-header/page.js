@@ -8,6 +8,7 @@ import {
   ImagePlus, ImageIcon, Receipt,
 } from 'lucide-react';
 import { authFetch } from '@/lib/apiClient';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
 /**
  * /automation/settings/bill-header
@@ -18,6 +19,7 @@ import { authFetch } from '@/lib/apiClient';
  * future customer-facing docs (quotes, receipts).
  */
 export default function BillHeaderSettingsPage() {
+  const confirm = useConfirm();
   const [form, setForm] = useState({
     businessName: '', phone: '', email: '', address: '', gstin: '', website: '',
     logo: '',
@@ -68,7 +70,7 @@ export default function BillHeaderSettingsPage() {
   };
 
   const handleLogoRemove = async () => {
-    if (!confirm('Remove your logo? Bills will show your business name only.')) return;
+    if (!(await confirm({ title: 'Remove logo', message: 'Remove your logo? Bills will show your business name only.', confirmLabel: 'Remove', danger: true }))) return;
     setLogoBusy(true);
     try {
       await authFetch('/api/business/logo', { method: 'DELETE' });

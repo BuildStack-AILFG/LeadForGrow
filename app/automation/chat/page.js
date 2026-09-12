@@ -11,9 +11,11 @@ import ChatInput from '../components/chat/ChatInput';
 import AiReplyBar from '../components/ai/AiReplyBar';
 import CRMProfilePanel from '../components/chat/CRMProfilePanel';
 import OutOfWindowTemplateBar, { useIsWithin24hWindow } from '../components/chat/OutOfWindowTemplateBar';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
 function ChatInboxContent() {
   const inbox = useChatInbox();
+  const confirm = useConfirm();
   const [mobileView, setMobileView] = useState('list');
   const [profileOpen, setProfileOpen] = useState(false);
   const [emailFolder, setEmailFolder] = useState('inbox');
@@ -62,8 +64,9 @@ function ChatInboxContent() {
           break;
         case '#':  // trash / delete
           e.preventDefault();
-          if (inbox.selectedChat && confirm('Delete this conversation?')) {
-            inbox.conversationAction?.('delete');
+          if (inbox.selectedChat) {
+            confirm({ title: 'Delete conversation', message: 'Delete this conversation?', confirmLabel: 'Delete', danger: true })
+              .then((ok) => { if (ok) inbox.conversationAction?.('delete'); });
           }
           break;
         case 's':  // star / favorite
@@ -85,7 +88,7 @@ function ChatInboxContent() {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [inbox.conversations, inbox.selectedChat, inbox.selectChat, inbox.updateConversation, inbox.conversationAction]);
+  }, [inbox.conversations, inbox.selectedChat, inbox.selectChat, inbox.updateConversation, inbox.conversationAction, confirm]);
 
   // Client-side folder filter. Runs only for email conversations — WhatsApp
   // and Instagram have no folder concept, so we always show everything.

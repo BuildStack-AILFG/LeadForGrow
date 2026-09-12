@@ -3,8 +3,9 @@
 import { useState } from 'react';
 import { X, RefreshCw, Plug, Unplug, Copy, CheckCircle2, AlertCircle, Clock, RotateCcw, Settings2, ShieldCheck } from 'lucide-react';
 import { toast } from 'react-hot-toast';
-import { COLOR_MAP, HEALTH_STYLES, STATUS_LABELS } from './constants';
+import { HEALTH_STYLES, STATUS_LABELS } from './constants';
 import IntegrationConfigForm from './IntegrationConfigForm';
+import IntegrationLogo from './IntegrationLogo';
 
 export default function IntegrationDetailPanel({
   integration,
@@ -24,7 +25,6 @@ export default function IntegrationDetailPanel({
   if (!integration) return null;
 
   const health = HEALTH_STYLES[integration.health] || HEALTH_STYLES.disconnected;
-  const colorClass = COLOR_MAP[integration.color] || COLOR_MAP.blue;
   const showConfigForm = !integration.connected || editMode;
 
   const copyWebhook = async () => {
@@ -57,9 +57,7 @@ export default function IntegrationDetailPanel({
       <aside className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-white dark:bg-slate-900 shadow-2xl z-50 flex flex-col border-l border-slate-200 dark:border-slate-800">
         <div className="flex items-start justify-between gap-3 p-5 border-b border-slate-200 dark:border-slate-800">
           <div className="flex items-center gap-3">
-            <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-sm font-bold ${colorClass}`}>
-              {integration.initials}
-            </div>
+            <IntegrationLogo integration={integration} size={48} />
             <div>
               <h2 className="text-base font-semibold text-slate-900 dark:text-slate-50">{integration.name}</h2>
               <span className={`inline-flex items-center gap-1 text-[10px] font-medium mt-0.5 ${health.text}`}>

@@ -3,9 +3,11 @@
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import { toast } from 'react-hot-toast';
 import { authFetch } from '@/lib/apiClient';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 import { DEFAULT_WELCOME, DEFAULT_FOLLOWUP, newManualTemplate } from '../components/templates/constants';
 
 export function useTemplates() {
+  const confirm = useConfirm();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [syncing, setSyncing] = useState(false);
@@ -138,7 +140,7 @@ export function useTemplates() {
   }, [editingIndex, closeEditor]);
 
   const deleteTemplate = useCallback(async (template) => {
-    if (!confirm(`Delete "${template.name}"?`)) return;
+    if (!(await confirm({ title: 'Delete template', message: `Delete "${template.name}"?`, confirmLabel: 'Delete', danger: true }))) return;
     const index = manualTemplates.findIndex((t) => (t.id && t.id === template.id) || t === template);
     if (template.id) {
       try {
@@ -165,7 +167,7 @@ export function useTemplates() {
     }
     toast.success('Template deleted');
     await fetchData();
-  }, [manualTemplates, editingTemplate, closeEditor, fetchData]);
+  }, [manualTemplates, editingTemplate, closeEditor, fetchData, confirm]);
 
   const copyToken = useCallback((token) => {
     navigator.clipboard.writeText(token);

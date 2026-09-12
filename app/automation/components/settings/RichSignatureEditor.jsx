@@ -103,6 +103,7 @@ import {
 import { authFetch } from '@/lib/apiClient';
 import toast from 'react-hot-toast';
 import { SIGNATURE_TEMPLATES, renderTemplate } from './signatureTemplates';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
 const COLOR_SWATCHES = [
   '#111827', '#374151', '#6B7280', '#DC2626',
@@ -168,6 +169,7 @@ export default function RichSignatureEditor({
   disabled = false,
   placeholder = 'Best regards,\nAlice\nSales Manager · Acme Inc.',
 }) {
+  const confirm = useConfirm();
   const [showPreview, setShowPreview] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
@@ -346,10 +348,10 @@ export default function RichSignatureEditor({
     }
   };
 
-  const handleLinkPrompt = () => {
+  const handleLinkPrompt = async () => {
     if (!editor) return;
     const prev = editor.getAttributes('link').href || '';
-    const url = window.prompt('Enter URL (leave empty to remove link):', prev);
+    const url = await confirm({ mode: 'prompt', title: 'Insert link', message: 'Enter URL (leave empty to remove link)', placeholder: 'https://…', defaultValue: prev });
     if (url === null) return;
     if (url === '') {
       editor.chain().focus().extendMarkRange('link').unsetLink().run();
@@ -385,15 +387,18 @@ export default function RichSignatureEditor({
 
   const imageSelected = editor?.isActive?.('image') || false;
 
-  const applyTemplate = (templateId) => {
+  const applyTemplate = async (templateId) => {
     if (!editor) return;
     // Warn if there's non-trivial existing content — a template REPLACES the
     // current signature; users shouldn't lose real work to a stray click.
     const currentText = editor.getText().trim();
     if (currentText.length > 10) {
-      const ok = window.confirm(
-        'Loading a template will replace your current signature. Continue?'
-      );
+      const ok = await confirm({
+        title: 'Load template',
+        message: 'Loading a template will replace your current signature. Continue?',
+        confirmLabel: 'Load template',
+        danger: true,
+      });
       if (!ok) return;
     }
     const html = renderTemplate(templateId, {

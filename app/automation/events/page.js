@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { authFetch } from '@/lib/apiClient';
+import { toast } from 'react-hot-toast';
 import PageLoader from '../components/PageLoader';
 import AutoPageIntro from '../components/shared/tour/AutoPageIntro';
 import {
@@ -84,7 +85,7 @@ export default function EventsPage() {
                 fetchData();
             }
         } catch (e) {
-            alert('Failed to create event');
+            toast.error('Failed to create event');
         } finally {
             setIsSubmitting(false);
         }

@@ -8,6 +8,7 @@ import { computeLeadIntelligence, aggregateSourceStats } from '@/lib/leadIntelli
 import { buildLeadsQuery, getStatusRowColor, validateStageTransition } from '../components/leads/utils';
 import { SAVED_VIEWS_KEY } from '../components/leads/constants';
 import { useRealtime, REALTIME_EVENTS } from './useRealtime';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
 const DEFAULT_FILTERS = {
   search: '',
@@ -23,6 +24,7 @@ const DEFAULT_FILTERS = {
 };
 
 export function useLeadsWorkspace() {
+  const confirm = useConfirm();
   const searchParams = useSearchParams();
   const [filters, setFilters] = useState({
     ...DEFAULT_FILTERS,
@@ -574,7 +576,7 @@ export function useLeadsWorkspace() {
   );
 
   const bulkDelete = useCallback(async () => {
-    if (!window.confirm(`Delete ${selectedIds.length} leads permanently?`)) return;
+    if (!(await confirm({ title: 'Delete leads', message: `Delete ${selectedIds.length} leads permanently?`, confirmLabel: 'Delete', danger: true }))) return;
     let ok = 0;
     for (const id of selectedIds) {
       const res = await authFetch(`/api/automation/leads/${id}`, { method: 'DELETE' });
@@ -583,7 +585,7 @@ export function useLeadsWorkspace() {
     toast.success(`Deleted ${ok} lead(s)`);
     setSelectedIds([]);
     fetchLeads(true);
-  }, [selectedIds, fetchLeads]);
+  }, [selectedIds, fetchLeads, confirm]);
 
   const exportLeads = useCallback(
     async (format) => {

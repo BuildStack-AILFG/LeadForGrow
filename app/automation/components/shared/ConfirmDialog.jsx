@@ -102,8 +102,9 @@ export default function ConfirmDialog({
             <button
               type="submit"
               disabled={saving || !canSubmit}
+              style={danger ? { backgroundColor: '#b30000' } : undefined}
               className={`flex-1 py-2 text-sm font-medium rounded-lg text-white disabled:opacity-50 ${
-                danger ? 'bg-red-600 hover:bg-red-700' : 'bg-teal-600 hover:bg-teal-700'
+                danger ? 'hover:brightness-90' : 'bg-teal-600 hover:bg-teal-700'
               }`}
             >
               {saving ? 'Saving…' : confirmLabel}

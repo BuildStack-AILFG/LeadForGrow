@@ -20,8 +20,10 @@ import {
 import { toast } from 'react-hot-toast';
 import { authFetch } from '@/lib/apiClient';
 import AutoPageIntro from '../components/shared/tour/AutoPageIntro';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
 export default function CallIntegrationPage() {
+  const confirm = useConfirm();
   const [usage, setUsage] = useState({
     callbacksUsed: 0,
     maxCallbacks: 50,
@@ -282,7 +284,7 @@ export default function CallIntegrationPage() {
   };
 
   const handleResetIntegration = async () => {
-    if (!confirm('Are you sure you want to reset your integration? This will clear your settings and SIM link.')) return;
+    if (!(await confirm({ title: 'Reset integration', message: 'Are you sure you want to reset your integration? This will clear your settings and SIM link.', confirmLabel: 'Reset', danger: true }))) return;
 
     try {
       const bId = localStorage.getItem('businessId');

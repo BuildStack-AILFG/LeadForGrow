@@ -16,6 +16,7 @@ import FormSettingsPanel from './FormSettingsPanel';
 import ThemeDrawer from './ThemeDrawer';
 import PublishPanel from './PublishPanel';
 import AnalyticsView from './AnalyticsView';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
 const TABS = [
   { id: 'builder', label: 'Builder', icon: Layers },
@@ -26,6 +27,7 @@ const TABS = [
 
 export default function FormsWorkspace() {
   const ws = useFormsWorkspace();
+  const confirm = useConfirm();
   const [previewDevice, setPreviewDevice] = useState('desktop');
   const [showMenu, setShowMenu] = useState(false);
 
@@ -35,14 +37,14 @@ export default function FormsWorkspace() {
 
   const selectedField = ws.selectedFieldIndex != null ? ws.draftFields[ws.selectedFieldIndex] : null;
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (!ws.selectedForm) return;
     const form = ws.selectedForm;
     const msg = form.submissionCount > 0
       ? `Delete "${form.name}"? Past submissions will stay in your CRM. This cannot be undone.`
       : `Delete "${form.name}"? This cannot be undone.`;
-    if (confirm(msg)) ws.deleteForm(form._id);
     setShowMenu(false);
+    if (await confirm({ title: 'Delete form', message: msg, confirmLabel: 'Delete', danger: true })) ws.deleteForm(form._id);
   };
 
   if (ws.loading) {
