@@ -10,7 +10,7 @@ export default function TaskTypeBadge({ type, showLabel = true, size = 'sm' }) {
 
   return (
     <span className="inline-flex items-center gap-1.5">
-      <span className={`${sizeClass} rounded-lg flex items-center justify-center flex-shrink-0 ${TASK_TYPE_ACCENTS[config.accent] || TASK_TYPE_ACCENTS.slate}`}>
+      <span className={`${sizeClass} rounded flex items-center justify-center flex-shrink-0 ${TASK_TYPE_ACCENTS[config.accent] || TASK_TYPE_ACCENTS.slate}`}>
         {Icon && <Icon className={iconSize} />}
       </span>
       {showLabel && (

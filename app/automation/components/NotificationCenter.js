@@ -77,12 +77,12 @@ export default function NotificationCenter() {
     switch (type) {
       case 'whatsapp_message': return <MessageCircle className="w-4 h-4 text-emerald-600" />;
       case 'instagram_message': return <Instagram className="w-4 h-4 text-pink-600" />;
-      case 'email_message': return <Mail className="w-4 h-4 text-indigo-600" />;
-      case 'conversation_assigned': return <UserPlus className="w-4 h-4 text-teal-600" />;
-      case 'internal_mention': return <Info className="w-4 h-4 text-amber-600" />;
-      case 'new_lead': return <UserPlus className="w-4 h-4 text-indigo-600" />;
-      case 'task_reminder': return <Clock className="w-4 h-4 text-amber-600" />;
-      case 'automation_alert': return <Sparkles className="w-4 h-4 text-purple-600" />;
+      case 'email_message': return <Mail className="w-4 h-4 text-[#4285F4]" />;
+      case 'conversation_assigned': return <UserPlus className="w-4 h-4 text-[#1D4B3E]" />;
+      case 'internal_mention': return <Info className="w-4 h-4 text-teal-600" />;
+      case 'new_lead': return <UserPlus className="w-4 h-4 text-[#1D4B3E]" />;
+      case 'task_reminder': return <Clock className="w-4 h-4 text-teal-600" />;
+      case 'automation_alert': return <Sparkles className="w-4 h-4 text-teal-600" />;
       default: return <Info className="w-4 h-4 text-slate-600" />;
     }
   };
@@ -91,7 +91,7 @@ export default function NotificationCenter() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 rounded-xl hover:bg-slate-100 transition-colors text-slate-600"
+        className="relative p-2 rounded-none hover:bg-[#F0F9F5] hover:text-[#1D4B3E] transition-colors text-slate-600"
       >
         <Bell className="w-5 h-5" />
         {unreadCount > 0 && (
@@ -102,13 +102,13 @@ export default function NotificationCenter() {
       </button>
 
       {isOpen && (
-        <div className="absolute left-0 mt-2 w-80 md:w-96 bg-white rounded-2xl shadow-2xl border border-slate-200 z-[100] animate-in fade-in zoom-in-95 duration-200 origin-top-left">
+        <div className="absolute left-0 mt-2 w-80 md:w-96 bg-white rounded-none shadow-2xl border border-[#E5E7EB] z-[100] animate-in fade-in zoom-in-95 duration-200 origin-top-left">
           <div className="p-4 border-b border-slate-100 flex items-center justify-between">
             <h3 className="font-bold text-slate-900">Notifications</h3>
             {unreadCount > 0 && (
               <button
                 onClick={markAllAsRead}
-                className="text-[10px] font-black text-indigo-600 uppercase tracking-widest hover:text-indigo-700"
+                className="text-[10px] font-black text-[#1D4B3E] uppercase tracking-widest hover:text-[#163c32]"
               >
                 Mark all as read
               </button>
@@ -118,8 +118,8 @@ export default function NotificationCenter() {
           <div className="max-h-[400px] overflow-y-auto">
             {notifications.length === 0 ? (
               <div className="p-10 text-center">
-                <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <CheckCircle className="w-6 h-6 text-slate-300" />
+                <div className="w-12 h-12 bg-[#F0F9F5] rounded-full flex items-center justify-center mx-auto mb-3">
+                  <CheckCircle className="w-6 h-6 text-[#1D4B3E]" />
                 </div>
                 <p className="text-sm text-slate-500">All caught up!</p>
               </div>
@@ -127,11 +127,11 @@ export default function NotificationCenter() {
               notifications.map((n) => (
                 <div
                   key={n._id}
-                  className={`p-4 border-b border-slate-50 hover:bg-slate-50 transition-colors relative group ${!n.isRead ? 'bg-indigo-50/30' : ''}`}
+                  className={`p-4 border-b border-slate-50 hover:bg-[#F0F9F5] transition-colors relative group ${!n.isRead ? 'bg-[#F0F9F5]/60' : ''}`}
                 >
                   <div className="flex gap-3">
                     <div className="mt-1 flex-shrink-0">
-                      <div className="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center border border-slate-100">
+                      <div className="w-8 h-8 rounded-none bg-white shadow-sm flex items-center justify-center border border-slate-100">
                         {getIcon(n.type)}
                       </div>
                     </div>
@@ -154,7 +154,7 @@ export default function NotificationCenter() {
                             markAsRead(n._id);
                             setIsOpen(false);
                           }}
-                          className="inline-block mt-2 text-[10px] font-bold text-indigo-600 hover:underline"
+                          className="inline-block mt-2 text-[10px] font-bold text-[#1D4B3E] hover:underline"
                         >
                           View Details →
                         </Link>
@@ -166,7 +166,7 @@ export default function NotificationCenter() {
                       onClick={() => markAsRead(n._id)}
                       className="absolute right-4 bottom-4 opacity-0 group-hover:opacity-100 transition-opacity"
                     >
-                      <div className="w-2 h-2 bg-indigo-500 rounded-full"></div>
+                      <div className="w-2 h-2 bg-[#1D4B3E] rounded-full"></div>
                     </button>
                   )}
                 </div>
@@ -174,8 +174,8 @@ export default function NotificationCenter() {
             )}
           </div>
 
-          <div className="p-3 bg-slate-50 text-center rounded-b-2xl">
-            <Link href="/automation/reports" className="text-[10px] font-bold text-slate-500 uppercase tracking-widest hover:text-indigo-600">
+          <div className="p-3 bg-slate-50 text-center">
+            <Link href="/automation/reports" className="text-[10px] font-bold text-slate-500 uppercase tracking-widest hover:text-[#1D4B3E]">
               View All Activity
             </Link>
           </div>

@@ -3,7 +3,6 @@
 import { Suspense } from 'react';
 import { useTasksWorkspace } from '../hooks/useTasksWorkspace';
 import TasksHeader from '../components/tasks/TasksHeader';
-import TasksFilterBar from '../components/tasks/TasksFilterBar';
 import TaskStatCards from '../components/tasks/TaskStatCards';
 import TaskTable from '../components/tasks/TaskTable';
 import MobileTaskCard from '../components/tasks/MobileTaskCard';
@@ -19,7 +18,7 @@ function TasksWorkspaceContent() {
   if (ws.loading) return <TasksSkeleton />;
 
   return (
-    <div className="min-h-full bg-[#f8f9fc] dark:bg-slate-950">
+    <div className="min-h-full bg-[#F8F9FA] dark:bg-slate-950">
       <div className="px-4 sm:px-6 pb-8">
         <TasksHeader
           search={ws.search}
@@ -38,10 +37,6 @@ function TasksWorkspaceContent() {
             activeFilter={ws.filter}
             onFilterChange={ws.setFilter}
           />
-        </div>
-
-        <div className="mb-4 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm">
-          <TasksFilterBar filter={ws.filter} onFilterChange={ws.setFilter} />
         </div>
 
         {ws.tasks.length === 0 ? (

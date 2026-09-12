@@ -10,7 +10,8 @@ import RevenueChartCard from './components/dashboard/premium/RevenueChartCard';
 import CalendarScheduleCard from './components/dashboard/premium/CalendarScheduleCard';
 import LeadsManagementCard from './components/dashboard/premium/LeadsManagementCard';
 import RetentionChartCard from './components/dashboard/premium/RetentionChartCard';
-import TopLocationsCard from './components/dashboard/premium/TopLocationsCard';
+import NeedsAttentionCard from './components/dashboard/premium/NeedsAttentionCard';
+import PipelineBreakdownCard from './components/dashboard/premium/PipelineBreakdownCard';
 import { useAutoStartTour } from './components/shared/tour/useAutoStartTour';
 import { TOURS } from './components/shared/tour/registry';
 
@@ -22,7 +23,7 @@ export default function AutomationDashboard() {
   if (loading) return <DashboardSkeleton />;
 
   return (
-    <div className="min-h-full bg-white">
+    <div className="min-h-full bg-[#F8F9FA]">
       <div className="px-4 sm:px-6 pb-12 max-w-[1560px] mx-auto">
         <PremiumDashboardHeader
           refreshing={refreshing}
@@ -33,7 +34,7 @@ export default function AutomationDashboard() {
         />
 
         {error && (
-          <div className="mb-6 flex items-center gap-2.5 px-4 py-3 text-[13px] font-normal text-[#C0353A] bg-[#FEF3F2] border border-[#FECDCA] rounded-[12px]">
+          <div className="mb-6 flex items-center gap-2.5 px-4 py-3 text-[13px] font-normal text-[#C0353A] bg-[#FEF3F2] border border-[#FECDCA] rounded-none">
             <AlertCircle className="w-4 h-4 shrink-0" />
             {error}
           </div>
@@ -64,8 +65,10 @@ export default function AutomationDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             <LeadsManagementCard leadsManagement={dash?.leadsManagement} onRefresh={refresh} />
             <RetentionChartCard retention={dash?.retention} onRefresh={refresh} />
-            <TopLocationsCard locations={dash?.locations} onRefresh={refresh} />
+            <NeedsAttentionCard focus={dash?.focus} currency={currency} onRefresh={refresh} />
           </div>
+
+          <PipelineBreakdownCard pipeline={dash?.pipeline} currency={currency} onRefresh={refresh} />
         </div>
       </div>
     </div>

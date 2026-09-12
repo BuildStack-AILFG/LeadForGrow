@@ -151,7 +151,7 @@ function ChatInboxContent() {
   };
 
   return (
-    <div className="flex h-[calc(100vh-0px)] bg-[#f8f9fc] dark:bg-slate-950 overflow-hidden">
+    <div className="flex h-[calc(100vh-0px)] bg-[#f8f9fc] dark:bg-slate-950 overflow-hidden font-[family-name:var(--font-whatsapp)]">
       <div
         className={`${mobileView === 'list' ? 'flex' : 'hidden'} lg:flex h-full flex-shrink-0 w-full lg:w-[380px] xl:w-[420px] 2xl:w-[460px]`}
       >
@@ -304,7 +304,7 @@ function ChatInboxContent() {
 
 export default function ChatInboxPage() {
   return (
-    <Suspense fallback={<div className="h-screen flex items-center justify-center"><div className="w-8 h-8 border-2 border-teal-600 border-t-transparent rounded-full animate-spin" /></div>}>
+    <Suspense fallback={<div className="h-screen flex items-center justify-center"><div className="w-8 h-8 border-2 border-[#1D4B3E] border-t-transparent rounded-full animate-spin" /></div>}>
       <ChatInboxContent />
     </Suspense>
   );

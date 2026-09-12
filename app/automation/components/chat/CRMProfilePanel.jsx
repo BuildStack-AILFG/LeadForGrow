@@ -27,15 +27,15 @@ function Section({ title, children, defaultOpen = true, icon: Icon }) {
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-slate-50/50 dark:hover:bg-slate-800/30"
+        className={`w-full flex items-center justify-between px-4 py-3 text-left transition-colors ${open ? 'bg-[#F0F9F5]/40 dark:bg-teal-950/10' : 'hover:bg-[#F0F9F5]/60 dark:hover:bg-slate-800/30'}`}
       >
         <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
           {Icon && <Icon className="w-3.5 h-3.5" />}
           {title}
         </span>
-        <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${open ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`w-4 h-4 transition-transform ${open ? 'rotate-180 text-[#1D4B3E]' : 'text-slate-400'}`} />
       </button>
-      {open && <div className="px-4 pb-4">{children}</div>}
+      {open && <div className="px-4 pb-4 bg-[#F0F9F5]/40 dark:bg-teal-950/10">{children}</div>}
     </div>
   );
 }
@@ -80,7 +80,7 @@ function FollowUpActionRow({ date, onUpdate }) {
               type="button"
               onClick={() => run(shiftDays(1))}
               disabled={busy}
-              className="text-[10px] font-medium px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50"
+              className="text-[10px] font-medium px-2 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-[#F0F9F5] dark:hover:bg-slate-800 disabled:opacity-50"
             >
               Tomorrow
             </button>
@@ -88,7 +88,7 @@ function FollowUpActionRow({ date, onUpdate }) {
               type="button"
               onClick={() => run(shiftDays(3))}
               disabled={busy}
-              className="text-[10px] font-medium px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50"
+              className="text-[10px] font-medium px-2 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-[#F0F9F5] dark:hover:bg-slate-800 disabled:opacity-50"
             >
               +3 days
             </button>
@@ -96,7 +96,7 @@ function FollowUpActionRow({ date, onUpdate }) {
               type="button"
               onClick={() => run(shiftDays(7))}
               disabled={busy}
-              className="text-[10px] font-medium px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50"
+              className="text-[10px] font-medium px-2 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-[#F0F9F5] dark:hover:bg-slate-800 disabled:opacity-50"
             >
               Next week
             </button>
@@ -104,7 +104,7 @@ function FollowUpActionRow({ date, onUpdate }) {
               type="button"
               onClick={() => run(null)}
               disabled={busy || !date}
-              className="text-[10px] font-medium px-2 py-1 rounded-md border border-emerald-200 dark:border-emerald-900/60 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 disabled:opacity-50"
+              className="text-[10px] font-medium px-2 py-1 rounded border border-[#1D4B3E]/30 bg-[#F0F9F5] text-[#1D4B3E] hover:bg-[#dcefe6] disabled:opacity-50"
             >
               ✓ Done
             </button>
@@ -115,13 +115,13 @@ function FollowUpActionRow({ date, onUpdate }) {
                 type="date"
                 value={customDate}
                 onChange={(e) => setCustomDate(e.target.value)}
-                className="flex-1 text-[10px] px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900"
+                className="flex-1 text-[10px] px-2 py-1 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900"
               />
               <button
                 type="button"
                 onClick={() => customDate && run(new Date(`${customDate}T09:00`).toISOString())}
                 disabled={!customDate || busy}
-                className="text-[10px] font-medium px-2 py-1 rounded-md bg-teal-600 text-white hover:bg-teal-700 disabled:opacity-50"
+                className="text-[10px] font-medium px-2 py-1 rounded bg-[#1D4B3E] text-white hover:bg-[#163c32] disabled:opacity-50"
               >
                 Set
               </button>
@@ -137,7 +137,7 @@ function FollowUpActionRow({ date, onUpdate }) {
             <button
               type="button"
               onClick={() => setShowPicker(true)}
-              className="w-full text-[10px] font-medium text-slate-500 hover:text-teal-600 py-0.5"
+              className="w-full text-[10px] font-medium text-slate-500 hover:text-[#1D4B3E] py-0.5"
             >
               Pick a specific date…
             </button>
@@ -206,7 +206,7 @@ export default function CRMProfilePanel({
       <div className="flex-shrink-0 px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
         <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50">Customer profile</h3>
         <div className="flex items-center gap-1">
-          <Link href={`/automation/leads/${lead._id}`} className="p-1.5 rounded-md text-slate-400 hover:text-teal-600">
+          <Link href={`/automation/leads/${lead._id}`} className="p-1.5 rounded-md text-slate-400 hover:text-[#1D4B3E]">
             <ExternalLink className="w-4 h-4" />
           </Link>
           {mobile && onClose && (
@@ -238,7 +238,7 @@ export default function CRMProfilePanel({
               <span
                 key={l.labelId || l.name}
                 className="text-[10px] px-1.5 py-0.5 rounded text-white"
-                style={{ backgroundColor: l.color || '#6366f1' }}
+                style={{ backgroundColor: l.color || '#1D4B3E' }}
               >
                 {l.name}
               </span>
@@ -258,7 +258,7 @@ export default function CRMProfilePanel({
                 leadId: lead._id || '',
               },
             }}
-            className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 text-xs font-semibold border border-emerald-200 dark:border-emerald-900/60 hover:bg-emerald-100 dark:hover:bg-emerald-950/60"
+            className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#1D4B3E] text-white text-xs font-semibold hover:bg-[#163c32]"
           >
             <Receipt className="w-3.5 h-3.5" /> Create bill for this customer
           </Link>
@@ -315,7 +315,7 @@ export default function CRMProfilePanel({
           <select
             value={lead.status || 'new'}
             onChange={(e) => onStatusChange(e.target.value)}
-            className="w-full text-sm px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg mb-3"
+            className="w-full text-sm px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded mb-3 focus:outline-none focus:ring-2 focus:ring-[#1D4B3E]/20"
           >
             {PIPELINE_STAGES.map((s) => (
               <option key={s.key} value={s.key}>{s.label}</option>
@@ -325,7 +325,7 @@ export default function CRMProfilePanel({
           <select
             value={chat?.assignedTo?._id || lead.assignedTo?._id || ''}
             onChange={(e) => onAssign(e.target.value)}
-            className="w-full text-sm px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg"
+            className="w-full text-sm px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#1D4B3E]/20"
           >
             <option value="">Unassigned</option>
             {mapTeamMemberOptions(teamMembers).map((m) => (
@@ -398,7 +398,7 @@ export default function CRMProfilePanel({
               value={note}
               onChange={(e) => setNote(e.target.value)}
               placeholder="Add note..."
-              className="flex-1 text-xs px-2.5 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900"
+              className="flex-1 text-xs px-2.5 py-2 border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-[#1D4B3E]/20"
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && note.trim()) {
                   onAddNote(note);
@@ -409,7 +409,7 @@ export default function CRMProfilePanel({
             <button
               type="button"
               onClick={() => { onAddNote(note); setNote(''); }}
-              className="px-2.5 py-2 text-xs font-medium bg-teal-600 text-white rounded-lg"
+              className="px-2.5 py-2 text-xs font-medium bg-[#1D4B3E] text-white rounded hover:bg-[#163c32]"
             >
               Add
             </button>

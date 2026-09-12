@@ -22,7 +22,7 @@ export default function TasksEmptyState({ filter, onCreate }) {
       <button
         type="button"
         onClick={onCreate}
-        className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-lg"
+        className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-[#1D4B3E] hover:bg-[#163c32] rounded"
       >
         <Plus className="w-4 h-4" /> Create follow-up
       </button>

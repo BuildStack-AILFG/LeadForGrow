@@ -41,8 +41,8 @@ export default function MessageList({ messages, loading, hasMore, onLoadMore, lo
 
   if (loading) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center gap-3 bg-[#efeae2] dark:bg-[#0b141a]">
-        <div className="w-9 h-9 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin" />
+      <div className="flex-1 flex flex-col items-center justify-center gap-3 bg-[#F1F6F3] dark:bg-[#0b141a]">
+        <div className="w-9 h-9 border-2 border-[#1D4B3E] border-t-transparent rounded-full animate-spin" />
         <p className="text-xs font-medium text-slate-600 dark:text-slate-400">Loading messages…</p>
       </div>
     );
@@ -50,7 +50,7 @@ export default function MessageList({ messages, loading, hasMore, onLoadMore, lo
 
   if (!messages.length) {
     return (
-      <div className="flex-1 flex items-center justify-center p-8 bg-[#efeae2] dark:bg-[#0b141a]">
+      <div className="flex-1 flex items-center justify-center p-8 bg-[#F1F6F3] dark:bg-[#0b141a]">
         <p className="text-sm text-slate-500 text-center max-w-xs">
           {emptyLabel || 'No messages yet. Start the conversation.'}
         </p>
@@ -63,12 +63,8 @@ export default function MessageList({ messages, loading, hasMore, onLoadMore, lo
     <div
       ref={containerRef}
       onScroll={handleScroll}
-      className="flex-1 overflow-y-auto px-4 py-4 bg-[#efeae2] dark:bg-[#0b141a]"
-      style={{
-        overflowAnchor: 'none',
-        backgroundImage:
-          "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23000000' fill-opacity='0.03'%3E%3Ccircle cx='16' cy='16' r='2'/%3E%3Ccircle cx='56' cy='36' r='2'/%3E%3Ccircle cx='36' cy='64' r='2'/%3E%3Cpath d='M8 48h8v2H8zM52 8h10v2H52zM24 34h12v2H24z'/%3E%3C/g%3E%3C/svg%3E\")",
-      }}
+      className="flex-1 overflow-y-auto px-4 py-4 bg-[#F1F6F3] dark:bg-[#0b141a]"
+      style={{ overflowAnchor: 'none' }}
     >
       {loadingMore && (
         <div className="flex justify-center py-2">

@@ -17,7 +17,7 @@ const CHANNEL_ICON = {
 
 const CHANNEL_ICON_COLOR = {
   whatsapp: 'text-[#25D366]',        // official WhatsApp brand green
-  email: 'text-violet-600',
+  email: 'text-[#4285F4]',
   instagram: 'text-[#E1306C]',       // official Instagram brand pink
 };
 
@@ -144,7 +144,7 @@ function ConversationItem({ chat, active, onClick }) {
       onClick={onClick}
       className={`group w-full text-left flex items-center gap-3 pl-2 pr-3 py-2.5 border-b border-slate-100 dark:border-slate-800/80 border-l-[3px] transition-colors ${
         active
-          ? 'bg-teal-50/60 dark:bg-teal-950/30 border-l-teal-600'
+          ? 'bg-[#F0F9F5] dark:bg-teal-950/30 border-l-[#1D4B3E]'
           : unread
             ? 'bg-emerald-50/30 dark:bg-emerald-950/10 border-l-emerald-500 hover:bg-emerald-50/60'
             : 'hover:bg-slate-50 dark:hover:bg-slate-800/40 border-l-transparent'
@@ -163,9 +163,9 @@ function ConversationItem({ chat, active, onClick }) {
           </span>
           <div className="flex items-center gap-1.5 flex-shrink-0">
             {chat.isPinned && <Pin className="w-3 h-3 text-teal-500" />}
-            {chat.isFavorite && <Star className="w-3 h-3 text-amber-500 fill-amber-500" />}
+            {chat.isFavorite && <Star className="w-3 h-3 text-green-600 fill-green-600" />}
             {intervened && (
-              <span className="text-[9px] font-bold px-1.5 py-[1px] rounded-full bg-violet-100 dark:bg-violet-950/40 text-violet-700 dark:text-violet-300 uppercase tracking-wide">Live</span>
+              <span className="text-[9px] font-bold px-1.5 py-[1px] rounded-full bg-teal-100 dark:bg-teal-950/40 text-teal-700 dark:text-teal-300 uppercase tracking-wide">Live</span>
             )}
             {waitingBadge && (
               <span

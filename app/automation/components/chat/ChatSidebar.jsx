@@ -18,6 +18,17 @@ const CHANNEL_ICONS = {
   email: GmailMonoIcon,
 };
 
+// Active-pill color per channel — each channel keeps its own real brand
+// color when selected (WhatsApp green, Instagram pink, Gmail blue) instead
+// of flattening every tab to the same brand teal. "All channels" has no
+// single identity, so it uses the app's own brand teal.
+const CHANNEL_ACTIVE_BG = {
+  all: 'bg-[#1D4B3E]',
+  whatsapp: 'bg-[#25D366]',
+  instagram: 'bg-[#E1306C]',
+  email: 'bg-[#4285F4]',
+};
+
 export default function ChatSidebar({
   conversations,
   selectedId,
@@ -99,7 +110,7 @@ export default function ChatSidebar({
             </button>
             <Link
               href="/automation/leads/new"
-              className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-teal-600"
+              className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-[#1D4B3E]"
               title="New lead"
             >
               <MessageSquarePlus className="w-4 h-4" />
@@ -113,10 +124,10 @@ export default function ChatSidebar({
             placeholder="Search messages, leads, deals..."
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500/20"
+            className="w-full pl-9 pr-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#1D4B3E]/20"
           />
           {searchResults && search.length >= 2 && (
-            <div className="absolute left-0 right-0 top-full mt-1 z-20 max-h-64 overflow-y-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-lg">
+            <div className="absolute left-0 right-0 top-full mt-1 z-20 max-h-64 overflow-y-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded shadow-lg p-1.5 space-y-0.5">
               {[
                 ...(searchResults.conversations || []).map((c) => ({ type: 'conversation', item: c, label: c.participantName || c.lastMessagePreview })),
                 ...(searchResults.leads || []).map((l) => ({ type: 'lead', item: l, label: l.name })),
@@ -133,7 +144,7 @@ export default function ChatSidebar({
                     key={`${r.type}-${r.item._id || i}`}
                     type="button"
                     onClick={() => onSelectSearchResult?.(r)}
-                    className="w-full text-left px-3 py-2 text-xs hover:bg-slate-50 dark:hover:bg-slate-800 border-b border-slate-100 dark:border-slate-800 last:border-0"
+                    className="w-full text-left px-3 py-2 text-xs rounded hover:bg-[#F0F9F5] dark:hover:bg-slate-800"
                   >
                     <span className="text-[10px] uppercase text-slate-400">{r.type}</span>
                     <p className="truncate text-slate-700 dark:text-slate-300">{r.label}</p>
@@ -152,9 +163,9 @@ export default function ChatSidebar({
                 key={f.id}
                 type="button"
                 onClick={() => onChannelFilterChange(f.id)}
-                className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded-md whitespace-nowrap transition-colors ${
+                className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded whitespace-nowrap transition-colors ${
                   active
-                    ? 'bg-emerald-600 text-white'
+                    ? `${CHANNEL_ACTIVE_BG[f.id] || CHANNEL_ACTIVE_BG.all} text-white`
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
                 }`}
               >
@@ -173,9 +184,9 @@ export default function ChatSidebar({
               key={f.id}
               type="button"
               onClick={() => onFilterChange(f.id)}
-              className={`px-2.5 py-1 text-[11px] font-medium rounded-md whitespace-nowrap transition-colors ${
+              className={`px-2.5 py-1 text-[11px] font-medium rounded whitespace-nowrap transition-colors ${
                 filter === f.id
-                  ? 'bg-teal-600 text-white'
+                  ? 'bg-[#1D4B3E] text-white'
                   : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
               }`}
             >

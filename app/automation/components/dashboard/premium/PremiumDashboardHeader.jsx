@@ -71,7 +71,7 @@ export default function PremiumDashboardHeader({
     : 'now';
 
   return (
-    <header className="sticky top-0 z-20 -mx-4 sm:-mx-6 px-4 sm:px-6 pt-5 pb-4 mb-2 bg-white/95 backdrop-blur-xl">
+    <header className="sticky top-0 z-20 -mx-4 sm:-mx-6 px-4 sm:px-6 pt-5 pb-4 mb-2 bg-[#F8F9FA]/95 backdrop-blur-xl">
       {/* Row 1 — Title + utilities */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4">
         <h1 className="text-[26px] sm:text-[28px] font-semibold tracking-[-0.02em] text-[#101828] leading-none">
@@ -81,7 +81,7 @@ export default function PremiumDashboardHeader({
         <div className="flex items-center gap-2.5">
           <Link
             href="/automation/chat"
-            className="relative inline-flex items-center justify-center w-9 h-9 text-[#344054] bg-white border border-[#E5E7EB] rounded-lg transition-all duration-200 hover:bg-[#F9FAFB] hover:border-[#D1D5DB] active:scale-95"
+            className="relative inline-flex items-center justify-center w-9 h-9 text-[#344054] bg-white border border-[#E5E7EB] rounded-none transition-all duration-200 hover:bg-[#F9FAFB] hover:border-[#D1D5DB] active:scale-95"
             title="Notifications"
           >
             <Bell className="w-4 h-4" />
@@ -89,7 +89,7 @@ export default function PremiumDashboardHeader({
           </Link>
 
           <div className="relative flex-1 sm:flex-none sm:w-[220px] group">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9CA3AF] transition-colors group-focus-within:text-[#059669]" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9CA3AF] transition-colors group-focus-within:text-[#1D4B3E]" />
             <input
               type="search"
               placeholder="Search something"
@@ -100,13 +100,13 @@ export default function PremiumDashboardHeader({
                   router.push(`/automation/leads?search=${encodeURIComponent(searchQuery.trim())}`);
                 }
               }}
-              className="w-full h-9 pl-9 pr-3 text-[13px] bg-white border border-[#E5E7EB] rounded-lg text-[#101828] placeholder:text-[#9CA3AF] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#059669]/15 focus:border-[#059669]"
+              className="w-full h-9 pl-9 pr-3 text-[13px] bg-white border border-[#E5E7EB] rounded-none text-[#101828] placeholder:text-[#9CA3AF] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#1D4B3E]/15 focus:border-[#1D4B3E]"
             />
           </div>
 
           <button
             type="button"
-            className="inline-flex items-center gap-2 h-9 px-3.5 text-[13px] font-medium text-[#344054] bg-white border border-[#E5E7EB] rounded-lg transition-all duration-200 hover:bg-[#F9FAFB] hover:border-[#D1D5DB] active:scale-[0.98]"
+            className="inline-flex items-center gap-2 h-9 px-3.5 text-[13px] font-medium text-[#344054] bg-white border border-[#E5E7EB] rounded-none transition-all duration-200 hover:bg-[#F9FAFB] hover:border-[#D1D5DB] active:scale-[0.98]"
           >
             <Share2 className="w-4 h-4 text-[#344054]" />
             Share
@@ -124,7 +124,7 @@ export default function PremiumDashboardHeader({
             type="button"
             data-tour="dashboard-ask-ai"
             onClick={openAssistant}
-            className="inline-flex items-center gap-2 h-9 px-3.5 text-[13px] font-medium text-white bg-[#059669] rounded-lg shadow-sm transition-all duration-200 hover:bg-[#047857] hover:shadow-md active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#059669]/40"
+            className="inline-flex items-center gap-2 h-9 px-3.5 text-[13px] font-medium text-white bg-[#1D4B3E] rounded-none shadow-sm transition-all duration-200 hover:bg-[#163c32] hover:shadow-md active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1D4B3E]/40"
           >
             <GroviaIcon className="w-4 h-4" />
             Ask AI
@@ -132,7 +132,7 @@ export default function PremiumDashboardHeader({
 
           <button
             type="button"
-            className="inline-flex items-center gap-2 h-9 px-3.5 text-[13px] font-medium text-[#344054] bg-white border border-[#E5E7EB] rounded-lg transition-all duration-200 hover:bg-[#F9FAFB] hover:border-[#D1D5DB] active:scale-[0.98]"
+            className="inline-flex items-center gap-2 h-9 px-3.5 text-[13px] font-medium text-[#344054] bg-white border border-[#E5E7EB] rounded-none transition-all duration-200 hover:bg-[#F9FAFB] hover:border-[#D1D5DB] active:scale-[0.98]"
           >
             <LayoutGrid className="w-4 h-4 text-[#344054]" />
             Customize Widget
@@ -144,14 +144,14 @@ export default function PremiumDashboardHeader({
             type="button"
             onClick={onRefresh}
             disabled={refreshing}
-            className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#059669] hover:text-[#047857] transition-colors disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#1D4B3E] hover:text-[#163c32] transition-colors disabled:opacity-50"
             title="Refresh"
           >
             <CheckCircle2 className={`w-4 h-4 ${refreshing ? 'animate-pulse' : ''}`} />
             Last updated {updatedLabel}
           </button>
 
-          <div className="inline-flex items-stretch rounded-lg border border-[#E5E7EB] bg-white overflow-hidden">
+          <div className="inline-flex items-stretch rounded-none border border-[#E5E7EB] bg-white overflow-hidden">
             <Link
               href="/automation/leads/bulk"
               className="inline-flex items-center gap-2 h-9 px-3.5 text-[13px] font-medium text-[#344054] transition-colors hover:bg-[#F9FAFB]"
@@ -169,7 +169,7 @@ export default function PremiumDashboardHeader({
             </button>
           </div>
 
-          <div className="inline-flex items-stretch rounded-lg bg-[#101828] overflow-hidden shadow-sm">
+          <div className="inline-flex items-stretch rounded-none bg-[#101828] overflow-hidden shadow-sm">
             <button
               type="button"
               onClick={handleExport}

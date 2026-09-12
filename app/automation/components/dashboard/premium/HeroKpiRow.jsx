@@ -54,7 +54,7 @@ function KpiCard({
     return (
       <Link
         href={href}
-        className="block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-[#059669]/30 rounded-[14px]"
+        className="block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1D4B3E]/30 rounded-none"
       >
         {inner}
       </Link>

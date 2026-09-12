@@ -70,7 +70,7 @@ function MeetingEventCard({ meeting }) {
   const platformLabel = meeting.platform ? `On ${meeting.platform}` : null;
 
   return (
-    <div className="flex-1 min-w-0 rounded-[10px] border border-[#E8ECEF] bg-white px-3.5 py-3 transition-colors hover:border-[#D0D5DD]">
+    <div className="flex-1 min-w-0 rounded-none border border-[#E8ECEF] bg-white px-3.5 py-3 transition-colors hover:border-[#D0D5DD]">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
           <p className="text-[13px] font-semibold text-[#101828] truncate leading-tight">
@@ -88,13 +88,13 @@ function MeetingEventCard({ meeting }) {
               href={meeting.meetingLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="shrink-0 inline-flex items-center gap-1 h-8 px-2.5 text-[11px] font-medium text-[#344054] bg-white border border-[#E5E7EB] rounded-lg hover:bg-[#F9FAFB] transition-colors"
+              className="shrink-0 inline-flex items-center gap-1 h-8 px-2.5 text-[11px] font-medium text-[#344054] bg-white border border-[#E5E7EB] rounded-none hover:bg-[#F9FAFB] transition-colors"
             >
               {platformLabel}
               <ChevronRight className="w-3.5 h-3.5 text-[#98A2B3]" strokeWidth={2} />
             </a>
           ) : (
-            <span className="shrink-0 inline-flex items-center gap-1 h-8 px-2.5 text-[11px] font-medium text-[#344054] bg-white border border-[#E5E7EB] rounded-lg">
+            <span className="shrink-0 inline-flex items-center gap-1 h-8 px-2.5 text-[11px] font-medium text-[#344054] bg-white border border-[#E5E7EB] rounded-none">
               {platformLabel}
               <ChevronRight className="w-3.5 h-3.5 text-[#98A2B3]" strokeWidth={2} />
             </span>
@@ -107,7 +107,7 @@ function MeetingEventCard({ meeting }) {
 
 function AvailableSlotCard({ start, end }) {
   return (
-    <div className="flex-1 min-w-0 rounded-[10px] border border-[#E8ECEF] bg-white px-3.5 py-3">
+    <div className="flex-1 min-w-0 rounded-none border border-[#E8ECEF] bg-white px-3.5 py-3">
       <p className="text-[13px] font-medium text-[#101828] leading-tight">Available Time</p>
       <p className="text-[12px] font-normal text-[#98A2B3] tabular-nums mt-1">
         {formatTimeRange(start, end)}
@@ -235,7 +235,7 @@ export default function CalendarScheduleCard({ calendar, onRefresh }) {
         <div className="flex items-center gap-1.5 shrink-0">
           <button
             type="button"
-            className="inline-flex items-center gap-1.5 h-8 px-3 text-[13px] font-medium text-[#344054] bg-white border border-[#E5E7EB] rounded-lg hover:bg-[#F9FAFB] transition-colors"
+            className="inline-flex items-center gap-1.5 h-8 px-3 text-[13px] font-medium text-[#344054] bg-white border border-[#E5E7EB] rounded-none hover:bg-[#F9FAFB] transition-colors"
           >
             {monthLabel}
             <ChevronDown className="w-3.5 h-3.5 text-[#98A2B3]" strokeWidth={2} />

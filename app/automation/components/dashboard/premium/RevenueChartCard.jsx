@@ -189,7 +189,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
   const xLabelStep = chart.points.length > 12 ? 2 : chart.points.length > 8 ? 1 : 1;
 
   return (
-    <PremiumCard padding="p-4" className="h-[40vh] max-h-[40vh] flex flex-col overflow-hidden">
+    <PremiumCard padding="p-4" className="h-[40vh] min-h-[240px] max-h-[80vh] flex flex-col overflow-auto resize-y">
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3 shrink-0">
         <div>
           <div className="flex items-center gap-1 mb-1.5">
@@ -210,9 +210,9 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
         </div>
 
         <div className="flex items-center gap-2 self-start">
-          <div className="relative flex p-1 bg-[#F2F4F3] rounded-[10px]">
+          <div className="relative flex p-1 bg-[#F2F4F3] rounded-none">
             <span
-              className="absolute top-1 bottom-1 rounded-[8px] bg-white shadow-[0_1px_2px_rgba(16,24,40,0.06)] transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+              className="absolute top-1 bottom-1 rounded-none bg-white shadow-[0_1px_2px_rgba(16,24,40,0.06)] transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
               style={{
                 left: 4,
                 width: `calc((100% - 8px) / ${TIMEFRAMES.length})`,
@@ -227,7 +227,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
                   setTimeframe(tf);
                   setHoverIdx(null);
                 }}
-                className={`relative z-10 flex-1 px-2 py-1.5 text-[11px] font-normal rounded-[8px] transition-colors duration-200 ${timeframe === tf ? 'text-[#1A1D1F]' : 'text-[#64748B] hover:text-[#1A1D1F]'
+                className={`relative z-10 flex-1 px-2 py-1.5 text-[11px] font-normal rounded-none transition-colors duration-200 ${timeframe === tf ? 'text-[#1A1D1F]' : 'text-[#64748B] hover:text-[#1A1D1F]'
                   }`}
               >
                 {tf}
@@ -274,9 +274,9 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
               >
                 <defs>
                   <linearGradient id="revenueGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#059669" stopOpacity="0.2" />
-                    <stop offset="55%" stopColor="#059669" stopOpacity="0.06" />
-                    <stop offset="100%" stopColor="#059669" stopOpacity="0" />
+                    <stop offset="0%" stopColor="#1D4B3E" stopOpacity="0.2" />
+                    <stop offset="55%" stopColor="#1D4B3E" stopOpacity="0.06" />
+                    <stop offset="100%" stopColor="#1D4B3E" stopOpacity="0" />
                   </linearGradient>
                 </defs>
 
@@ -323,7 +323,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
                   <path
                     d={chart.lineD}
                     fill="none"
-                    stroke="#059669"
+                    stroke="#1D4B3E"
                     strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -339,7 +339,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
                       x2={hovered.x}
                       y1={PAD.top}
                       y2={100 - PAD.bottom}
-                      stroke="#059669"
+                      stroke="#1D4B3E"
                       strokeWidth="1"
                       strokeDasharray="3 3"
                       opacity="0.4"
@@ -349,7 +349,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
                       cx={hovered.x}
                       cy={hovered.y}
                       r="4"
-                      fill="#059669"
+                      fill="#1D4B3E"
                       opacity="0.12"
                       vectorEffect="non-scaling-stroke"
                     />
@@ -357,7 +357,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
                       cx={hovered.x}
                       cy={hovered.y}
                       r="2"
-                      fill="#059669"
+                      fill="#1D4B3E"
                       stroke="white"
                       strokeWidth="1.5"
                       vectorEffect="non-scaling-stroke"
@@ -368,7 +368,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
 
               {hovered && (
                 <div
-                  className="absolute top-0 pointer-events-none px-2.5 py-1.5 bg-[#1A1D1F] text-white rounded-[8px] shadow-[0_6px_16px_rgba(16,24,40,0.18)] tabular-nums whitespace-nowrap z-10"
+                  className="absolute top-0 pointer-events-none px-2.5 py-1.5 bg-[#1A1D1F] text-white rounded-none shadow-[0_6px_16px_rgba(16,24,40,0.18)] tabular-nums whitespace-nowrap z-10"
                   style={{
                     left: `${hovered.x}%`,
                     transform: `translateX(${hovered.x > 75 ? '-90%' : hovered.x < 15 ? '-10%' : '-50%'})`,

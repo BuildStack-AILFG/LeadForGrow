@@ -20,7 +20,7 @@ function TaskRow({ task, onMarkDone, onReschedule, onCommunicate }) {
   const overdue = isOverdue(task.dueDate);
 
   return (
-    <tr className="group border-b border-slate-100 dark:border-slate-800/80 hover:bg-slate-50/80 dark:hover:bg-slate-800/30 transition-colors">
+    <tr className="group border-b border-[#E5E5E7] dark:border-slate-800/80 hover:bg-[#FAFBFC]/80 dark:hover:bg-slate-800/30 transition-colors">
       <td className="py-3 px-3 min-w-[200px]">
         <div className="flex items-start gap-2.5">
           <TaskTypeBadge type={task.type} showLabel={false} size="xs" />
@@ -39,7 +39,7 @@ function TaskRow({ task, onMarkDone, onReschedule, onCommunicate }) {
             <p className="text-[11px] text-slate-400 tabular-nums">{lead.phone || '—'}</p>
           </div>
         ) : (
-          <span className="inline-flex items-center gap-1 text-[10px] font-medium text-amber-700 bg-amber-50 dark:bg-amber-950/30 px-2 py-0.5 rounded-md">
+          <span className="inline-flex items-center gap-1 text-[10px] font-medium text-amber-700 bg-amber-50 dark:bg-amber-950/30 px-2 py-0.5 rounded">
             <AlertCircle className="w-3 h-3" /> Lead deleted
           </span>
         )}
@@ -50,7 +50,7 @@ function TaskRow({ task, onMarkDone, onReschedule, onCommunicate }) {
       <td className="py-3 px-3 whitespace-nowrap">
         <p className="text-xs text-slate-700 dark:text-slate-300 tabular-nums">{formatDueDate(task.dueDate)}</p>
         <span
-          className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-md inline-block mt-1 ${
+          className={`text-[10px] font-semibold px-1.5 py-0.5 rounded inline-block mt-1 ${
             overdue
               ? 'bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-400'
               : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
@@ -69,7 +69,7 @@ function TaskRow({ task, onMarkDone, onReschedule, onCommunicate }) {
               type="button"
               disabled={!lead}
               onClick={() => onCommunicate(task, 'call')}
-              className="p-1.5 rounded-md text-slate-400 hover:text-teal-600 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40"
+              className="p-1.5 rounded text-slate-400 hover:text-[#1D4B3E] hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40"
               title="Call"
             >
               <Phone className="w-3.5 h-3.5" />
@@ -80,7 +80,7 @@ function TaskRow({ task, onMarkDone, onReschedule, onCommunicate }) {
               type="button"
               disabled={!lead}
               onClick={() => onCommunicate(task, 'whatsapp')}
-              className="p-1.5 rounded-md text-slate-400 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40"
+              className="p-1.5 rounded text-slate-400 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40"
               title="WhatsApp"
             >
               <MessageCircle className="w-3.5 h-3.5" />
@@ -91,7 +91,7 @@ function TaskRow({ task, onMarkDone, onReschedule, onCommunicate }) {
               type="button"
               disabled={!lead}
               onClick={() => onCommunicate(task, 'email')}
-              className="p-1.5 rounded-md text-slate-400 hover:text-violet-600 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40"
+              className="p-1.5 rounded text-slate-400 hover:text-sky-600 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40"
               title="Email"
             >
               <Mail className="w-3.5 h-3.5" />
@@ -100,7 +100,7 @@ function TaskRow({ task, onMarkDone, onReschedule, onCommunicate }) {
           <button
             type="button"
             onClick={() => onMarkDone(task._id)}
-            className="p-1.5 rounded-md text-slate-400 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition-opacity"
+            className="p-1.5 rounded text-slate-400 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition-opacity"
             title="Mark done"
           >
             <CheckCircle2 className="w-3.5 h-3.5" />
@@ -108,7 +108,7 @@ function TaskRow({ task, onMarkDone, onReschedule, onCommunicate }) {
           <button
             type="button"
             onClick={() => onReschedule(task)}
-            className="p-1.5 rounded-md text-slate-400 hover:text-teal-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition-opacity"
+            className="p-1.5 rounded text-slate-400 hover:text-[#1D4B3E] hover:bg-slate-100 dark:hover:bg-slate-800 transition-opacity"
             title="Reschedule"
           >
             <Calendar className="w-3.5 h-3.5" />
@@ -116,7 +116,7 @@ function TaskRow({ task, onMarkDone, onReschedule, onCommunicate }) {
           {lead?._id && (
             <Link
               href={`/automation/leads/${lead._id}`}
-              className="p-1.5 rounded-md text-slate-400 hover:text-teal-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition-opacity"
+              className="p-1.5 rounded text-slate-400 hover:text-[#1D4B3E] hover:bg-slate-100 dark:hover:bg-slate-800 transition-opacity"
               title="Open lead"
             >
               <ExternalLink className="w-3.5 h-3.5" />

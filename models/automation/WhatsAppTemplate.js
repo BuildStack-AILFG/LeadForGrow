@@ -52,6 +52,11 @@ const WhatsAppTemplateSchema = new mongoose.Schema({
     default: 'DRAFT',
     index: true,
   },
+  // Soft delete — templates move to the "Deleted" tab instead of being
+  // destroyed outright, so they can be restored. The Meta-side template
+  // (if any) is still hard-deleted via the Graph API when this is set.
+  isDeleted: { type: Boolean, default: false, index: true },
+  deletedAt: Date,
   components: { type: [ComponentSchema], default: [] },
 
   metaTemplateId: { type: String, index: true, sparse: true },

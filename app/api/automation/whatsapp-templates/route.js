@@ -10,8 +10,12 @@ export const GET = withPlanAccess('automation', async (req) => {
     const { searchParams } = new URL(req.url);
     const status = searchParams.get('status');
     const category = searchParams.get('category');
+    // Deleted templates are soft-deleted (see WhatsAppTemplate.isDeleted) so
+    // the "Deleted" tab can list + restore them. Every other view excludes
+    // them by default.
+    const showDeleted = searchParams.get('deleted') === 'true';
 
-    const query = { businessId };
+    const query = { businessId, isDeleted: showDeleted ? true : { $ne: true } };
     if (status) query.status = status;
     if (category) query.category = category;
 

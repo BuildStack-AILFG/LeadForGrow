@@ -27,6 +27,15 @@ export const PUT = withPlanAccess('automation', async (req, { params }) => {
     const template = await WhatsAppTemplate.findOne({ _id: id, businessId: req.user.businessId });
     if (!template) return NextResponse.json({ success: false, error: 'Not found' }, { status: 404 });
 
+    // Restore from the Deleted tab — handled before the PENDING/APPROVED edit
+    // guard below since restoring doesn't touch Meta-submission fields.
+    if (body.restore) {
+      template.isDeleted = false;
+      template.deletedAt = undefined;
+      await template.save();
+      return NextResponse.json({ success: true, data: template });
+    }
+
     if (template.status === 'PENDING' || template.status === 'APPROVED') {
       return NextResponse.json(
         { success: false, error: `Cannot edit a ${template.status.toLowerCase()} template. Duplicate it to make changes.` },
@@ -69,7 +78,13 @@ export const DELETE = withPlanAccess('automation', async (req, { params }) => {
       }
     }
 
-    await template.deleteOne();
+    // Soft delete — moves the template to the "Deleted" tab instead of
+    // destroying the record, so it can be restored. The Meta-side template
+    // (if any) is still hard-deleted above; restoring a template that had
+    // one will need re-submission since Meta no longer has it.
+    template.isDeleted = true;
+    template.deletedAt = new Date();
+    await template.save();
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

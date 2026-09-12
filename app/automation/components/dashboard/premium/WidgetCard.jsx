@@ -29,7 +29,7 @@ export default function WidgetCard({
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-2.5 min-w-0">
           {Icon && (
-            <span className="flex items-center justify-center w-8 h-8 rounded-[9px] bg-[#E8EFFC] text-[#059669]">
+            <span className="flex items-center justify-center w-8 h-8 rounded-none bg-[#F0F9F5] text-[#1D4B3E]">
               <Icon className="w-4 h-4" strokeWidth={2} />
             </span>
           )}

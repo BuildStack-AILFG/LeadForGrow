@@ -79,7 +79,7 @@ export default function RetentionChartCard({ retention, onRefresh }) {
                       return (
                         <div
                           key={seg.key}
-                          className="lfg-grow-y w-full max-w-[13px] rounded-t-[4px] transition-opacity duration-200 hover:opacity-80"
+                          className="lfg-grow-y w-full max-w-[13px] rounded-none transition-opacity duration-200 hover:opacity-80"
                           style={{
                             height: `${Math.max(h, 4)}%`,
                             backgroundColor: seg.color,

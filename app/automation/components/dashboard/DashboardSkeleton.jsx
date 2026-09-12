@@ -1,32 +1,32 @@
 'use client';
 
 function Block({ className = '' }) {
-  return <div className={`lfg-skeleton rounded-[14px] ${className}`} />;
+  return <div className={`lfg-skeleton rounded-none ${className}`} />;
 }
 
 export default function DashboardSkeleton() {
   return (
-    <div className="min-h-full bg-white">
+    <div className="min-h-full bg-[#F8F9FA]">
       <div className="px-4 sm:px-6 pb-12 max-w-[1560px] mx-auto">
         <div className="pt-5 pb-4 mb-2">
           <div className="flex items-center justify-between gap-4 pb-4">
-            <div className="lfg-skeleton h-8 w-40 rounded-lg" />
+            <div className="lfg-skeleton h-8 w-40 rounded-none" />
             <div className="flex items-center gap-2.5">
-              <div className="lfg-skeleton h-9 w-9 rounded-lg" />
-              <div className="lfg-skeleton h-9 w-[220px] rounded-lg" />
-              <div className="lfg-skeleton h-9 w-20 rounded-lg" />
+              <div className="lfg-skeleton h-9 w-9 rounded-none" />
+              <div className="lfg-skeleton h-9 w-[220px] rounded-none" />
+              <div className="lfg-skeleton h-9 w-20 rounded-none" />
             </div>
           </div>
           <div className="border-t border-[#E5E7EB]" />
           <div className="flex items-center justify-between gap-3 pt-4">
             <div className="flex gap-2.5">
-              <div className="lfg-skeleton h-9 w-24 rounded-lg" />
-              <div className="lfg-skeleton h-9 w-36 rounded-lg" />
+              <div className="lfg-skeleton h-9 w-24 rounded-none" />
+              <div className="lfg-skeleton h-9 w-36 rounded-none" />
             </div>
             <div className="flex items-center gap-3">
-              <div className="lfg-skeleton h-4 w-32 rounded-md" />
-              <div className="lfg-skeleton h-9 w-28 rounded-lg" />
-              <div className="lfg-skeleton h-9 w-28 rounded-lg" />
+              <div className="lfg-skeleton h-4 w-32 rounded-none" />
+              <div className="lfg-skeleton h-9 w-28 rounded-none" />
+              <div className="lfg-skeleton h-9 w-28 rounded-none" />
             </div>
           </div>
         </div>

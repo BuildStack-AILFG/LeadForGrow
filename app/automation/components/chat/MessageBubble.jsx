@@ -65,8 +65,8 @@ function MessageBubble({ message, onAction }) {
   if (message.isInternal) {
     return (
       <div className="flex justify-center my-2">
-        <div className="max-w-[85%] px-3 py-2 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 text-xs text-amber-900 dark:text-amber-200">
-          <span className="flex items-center gap-1 font-medium text-[10px] uppercase tracking-wide text-amber-600 dark:text-amber-400 mb-1">
+        <div className="max-w-[85%] px-3 py-2 rounded-xl bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-900/50 text-xs text-green-900 dark:text-green-200">
+          <span className="flex items-center gap-1 font-medium text-[10px] uppercase tracking-wide text-green-600 dark:text-green-400 mb-1">
             <StickyNote className="w-3 h-3" /> Internal note
           </span>
           <p className="whitespace-pre-wrap break-words">{message.content?.body}</p>
@@ -93,7 +93,7 @@ function MessageBubble({ message, onAction }) {
   const hasMedia = message.type !== 'text' || message.content?.mediaUrl;
   const bodyText = message.content?.body || message.content?.caption;
 
-  // Bubble palette — failed sends get a red/amber tint so they can't be
+  // Bubble palette — failed sends get a red tint so they can't be
   // mistaken for a normal outbound at a glance. That was a real complaint:
   // "message not sending" while agents thought they'd already sent.
   let bubbleClass;
@@ -102,10 +102,10 @@ function MessageBubble({ message, onAction }) {
     bubbleClass = 'bg-red-50 dark:bg-red-950/40 text-red-950 dark:text-red-100 border border-red-200 dark:border-red-900/60 rounded-lg rounded-tr-none';
     tailClass = 'right-1 bg-red-50 dark:bg-red-950/40';
   } else if (outgoing) {
-    bubbleClass = 'bg-[#d9fdd3] dark:bg-[#005c4b] text-[#111b21] dark:text-[#e9edef] rounded-lg rounded-tr-none';
-    tailClass = 'right-1 bg-[#d9fdd3] dark:bg-[#005c4b]';
+    bubbleClass = 'bg-[#1F8A5E] dark:bg-[#005c4b] text-white rounded-lg rounded-tr-none';
+    tailClass = 'right-1 bg-[#1F8A5E] dark:bg-[#005c4b]';
   } else {
-    bubbleClass = 'bg-white dark:bg-[#202c33] text-[#111b21] dark:text-[#e9edef] rounded-lg rounded-tl-none';
+    bubbleClass = 'bg-white dark:bg-[#202c33] text-[#111b21] dark:text-[#e9edef] border border-slate-200/70 dark:border-transparent rounded-lg rounded-tl-none';
     tailClass = 'left-1 bg-white dark:bg-[#202c33]';
   }
 
@@ -113,7 +113,7 @@ function MessageBubble({ message, onAction }) {
     <div className={`group flex ${outgoing ? 'justify-end' : 'justify-start'} mb-[3px] px-1`}>
       {/* Hover actions — floating icons that appear next to the bubble.
           Placed OUTSIDE the bubble so they don't shift the message layout.
-          Star turns amber when active. Trash flips to Restore for isDeleted
+          Star turns green when active. Trash flips to Restore for isDeleted
           messages so the Trash folder view stays interactive. */}
       {onAction && (
         <div
@@ -122,7 +122,7 @@ function MessageBubble({ message, onAction }) {
           <button
             type="button"
             onClick={() => onAction(message._id, message.starred ? 'unstar' : 'star')}
-            className={`p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 ${message.starred ? 'text-amber-500' : 'text-slate-400'}`}
+            className={`p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 ${message.starred ? 'text-green-600' : 'text-slate-400'}`}
             title={message.starred ? 'Remove star' : 'Star message'}
           >
             <Star className="w-3.5 h-3.5" fill={message.starred ? 'currentColor' : 'none'} />
@@ -168,7 +168,7 @@ function MessageBubble({ message, onAction }) {
           );
         })()}
         {message.subject && message.type === 'email' && (
-          <p className="text-xs font-semibold mb-1 text-[#111b21]/80 dark:text-[#e9edef]/80">{message.subject}</p>
+          <p className={`text-xs font-semibold mb-1 ${outgoing && !failed ? 'text-white/90' : 'text-[#111b21]/80 dark:text-[#e9edef]/80'}`}>{message.subject}</p>
         )}
         {hasMedia && <MediaContent message={message} />}
         {bodyText && (
@@ -178,7 +178,7 @@ function MessageBubble({ message, onAction }) {
           failed
             ? 'text-red-600/80 dark:text-red-400/80'
             : outgoing
-              ? 'text-[#667781] dark:text-[#aebac1]'
+              ? 'text-white/75'
               : 'text-[#667781] dark:text-[#8696a0]'
         }`}>
           <span className="text-[10px] leading-none tabular-nums">{time}</span>

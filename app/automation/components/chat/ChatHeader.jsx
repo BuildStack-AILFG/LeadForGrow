@@ -75,7 +75,7 @@ export default function ChatHeader({
             type="button"
             onClick={onIntervene}
             title="Take over — pauses the AI agent"
-            className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-violet-700 bg-violet-50 dark:bg-violet-950/40 border border-violet-200 dark:border-violet-900 rounded-lg hover:bg-violet-100"
+            className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-teal-700 bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-900 rounded hover:bg-teal-100"
           >
             <Hand className="w-3.5 h-3.5" /> Intervene
           </button>
@@ -85,7 +85,7 @@ export default function ChatHeader({
             type="button"
             onClick={onReleaseIntervene}
             title="Hand back to AI — the AI agent resumes replying"
-            className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900 rounded-lg hover:bg-emerald-100"
+            className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900 rounded hover:bg-emerald-100"
           >
             <Bot className="w-3.5 h-3.5" /> Resume AI
           </button>
