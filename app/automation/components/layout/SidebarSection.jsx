@@ -12,12 +12,10 @@ export default function SidebarSection({
   collapsed,
   stats,
   onNavigate,
-  onLockedClick
+  onLockedClick,
+  open,
+  onToggle,
 }) {
-  // Click-only toggle — the chevron is the sole way to open or close a
-  // group. No hover-to-preview: the pointer drifting over or off the
-  // header/items no longer changes anything.
-  const [open, setOpen] = useState(true);
   // The header's hover cue (when closed) is JS-driven, not Tailwind's
   // `hover:` variant — see SidebarItem.jsx's comment: `hover:` is gated
   // behind `@media (hover: hover)`, which is false on touchscreen
@@ -60,7 +58,7 @@ export default function SidebarSection({
           section label. Icon + normal-case label + trailing chevron. */}
       <button
         type="button"
-        onClick={() => setOpen((o) => !o)}
+        onClick={onToggle}
         onMouseEnter={() => setHeaderHovered(true)}
         onMouseLeave={() => setHeaderHovered(false)}
         className={`group flex w-full items-center gap-3 px-4 py-3 text-[14px] font-medium transition-colors duration-150 ${

@@ -29,6 +29,11 @@ export default function Sidebar() {
   // itself is untouched, this is purely a transient visual state.
   const [hoverExpanded, setHoverExpanded] = useState(false);
 
+  // Accordion: at most one nav group open at a time, and none open on
+  // load/refresh — a group only opens once its chevron is clicked, and
+  // opening one automatically closes whichever other group was open.
+  const [openGroupId, setOpenGroupId] = useState(null);
+
   const groups = useMemo(
     () =>
       filterNavGroups(NAV_GROUPS, {
@@ -108,6 +113,8 @@ export default function Sidebar() {
               stats={sidebar.stats}
               onNavigate={sidebar.closeMobile}
               onLockedClick={showUpgrade}
+              open={openGroupId === group.id}
+              onToggle={() => setOpenGroupId((id) => (id === group.id ? null : group.id))}
             />
           ))}
         </nav>

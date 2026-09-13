@@ -1,0 +1,657 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - generic [ref=e8]: Running your business alone?
+        - img "AI team" [ref=e10]
+      - generic [ref=e11]: Meet your AI Business Team.
+      - link "Try SOLO" [ref=e12] [cursor=pointer]:
+        - /url: https://www.interakt.shop/solo/
+    - generic [ref=e15]:
+      - link [ref=e19] [cursor=pointer]:
+        - /url: https://www.interakt.shop/
+      - navigation "Menu" [ref=e23]:
+        - text:  
+        - generic "Menu Toggle" [ref=e24]:
+          - list [ref=e25]:
+            - listitem [ref=e26]:
+              - generic [ref=e27]:
+                - generic [ref=e28]: Products
+                - button "Open Products" [ref=e30]:
+                  - text: 
+                  - generic [ref=e31]:
+                    - generic [aria-hidden] [ref=e32]: 
+                    - generic [ref=e33]: Open Products
+            - listitem [ref=e34]:
+              - generic [ref=e35]:
+                - generic [ref=e36]: Solutions
+                - button "Open Solutions" [ref=e38]:
+                  - text: 
+                  - generic [ref=e39]:
+                    - generic [aria-hidden] [ref=e40]: 
+                    - generic [ref=e41]: Open Solutions
+            - listitem [ref=e42]:
+              - link "Integrations" [ref=e44] [cursor=pointer]:
+                - /url: https://www.interakt.shop/integrations/
+            - listitem [ref=e46]:
+              - link "Pricing" [ref=e48] [cursor=pointer]:
+                - /url: https://www.interakt.shop/pricing/
+            - listitem [ref=e50]:
+              - link "Partnerships" [ref=e52] [cursor=pointer]:
+                - /url: https://www.interakt.shop/partner-program/
+            - listitem [ref=e54]:
+              - generic [ref=e55]:
+                - generic [ref=e56]: Resources
+                - button "Open Resources" [ref=e58]:
+                  - text: 
+                  - generic [ref=e59]:
+                    - generic [aria-hidden] [ref=e60]: 
+                    - generic [ref=e61]: Open Resources
+      - link "Demo" [ref=e65] [cursor=pointer]:
+        - /url: https://www.interakt.shop/whatsapp-business-api-live-demo/
+      - link "Login" [ref=e68] [cursor=pointer]:
+        - /url: https://app.interakt.ai/login?_gl=1*zop15q*_gcl_au*MTg5NzU2MDcyMi4xNzAyODc1NTA3&_ga=2.184796513.97017958.1704554353-699056367.1663883724
+      - link "Start Free Trial" [ref=e72] [cursor=pointer]:
+        - /url: https://www.interakt.shop/signup/
+      - generic [ref=e82] [cursor=pointer]:
+        - img "en" [ref=e83]
+        - text: en
+    - text:        
+  - generic [ref=e87]:
+    - generic [ref=e92]:
+      - generic [ref=e93]: on WhatsApp, Instagram and RCS!
+      - generic [ref=e97]: Engage audiences, accelerate sales and drive better customer support with AI-powered automation
+      - generic [ref=e102]:
+        - link "Start Free Trial" [ref=e106] [cursor=pointer]:
+          - /url: https://www.interakt.shop/signup
+          - generic [ref=e107]:
+            - generic [aria-hidden] [ref=e109]: 
+            - generic [ref=e110]: Start Free Trial
+        - link "Book a Demo" [ref=e114] [cursor=pointer]:
+          - /url: https://www.interakt.shop/whatsapp-business-api-live-demo/
+      - generic [ref=e117]: 14 day free trial | No credit card required
+    - text: 
+    - generic [ref=e121]:
+      - heading "Trusted by 100,000+ businesses across the globe" [level=3] [ref=e124]
+      - region "Image Carousel" [ref=e127]:
+        - generic [ref=e128]:
+          - group "1 of 9" [ref=e129]:
+            - figure [ref=e130]:
+              - img "imageedit_2_3827326005" [ref=e131]
+          - group "2 of 9" [ref=e132]:
+            - figure [ref=e133]:
+              - img "imageedit_4_5325241367" [ref=e134]
+          - group "3 of 9" [ref=e135]:
+            - figure [ref=e136]:
+              - img "imageedit_6_8720452855" [ref=e137]
+          - group "4 of 9" [ref=e138]:
+            - figure [ref=e139]:
+              - img "imageedit_8_8246254614" [ref=e140]
+          - group "5 of 9" [ref=e141]:
+            - figure [ref=e142]:
+              - img "imageedit_21_5401126492" [ref=e143]
+          - group "6 of 9" [ref=e144]:
+            - figure [ref=e145]:
+              - img "imageedit_19_5655943326" [ref=e146]
+          - group "7 of 9" [ref=e147]:
+            - figure [ref=e148]:
+              - img "imageedit_17_3952739140" [ref=e149]
+          - group "8 of 9" [ref=e150]:
+            - figure [ref=e151]:
+              - img "imageedit_14_6704716273" [ref=e152]
+          - group "9 of 9" [ref=e153]:
+            - figure [ref=e154]:
+              - img "imageedit_12_5097148370" [ref=e155]
+    - generic [ref=e157]:
+      - heading "Everything You Need to Win on WhatsApp" [level=1] [ref=e160]
+      - generic [ref=e161]: Interakt is a full-stack growth engine for marketing, sales, and support.
+    - generic [ref=e168]:
+      - generic [ref=e170]:
+        - generic [ref=e171]: Marketing Hub
+        - heading "Scale Marketing" [level=3] [ref=e177]
+        - generic [ref=e178]: Automate customer engagement on WhatsApp & Instagram to drive leads and conversions
+        - link [ref=e183] [cursor=pointer]:
+          - /url: https://www.interakt.shop/marketing-automation/
+          - generic [ref=e185]:
+            - text: Learn More
+            - generic [aria-hidden] [ref=e186]: 
+      - generic [ref=e188]:
+        - generic [ref=e189]: Support Hub
+        - heading "Delight Customers" [level=3] [ref=e195]
+        - generic [ref=e196]: Stay on top of every customer query with a unified team inbox built for WhatsApp, Instagram
+        - link [ref=e201] [cursor=pointer]:
+          - /url: https://www.interakt.shop/customer-support-automation/
+          - generic [ref=e203]:
+            - text: Learn More
+            - generic [aria-hidden] [ref=e204]: 
+      - generic [ref=e206]:
+        - generic [ref=e207]: Sales CRM
+        - heading "Win Deals" [level=3] [ref=e213]
+        - generic [ref=e214]: Capture leads, engage prospects, and close deals faster with WhatsApp first Sales CRM
+        - link [ref=e219] [cursor=pointer]:
+          - /url: https://www.interakt.shop/sales-crm/
+          - generic [ref=e221]:
+            - text: Learn More
+            - generic [aria-hidden] [ref=e222]: 
+    - generic [ref=e224]:
+      - generic [ref=e225]: Power-packed WhatsApp suite
+      - generic [ref=e230]:
+        - navigation "Menu" [ref=e231]:
+          - list [ref=e232]:
+            - listitem [ref=e233]:
+              - link "Features" [ref=e234] [cursor=pointer]:
+                - /url: "#features"
+            - listitem [ref=e235]:
+              - link "AI Suite" [ref=e236] [cursor=pointer]:
+                - /url: "#aisuite"
+            - listitem [ref=e237]:
+              - link "Why us?" [ref=e238] [cursor=pointer]:
+                - /url: "#whyus"
+            - listitem [ref=e239]:
+              - link "Industries" [ref=e240] [cursor=pointer]:
+                - /url: "#industries"
+            - listitem [ref=e241]:
+              - link "Integrations" [ref=e242] [cursor=pointer]:
+                - /url: "#integrations"
+            - listitem [ref=e243]:
+              - link "Success Stories" [ref=e244] [cursor=pointer]:
+                - /url: "#successstories"
+        - text:  
+    - heading "Powerful Capabilities That Maximize Your Reach" [level=1] [ref=e249]
+    - generic [ref=e251]:
+      - generic [ref=e252]:
+        - generic [ref=e253]: RCS
+        - heading "Maximize Message deliveries with RCS" [level=3] [ref=e257]
+        - generic [ref=e258]: Don’t lose a single customer to failed WhatsApp messages, automatically switch to RCS for seamless message delivery with Interakt!
+        - link [ref=e263] [cursor=pointer]:
+          - /url: https://www.interakt.shop/whatsapp-rcs-fallback/
+          - generic [ref=e265]:
+            - text: Learn More
+            - generic [aria-hidden] [ref=e266]: 
+      - generic [ref=e269]:
+        - generic [ref=e270]: AI AGENT
+        - heading "Turn Conversations into Sales with AI Agents" [level=3] [ref=e274]
+        - generic [ref=e275]: Deploy AI agents that answer queries, qualify leads, and recommend products like a human assistant.
+        - link [ref=e280] [cursor=pointer]:
+          - /url: https://www.interakt.shop/whatsapp-ai-agents/
+          - generic [ref=e282]:
+            - text: Learn More
+            - generic [aria-hidden] [ref=e283]: 
+    - generic [ref=e287]:
+      - generic [ref=e289]:
+        - generic [ref=e290]: Support
+        - heading "Launch WhatsApp Chatbots in Minutes" [level=3] [ref=e294]
+        - generic [ref=e295]: Automate up to 80% of queries with Interakt’s easy-to-use drag and drop, no-code WhatsApp chatbot builder reducing response time by 60%
+        - link [ref=e300] [cursor=pointer]:
+          - /url: https://www.interakt.shop/no-code-chatbot-builder/
+          - generic [ref=e302]:
+            - text: Learn More
+            - generic [aria-hidden] [ref=e303]: 
+      - generic [ref=e308]:
+        - generic [ref=e309]: MARKETING
+        - heading "Maximize Leads, Optimize Sales" [level=3] [ref=e313]
+        - generic [ref=e314]: Run Click-to-WhatsApp ads to capture leads instantly on WhatsApp and Instagram
+        - link [ref=e319] [cursor=pointer]:
+          - /url: https://www.interakt.shop/click-to-whatsapp-ads/
+          - generic [ref=e321]:
+            - text: Learn More
+            - generic [aria-hidden] [ref=e322]: 
+    - generic [ref=e327]:
+      - generic [ref=e328]:
+        - generic [ref=e330]:
+          - generic [ref=e331]: Marketing
+          - heading "Automate Instagram, Win Customers" [level=3] [ref=e335]
+          - generic [ref=e336]: Instantly reply to Instagram DMs, comments, and “Price Please” queries 24/7, offer rewards for follows
+          - link [ref=e341] [cursor=pointer]:
+            - /url: https://www.interakt.shop/instagram-automation/
+            - generic [ref=e343]:
+              - text: Learn More
+              - generic [aria-hidden] [ref=e344]: 
+        - generic [ref=e349]:
+          - generic [ref=e350]: Support
+          - heading "Streamline Queries, Boost Efficiency" [level=3] [ref=e354]
+          - generic [ref=e355]: Manage WhatsApp and Instagram queries with an Omnichannel Inbox for zero missed messages and smooth team collaboration
+          - link [ref=e360] [cursor=pointer]:
+            - /url: https://www.interakt.shop/customer-support-automation/
+            - generic [ref=e362]:
+              - text: Learn More
+              - generic [aria-hidden] [ref=e363]: 
+      - generic [ref=e368]:
+        - generic [ref=e369]: SALES CRM
+        - heading "Organize Leads, Track Success" [level=3] [ref=e373]
+        - generic [ref=e374]: Centralize leads from WhatsApp, workflows, API, Shopify, or manual entry in a Sales CRM with auto-assigned owners and statuses
+        - link [ref=e379] [cursor=pointer]:
+          - /url: https://www.interakt.shop/sales-crm/
+          - generic [ref=e381]:
+            - text: Learn More
+            - generic [aria-hidden] [ref=e382]: 
+    - generic [ref=e386]:
+      - generic [ref=e388]:
+        - generic [ref=e389]: MARKETING
+        - heading "Broadcast WhatsApp Messages to 1000s in a single click" [level=3] [ref=e393]
+        - generic [ref=e394]: Scale your business communication effortlessly and reach 1000s of customers in one click Automate up to 80% of queries with Interakt’s easy-to-use drag and drop, no-code WhatsApp chatbot builder reducing
+        - link [ref=e399] [cursor=pointer]:
+          - /url: https://www.interakt.shop/marketing-automation/
+          - generic [ref=e401]:
+            - text: Learn More
+            - generic [aria-hidden] [ref=e402]: 
+      - generic [ref=e405]:
+        - generic [ref=e407]:
+          - generic [ref=e408]: Commerce
+          - heading "Launch WhatsApp Store & Payments" [level=3] [ref=e412]
+          - generic [ref=e413]: Sync your catalog via Shopify, WooCommerce, or Excel, letting customers browse and buy on the go via WhatsApp Pay
+          - link [ref=e418] [cursor=pointer]:
+            - /url: https://www.interakt.shop/whatsapp-commerce/
+            - generic [ref=e420]:
+              - text: Learn More
+              - generic [aria-hidden] [ref=e421]: 
+        - generic [ref=e426]:
+          - generic [ref=e427]: Analytics
+          - heading "Campaign & Team Analytics" [level=3] [ref=e431]
+          - generic [ref=e432]: Track team performance, measure impact, and optimize your WhatsApp campaigns with real-time insights.
+          - link [ref=e437] [cursor=pointer]:
+            - /url: https://www.interakt.shop/resource-center/whatsapp-crm-shared-team-inbox-conversation-analytics/
+            - generic [ref=e439]:
+              - text: Learn More
+              - generic [aria-hidden] [ref=e440]: 
+    - heading "Elevate your CX with an AI-powered WhatsApp platform" [level=1] [ref=e448]
+    - generic [ref=e454]:
+      - generic [ref=e455]: Write, Launch, and Optimize with AI Copilot
+      - generic [ref=e458]: AI Chatbots That Drive Conversions
+      - generic [ref=e461]: Forms That Convert Conversations into Leads
+      - generic [ref=e464]: Go Beyond Keywords with Intent-Based Automation
+      - generic [ref=e467]: Ready-to-Send Templates, Powered by AI
+    - heading "A simple, transparent and powerful full-stack WhatsApp platform" [level=3] [ref=e477]
+    - generic [ref=e485]:
+      - link "Start Free Trial" [ref=e489] [cursor=pointer]:
+        - /url: https://www.interakt.shop/signup
+      - link "Book a Demo" [ref=e495] [cursor=pointer]:
+        - /url: https://www.interakt.shop/whatsapp-business-api-live-demo/
+    - generic [ref=e501]:
+      - heading "What Sets Interakt Apart?" [level=1] [ref=e504]
+      - generic [ref=e505]: "Businesses using Interakt see measurable impact:"
+      - generic [ref=e508]:
+        - generic [ref=e509]:
+          - heading "89%" [level=3] [ref=e512]
+          - generic [ref=e513]: Higher Average CSAT
+        - generic [ref=e515]:
+          - heading "133%" [level=3] [ref=e518]
+          - generic [ref=e519]: Higher Agent Efficiency
+        - generic [ref=e521]:
+          - heading "60%" [level=3] [ref=e524]
+          - generic [ref=e525]: Faster Response Times
+        - generic [ref=e527]:
+          - heading "75%" [level=3] [ref=e530]
+          - generic [ref=e531]: Boost in Customer Engagement
+      - generic [ref=e533]: A simple, transparent, and powerful WhatsApp platform, built to scale with your business!
+    - generic [ref=e539]:
+      - heading "60+ Plug & Play Integrations" [level=1] [ref=e542]
+      - generic [ref=e543]: Unify your workflows with seamless integrations. No heavy setup. No complex migrations. Just plug and grow.
+      - link [ref=e548] [cursor=pointer]:
+        - /url: https://www.interakt.shop/integrations/
+        - generic [ref=e550]:
+          - text: Explore Integrations
+          - generic [aria-hidden] [ref=e551]: 
+    - text: 
+    - heading "Built for any Industry" [level=1] [ref=e559]
+    - region "Carousel" [ref=e564]:
+      - generic [ref=e565]:
+        - group "1 of 13" [ref=e566]:
+          - generic [ref=e569]:
+            - heading "Banking & Finance" [level=3] [ref=e574]
+            - generic [ref=e575]: Leverage powerful WhatsApp Business API features and grow your business using Interakt.
+            - link [ref=e580] [cursor=pointer]:
+              - /url: https://www.interakt.shop/whatsapp-business-for-banking-and-finance/
+              - generic [ref=e582]:
+                - text: Learn More
+                - generic [aria-hidden] [ref=e583]: 
+        - group "2 of 13" [ref=e584]:
+          - generic [ref=e587]:
+            - heading "Travel & Tourism" [level=3] [ref=e592]
+            - generic [ref=e593]: Fast-track travel bookings, share details, setup 24/7 automated FAQs and more using Interakt.
+            - link [ref=e598] [cursor=pointer]:
+              - /url: https://www.interakt.shop/whatsapp-business-for-travel-and-tourism/
+              - generic [ref=e600]:
+                - text: Learn More
+                - generic [aria-hidden] [ref=e601]: 
+        - group "3 of 13" [ref=e602]:
+          - generic [ref=e605]:
+            - heading "Beauty & Cosmetics" [level=3] [ref=e610]
+            - generic [ref=e611]: See how top brands use WhatsApp Business API to acquire, convert, and engage shoppers in a competitive market.
+            - link [ref=e616] [cursor=pointer]:
+              - /url: https://www.interakt.shop/whatsapp-business-for-beauty-cosmetics-brands/
+              - generic [ref=e618]:
+                - text: Learn More
+                - generic [aria-hidden] [ref=e619]: 
+        - group "4 of 13" [ref=e620]:
+          - generic [ref=e623]:
+            - heading "Education" [level=3] [ref=e628]
+            - generic [ref=e629]: Get more enrollments from your course with Interakt and keep your students informed with details on WhatsApp
+            - link [ref=e634] [cursor=pointer]:
+              - /url: https://www.interakt.shop/whatsapp-business-for-edutech/
+              - generic [ref=e636]:
+                - text: Learn More
+                - generic [aria-hidden] [ref=e637]: 
+        - group "5 of 13" [ref=e638]:
+          - generic [ref=e641]:
+            - heading "Spas & Salons" [level=3] [ref=e646]
+            - generic [ref=e647]: Grow your Spa & Salon business through scheduling, payments and catalogs all on WhatsApp
+            - link [ref=e652] [cursor=pointer]:
+              - /url: https://www.interakt.shop/whatsapp-business-for-spas-and-salons/
+              - generic [ref=e654]:
+                - text: Learn More
+                - generic [aria-hidden] [ref=e655]: 
+        - group "6 of 13" [ref=e656]:
+          - generic [ref=e659]:
+            - heading "E-commerce" [level=3] [ref=e664]
+            - generic [ref=e665]: Scale up your D2C brand using Interakt with end-to-end commerce and sharing catalogs on WhatsApp
+            - link [ref=e670] [cursor=pointer]:
+              - /url: https://www.interakt.shop/whatsapp-business-for-b2b-sales/
+              - generic [ref=e672]:
+                - text: Learn More
+                - generic [aria-hidden] [ref=e673]: 
+        - group "7 of 13" [ref=e674]:
+          - generic [ref=e677]:
+            - heading "Restaurant & Food Businesses" [level=3] [ref=e682]
+            - generic [ref=e683]: Streamline orders, payments, menu sharing, and more with WhatsApp for faster, easier customer interactions.
+            - link [ref=e688] [cursor=pointer]:
+              - /url: https://www.interakt.shop/whatsapp-business-for-restaurants-food-businesses/
+              - generic [ref=e690]:
+                - text: Learn More
+                - generic [aria-hidden] [ref=e691]: 
+        - group "8 of 13" [ref=e692]:
+          - generic [ref=e695]:
+            - heading "Health & Wellness" [level=3] [ref=e700]
+            - generic [ref=e701]: Improve patient experiences with automated appointment bookings, clinic updates, offers and more using Interakt.
+            - link [ref=e706] [cursor=pointer]:
+              - /url: https://www.interakt.shop/whatsapp-business-for-health-wellness-brands/
+              - generic [ref=e708]:
+                - text: Learn More
+                - generic [aria-hidden] [ref=e709]: 
+        - group "9 of 13" [ref=e710]:
+          - generic [ref=e713]:
+            - heading "Home Decor & Furnishing" [level=3] [ref=e718]
+            - generic [ref=e719]: Boost your home decor and furnishing business through end-to-end commerce using Interakt
+            - link [ref=e724] [cursor=pointer]:
+              - /url: https://www.interakt.shop/whatsapp-business-for-home-decor-and-furnishings/
+              - generic [ref=e726]:
+                - text: Learn More
+                - generic [aria-hidden] [ref=e727]: 
+        - group "10 of 13" [ref=e728]:
+          - generic [ref=e731]:
+            - heading "Marketing Agencies" [level=3] [ref=e736]
+            - generic [ref=e737]: WhatsApp gives marketing agencies an opportunity to help their clients stand out in a noisy digital landscape.
+            - link [ref=e742] [cursor=pointer]:
+              - /url: https://www.interakt.shop/whatsapp-business-for-marketing-agency/
+              - generic [ref=e744]:
+                - text: Learn More
+                - generic [aria-hidden] [ref=e745]: 
+        - group "11 of 13" [ref=e746]:
+          - generic [ref=e749]:
+            - heading "Automotive Industry" [level=3] [ref=e754]
+            - generic [ref=e755]: From promotions to service bookings, WhatsApp business API makes customer communication simple and seamless.
+            - link [ref=e760] [cursor=pointer]:
+              - /url: https://www.interakt.shop/whatsapp-business-for-automotive-industry/
+              - generic [ref=e762]:
+                - text: Learn More
+                - generic [aria-hidden] [ref=e763]: 
+        - group "12 of 13" [ref=e764]:
+          - generic [ref=e767]:
+            - heading "Real Estate" [level=3] [ref=e772]
+            - generic [ref=e773]: Use WhatsApp Business with Interakt to acquire, engage, convert prospects & retain customers effortlessly.
+            - link [ref=e778] [cursor=pointer]:
+              - /url: https://www.interakt.shop/whatsapp-business-for-real-estate/
+              - generic [ref=e780]:
+                - text: Learn More
+                - generic [aria-hidden] [ref=e781]: 
+        - group "13 of 13" [ref=e782]:
+          - generic [ref=e785]:
+            - heading "Freelancer & Consultants" [level=3] [ref=e790]
+            - generic [ref=e791]: See how businesses and freelancers are exploring WhatsApp to create personalized customer journeys.
+            - link [ref=e796] [cursor=pointer]:
+              - /url: https://www.interakt.shop/whatsapp-business-for-freelancer-and-consultant-sales/
+              - generic [ref=e798]:
+                - text: Learn More
+                - generic [aria-hidden] [ref=e799]: 
+    - generic [ref=e806]:
+      - generic [ref=e807]:
+        - generic [ref=e808]: The results speak for themselves, just like our customers
+        - link "View more success stories →" [ref=e813] [cursor=pointer]:
+          - /url: https://www.interakt.shop/case-study/
+        - generic [ref=e817]:
+          - generic [ref=e818] [cursor=pointer]: 
+          - generic [ref=e820] [cursor=pointer]: 
+      - generic [ref=e827]:
+        - generic [ref=e829]:
+          - generic [ref=e831]: Case Study
+          - generic [ref=e833]: Supervek is an alternative lifestyle and everyday carry brand that designs highly functional gear for people constantly on the move.
+          - link "Read More →" [ref=e834] [cursor=pointer]:
+            - /url: https://www.interakt.shop/case-study/supervek/
+        - generic [ref=e836]:
+          - generic [ref=e838]: Case Study
+          - generic [ref=e840]: Interakt has helped us turn customer conversations into repeat sales. From instant support to personalized marketing and customer retention
+          - link "Read More →" [ref=e841] [cursor=pointer]:
+            - /url: https://www.interakt.shop/case-study/drink-delulu/
+        - generic [ref=e843]:
+          - generic [ref=e845]: Case Study
+          - generic [ref=e847]: Hira Holovision is one of India’s leading manufacturers and exporters of holographic security solutions.
+          - link "Read More →" [ref=e848] [cursor=pointer]:
+            - /url: https://www.interakt.shop/case-study/holovision/
+        - generic [ref=e850]:
+          - generic [ref=e852]: Case Study
+          - generic [ref=e854]: Linger Homestays is a collection of carefully curated homestays and farm stays designed for travelers seeking unique,
+          - link "Read More →" [ref=e855] [cursor=pointer]:
+            - /url: https://www.interakt.shop/case-study/linger/
+        - generic [ref=e857]:
+          - generic [ref=e859]: Case Study
+          - generic [ref=e861]: Interakt helped us simplify customer communication while improving engagement and reducing manual effort
+          - link "Read More →" [ref=e862] [cursor=pointer]:
+            - /url: https://www.interakt.shop/case-study/sandhu/
+        - generic [ref=e864]:
+          - generic [ref=e866]: Case Study
+          - generic [ref=e868]: Modern Gifts is a D2C brand focused on curated, meaningful gifting solutions for various occasions.
+          - link "Read More →" [ref=e869] [cursor=pointer]:
+            - /url: https://www.interakt.shop/case-study/modern-gifts/
+        - generic [ref=e871]:
+          - generic [ref=e873]: Case Study
+          - generic [ref=e875]: How Metamind Simplifies Mental Health Consultations and Patient Communication on WhatsApp
+          - link "Read More →" [ref=e876] [cursor=pointer]:
+            - /url: https://www.interakt.shop/case-study/metamind/
+        - generic [ref=e878]:
+          - generic [ref=e880]: Case Study
+          - generic [ref=e882]: Sprinlocks, founded in late 2023, offers stand-up zipper pouches and flexible packaging with a low minimum order quantity (MOQ),
+          - link "Read More →" [ref=e883] [cursor=pointer]:
+            - /url: https://www.interakt.shop/case-study/sprinlock/
+        - generic [ref=e885]:
+          - generic [ref=e887]: Case Study
+          - generic [ref=e889]: MeMeraki is a culture-tech platform dedicated to bringing traditional Indian art to a global audience.
+          - link "Read More →" [ref=e890] [cursor=pointer]:
+            - /url: https://www.interakt.shop/case-study/memeraki/
+        - generic [ref=e892]:
+          - generic [ref=e894]: Case Study
+          - generic [ref=e896]: How Neem Holidays Reduced Customer Support Calls with WhatsApp Automation
+          - link "Read More →" [ref=e897] [cursor=pointer]:
+            - /url: https://www.interakt.shop/case-study/neem-holidays/
+        - generic [ref=e899]:
+          - generic [ref=e901]: Case Study
+          - generic [ref=e903]: Selection Centre Sports (SCS Sports) is one of India’s leading sports and fitness retail chains, with 17 branches across 13–14...
+          - link "Read More →" [ref=e904] [cursor=pointer]:
+            - /url: https://www.interakt.shop/case-study/selection-centre-sports/
+        - generic [ref=e906]:
+          - generic [ref=e908]: Case Study
+          - generic [ref=e910]: "Chakki Peesing is a fresh flour and grains brand built on one simple promise: real grains, freshly milled only after..."
+          - link "Read More →" [ref=e911] [cursor=pointer]:
+            - /url: https://www.interakt.shop/case-study/chakki-peesing/
+        - generic [ref=e913]:
+          - generic [ref=e915]: Case Study
+          - generic [ref=e917]: Navavedam Wellness is an Ayurvedic wellness brand rooted in traditional, natural remedies and formulations.
+          - link "Read More →" [ref=e918] [cursor=pointer]:
+            - /url: https://www.interakt.shop/case-study/navavedam-wellness/
+        - generic [ref=e920]:
+          - generic [ref=e922]: Case Study
+          - generic [ref=e924]: How Kamal Narnoli Jewellers Scaled Dealer Communication & Engagement on WhatsApp with Interakt
+          - link "Read More →" [ref=e925] [cursor=pointer]:
+            - /url: https://www.interakt.shop/case-study/kamal-narnoli-jewellers/
+        - generic [ref=e927]:
+          - generic [ref=e929]: Case Study
+          - generic [ref=e931]: How Ispahani Tea Boosted Conversions to 50% Using Interakt’s WhatsApp Business Platform
+          - link "Read More →" [ref=e932] [cursor=pointer]:
+            - /url: https://www.interakt.shop/case-study/ispahani-tea/
+        - generic [ref=e934]:
+          - generic [ref=e936]: Case Study
+          - generic [ref=e938]: How Rejuvenating Ubtan Boosted Sales Retention by 20% Using Interakt on WhatsApp
+          - link "Read More →" [ref=e939] [cursor=pointer]:
+            - /url: https://www.interakt.shop/case-study/ubtan/
+        - generic [ref=e941]:
+          - generic [ref=e943]: Case Study
+          - generic [ref=e945]: Dealzy is a smart savings platform that helps users save up to 13% instantly on leading brands through discounted gift...
+          - link "Read More →" [ref=e946] [cursor=pointer]:
+            - /url: https://www.interakt.shop/case-study/dealzy/
+        - generic [ref=e948]:
+          - generic [ref=e950]: Case Study
+          - generic [ref=e952]: Monk Magic is India’s first guilt-free desserts chain — reimagining indulgence through ice creams, brownies, cheesecakes, and waffles, all sweetened...
+          - link "Read More →" [ref=e953] [cursor=pointer]:
+            - /url: https://www.interakt.shop/case-study/monk-magic/
+        - generic [ref=e955]:
+          - generic [ref=e957]: Case Study
+          - generic [ref=e959]: How Eatoes Simplifies Customer Communication on WhatsApp for F&B Businesses with Interakt
+          - link "Read More →" [ref=e960] [cursor=pointer]:
+            - /url: https://www.interakt.shop/case-study/eatoes/
+        - generic [ref=e962]:
+          - generic [ref=e964]: Case Study
+          - generic [ref=e966]: How Paushtikk Switch Scaled Subscription Renewals by 30% and Tripled Festive Sales Using Interakt’s WhatsApp Business API
+          - link "Read More →" [ref=e967] [cursor=pointer]:
+            - /url: https://www.interakt.shop/case-study/paushtikk-switch/
+    - generic [ref=e968]:
+      - heading "Turn WhatsApp Conversations into Revenue" [level=1] [ref=e971]
+      - generic [ref=e972]: Marketing. Sales. Support. Automation. AI. Everything you need to grow on WhatsApp, in one powerful suite.
+      - generic [ref=e974]:
+        - link "Start Free Trial" [ref=e978] [cursor=pointer]:
+          - /url: https://www.interakt.shop/signup
+        - link "Book A Demo" [ref=e984] [cursor=pointer]:
+          - /url: https://www.interakt.shop/whatsapp-business-api-live-demo/
+    - generic [ref=e987]:
+      - list [ref=e991]:
+        - listitem [ref=e992]:
+          - generic [ref=e998]: Meta Business Partners
+      - list [ref=e1002]:
+        - listitem [ref=e1003]:
+          - generic [aria-hidden] [ref=e1005]: 
+          - generic [ref=e1006]:
+            - text: Powered by Official
+            - strong [ref=e1007]: WhatsApp Business API
+  - contentinfo [ref=e1008]:
+    - text:    
+    - generic [ref=e1012]:
+      - generic [ref=e1014]:
+        - generic [ref=e1028]:
+          - heading "Interakt" [level=4] [ref=e1031]
+          - navigation "Menu" [ref=e1034]:
+            - list [ref=e1035]:
+              - listitem [ref=e1036]:
+                - link "Get a Live Demo" [ref=e1037] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/whatsapp-business-api-live-demo/
+              - listitem [ref=e1038]:
+                - link "About Us" [ref=e1039] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/about-us/
+              - listitem [ref=e1040]:
+                - link "Contact Us" [ref=e1041] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/contact-us/
+              - listitem [ref=e1042]:
+                - link "Partner with Us" [ref=e1043] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/partner-program/
+              - listitem [ref=e1044]:
+                - link "Privacy Policy" [ref=e1045] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/privacy-policy/
+              - listitem [ref=e1046]:
+                - link "Terms & Conditions" [ref=e1047] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/terms-of-service/
+        - generic [ref=e1049]:
+          - heading "Resources" [level=4] [ref=e1052]
+          - navigation "Menu" [ref=e1055]:
+            - list [ref=e1056]:
+              - listitem [ref=e1057]:
+                - link "Case Studies" [ref=e1058] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/case-study/
+              - listitem [ref=e1059]:
+                - link "Resource Center" [ref=e1060] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/resource-center/
+              - listitem [ref=e1061]:
+                - link "Notifications Library" [ref=e1062] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/whatsapp-notifications-library/
+              - listitem [ref=e1063]:
+                - link "Blogs" [ref=e1064] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/blog/
+              - listitem [ref=e1065]:
+                - link "Interakt Academy" [ref=e1066] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/interakt-academy/
+              - listitem [ref=e1067]:
+                - link "FAQ’s" [ref=e1068] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/faqs/
+        - generic [ref=e1070]:
+          - heading "Why Interakt" [level=4] [ref=e1073]
+          - navigation "Menu" [ref=e1076]:
+            - list [ref=e1077]:
+              - listitem [ref=e1078]:
+                - link "Interakt vs. Aisensy" [ref=e1079] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/blog/top-5-aisensy-alternatives
+              - listitem [ref=e1080]:
+                - link "Interakt vs. Bitespeed" [ref=e1081] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/blog/top-5-bitespeed-alternatives
+              - listitem [ref=e1082]:
+                - link "Interakt vs. Delightchat" [ref=e1083] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/blog/top-5-delightchat-whatsapp-business-solution-alternatives
+              - listitem [ref=e1084]:
+                - link "Interakt vs. Limechat" [ref=e1085] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/blog/top-5-limechat-alternatives
+              - listitem [ref=e1086]:
+                - link "Interakt vs. Businessonbot" [ref=e1087] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/blog/top-5-businessonbot-alternatives
+              - listitem [ref=e1088]:
+                - link "Interakt vs. Wati" [ref=e1089] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/blog/top-wati-alternative/
+              - listitem [ref=e1090]:
+                - link "Interakt vs Qontak" [ref=e1091] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/qontak-alternative/
+      - generic [ref=e1093]:
+        - link [ref=e1099] [cursor=pointer]:
+          - /url: https://apps.apple.com/us/app/interakt/id1573532290
+        - link [ref=e1103] [cursor=pointer]:
+          - /url: https://play.google.com/store/apps/details?id=com.haptik.interakt&pli=1
+        - link [ref=e1110] [cursor=pointer]:
+          - /url: https://apps.shopify.com/interakt-marketing
+      - generic [ref=e1112]:
+        - generic [ref=e1114]:
+          - generic [ref=e1117]:
+            - text: India | Singapore |
+            - link "Indonesia" [ref=e1118] [cursor=pointer]:
+              - /url: https://www.interakt.shop/whatsapp-business-api-pricing-indonesia
+            - text: "|"
+            - link "Brazil" [ref=e1119] [cursor=pointer]:
+              - /url: https://www.interakt.shop/whatsapp-business-api-brazil
+            - text: "|"
+            - link "UAE" [ref=e1120] [cursor=pointer]:
+              - /url: https://www.interakt.shop/whatsapp-business-api-uae
+            - text: "| Philippines | Africa"
+          - generic [ref=e1121]: Copyright© Jio Haptik Technologies Limited 2025. All rights reserved.
+        - list [ref=e1127]:
+          - listitem [ref=e1128]:
+            - link "Whatsapp" [ref=e1129] [cursor=pointer]:
+              - /url: https://whatsapp.com/channel/0029VadO2VwF1YlPFQIzJC2D
+              - generic [aria-hidden] [ref=e1131]: 
+          - listitem [ref=e1132]:
+            - link [ref=e1133] [cursor=pointer]:
+              - /url: https://www.youtube.com/channel/UCpS611FX8bGJ_ytTuUQZ65Q
+          - listitem [ref=e1144]:
+            - link [ref=e1145] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/heyinterakt/
+          - listitem [ref=e1160]:
+            - link [ref=e1161] [cursor=pointer]:
+              - /url: https://www.instagram.com/heyinterakt/?utm_source=website&utm_medium=Footer_website&utm_campaign=Footer_website
+          - listitem [ref=e1176]:
+            - link [ref=e1177] [cursor=pointer]:
+              - /url: https://twitter.com/heyinterakt/?utm_source=website&utm_medium=Footer_website&utm_campaign=Footer_website
+          - listitem [ref=e1188]:
+            - link [ref=e1189] [cursor=pointer]:
+              - /url: https://www.facebook.com/heyinterakt/?utm_source=website&utm_medium=Footer_website&utm_campaign=Footer_website
+    - text:  

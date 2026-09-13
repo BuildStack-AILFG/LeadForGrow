@@ -21,6 +21,7 @@ import {
   TrendingDown,
   Target,
   MessageCircle,
+  X,
 } from 'lucide-react';
 import { authFetch } from '@/lib/apiClient';
 import { useConfirm } from '@/app/components/ConfirmProvider';
@@ -39,6 +40,8 @@ export default function WhatsAppFlowsPage() {
   const [loading, setLoading] = useState(true);
   const [q, setQ] = useState('');
   const [creating, setCreating] = useState(false);
+  const [nameModalOpen, setNameModalOpen] = useState(false);
+  const [newFlowName, setNewFlowName] = useState('');
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -62,17 +65,23 @@ export default function WhatsAppFlowsPage() {
     load();
   }, [load]);
 
-  async function createFlow() {
+  function openCreateModal() {
+    setNewFlowName('');
+    setNameModalOpen(true);
+  }
+
+  async function createFlow(name) {
     setCreating(true);
     try {
       const res = await authFetch('/api/automation/whatsapp-flows', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: 'New WhatsApp Flow', triggerType: 'incoming_message' }),
+        body: JSON.stringify({ name: name?.trim() || 'New WhatsApp Flow', triggerType: 'incoming_message' }),
       });
       const data = await res.json();
       if (!data.success) throw new Error(data.error);
       toast.success('Flow created');
+      setNameModalOpen(false);
       router.push(`/automation/whatsapp-flows/${data.data._id}`);
     } catch (err) {
       toast.error(err.message || 'Create failed');
@@ -178,7 +187,7 @@ export default function WhatsAppFlowsPage() {
             </label>
             <button
               type="button"
-              onClick={createFlow}
+              onClick={openCreateModal}
               disabled={creating}
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-teal-700 text-white text-sm font-semibold shadow-sm hover:shadow-md transition-all hover:scale-[1.02] disabled:opacity-50"
             >
@@ -235,7 +244,7 @@ export default function WhatsAppFlowsPage() {
             </p>
             <button
               type="button"
-              onClick={createFlow}
+              onClick={openCreateModal}
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-teal-700 text-white text-sm font-semibold shadow-sm"
             >
               <Plus className="w-4 h-4" /> Create flow
@@ -347,6 +356,55 @@ export default function WhatsAppFlowsPage() {
           </div>
         )}
       </div>
+
+      {nameModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
+          onClick={() => setNameModalOpen(false)}
+        >
+          <div
+            className="w-full max-w-sm rounded-lg bg-white shadow-2xl p-5"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between mb-1">
+              <h3 className="text-base font-semibold text-slate-900">Create a new Workflow</h3>
+              <button
+                type="button"
+                onClick={() => setNameModalOpen(false)}
+                className="p-1 rounded hover:bg-slate-100 text-slate-400"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <label className="block mt-4 mb-1.5 text-xs font-medium text-slate-500">Workflow name</label>
+            <input
+              autoFocus
+              value={newFlowName}
+              onChange={(e) => setNewFlowName(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && createFlow(newFlowName)}
+              placeholder="e.g., Product Launch Survey"
+              className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#1D4B3E]/20 focus:border-[#1D4B3E]"
+            />
+            <div className="flex items-center gap-2 mt-5">
+              <button
+                type="button"
+                onClick={() => setNameModalOpen(false)}
+                className="flex-1 py-2.5 rounded-lg border border-slate-200 text-sm font-medium text-slate-600 hover:bg-slate-50"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                disabled={creating}
+                onClick={() => createFlow(newFlowName)}
+                className="flex-1 py-2.5 rounded-lg bg-[#1D4B3E] text-white text-sm font-semibold hover:bg-[#173d32] disabled:opacity-50"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

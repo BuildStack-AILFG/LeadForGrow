@@ -1,0 +1,219 @@
+INTERAKT WHATSAPP WORKFLOW BUILDER — UI RESEARCH NOTES
+=======================================================
+Captured: 2026-09-13
+Source: https://www.interakt.shop/resource-center/build-no-code-chatbot/
+  (Interakt's own published how-to guide, containing real in-product
+  screenshots of their WhatsApp workflow/chatbot builder. No logged-in
+  Interakt account was available, so these screenshots — not a live
+  session — are the fidelity source for this redesign.)
+
+Purpose: single source of truth for the /automation/whatsapp-flows
+redesign so implementation can be checked against what was actually
+observed, rather than against memory.
+
+-------------------------------------------------------------------
+1. CREATE-WORKFLOW FLOW (Interakt)
+-------------------------------------------------------------------
+Step 2 — Choose a Template or Start from Scratch:
+  - Category-grouped template gallery (e.g. "Product Feedback" section
+    header) with template cards underneath.
+  - A "+ Create from Scratch" button (dark green solid, rounded ~4-6px,
+    white text, right-aligned in that category's row).
+
+Step 3 — Name Your Workflow (small modal):
+  - Heading: "Create a new Workflow"
+  - Label: "Workflow name"
+  - Bordered text input, placeholder-filled example: "Product Launch Survey"
+  - Two buttons side by side, equal width:
+      "Cancel"  — white bg, gray border, gray text
+      "Confirm" — solid dark green bg, white text
+  - Copy shown alongside: "Enter a unique name (e.g., Product Feedback
+    Flow)" / "Make sure it's not identical to existing Workflows or
+    Custom Autoreplies — this avoids trigger conflicts and ensures only
+    one response is sent per user action."
+
+-------------------------------------------------------------------
+2. TRIGGER CONFIG SCREEN (Interakt)
+-------------------------------------------------------------------
+Panel: "Select the way to trigger automation" with a pill/badge to the
+right reading "Enable AI Intent Match" + "Enable Now" link.
+
+Radio row (3 options, horizontal): ( ) Exact Match  ( ) Contains  ( ) Any
+
+Below: "Enter the keywords that trigger this flow"
+  - Bordered input box, placeholder "Enter Keywords you want to include"
+  - Right-aligned hint: "↵ Press Enter" and a counter "0/100"
+  - Below the input: submitted keywords render as removable chips,
+    e.g. a pill reading "Hey ×"
+
+Nested light-gray panel: "Select where you want to save trigger response"
+  - Sub-label: "Select where you want to save this user response"
+  - "Variable {{1}}" label
+  - Radio: ( ) User Trait  [searchable "Select a trait" dropdown]
+           ( ) Workflow Variable
+  - Top-right of this panel: a green checkmark icon (confirm/lock this
+    step) and a circle-minus icon (remove this step)
+
+"Any" is documented as a catch-all: triggers on any incoming message
+that doesn't match a more specific existing trigger — used as a
+fallback/default workflow.
+
+-------------------------------------------------------------------
+3. CANVAS / WORKFLOW BUILDER TOP TOOLBAR (Interakt)
+-------------------------------------------------------------------
+Left to right:
+  "← Go back to all Workflows"   (plain text link + left arrow, gray)
+  [small workflow-type icon]  "Product launch ..."  (inline-editable
+     name, truncates with ellipsis at a fixed max width)
+  "···"  (kebab / overflow menu trigger, plain icon button)
+  --- right-aligned cluster ---
+  [table/grid icon] "Template gallery"      (ghost/text button)
+  [export icon] "Export Workflow Responses" (ghost/text button)
+  ( ) "Activate Workflow"                   (toggle switch + label)
+  [Save Workflow]                            (solid dark-green button,
+                                               rightmost, highest emphasis)
+
+Canvas-local, top-right corner (separate from the main toolbar, sits
+just above the canvas area): "Switch View" text + a small 4-square grid
+icon button.
+
+-------------------------------------------------------------------
+4. LEFT SIDEBAR — "Actions" PALETTE (Interakt)
+-------------------------------------------------------------------
+Header row: "Actions" (bold, small icon to its left) with a small
+collapse icon top-right of the header.
+
+Flat list, NOT boxed/card items — each row is a small line-icon +
+label, plain hover highlight, no border, no background chip:
+
+  ▾ Messages                         (collapsible group, chevron)
+      Plain Message
+      Message + Buttons
+      Message + Image
+      Message + Video
+      Message + List
+      WA Form Message
+  Set a Condition                    (top-level, same indent as "Messages")
+  Trigger Webhook                    (top-level, same indent as "Messages")
+
+Observed in-context: this screenshot was taken on a flow that already
+has its trigger placed, which is presumably why no "Triggers" group is
+shown here — triggers are a one-per-flow, set-once concept in Interakt
+just like in our own data model (one trigger node per flow).
+
+-------------------------------------------------------------------
+5. NODE CARD ANATOMY (Interakt)
+-------------------------------------------------------------------
+Compact card, roughly 200px wide, white background, thin border,
+subtle drop shadow — NOT a large hero/gradient-banner card.
+
+Header row: node label (e.g. "Send a Message"), small, left-aligned,
+bold-ish weight; "⋮" kebab menu button, right-aligned.
+
+Body: a small centered preview icon/thumbnail (e.g. a tiny mock image
+icon for a message-with-image node), below it italic/muted placeholder
+text, e.g. "A preview of the message will be displayed here" when the
+node's content is still empty.
+
+Selection state: small blue circular handles appear at the card's
+corners/edges when selected (visual selection indicator). Actual
+connector/handle: a small solid teal dot centered on the right edge.
+
+-------------------------------------------------------------------
+6. NODE CONTEXT MENU (Interakt) — kebab "⋮" or right-click
+-------------------------------------------------------------------
+  ✎  Edit
+  ⧉  Duplicate         — "Creates a duplicate of the node."
+  🗑  Delete
+  ⚑  Set start node
+  ●  Card Colour        (color picker)
+
+-------------------------------------------------------------------
+7. NODE CONFIG PANEL (Interakt) — appears when a node is selected
+-------------------------------------------------------------------
+Rendered as a card immediately to the RIGHT of the selected node on
+the canvas (i.e. anchored to the node's screen position), not as a
+static far-edge sidebar. Thin colored (green) left border/accent.
+
+Header: node label (e.g. "Send a Message") + "×" close button
+  (top-right of the panel, plain icon, no "Delete" text link here —
+  delete lives in the kebab menu instead).
+
+Body (for a message-type node):
+  - Rich-text message body textarea
+  - Toolbar row above/below the textarea: "⊕ Add variable" (text link
+    with a small icon), plus icon buttons for emoji, Bold (B), Italic
+    (I), and a chain/link icon
+  - "Add more" — labeled dropdown, default "None"
+  - "Variables" — labeled dropdown
+  - "Add an attachment" — labeled dropdown (e.g. default "video")
+  - Below that: an upload affordance ("WhatsApp has specific rules and
+    guidelines for sending videos" caption + "Upload video" button)
+  - Footer link: "⊕ Save user response"
+  - A floating circular "Help" button, bottom-right of the panel
+
+-------------------------------------------------------------------
+8. CANVAS CHROME (Interakt)
+-------------------------------------------------------------------
+Background: light dot-grid (very close to what our app already has).
+Zoom/view controls: bottom-RIGHT of the canvas — [+] [−] [fit-to-screen]
+[lock]. (Our current implementation has these bottom-LEFT — this is
+one of the concrete "same position" fixes to make.)
+
+-------------------------------------------------------------------
+9. COLOR NOTES
+-------------------------------------------------------------------
+Interakt's own primary/CTA color across these screens is a dark
+forest/teal green (used for Save Workflow, Confirm, Create from
+Scratch). Per the explicit decision made before implementation, THIS
+REDESIGN DOES NOT COPY INTERAKT'S LITERAL HEX VALUES — it reuses this
+app's own already-established brand teal (#1D4B3E), which is visually
+in the same family and is already used everywhere else in this app
+(sidebar, dashboard, inbox, pricing — see CLAUDE.md's prior reskin
+entries). Layout, spacing, typography scale, component structure, and
+element position are copied closely; literal color values are not.
+
+-------------------------------------------------------------------
+10. SCOPE DECISIONS CONFIRMED WITH USER BEFORE IMPLEMENTATION
+-------------------------------------------------------------------
+  1. Colors: use brand teal #1D4B3E, not Interakt's literal hex.
+  2. Create-flow: add the "Create a new Workflow" NAME MODAL only
+     (Section 1, "Step 3" above). The template-category gallery
+     (Section 1, "Step 2") is explicitly OUT of scope this pass.
+  3. Node menu extras: DO add "Set start node" and "Card Colour"
+     (Section 6) as real, working features — not skipped.
+
+-------------------------------------------------------------------
+11. MAPPING TABLE — Interakt element → our file/component
+-------------------------------------------------------------------
+Top toolbar                    → app/automation/whatsapp-flows/components/FlowBuilder.jsx (header)
+Left "Actions" palette          → app/automation/whatsapp-flows/components/NodePalette.jsx
+Node card                       → app/automation/whatsapp-flows/components/FlowNodeCard.jsx
+Node context menu               → app/automation/whatsapp-flows/components/NodeContextMenu.jsx (new)
+Node config panel                → app/automation/whatsapp-flows/components/NodeEditor.jsx
+Trigger config (keywords/save)   → NodeEditor.jsx (trigger-type branch)
+Create-workflow name modal       → app/automation/whatsapp-flows/page.js
+Template gallery (toolbar)       → app/automation/whatsapp-flows/components/TemplateGalleryModal.jsx (new)
+Export Workflow Responses        → app/api/automation/whatsapp-flows/[id]/executions/export/route.js (new)
+Node defaults / accent colors    → lib/whatsappFlows/constants.js
+Zoom controls position            → FlowBuilder.jsx — React Flow <Controls position="bottom-right">
+Switch View (minimap toggle)      → FlowBuilder.jsx
+
+-------------------------------------------------------------------
+12. CURRENT STATE OF OUR APP (for diff reference, captured live)
+-------------------------------------------------------------------
+List page (localhost:3000/automation/whatsapp-flows): title "WhatsApp
+Flows", subtitle, 4 stat cards (Total executions / Active flows /
+Completed / Drop-off %), search bar, flow-card grid (name, DRAFT/status
+badge, trigger type, runs/completed/version, Open/duplicate/export/
+delete icon row), Node analytics table below. Not redesigned this pass
+except the New Flow button's behavior.
+
+Editor (localhost:3000/automation/whatsapp-flows/<id>): top toolbar
+already has Back / name / status pill / Auto layout / Versions / Test
+/ Save / Publish. Left "NODE LIBRARY" panel groups Triggers/Actions
+with icon rows in a boxed list style. Canvas node is a large card with
+a diagonal teal→purple gradient top banner, big icon badge, "TRIGGER"
+label + title, teal circular handle. Right "NODE SETTINGS" panel is a
+static fixed-width sidebar with a "Delete" text link, Node Name input,
+and an "Insert Variable" chip grid. Zoom controls bottom-left.

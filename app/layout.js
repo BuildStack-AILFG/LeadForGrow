@@ -6,7 +6,11 @@ import { Toaster } from "react-hot-toast";
 
 // FIXED: Clean metadata without conflicts
 export const metadata = {
-  title: "LeadForGrow - All-in-One Agency Operating System",
+  metadataBase: new URL("https://www.leadforgrow.com"),
+  title: {
+    template: "%s | LeadForGrow",
+    default: "LeadForGrow - All-in-One Agency Operating System",
+  },
   description: "Run your agency on one powerful platform. Build no-code pages, manage clients, capture leads, track analytics, and scale faster with a complete agency operating system",
   icons: {
     icon: [

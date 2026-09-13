@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useLayoutEffect, useRef } from 'react';
-import { Mail } from 'lucide-react';
+import { Mail, Sparkles, CheckCircle2 } from 'lucide-react';
 
 function WhatsAppLogo({ className = 'h-6 w-6' }) {
   return (
@@ -118,7 +118,7 @@ function PhoneMockup({ theme, headerLabel, children }) {
   );
 }
 
-function ChannelColumn({ channel, accent, icon: Icon, title, subtitle, iconClass, iconSize = 'h-[18px] w-[18px]', iconStrokeWidth, children }) {
+function ChannelColumn({ channel, accent, icon: Icon, title, subtitle, iconClass, iconSize = 'h-[18px] w-[18px]', iconStrokeWidth, compact = false, children }) {
   const accentBars = {
     email: 'bg-[#2563EB]',
     whatsapp: 'bg-[#059669]',
@@ -128,7 +128,9 @@ function ChannelColumn({ channel, accent, icon: Icon, title, subtitle, iconClass
   return (
     <div
       data-channel={channel}
-      className="relative flex min-h-[480px] w-full flex-col border border-[#E2E8F0] bg-white p-4 shadow-[0_1px_3px_rgba(15,23,42,0.06),0_8px_24px_rgba(15,23,42,0.04)] sm:min-h-[500px] sm:p-5"
+      className={`relative flex w-full flex-col border border-[#E2E8F0] bg-white p-4 shadow-[0_1px_3px_rgba(15,23,42,0.06),0_8px_24px_rgba(15,23,42,0.04)] sm:p-5 ${
+        compact ? 'min-h-[340px]' : 'min-h-[480px] sm:min-h-[500px]'
+      }`}
     >
       <div className={`absolute inset-x-0 top-0 h-[3px] ${accentBars[accent]}`} />
       <div className="mb-4 flex items-center gap-3 pt-1">
@@ -168,6 +170,38 @@ function InboxRow({ sender, subject, time, unread, highlight, className = '' }) 
   );
 }
 
+// LeadForGrow's own graphic — neither Interakt nor ManyChat market Email as a channel,
+// so there's no real screenshot to source for this column. Matches the visual language
+// (white card, colored accent, AI-analysing step) of the real WhatsApp/Instagram assets
+// next to it so the row reads as one consistent set, not a mismatched filler.
+function EmailAutomationGraphic() {
+  return (
+    <div className="flex w-full max-w-[320px] flex-col gap-3">
+      <div className="rounded-xl border border-[#E2E8F0] bg-white p-3 shadow-sm">
+        <div className="flex items-center gap-1.5 text-[11px] font-semibold text-[#94A3B8]">
+          <Mail className="h-3.5 w-3.5 text-blue-500" /> Customer Email · Received
+        </div>
+        <p className="mt-1.5 text-[13px] leading-snug text-[#111827]">
+          &ldquo;Hi, do you offer a refund if the product doesn&rsquo;t fit?&rdquo;
+        </p>
+      </div>
+
+      <div className="ml-4 flex items-center gap-1.5 rounded-xl bg-[#EFF6FF] px-3 py-2 text-[11px] font-semibold text-blue-700">
+        <Sparkles className="h-3.5 w-3.5" /> AI drafting reply…
+      </div>
+
+      <div className="rounded-xl border border-emerald-100 bg-emerald-50 p-3 shadow-sm">
+        <div className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700">
+          <CheckCircle2 className="h-3.5 w-3.5" /> Auto-Reply Sent
+        </div>
+        <p className="mt-1.5 text-[13px] leading-snug text-[#111827]">
+          &ldquo;Yes! Free returns within 30 days — here&rsquo;s your prepaid label 📎&rdquo;
+        </p>
+      </div>
+    </div>
+  );
+}
+
 function EmptyPhoneState({ theme }) {
   const labels = { email: 'Inbox empty', whatsapp: 'No messages yet', instagram: 'No DMs yet' };
   return (
@@ -179,6 +213,11 @@ function EmptyPhoneState({ theme }) {
   );
 }
 
+// The live scroll-jacked phone-mockup demo below is kept in place but not rendered —
+// flip this back to true to restore it. Swapped for a static omnichannel screenshot per
+// explicit request (2026-09-13).
+const SHOW_LIVE_ANIMATION = false;
+
 export default function AutomationInActionSection() {
   const wrapperRef = useRef(null);
   const pinRef = useRef(null);
@@ -186,6 +225,7 @@ export default function AutomationInActionSection() {
   const ctxRef = useRef(null);
 
   useEffect(() => {
+    if (!SHOW_LIVE_ANIMATION) return;
     const stage = stageRef.current;
     if (!stage) return;
 
@@ -217,6 +257,7 @@ export default function AutomationInActionSection() {
   }, []);
 
   useLayoutEffect(() => {
+    if (!SHOW_LIVE_ANIMATION) return;
     let cancelled = false;
 
     async function init() {
@@ -369,8 +410,15 @@ export default function AutomationInActionSection() {
 
   return (
     <section ref={wrapperRef} className="automation-scroll-wrapper relative -mt-1 w-full bg-[#F8FAFC] sm:-mt-2">
-      <div ref={pinRef} className="relative flex min-h-screen w-full flex-col justify-center pb-12 pt-6 sm:pb-16 sm:pt-8">
-        <div className="mx-auto mb-4 w-full max-w-3xl px-4 text-center sm:mb-5 sm:px-6">
+      <div
+        ref={pinRef}
+        className={
+          SHOW_LIVE_ANIMATION
+            ? 'relative flex min-h-screen w-full flex-col justify-center pb-12 pt-6 sm:pb-16 sm:pt-8'
+            : 'relative w-full py-12 sm:py-16'
+        }
+      >
+        <div className="mx-auto mb-8 w-full max-w-3xl px-4 text-center sm:px-6">
           <h2
             className="text-3xl font-extrabold tracking-[-0.03em] text-[#111827] sm:text-4xl"
             style={{ fontFamily: 'var(--font-plus-jakarta)' }}
@@ -382,6 +430,59 @@ export default function AutomationInActionSection() {
           </p>
         </div>
 
+        {!SHOW_LIVE_ANIMATION && (
+          <div className="relative z-10 mx-auto grid w-full max-w-[1400px] grid-cols-1 gap-4 px-4 sm:px-6 md:grid-cols-3 md:gap-5 lg:px-8">
+            <ChannelColumn
+              channel="email"
+              accent="email"
+              icon={Mail}
+              title="Email"
+              subtitle="Inbox · Auto-reply"
+              iconClass="border border-blue-100 bg-blue-50 text-blue-600"
+              iconStrokeWidth={1.75}
+              compact
+            >
+              <EmailAutomationGraphic />
+            </ChannelColumn>
+
+            <ChannelColumn
+              channel="whatsapp"
+              accent="whatsapp"
+              icon={WhatsAppLogo}
+              title="WhatsApp"
+              subtitle="Business chat · Auto-reply"
+              iconClass="bg-transparent"
+              iconSize="h-10 w-10"
+              compact
+            >
+              <img
+                src="/images/interakt-clone/whatsapp-intent-matching.webp"
+                alt="WhatsApp AI detecting customer intent and triggering an automated reply"
+                className="max-h-[300px] w-full object-contain"
+                loading="lazy"
+              />
+            </ChannelColumn>
+
+            <ChannelColumn
+              channel="instagram"
+              accent="instagram"
+              icon={InstagramIcon}
+              title="Instagram DM"
+              subtitle="Direct messages · Auto-reply"
+              iconClass="border border-pink-100 bg-gradient-to-br from-pink-50 via-purple-50 to-orange-50 text-pink-600"
+              compact
+            >
+              <img
+                src="/images/interakt-clone/instagram-dm-automation-large.webp"
+                alt="Instagram DM automatically replying to a comment with a reward"
+                className="max-h-[300px] w-full object-contain"
+                loading="lazy"
+              />
+            </ChannelColumn>
+          </div>
+        )}
+
+        {SHOW_LIVE_ANIMATION && (
         <div ref={stageRef} className="relative w-full">
           <div className="mb-5 flex justify-center px-4 sm:mb-6 sm:px-6">
             <div className="relative flex h-11 min-w-[300px] max-w-full items-center justify-center border-2 border-black bg-white px-5 sm:h-12 sm:min-w-[400px] sm:px-8">
@@ -570,10 +671,13 @@ export default function AutomationInActionSection() {
             ))}
           </div>
         </div>
+        )}
 
-        <p className="mt-6 px-4 text-center text-xs text-[#94A3B8] sm:px-6">
-          Scroll to control the automation timeline
-        </p>
+        {SHOW_LIVE_ANIMATION && (
+          <p className="mt-6 px-4 text-center text-xs text-[#94A3B8] sm:px-6">
+            Scroll to control the automation timeline
+          </p>
+        )}
       </div>
     </section>
   );

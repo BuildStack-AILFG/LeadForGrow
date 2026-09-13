@@ -45,7 +45,7 @@ export default function TemplateEditorDrawer({ open, template, onClose, onSave, 
             </h2>
             <p className="text-xs text-slate-500">{isReadOnly ? 'Meta templates are read-only' : 'Customize your message'}</p>
           </div>
-          <button type="button" onClick={onClose} className="p-2 text-slate-400 hover:text-slate-600 rounded-lg">
+          <button type="button" onClick={onClose} className="p-2 text-slate-400 hover:text-slate-600 rounded">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -74,13 +74,12 @@ export default function TemplateEditorDrawer({ open, template, onClose, onSave, 
                       key={ch.id}
                       type="button"
                       onClick={() => update({ channel: ch.id })}
-                      className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs font-medium rounded-xl transition-all ${
-                        active
-                          ? ch.color === 'emerald' ? 'bg-emerald-600 text-white' : 'bg-teal-600 text-white'
-                          : 'bg-slate-100 dark:bg-slate-800 text-slate-600'
+                      className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs font-medium rounded transition-all ${
+                        active ? 'text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600'
                       }`}
+                      style={active ? { backgroundColor: ch.color } : undefined}
                     >
-                      <Icon className="w-3.5 h-3.5" /> {ch.label}
+                      <Icon size={14} style={!active ? { color: ch.color } : undefined} /> {ch.label}
                     </button>
                   );
                 })}
@@ -106,13 +105,13 @@ export default function TemplateEditorDrawer({ open, template, onClose, onSave, 
               <button
                 type="button"
                 onClick={() => setShowPreview(!showPreview)}
-                className="inline-flex items-center gap-1 text-xs text-teal-600 font-medium"
+                className="inline-flex items-center gap-1 text-xs text-[#1D4B3E] font-medium"
               >
                 <Eye className="w-3.5 h-3.5" /> {showPreview ? 'Edit' : 'Preview'}
               </button>
             </div>
             {showPreview ? (
-              <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl text-sm text-slate-700 dark:text-slate-300 whitespace-pre-wrap leading-relaxed min-h-[160px]">
+              <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded text-sm text-slate-700 dark:text-slate-300 whitespace-pre-wrap leading-relaxed min-h-[160px]">
                 {applyPreview(draft.body)}
               </div>
             ) : (
@@ -131,11 +130,11 @@ export default function TemplateEditorDrawer({ open, template, onClose, onSave, 
         </div>
 
         <div className="px-6 py-4 border-t border-slate-100 dark:border-slate-800 flex gap-2">
-          <button type="button" onClick={onClose} className="flex-1 py-2.5 text-sm font-medium text-slate-600 bg-slate-100 dark:bg-slate-800 rounded-xl">
+          <button type="button" onClick={onClose} className="flex-1 py-2.5 text-sm font-medium text-slate-600 bg-slate-100 dark:bg-slate-800 rounded">
             Cancel
           </button>
           {!isReadOnly && (
-            <button type="button" onClick={handleSave} className="flex-1 py-2.5 text-sm font-semibold text-white bg-teal-600 hover:bg-teal-700 rounded-xl">
+            <button type="button" onClick={handleSave} className="flex-1 py-2.5 text-sm font-semibold text-white bg-[#1D4B3E] hover:bg-[#163c32] rounded">
               Done
             </button>
           )}
@@ -145,4 +144,4 @@ export default function TemplateEditorDrawer({ open, template, onClose, onSave, 
   );
 }
 
-const inputClass = 'w-full px-4 py-2.5 text-sm bg-slate-50 dark:bg-slate-800/80 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/25 disabled:opacity-60';
+const inputClass = 'w-full px-4 py-2.5 text-sm bg-slate-50 dark:bg-slate-800/80 border-0 rounded focus:outline-none focus:ring-2 focus:ring-[#1D4B3E]/25 disabled:opacity-60';

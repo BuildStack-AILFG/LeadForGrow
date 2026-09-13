@@ -49,6 +49,8 @@ const WhatsAppFlowSchema = new mongoose.Schema({
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   webhookSecret: { type: String, sparse: true },
+  /** Optional node to start Test-mode simulations from, instead of the trigger node */
+  testStartNodeKey: { type: String, default: null },
   analytics: {
     totalExecutions: { type: Number, default: 0 },
     completed: { type: Number, default: 0 },

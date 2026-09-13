@@ -1,4 +1,5 @@
-import { LayoutTemplate, Sparkles, Clock, Mail, MessageCircle } from 'lucide-react';
+import { LayoutTemplate, Handshake, Clock } from 'lucide-react';
+import { WhatsAppIcon, GmailIcon } from '../chat/BrandIcons';
 
 export const PLACEHOLDERS = [
   { label: 'Lead name', value: '{{lead.name}}' },
@@ -10,13 +11,13 @@ export const PLACEHOLDERS = [
 
 export const TABS = [
   { id: 'library', label: 'Library', icon: LayoutTemplate, desc: 'Quick-reply templates for your team' },
-  { id: 'welcome', label: 'Welcome', icon: Sparkles, desc: 'Auto-sent when a new lead arrives' },
+  { id: 'welcome', label: 'Welcome', icon: Handshake, desc: 'Auto-sent when a new lead arrives' },
   { id: 'followup', label: 'Follow-up', icon: Clock, desc: 'Timed check-in if no response' },
 ];
 
 export const CHANNELS = [
-  { id: 'whatsapp', label: 'WhatsApp', icon: MessageCircle, color: 'emerald' },
-  { id: 'email', label: 'Email', icon: Mail, color: 'blue' },
+  { id: 'whatsapp', label: 'WhatsApp', icon: WhatsAppIcon, color: '#25D366' },
+  { id: 'email', label: 'Email', icon: GmailIcon, color: '#1D4B3E' },
 ];
 
 export const DEFAULT_WELCOME = {

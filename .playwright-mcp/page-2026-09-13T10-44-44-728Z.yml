@@ -1,0 +1,201 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - generic [ref=e8]: Running your business alone?
+        - img "AI team" [ref=e10]
+      - generic [ref=e11]: Meet your AI Business Team.
+      - link "Try SOLO" [ref=e12] [cursor=pointer]:
+        - /url: https://www.interakt.shop/solo/
+    - generic [ref=e15]:
+      - link [ref=e19] [cursor=pointer]:
+        - /url: https://www.interakt.shop/
+      - navigation "Menu" [ref=e23]:
+        - text:  
+        - generic "Menu Toggle" [ref=e24]:
+          - list [ref=e25]:
+            - listitem [ref=e26]:
+              - generic [ref=e27]:
+                - generic [ref=e28]: Products
+                - button "Open Products" [ref=e30]:
+                  - text: 
+                  - generic [ref=e31]:
+                    - generic [aria-hidden] [ref=e32]: 
+                    - generic [ref=e33]: Open Products
+            - listitem [ref=e34]:
+              - generic [ref=e35]:
+                - generic [ref=e36]: Solutions
+                - button "Open Solutions" [ref=e38]:
+                  - text: 
+                  - generic [ref=e39]:
+                    - generic [aria-hidden] [ref=e40]: 
+                    - generic [ref=e41]: Open Solutions
+            - listitem [ref=e42]:
+              - link "Integrations" [ref=e44] [cursor=pointer]:
+                - /url: https://www.interakt.shop/integrations/
+            - listitem [ref=e46]:
+              - link "Pricing" [ref=e48] [cursor=pointer]:
+                - /url: https://www.interakt.shop/pricing/
+            - listitem [ref=e50]:
+              - link "Partnerships" [ref=e52] [cursor=pointer]:
+                - /url: https://www.interakt.shop/partner-program/
+            - listitem [ref=e54]:
+              - generic [ref=e55]:
+                - generic [ref=e56]: Resources
+                - button "Open Resources" [ref=e58]:
+                  - text: 
+                  - generic [ref=e59]:
+                    - generic [aria-hidden] [ref=e60]: 
+                    - generic [ref=e61]: Open Resources
+      - link "Demo" [ref=e65] [cursor=pointer]:
+        - /url: https://www.interakt.shop/whatsapp-business-api-live-demo/
+      - link "Login" [ref=e68] [cursor=pointer]:
+        - /url: https://app.interakt.ai/login?_gl=1*zop15q*_gcl_au*MTg5NzU2MDcyMi4xNzAyODc1NTA3&_ga=2.184796513.97017958.1704554353-699056367.1663883724
+      - link "Start Free Trial" [ref=e72] [cursor=pointer]:
+        - /url: https://www.interakt.shop/marketing-automation/signup/
+      - generic [ref=e82] [cursor=pointer]:
+        - img "en" [ref=e83]
+        - text: en
+    - text:        
+  - generic [ref=e87]:
+    - generic [ref=e95]:
+      - heading "404" [level=1] [ref=e98]
+      - paragraph [ref=e101]: PAGE NOT FOUND
+      - paragraph [ref=e104]: Oops! The page you’re looking for does not exist
+    - generic [ref=e106]:
+      - link "Go Back Home" [ref=e112] [cursor=pointer]:
+        - /url: https://www.interakt.shop/
+      - link "Contact Support" [ref=e120] [cursor=pointer]:
+        - /url: mailto:support@interakt.ai
+  - contentinfo [ref=e123]:
+    - generic [ref=e127]:
+      - heading "Get Started with Interakt Today" [level=2] [ref=e130]
+      - list [ref=e133]:
+        - listitem [ref=e134]:
+          - generic [aria-hidden] [ref=e136]: 
+          - generic [ref=e137]: Engage & Re-engage Prospects
+        - listitem [ref=e138]:
+          - generic [aria-hidden] [ref=e140]: 
+          - generic [ref=e141]: Drive Sales
+        - listitem [ref=e142]:
+          - generic [aria-hidden] [ref=e144]: 
+          - generic [ref=e145]: Deliver higher CSAT
+        - listitem [ref=e146]:
+          - generic [aria-hidden] [ref=e148]: 
+          - generic [ref=e149]: Support at Scale
+      - link "Try Interakt for Free" [ref=e153] [cursor=pointer]:
+        - /url: https://www.interakt.shop/whatsapp-business-api-live-demo
+    - generic [ref=e159]:
+      - generic [ref=e161]:
+        - generic [ref=e175]:
+          - heading "Interakt" [level=4] [ref=e178]
+          - navigation "Menu" [ref=e181]:
+            - list [ref=e182]:
+              - listitem [ref=e183]:
+                - link "Get a Live Demo" [ref=e184] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/whatsapp-business-api-live-demo/
+              - listitem [ref=e185]:
+                - link "About Us" [ref=e186] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/about-us/
+              - listitem [ref=e187]:
+                - link "Contact Us" [ref=e188] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/contact-us/
+              - listitem [ref=e189]:
+                - link "Partner with Us" [ref=e190] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/partner-program/
+              - listitem [ref=e191]:
+                - link "Privacy Policy" [ref=e192] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/privacy-policy/
+              - listitem [ref=e193]:
+                - link "Terms & Conditions" [ref=e194] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/terms-of-service/
+        - generic [ref=e196]:
+          - heading "Resources" [level=4] [ref=e199]
+          - navigation "Menu" [ref=e202]:
+            - list [ref=e203]:
+              - listitem [ref=e204]:
+                - link "Case Studies" [ref=e205] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/case-study/
+              - listitem [ref=e206]:
+                - link "Resource Center" [ref=e207] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/resource-center/
+              - listitem [ref=e208]:
+                - link "Notifications Library" [ref=e209] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/whatsapp-notifications-library/
+              - listitem [ref=e210]:
+                - link "Blogs" [ref=e211] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/blog/
+              - listitem [ref=e212]:
+                - link "Interakt Academy" [ref=e213] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/interakt-academy/
+              - listitem [ref=e214]:
+                - link "FAQ’s" [ref=e215] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/faqs/
+        - generic [ref=e217]:
+          - heading "Why Interakt" [level=4] [ref=e220]
+          - navigation "Menu" [ref=e223]:
+            - list [ref=e224]:
+              - listitem [ref=e225]:
+                - link "Interakt vs. Aisensy" [ref=e226] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/blog/top-5-aisensy-alternatives
+              - listitem [ref=e227]:
+                - link "Interakt vs. Bitespeed" [ref=e228] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/blog/top-5-bitespeed-alternatives
+              - listitem [ref=e229]:
+                - link "Interakt vs. Delightchat" [ref=e230] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/blog/top-5-delightchat-whatsapp-business-solution-alternatives
+              - listitem [ref=e231]:
+                - link "Interakt vs. Limechat" [ref=e232] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/blog/top-5-limechat-alternatives
+              - listitem [ref=e233]:
+                - link "Interakt vs. Businessonbot" [ref=e234] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/blog/top-5-businessonbot-alternatives
+              - listitem [ref=e235]:
+                - link "Interakt vs. Wati" [ref=e236] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/blog/top-wati-alternative/
+              - listitem [ref=e237]:
+                - link "Interakt vs Qontak" [ref=e238] [cursor=pointer]:
+                  - /url: https://www.interakt.shop/qontak-alternative/
+      - generic [ref=e240]:
+        - link [ref=e246] [cursor=pointer]:
+          - /url: https://apps.apple.com/us/app/interakt/id1573532290
+        - link [ref=e250] [cursor=pointer]:
+          - /url: https://play.google.com/store/apps/details?id=com.haptik.interakt&pli=1
+        - link [ref=e257] [cursor=pointer]:
+          - /url: https://apps.shopify.com/interakt-marketing
+      - generic [ref=e259]:
+        - generic [ref=e261]:
+          - generic [ref=e264]:
+            - text: India | Singapore |
+            - link "Indonesia" [ref=e265] [cursor=pointer]:
+              - /url: https://www.interakt.shop/whatsapp-business-api-pricing-indonesia
+            - text: "|"
+            - link "Brazil" [ref=e266] [cursor=pointer]:
+              - /url: https://www.interakt.shop/whatsapp-business-api-brazil
+            - text: "|"
+            - link "UAE" [ref=e267] [cursor=pointer]:
+              - /url: https://www.interakt.shop/whatsapp-business-api-uae
+            - text: "| Philippines | Africa"
+          - generic [ref=e268]: Copyright© Jio Haptik Technologies Limited 2025. All rights reserved.
+        - list [ref=e274]:
+          - listitem [ref=e275]:
+            - link "Whatsapp" [ref=e276] [cursor=pointer]:
+              - /url: https://whatsapp.com/channel/0029VadO2VwF1YlPFQIzJC2D
+              - generic [aria-hidden] [ref=e278]: 
+          - listitem [ref=e279]:
+            - link [ref=e280] [cursor=pointer]:
+              - /url: https://www.youtube.com/channel/UCpS611FX8bGJ_ytTuUQZ65Q
+          - listitem [ref=e291]:
+            - link [ref=e292] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/heyinterakt/
+          - listitem [ref=e307]:
+            - link [ref=e308] [cursor=pointer]:
+              - /url: https://www.instagram.com/heyinterakt/?utm_source=website&utm_medium=Footer_website&utm_campaign=Footer_website
+          - listitem [ref=e323]:
+            - link [ref=e324] [cursor=pointer]:
+              - /url: https://twitter.com/heyinterakt/?utm_source=website&utm_medium=Footer_website&utm_campaign=Footer_website
+          - listitem [ref=e335]:
+            - link [ref=e336] [cursor=pointer]:
+              - /url: https://www.facebook.com/heyinterakt/?utm_source=website&utm_medium=Footer_website&utm_campaign=Footer_website
+    - text:  
+  - generic [ref=e347]: desktop

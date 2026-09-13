@@ -1,69 +1,100 @@
 'use client';
 
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { Handle, Position } from '@xyflow/react';
-import { Zap, MessageCircle, Split, Sparkles } from 'lucide-react';
-import { getNodeMeta } from '@/lib/whatsappFlows/constants';
+import { Zap, MessageCircle, Split, Sparkles, MoreVertical, Flag } from 'lucide-react';
+import { getNodeMeta, CATEGORY_ACCENT } from '@/lib/whatsappFlows/constants';
+import { useFlowActions } from './FlowActionsContext';
+import NodeContextMenu from './NodeContextMenu';
 
-const CATEGORY_STYLE = {
-  trigger: {
-    bar: 'from-teal-500 to-indigo-600',
-    iconBg: 'from-teal-500 to-indigo-600',
-    Icon: Zap,
-  },
-  action: {
-    bar: 'from-emerald-500 to-teal-600',
-    iconBg: 'from-emerald-500 to-teal-600',
-    Icon: MessageCircle,
-  },
-  logic: {
-    bar: 'from-amber-500 to-orange-500',
-    iconBg: 'from-amber-500 to-orange-500',
-    Icon: Split,
-  },
+const CATEGORY_ICON = {
+  trigger: Zap,
+  action: MessageCircle,
+  logic: Split,
 };
 
-function FlowNodeCard({ data, selected, type }) {
+function previewText(type, data) {
+  if (data?.text) return data.text;
+  if (data?.body) return data.body;
+  if (data?.templateName) return data.templateName;
+  if (data?.mediaUrl) return data.mediaUrl;
+  if (type === 'action_delay') return `Wait ${data?.delaySeconds || 60}s`;
+  if (type === 'trigger_keyword') return (data?.keywords || []).join(', ');
+  return null;
+}
+
+function FlowNodeCard({ id, data, selected, type }) {
   const meta = getNodeMeta(type);
   const cat = meta.category || data?.category || 'action';
-  const style = CATEGORY_STYLE[cat] || CATEGORY_STYLE.action;
-  const Icon = style.Icon || Sparkles;
+  const Icon = CATEGORY_ICON[cat] || Sparkles;
+  const accent = data?.cardColor || CATEGORY_ACCENT[cat] || CATEGORY_ACCENT.action;
+  const [menuOpen, setMenuOpen] = useState(false);
+  const actions = useFlowActions();
+  const isStartNode = actions.startNodeKey === id;
+  const preview = previewText(type, data);
 
   return (
     <div
-      className={`min-w-[200px] max-w-[250px] rounded-2xl bg-white/95 shadow-lg border border-slate-200/80 overflow-hidden transition-shadow ${
-        selected
-          ? 'ring-2 ring-teal-500 ring-offset-2 ring-offset-[#eef1f8] shadow-teal-500/20'
-          : 'hover:shadow-xl'
+      className={`relative min-w-[190px] max-w-[220px] rounded-lg bg-white border overflow-visible transition-shadow ${
+        selected ? 'border-[#1D4B3E] shadow-[0_0_0_2px_rgba(29,75,62,0.25)]' : 'border-slate-200 shadow-sm hover:shadow-md'
       }`}
     >
-      <div className={`h-1.5 bg-gradient-to-r ${style.bar}`} />
+      <div className="h-[3px] rounded-t-lg" style={{ backgroundColor: accent }} />
 
       {!String(type).startsWith('trigger_') && (
         <Handle
           type="target"
           position={Position.Left}
-          className="!w-3 !h-3 !bg-white !border-2 !border-slate-400 !-left-1.5"
+          className="!w-2.5 !h-2.5 !bg-white !border-2 !border-slate-400 !-left-1"
         />
       )}
 
-      <div className="px-3 py-3 flex items-start gap-2.5">
-        <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${style.iconBg} flex items-center justify-center shadow-sm shrink-0`}>
-          <Icon className="w-4 h-4 text-white" />
-        </div>
-        <div className="min-w-0 flex-1">
-          <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-0.5">
-            {cat}
-          </div>
-          <div className="text-sm font-semibold text-slate-900 leading-snug truncate">
+      <div className="px-2.5 py-2 flex items-center justify-between gap-1.5 border-b border-slate-100">
+        <div className="flex items-center gap-1.5 min-w-0">
+          {isStartNode && <Flag className="w-3 h-3 shrink-0" style={{ color: accent, fill: accent }} />}
+          <span className="text-[12.5px] font-semibold text-slate-800 truncate">
             {data?.label || meta.label}
-          </div>
-          {(data?.text || data?.body || data?.templateName) && (
-            <p className="text-[11px] text-slate-500 mt-1 line-clamp-2">
-              {data.text || data.body || data.templateName}
-            </p>
-          )}
+          </span>
         </div>
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            setMenuOpen((v) => !v);
+          }}
+          className="shrink-0 p-0.5 rounded hover:bg-slate-100 text-slate-400 hover:text-slate-600 nodrag"
+        >
+          <MoreVertical className="w-3.5 h-3.5" />
+        </button>
+
+        {menuOpen && (
+          <NodeContextMenu
+            isStartNode={isStartNode}
+            cardColor={data?.cardColor}
+            onEdit={() => actions.onEdit(id)}
+            onDuplicate={() => actions.onDuplicate(id)}
+            onDelete={() => actions.onDelete(id)}
+            onSetStartNode={() => actions.onSetStartNode(id)}
+            onSetCardColor={(color) => actions.onSetCardColor(id, color)}
+            onClose={() => setMenuOpen(false)}
+          />
+        )}
+      </div>
+
+      <div className="px-2.5 py-3 flex flex-col items-center text-center gap-1.5">
+        <div
+          className="w-7 h-7 rounded-md flex items-center justify-center shrink-0"
+          style={{ backgroundColor: `${accent}1a` }}
+        >
+          <Icon className="w-3.5 h-3.5" style={{ color: accent }} />
+        </div>
+        {preview ? (
+          <p className="text-[11px] text-slate-600 line-clamp-2 leading-snug">{preview}</p>
+        ) : (
+          <p className="text-[10.5px] text-slate-400 italic leading-snug">
+            A preview of the message will be displayed here
+          </p>
+        )}
       </div>
 
       {type === 'logic_if_else' ? (
@@ -73,14 +104,14 @@ function FlowNodeCard({ data, selected, type }) {
             position={Position.Right}
             id="true"
             style={{ top: '38%' }}
-            className="!w-3 !h-3 !bg-emerald-500 !border-2 !border-white !-right-1.5"
+            className="!w-2.5 !h-2.5 !bg-emerald-500 !border-2 !border-white !-right-1"
           />
           <Handle
             type="source"
             position={Position.Right}
             id="false"
             style={{ top: '68%' }}
-            className="!w-3 !h-3 !bg-rose-500 !border-2 !border-white !-right-1.5"
+            className="!w-2.5 !h-2.5 !bg-rose-500 !border-2 !border-white !-right-1"
           />
         </>
       ) : type === 'action_end' ? null : (
@@ -88,7 +119,8 @@ function FlowNodeCard({ data, selected, type }) {
           type="source"
           position={Position.Right}
           id="default"
-          className="!w-3 !h-3 !bg-teal-500 !border-2 !border-white !-right-1.5"
+          className="!w-2.5 !h-2.5 !border-2 !border-white !-right-1"
+          style={{ backgroundColor: accent }}
         />
       )}
     </div>

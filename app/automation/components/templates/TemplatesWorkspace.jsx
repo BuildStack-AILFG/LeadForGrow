@@ -20,7 +20,7 @@ export default function TemplatesWorkspace() {
   }
 
   return (
-    <div className="min-h-full bg-[#f4f6fa] dark:bg-slate-950">
+    <div className="min-h-full bg-[#F8F9FA] dark:bg-slate-950">
       <TemplatesHeader
         stats={t.stats}
         saving={t.saving}
@@ -36,7 +36,7 @@ export default function TemplatesWorkspace() {
         <TemplateStatsBar stats={t.stats} />
 
         {/* Tabs */}
-        <nav className="flex gap-1 p-1 bg-white dark:bg-slate-900 rounded-xl shadow-sm w-fit mb-6">
+        <nav className="flex gap-1 p-1 bg-white dark:bg-slate-900 rounded shadow-sm w-fit mb-6">
           {TABS.map((tab) => {
             const Icon = tab.icon;
             const active = t.activeTab === tab.id;
@@ -45,14 +45,15 @@ export default function TemplatesWorkspace() {
                 key={tab.id}
                 type="button"
                 onClick={() => t.setActiveTab(tab.id)}
-                className={`relative inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-lg transition-colors ${
-                  active ? 'text-slate-900 dark:text-slate-50' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+                className={`relative inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded transition-colors ${
+                  active ? 'text-white' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
                 }`}
               >
                 {active && (
                   <motion.div
                     layoutId="template-tab"
-                    className="absolute inset-0 bg-slate-100 dark:bg-slate-800 rounded-lg"
+                    className="absolute inset-0 rounded"
+                    style={{ backgroundColor: '#1D4B3E' }}
                     transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                   />
                 )}
@@ -109,16 +110,16 @@ export default function TemplatesWorkspace() {
             {t.activeTab === 'library' ? (
               <VariablePanel onCopy={t.copyToken} />
             ) : (
-              <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 shadow-sm">
+              <div className="bg-white dark:bg-slate-900 rounded p-5 shadow-sm">
                 <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-2">Tip</p>
                 <p className="text-xs text-slate-500 leading-relaxed">
                   {TABS.find((tab) => tab.id === t.activeTab)?.desc}. Click <strong>Save changes</strong> after editing.
                 </p>
               </div>
             )}
-            <div className="hidden lg:block bg-teal-50 dark:bg-teal-950/30 rounded-2xl p-5">
-              <p className="text-xs font-semibold text-teal-800 dark:text-teal-200 mb-1">WhatsApp templates</p>
-              <p className="text-xs text-teal-700/80 dark:text-teal-300/80 leading-relaxed">
+            <div className="hidden lg:block bg-[#1D4B3E]/5 dark:bg-teal-950/30 rounded p-5">
+              <p className="text-xs font-semibold text-[#1D4B3E] dark:text-teal-200 mb-1">WhatsApp templates</p>
+              <p className="text-xs text-[#1D4B3E]/70 dark:text-teal-300/80 leading-relaxed">
                 Sync from Meta to import approved business templates for outbound messaging.
               </p>
             </div>

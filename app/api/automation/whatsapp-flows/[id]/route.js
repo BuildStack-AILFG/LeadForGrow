@@ -50,6 +50,12 @@ export const PUT = withPlanAccess('automation', async (req, { params }) => {
     if (body.triggerConfig != null) flow.triggerConfig = body.triggerConfig;
     if (body.tags != null) flow.tags = body.tags;
     if (Array.isArray(body.edges)) flow.edges = body.edges;
+    if (body.testStartNodeKey !== undefined) flow.testStartNodeKey = body.testStartNodeKey || null;
+    if (body.status != null && ['draft', 'archived'].includes(body.status)) {
+      // Publishing goes through the dedicated /publish route; this only supports
+      // deactivating (Activate Workflow toggle) back to draft/archived.
+      flow.status = body.status;
+    }
 
     if (Array.isArray(body.nodes)) {
       await saveFlowGraph({

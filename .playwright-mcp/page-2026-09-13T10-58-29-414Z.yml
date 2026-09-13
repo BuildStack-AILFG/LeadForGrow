@@ -1,0 +1,14 @@
+- generic [ref=f48e2]:
+  - link [ref=f48e3] [cursor=pointer]:
+    - /url: /
+  - generic [ref=f48e113]:
+    - heading "Nothing Found!" [level=1] [ref=f48e114]
+    - paragraph [ref=f48e115]: Seems the page you are looking for doesn’t exist. Yeah, It’s that thing called Error 404.
+    - paragraph [ref=f48e116]:
+      - text: "We just humbly hope these links will be some help to you:"
+      - link "Dashboard" [ref=f48e117] [cursor=pointer]:
+        - /url: https://manychat.com/
+      - link "Support" [ref=f48e118] [cursor=pointer]:
+        - /url: https://help.manychat.com/
+      - link "Video Tutorials" [ref=f48e119] [cursor=pointer]:
+        - /url: https://manychat.com/free-video-course

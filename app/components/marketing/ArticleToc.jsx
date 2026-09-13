@@ -3,13 +3,14 @@
 import { useEffect, useRef, useState } from 'react';
 
 /**
- * Right-rail "On this page" navigator — the Stripe/Mintlify-docs pattern the
- * user asked for. Scroll-spies the section headings with an
- * IntersectionObserver (no scroll-event polling) and smooth-scrolls on click.
- * Renders null on its own below `lg` — the page hides the wrapping <aside>
- * with `hidden lg:block` so this component doesn't need to know about that.
+ * Right-rail "On this page" navigator — the Stripe/Mintlify-docs pattern.
+ * Scroll-spies the section headings with an IntersectionObserver (no
+ * scroll-event polling) and smooth-scrolls on click. Shared by the Help
+ * Center (`app/help/[slug]/page.js`) and the Blog (`app/blog/[slug]/page.js`)
+ * — originally lived at `app/help/[slug]/GuideToc.jsx`, moved here so both
+ * article-style templates can use the same component.
  */
-export default function GuideToc({ items }) {
+export default function ArticleToc({ items }) {
   const [activeId, setActiveId] = useState(items[0]?.id);
   const visibleRef = useRef(new Map());
 

@@ -9,13 +9,13 @@ import {
 import { WhatsAppIcon, InstagramIcon, GmailIcon } from '@/app/automation/components/chat/BrandIcons';
 import { StepIcon, StepVisual } from '../StepVisuals';
 import TrackGuideView from '../TrackGuideView';
-import GuideToc from './GuideToc';
+import ArticleToc from '@/app/components/marketing/ArticleToc';
 
 /**
  * Guide detail page — a documentation-style article (Stripe/Mintlify shape):
  * white canvas, a narrow reading column, and a sticky right rail "On this
  * page" navigator that scroll-spies + smooth-scrolls. Every section below
- * carries an `id` that GuideToc's IntersectionObserver watches — keep the
+ * carries an `id` that ArticleToc's IntersectionObserver watches — keep the
  * two in sync if you add/remove a section.
  */
 
@@ -245,7 +245,7 @@ export default async function GuidePage({ params }) {
         {/* ── Sticky right rail ────────────────────────────────────── */}
         <aside className="hidden lg:block">
           <div className="sticky top-8">
-            <GuideToc items={tocItems} />
+            <ArticleToc items={tocItems} />
           </div>
         </aside>
       </div>

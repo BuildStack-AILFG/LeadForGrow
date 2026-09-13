@@ -6,7 +6,7 @@ import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import LandingNavbar from '@/app/components/landing/LandingNavbar';
 import BookDemoModal, { openBookDemoPopup } from '@/app/components/landing/BookDemoModal';
 
-export default function FeatureBlogShell({ children, backHref = '/blog', backLabel = 'Back to features' }) {
+export default function FeatureBlogShell({ children, backHref = '/blog', backLabel = 'Back to features', wide = false }) {
   const [isBookDemoOpen, setIsBookDemoOpen] = useState(false);
 
   const handleGetStarted = () => {
@@ -27,7 +27,7 @@ export default function FeatureBlogShell({ children, backHref = '/blog', backLab
     <div className="min-h-screen overflow-x-hidden bg-white">
       <LandingNavbar />
 
-      <div className="mx-auto max-w-3xl px-4 pt-28 pb-8 sm:px-6 lg:px-8">
+      <div className={`mx-auto ${wide ? 'max-w-6xl' : 'max-w-3xl'} px-4 pt-28 pb-8 sm:px-6 lg:px-8`}>
         <Link
           href={backHref}
           className="group inline-flex items-center gap-2 text-sm font-medium text-[#64748B] transition-colors hover:text-emerald-700"

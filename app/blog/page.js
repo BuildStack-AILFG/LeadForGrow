@@ -6,7 +6,8 @@ import { useMemo, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import MarketingShell from '@/app/components/marketing/MarketingShell';
 import { MARKETING } from '@/lib/marketing/designTokens';
-import { BLOG_AUTHORS, FEATURE_CATEGORIES, featureArticles } from './featureData';
+import { BLOG_AUTHORS } from './featureData';
+import { getAllCategories, getAllPostsMeta, getCategoryLabel } from '@/lib/blog/posts';
 
 function NewsletterSignup() {
   const [email, setEmail] = useState('');
@@ -49,14 +50,17 @@ function NewsletterSignup() {
   );
 }
 
+const ALL_POSTS_META = getAllPostsMeta();
+const CATEGORIES = getAllCategories();
+
 export default function BlogIndexPage() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [query, setQuery] = useState('');
 
   const filtered = useMemo(() => {
     let list = activeCategory === 'All'
-      ? featureArticles
-      : featureArticles.filter((a) => a.category === activeCategory);
+      ? ALL_POSTS_META
+      : ALL_POSTS_META.filter((a) => a.category === activeCategory);
     if (query.trim()) {
       const q = query.toLowerCase();
       list = list.filter(
@@ -75,9 +79,9 @@ export default function BlogIndexPage() {
         <div className="absolute inset-x-0 top-0 h-72 bg-gradient-to-b from-[#EEF8ED] via-[#FAFDFA] to-white" />
         <div className={`${MARKETING.containerNarrow} relative text-center`}>
           <p className={MARKETING.overline}>Blog</p>
-          <h1 className={`${MARKETING.h1} mt-3`}>Platform & automation guides</h1>
+          <h1 className={`${MARKETING.h1} mt-3`}>CRM, AI, and automation guides</h1>
           <p className={`${MARKETING.bodyLarge} mt-4 mx-auto max-w-2xl`}>
-            Explore how LeadForGrow helps you capture leads, automate conversations, and close more deals.
+            Practical guides on CRM, AI agents, WhatsApp automation, and Instagram automation — for businesses that want to capture leads, automate conversations, and close more deals.
           </p>
           <div className="relative max-w-md mx-auto mt-8">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94A3B8]" />
@@ -94,19 +98,19 @@ export default function BlogIndexPage() {
       </section>
 
       <section className={`${MARKETING.container} pb-16`}>
-        <div className="mb-8 flex flex-wrap gap-2 justify-center">
-          {FEATURE_CATEGORIES.map((category) => (
+        <div className="mb-8 flex gap-2 overflow-x-auto px-1 sm:justify-center sm:flex-wrap sm:overflow-visible">
+          {CATEGORIES.map((category) => (
             <button
               key={category}
               type="button"
               onClick={() => setActiveCategory(category)}
-              className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+              className={`shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
                 activeCategory === category
                   ? 'bg-[#111827] text-white'
                   : 'border border-[#E2E8F0] bg-white text-[#64748B] hover:border-emerald-200 hover:bg-[#FAFDFA] hover:text-emerald-800'
               }`}
             >
-              {category}
+              {category === 'All' ? 'All' : getCategoryLabel(category)}
             </button>
           ))}
         </div>
@@ -125,7 +129,7 @@ export default function BlogIndexPage() {
                 >
                   <div className="flex items-center justify-between gap-3">
                     <span className="rounded-full bg-[#ECFDF5] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-800">
-                      {article.category}
+                      {getCategoryLabel(article.category)}
                     </span>
                     <span className="flex items-center gap-1 text-[12px] text-[#94A3B8]">
                       <Clock className="h-3.5 w-3.5" />

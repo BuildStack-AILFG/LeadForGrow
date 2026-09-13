@@ -1,0 +1,176 @@
+- generic [active] [ref=f17e1]:
+  - generic [ref=f17e2]:
+    - paragraph [ref=f17e4]:
+      - text: We use cookies
+      - link:
+        - /url: "#"
+    - button "Okay, cool" [ref=f17e6] [cursor=pointer]
+  - generic [ref=f17e7]:
+    - banner [ref=f17e8]:
+      - generic [ref=f17e9]:
+        - link "home" [ref=f17e10] [cursor=pointer]:
+          - /url: /
+        - generic [ref=f17e11]:
+          - navigation [ref=f17e12]:
+            - generic [ref=f17e13]:
+              - link "product" [ref=f17e15] [cursor=pointer]:
+                - /url: /
+              - link "Pricing" [ref=f17e19] [cursor=pointer]:
+                - /url: /pricing
+          - navigation [ref=f17e22]:
+            - link "Get started free Get started free" [ref=f17e23] [cursor=pointer]:
+              - /url: https://manychat.com/signup
+              - generic [ref=f17e25]:
+                - generic [ref=f17e26]: Get started free
+                - generic [ref=f17e27]: Get started free
+    - main [ref=f17e28]:
+      - generic [ref=f17e32]:
+        - generic [ref=f17e34]:
+          - generic [ref=f17e35]: ManyChat Inbox
+          - heading "Automate routine support chats and direct human power where it matters most" [level=1] [ref=f17e37]
+          - paragraph [ref=f17e38]:
+            - text: Create automations for common interactions with our
+            - generic [ref=f17e39]: drag n’ drop
+            - text: builder and use omnichannel Inbox for agents to deliver better customer service.
+          - generic [ref=f17e40]:
+            - link "Get started free Get started free" [ref=f17e41] [cursor=pointer]:
+              - /url: https://manychat.com/signup
+              - generic [ref=f17e43]:
+                - generic [ref=f17e44]: Get started free
+                - generic [ref=f17e45]: Get started free
+            - link "book a demo book a demo" [ref=f17e46] [cursor=pointer]:
+              - /url: https://manychat.com/pricing/book-a-demo-call
+              - generic [ref=f17e48]:
+                - generic [ref=f17e49]: book a demo
+                - generic [ref=f17e50]: book a demo
+        - generic [ref=f17e263]:
+          - generic [ref=f17e266]:
+            - generic [ref=f17e270] [cursor=pointer]:
+              - generic [ref=f17e271]:
+                - generic [ref=f17e272]: Robert Johnson
+                - generic [ref=f17e273]: 1m
+              - generic [ref=f17e276]: Hi, I have some question...
+            - generic [ref=f17e284] [cursor=pointer]:
+              - generic [ref=f17e285]:
+                - generic [ref=f17e286]: Courtney Henry
+                - generic [ref=f17e287]: 4m
+              - generic [ref=f17e290]: Is your San Diego store o...
+            - generic [ref=f17e297] [cursor=pointer]:
+              - generic [ref=f17e298]:
+                - generic [ref=f17e299]: Jane Cooper
+                - generic [ref=f17e300]: 10m
+              - generic [ref=f17e303]: Hey! Sorry I totally misse...
+            - generic [ref=f17e310] [cursor=pointer]:
+              - generic [ref=f17e311]:
+                - generic [ref=f17e312]: Theresa Webb
+                - generic [ref=f17e313]: 10m
+              - generic [ref=f17e316]: I couldn’t figure out how...
+            - generic [ref=f17e324] [cursor=pointer]:
+              - generic [ref=f17e325]:
+                - generic [ref=f17e326]: Savannah Nguyen
+                - generic [ref=f17e327]: 23m
+              - generic [ref=f17e330]: Hey I was just wonderin...
+            - generic [ref=f17e338] [cursor=pointer]:
+              - generic [ref=f17e339]:
+                - generic [ref=f17e340]: Jerome Bell
+                - generic [ref=f17e341]: 30m
+              - generic [ref=f17e344]: Amazing thank you so m...
+            - generic [ref=f17e351] [cursor=pointer]:
+              - generic [ref=f17e352]:
+                - generic [ref=f17e353]: Patrick Murphy
+                - generic [ref=f17e354]: 45m
+              - generic [ref=f17e356]: Who can I talk to about...
+            - generic [ref=f17e363] [cursor=pointer]:
+              - generic [ref=f17e364]:
+                - generic [ref=f17e365]: Jenny Wilson
+                - generic [ref=f17e366]: 51m
+              - generic [ref=f17e368]: Wow that’s cool
+            - generic [ref=f17e375] [cursor=pointer]:
+              - generic [ref=f17e376]:
+                - generic [ref=f17e377]: Devon Lane
+                - generic [ref=f17e378]: 59m
+              - generic [ref=f17e380]: Thanks!
+          - generic [ref=f17e385]:
+            - heading "Instagram, Messenger, WhatsApp, Telegram, and more — all in one Inbox." [level=2] [ref=f17e388]: Instagram, Messenger, WhatsApp,Telegram, and more — all in one Inbox.
+            - paragraph [ref=f17e389]: More channels coming soon
+      - generic [ref=f17e392]:
+        - generic [ref=f17e394]:
+          - generic [ref=f17e395]:
+            - generic [ref=f17e397]: Inbox
+            - heading "Shorten your sales cycle" [level=3] [ref=f17e399]
+            - paragraph [ref=f17e400]: "Complex sales need a human touch to convert. Chat live with buyers during the buying process and close the sale directly in Inbox while you have them. Send relevant products with payment links directly during chats and reply instantly with canned responses and automations. Coming soon: AI-driven lead ranking based on customer engagement"
+          - iframe [ref=f17e405]:
+            - generic "Shorten your sales cycle" [ref=f18e9]
+        - generic [ref=f17e407]:
+          - iframe [ref=f17e412]:
+            - generic "Increase buyer satisfaction" [ref=f19e9]
+          - generic [ref=f17e413]:
+            - generic [ref=f17e415]: All-in-one Inbox
+            - heading "Increase buyer satisfaction" [level=3] [ref=f17e417]
+            - paragraph [ref=f17e418]: Always be there for customers by managing all incoming messages from one centralized team inbox and deliver a better cross-channel experience for buyers by letting them choose how they want to chat. Merge contacts with conversations across multiple channels and reply instantly from any desktop browser or the Manychat mobile app if you're on the go.
+        - generic [ref=f17e421]:
+          - generic [ref=f17e423]: Agent Analytics
+          - heading "Measure, analyze, and optimize sales" [level=3] [ref=f17e425]
+          - paragraph [ref=f17e426]: Keep track of daily chat volume and sales agent workload with a dashboard to help you monitor and optimize your sales team.
+        - generic [ref=f17e429]:
+          - iframe [ref=f17e434]:
+            - generic "Automation" [ref=f20e9]
+          - generic [ref=f17e435]:
+            - generic [ref=f17e437]: Automation Tools
+            - heading "Automate routine conversations" [level=3] [ref=f17e439]
+            - paragraph [ref=f17e440]: Save time by automating repeat conversations with a no-code, drag n’ drop builder. Create auto-replies to welcome new buyers, answer frequently asked questions, or route buyers to the right agent instantly.
+      - generic [ref=f17e445]:
+        - heading "Why ManyChat" [level=2] [ref=f17e446]
+        - generic [ref=f17e447]:
+          - generic [ref=f17e448]:
+            - generic [ref=f17e449]: 1M+
+            - generic [ref=f17e451]:
+              - heading "Customers" [level=4] [ref=f17e452]
+              - paragraph [ref=f17e453]: Over one million businesses chose Manychat to grow.
+          - generic [ref=f17e454]:
+            - generic [ref=f17e455]: 1B+
+            - generic [ref=f17e457]:
+              - heading "Conversations" [level=4] [ref=f17e458]
+              - paragraph [ref=f17e459]: Powered by Manychat in the last year
+          - generic [ref=f17e460]:
+            - generic [ref=f17e461]: 190+
+            - generic [ref=f17e463]:
+              - heading "Countries" [level=4] [ref=f17e464]
+              - paragraph [ref=f17e465]: Businesses use Manychat across the world
+          - generic [ref=f17e466]:
+            - generic [ref=f17e467]: "#1"
+            - generic [ref=f17e469]:
+              - heading "Marketing platform" [level=4] [ref=f17e470]
+              - paragraph [ref=f17e471]: Manychat is the most used Chat Marketing Platform
+      - generic [ref=f17e474]:
+        - heading "Questions" [level=2] [ref=f17e475]
+        - generic [ref=f17e476]:
+          - heading "How much does Manychat Inbox Pro cost?" [level=4] [ref=f17e479] [cursor=pointer]
+          - heading "What is the difference between Manychat Inbox and Manychat Marketing Automation?" [level=4] [ref=f17e482] [cursor=pointer]
+          - heading "Which channels does Manychat Inbox support?" [level=4] [ref=f17e485] [cursor=pointer]
+          - heading "Does Manychat integrate with other tools?" [level=4] [ref=f17e488] [cursor=pointer]
+    - contentinfo [ref=f17e489]:
+      - generic [ref=f17e491]:
+        - generic [ref=f17e492]:
+          - heading "Try Inbox for free" [level=2] [ref=f17e493]
+          - paragraph [ref=f17e494]: Help your sales team manage all inbound leads efficiently for a cross-channel buying experience that converts.
+          - generic [ref=f17e495]:
+            - link "Get started free Get started free" [ref=f17e496] [cursor=pointer]:
+              - /url: https://manychat.com/signup
+              - generic [ref=f17e498]:
+                - generic [ref=f17e499]: Get started free
+                - generic [ref=f17e500]: Get started free
+            - link "Book a demo →" [ref=f17e501] [cursor=pointer]:
+              - /url: https://manychat.com/pricing/book-a-demo-call
+        - generic [ref=f17e503]:
+          - paragraph [ref=f17e504]:
+            - text: ©2025, Manychat, Inc.
+            - link "‍":
+              - /url: https://manychat.com/tos.html
+          - paragraph [ref=f17e505]:
+            - link "Terms of Service" [ref=f17e506] [cursor=pointer]:
+              - /url: https://manychat.com/tos.html
+          - paragraph [ref=f17e507]:
+            - text: ‍
+            - link "Privacy Policy" [ref=f17e508] [cursor=pointer]:
+              - /url: https://manychat.com/privacy.html

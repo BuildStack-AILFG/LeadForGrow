@@ -1,0 +1,602 @@
+- generic [active] [ref=f53e1]:
+  - generic [ref=f53e3]:
+    - navigation "Main navigation" [ref=f53e4]:
+      - generic [ref=f53e6]:
+        - generic [ref=f53e7]:
+          - link [ref=f53e9] [cursor=pointer]:
+            - /url: /
+          - generic [ref=f53e21] [cursor=pointer]:
+            - generic [ref=f53e22]: En
+            - combobox [ref=f53e23]:
+              - option "En" [selected]
+              - option "Es"
+              - option "Pt"
+        - navigation [ref=f53e24]:
+          - generic [ref=f53e25]:
+            - generic [ref=f53e26] [cursor=pointer]: Product
+            - generic:
+              - generic:
+                - link "Instagram Automate your Instagram Marketing":
+                  - /url: /product/instagram
+                  - generic:
+                    - paragraph: Instagram
+                  - generic: Automate your Instagram Marketing
+                - link "WhatsApp Connect with your Customers Instantly":
+                  - /url: /product/whatsapp
+                  - generic:
+                    - paragraph: WhatsApp
+                  - generic: Connect with your Customers Instantly
+                - 'link "Messenger Facebook Messenger chatbot #1"':
+                  - /url: /product/messenger-marketing
+                  - generic:
+                    - paragraph: Messenger
+                  - generic: "Facebook Messenger chatbot #1"
+                - link "TikTok Turn TikTok Views into Profits with Automation.":
+                  - /url: /product/tiktok
+                  - generic:
+                    - paragraph: TikTok
+                  - generic: Turn TikTok Views into Profits with Automation.
+                - link "Manychat AI A Smarter Way to Chat Automation":
+                  - /url: /product/ai
+                  - generic:
+                    - paragraph: Manychat AI
+                  - generic: A Smarter Way to Chat Automation
+          - generic [ref=f53e27]:
+            - generic [ref=f53e28] [cursor=pointer]: Solutions
+            - generic:
+              - generic:
+                - generic:
+                  - generic: by Business Type
+                  - generic:
+                    - link "for Creators":
+                      - /url: /creators
+                      - paragraph: for Creators
+                    - link "for eCommerce":
+                      - /url: /meet-chatmarketing-for-ecommerce
+                      - paragraph: for eCommerce
+                    - link "for SM Marketers":
+                      - /url: /sm-marketers
+                      - paragraph: for SM Marketers
+                    - link "for Agencies":
+                      - /url: /product/for-agencies
+                      - paragraph: for Agencies
+                    - link "for Brands":
+                      - /url: /brands
+                      - paragraph: for Brands
+                - generic:
+                  - generic: by Use Case
+                  - generic:
+                    - link "Collect Emails":
+                      - /url: https://get.manychat.com/use-case/collect-emails
+                      - paragraph: Collect Emails
+                    - link "Request to Follow":
+                      - /url: https://get.manychat.com/use-case/request-to-follow
+                      - paragraph: Request to Follow
+                    - link "Respond to Comments":
+                      - /url: https://get.manychat.com/use-case/comment-to-dm
+                      - paragraph: Respond to Comments
+                    - link "Follow to DM":
+                      - /url: /use-case/follow-to-dm
+                      - paragraph: Follow to DM
+          - generic [ref=f53e29]:
+            - generic [ref=f53e30] [cursor=pointer]: Agencies
+            - generic:
+              - generic:
+                - link "Hire an Agency Get help from chat marketing experts":
+                  - /url: https://manychat.com/agency/listing
+                  - generic:
+                    - paragraph: Hire an Agency
+                  - generic: Get help from chat marketing experts
+                - link "Join the Affiliate Program Earn up to 50% recurring commission":
+                  - /url: /affiliate/
+                  - generic:
+                    - paragraph: Join the Affiliate Program
+                  - generic: Earn up to 50% recurring commission
+          - link "Pricing" [ref=f53e32] [cursor=pointer]:
+            - /url: /pricing
+          - generic [ref=f53e33]:
+            - generic [ref=f53e34] [cursor=pointer]: Resources
+            - generic:
+              - generic:
+                - generic:
+                  - generic: Learn
+                  - generic:
+                    - link "How To Guides":
+                      - /url: /resources/how-to
+                      - paragraph: How To Guides
+                    - link "Help Center":
+                      - /url: https://help.manychat.com/hc/en-us
+                      - paragraph: Help Center
+                    - link "Webinars":
+                      - /url: https://community.manychat.com/events
+                      - paragraph: Webinars
+                    - link "eBooks":
+                      - /url: /resources/ebooks
+                      - paragraph: eBooks
+                - generic:
+                  - generic: Get Inspired
+                  - generic:
+                    - link "Blog":
+                      - /url: https://manychat.com/blog/
+                      - paragraph: Blog
+                    - link "Community":
+                      - /url: https://community.manychat.com/
+                      - paragraph: Community
+                    - link "YouTube channel":
+                      - /url: https://www.youtube.com/@manychat
+                      - paragraph: YouTube channel
+                    - link "Chronically Online":
+                      - /url: https://com.manychat.com/
+                      - paragraph: Chronically Online
+                    - link "Success Stories":
+                      - /url: https://manychat.com/blog/success-stories/
+                      - paragraph: Success Stories
+                - generic:
+                  - generic: Company
+                  - generic:
+                    - link "About":
+                      - /url: /about
+                      - paragraph: About
+                    - link "Manifesto":
+                      - /url: /manifesto
+                      - paragraph: Manifesto
+                    - link "Press":
+                      - /url: /press
+                      - paragraph: Press
+                    - link "Careers":
+                      - /url: https://careers.manychat.com/
+                      - paragraph: Careers
+        - generic [ref=f53e36]:
+          - link "Get Started Get Started Get Started" [ref=f53e37] [cursor=pointer]:
+            - /url: https://app.manychat.com/signup/facebookAuth?channel=whatsapp
+            - generic [ref=f53e39]:
+              - text: Get Started
+              - generic [ref=f53e40]: Get Started
+              - generic [ref=f53e41]: Get Started
+          - link "Sign In Sign In Sign In" [ref=f53e42] [cursor=pointer]:
+            - /url: https://app.manychat.com/signin
+            - generic [ref=f53e44]:
+              - text: Sign In
+              - generic [ref=f53e45]: Sign In
+              - generic [ref=f53e46]: Sign In
+    - main [ref=f53e47]:
+      - generic [ref=f53e48]:
+        - generic [ref=f53e50]:
+          - generic [ref=f53e51]:
+            - heading "WhatsApp smarter, not harder" [level=1] [ref=f53e52]
+            - paragraph [ref=f53e54]: Turn constant messages into qualified leads and closed sales—with easy-to-setup automations that do the busywork for you.
+            - link "Automate your Whatsapp Automate your Whatsapp Automate your Whatsapp" [ref=f53e56] [cursor=pointer]:
+              - /url: https://app.manychat.com/signup/facebookAuth?channel=whatsapp
+              - generic [ref=f53e58]:
+                - text: Automate your Whatsapp
+                - generic [ref=f53e59]: Automate your Whatsapp
+                - generic [ref=f53e60]: Automate your Whatsapp
+          - generic [ref=f53e61]:
+            - img "Meta Business Partner" [ref=f53e62]
+            - img "G2 Rating" [ref=f53e63]
+        - generic [ref=f53e64]:
+          - img "A man with a phone" [ref=f53e66]
+          - generic [ref=f53e67]:
+            - generic [ref=f53e70]:
+              - generic [ref=f53e71]: Automatically
+              - generic [ref=f53e72] [cursor=pointer]:
+                - generic [ref=f53e73]:
+                  - generic [ref=f53e75]:
+                    - img "Check Icon" [ref=f53e76]
+                    - img "Check Icon" [ref=f53e77]
+                  - heading "Answer FAQs" [level=3] [ref=f53e78]
+                - generic [ref=f53e79]:
+                  - generic [ref=f53e81]:
+                    - img "Check Icon" [ref=f53e82]
+                    - img "Check Icon" [ref=f53e83]
+                  - heading "Generate & qualify leads" [level=3] [ref=f53e84]
+                - generic [ref=f53e85]:
+                  - generic [ref=f53e87]:
+                    - img "Check Icon" [ref=f53e88]
+                    - img "Check Icon" [ref=f53e89]
+                  - heading "Reply outside of business hours" [level=3] [ref=f53e90]
+            - generic [ref=f53e92]:
+              - img "bubble 1" [ref=f53e93]
+              - img "bubble 2" [ref=f53e94]
+              - img "bubble 3" [ref=f53e95]
+            - generic [ref=f53e97]:
+              - img "bubble 1" [ref=f53e98]
+              - img "bubble 2" [ref=f53e99]
+              - img "bubble 3" [ref=f53e100]
+              - img "bubble 4" [ref=f53e101]
+            - generic [ref=f53e103]:
+              - img "bubble 1" [ref=f53e104]
+              - img "bubble 2" [ref=f53e105]
+              - img "bubble 3" [ref=f53e106]
+      - generic [ref=f53e108]:
+        - heading "💚’d by busy businesses like" [level=4] [ref=f53e109]
+        - generic [ref=f53e113]:
+          - generic [ref=f53e115]:
+            - generic [ref=f53e116] [cursor=pointer]:
+              - 'img "photo of influencer #1" [ref=f53e117]'
+              - generic [ref=f53e118]:
+                - generic [ref=f53e119]: Amanda Pinson
+                - paragraph [ref=f53e120]: “We even had a flow with a 16% conversion rate.”
+                - button "Learn more" [ref=f53e122]
+            - generic [ref=f53e125] [cursor=pointer]:
+              - 'img "photo of influencer #2" [ref=f53e126]'
+              - generic [ref=f53e127]:
+                - generic [ref=f53e128]: Tomas Escobar
+                - paragraph [ref=f53e129]: “Manychat + WhatsApp has boosted our revenue from info product launches by 10–30%.”
+                - button "Learn more" [ref=f53e131]
+            - generic [ref=f53e134] [cursor=pointer]:
+              - 'img "photo of influencer #3" [ref=f53e135]'
+              - generic [ref=f53e136]:
+                - generic [ref=f53e137]: Fernando Vaz
+                - paragraph [ref=f53e138]: “Manychat is the easiest and most seamless way to get qualified leads through WhatsApp and Instagram.”
+                - button "Learn more" [ref=f53e140]
+            - generic [ref=f53e143] [cursor=pointer]:
+              - 'img "photo of influencer #4" [ref=f53e144]'
+              - generic [ref=f53e145]:
+                - generic [ref=f53e146]: pinmy.reviews
+                - paragraph [ref=f53e147]: “I switched my business to WhatsApp marketing automation. It is great and does have a lot of potential.”
+                - button "Learn more" [ref=f53e149]
+          - generic [ref=f53e153]:
+            - generic [ref=f53e154] [cursor=pointer]:
+              - 'img "photo of influencer #1" [ref=f53e155]'
+              - generic [ref=f53e156]:
+                - generic [ref=f53e157]: Amanda Pinson
+                - paragraph [ref=f53e158]: “We even had a flow with a 16% conversion rate.”
+                - button "Learn more" [ref=f53e160]
+            - generic [ref=f53e163] [cursor=pointer]:
+              - 'img "photo of influencer #2" [ref=f53e164]'
+              - generic [ref=f53e165]:
+                - generic [ref=f53e166]: Tomas Escobar
+                - paragraph [ref=f53e167]: “Manychat + WhatsApp has boosted our revenue from info product launches by 10–30%.”
+                - button "Learn more" [ref=f53e169]
+            - generic [ref=f53e172] [cursor=pointer]:
+              - 'img "photo of influencer #3" [ref=f53e173]'
+              - generic [ref=f53e174]:
+                - generic [ref=f53e175]: Fernando Vaz
+                - paragraph [ref=f53e176]: “Manychat is the easiest and most seamless way to get qualified leads through WhatsApp and Instagram.”
+                - button "Learn more" [ref=f53e178]
+            - generic [ref=f53e181] [cursor=pointer]:
+              - 'img "photo of influencer #4" [ref=f53e182]'
+              - generic [ref=f53e183]:
+                - generic [ref=f53e184]: pinmy.reviews
+                - paragraph [ref=f53e185]: “I switched my business to WhatsApp marketing automation. It is great and does have a lot of potential.”
+                - button "Learn more" [ref=f53e187]
+      - generic [ref=f53e192]:
+        - img "features icon" [ref=f53e193]
+        - heading "Your 24/7 customer engagement team" [level=2] [ref=f53e195]
+        - paragraph [ref=f53e196]: Clients have questions—and while you have the expertise to answer them, you don't have unlimited hours in your workday. That's where Manychat shines.
+      - generic [ref=f53e201]:
+        - generic [ref=f53e203]:
+          - generic [ref=f53e205]:
+            - heading "Personal conversations; Profitable conversations" [level=2] [ref=f53e206]
+            - paragraph [ref=f53e207]: Identify high-intent leads, nurture relationships, and close sales — all through rapid, authentic, automated conversation.
+          - generic:
+            - generic:
+              - heading "Re-engagement that drives revenue" [level=2]
+              - paragraph: Guide qualified prospects through a frictionless journey and bring them back — all of them — for promotions and new offerings, turning engagement into repeat sales.
+          - generic:
+            - generic:
+              - heading "Support that builds loyalty" [level=2]
+              - paragraph: Order updates? Product questions? Follow-ups? All automated. We handle the important conversations, at scale, for you.
+        - generic [ref=f53e208]:
+          - generic [ref=f53e210] [cursor=pointer]
+          - generic [ref=f53e211] [cursor=pointer]
+        - link "get started get started get started" [ref=f53e213] [cursor=pointer]:
+          - /url: https://app.manychat.com/signup/facebookAuth?channel=whatsapp
+          - generic [ref=f53e215]:
+            - text: get started
+            - generic [ref=f53e216]: get started
+            - generic [ref=f53e217]: get started
+      - generic [ref=f53e227]:
+        - generic [ref=f53e229]:
+          - img "With/Without icon"
+          - heading "Your WhatsApp reality check" [level=2] [ref=f53e231]
+          - paragraph [ref=f53e232]: Think life is good now? You ain’t seen nothing, yet.
+        - generic [ref=f53e235]:
+          - generic [ref=f53e237]:
+            - generic [ref=f53e238]:
+              - generic [ref=f53e239]:
+                - generic [ref=f53e240]: "Before Manychat:"
+                - heading "You're wasting your WhatsApp" [level=2] [ref=f53e241]
+              - list [ref=f53e242]:
+                - listitem [ref=f53e243]:
+                  - generic [ref=f53e244]: Drowning in WhatsApp messages while high-intent leads slip through the cracks
+                  - img "box-icon" [ref=f53e245]
+                - listitem [ref=f53e246]:
+                  - generic [ref=f53e247]: Hours wasted on tire-kickers instead of serious buyers ready to purchase
+                  - img "box-icon" [ref=f53e248]
+                - listitem [ref=f53e249]:
+                  - generic [ref=f53e250]: Manual copy/paste responses to the same FAQs, shipping questions, and product inquiries
+                  - img "box-icon" [ref=f53e251]
+                - listitem [ref=f53e252]:
+                  - generic [ref=f53e253]: Customers abandon their journey halfway between interest and checkouts
+                  - img "box-icon" [ref=f53e254]
+            - link "get started get started get started" [ref=f53e255] [cursor=pointer]:
+              - /url: https://app.manychat.com/signup/facebookAuth?channel=whatsapp
+              - generic [ref=f53e257]:
+                - text: get started
+                - generic [ref=f53e258]: get started
+                - generic [ref=f53e259]: get started
+          - generic [ref=f53e261]:
+            - generic [ref=f53e262]:
+              - generic [ref=f53e263]:
+                - generic [ref=f53e266]: "After Manychat:"
+                - heading "Master the ultimate business messenger!" [level=2] [ref=f53e267]
+              - list [ref=f53e268]:
+                - listitem [ref=f53e269]:
+                  - generic [ref=f53e270]: Qualified leads automatically identified while routine inquiries handle themselves
+                  - img "box-icon" [ref=f53e271]
+                - listitem [ref=f53e272]:
+                  - generic [ref=f53e273]: Focus only on sales-ready conversations while automation nurtures the rest
+                  - img "box-icon" [ref=f53e274]
+                - listitem [ref=f53e275]:
+                  - generic [ref=f53e276]: FAQ responses, receipts, and product info delivered instantly, 24/7
+                  - img "box-icon" [ref=f53e277]
+                - listitem [ref=f53e278]:
+                  - generic [ref=f53e279]: Seamless purchase pathways and re-engagement campaigns that drive repeat revenue
+                  - img "box-icon" [ref=f53e280]
+            - link "get started get started get started" [ref=f53e281] [cursor=pointer]:
+              - /url: https://app.manychat.com/signup/facebookAuth?channel=whatsapp
+              - generic [ref=f53e283]:
+                - text: get started
+                - generic [ref=f53e284]: get started
+                - generic [ref=f53e285]: get started
+      - generic [ref=f53e287]:
+        - generic [ref=f53e288]:
+          - img "templates icon"
+          - heading "Turn WhatsApp into the ultimate closer" [level=2] [ref=f53e290]
+          - paragraph [ref=f53e291]: If you’re looking to make more (money, connections, stuff) with less work, here are some favorite WhatsApp flows.
+        - generic [ref=f53e293]:
+          - generic [ref=f53e295]:
+            - heading "See how it works" [level=2] [ref=f53e296]
+            - generic [ref=f53e297]:
+              - generic [ref=f53e298] [cursor=pointer]:
+                - heading "Broadcast a message" [level=3] [ref=f53e299]
+                - button "Check it out" [ref=f53e301]
+              - generic [ref=f53e304] [cursor=pointer]:
+                - heading "Set up a welcome message" [level=3] [ref=f53e305]
+                - button "Check it out" [ref=f53e307]
+              - generic [ref=f53e310] [cursor=pointer]:
+                - heading "Automate your FAQs" [level=3] [ref=f53e311]
+                - button "Check it out" [ref=f53e313]
+              - generic [ref=f53e316] [cursor=pointer]:
+                - heading "Set follow-up message" [level=3] [ref=f53e317]
+                - button "Check it out" [ref=f53e319]
+              - generic [ref=f53e322] [cursor=pointer]:
+                - heading "Send a response outside biz hours" [level=3] [ref=f53e323]
+                - button "Check it out" [ref=f53e325]
+            - link "get started get started get started" [ref=f53e329] [cursor=pointer]:
+              - /url: https://app.manychat.com/signup/facebookAuth?channel=whatsapp
+              - generic [ref=f53e331]:
+                - text: get started
+                - generic [ref=f53e332]: get started
+                - generic [ref=f53e333]: get started
+          - generic [ref=f53e334]: Reach your entire audience instantly with targeted messages that drive action
+      - generic [ref=f53e345]:
+        - generic [ref=f53e346]:
+          - img "rocket icon"
+          - heading "Business automation made easy" [level=2] [ref=f53e348]
+          - paragraph [ref=f53e349]: Automate your WhatsApp in less time than it takes to answer 5 people.
+        - generic [ref=f53e350]:
+          - generic [ref=f53e355]:
+            - heading "Sign up for free" [level=3] [ref=f53e356]
+            - paragraph [ref=f53e357]: Start your free trial — no credit card required
+          - generic [ref=f53e362]:
+            - heading "Go live in minutes" [level=3] [ref=f53e363]
+            - paragraph [ref=f53e364]: Seriously, it’s that simple
+          - generic [ref=f53e369]:
+            - heading "Cancel anytime" [level=3] [ref=f53e370]
+            - paragraph [ref=f53e371]: "Spoiler: you won’t want to ;)"
+        - generic [ref=f53e372]:
+          - link "Get started free Get started free Get started free" [ref=f53e373] [cursor=pointer]:
+            - /url: https://app.manychat.com/signup/facebookAuth?channel=whatsapp
+            - generic [ref=f53e375]:
+              - text: Get started free
+              - generic [ref=f53e376]: Get started free
+              - generic [ref=f53e377]: Get started free
+          - link "See plans See plans See plans" [ref=f53e378] [cursor=pointer]:
+            - /url: /pricing
+            - generic [ref=f53e380]:
+              - text: See plans
+              - generic [ref=f53e381]: See plans
+              - generic [ref=f53e382]: See plans
+      - img "Girl with a phone" [ref=f53e386]
+      - generic [ref=f53e393]:
+        - generic [ref=f53e394]:
+          - img "FAQ icon"
+          - heading "Frequently asked questions" [level=2] [ref=f53e396]
+        - generic [ref=f53e399]:
+          - generic [ref=f53e400]:
+            - button [ref=f53e401]:
+              - heading "How much does Manychat for WhatsApp cost?" [level=3] [ref=f53e403]
+              - img "arrow ico" [ref=f53e404]
+            - region "How much does Manychat for WhatsApp cost? arrow ico":
+              - generic [ref=f53e405]:
+                - paragraph [ref=f53e406]:
+                  - text: Manychat for WhatsApp is an
+                  - link "additional charge" [ref=f53e407] [cursor=pointer]:
+                    - /url: https://www.manychat.com/pricing
+                  - text: "on top of paying for Manychat Pro. The pricing breaks down as the following:"
+                - list [ref=f53e408]:
+                  - listitem [ref=f53e409]: "Charged on a per new conversation basis (24 hour window) divided into two categories: Business-Initiated and Contact-Initiated."
+                  - listitem [ref=f53e410]: Your first 1000 conversations per month are free.
+                  - listitem [ref=f53e411]:
+                    - text: Pricing varies based on country. Learn more
+                    - link "here" [ref=f53e412] [cursor=pointer]:
+                      - /url: https://calculator.manychat.com/
+                    - text: .
+                  - listitem [ref=f53e413]: To use WhatsApp Automation, please load your Manychat Wallet under Settings.
+                - paragraph [ref=f53e414]: A Business-initiated conversation is when a business starts a conversation by sending a message to the contact for the first time, or 24 hours after the contact’s last message (24-hour messaging window). Business-initiated conversations must be sent via a Message Template.
+                - paragraph [ref=f53e415]: A Contact-initiated conversation is when a business starts a conversation by replying to a contact's message. This type of conversation includes anytime a business replies to a contact within the 24-hour messaging window. Businesses can send an unlimited number of messages of any type during this window.
+          - generic [ref=f53e416]:
+            - button [ref=f53e417]:
+              - heading "Can I integrate my WhatsApp account with other Manychat channels?" [level=3] [ref=f53e419]
+              - img "arrow ico" [ref=f53e420]
+            - region "Can I integrate my WhatsApp account with other Manychat channels? arrow ico":
+              - generic [ref=f53e421]:
+                - paragraph [ref=f53e422]: Yes, you can connect your WhatsApp number to an already existing Manychat account.
+                - paragraph [ref=f53e423]: On the Flow level, while you cannot connect WhatsApp messages directly to other channels currently, you can collect emails and phone numbers to re-engage using Manychat email and/or SMS channels in the future.
+          - generic [ref=f53e424]:
+            - button [ref=f53e425]:
+              - heading "Do I need a phone number to use Manychat for WhatsApp?" [level=3] [ref=f53e427]
+              - img "arrow ico" [ref=f53e428]
+            - region "Do I need a phone number to use Manychat for WhatsApp? arrow ico":
+              - paragraph [ref=f53e430]: Yes, to use Manychat for WhatsApp you will need a unique phone number.
+          - generic [ref=f53e431]:
+            - button [ref=f53e432]:
+              - heading "Are conversations viewable and answerable on the mobile WhatsApp Business App?" [level=3] [ref=f53e434]
+              - img "arrow ico" [ref=f53e435]
+            - region "Are conversations viewable and answerable on the mobile WhatsApp Business App? arrow ico":
+              - paragraph [ref=f53e437]: After connecting, your conversations will not be viewable and answerable on the mobile WhatsApp Business App but are easily viewable within the Manychat Live Chat interface.
+          - generic [ref=f53e438]:
+            - button [ref=f53e439]:
+              - heading "Are existing phone numbers compatible with Manychat?" [level=3] [ref=f53e441]
+              - img "arrow ico" [ref=f53e442]
+            - region "Are existing phone numbers compatible with Manychat? arrow ico":
+              - generic [ref=f53e443]:
+                - paragraph [ref=f53e444]: While they can be, we strongly recommend using a new phone number that is not currently in use with other WhatsApp apps.
+                - paragraph [ref=f53e445]: If you want to use an existing phone number for other WA apps in the future (e.g. for WhatsApp Business App or personal WhatsApp app), save it and use a brand new number.
+                - paragraph [ref=f53e446]: You can also use the number provided by Manychat (available only if WhatsApp is activated as an additional channel in your existing account).
+          - generic [ref=f53e447]:
+            - button [ref=f53e448]:
+              - heading "Is Facebook Business Manager verification required?" [level=3] [ref=f53e450]
+              - img "arrow ico" [ref=f53e451]
+            - region "Is Facebook Business Manager verification required? arrow ico":
+              - generic [ref=f53e452]:
+                - paragraph [ref=f53e453]: For all customer-initiated conversations (inbound messaging), Business Verification is not a necessary step to get started.
+                - paragraph [ref=f53e454]: For business-initiated conversations (outbound messaging), businesses will need to go through the Facebook Business Manager verification process to gain this access. We will walk you through the approval process.
+          - generic [ref=f53e455]:
+            - button [ref=f53e456]:
+              - heading "Are you allowed to switch to Manychat from another Business Solution Provider (BSP)?" [level=3] [ref=f53e458]
+              - img "arrow ico" [ref=f53e459]
+            - region "Are you allowed to switch to Manychat from another Business Solution Provider (BSP)? arrow ico":
+              - paragraph [ref=f53e461]:
+                - text: Yes, if you’d like to do so and keep your old number please contact our
+                - link "support team" [ref=f53e462] [cursor=pointer]:
+                  - /url: http://manychat.com/support
+                - text: .
+          - generic [ref=f53e463]:
+            - button [ref=f53e464]:
+              - heading "Is WhatsApp available on a Manychat Free plan?" [level=3] [ref=f53e466]
+              - img "arrow ico" [ref=f53e467]
+            - region "Is WhatsApp available on a Manychat Free plan? arrow ico":
+              - paragraph [ref=f53e469]: Manychat for WhatsApp is only available for Pro accounts.
+    - contentinfo [ref=f53e470]:
+      - generic [ref=f53e471]:
+        - generic [ref=f53e472]:
+          - generic [ref=f53e473]:
+            - link [ref=f53e475] [cursor=pointer]:
+              - /url: /
+              - img "Manychat logo" [ref=f53e476]
+            - generic [ref=f53e477]:
+              - generic [ref=f53e478]:
+                - text: product
+                - generic [ref=f53e479]:
+                  - link "Instagram" [ref=f53e481] [cursor=pointer]:
+                    - /url: /product/instagram
+                  - link "TikTok" [ref=f53e483] [cursor=pointer]:
+                    - /url: /product/tiktok
+                  - link "WhatsApp" [ref=f53e485] [cursor=pointer]:
+                    - /url: /product/whatsapp
+                  - link "Messenger" [ref=f53e487] [cursor=pointer]:
+                    - /url: /product/messenger-marketing
+                  - link "Manychat AI" [ref=f53e489] [cursor=pointer]:
+                    - /url: /product/ai
+                  - link "SMS marketing" [ref=f53e491] [cursor=pointer]:
+                    - /url: /sms-marketing
+                  - link "For Brands" [ref=f53e493] [cursor=pointer]:
+                    - /url: /brands
+                  - link "For eCommerce" [ref=f53e495] [cursor=pointer]:
+                    - /url: /meet-chatmarketing-for-ecommerce
+                  - link "Integrations" [ref=f53e497] [cursor=pointer]:
+                    - /url: /integrations
+                  - link "Pricing" [ref=f53e499] [cursor=pointer]:
+                    - /url: /pricing
+              - generic [ref=f53e500]:
+                - text: resources
+                - generic [ref=f53e501]:
+                  - link "Help center" [ref=f53e503] [cursor=pointer]:
+                    - /url: https://help.manychat.com/
+                  - link "Community" [ref=f53e505] [cursor=pointer]:
+                    - /url: https://community.manychat.com/
+                  - link "Blog" [ref=f53e507] [cursor=pointer]:
+                    - /url: /blog/
+                  - link "Chronically online" [ref=f53e509] [cursor=pointer]:
+                    - /url: https://com.manychat.com/
+                  - link "How to" [ref=f53e511] [cursor=pointer]:
+                    - /url: /resources/how-to
+                  - link "Video course" [ref=f53e513] [cursor=pointer]:
+                    - /url: /resources/video-course
+                  - link "Chatbot examples" [ref=f53e515] [cursor=pointer]:
+                    - /url: /messenger-marketing-examples
+              - generic [ref=f53e516]:
+                - text: manychat
+                - generic [ref=f53e517]:
+                  - link "About" [ref=f53e519] [cursor=pointer]:
+                    - /url: /about
+                  - link "Manyfesto" [ref=f53e521] [cursor=pointer]:
+                    - /url: /manifesto
+                  - link "Careers" [ref=f53e523] [cursor=pointer]:
+                    - /url: https://careers.manychat.com/
+                  - link "Press" [ref=f53e525] [cursor=pointer]:
+                    - /url: /press
+                  - link "Privacy & security" [ref=f53e527] [cursor=pointer]:
+                    - /url: /security
+                  - generic [ref=f53e528]:
+                    - link [ref=f53e530] [cursor=pointer]:
+                      - /url: https://www.instagram.com/manychat
+                      - img "Instagram" [ref=f53e531]
+                    - link [ref=f53e533] [cursor=pointer]:
+                      - /url: https://www.youtube.com/@manychat
+                      - img "Youtube" [ref=f53e534]
+                    - link [ref=f53e536] [cursor=pointer]:
+                      - /url: https://www.tiktok.com/@manychat
+                      - img "Tiktok" [ref=f53e537]
+              - generic [ref=f53e538]:
+                - text: Problems
+                - generic [ref=f53e539]:
+                  - link "Can't keep up" [ref=f53e541] [cursor=pointer]:
+                    - /url: /solution/automate-comment-dm-replies
+                  - link "Viral but broke" [ref=f53e543] [cursor=pointer]:
+                    - /url: /solution/monetize-virality
+                  - link "Wrong link, wrong time" [ref=f53e545] [cursor=pointer]:
+                    - /url: /solution/send-links-automatically
+                  - link "Can't log off" [ref=f53e547] [cursor=pointer]:
+                    - /url: /solution/automate-engagement
+                  - link "Renting your audience" [ref=f53e549] [cursor=pointer]:
+                    - /url: /solution/collect-emails-from-followers
+                  - link "Drowning in comments" [ref=f53e551] [cursor=pointer]:
+                    - /url: /solution/automatic-comment-replies
+              - generic [ref=f53e552]:
+                - text: partners
+                - generic [ref=f53e553]:
+                  - link "Manychat for agencies" [ref=f53e555] [cursor=pointer]:
+                    - /url: /product/for-agencies
+                  - link "Hire an agency" [ref=f53e557] [cursor=pointer]:
+                    - /url: https://manychat.com/agency/listing
+                  - link "Join the affiliate program" [ref=f53e559] [cursor=pointer]:
+                    - /url: /affiliate/
+              - generic [ref=f53e560]:
+                - text: Other
+                - generic [ref=f53e561]:
+                  - link "Status page" [ref=f53e563] [cursor=pointer]:
+                    - /url: https://status.manychat.com/
+                  - link "Changelog" [ref=f53e565] [cursor=pointer]:
+                    - /url: https://community.manychat.com/product-updates
+                  - link "Privacy settings" [ref=f53e567] [cursor=pointer]:
+                    - /url: "#"
+                  - link "Privacy policy" [ref=f53e569] [cursor=pointer]:
+                    - /url: /legal/privacy
+                  - link "Terms of service" [ref=f53e571] [cursor=pointer]:
+                    - /url: /legal/tos
+          - generic [ref=f53e572]:
+            - generic:
+              - button
+            - generic [ref=f53e577]: © 2026, Manychat, Inc.
+        - link "get started free get started free get started free" [ref=f53e579] [cursor=pointer]:
+          - /url: https://app.manychat.com/signup/facebookAuth?channel=whatsapp
+          - generic [ref=f53e581]:
+            - text: get started free
+            - generic [ref=f53e582]: get started free
+            - generic [ref=f53e583]: get started free
+  - alert [ref=f53e584]
