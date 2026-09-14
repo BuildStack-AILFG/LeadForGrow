@@ -124,22 +124,22 @@ export default function ReminderMonitor() {
     const overflowCount = sorted.length - visible.length;
 
     return (
-        <div className="fixed top-20 right-6 z-[100] flex flex-col gap-4 max-w-sm w-full pointer-events-none">
+        <div className="fixed top-[168px] right-4 z-40 flex flex-col gap-2.5 max-w-[300px] w-full pointer-events-none">
             <div className="pointer-events-auto flex justify-end">
                 <button
                     onClick={dismissAll}
                     title="Silence all follow-up popups until you refresh the page"
-                    className="inline-flex items-center gap-1 bg-slate-900/90 hover:bg-slate-900 text-white text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full backdrop-blur shadow-lg"
+                    className="inline-flex items-center gap-1 bg-slate-900/90 hover:bg-slate-900 text-white text-[10px] font-medium px-2 py-1 rounded-full backdrop-blur shadow-md"
                 >
                     <X className="w-3 h-3" /> Dismiss all
                 </button>
             </div>
             {overflowCount > 0 && (
-                <div className="pointer-events-auto bg-indigo-600 text-white rounded-xl shadow-2xl p-4 flex items-center justify-between gap-3">
-                    <span className="text-xs font-bold">+{overflowCount} more follow-up{overflowCount === 1 ? '' : 's'} need attention</span>
+                <div className="pointer-events-auto bg-[#1D4B3E] text-white rounded-lg shadow-lg p-3 flex items-center justify-between gap-3">
+                    <span className="text-xs font-semibold">+{overflowCount} more follow-up{overflowCount === 1 ? '' : 's'} need attention</span>
                     <button
                         onClick={() => router.push('/automation/tasks')}
-                        className="shrink-0 bg-white/15 hover:bg-white/25 px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-widest transition-all"
+                        className="shrink-0 bg-white/15 hover:bg-white/25 px-2.5 py-1 rounded text-[11px] font-medium transition-all"
                     >
                         View all
                     </button>
@@ -148,45 +148,45 @@ export default function ReminderMonitor() {
             {visible.map((task) => (
                 <div
                     key={task._id}
-                    className="pointer-events-auto bg-white border-l-4 border-indigo-600 rounded-xl shadow-2xl p-4 animate-in slide-in-from-right-10 duration-500 overflow-hidden"
+                    className="pointer-events-auto bg-white border-l-4 border-[#1D4B3E] rounded-lg shadow-lg p-3 animate-in slide-in-from-right-10 duration-500 overflow-hidden"
                 >
-                    <div className="flex justify-between items-start mb-2">
+                    <div className="flex justify-between items-start mb-1.5">
                         <div className="flex items-center gap-2">
-                            <div className="bg-indigo-50 p-2 rounded-lg text-indigo-600">
-                                {task.type === 'call' && <Phone className="w-5 h-5 animate-bounce" />}
-                                {task.type === 'whatsapp' && <MessageCircle className="w-5 h-5 animate-pulse" />}
-                                {task.type === 'email' && <Mail className="w-5 h-5 animate-pulse" />}
-                                {task.type !== 'call' && task.type !== 'whatsapp' && task.type !== 'email' && <Bell className="w-5 h-5" />}
+                            <div className="bg-[#F0F9F5] p-1.5 rounded-md text-[#1D4B3E]">
+                                {task.type === 'call' && <Phone className="w-4 h-4" />}
+                                {task.type === 'whatsapp' && <MessageCircle className="w-4 h-4" />}
+                                {task.type === 'email' && <Mail className="w-4 h-4" />}
+                                {task.type !== 'call' && task.type !== 'whatsapp' && task.type !== 'email' && <Bell className="w-4 h-4" />}
                             </div>
                             <div>
-                                <h4 className="text-sm font-black text-slate-900 leading-tight">
-                                    {task.type === 'call' ? 'Call Due!' :
-                                        task.type === 'whatsapp' ? 'WhatsApp Due!' :
-                                            task.type === 'email' ? 'Email Due!' : 'Follow-up Due!'}
+                                <h4 className="text-[13px] font-semibold text-slate-900 leading-tight">
+                                    {task.type === 'call' ? 'Call Due' :
+                                        task.type === 'whatsapp' ? 'WhatsApp Due' :
+                                            task.type === 'email' ? 'Email Due' : 'Follow-up Due'}
                                 </h4>
-                                <p className="text-[11px] font-bold text-slate-500 uppercase tracking-tighter">
+                                <p className="text-[11px] font-medium text-slate-500">
                                     {task.leadId?.name || 'Scheduled Lead'}
                                 </p>
                             </div>
                         </div>
                         <button onClick={() => dismissReminder(task._id)} className="p-1 hover:bg-slate-50 rounded-md transition-colors">
-                            <X className="w-4 h-4 text-slate-400" />
+                            <X className="w-3.5 h-3.5 text-slate-400" />
                         </button>
                     </div>
 
-                    <div className="flex items-center gap-2 mb-4 text-xs font-medium text-slate-600">
-                        <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                    <div className="flex items-center gap-1.5 mb-3 text-[11px] font-medium text-slate-600">
+                        <Calendar className="w-3 h-3 text-slate-400" />
                         <span>Today, {new Date(task.dueDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                     </div>
 
-                    <div className="flex gap-2">
+                    <div className="flex gap-1.5">
                         <button
                             onClick={() => handleAction(task)}
-                            className="flex-1 bg-indigo-600 text-white py-2 rounded-lg text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-indigo-700 shadow-lg shadow-indigo-100 transition-all font-sans"
+                            className="flex-1 bg-[#1D4B3E] text-white py-1.5 rounded text-[11px] font-semibold flex items-center justify-center gap-1.5 hover:bg-[#163c32] transition-all"
                         >
-                            {task.type === 'call' && <><Phone className="w-3.5 h-3.5" /> Call Now</>}
-                            {task.type === 'whatsapp' && <><MessageCircle className="w-3.5 h-3.5" /> Send Message</>}
-                            {task.type === 'email' && <><Mail className="w-3.5 h-3.5" /> Send Email</>}
+                            {task.type === 'call' && <><Phone className="w-3 h-3" /> Call Now</>}
+                            {task.type === 'whatsapp' && <><MessageCircle className="w-3 h-3" /> Send Message</>}
+                            {task.type === 'email' && <><Mail className="w-3 h-3" /> Send Email</>}
                             {task.type !== 'call' && task.type !== 'whatsapp' && task.type !== 'email' && <>Mark Done</>}
                         </button>
                         <button
@@ -194,7 +194,7 @@ export default function ReminderMonitor() {
                                 router.push(`/automation/leads/${task.leadId?._id || task.leadId}`);
                                 dismissReminder(task._id);
                             }}
-                            className="px-4 py-2 border border-slate-200 text-slate-600 rounded-lg text-xs font-bold hover:bg-slate-50 transition-all shadow-sm"
+                            className="px-3 py-1.5 border border-slate-200 text-slate-600 rounded text-[11px] font-medium hover:bg-slate-50 transition-all"
                         >
                             View Lead
                         </button>

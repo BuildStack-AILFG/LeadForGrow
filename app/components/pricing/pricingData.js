@@ -87,7 +87,7 @@ export const PRICING_PLANS = [
     yearlyPrice: null,
     planMapping: 'enterprise',
     cta: 'Talk to Sales',
-    href: 'https://wa.me/916366966120',
+    href: 'https://wa.me/918810873052',
     popular: false,
     enterprise: true,
     seats: 'Unlimited team members',

@@ -1,6 +1,6 @@
 'use client';
 
-import { X, Send, Sparkles } from 'lucide-react';
+import { X, Send, Sparkles, Loader2 } from 'lucide-react';
 import { mapTeamMemberOptions } from '../leads/utils';
 
 export default function CreateTaskModal({
@@ -10,12 +10,14 @@ export default function CreateTaskModal({
   leads,
   teamMembers,
   onClose,
-  onSubmit
+  onSubmit,
+  saving = false
 }) {
   if (!open) return null;
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (saving) return;
     onSubmit(task);
   };
 
@@ -138,9 +140,11 @@ export default function CreateTaskModal({
 
           <button
             type="submit"
-            className="w-full inline-flex items-center justify-center gap-2 py-2.5 text-sm font-medium text-white bg-[#1D4B3E] hover:bg-[#163c32] rounded"
+            disabled={saving}
+            className="w-full inline-flex items-center justify-center gap-2 py-2.5 text-sm font-medium text-white bg-[#1D4B3E] hover:bg-[#163c32] rounded disabled:opacity-60"
           >
-            <Send className="w-4 h-4" /> Create task
+            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+            {saving ? 'Creating…' : 'Create task'}
           </button>
         </form>
       </div>

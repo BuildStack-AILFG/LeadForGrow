@@ -1,11 +1,53 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import { LEAD_ROW_COLORS } from './constants';
 
+const PANEL_WIDTH = 208; // w-52
+
 export default function LeadColorPicker({ open, onClose, currentColor, onSelect, anchorRef }) {
   const panelRef = useRef(null);
+  const [pos, setPos] = useState(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  // Rendered through a portal and positioned via the anchor's own bounding rect (fixed
+  // coordinates) instead of being nested `position: absolute` inside the table's
+  // overflow-x-auto/overflow-hidden ancestors — those ancestors were clipping the popover
+  // and fighting with it for scroll/overflow, causing the scrollbar glitch + misalignment.
+  useLayoutEffect(() => {
+    if (!open || !anchorRef?.current) return;
+
+    function place() {
+      const rect = anchorRef.current.getBoundingClientRect();
+      const viewport = { w: window.innerWidth, h: window.innerHeight };
+      let left = rect.right - PANEL_WIDTH;
+      left = Math.max(8, Math.min(left, viewport.w - PANEL_WIDTH - 8));
+
+      const panelHeight = panelRef.current?.offsetHeight || 180;
+      let top = rect.bottom + 4;
+      if (top + panelHeight > viewport.h - 8) {
+        top = rect.top - panelHeight - 4;
+      }
+      top = Math.max(8, top);
+      setPos({ top, left });
+    }
+
+    place();
+    // Re-measure once the panel has actually rendered so `panelHeight` reflects its real
+    // size (varies with whether "Clear color" is shown) rather than the first-pass estimate.
+    const raf = requestAnimationFrame(place);
+    window.addEventListener('resize', place);
+    window.addEventListener('scroll', place, true);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', place);
+      window.removeEventListener('scroll', place, true);
+    };
+  }, [open, anchorRef, currentColor]);
 
   useEffect(() => {
     if (!open) return;
@@ -32,12 +74,13 @@ export default function LeadColorPicker({ open, onClose, currentColor, onSelect,
     };
   }, [open, onClose, anchorRef]);
 
-  if (!open) return null;
+  if (!open || !mounted || !pos) return null;
 
-  return (
+  return createPortal(
     <div
       ref={panelRef}
-      className="absolute right-0 top-full mt-1 z-50 w-52 p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-lg"
+      className="fixed z-[100] w-52 p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-lg"
+      style={{ top: pos.top, left: pos.left }}
       onClick={(e) => e.stopPropagation()}
     >
       <div className="flex items-center justify-between mb-2">
@@ -75,6 +118,7 @@ export default function LeadColorPicker({ open, onClose, currentColor, onSelect,
           Clear color
         </button>
       )}
-    </div>
+    </div>,
+    document.body
   );
 }

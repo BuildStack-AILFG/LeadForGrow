@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronDown, BookmarkPlus } from 'lucide-react';
+import { ChevronDown, BookmarkPlus, X } from 'lucide-react';
 import { SMART_VIEWS, SOURCE_OPTIONS, PIPELINE_STAGES } from './constants';
 import { mapTeamMemberOptions } from './utils';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
 export default function CRMFilterBar({
   filters,
@@ -12,10 +13,18 @@ export default function CRMFilterBar({
   savedViews,
   onSaveView,
   onApplySavedView,
+  onDeleteView,
   teamMembers
 }) {
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [saveName, setSaveName] = useState('');
+  const confirm = useConfirm();
+
+  const handleDeleteView = async (e, view) => {
+    e.stopPropagation();
+    if (!(await confirm({ title: 'Delete saved view', message: `Delete "${view.name}"?`, confirmLabel: 'Delete', danger: true }))) return;
+    onDeleteView?.(view.id);
+  };
 
   return (
     <div className="space-y-3">
@@ -34,14 +43,22 @@ export default function CRMFilterBar({
           </button>
         ))}
         {savedViews.map((view) => (
-          <button
+          <span
             key={view.id}
-            type="button"
-            onClick={() => onApplySavedView(view)}
-            className="px-3 py-1.5 text-[14px] font-medium rounded whitespace-nowrap bg-violet-50 text-violet-700 border border-violet-200 dark:bg-violet-950/30 dark:text-violet-300 dark:border-violet-900"
+            className="inline-flex items-center gap-1 pl-3 pr-1 py-1.5 text-[14px] font-medium rounded whitespace-nowrap bg-violet-50 text-violet-700 border border-violet-200 dark:bg-violet-950/30 dark:text-violet-300 dark:border-violet-900"
           >
-            {view.name}
-          </button>
+            <button type="button" onClick={() => onApplySavedView(view)}>
+              {view.name}
+            </button>
+            <button
+              type="button"
+              onClick={(e) => handleDeleteView(e, view)}
+              title="Delete view"
+              className="p-0.5 rounded hover:bg-violet-100 dark:hover:bg-violet-900 text-violet-500 hover:text-violet-800"
+            >
+              <X className="w-3 h-3" />
+            </button>
+          </span>
         ))}
       </div>
 

@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
-import { ChevronDown, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { authFetch } from '@/lib/apiClient';
 import PremiumCard from './PremiumCard';
 import WidgetMenu from './WidgetMenu';
 
@@ -204,27 +205,66 @@ function buildTimelineRows(meetings) {
 
 export default function CalendarScheduleCard({ calendar, onRefresh }) {
   const todayIso = new Date().toISOString().slice(0, 10);
+  const [collapsed, setCollapsed] = useState(false);
+
+  // The parent dashboard fetch always builds the calendar for the CURRENT month with
+  // no way to ask for a different one. Navigating to a different month fetches it
+  // independently from the lightweight /api/automation/dashboard/calendar endpoint
+  // instead of re-running the whole (much heavier) dashboard query — this is what
+  // makes the month control (previously a dead button) actually work.
+  const now = new Date();
+  const [viewYear, setViewYear] = useState(calendar?.year ?? now.getFullYear());
+  const [viewMonth, setViewMonth] = useState(calendar?.month ?? now.getMonth());
+  const [monthOverride, setMonthOverride] = useState(null);
+  const [loadingMonth, setLoadingMonth] = useState(false);
+
+  const isCurrentMonth = !!calendar && viewYear === calendar.year && viewMonth === calendar.month;
+  const activeCalendar = isCurrentMonth ? calendar : monthOverride;
+
   const [selectedDate, setSelectedDate] = useState(
     calendar?.days?.find((d) => d.isToday)?.date || todayIso
   );
-  const [collapsed, setCollapsed] = useState(false);
+
+  useEffect(() => {
+    if (isCurrentMonth) return undefined;
+    let cancelled = false;
+    setLoadingMonth(true);
+    authFetch(`/api/automation/dashboard/calendar?year=${viewYear}&month=${viewMonth}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (cancelled || !data.success) return;
+        setMonthOverride(data.data);
+        setSelectedDate(data.data?.days?.find((d) => d.isToday)?.date || data.data?.days?.[0]?.date || todayIso);
+      })
+      .finally(() => { if (!cancelled) setLoadingMonth(false); });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [viewYear, viewMonth, isCurrentMonth]);
+
+  const goToMonth = (delta) => {
+    let m = viewMonth + delta;
+    let y = viewYear;
+    if (m < 0) { m = 11; y -= 1; }
+    if (m > 11) { m = 0; y += 1; }
+    setViewYear(y);
+    setViewMonth(m);
+  };
 
   const monthLabel = useMemo(() => {
-    if (!calendar) return '';
-    const d = new Date(calendar.year, calendar.month, 1);
+    const d = new Date(viewYear, viewMonth, 1);
     return d.toLocaleString('en-US', { month: 'long' });
-  }, [calendar]);
+  }, [viewYear, viewMonth]);
 
   const week = useMemo(() => {
-    const days = calendar?.days || [];
+    const days = activeCalendar?.days || [];
     if (!days.length) return [];
     const todayIdx = days.findIndex((d) => d.isToday);
     const anchor = todayIdx >= 0 ? todayIdx : 0;
     const start = Math.max(0, Math.min(anchor - 3, days.length - 7));
     return days.slice(start, start + 7);
-  }, [calendar]);
+  }, [activeCalendar]);
 
-  const dayMeetings = calendar?.meetingsByDate?.[selectedDate] || [];
+  const dayMeetings = activeCalendar?.meetingsByDate?.[selectedDate] || [];
   const timelineRows = useMemo(() => buildTimelineRows(dayMeetings), [dayMeetings]);
 
   return (
@@ -233,13 +273,29 @@ export default function CalendarScheduleCard({ calendar, onRefresh }) {
       <div className="flex items-center justify-between gap-2 px-5 pt-5 pb-4 shrink-0">
         <h2 className="text-[16px] font-semibold text-[#101828] tracking-[-0.02em]">Calendar</h2>
         <div className="flex items-center gap-1.5 shrink-0">
-          <button
-            type="button"
-            className="inline-flex items-center gap-1.5 h-8 px-3 text-[13px] font-medium text-[#344054] bg-white border border-[#E5E7EB] rounded-none hover:bg-[#F9FAFB] transition-colors"
-          >
-            {monthLabel}
-            <ChevronDown className="w-3.5 h-3.5 text-[#98A2B3]" strokeWidth={2} />
-          </button>
+          <div className="inline-flex items-center h-8 bg-white border border-[#E5E7EB] rounded-none overflow-hidden">
+            <button
+              type="button"
+              onClick={() => goToMonth(-1)}
+              aria-label="Previous month"
+              disabled={loadingMonth}
+              className="inline-flex items-center justify-center w-7 h-8 text-[#98A2B3] hover:bg-[#F9FAFB] hover:text-[#344054] disabled:opacity-50 transition-colors"
+            >
+              <ChevronLeft className="w-3.5 h-3.5" strokeWidth={2} />
+            </button>
+            <span className="px-1.5 text-[13px] font-medium text-[#344054] min-w-[64px] text-center">
+              {monthLabel}
+            </span>
+            <button
+              type="button"
+              onClick={() => goToMonth(1)}
+              aria-label="Next month"
+              disabled={loadingMonth}
+              className="inline-flex items-center justify-center w-7 h-8 text-[#98A2B3] hover:bg-[#F9FAFB] hover:text-[#344054] disabled:opacity-50 transition-colors"
+            >
+              <ChevronRight className="w-3.5 h-3.5" strokeWidth={2} />
+            </button>
+          </div>
           <WidgetMenu
             onRefresh={onRefresh}
             onToggleCollapse={() => setCollapsed((c) => !c)}

@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useMemo } from 'react';
+import { Suspense, useMemo, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { resolveStages, isStageClosed, isStageLost, isStageWon, getStageLabel } from '@/lib/crm/pipelineUtils';
 import { companyOrContact, ownerName } from '../components/deals/utils';
@@ -11,6 +11,7 @@ import DealsFilterBar from '../components/deals/DealsFilterBar';
 import DealTable from '../components/deals/DealTable';
 import DealsKanban from '../components/deals/DealsKanban';
 import DealCreateModal from '../components/deals/DealCreateModal';
+import DealsImportModal from '../components/deals/DealsImportModal';
 import DealDrawer from '../components/deals/DealDrawer';
 import DealsSkeleton from '../components/deals/DealsSkeleton';
 import DemoScheduledModal from '../components/leads/DemoScheduledModal';
@@ -80,6 +81,7 @@ function filterAndSortDeals(deals, filters, stages) {
 function DealsContent() {
   const ws = useDealsWorkspace();
   const stages = useMemo(() => resolveStages(ws.stages), [ws.stages]);
+  const [showImportModal, setShowImportModal] = useState(false);
 
   const { tableList, kanbanList } = useMemo(
     () => filterAndSortDeals(ws.deals, ws.filters, stages),
@@ -109,7 +111,7 @@ function DealsContent() {
           onRefresh={() => { ws.fetchDeals(true); ws.fetchStats(); }}
           onCreate={ws.openCreateModal}
           onExport={ws.exportDeals}
-          onImport={() => toast('Import coming soon')}
+          onImport={() => setShowImportModal(true)}
           showFilters={ws.showFilters}
           onToggleFilters={() => ws.setShowFilters((v) => !v)}
           showSort={ws.showSort}
@@ -172,6 +174,14 @@ function DealsContent() {
         onSubmit={ws.saveDeal}
         stages={stages}
         saving={ws.saving}
+      />
+
+      <DealsImportModal
+        open={showImportModal}
+        onClose={() => setShowImportModal(false)}
+        stages={stages}
+        pipelineId={ws.selectedPipeline}
+        onImported={() => { ws.fetchDeals(true); ws.fetchStats(); }}
       />
 
       <DealDrawer

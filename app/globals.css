@@ -280,7 +280,8 @@
   .lfg-area-in,
   .lfg-grow-y,
   .lfg-chart-reveal,
-  .lfg-skeleton {
+  .lfg-skeleton,
+  .lfg-card-float {
     animation: none !important;
   }
   .lfg-draw-line { stroke-dashoffset: 0; }
@@ -318,11 +319,20 @@
   animation: landing-float 4s ease-in-out infinite;
 }
 
+@keyframes lfg-card-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.lfg-card-float {
+  animation: lfg-card-float 3.8s ease-in-out infinite;
+}
+
 .landing-logo {
   font-family: var(--font-plus-jakarta);
   font-weight: 660;
   letter-spacing: -0.03em;
-  color: #1a1a1a;
+  color: #1D4B3E;
 }
 
 .landing-headline {

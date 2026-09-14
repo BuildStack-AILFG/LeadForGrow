@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { ArrowRight, ArrowLeft, X, BookOpen } from 'lucide-react';
@@ -12,38 +12,43 @@ function getRect(target) {
   if (!target) return null;
   const el = document.querySelector(`[data-tour="${target}"]`);
   if (!el) return null;
+  const rect = el.getBoundingClientRect();
+  // A responsively-hidden target (e.g. `hidden md:flex`) still matches the selector but
+  // reports a zero-size rect — treat that the same as "no target found" instead of
+  // spotlighting a phantom 0x0 box pinned to the corner.
+  if (rect.width === 0 || rect.height === 0) return null;
   el.scrollIntoView({ block: 'center', behavior: 'smooth' });
-  return el.getBoundingClientRect();
+  return rect;
 }
 
-function placeCard(rect, placement, viewport) {
+function placeCard(rect, placement, viewport, cardWidth) {
   if (!rect) {
     // No target found — center the card in the viewport.
     return {
       top: viewport.h / 2 - 90,
-      left: viewport.w / 2 - CARD_WIDTH / 2,
+      left: viewport.w / 2 - cardWidth / 2,
     };
   }
   const spotPad = 8;
   let top;
-  let left = rect.left + rect.width / 2 - CARD_WIDTH / 2;
-  left = Math.max(16, Math.min(left, viewport.w - CARD_WIDTH - 16));
+  let left = rect.left + rect.width / 2 - cardWidth / 2;
+  left = Math.max(16, Math.min(left, viewport.w - cardWidth - 16));
 
   const spaceBelow = viewport.h - rect.bottom;
   const spaceAbove = rect.top;
   const preferBelow = placement === 'bottom' || (!placement && spaceBelow > 200) || (placement === 'auto' && spaceBelow >= spaceAbove);
 
   if (placement === 'right') {
-    return { top: Math.max(16, rect.top + rect.height / 2 - 80), left: Math.min(rect.right + GAP + spotPad, viewport.w - CARD_WIDTH - 16) };
+    return { top: Math.max(16, rect.top + rect.height / 2 - 80), left: Math.min(rect.right + GAP + spotPad, viewport.w - cardWidth - 16) };
   }
   if (placement === 'left') {
-    return { top: Math.max(16, rect.top + rect.height / 2 - 80), left: Math.max(16, rect.left - CARD_WIDTH - GAP - spotPad) };
+    return { top: Math.max(16, rect.top + rect.height / 2 - 80), left: Math.max(16, rect.left - cardWidth - GAP - spotPad) };
   }
 
   if (preferBelow) {
     top = rect.bottom + GAP + spotPad;
   } else {
-    top = rect.top - GAP - spotPad - 190; // approx card height
+    top = rect.top - GAP - spotPad - 190; // approx card height — clamped precisely against the real rendered height below
   }
   top = Math.max(12, Math.min(top, viewport.h - 12));
   return { top, left };
@@ -52,7 +57,8 @@ function placeCard(rect, placement, viewport) {
 export default function TourOverlay({ tour, onNext, onBack, onSkip }) {
   const [mounted, setMounted] = useState(false);
   const [rect, setRect] = useState(null);
-  const [pos, setPos] = useState({ top: 0, left: 0 });
+  const [pos, setPos] = useState({ top: 0, left: 0, width: CARD_WIDTH });
+  const cardRef = useRef(null);
   const step = tour.steps[tour.stepIndex];
   const isLast = tour.stepIndex === tour.steps.length - 1;
   const isFirst = tour.stepIndex === 0;
@@ -65,7 +71,8 @@ export default function TourOverlay({ tour, onNext, onBack, onSkip }) {
       const r = getRect(step?.target);
       setRect(r);
       const viewport = { w: window.innerWidth, h: window.innerHeight };
-      setPos(placeCard(r, step?.placement, viewport));
+      const cardWidth = Math.min(CARD_WIDTH, viewport.w - 32);
+      setPos({ ...placeCard(r, step?.placement, viewport, cardWidth), width: cardWidth });
     }
     // Delay one tick so scrollIntoView from the previous measure settles.
     const t = setTimeout(measure, 60);
@@ -79,6 +86,21 @@ export default function TourOverlay({ tour, onNext, onBack, onSkip }) {
       window.removeEventListener('scroll', onResize, true);
     };
   }, [tour.stepIndex, step?.target, step?.placement]);
+
+  // placeCard's vertical offset is only an estimate until the card is actually in the
+  // DOM — once it renders, clamp `top` against its real measured height so it can never
+  // overflow the bottom of a short viewport (the previous hardcoded `190` guess could).
+  useLayoutEffect(() => {
+    if (!cardRef.current) return;
+    const height = cardRef.current.offsetHeight;
+    const viewportH = window.innerHeight;
+    setPos((prev) => {
+      const maxTop = Math.max(12, viewportH - height - 12);
+      const clampedTop = Math.min(prev.top, maxTop);
+      if (clampedTop === prev.top) return prev;
+      return { ...prev, top: clampedTop };
+    });
+  }, [pos.top, pos.left, pos.width]);
 
   useEffect(() => {
     function onKey(e) {
@@ -122,8 +144,9 @@ export default function TourOverlay({ tour, onNext, onBack, onSkip }) {
       {spotlightStyle && <div className="lfg-tour-spotlight" style={spotlightStyle} />}
 
       <div
+        ref={cardRef}
         className="lfg-tour-pop glass-panel fixed z-[9999] rounded-2xl text-slate-900 p-5"
-        style={{ top: pos.top, left: pos.left, width: CARD_WIDTH }}
+        style={{ top: pos.top, left: pos.left, width: pos.width || CARD_WIDTH }}
       >
         <div className="flex items-start justify-between gap-3 mb-2.5">
           <p className="text-[11px] font-semibold uppercase tracking-wider text-indigo-600">

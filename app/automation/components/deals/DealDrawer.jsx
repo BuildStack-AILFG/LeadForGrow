@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -46,20 +46,45 @@ function Avatar({ name, size = 'md' }) {
 export default function DealDrawer({ dealId, stages: pipelineStages = [], onClose, onUpdated, onStageChange }) {
   const [deal, setDeal] = useState(null);
   const [loading, setLoading] = useState(false);
+  // Distinguishes a genuinely missing deal (404) from a transient load failure — both
+  // used to collapse into one generic "Deal not found" shown identically across the
+  // Overview/Timeline/Notes tabs, since they all gate on the same `deal` truthiness.
+  const [error, setError] = useState(null);
   const [tab, setTab] = useState('overview');
+  // Ignores a response for a deal the user has already navigated away from, so a slow
+  // fetch for a PREVIOUS dealId can't overwrite the newly-opened deal's data.
+  const latestDealIdRef = useRef(dealId);
+
+  const loadDeal = () => {
+    if (!dealId) return;
+    latestDealIdRef.current = dealId;
+    setLoading(true);
+    setDeal(null);
+    setError(null);
+    authFetch(`/api/automation/deals/${dealId}`)
+      .then((r) => r.json().then((data) => ({ status: r.status, data })))
+      .then(({ status, data }) => {
+        if (latestDealIdRef.current !== dealId) return;
+        if (data.success) {
+          setDeal(data.data);
+        } else {
+          setError(status === 404 ? 'not_found' : 'load_failed');
+          toast.error('Failed to load deal');
+        }
+      })
+      .catch(() => {
+        if (latestDealIdRef.current === dealId) setError('load_failed');
+        toast.error('Failed to load deal');
+      })
+      .finally(() => {
+        if (latestDealIdRef.current === dealId) setLoading(false);
+      });
+  };
 
   useEffect(() => {
-    if (!dealId) return;
-    setLoading(true);
     setTab('overview');
-    authFetch(`/api/automation/deals/${dealId}`)
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.success) setDeal(data.data);
-        else toast.error('Failed to load deal');
-      })
-      .catch(() => toast.error('Failed to load deal'))
-      .finally(() => setLoading(false));
+    loadDeal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dealId]);
 
   useEffect(() => {
@@ -162,8 +187,19 @@ export default function DealDrawer({ dealId, stages: pipelineStages = [], onClos
                   {tab === 'timeline' && <TimelineTab timeline={deal.timeline || []} />}
                   {tab === 'notes' && <NotesTab notes={deal.notes || []} />}
                 </>
-              ) : (
+              ) : error === 'not_found' ? (
                 <p className="text-[13px] text-[#667085] text-center py-12">Deal not found</p>
+              ) : (
+                <div className="text-center py-12">
+                  <p className="text-[13px] text-[#667085] mb-3">Failed to load this deal.</p>
+                  <button
+                    type="button"
+                    onClick={loadDeal}
+                    className="px-3 py-1.5 text-[12px] font-semibold text-white bg-[#101828] hover:bg-[#1D2939] rounded"
+                  >
+                    Retry
+                  </button>
+                </div>
               )}
             </div>
           </motion.aside>

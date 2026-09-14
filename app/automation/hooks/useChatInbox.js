@@ -69,10 +69,11 @@ export function useChatInbox() {
       const res = await authFetch(`/api/automation/inbox/conversations?${buildConvParams(1)}`);
       const data = await res.json();
       if (data.success) {
-        const normalized = (data.data || []).map((c) => ({
-          ...c,
-          status: c.inboxStatus || c.status,
-        }));
+        // `status` (open/closed/lost) and `inboxStatus` (unread/read/intervened) are
+        // separate fields server-side — previously this overwrote `status` with
+        // `inboxStatus`, which meant `status === 'closed'` could never be true here even
+        // though the backend correctly persisted it, breaking the Close-conversation UI.
+        const normalized = data.data || [];
         setConversations(normalized);
         setConvPage(1);
         // Prefer the API's authoritative hasMore (page-size heuristic) so we
@@ -504,6 +505,7 @@ export function useChatInbox() {
         scheduledAt,
         template, // { name, language, headerMediaUrl, variables }
         emailAccountId, // From-picker choice for email sends
+        replyToMessageId,
       } = options;
       const hasMedia = media?.url || attachments.length > 0;
       const hasTemplate = !!template?.name;
@@ -549,6 +551,7 @@ export function useChatInbox() {
             templateHeaderMediaUrl: template?.headerMediaUrl,
             templateVariables: template?.variables,
             emailAccountId,
+            replyToMessageId,
           }),
         });
         const data = await res.json();
@@ -650,7 +653,9 @@ export function useChatInbox() {
     // early-returns so we don't hit the PATCH endpoint with an unknown action.
     if (action === 'reply') {
       try {
-        window.dispatchEvent(new CustomEvent('lfg:reply-to-message', { detail: { messageId } }));
+        const target = messages.find((m) => m._id === messageId);
+        const preview = (target?.content?.body || target?.content?.caption || '').slice(0, 140);
+        window.dispatchEvent(new CustomEvent('lfg:reply-to-message', { detail: { messageId, preview } }));
       } catch { /* SSR/no-window safety */ }
       return;
     }
@@ -684,7 +689,7 @@ export function useChatInbox() {
       setMessages((prev) => prev.map((m) => (m._id === messageId ? { ...m, ...rollback } : m)));
       toast.error(err.message || 'Message action failed');
     }
-  }, []);
+  }, [messages]);
 
   const assignChat = useCallback(
     async (assigneeId) => {
@@ -763,23 +768,60 @@ export function useChatInbox() {
     [selectedChat, fetchConversationDetail]
   );
 
+  // Mirrors leads workspace's lost-reason flow: marking a lead "lost" requires a reason
+  // (the leads API rejects the PUT with 400/LOST_REASON_REQUIRED otherwise) — previously
+  // this call skipped that entirely and silently swallowed the resulting 400, so clicking
+  // "Mark lost" in the chat header appeared to do nothing.
+  const [lostPrompt, setLostPrompt] = useState(null);
+  const [lostSaving, setLostSaving] = useState(false);
+
   const updateLeadStatus = useCallback(
-    async (status) => {
+    async (status, options = {}) => {
       if (!selectedChat?.leadId?._id) return;
+      if (status === 'lost' && !options.lostReason) {
+        setLostPrompt({ leadName: selectedChat.leadId?.name || selectedChat.participantName });
+        return;
+      }
       const userId = getUserId();
-      const res = await authFetch(`/api/automation/leads/${selectedChat.leadId._id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status, performedBy: userId })
-      });
-      const data = await res.json();
-      if (data.success) {
-        setSelectedChat((prev) => ({ ...prev, leadId: { ...prev.leadId, status } }));
-        setLeadDetail(data.data);
-        toast.success('Stage updated');
+      try {
+        const res = await authFetch(`/api/automation/leads/${selectedChat.leadId._id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            status,
+            lostReason: options.lostReason,
+            note: options.note,
+            performedBy: userId,
+          }),
+        });
+        const data = await res.json();
+        if (data.success) {
+          setSelectedChat((prev) => ({ ...prev, leadId: { ...prev.leadId, status } }));
+          setLeadDetail(data.data);
+          toast.success('Stage updated');
+        } else {
+          toast.error(data.error || 'Update failed');
+        }
+      } catch {
+        toast.error('Update failed');
       }
     },
     [selectedChat]
+  );
+
+  const cancelLostPrompt = useCallback(() => setLostPrompt(null), []);
+
+  const confirmLostReason = useCallback(
+    async ({ reason, comments }) => {
+      setLostSaving(true);
+      try {
+        await updateLeadStatus('lost', { lostReason: reason, note: comments });
+      } finally {
+        setLostSaving(false);
+        setLostPrompt(null);
+      }
+    },
+    [updateLeadStatus]
   );
 
   // Follow-up quick actions: reschedule to a specific date (or clear it),
@@ -889,6 +931,10 @@ export function useChatInbox() {
     realtimeConnected: realtime.connected,
     toggleLabel,
     updateLeadStatus,
+    lostPrompt,
+    lostSaving,
+    cancelLostPrompt,
+    confirmLostReason,
     updateLeadFollowUp,
     addNote,
     initiateCall,

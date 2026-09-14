@@ -217,7 +217,9 @@ export default function CRMProfilePanel({
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto">
+      {/* pb-24 reserves clearance at the bottom so content (e.g. the Notes "Add" button)
+          never sits underneath the fixed Help/Grovia floating buttons in this corner. */}
+      <div className="flex-1 overflow-y-auto pb-24">
         <div className="p-4 border-b border-slate-100 dark:border-slate-800">
           <div className="flex items-start justify-between gap-2">
             <div>

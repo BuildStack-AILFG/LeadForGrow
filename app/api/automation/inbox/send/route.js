@@ -212,6 +212,7 @@ async function handler(req) {
       type: hasMedia ? resolvedType : (activeChannel === 'email' ? 'email' : 'text'),
       content: {
         body: message.trim() || fileName || '',
+        html: activeChannel === 'email' && bodyHtml ? bodyHtml : undefined,
         mediaUrl,
         mimeType,
         fileName,

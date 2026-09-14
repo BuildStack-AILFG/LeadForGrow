@@ -55,7 +55,6 @@ export const POST = withPlanAccess('automation', async (req, { params }) => {
       lead,
       triggerPayload: { text: body.message || 'hi' },
       isTest: true,
-      startNodeKey: body.startNodeKey || flow.testStartNodeKey || null,
     });
 
     return NextResponse.json({

@@ -415,10 +415,10 @@ export default function AutomationInActionSection() {
         className={
           SHOW_LIVE_ANIMATION
             ? 'relative flex min-h-screen w-full flex-col justify-center pb-12 pt-6 sm:pb-16 sm:pt-8'
-            : 'relative w-full py-12 sm:py-16'
+            : 'relative w-full py-8 sm:py-10'
         }
       >
-        <div className="mx-auto mb-8 w-full max-w-3xl px-4 text-center sm:px-6">
+        <div className="mx-auto mb-6 w-full max-w-3xl px-4 text-center sm:px-6">
           <h2
             className="text-3xl font-extrabold tracking-[-0.03em] text-[#111827] sm:text-4xl"
             style={{ fontFamily: 'var(--font-plus-jakarta)' }}

@@ -81,32 +81,38 @@ export default function DealsFilterBar({
         </div>
       )}
 
-      {showSort && (
-        <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-[#F2F4F7]">
-          <span className="text-[11px] font-medium text-[#98A2B3] uppercase tracking-wide mr-1">Sort by</span>
-          {SORT_OPTIONS.map((opt) => (
+      {showSort && (() => {
+        const activeSort = SORT_OPTIONS.find((o) => o.key === filters.sort) || SORT_OPTIONS[0];
+        return (
+          <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-[#F2F4F7]">
+            <span className="text-[11px] font-medium text-[#98A2B3] uppercase tracking-wide mr-1">Sort by</span>
+            {SORT_OPTIONS.map((opt) => (
+              <button
+                key={opt.key}
+                type="button"
+                onClick={() => onFilterChange({ sort: opt.key })}
+                className={`px-2.5 py-1.5 text-[12px] rounded-lg border transition-colors ${
+                  filters.sort === opt.key
+                    ? 'bg-[#101828] text-white border-[#101828]'
+                    : 'bg-white text-[#475467] border-[#E5E7EB] hover:bg-[#F9FAFB]'
+                }`}
+              >
+                {opt.label}
+              </button>
+            ))}
+            {/* Names the active sort field directly on the toggle (was a bare
+                "Ascending/Descending" with no indication of which field it applied to). */}
             <button
-              key={opt.key}
               type="button"
-              onClick={() => onFilterChange({ sort: opt.key })}
-              className={`px-2.5 py-1.5 text-[12px] rounded-lg border transition-colors ${
-                filters.sort === opt.key
-                  ? 'bg-[#101828] text-white border-[#101828]'
-                  : 'bg-white text-[#475467] border-[#E5E7EB] hover:bg-[#F9FAFB]'
-              }`}
+              onClick={() => onFilterChange({ dir: filters.dir === 'asc' ? 'desc' : 'asc' })}
+              title={`Currently sorting by ${activeSort.label}`}
+              className="px-2.5 py-1.5 text-[12px] rounded-lg border border-[#E5E7EB] text-[#475467] hover:bg-[#F9FAFB]"
             >
-              {opt.label}
+              {activeSort.label} {filters.dir === 'asc' ? '↑ Ascending' : '↓ Descending'}
             </button>
-          ))}
-          <button
-            type="button"
-            onClick={() => onFilterChange({ dir: filters.dir === 'asc' ? 'desc' : 'asc' })}
-            className="px-2.5 py-1.5 text-[12px] rounded-lg border border-[#E5E7EB] text-[#475467] hover:bg-[#F9FAFB]"
-          >
-            {filters.dir === 'asc' ? 'Ascending ↑' : 'Descending ↓'}
-          </button>
-        </div>
-      )}
+          </div>
+        );
+      })()}
     </div>
   );
 }

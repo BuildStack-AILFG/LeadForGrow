@@ -3,15 +3,10 @@
 import {
   ChevronLeft,
   Phone,
-  Calendar,
   UserPlus,
-  Trophy,
-  XCircle,
-  Info,
   Hand,
   Bot
 } from 'lucide-react';
-import Link from 'next/link';
 import StatusBadge from '../leads/StatusBadge';
 import { assigneeName } from '../leads/utils';
 import InboxActionsMenu from './InboxActionsMenu';
@@ -93,24 +88,20 @@ export default function ChatHeader({
         <button type="button" onClick={onCall} className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800" title="Call">
           <Phone className="w-4 h-4" />
         </button>
-        <Link href={`/automation/leads/${lead._id}`} className="hidden md:block p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800" title="Open lead">
-          <Info className="w-4 h-4" />
-        </Link>
-        <button type="button" onClick={onWon} className="hidden sm:block p-2 rounded-lg text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/30" title="Mark won">
-          <Trophy className="w-4 h-4" />
-        </button>
-        <button type="button" onClick={onLost} className="hidden sm:block p-2 rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30" title="Mark lost">
-          <XCircle className="w-4 h-4" />
-        </button>
         <button type="button" onClick={onProfile} className="xl:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800" title="CRM profile">
           <UserPlus className="w-4 h-4" />
         </button>
+        {/* Open lead / Mark won / Mark lost moved into the overflow menu below —
+            keeping them always-visible icons here was crowding the header. */}
         <InboxActionsMenu
           chat={chat}
           onUpdate={onUpdateConversation}
           onClaim={onClaim}
           onAction={onAction}
           currentUserId={currentUserId}
+          onWon={onWon}
+          onLost={onLost}
+          leadHref={lead._id ? `/automation/leads/${lead._id}` : null}
         />
       </div>
     </div>

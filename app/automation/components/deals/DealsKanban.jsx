@@ -63,6 +63,7 @@ export default function DealsKanban({
           <DealKanbanColumn
             key={stage.key}
             stage={stage}
+            stages={stages}
             deals={dealsByStage[stage.key] || []}
             formatValue={formatValue}
             onOpenDeal={onOpenDeal}

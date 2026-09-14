@@ -5,7 +5,7 @@ export const metadata = {
   description: "Ensure your agency and client sites rank on the first page of Google. Our LeadForGrow experts handle the technical schema, speed, and keyword mapping for you.",
   keywords: ["foundational SEO setup", "technical SEO audit India", "agency SEO services", "schema markup implementation", "local SEO for small business"],
   alternates: {
-    canonical: 'https://www.leadforgrow.com/services/seo-setup'
+    canonical: 'https://leadforgrow.online/services/seo-setup'
   }
 };
 

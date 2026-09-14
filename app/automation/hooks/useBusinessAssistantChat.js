@@ -27,9 +27,9 @@ export function useBusinessAssistantChat() {
     } catch { /* ignore */ }
   }, []);
 
-  const initChat = useCallback(async () => {
-    if (initialized) return;
-
+  // Shared init routine, callable directly (bypassing the `initialized` gate) so a
+  // Reset immediately following a reset doesn't hit a stale-closure no-op — see `reset` below.
+  const runInit = useCallback(async () => {
     let bizName = 'your business';
     try {
       const res = await authFetch('/api/ai/business-assistant');
@@ -47,7 +47,12 @@ export function useBusinessAssistantChat() {
       suggestions: SUGGESTIONS,
     }]);
     setInitialized(true);
-  }, [initialized]);
+  }, []);
+
+  const initChat = useCallback(() => {
+    if (initialized) return;
+    return runInit();
+  }, [initialized, runInit]);
 
   const sendMessage = useCallback(async (text) => {
     const question = (text || input).trim();
@@ -99,7 +104,8 @@ export function useBusinessAssistantChat() {
     setMessages([]);
     setInitialized(false);
     setContext(null);
-  }, []);
+    runInit();
+  }, [runInit]);
 
   return {
     messages, input, setInput, loading, context, sendMessage, initChat, reset, loadContext, SUGGESTIONS,

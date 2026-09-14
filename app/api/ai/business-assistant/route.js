@@ -93,6 +93,29 @@ export const POST = withAuth()(async (req) => {
       }
     }
 
+    // Any question that didn't match a "tool" intent and wasn't answered by the
+    // (possibly unreachable) external AI_BACKEND_URL still deserves a real, question-specific
+    // answer rather than a static canned response — route it to the configured LLM with the
+    // full business context. generateLocalAnswer is now only the last-resort fallback if the
+    // LLM call itself errors (no provider configured / network failure).
+    if (!answer) {
+      const llm = await chatCompletion({
+        messages: [
+          {
+            role: 'system',
+            content: `You are Grovia, ${ctx.businessName}'s private CRM growth copilot. Answer the team's question directly and specifically using the business context below — never give a generic, one-size-fits-all reply. Be concise (2-5 sentences unless the question needs a list). If the context doesn't contain what's needed to answer precisely, say so and suggest what to check instead of guessing.\n\nBusiness context:\n${JSON.stringify(metricsPayload, null, 2)}`,
+          },
+          ...history.slice(-6).map((m) => ({ role: m.role, content: m.content })),
+          { role: 'user', content: question },
+        ],
+        temperature: 0.4,
+      });
+      if (llm.content) {
+        answer = llm.content.trim();
+        source = 'ai';
+      }
+    }
+
     if (!answer) {
       answer = generateLocalAnswer(question, ctx);
       if (toolResult && !toolResult.error) {

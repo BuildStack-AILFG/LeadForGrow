@@ -50,11 +50,13 @@ export default function BusinessAssistantPanel() {
     <AnimatePresence>
       {isOpen && (
         <>
+          {/* Click-outside-to-close catcher — deliberately invisible (no dim/blur) so the
+              dashboard behind stays visible and clickable while the assistant is open. */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[60]"
+            className="fixed inset-0 z-[60]"
             onClick={close}
           />
 
@@ -63,7 +65,7 @@ export default function BusinessAssistantPanel() {
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: '100%', opacity: 0.8 }}
             transition={{ type: 'spring', damping: 28, stiffness: 320 }}
-            className="fixed top-0 right-0 h-full w-full max-w-[440px] z-[70] flex flex-col bg-[#0c1222] shadow-2xl border-l border-white/10"
+            className="fixed top-0 right-0 h-full w-[min(440px,100%)] z-[70] flex flex-col bg-[#0c1222] shadow-2xl border-l border-white/10"
           >
             {/* Header */}
             <div className="relative overflow-hidden shrink-0">
@@ -86,7 +88,7 @@ export default function BusinessAssistantPanel() {
                   <div className="flex items-center gap-1">
                     <button
                       type="button"
-                      onClick={() => { chat.reset(); chat.initChat(); }}
+                      onClick={() => chat.reset()}
                       className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
                       title="Reset chat"
                     >

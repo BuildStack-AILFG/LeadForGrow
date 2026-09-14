@@ -9,15 +9,23 @@ import {
   MessageCircle,
   Mail,
   ExternalLink,
-  AlertCircle
+  AlertCircle,
+  Trash2
 } from 'lucide-react';
 import TaskTypeBadge from './TaskTypeBadge';
 import { assigneeName } from '../leads/utils';
 import { formatDueDate, getTimeUntil, isOverdue } from './utils';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
-function TaskRow({ task, onMarkDone, onReschedule, onCommunicate }) {
+function TaskRow({ task, onMarkDone, onReschedule, onCommunicate, onDelete }) {
   const lead = task.leadId;
   const overdue = isOverdue(task.dueDate);
+  const confirm = useConfirm();
+
+  const handleDelete = async () => {
+    if (!(await confirm({ title: 'Delete task', message: `Delete "${task.title}"?`, confirmLabel: 'Delete', danger: true }))) return;
+    onDelete?.(task._id);
+  };
 
   return (
     <tr className="group border-b border-[#E5E5E7] dark:border-slate-800/80 hover:bg-[#FAFBFC]/80 dark:hover:bg-slate-800/30 transition-colors">
@@ -121,6 +129,16 @@ function TaskRow({ task, onMarkDone, onReschedule, onCommunicate }) {
             >
               <ExternalLink className="w-3.5 h-3.5" />
             </Link>
+          )}
+          {onDelete && (
+            <button
+              type="button"
+              onClick={handleDelete}
+              className="p-1.5 rounded text-slate-400 hover:text-red-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition-opacity"
+              title="Delete task"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+            </button>
           )}
         </div>
       </td>

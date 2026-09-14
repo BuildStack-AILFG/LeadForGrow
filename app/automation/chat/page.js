@@ -1,7 +1,8 @@
 'use client';
 
 import { Suspense, useState, useMemo, useEffect } from 'react';
-import { MessageSquare } from 'lucide-react';
+import { MessageSquare, FileText, Trash2 } from 'lucide-react';
+import { authFetch } from '@/lib/apiClient';
 import { useChatInbox } from '../hooks/useChatInbox';
 import ChatSidebar from '../components/chat/ChatSidebar';
 import EmailFolderBar from '../components/chat/EmailFolderBar';
@@ -11,6 +12,7 @@ import ChatInput from '../components/chat/ChatInput';
 import AiReplyBar from '../components/ai/AiReplyBar';
 import CRMProfilePanel from '../components/chat/CRMProfilePanel';
 import OutOfWindowTemplateBar, { useIsWithin24hWindow } from '../components/chat/OutOfWindowTemplateBar';
+import LostReasonModal from '../components/leads/LostReasonModal';
 import { useConfirm } from '@/app/components/ConfirmProvider';
 
 function ChatInboxContent() {
@@ -21,6 +23,45 @@ function ChatInboxContent() {
   const [emailFolder, setEmailFolder] = useState('inbox');
 
   const [aiReplyText, setAiReplyText] = useState(null);
+
+  // Drafts folder was a hardcoded-empty stub — this actually fetches from the
+  // EmailDraft collection (the GET endpoint already existed and worked, it just had
+  // no caller) and scopes the results to the currently open conversation.
+  const [emailDrafts, setEmailDrafts] = useState([]);
+  const [draftsLoading, setDraftsLoading] = useState(false);
+  const conversationId = inbox.selectedChat?._id;
+  const isEmailChat = inbox.selectedChat?.channel === 'email';
+
+  useEffect(() => {
+    if (emailFolder !== 'drafts' || !isEmailChat || !conversationId) {
+      setEmailDrafts([]);
+      return undefined;
+    }
+    let cancelled = false;
+    setDraftsLoading(true);
+    authFetch('/api/automation/inbox/email/folders?folder=drafts')
+      .then((res) => res.json())
+      .then((data) => {
+        if (cancelled || !data.success) return;
+        setEmailDrafts(
+          (data.data || []).filter((d) => String(d.conversationId || '') === String(conversationId))
+        );
+      })
+      .catch(() => {})
+      .finally(() => { if (!cancelled) setDraftsLoading(false); });
+    return () => { cancelled = true; };
+  }, [emailFolder, isEmailChat, conversationId]);
+
+  const continueDraft = (draft) => {
+    window.dispatchEvent(new CustomEvent('lfg:insert-reply', { detail: { text: draft.bodyText || '' } }));
+    setEmailFolder('inbox');
+  };
+
+  const deleteDraft = async (draft) => {
+    if (!(await confirm({ title: 'Delete draft', message: 'Delete this draft?', confirmLabel: 'Delete', danger: true }))) return;
+    await authFetch(`/api/automation/inbox/email/folders?id=${draft._id}`, { method: 'DELETE' });
+    setEmailDrafts((prev) => prev.filter((d) => d._id !== draft._id));
+  };
 
   const canReply =
     inbox.selectedChat?.channel === 'whatsapp'
@@ -231,20 +272,55 @@ function ChatInboxContent() {
                 </div>
               );
             })()}
-            <MessageList
-              messages={visibleMessages}
-              loading={inbox.messagesLoading}
-              hasMore={inbox.hasMoreMessages}
-              onLoadMore={inbox.loadOlderMessages}
-              loadingMore={inbox.loadingMore}
-              onMessageAction={inbox.messageAction}
-              emptyLabel={emptyLabel}
-              // Passed so MessageBubble's EmailSenderHeader can fall back
-              // to the conversation's participant when a specific Message's
-              // content.participantName/Email aren't populated (older rows
-              // saved before that field became standard).
-              conversation={inbox.selectedChat}
-            />
+            {emailFolder === 'drafts' ? (
+              <div className="flex-1 overflow-y-auto p-4 space-y-2">
+                {draftsLoading ? (
+                  <p className="text-center text-sm text-slate-400 py-12">Loading drafts…</p>
+                ) : emailDrafts.length === 0 ? (
+                  <p className="text-center text-sm text-slate-400 py-12">{emptyLabel}</p>
+                ) : (
+                  emailDrafts.map((draft) => (
+                    <div key={draft._id} className="flex items-start gap-3 p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg">
+                      <FileText className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" />
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">
+                          {draft.subject || '(no subject)'}
+                        </p>
+                        <p className="text-xs text-slate-500 truncate mt-0.5">
+                          {draft.bodyText || 'Empty draft'}
+                        </p>
+                        <p className="text-[10px] text-slate-400 mt-1">
+                          Saved {new Date(draft.updatedAt).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-1 shrink-0">
+                        <button type="button" onClick={() => continueDraft(draft)} className="px-2.5 py-1.5 text-xs font-semibold text-[#1D4B3E] bg-[#F0F9F5] hover:bg-[#dcefe6] rounded">
+                          Continue editing
+                        </button>
+                        <button type="button" onClick={() => deleteDraft(draft)} className="p-1.5 rounded text-slate-400 hover:text-red-600 hover:bg-red-50" title="Delete draft">
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            ) : (
+              <MessageList
+                messages={visibleMessages}
+                loading={inbox.messagesLoading}
+                hasMore={inbox.hasMoreMessages}
+                onLoadMore={inbox.loadOlderMessages}
+                loadingMore={inbox.loadingMore}
+                onMessageAction={inbox.messageAction}
+                emptyLabel={emptyLabel}
+                // Passed so MessageBubble's EmailSenderHeader can fall back
+                // to the conversation's participant when a specific Message's
+                // content.participantName/Email aren't populated (older rows
+                // saved before that field became standard).
+                conversation={inbox.selectedChat}
+              />
+            )}
             {canReply && !showTemplateBar && (
               <AiReplyBar
                 channel={inbox.selectedChat?.channel || 'whatsapp'}
@@ -276,6 +352,7 @@ function ChatInboxContent() {
                 canSend={canReply}
                 hasSelection={!!inbox.selectedChat}
                 channel={inbox.selectedChat?.channel || 'whatsapp'}
+                conversationId={inbox.selectedChat?._id}
                 templates={inbox.templates}
                 aiSuggestion={aiReplyText || aiSuggestion}
                 onSend={inbox.sendMessage}
@@ -337,6 +414,15 @@ function ChatInboxContent() {
           onClose={() => setProfileOpen(false)}
         />
       )}
+
+      <LostReasonModal
+        open={!!inbox.lostPrompt}
+        leadName={inbox.lostPrompt?.leadName}
+        variant="lost"
+        saving={inbox.lostSaving}
+        onCancel={inbox.cancelLostPrompt}
+        onConfirm={inbox.confirmLostReason}
+      />
     </div>
   );
 }

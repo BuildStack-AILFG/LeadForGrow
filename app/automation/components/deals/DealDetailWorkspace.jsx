@@ -36,7 +36,7 @@ function ownerLabel(owner) {
 export default function DealDetailWorkspace() {
   const { id } = useParams();
   const detail = useDealDetail(id);
-  const { deal, loading, saving, changeStage, archiveDeal } = detail;
+  const { deal, loading, error, saving, changeStage, archiveDeal, fetchDeal } = detail;
 
   const handleStageChange = async (e) => {
     const newStage = e.target.value;
@@ -47,7 +47,23 @@ export default function DealDetailWorkspace() {
   };
 
   if (loading) return <LeadsSkeleton />;
-  if (!deal) return <div className="p-8 text-center text-slate-500">Deal not found</div>;
+  if (!deal && error === 'not_found') {
+    return <div className="p-8 text-center text-slate-500">Deal not found</div>;
+  }
+  if (!deal) {
+    return (
+      <div className="p-8 text-center text-slate-500">
+        <p className="mb-3">Failed to load this deal.</p>
+        <button
+          type="button"
+          onClick={fetchDeal}
+          className="px-3 py-1.5 text-[12px] font-semibold text-white bg-[#101828] hover:bg-[#1D2939] rounded"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
 
   const stages = resolveStages(deal.pipelineId?.stages);
   const stageLabel = getStageLabel(stages, deal.stage);

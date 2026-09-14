@@ -1,0 +1,665 @@
+- generic [active] [ref=f21e1]:
+  - generic [ref=f21e3]:
+    - banner [ref=f21e4]:
+      - generic [ref=f21e5]:
+        - link "LeadForGrow™" [ref=f21e6] [cursor=pointer]:
+          - /url: /
+        - button "Open menu" [ref=f21e8]
+    - generic [ref=f21e11]:
+      - heading "Leads" [level=1] [ref=f21e12]
+      - heading "that turn" [level=1] [ref=f21e13]
+      - heading "into revenue" [level=1] [ref=f21e14]
+      - generic [ref=f21e15]:
+        - generic [ref=f21e16]:
+          - generic [ref=f21e18]: Meta Ads
+          - generic [ref=f21e19]: f
+        - generic [ref=f21e20]: LeadForGrow
+        - generic [ref=f21e26]: WhatsApp
+        - generic [ref=f21e31]: Instagram
+      - paragraph [ref=f21e36]: LeadForGrow AI replies on WhatsApp, Instagram & Email the moment a lead lands.
+      - generic [ref=f21e37]:
+        - button [ref=f21e38]
+        - button "or book a live demo" [ref=f21e43]
+    - generic [ref=f21e45]:
+      - paragraph [ref=f21e46]: Trusted by growing businesses across industries
+      - generic [ref=f21e47]:
+        - generic [ref=f21e48]: Scaledesk technology
+        - generic [ref=f21e49]: Homies4u
+        - generic [ref=f21e50]: Pistons Garage
+        - generic [ref=f21e51]: PMKR
+        - generic [ref=f21e52]: CXO
+        - generic [ref=f21e53]: Moodli
+    - generic [ref=f21e55]:
+      - generic [ref=f21e56]:
+        - paragraph [ref=f21e57]: Everything You Need
+        - heading "Everything You Need to Win on WhatsApp, Instagram & Email" [level=2] [ref=f21e58]
+        - paragraph [ref=f21e59]: LeadForGrow is a full-stack growth engine for marketing, sales, and support.
+      - generic [ref=f21e60]:
+        - generic [ref=f21e61]:
+          - img "Marketing Hub campaign dashboard" [ref=f21e63]
+          - generic [ref=f21e64]:
+            - paragraph [ref=f21e65]: Marketing Hub
+            - heading "Scale Marketing" [level=3] [ref=f21e66]
+            - paragraph [ref=f21e67]: Automate customer engagement on WhatsApp & Instagram to drive leads and conversions.
+            - link "Learn More" [ref=f21e68] [cursor=pointer]:
+              - /url: /products/automation
+        - generic [ref=f21e71]:
+          - img "Support Hub unified inbox" [ref=f21e73]
+          - generic [ref=f21e74]:
+            - paragraph [ref=f21e75]: Support Hub
+            - heading "Delight Customers" [level=3] [ref=f21e76]
+            - paragraph [ref=f21e77]: Stay on top of every customer query with a unified team inbox built for WhatsApp, Instagram, and Email.
+            - link "Learn More" [ref=f21e78] [cursor=pointer]:
+              - /url: /products/unified-inbox
+        - generic [ref=f21e81]:
+          - img "Sales CRM pipeline dashboard" [ref=f21e83]
+          - generic [ref=f21e84]:
+            - paragraph [ref=f21e85]: Sales CRM
+            - heading "Win Deals" [level=3] [ref=f21e86]
+            - paragraph [ref=f21e87]: Capture leads, engage prospects, and close deals faster with a WhatsApp-first Sales CRM.
+            - link "Learn More" [ref=f21e88] [cursor=pointer]:
+              - /url: /products/crm
+    - generic [ref=f21e92]:
+      - generic [ref=f21e93]:
+        - heading "Automation in Action" [level=2] [ref=f21e94]
+        - paragraph [ref=f21e95]: See how LeadForGrow replies to every customer, everywhere, instantly.
+      - generic [ref=f21e96]:
+        - generic [ref=f21e97]:
+          - generic [ref=f21e104]:
+            - paragraph [ref=f21e105]: Email
+            - paragraph [ref=f21e106]: Inbox · Auto-reply
+          - generic [ref=f21e108]:
+            - generic [ref=f21e109]:
+              - generic [ref=f21e110]: Customer Email · Received
+              - paragraph [ref=f21e114]: “Hi, do you offer a refund if the product doesn’t fit?”
+            - generic [ref=f21e115]: AI drafting reply…
+            - generic [ref=f21e119]:
+              - generic [ref=f21e120]: Auto-Reply Sent
+              - paragraph [ref=f21e124]: “Yes! Free returns within 30 days — here’s your prepaid label 📎”
+        - generic [ref=f21e125]:
+          - generic [ref=f21e132]:
+            - paragraph [ref=f21e133]: WhatsApp
+            - paragraph [ref=f21e134]: Business chat · Auto-reply
+          - img "WhatsApp AI detecting customer intent and triggering an automated reply" [ref=f21e136]
+        - generic [ref=f21e137]:
+          - generic [ref=f21e145]:
+            - paragraph [ref=f21e146]: Instagram DM
+            - paragraph [ref=f21e147]: Direct messages · Auto-reply
+          - img "Instagram DM automatically replying to a comment with a reward" [ref=f21e149]
+    - generic [ref=f21e151]:
+      - generic [ref=f21e152]:
+        - link "Features" [ref=f21e153] [cursor=pointer]:
+          - /url: "#features"
+        - link "AI Suite" [ref=f21e154] [cursor=pointer]:
+          - /url: "#ai-suite"
+        - link "Why us?" [ref=f21e155] [cursor=pointer]:
+          - /url: "#why-us"
+        - link "Industries" [ref=f21e156] [cursor=pointer]:
+          - /url: "#industries"
+        - link "Integrations" [ref=f21e157] [cursor=pointer]:
+          - /url: "#integrations"
+        - link "Success Stories" [ref=f21e158] [cursor=pointer]:
+          - /url: "#success-stories"
+      - generic [ref=f21e159]:
+        - paragraph [ref=f21e160]: Power-Packed Suite
+        - heading "Powerful Capabilities That Maximize Your Reach" [level=2] [ref=f21e161]
+      - generic [ref=f21e162]:
+        - link [ref=f21e163] [cursor=pointer]:
+          - /url: /products/ai
+          - generic [ref=f21e164]:
+            - paragraph [ref=f21e165]: AI Agent
+            - heading "Turn Conversations into Sales with AI Agents" [level=3] [ref=f21e166]
+            - paragraph [ref=f21e167]: Deploy AI agents that answer queries, qualify leads, and recommend products like a human assistant.
+            - generic [ref=f21e168]: Learn More
+          - img "Turn Conversations into Sales with AI Agents" [ref=f21e172]
+        - link [ref=f21e173] [cursor=pointer]:
+          - /url: /products/automation
+          - generic [ref=f21e174]:
+            - paragraph [ref=f21e175]: Support
+            - heading "Launch WhatsApp Chatbots in Minutes" [level=3] [ref=f21e176]
+            - paragraph [ref=f21e177]: Automate up to 80% of queries with LeadForGrow's easy-to-use, drag-and-drop, no-code chatbot builder.
+            - generic [ref=f21e178]: Learn More
+          - img "Launch WhatsApp Chatbots in Minutes" [ref=f21e182]
+        - link [ref=f21e183] [cursor=pointer]:
+          - /url: /products/crm
+          - generic [ref=f21e184]:
+            - paragraph [ref=f21e185]: Marketing
+            - heading "Maximize Leads, Optimize Sales" [level=3] [ref=f21e186]
+            - paragraph [ref=f21e187]: Capture leads instantly from ads, forms, and website chat, then route them straight into your CRM.
+            - generic [ref=f21e188]: Learn More
+          - img "Maximize Leads, Optimize Sales" [ref=f21e192]
+        - link [ref=f21e193] [cursor=pointer]:
+          - /url: /products/unified-inbox
+          - generic [ref=f21e194]:
+            - paragraph [ref=f21e195]: Marketing
+            - heading "Automate Instagram, Win Customers" [level=3] [ref=f21e196]
+            - paragraph [ref=f21e197]: Instantly reply to Instagram DMs and comments 24/7, and turn followers into paying customers.
+            - generic [ref=f21e198]: Learn More
+          - img "Automate Instagram, Win Customers" [ref=f21e202]
+        - link [ref=f21e203] [cursor=pointer]:
+          - /url: /products/unified-inbox
+          - generic [ref=f21e204]:
+            - paragraph [ref=f21e205]: Support
+            - heading "Streamline Queries, Boost Efficiency" [level=3] [ref=f21e206]
+            - paragraph [ref=f21e207]: Manage WhatsApp, Instagram, and Email queries with an Omnichannel Inbox for zero missed messages.
+            - generic [ref=f21e208]: Learn More
+          - img "Streamline Queries, Boost Efficiency" [ref=f21e212]
+        - link [ref=f21e213] [cursor=pointer]:
+          - /url: /products/crm
+          - generic [ref=f21e214]:
+            - paragraph [ref=f21e215]: Sales CRM
+            - heading "Organize Leads, Track Success" [level=3] [ref=f21e216]
+            - paragraph [ref=f21e217]: Centralize leads from WhatsApp, workflows, forms, or manual entry with auto-assigned owners and statuses.
+            - generic [ref=f21e218]: Learn More
+          - img "Organize Leads, Track Success" [ref=f21e222]
+        - link [ref=f21e223] [cursor=pointer]:
+          - /url: /products/automation
+          - generic [ref=f21e224]:
+            - paragraph [ref=f21e225]: Marketing
+            - heading "Broadcast Messages to Thousands in a Single Click" [level=3] [ref=f21e226]
+            - paragraph [ref=f21e227]: Scale your business communication effortlessly and reach thousands of customers in one click.
+            - generic [ref=f21e228]: Learn More
+          - img "Broadcast Messages to Thousands in a Single Click" [ref=f21e232]
+        - link [ref=f21e233] [cursor=pointer]:
+          - /url: /pricing
+          - generic [ref=f21e234]:
+            - paragraph [ref=f21e235]: Commerce
+            - heading "Bills, Payments & Meetings in One Place" [level=3] [ref=f21e236]
+            - paragraph [ref=f21e237]: Share bills, collect payments, and schedule meetings — all without leaving the conversation.
+            - generic [ref=f21e238]: Learn More
+          - img "Bills, Payments & Meetings in One Place" [ref=f21e242]
+        - link [ref=f21e243] [cursor=pointer]:
+          - /url: /products/automation
+          - generic [ref=f21e244]:
+            - paragraph [ref=f21e245]: Analytics
+            - heading "Campaign & Team Analytics" [level=3] [ref=f21e246]
+            - paragraph [ref=f21e247]: Track team performance, measure impact, and optimize your campaigns with real-time insights.
+            - generic [ref=f21e248]: Learn More
+          - img "Campaign & Team Analytics" [ref=f21e252]
+    - generic [ref=f21e255]:
+      - generic [ref=f21e256]:
+        - paragraph [ref=f21e257]: AI Suite
+        - heading "Elevate your CX with an AI-Powered Platform" [level=2] [ref=f21e258]
+        - list [ref=f21e259]:
+          - listitem [ref=f21e260]:
+            - button "Write, Launch, and Optimize with AI Copilot" [ref=f21e261]
+          - listitem [ref=f21e266]:
+            - button "AI Chatbots That Drive Conversions" [ref=f21e267]
+          - listitem [ref=f21e272]:
+            - button "Forms That Convert Conversations into Leads" [ref=f21e273]
+          - listitem [ref=f21e278]:
+            - button "Go Beyond Keywords with Intent-Based Automation" [ref=f21e279]
+          - listitem [ref=f21e284]:
+            - button "Ready-to-Send Templates, Powered by AI" [ref=f21e285]
+        - paragraph [ref=f21e290]: A simple, transparent, and powerful full-stack platform.
+        - generic [ref=f21e291]:
+          - button "Start Free Trial" [ref=f21e292]
+          - button "Book a Demo" [ref=f21e293]
+      - img "Write, Launch, and Optimize with AI Copilot" [ref=f21e299]
+    - generic [ref=f21e301]:
+      - generic [ref=f21e302]:
+        - paragraph [ref=f21e303]: What Sets Us Apart?
+        - heading "Businesses Using Automation Like This See Measurable Impact" [level=2] [ref=f21e304]
+      - generic [ref=f21e305]:
+        - generic [ref=f21e306]:
+          - paragraph [ref=f21e307]: 89%
+          - paragraph [ref=f21e308]: Higher Average CSAT
+        - generic [ref=f21e309]:
+          - paragraph [ref=f21e310]: 133%
+          - paragraph [ref=f21e311]: Higher Agent Efficiency
+        - generic [ref=f21e312]:
+          - paragraph [ref=f21e313]: 60%
+          - paragraph [ref=f21e314]: Faster Response Times
+        - generic [ref=f21e315]:
+          - paragraph [ref=f21e316]: 75%
+          - paragraph [ref=f21e317]: Boost in Customer Engagement
+      - paragraph [ref=f21e318]: "*Typical results reported by businesses running WhatsApp-first conversational automation — shared here as an industry benchmark, not an audited LeadForGrow customer result."
+      - paragraph [ref=f21e319]: A simple, transparent, and powerful platform, built to scale with your business!
+    - generic [ref=f21e322]:
+      - generic [ref=f21e323]:
+        - heading "Unifying Your Workflow with 17+ Plug & Play Integrations" [level=2] [ref=f21e324]
+        - link "Explore Integrations" [ref=f21e325] [cursor=pointer]:
+          - /url: /automation/settings/integrations
+      - generic [ref=f21e328]:
+        - generic [ref=f21e329]: WhatsApp
+        - generic [ref=f21e333]: Instagram
+        - generic [ref=f21e337]: Gmail
+        - generic [ref=f21e345]: Meta Lead Ads
+        - generic [ref=f21e349]: Google Calendar
+        - generic [ref=f21e353]: Salesforce
+        - generic [ref=f21e357]: HubSpot
+        - generic [ref=f21e361]: Shopify
+        - generic [ref=f21e365]: Zoho
+        - generic [ref=f21e369]: Slack
+        - generic [ref=f21e373]: Calendly
+        - generic [ref=f21e377]: Razorpay
+        - generic [ref=f21e381]: Stripe
+        - generic [ref=f21e385]: Twilio
+        - generic [ref=f21e389]: Zapier
+        - generic [ref=f21e393]: Webhooks
+        - generic [ref=f21e399]: Google Sheets
+    - generic [ref=f21e404]:
+      - generic [ref=f21e405]:
+        - paragraph [ref=f21e406]: Industries
+        - heading "Built for Any Industry" [level=2] [ref=f21e407]
+      - generic [ref=f21e408]:
+        - link [ref=f21e409] [cursor=pointer]:
+          - /url: /contact
+          - img "Banking & Finance" [ref=f21e411]
+          - generic [ref=f21e412]:
+            - heading "Banking & Finance" [level=3] [ref=f21e413]
+            - paragraph [ref=f21e414]: Leverage powerful automation features and grow your business using LeadForGrow.
+            - generic [ref=f21e415]: Learn More
+        - link [ref=f21e418] [cursor=pointer]:
+          - /url: /contact
+          - img "Travel & Tourism" [ref=f21e420]
+          - generic [ref=f21e421]:
+            - heading "Travel & Tourism" [level=3] [ref=f21e422]
+            - paragraph [ref=f21e423]: Fast-track bookings, share details, and set up 24/7 automated FAQs using LeadForGrow.
+            - generic [ref=f21e424]: Learn More
+        - link [ref=f21e427] [cursor=pointer]:
+          - /url: /contact
+          - img "Beauty & Cosmetics" [ref=f21e429]
+          - generic [ref=f21e430]:
+            - heading "Beauty & Cosmetics" [level=3] [ref=f21e431]
+            - paragraph [ref=f21e432]: See how top brands acquire, convert, and engage shoppers in a competitive market.
+            - generic [ref=f21e433]: Learn More
+        - link [ref=f21e436] [cursor=pointer]:
+          - /url: /solutions/education
+          - img "Education" [ref=f21e438]
+          - generic [ref=f21e439]:
+            - heading "Education" [level=3] [ref=f21e440]
+            - paragraph [ref=f21e441]: Get more enrollments for your courses and keep students informed automatically.
+            - generic [ref=f21e442]: Learn More
+        - link [ref=f21e445] [cursor=pointer]:
+          - /url: /contact
+          - img "Spas & Salons" [ref=f21e447]
+          - generic [ref=f21e448]:
+            - heading "Spas & Salons" [level=3] [ref=f21e449]
+            - paragraph [ref=f21e450]: Grow your spa & salon business through scheduling, payments, and reminders.
+            - generic [ref=f21e451]: Learn More
+        - link [ref=f21e454] [cursor=pointer]:
+          - /url: /contact
+          - img "E-commerce" [ref=f21e456]
+          - generic [ref=f21e457]:
+            - heading "E-commerce" [level=3] [ref=f21e458]
+            - paragraph [ref=f21e459]: Scale up your D2C brand with end-to-end commerce and catalog sharing.
+            - generic [ref=f21e460]: Learn More
+        - link [ref=f21e463] [cursor=pointer]:
+          - /url: /solutions/restaurants
+          - img "Restaurant & Food Businesses" [ref=f21e465]
+          - generic [ref=f21e466]:
+            - heading "Restaurant & Food Businesses" [level=3] [ref=f21e467]
+            - paragraph [ref=f21e468]: Streamline orders, payments, menu sharing, and more for faster customer interactions.
+            - generic [ref=f21e469]: Learn More
+        - link [ref=f21e472] [cursor=pointer]:
+          - /url: /solutions/healthcare
+          - img "Health & Wellness" [ref=f21e474]
+          - generic [ref=f21e475]:
+            - heading "Health & Wellness" [level=3] [ref=f21e476]
+            - paragraph [ref=f21e477]: Improve patient experiences with automated appointment bookings, updates, and offers.
+            - generic [ref=f21e478]: Learn More
+        - link [ref=f21e481] [cursor=pointer]:
+          - /url: /contact
+          - img "Home Decor & Furnishing" [ref=f21e483]
+          - generic [ref=f21e484]:
+            - heading "Home Decor & Furnishing" [level=3] [ref=f21e485]
+            - paragraph [ref=f21e486]: Boost your home decor and furnishing business through end-to-end commerce.
+            - generic [ref=f21e487]: Learn More
+        - link [ref=f21e490] [cursor=pointer]:
+          - /url: /solutions/agencies
+          - img "Marketing Agencies" [ref=f21e492]
+          - generic [ref=f21e493]:
+            - heading "Marketing Agencies" [level=3] [ref=f21e494]
+            - paragraph [ref=f21e495]: Help your clients stand out and manage every account from one platform.
+            - generic [ref=f21e496]: Learn More
+        - link [ref=f21e499] [cursor=pointer]:
+          - /url: /contact
+          - img "Automotive Industry" [ref=f21e501]
+          - generic [ref=f21e502]:
+            - heading "Automotive Industry" [level=3] [ref=f21e503]
+            - paragraph [ref=f21e504]: From promotions to service bookings, make customer communication simple and seamless.
+            - generic [ref=f21e505]: Learn More
+        - link [ref=f21e508] [cursor=pointer]:
+          - /url: /solutions/real-estate
+          - img "Real Estate" [ref=f21e510]
+          - generic [ref=f21e511]:
+            - heading "Real Estate" [level=3] [ref=f21e512]
+            - paragraph [ref=f21e513]: Acquire, engage, convert prospects, and retain customers effortlessly.
+            - generic [ref=f21e514]: Learn More
+        - link [ref=f21e517] [cursor=pointer]:
+          - /url: /solutions/startups
+          - img "Freelancers & Consultants" [ref=f21e519]
+          - generic [ref=f21e520]:
+            - heading "Freelancers & Consultants" [level=3] [ref=f21e521]
+            - paragraph [ref=f21e522]: Create personalized customer journeys and manage every client effortlessly.
+            - generic [ref=f21e523]: Learn More
+    - generic [ref=f21e526]:
+      - generic [ref=f21e527]:
+        - paragraph [ref=f21e528]: Pricing
+        - heading "Simple, Transparent Pricing" [level=2] [ref=f21e529]
+        - paragraph [ref=f21e530]: Every plan includes Email — even your free trial. Compare exactly what you get at every tier.
+      - generic [ref=f21e532]:
+        - generic [ref=f21e534]:
+          - button "Monthly" [ref=f21e535]
+          - button "Quarterly ▼8%" [ref=f21e536]:
+            - text: Quarterly
+            - generic [ref=f21e537]: ▼8%
+          - button "Yearly ▼23%" [ref=f21e538]:
+            - text: Yearly
+            - generic [ref=f21e539]: ▼23%
+        - paragraph [ref=f21e540]: Save 23% billed yearly. Discounted price shown below.
+        - generic [ref=f21e542]:
+          - generic [ref=f21e543]:
+            - paragraph [ref=f21e545]: Find the right plan for your needs
+            - generic [ref=f21e546]:
+              - paragraph [ref=f21e547]: Starter
+              - paragraph [ref=f21e548]: For solo founders getting their first leads under control.
+              - generic [ref=f21e549]:
+                - generic [ref=f21e550]: ₹999
+                - generic [ref=f21e551]: /mo
+              - paragraph [ref=f21e552]: billed ₹11,988/year
+              - generic [ref=f21e553]:
+                - text: 3 team members
+                - img "Team members who can access this workspace" [ref=f21e554]
+              - link "Start Free Trial" [ref=f21e556] [cursor=pointer]:
+                - /url: /register
+            - generic [ref=f21e557]:
+              - paragraph [ref=f21e558]: Growth
+              - paragraph [ref=f21e559]: For teams ready to run WhatsApp + Instagram from one inbox.
+              - generic [ref=f21e560]:
+                - generic [ref=f21e561]: ₹2,499
+                - generic [ref=f21e562]: /mo
+              - paragraph [ref=f21e563]: billed ₹29,988/year
+              - generic [ref=f21e564]:
+                - text: 7 team members
+                - img "Team members who can access this workspace" [ref=f21e565]
+              - link "Start Free Trial" [ref=f21e567] [cursor=pointer]:
+                - /url: /register
+            - generic [ref=f21e568]:
+              - paragraph [ref=f21e569]: Scale
+              - paragraph [ref=f21e570]: For high-volume teams that need AI doing the first reply.
+              - generic [ref=f21e571]:
+                - generic [ref=f21e572]: ₹4,999
+                - generic [ref=f21e573]: /mo
+              - paragraph [ref=f21e574]: billed ₹59,988/year
+              - generic [ref=f21e575]:
+                - text: 10 team members
+                - img "Team members who can access this workspace" [ref=f21e576]
+              - link "Start Free Trial" [ref=f21e578] [cursor=pointer]:
+                - /url: /register
+            - generic [ref=f21e579]:
+              - paragraph [ref=f21e580]: Enterprise
+              - paragraph [ref=f21e581]: For businesses that need unlimited scale and a dedicated team.
+              - generic [ref=f21e582]: Custom
+              - generic [ref=f21e584]:
+                - text: Unlimited team members
+                - img "Team members who can access this workspace" [ref=f21e585]
+              - link "Talk to Sales" [ref=f21e587] [cursor=pointer]:
+                - /url: https://wa.me/916366966120
+            - generic [ref=f21e588]: Channels
+            - generic [ref=f21e590]:
+              - generic [ref=f21e591]: WhatsApp
+              - generic [ref=f21e594]: Instagram
+              - generic [ref=f21e597]: Email
+            - generic [ref=f21e605]:
+              - generic [ref=f21e606]: WhatsApp
+              - generic [ref=f21e609]: Instagram
+              - generic [ref=f21e612]: Email
+            - generic [ref=f21e620]:
+              - generic [ref=f21e621]: WhatsApp
+              - generic [ref=f21e624]: Instagram
+              - generic [ref=f21e627]: Email
+            - generic [ref=f21e635]:
+              - generic [ref=f21e636]: WhatsApp
+              - generic [ref=f21e639]: Instagram
+              - generic [ref=f21e642]: Email
+            - button "Channels" [ref=f21e650]
+            - generic [ref=f21e654]: WhatsApp Business API
+            - generic [ref=f21e671]: Instagram DMs & comments
+            - generic [ref=f21e686]:
+              - text: Email (Gmail / SMTP)
+              - generic [ref=f21e687]: Included on every plan — even your free trial
+            - generic [ref=f21e704]: Unified inbox (all channels, one view)
+            - button "CRM & Sales" [ref=f21e722]
+            - generic [ref=f21e726]: Leads, Deals & Pipelines
+            - generic [ref=f21e743]: Companies & Contacts
+            - generic [ref=f21e760]: Bills & payment links
+            - generic [ref=f21e775]: Custom fields & tags
+            - generic [ref=f21e776]: "15"
+            - generic [ref=f21e778]: "30"
+            - generic [ref=f21e780]: Unlimited
+            - generic [ref=f21e782]: Unlimited
+            - generic [ref=f21e784]: Team seats
+            - generic [ref=f21e785]: "3"
+            - generic [ref=f21e787]: "7"
+            - generic [ref=f21e789]: "10"
+            - generic [ref=f21e791]: Unlimited
+            - button "Automation" [ref=f21e794]
+            - generic [ref=f21e798]: Automation rules
+            - generic [ref=f21e799]: "15"
+            - generic [ref=f21e801]: "30"
+            - generic [ref=f21e803]: "50"
+            - generic [ref=f21e805]: Unlimited
+            - generic [ref=f21e807]: Sequences (multi-step drip)
+            - generic [ref=f21e822]: Broadcasts
+            - generic [ref=f21e839]: WhatsApp Flows
+            - generic [ref=f21e854]: Forms
+            - generic [ref=f21e855]: "3"
+            - generic [ref=f21e857]: "7"
+            - generic [ref=f21e859]: "10"
+            - generic [ref=f21e861]: Unlimited
+            - generic [ref=f21e863]: Customer Journeys
+            - button "AI" [ref=f21e877]
+            - generic [ref=f21e881]: Chatbot builder
+            - generic [ref=f21e896]: AI Knowledge Base
+            - generic [ref=f21e899]: Limited
+            - generic [ref=f21e909]: AI lead qualification & scoring
+            - generic [ref=f21e922]: SLA safety-net auto-reply
+            - button "Insights & Support" [ref=f21e938]
+            - generic [ref=f21e942]: Reports & analytics
+            - generic [ref=f21e959]: Automation performance analytics
+            - generic [ref=f21e972]: Support
+            - generic [ref=f21e973]: Email support
+            - generic [ref=f21e975]: Priority chat
+            - generic [ref=f21e977]: Priority chat
+            - generic [ref=f21e979]: Dedicated account manager
+            - button "Monthly limits" [ref=f21e982]
+            - generic [ref=f21e986]: Leads captured / month
+            - generic [ref=f21e987]: "500"
+            - generic [ref=f21e989]: 2,000
+            - generic [ref=f21e991]: 5,000
+            - generic [ref=f21e993]: Unlimited
+          - generic: Most Popular
+      - link "View Full Pricing & FAQ" [ref=f21e996] [cursor=pointer]:
+        - /url: /pricing
+    - generic [ref=f21e1000]:
+      - generic [ref=f21e1001]:
+        - paragraph [ref=f21e1002]: Success Stories
+        - heading "Built for Businesses Like Yours" [level=2] [ref=f21e1003]
+        - paragraph [ref=f21e1004]: A look at how teams across industries use LeadForGrow every day.
+      - generic [ref=f21e1005]:
+        - generic [ref=f21e1010]:
+          - paragraph [ref=f21e1011]: “Automated replies mean no lead waits more than a minute for a first response, even after hours.”
+          - paragraph [ref=f21e1014]: Owner, D2C Retail Brand
+        - generic [ref=f21e1019]:
+          - paragraph [ref=f21e1020]: “Every WhatsApp and Instagram enquiry lands in one inbox now — nothing falls through the cracks.”
+          - paragraph [ref=f21e1023]: Marketing Lead, Growing Agency
+        - generic [ref=f21e1028]:
+          - paragraph [ref=f21e1029]: “Bookings and reminders run themselves, so our team spends more time with customers, not spreadsheets.”
+          - paragraph [ref=f21e1032]: Manager, Restaurant Chain
+        - generic [ref=f21e1037]:
+          - paragraph [ref=f21e1038]: “Qualifying property enquiries used to take hours a day — now the CRM does the first pass for us.”
+          - paragraph [ref=f21e1041]: Broker, Real Estate Team
+      - link "Share your own success story" [ref=f21e1043] [cursor=pointer]:
+        - /url: /contact
+    - generic [ref=f21e1047]:
+      - heading "Turn Conversations into Revenue" [level=2] [ref=f21e1048]
+      - paragraph [ref=f21e1049]: Marketing. Sales. Support. Automation. AI.
+      - paragraph [ref=f21e1050]: Everything you need to grow on WhatsApp, Instagram, and Email, in one powerful platform.
+      - generic [ref=f21e1051]:
+        - button "Start Free Trial" [ref=f21e1052]
+        - button "Book a Demo" [ref=f21e1053]
+      - paragraph [ref=f21e1056]: Built on WhatsApp Business API · Instagram · Email
+    - button "Scroll to top"
+  - button "Open help menu" [ref=f21e1058]
+  - contentinfo [ref=f21e1061]:
+    - generic [ref=f21e1062]:
+      - generic [ref=f21e1063]:
+        - generic [ref=f21e1064]:
+          - link "LeadForGrow" [ref=f21e1065] [cursor=pointer]:
+            - /url: /
+          - paragraph [ref=f21e1067]: The revenue operating system for teams who refuse to let leads slip through the cracks.
+        - generic [ref=f21e1068]:
+          - generic [ref=f21e1069]:
+            - heading "Product" [level=3] [ref=f21e1070]
+            - list [ref=f21e1071]:
+              - listitem [ref=f21e1072]:
+                - link "CRM & Pipeline" [ref=f21e1073] [cursor=pointer]:
+                  - /url: /products/crm
+              - listitem [ref=f21e1074]:
+                - link "Automation" [ref=f21e1075] [cursor=pointer]:
+                  - /url: /products/automation
+              - listitem [ref=f21e1076]:
+                - link "AI Assistant" [ref=f21e1077] [cursor=pointer]:
+                  - /url: /products/ai
+              - listitem [ref=f21e1078]:
+                - link "Unified Inbox" [ref=f21e1079] [cursor=pointer]:
+                  - /url: /products/unified-inbox
+              - listitem [ref=f21e1080]:
+                - link "Integrations" [ref=f21e1081] [cursor=pointer]:
+                  - /url: /products/integrations
+              - listitem [ref=f21e1082]:
+                - link "Pricing" [ref=f21e1083] [cursor=pointer]:
+                  - /url: /products/pricing
+          - generic [ref=f21e1084]:
+            - heading "Solutions" [level=3] [ref=f21e1085]
+            - list [ref=f21e1086]:
+              - listitem [ref=f21e1087]:
+                - link "Startups" [ref=f21e1088] [cursor=pointer]:
+                  - /url: /solutions/startups
+              - listitem [ref=f21e1089]:
+                - link "Agencies" [ref=f21e1090] [cursor=pointer]:
+                  - /url: /solutions/agencies
+              - listitem [ref=f21e1091]:
+                - link "Restaurants" [ref=f21e1092] [cursor=pointer]:
+                  - /url: /solutions/restaurants
+              - listitem [ref=f21e1093]:
+                - link "Real Estate" [ref=f21e1094] [cursor=pointer]:
+                  - /url: /solutions/real-estate
+              - listitem [ref=f21e1095]:
+                - link "Healthcare" [ref=f21e1096] [cursor=pointer]:
+                  - /url: /solutions/healthcare
+              - listitem [ref=f21e1097]:
+                - link "Education" [ref=f21e1098] [cursor=pointer]:
+                  - /url: /solutions/education
+              - listitem [ref=f21e1099]:
+                - link "Enterprise" [ref=f21e1100] [cursor=pointer]:
+                  - /url: /solutions/enterprise
+          - generic [ref=f21e1101]:
+            - heading "Resources" [level=3] [ref=f21e1102]
+            - list [ref=f21e1103]:
+              - listitem [ref=f21e1104]:
+                - link "Blog" [ref=f21e1105] [cursor=pointer]:
+                  - /url: /blog
+              - listitem [ref=f21e1106]:
+                - link "Help Center" [ref=f21e1107] [cursor=pointer]:
+                  - /url: /help-center
+              - listitem [ref=f21e1108]:
+                - link "Documentation" [ref=f21e1109] [cursor=pointer]:
+                  - /url: /documentation
+              - listitem [ref=f21e1110]:
+                - link "API Docs" [ref=f21e1111] [cursor=pointer]:
+                  - /url: /api-docs
+              - listitem [ref=f21e1112]:
+                - link "Product Updates" [ref=f21e1113] [cursor=pointer]:
+                  - /url: /product-updates
+              - listitem [ref=f21e1114]:
+                - link "Changelog" [ref=f21e1115] [cursor=pointer]:
+                  - /url: /changelog
+              - listitem [ref=f21e1116]:
+                - link "Guides" [ref=f21e1117] [cursor=pointer]:
+                  - /url: /guides
+              - listitem [ref=f21e1118]:
+                - link "Tutorials" [ref=f21e1119] [cursor=pointer]:
+                  - /url: /tutorials
+              - listitem [ref=f21e1120]:
+                - link "Videos" [ref=f21e1121] [cursor=pointer]:
+                  - /url: /videos
+              - listitem [ref=f21e1122]:
+                - link "System Status" [ref=f21e1123] [cursor=pointer]:
+                  - /url: /system-status
+          - generic [ref=f21e1124]:
+            - heading "Company" [level=3] [ref=f21e1125]
+            - list [ref=f21e1126]:
+              - listitem [ref=f21e1127]:
+                - link "About" [ref=f21e1128] [cursor=pointer]:
+                  - /url: /about
+              - listitem [ref=f21e1129]:
+                - link "Contact" [ref=f21e1130] [cursor=pointer]:
+                  - /url: /contact
+              - listitem [ref=f21e1131]:
+                - link "Careers" [ref=f21e1132] [cursor=pointer]:
+                  - /url: /careers
+              - listitem [ref=f21e1133]:
+                - link "Customers" [ref=f21e1134] [cursor=pointer]:
+                  - /url: /customers
+              - listitem [ref=f21e1135]:
+                - link "Case Studies" [ref=f21e1136] [cursor=pointer]:
+                  - /url: /case-studies
+              - listitem [ref=f21e1137]:
+                - link "Partners" [ref=f21e1138] [cursor=pointer]:
+                  - /url: /partners
+              - listitem [ref=f21e1139]:
+                - link "Press" [ref=f21e1140] [cursor=pointer]:
+                  - /url: /press
+          - generic [ref=f21e1141]:
+            - heading "Trust" [level=3] [ref=f21e1142]
+            - list [ref=f21e1143]:
+              - listitem [ref=f21e1144]:
+                - link "Security" [ref=f21e1145] [cursor=pointer]:
+                  - /url: /security
+              - listitem [ref=f21e1146]:
+                - link "Compliance" [ref=f21e1147] [cursor=pointer]:
+                  - /url: /compliance
+              - listitem [ref=f21e1148]:
+                - link "Responsible Disclosure" [ref=f21e1149] [cursor=pointer]:
+                  - /url: /responsible-disclosure
+              - listitem [ref=f21e1150]:
+                - link "Privacy" [ref=f21e1151] [cursor=pointer]:
+                  - /url: /privacy
+              - listitem [ref=f21e1152]:
+                - link "Terms" [ref=f21e1153] [cursor=pointer]:
+                  - /url: /terms
+              - listitem [ref=f21e1154]:
+                - link "GDPR" [ref=f21e1155] [cursor=pointer]:
+                  - /url: /gdpr
+              - listitem [ref=f21e1156]:
+                - link "Accessibility" [ref=f21e1157] [cursor=pointer]:
+                  - /url: /accessibility
+      - generic [ref=f21e1158]:
+        - generic [ref=f21e1159]:
+          - paragraph [ref=f21e1160]: © 2026 LeadForGrow. All rights reserved.
+          - generic [ref=f21e1161]:
+            - link "Privacy Policy" [ref=f21e1162] [cursor=pointer]:
+              - /url: /privacy
+            - link "Terms of Service" [ref=f21e1163] [cursor=pointer]:
+              - /url: /terms
+            - link "Cookie Policy" [ref=f21e1164] [cursor=pointer]:
+              - /url: /cookie-policy
+            - link "DPA" [ref=f21e1165] [cursor=pointer]:
+              - /url: /dpa
+            - link "Refund Policy" [ref=f21e1166] [cursor=pointer]:
+              - /url: /refund-policy
+        - generic [ref=f21e1167]:
+          - link "WhatsApp" [ref=f21e1168] [cursor=pointer]:
+            - /url: https://wa.me/916366966120
+          - link "YouTube" [ref=f21e1171] [cursor=pointer]:
+            - /url: https://www.youtube.com/@ScaleDeskTechnologies
+          - link "LinkedIn" [ref=f21e1175] [cursor=pointer]:
+            - /url: https://www.linkedin.com/showcase/leadforgrow
+          - link "X" [ref=f21e1180] [cursor=pointer]:
+            - /url: https://x.com/leadforgrow
+          - link "Facebook" [ref=f21e1183] [cursor=pointer]:
+            - /url: https://www.facebook.com/leadforgrow
+  - button "Open Next.js Dev Tools" [ref=f21e1191] [cursor=pointer]

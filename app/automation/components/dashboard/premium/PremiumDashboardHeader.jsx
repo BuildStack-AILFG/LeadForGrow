@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -13,11 +13,13 @@ import {
   CloudDownload,
   CloudUpload,
   Loader2,
+  Check,
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { authFetch } from '@/lib/apiClient';
 import { useBusinessAssistant } from '../../../context/BusinessAssistantContext';
 import GroviaIcon from '../../assistant/GroviaIcon';
+import { DASHBOARD_WIDGETS } from '../../../hooks/useDashboardWidgets';
 
 export default function PremiumDashboardHeader({
   refreshing,
@@ -25,10 +27,28 @@ export default function PremiumDashboardHeader({
   searchQuery,
   onSearchChange,
   lastUpdated,
+  visibleWidgets,
+  onToggleWidget,
 }) {
   const router = useRouter();
   const { open: openAssistant } = useBusinessAssistant();
   const [exporting, setExporting] = useState(false);
+  const [customizeOpen, setCustomizeOpen] = useState(false);
+  const customizeRef = useRef(null);
+
+  useEffect(() => {
+    if (!customizeOpen) return;
+    const onDown = (e) => {
+      if (customizeRef.current && !customizeRef.current.contains(e.target)) setCustomizeOpen(false);
+    };
+    const onEsc = (e) => e.key === 'Escape' && setCustomizeOpen(false);
+    document.addEventListener('mousedown', onDown);
+    document.addEventListener('keydown', onEsc);
+    return () => {
+      document.removeEventListener('mousedown', onDown);
+      document.removeEventListener('keydown', onEsc);
+    };
+  }, [customizeOpen]);
 
   const handleExport = async () => {
     if (exporting) return;
@@ -130,13 +150,49 @@ export default function PremiumDashboardHeader({
             Ask AI
           </button>
 
-          <button
-            type="button"
-            className="inline-flex items-center gap-2 h-9 px-3.5 text-[13px] font-medium text-[#344054] bg-white border border-[#E5E7EB] rounded-none transition-all duration-200 hover:bg-[#F9FAFB] hover:border-[#D1D5DB] active:scale-[0.98]"
-          >
-            <LayoutGrid className="w-4 h-4 text-[#344054]" />
-            Customize Widget
-          </button>
+          <div className="relative" ref={customizeRef}>
+            <button
+              type="button"
+              onClick={() => setCustomizeOpen((v) => !v)}
+              aria-haspopup="menu"
+              aria-expanded={customizeOpen}
+              className={`inline-flex items-center gap-2 h-9 px-3.5 text-[13px] font-medium text-[#344054] bg-white border border-[#E5E7EB] rounded-none transition-all duration-200 hover:bg-[#F9FAFB] hover:border-[#D1D5DB] active:scale-[0.98] ${customizeOpen ? 'bg-[#F9FAFB] border-[#D1D5DB]' : ''}`}
+            >
+              <LayoutGrid className="w-4 h-4 text-[#344054]" />
+              Customize Widget
+            </button>
+
+            {customizeOpen && (
+              <div
+                role="menu"
+                className="absolute left-0 top-full mt-1.5 z-30 min-w-[220px] py-1.5 bg-white border border-[#E8ECEF] rounded-none shadow-[0_12px_32px_rgba(16,24,40,0.12)]"
+              >
+                <div className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-[#98A2B3]">
+                  Show / hide widgets
+                </div>
+                {DASHBOARD_WIDGETS.map((widget) => {
+                  const checked = visibleWidgets ? visibleWidgets[widget.key] !== false : true;
+                  return (
+                    <button
+                      key={widget.key}
+                      type="button"
+                      role="menuitemcheckbox"
+                      aria-checked={checked}
+                      onClick={() => onToggleWidget?.(widget.key)}
+                      className="flex w-full items-center justify-between gap-2.5 px-3 py-2 text-[13px] font-medium text-[#344054] transition-colors hover:bg-[#F6F8F7]"
+                    >
+                      {widget.label}
+                      <span
+                        className={`inline-flex items-center justify-center w-4 h-4 border ${checked ? 'bg-[#1D4B3E] border-[#1D4B3E]' : 'border-[#D0D5DD]'}`}
+                      >
+                        {checked && <Check className="w-3 h-3 text-white" />}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="flex flex-wrap items-center gap-3">

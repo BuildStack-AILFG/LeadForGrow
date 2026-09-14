@@ -8,15 +8,23 @@ import {
   MessageCircle,
   Mail,
   ExternalLink,
-  AlertCircle
+  AlertCircle,
+  Trash2
 } from 'lucide-react';
 import TaskTypeBadge from './TaskTypeBadge';
 import { assigneeName } from '../leads/utils';
 import { formatDueDate, getTimeUntil, isOverdue } from './utils';
+import { useConfirm } from '@/app/components/ConfirmProvider';
 
-export default function MobileTaskCard({ task, onMarkDone, onReschedule, onCommunicate }) {
+export default function MobileTaskCard({ task, onMarkDone, onReschedule, onCommunicate, onDelete }) {
   const lead = task.leadId;
   const overdue = isOverdue(task.dueDate);
+  const confirm = useConfirm();
+
+  const handleDelete = async () => {
+    if (!(await confirm({ title: 'Delete task', message: `Delete "${task.title}"?`, confirmLabel: 'Delete', danger: true }))) return;
+    onDelete?.(task._id);
+  };
 
   return (
     <div
@@ -112,6 +120,15 @@ export default function MobileTaskCard({ task, onMarkDone, onReschedule, onCommu
           >
             <ExternalLink className="w-3.5 h-3.5" /> Lead
           </Link>
+        )}
+        {onDelete && (
+          <button
+            type="button"
+            onClick={handleDelete}
+            className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-red-600 bg-red-50 dark:bg-red-950/30 rounded"
+          >
+            <Trash2 className="w-3.5 h-3.5" /> Delete
+          </button>
         )}
       </div>
     </div>

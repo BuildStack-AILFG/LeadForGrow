@@ -3,7 +3,7 @@
 import { TABLE_COLUMNS } from './constants';
 import TaskRow from './TaskRow';
 
-export default function TaskTable({ tasks, onMarkDone, onReschedule, onCommunicate }) {
+export default function TaskTable({ tasks, onMarkDone, onReschedule, onCommunicate, onDelete }) {
   return (
     <div className="bg-[#F8F9FA] dark:bg-slate-900 border border-[#E8ECEF] dark:border-slate-800 rounded-[4px] shadow-[0_1px_2px_rgba(16,24,40,0.04)] overflow-hidden">
       <div className="overflow-x-auto">
@@ -36,6 +36,7 @@ export default function TaskTable({ tasks, onMarkDone, onReschedule, onCommunica
                   onMarkDone={onMarkDone}
                   onReschedule={onReschedule}
                   onCommunicate={onCommunicate}
+                  onDelete={onDelete}
                 />
               ))
             )}

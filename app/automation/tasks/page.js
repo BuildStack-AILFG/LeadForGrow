@@ -49,6 +49,7 @@ function TasksWorkspaceContent() {
                 onMarkDone={ws.markDone}
                 onReschedule={ws.openReschedule}
                 onCommunicate={ws.handleCommunication}
+                onDelete={ws.deleteTask}
               />
             </div>
             <div className="lg:hidden space-y-3">
@@ -59,6 +60,7 @@ function TasksWorkspaceContent() {
                   onMarkDone={ws.markDone}
                   onReschedule={ws.openReschedule}
                   onCommunicate={ws.handleCommunication}
+                  onDelete={ws.deleteTask}
                 />
               ))}
             </div>
@@ -74,6 +76,7 @@ function TasksWorkspaceContent() {
         teamMembers={ws.teamMembers}
         onClose={() => ws.setShowCreateModal(false)}
         onSubmit={ws.createTask}
+        saving={ws.savingTask}
       />
 
       <RescheduleTaskModal

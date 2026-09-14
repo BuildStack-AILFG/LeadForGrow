@@ -14,12 +14,12 @@ export const metadata = {
   description: "Run your agency on one powerful platform. Build no-code pages, manage clients, capture leads, track analytics, and scale faster with a complete agency operating system",
   icons: {
     icon: [
-      { url: "/logo.png", sizes: "32x32", type: "image/png" },
-      { url: "/logo.png", sizes: "192x192", type: "image/png" },
-      { url: "/logo.png", sizes: "512x512", type: "image/png" },
+      { url: "/favicon-green.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-green.png", sizes: "192x192", type: "image/png" },
+      { url: "/favicon-green.png", sizes: "512x512", type: "image/png" },
     ],
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    shortcut: "/favicon-green.png",
+    apple: "/favicon-green.png",
   },
   other: {
     "google-adsense-account": "ca-pub-4902724266607481",

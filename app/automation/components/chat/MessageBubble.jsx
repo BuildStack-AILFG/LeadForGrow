@@ -318,6 +318,28 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
     );
   }
 
+  // Deleted messages no longer show their original content — this is what makes
+  // "Delete Message" visibly do something instead of leaving the bubble unchanged.
+  if (message.isDeleted) {
+    const deletedOutgoing = message.direction === 'outgoing';
+    return (
+      <div className={`flex mb-1.5 ${deletedOutgoing ? 'justify-end' : 'justify-start'}`}>
+        <div className="group flex items-center gap-2 max-w-[70%] px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800/60 border border-dashed border-slate-300 dark:border-slate-700">
+          <Trash2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+          <p className="text-xs italic text-slate-500 dark:text-slate-400">This message was deleted</p>
+          <button
+            type="button"
+            onClick={() => onAction(message._id, 'restore')}
+            title="Restore message"
+            className="ml-1 p-0.5 rounded text-slate-400 hover:text-teal-600 hover:bg-white dark:hover:bg-slate-700 opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            <RotateCcw className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   const outgoing = message.direction === 'outgoing';
   const failed = outgoing && message.status === 'failed';
   const time = message.timestamp
@@ -430,11 +452,12 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
           </button>
           <button
             type="button"
-            onClick={() => onAction(message._id, message.isDeleted ? 'restore' : 'trash')}
-            className={`p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 ${message.isDeleted ? 'text-teal-500' : 'text-slate-400 hover:text-rose-600'}`}
-            title={message.isDeleted ? 'Restore from trash' : 'Move to trash'}
+            onClick={() => onAction(message._id, 'trash')}
+            className="p-1 rounded text-slate-400 hover:text-rose-600 hover:bg-slate-100 dark:hover:bg-slate-800"
+            title="Delete message"
+            aria-label="Delete message"
           >
-            {message.isDeleted ? <RotateCcw className="w-3.5 h-3.5" /> : <Trash2 className="w-3.5 h-3.5" />}
+            <Trash2 className="w-3.5 h-3.5" />
           </button>
         </div>
       )}

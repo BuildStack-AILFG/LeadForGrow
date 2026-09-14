@@ -7,11 +7,14 @@ import { Compass, Search, RotateCcw, MessageCircle, X, ExternalLink } from 'luci
 import { useTour } from './TourProvider';
 import { findTourForPath, findIntroForPath } from './registry';
 import { resetTour, markIntroSeen, getIntrosSeen } from './storage';
+import { useBusinessAssistantOptional } from '../../../context/BusinessAssistantContext';
 
 /**
  * Persistent "Need help?" entry point (spec section 16). Deliberately kept
  * separate from the Grovia assistant FAB — sits directly above it with a
- * clear gap so the two never visually compete or overlap.
+ * clear gap so the two never visually compete or overlap. It hides itself
+ * whenever the Grovia chat panel is open, since that panel covers this same
+ * bottom-right corner of the screen.
  */
 export default function HelpLauncher() {
   const [open, setOpen] = useState(false);
@@ -20,6 +23,7 @@ export default function HelpLauncher() {
   const router = useRouter();
   const { restart } = useTour();
   const panelRef = useRef(null);
+  const assistant = useBusinessAssistantOptional();
 
   const pageTour = findTourForPath(pathname);
   const pageIntro = findIntroForPath(pathname);
@@ -38,6 +42,10 @@ export default function HelpLauncher() {
       document.removeEventListener('keydown', onKey);
     };
   }, [open]);
+
+  // Hides itself whenever the Grovia chat panel is open — both anchor to the
+  // same bottom-right corner. Placed after all hooks to keep hook order stable.
+  if (assistant?.isOpen) return null;
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -108,7 +116,7 @@ export default function HelpLauncher() {
               Browse all guides
             </Link>
             <a
-              href="https://wa.me/916366966120"
+              href="https://wa.me/918810873052"
               target="_blank"
               rel="noopener noreferrer"
               className="w-full flex items-center gap-2.5 text-left text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 px-2.5 py-2 rounded-xl transition-colors"

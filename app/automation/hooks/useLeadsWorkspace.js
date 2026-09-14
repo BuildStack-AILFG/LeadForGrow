@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import { authFetch, getUserId } from '@/lib/apiClient';
@@ -129,8 +129,14 @@ export function useLeadsWorkspace() {
     fetchTeam();
   }, [fetchTeam]);
 
+  // Only the very first load should show the full-page skeleton. Every later refetch —
+  // typing in search, changing a filter, switching page — happens "silently" so the
+  // header/table stay mounted and only the row area shows a lightweight refresh state
+  // instead of the whole workspace unmounting and blanking out.
+  const hasLoadedOnce = useRef(false);
   useEffect(() => {
-    fetchLeads();
+    fetchLeads(hasLoadedOnce.current);
+    hasLoadedOnce.current = true;
   }, [fetchLeads]);
 
   // Real-time refresh — when a new lead lands (webhook, form, ad) or an
@@ -244,6 +250,16 @@ export function useLeadsWorkspace() {
     setFilters({ ...DEFAULT_FILTERS, ...view.filters });
     toast.success(`Applied "${view.name}"`);
   }, []);
+
+  const deleteSavedView = useCallback(
+    (id) => {
+      const next = savedViews.filter((v) => v.id !== id);
+      setSavedViews(next);
+      localStorage.setItem(SAVED_VIEWS_KEY, JSON.stringify(next));
+      toast.success('View deleted');
+    },
+    [savedViews]
+  );
 
   const beginLeadConvert = useCallback(
     async (leadId) => {
@@ -670,6 +686,7 @@ export function useLeadsWorkspace() {
     savedViews,
     saveCurrentView,
     applySavedView,
+    deleteSavedView,
     userRole,
     searchInput,
     setSearchInput,

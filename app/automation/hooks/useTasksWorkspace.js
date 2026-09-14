@@ -178,7 +178,14 @@ export function useTasksWorkspace() {
     }
   }, [selectedTask, refresh]);
 
+  const [savingTask, setSavingTask] = useState(false);
+
   const createTask = useCallback(async (payload) => {
+    // Guards against a fast double-click double-submitting before the modal closes —
+    // there was previously no in-flight guard here (or on the modal's submit button),
+    // so two rapid clicks created two Task documents.
+    if (savingTask) return;
+    setSavingTask(true);
     try {
       const res = await authFetch('/api/automation/tasks', {
         method: 'POST',
@@ -196,8 +203,26 @@ export function useTasksWorkspace() {
       }
     } catch {
       toast.error('Failed to create task');
+    } finally {
+      setSavingTask(false);
     }
-  }, [refresh]);
+  }, [refresh, savingTask]);
+
+  const deleteTask = useCallback(async (taskId) => {
+    try {
+      const res = await authFetch(`/api/automation/tasks/${taskId}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (data.success) {
+        toast.success('Task deleted');
+        setTasks((prev) => prev.filter((t) => t._id !== taskId));
+        fetchCounts();
+      } else {
+        toast.error(data.error || 'Failed to delete task');
+      }
+    } catch {
+      toast.error('Failed to delete task');
+    }
+  }, [fetchCounts]);
 
   const handleCommunication = useCallback(
     (task, channel) => {
@@ -245,6 +270,8 @@ export function useTasksWorkspace() {
     openReschedule,
     rescheduleTask,
     createTask,
+    savingTask,
+    deleteTask,
     handleCommunication
   };
 }

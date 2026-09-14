@@ -3,8 +3,7 @@ import { ArrowRight, Clock } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import MarketingShell from '@/app/components/marketing/MarketingShell';
 import { MARKETING } from '@/lib/marketing/designTokens';
-import { BLOG_AUTHORS } from '@/app/blog/featureData';
-import { getPostsByAuthor, getCategoryLabel } from '@/lib/blog/posts';
+import { BLOG_AUTHORS, getArticlesByAuthor } from '@/app/blog/featureData';
 
 export function generateStaticParams() {
   return Object.keys(BLOG_AUTHORS).map((slug) => ({ slug }));
@@ -25,7 +24,7 @@ export default async function AuthorPage({ params }) {
   const author = BLOG_AUTHORS[slug];
   if (!author) notFound();
 
-  const articles = getPostsByAuthor(slug);
+  const articles = getArticlesByAuthor(slug);
 
   return (
     <MarketingShell>
@@ -59,7 +58,7 @@ export default async function AuthorPage({ params }) {
               className={`${MARKETING.card} ${MARKETING.cardHover} block p-6 group`}
             >
               <div className="flex items-center justify-between gap-3 mb-2">
-                <span className="text-[10px] font-bold uppercase text-emerald-700">{getCategoryLabel(article.category)}</span>
+                <span className="text-[10px] font-bold uppercase text-emerald-700">{article.category}</span>
                 <span className="flex items-center gap-1 text-xs text-[#94A3B8]">
                   <Clock className="w-3.5 h-3.5" /> {article.readTime}
                 </span>

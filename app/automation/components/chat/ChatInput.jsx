@@ -3,7 +3,8 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import {
   Send, Smile, Paperclip, Sparkles, Hand, StickyNote, MessageSquare,
-  Bold, Italic, Link2, Clock, Save, Mail, ChevronDown, ChevronUp, PenLine, X,
+  Bold, Italic, Link2, Clock, Save, Mail, ChevronDown, ChevronUp, PenLine, X, MoreHorizontal,
+  CornerUpLeft,
 } from 'lucide-react';
 import { QUICK_EMOJIS } from './constants';
 import MediaAttachmentStrip from './MediaAttachmentStrip';
@@ -15,6 +16,7 @@ export default function ChatInput({
   canSend,
   hasSelection = false,
   channel = 'whatsapp',
+  conversationId,
   templates = [],
   aiSuggestion,
   onSend,
@@ -37,10 +39,23 @@ export default function ChatInput({
   const [templatesOpen, setTemplatesOpen] = useState(false);
   const [scheduleOpen, setScheduleOpen] = useState(false);
   const [scheduledAt, setScheduledAt] = useState('');
+  const [moreOpen, setMoreOpen] = useState(false);
+  const [replyTo, setReplyTo] = useState(null);
   const [dragOver, setDragOver] = useState(false);
   const fileRef = useRef(null);
   const editorRef = useRef(null);
   const { uploads, uploadFile, removeUpload, retryUpload, clearUploads } = useMediaUpload();
+
+  // Composer state is local to this component and previously leaked across
+  // conversation switches — e.g. picking a schedule time, then switching threads
+  // without sending, could silently schedule-send into the NEW conversation.
+  // Reset per-conversation state whenever the active thread changes.
+  useEffect(() => {
+    setText('');
+    setScheduleOpen(false);
+    setScheduledAt('');
+    setReplyTo(null);
+  }, [conversationId]);
 
   // Insert a link into the contentEditable email body. The confirm modal blurs
   // the editor, so we snapshot the selection first and restore it before
@@ -95,7 +110,10 @@ export default function ChatInput({
   // to this input, keeps the component tree cleaner. Also expands the
   // collapsed email composer so users see where their cursor landed.
   useEffect(() => {
-    const onReply = () => {
+    const onReply = (e) => {
+      // Visible feedback even when the composer was already expanded/focused —
+      // previously clicking Reply produced no change at all in that case.
+      setReplyTo({ messageId: e?.detail?.messageId, preview: e?.detail?.preview || '' });
       setEmailMinimized(false);
       setEmailExpanded(true);
       setTimeout(() => {
@@ -289,11 +307,13 @@ export default function ChatInput({
       // Which of the account's saved signatures to append. Backend falls
       // back to the account's default signature when this is absent.
       signatureId: isEmail && selectedSignatureId ? selectedSignatureId : undefined,
+      replyToMessageId: replyTo?.messageId,
     };
 
     const ok = await onSend(plainText.trim(), payload);
     if (ok) {
       setText('');
+      setReplyTo(null);
       if (editorRef.current) editorRef.current.innerHTML = '';
       clearUploads();
       setScheduleOpen(false);
@@ -509,9 +529,40 @@ export default function ChatInput({
             <span className="mx-0.5 h-4 w-px bg-slate-200 dark:bg-slate-700" />
             <button type="button" onClick={() => document.execCommand('bold')} className="p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800" title="Bold"><Bold className="w-4 h-4" /></button>
             <button type="button" onClick={() => document.execCommand('italic')} className="p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800" title="Italic"><Italic className="w-4 h-4" /></button>
-            <button type="button" onClick={insertEmailLink} className="p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800" title="Insert link"><Link2 className="w-4 h-4" /></button>
-            <span className="mx-0.5 h-4 w-px bg-slate-200 dark:bg-slate-700" />
-            <button type="button" onClick={() => setScheduleOpen(!scheduleOpen)} className="p-2 rounded hover:bg-slate-100" title="Schedule send"><Clock className="w-4 h-4" /></button>
+            {/* Link + Schedule send grouped behind one "More" button — used far less often
+                than Bold/Italic/Attach, and having every control always inline was
+                crowding the composer. */}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setMoreOpen((v) => !v)}
+                className={`p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800 ${scheduleOpen ? 'text-[#1D4B3E]' : ''}`}
+                title="More options"
+              >
+                <MoreHorizontal className="w-4 h-4" />
+              </button>
+              {moreOpen && (
+                <>
+                  <div className="fixed inset-0 z-10" onClick={() => setMoreOpen(false)} />
+                  <div className="absolute bottom-full left-0 mb-1 z-20 w-44 rounded border border-slate-200 bg-white p-1.5 shadow-lg dark:bg-slate-900">
+                    <button
+                      type="button"
+                      onClick={() => { insertEmailLink(); setMoreOpen(false); }}
+                      className="flex w-full items-center gap-2 rounded px-2.5 py-2 text-left text-xs text-slate-700 dark:text-slate-300 hover:bg-[#F0F9F5] dark:hover:bg-slate-800"
+                    >
+                      <Link2 className="w-3.5 h-3.5" /> Insert link
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { setScheduleOpen((v) => !v); setMoreOpen(false); }}
+                      className="flex w-full items-center gap-2 rounded px-2.5 py-2 text-left text-xs text-slate-700 dark:text-slate-300 hover:bg-[#F0F9F5] dark:hover:bg-slate-800"
+                    >
+                      <Clock className="w-3.5 h-3.5" /> {scheduleOpen ? 'Hide schedule send' : 'Schedule send'}
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
           </>
         )}
         {isEmail && accountSignatures.length > 0 && (
@@ -597,6 +648,19 @@ export default function ChatInput({
       {scheduleOpen && (
         <div className="px-3 pb-1">
           <input type="datetime-local" value={scheduledAt} onChange={(e) => setScheduledAt(e.target.value)} className="text-xs px-2 py-1.5 border rounded w-full" />
+        </div>
+      )}
+
+      {replyTo && (
+        <div className="mx-3 mb-1 flex items-start gap-2 px-2.5 py-1.5 bg-[#F0F9F5] dark:bg-slate-800 border-l-2 border-[#1D4B3E] rounded">
+          <CornerUpLeft className="w-3.5 h-3.5 text-[#1D4B3E] shrink-0 mt-0.5" />
+          <div className="min-w-0 flex-1">
+            <p className="text-[10px] font-semibold text-[#1D4B3E] uppercase tracking-wide">Replying to</p>
+            <p className="text-xs text-slate-600 dark:text-slate-400 truncate">{replyTo.preview || 'this message'}</p>
+          </div>
+          <button type="button" onClick={() => setReplyTo(null)} className="p-0.5 rounded text-slate-400 hover:text-slate-700 hover:bg-white dark:hover:bg-slate-700 shrink-0">
+            <X className="w-3.5 h-3.5" />
+          </button>
         </div>
       )}
 

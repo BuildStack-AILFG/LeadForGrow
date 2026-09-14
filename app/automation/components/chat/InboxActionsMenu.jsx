@@ -1,9 +1,11 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   Pin, PinOff, Star, Archive, ArchiveRestore, ShieldAlert, ShieldCheck,
   MoreVertical, UserCheck, XCircle, CheckCircle, Clock, Mail, Download, Trash2, Eye,
+  Trophy, Info,
 } from 'lucide-react';
 
 // Snooze presets — mirrors what Gmail/Front offer.
@@ -25,10 +27,11 @@ const SNOOZE_PRESETS = [
     } },
 ];
 
-export default function InboxActionsMenu({ chat, onUpdate, onClaim, onAction, currentUserId }) {
+export default function InboxActionsMenu({ chat, onUpdate, onClaim, onAction, currentUserId, onWon, onLost, leadHref }) {
   const [open, setOpen] = useState(false);
   const [snoozeOpen, setSnoozeOpen] = useState(false);
   const ref = useRef(null);
+  const router = useRouter();
 
   useEffect(() => {
     function handleClick(e) {
@@ -45,6 +48,9 @@ export default function InboxActionsMenu({ chat, onUpdate, onClaim, onAction, cu
   const isClosed = chat.status === 'closed';
 
   const actions = [
+    ...(leadHref ? [{ id: 'open_lead', label: 'Open lead', icon: Info, onClick: () => router.push(leadHref) }] : []),
+    ...(onWon ? [{ id: 'won', label: 'Mark won', icon: Trophy, onClick: onWon }] : []),
+    ...(onLost ? [{ id: 'lost', label: 'Mark lost', icon: XCircle, onClick: onLost, danger: true }] : []),
     { id: 'pin', label: chat.isPinned ? 'Unpin' : 'Pin', icon: chat.isPinned ? PinOff : Pin, onClick: () => onUpdate({ isPinned: !chat.isPinned }) },
     { id: 'favorite', label: chat.isFavorite ? 'Remove favorite' : 'Favorite', icon: Star, onClick: () => onUpdate({ isFavorite: !chat.isFavorite }), active: chat.isFavorite },
     { id: 'archive', label: chat.isArchived ? 'Unarchive' : 'Archive', icon: chat.isArchived ? ArchiveRestore : Archive, onClick: () => onUpdate({ isArchived: !chat.isArchived }) },

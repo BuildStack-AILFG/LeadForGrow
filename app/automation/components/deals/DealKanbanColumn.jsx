@@ -4,7 +4,7 @@ import { useDroppable } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import DealKanbanCard from './DealKanbanCard';
 
-export default function DealKanbanColumn({ stage, deals, formatValue, onOpenDeal }) {
+export default function DealKanbanColumn({ stage, stages, deals, formatValue, onOpenDeal }) {
   const { setNodeRef, isOver } = useDroppable({ id: stage.key });
 
   const totalValue = deals.reduce((s, d) => s + (Number(d.amount) || 0), 0);

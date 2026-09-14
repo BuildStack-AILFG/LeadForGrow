@@ -59,6 +59,7 @@ function LeadsWorkspaceContent() {
             savedViews={ws.savedViews}
             onSaveView={ws.saveCurrentView}
             onApplySavedView={ws.applySavedView}
+            onDeleteView={ws.deleteSavedView}
             teamMembers={ws.teamMembers}
           />
         </div>

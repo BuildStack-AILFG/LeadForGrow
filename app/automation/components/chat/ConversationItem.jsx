@@ -167,6 +167,9 @@ function ConversationItem({ chat, active, onClick }) {
             {intervened && (
               <span className="text-[9px] font-bold px-1.5 py-[1px] rounded-full bg-teal-100 dark:bg-teal-950/40 text-teal-700 dark:text-teal-300 uppercase tracking-wide">Live</span>
             )}
+            {chat.status === 'closed' && (
+              <span className="text-[9px] font-bold px-1.5 py-[1px] rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 uppercase tracking-wide">Closed</span>
+            )}
             {waitingBadge && (
               <span
                 title="Waiting for reply"

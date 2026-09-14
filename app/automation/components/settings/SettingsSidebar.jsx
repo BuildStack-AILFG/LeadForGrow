@@ -67,7 +67,7 @@ export default function SettingsSidebar({ mobileOpen, onMobileClose }) {
           )
         ) : (
           SETTINGS_GROUPS.map((group) => {
-            const isOpen = collapsed[group.id] !== true;
+            const isOpen = collapsed[group.id] === true;
             return (
               <div key={group.id}>
                 <button

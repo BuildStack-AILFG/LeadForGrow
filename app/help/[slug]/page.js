@@ -233,7 +233,7 @@ export default async function GuidePage({ params }) {
               ← All guides
             </Link>
             <a
-              href="https://wa.me/916366966120"
+              href="https://wa.me/918810873052"
               target="_blank" rel="noopener noreferrer"
               className="text-sm font-medium text-emerald-600 hover:text-emerald-700"
             >
