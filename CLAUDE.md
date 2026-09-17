@@ -13,6 +13,14 @@ Related decisions: <link to DECISIONS.md entry, if any>
 
 ---
 
+## 2026-09-17 — Fixed Vercel production build failure (missing WhatsApp Flows constants exports)
+Branch: main
+Files: `lib/whatsappFlows/constants.js` (modified), `lib/whatsappFlows/constants-Life.js` (deleted)
+What changed: user reported the latest Vercel deployment (commit `2c2dca8`) failed with `npm run build` exiting 1. Reproduced locally with a clean `npm install` + `npm run build`. Root cause: the 2026-09-13 WhatsApp Flows editor session (see that entry below) intended to add `CATEGORY_ACCENT`/`CARD_COLOR_PRESETS` exports (and drop the now-unused `NODE_COLORS` map) to `lib/whatsappFlows/constants.js`, but that edit was saved to a wrongly-named sibling file, `lib/whatsappFlows/constants-Life.js`, instead — the real `constants.js` was never updated and nothing imported the stray file. `FlowNodeCard.jsx` and `NodeContextMenu.jsx` import both missing exports from `constants.js`, so every production build failed with "Export CATEGORY_ACCENT/CARD_COLOR_PRESETS doesn't exist in target module." This is the exact issue the 2026-09-14 entry below flagged as a known pre-existing, already-uncommitted build error at the time — it had since been committed without being fixed. Fix: merged `constants-Life.js`'s content (confirmed correct and unreferenced anywhere) into `constants.js`, deleted the stray file. Verified with a fresh `npm install` (local `node_modules` was also independently stale, which briefly surfaced unrelated red herrings — `mailparser`/`sanitize-html`/`simple-icons` "module not found" — those packages are correctly declared in `package.json`/`package-lock.json` and installed cleanly; not a real bug) followed by `npm run build`, confirming `✓ Compiled successfully` and all 379 routes generated with exit code 0. Committed and pushed directly to `main` (user explicitly confirmed via AskUserQuestion before push).
+Related decisions: none — straightforward misplaced-file bugfix, no new pattern or tradeoff introduced.
+
+---
+
 ## 2026-09-14 — Fixed 30 QA-reported bugs across dashboard, templates, Grovia, leads, inbox, tasks, deals
 Branch: main
 Files (grouped by area):
