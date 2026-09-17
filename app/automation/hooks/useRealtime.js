@@ -5,58 +5,98 @@ import { getAuthToken } from '@/lib/apiClient';
 import { REALTIME_EVENTS } from '@/lib/realtime/constants';
 
 /**
- * SSE subscription for tenant-scoped realtime events.
+ * Tenant-scoped realtime events via short polling (/api/realtime/poll).
+ *
+ * Replaces the old held-open SSE (EventSource) connection, which kept a
+ * serverless function open ~300s per tab and burned Fluid CPU/memory on
+ * Vercel. Polling is a short request every few seconds — cheap on serverless,
+ * and it pauses while the tab is hidden. The return shape is unchanged, so
+ * consumers don't need to change.
  */
-export function useRealtime({ onEvent, enabled = true } = {}) {
+const DEFAULT_INTERVAL = 5000;
+
+export function useRealtime({ onEvent, enabled = true, interval = DEFAULT_INTERVAL } = {}) {
   const [connected, setConnected] = useState(false);
   const [lastEvent, setLastEvent] = useState(null);
-  const sourceRef = useRef(null);
   const onEventRef = useRef(onEvent);
   onEventRef.current = onEvent;
 
-  const disconnect = useCallback(() => {
-    if (sourceRef.current) {
-      sourceRef.current.close();
-      sourceRef.current = null;
-    }
-    setConnected(false);
-  }, []);
+  const sinceRef = useRef(Date.now());
+  const timerRef = useRef(null);
+  const inFlightRef = useRef(false);
 
-  const connect = useCallback(() => {
+  const poll = useCallback(async () => {
     const token = getAuthToken();
     if (!token || !enabled) return;
-
-    disconnect();
-
-    const url = `/api/realtime/stream?token=${encodeURIComponent(token)}`;
-    const es = new EventSource(url);
-    sourceRef.current = es;
-
-    es.onopen = () => setConnected(true);
-    es.onerror = () => {
-      setConnected(false);
-      es.close();
-      sourceRef.current = null;
-      setTimeout(connect, 3000);
-    };
-
-    es.onmessage = (msg) => {
-      try {
-        const event = JSON.parse(msg.data);
+    if (inFlightRef.current) return; // never overlap requests
+    inFlightRef.current = true;
+    try {
+      const res = await fetch(
+        `/api/realtime/poll?token=${encodeURIComponent(token)}&since=${sinceRef.current}`,
+        { cache: 'no-store' }
+      );
+      if (!res.ok) {
+        setConnected(false);
+        return;
+      }
+      const data = await res.json();
+      setConnected(true);
+      if (typeof data.now === 'number') sinceRef.current = data.now;
+      for (const event of data.events || []) {
         setLastEvent(event);
         onEventRef.current?.(event);
-      } catch {
-        /* ignore */
       }
-    };
-  }, [disconnect, enabled]);
+    } catch {
+      setConnected(false);
+    } finally {
+      inFlightRef.current = false;
+    }
+  }, [enabled]);
+
+  const stop = useCallback(() => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  }, []);
+
+  const start = useCallback(() => {
+    stop();
+    if (!enabled) return;
+    poll(); // immediate catch-up
+    timerRef.current = setInterval(poll, interval);
+  }, [enabled, interval, poll, stop]);
 
   useEffect(() => {
-    connect();
-    return disconnect;
-  }, [connect, disconnect]);
+    if (!enabled) {
+      stop();
+      setConnected(false);
+      return undefined;
+    }
 
-  return { connected, lastEvent, reconnect: connect, disconnect };
+    // Don't replay history on (re)mount — start from "now".
+    sinceRef.current = Date.now();
+    start();
+
+    // Pause polling while the tab is hidden; catch up immediately on return.
+    const onVisibility = () => {
+      if (document.visibilityState === 'visible') start();
+      else stop();
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+
+    return () => {
+      stop();
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
+  }, [enabled, start, stop]);
+
+  const disconnect = useCallback(() => {
+    stop();
+    setConnected(false);
+  }, [stop]);
+
+  return { connected, lastEvent, reconnect: poll, disconnect };
 }
 
 export { REALTIME_EVENTS };
