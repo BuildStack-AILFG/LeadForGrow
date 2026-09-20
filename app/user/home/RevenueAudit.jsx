@@ -1,5 +1,6 @@
 "use client"
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowRight, MessageCircle, Globe, GitBranch, BarChart3, ChevronRight, ChevronLeft, Check, Command, Layers } from "lucide-react"
@@ -286,7 +287,7 @@ const RoutingVisual = () => (
 const features = [
   {
     id: "whatsapp",
-    icon: MessageCircle,
+    icon: WhatsAppIcon,
     title: "WhatsApp",
     badge: "WhatsApp",
     headline: "Capture leads from WhatsApp messages",

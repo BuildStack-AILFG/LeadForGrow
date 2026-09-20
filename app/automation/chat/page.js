@@ -1,5 +1,6 @@
 'use client';
 
+import { htmlToPlainText } from '@/lib/omnichannel/draftFields';
 import { Suspense, useState, useMemo, useEffect } from 'react';
 import { MessageSquare, FileText, Trash2 } from 'lucide-react';
 import { authFetch } from '@/lib/apiClient';
@@ -15,11 +16,34 @@ import OutOfWindowTemplateBar, { useIsWithin24hWindow } from '../components/chat
 import LostReasonModal from '../components/leads/LostReasonModal';
 import { useConfirm } from '@/app/components/ConfirmProvider';
 
+const PROFILE_COLLAPSED_KEY = 'lfg_ui_inbox_profile_collapsed';
+
 function ChatInboxContent() {
   const inbox = useChatInbox();
   const confirm = useConfirm();
   const [mobileView, setMobileView] = useState('list');
+  // Customer profile panel. Below the xl breakpoint it is an overlay (profileOpen); from xl up it is a right column that is
+  // open by default and can be closed with the X / the header button — the choice is remembered per browser (lfg_ui_ keys
+  // also survive logout, see lib/clientStorage.js).
   const [profileOpen, setProfileOpen] = useState(false);
+  const [profileCollapsed, setProfileCollapsed] = useState(false);
+  useEffect(() => {
+    try { if (localStorage.getItem(PROFILE_COLLAPSED_KEY) === '1') setProfileCollapsed(true); } catch { /* storage blocked: stay open */ }
+  }, []);
+  const setCollapsed = (collapsed) => {
+    setProfileCollapsed(collapsed);
+    try { localStorage.setItem(PROFILE_COLLAPSED_KEY, collapsed ? '1' : '0'); } catch { /* not remembered */ }
+  };
+  const handleProfileToggle = () => {
+    const wide = typeof window !== 'undefined' && window.matchMedia('(min-width: 1280px)').matches;
+    if (wide) setCollapsed(!profileCollapsed);
+    else setProfileOpen(true);
+  };
+  // The fixed Help / Grovia buttons live in the bottom-right corner (~72px). Reserve that strip on the message list and the
+  // composer whenever they would sit over the chat: always below xl (profile is an overlay), and at xl when the profile panel
+  // is closed. With the panel open they float over the panel instead (which reserves its own space).
+  const listGutter = profileCollapsed ? 'pr-[76px]' : 'pr-[76px] xl:pr-4';
+  const composerGutter = profileCollapsed ? 'pr-[76px]' : 'pr-[76px] xl:pr-0';
   const [emailFolder, setEmailFolder] = useState('inbox');
 
   const [aiReplyText, setAiReplyText] = useState(null);
@@ -53,7 +77,13 @@ function ChatInboxContent() {
   }, [emailFolder, isEmailChat, conversationId]);
 
   const continueDraft = (draft) => {
-    window.dispatchEvent(new CustomEvent('lfg:insert-reply', { detail: { text: draft.bodyText || '' } }));
+    // Older drafts were saved as HTML only (no bodyText), so fall back to the HTML.
+    const text = draft.bodyText || htmlToPlainText(draft.bodyHtml);
+    const emails = (list) => (list || []).map((c) => c?.email).filter(Boolean).join(', ');
+    if (draft.subject) inbox.setEmailSubject(draft.subject);
+    inbox.setEmailCc(emails(draft.cc));
+    inbox.setEmailBcc(emails(draft.bcc));
+    window.dispatchEvent(new CustomEvent('lfg:insert-reply', { detail: { text } }));
     setEmailFolder('inbox');
   };
 
@@ -197,7 +227,7 @@ function ChatInboxContent() {
   return (
     <div className="flex h-[calc(100vh-0px)] bg-[#f8f9fc] dark:bg-slate-950 overflow-hidden font-[family-name:var(--font-whatsapp)]">
       <div
-        className={`${mobileView === 'list' ? 'flex' : 'hidden'} lg:flex h-full flex-shrink-0 w-full lg:w-[380px] xl:w-[420px] 2xl:w-[460px]`}
+        className={`${mobileView === 'list' ? 'flex' : 'hidden'} lg:flex h-full flex-shrink-0 w-full lg:w-[320px] xl:w-[360px] 2xl:w-[380px]`}
       >
         <ChatSidebar
           conversations={inbox.conversations}
@@ -236,7 +266,8 @@ function ChatInboxContent() {
           onSchedule={() => {}}
           onWon={() => inbox.updateLeadStatus('converted')}
           onLost={() => inbox.updateLeadStatus('lost')}
-          onProfile={() => setProfileOpen(true)}
+          onProfile={handleProfileToggle}
+          profileOpen={!profileCollapsed}
           onIntervene={inbox.intervene}
           onReleaseIntervene={inbox.releaseIntervene}
           onUpdateConversation={inbox.updateConversation}
@@ -314,6 +345,7 @@ function ChatInboxContent() {
                 loadingMore={inbox.loadingMore}
                 onMessageAction={inbox.messageAction}
                 emptyLabel={emptyLabel}
+                gutterClass={listGutter}
                 // Passed so MessageBubble's EmailSenderHeader can fall back
                 // to the conversation's participant when a specific Message's
                 // content.participantName/Email aren't populated (older rows
@@ -352,6 +384,7 @@ function ChatInboxContent() {
                 canSend={canReply}
                 hasSelection={!!inbox.selectedChat}
                 channel={inbox.selectedChat?.channel || 'whatsapp'}
+                fabGutter={composerGutter}
                 conversationId={inbox.selectedChat?._id}
                 templates={inbox.templates}
                 aiSuggestion={aiReplyText || aiSuggestion}
@@ -383,19 +416,22 @@ function ChatInboxContent() {
         )}
       </main>
 
-      <CRMProfilePanel
-        chat={inbox.selectedChat}
-        leadDetail={inbox.leadDetail}
-        conversationDetail={inbox.conversationDetail}
-        intelligence={inbox.intelligence}
-        teamMembers={inbox.teamMembers}
-        labels={inbox.labels}
-        onStatusChange={inbox.updateLeadStatus}
-        onAssign={inbox.assignChat}
-        onAddNote={inbox.addNote}
-        onToggleLabel={inbox.toggleLabel}
-        onUpdateFollowUp={inbox.updateLeadFollowUp}
-      />
+      {!profileCollapsed && (
+        <CRMProfilePanel
+          chat={inbox.selectedChat}
+          leadDetail={inbox.leadDetail}
+          conversationDetail={inbox.conversationDetail}
+          intelligence={inbox.intelligence}
+          teamMembers={inbox.teamMembers}
+          labels={inbox.labels}
+          onStatusChange={inbox.updateLeadStatus}
+          onAssign={inbox.assignChat}
+          onAddNote={inbox.addNote}
+          onToggleLabel={inbox.toggleLabel}
+          onUpdateFollowUp={inbox.updateLeadFollowUp}
+          onClose={() => setCollapsed(true)}
+        />
+      )}
 
       {profileOpen && inbox.selectedChat && (
         <CRMProfilePanel

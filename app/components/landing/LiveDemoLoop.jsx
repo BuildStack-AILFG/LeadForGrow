@@ -1,12 +1,14 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, UserPlus, UserCheck, BarChart3, CheckCircle2 } from 'lucide-react';
+import { UserPlus, UserCheck, BarChart3, CheckCircle2 } from 'lucide-react';
 
+const WhatsAppColored = (props) => <WhatsAppIcon colored {...props} />;
 const STEPS = [
   { icon: UserPlus, label: 'New lead from Meta Ads', color: 'text-blue-600 bg-blue-50 dark:bg-blue-950/50' },
-  { icon: MessageCircle, label: 'WhatsApp auto-reply sent', color: 'text-blue-600 bg-blue-50 dark:bg-blue-950/50' },
+  { icon: WhatsAppColored, label: 'WhatsApp auto-reply sent', color: 'text-blue-600 bg-blue-50 dark:bg-blue-950/50' },
   { icon: UserCheck, label: 'Assigned to top agent', color: 'text-sky-600 bg-sky-50 dark:bg-sky-950/50' },
   { icon: BarChart3, label: 'Pipeline analytics updated', color: 'text-amber-600 bg-amber-50 dark:bg-amber-950/50' },
   { icon: CheckCircle2, label: 'Follow-up scheduled', color: 'text-slate-600 bg-slate-100 dark:bg-slate-800' },

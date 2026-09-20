@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { ChevronLeft, Phone, MessageSquare, ArrowRightLeft, XCircle, Trash2, MoreHorizontal } from 'lucide-react';
+import { ChevronLeft, Phone, ArrowRightLeft, XCircle, Trash2, MoreHorizontal } from 'lucide-react';
+import { WhatsAppIcon } from '../../chat/BrandIcons';
 import { useState, useRef, useEffect } from 'react';
 import StatusBadge from '../StatusBadge';
 import LeadScoreBadge from '../LeadScoreBadge';
@@ -73,7 +74,7 @@ export default function LeadDetailHeader({
               onClick={onWhatsApp}
               className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded"
             >
-              <MessageSquare className="w-4 h-4" /> WhatsApp
+              <WhatsAppIcon className="w-4 h-4" /> WhatsApp
             </button>
           )}
           {lead.status !== 'converted' && (

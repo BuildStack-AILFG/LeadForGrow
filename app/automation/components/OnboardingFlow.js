@@ -1,5 +1,6 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
@@ -121,7 +122,7 @@ export default function OnboardingFlow({ onComplete }) {
               
               <div className="grid grid-cols-2 gap-4 mb-8">
                 <div className="p-6 border-2 border-slate-100 dark:border-slate-800 rounded-2xl text-left hover:border-indigo-600 cursor-pointer group transition-all">
-                  <MessageCircle className="w-8 h-8 text-emerald-500 mb-3" />
+                  <WhatsAppIcon colored className="w-8 h-8 mb-3" />
                   <h3 className="font-bold text-slate-900 dark:text-slate-50">WhatsApp</h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400">Capture from WhatsApp buttons</p>
                 </div>

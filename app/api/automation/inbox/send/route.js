@@ -1,3 +1,4 @@
+import { workingDraftFilter } from '@/lib/omnichannel/draftFields';
 import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import Business from '@/models/Business';
@@ -263,6 +264,10 @@ async function handler(req) {
 
     if (draftId) {
       await EmailDraft.findOneAndDelete({ _id: draftId, businessId: user.businessId });
+    }
+    // The auto-saved working draft of this thread is obsolete once the reply is sent (drafts used to pile up forever).
+    if (activeChannel === 'email' && conversation?._id) {
+      await EmailDraft.deleteMany(workingDraftFilter({ businessId: user.businessId, conversationId: conversation._id, userId: user.userId }));
     }
 
     return NextResponse.json({ success: true, data: result.message, messageId: externalMessageId });

@@ -1,17 +1,16 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { memo } from 'react';
 import Link from 'next/link';
 import {
   CheckCircle2,
   Calendar,
   Phone,
-  MessageCircle,
   Mail,
   ExternalLink,
   AlertCircle,
-  Trash2
-} from 'lucide-react';
+  Trash2 } from 'lucide-react';
 import TaskTypeBadge from './TaskTypeBadge';
 import { assigneeName } from '../leads/utils';
 import { formatDueDate, getTimeUntil, isOverdue } from './utils';
@@ -91,7 +90,7 @@ function TaskRow({ task, onMarkDone, onReschedule, onCommunicate, onDelete }) {
               className="p-1.5 rounded text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40"
               title="WhatsApp"
             >
-              <MessageCircle className="w-3.5 h-3.5" />
+              <WhatsAppIcon className="w-3.5 h-3.5" />
             </button>
           )}
           {task.type === 'email' && (

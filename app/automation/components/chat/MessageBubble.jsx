@@ -9,6 +9,7 @@ import {
 import { formatFileSize } from '@/lib/omnichannel/mediaTypes';
 import { decodeMetaError, extractErrorCode } from '@/lib/whatsapp/metaErrors';
 import { ORIGIN_META } from './constants';
+import { splitQuotedBody } from '@/lib/omnichannel/emailThread';
 
 /**
  * Rewrite a Cloudinary URL so the file downloads instead of trying to
@@ -57,7 +58,7 @@ function iconForMime(mimeType = '') {
  * Images use an inline thumbnail preview; everything else is a filename + size
  * download card. The click always opens/downloads via the Cloudinary URL.
  */
-function AttachmentCards({ attachments }) {
+export function AttachmentCards({ attachments }) {
   if (!Array.isArray(attachments) || attachments.length === 0) return null;
   return (
     <div className="flex flex-col gap-1.5 mb-1.5">
@@ -179,7 +180,7 @@ function MediaContent({ message }) {
  * Same name always produces the same color — deterministic hash of the
  * first character.
  */
-function InitialAvatar({ name = '?', size = 'sm' }) {
+export function InitialAvatar({ name = '?', size = 'sm' }) {
   const ch = (name.trim()[0] || '?').toUpperCase();
   // Palette rotated by char code — matches Gmail's approach of "same
   // sender = same tile color forever," which agents rely on for quick
@@ -276,7 +277,7 @@ function EmailSenderHeader({ message, outgoing, conversation }) {
  * are given loading=lazy and max-width so a marketing email with 10 huge
  * hero images doesn't tank scroll performance.
  */
-function EmailHtmlBody({ html }) {
+export function EmailHtmlBody({ html }) {
   return (
     <div
       className="email-html-body max-w-full overflow-hidden text-sm leading-relaxed"
@@ -352,45 +353,10 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
   // a "..." toggle so agents can peek at prior thread context without it
   // dominating the bubble. `newBody` is what shows by default; `quotedBody`
   // is the collapsed section revealed on click.
-  const { newBody, quotedBody } = useMemo(() => {
-    if (message.type !== 'email' || !rawBody) return { newBody: rawBody, quotedBody: '' };
-
-    // Find where the quoted section starts. Priority order matches how the
-    // three major mail clients wrap replies:
-    //   - Gmail:   "On <date>, <name> <email> wrote:"
-    //   - Outlook: "-----Original Message-----" divider
-    //   - Outlook: "From: X\nSent: Y" header block
-    //   - Everyone: leading ">" line prefixes (older clients)
-    const markers = [
-      /(^|\n)\s*On\s[\s\S]+?wrote:/i,
-      /(^|\n)\s*-----\s*Original Message\s*-----/i,
-      /(^|\n)\s*From:\s.+\r?\nSent:\s/i,
-    ];
-    let splitAt = -1;
-    for (const m of markers) {
-      const match = rawBody.match(m);
-      if (match) {
-        splitAt = match.index + (match[1] ? match[1].length : 0);
-        break;
-      }
-    }
-    // Fallback — if no explicit marker, look for the first run of ">" quoted
-    // lines and split there. Catches older mail clients that don't emit a
-    // "wrote:" preamble.
-    if (splitAt < 0) {
-      const lines = rawBody.split('\n');
-      const quoteStartIdx = lines.findIndex((line) => /^\s*>/.test(line));
-      if (quoteStartIdx > 0) {
-        splitAt = lines.slice(0, quoteStartIdx).join('\n').length;
-      }
-    }
-    if (splitAt < 0) return { newBody: rawBody, quotedBody: '' };
-
-    return {
-      newBody: rawBody.slice(0, splitAt).trim(),
-      quotedBody: rawBody.slice(splitAt).trim(),
-    };
-  }, [rawBody, message.type]);
+  const { newBody, quotedBody } = useMemo(
+    () => (message.type !== 'email' ? { newBody: rawBody, quotedBody: '' } : splitQuotedBody(rawBody)),
+    [rawBody, message.type]
+  );
   const bodyText = newBody;
   const [quoteExpanded, setQuoteExpanded] = useState(false);
 
@@ -567,7 +533,7 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
   );
 }
 
-function FailedIndicator({ message }) {
+export function FailedIndicator({ message }) {
   const [open, setOpen] = useState(false);
   const err = message.rawMetadata?.deliveryError || message.error;
   const raw = typeof err === 'string' ? err : (err?.details || err?.message || '');

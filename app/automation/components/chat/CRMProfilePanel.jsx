@@ -209,8 +209,8 @@ export default function CRMProfilePanel({
           <Link href={`/automation/leads/${lead._id}`} className="p-1.5 rounded-md text-slate-400 hover:text-brand-ink">
             <ExternalLink className="w-4 h-4" />
           </Link>
-          {mobile && onClose && (
-            <button type="button" onClick={onClose} className="p-1.5 rounded-md text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700">
+          {onClose && (
+            <button type="button" onClick={onClose} title="Close" aria-label="Close customer profile" className="p-1.5 rounded-md text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700">
               <X className="w-4 h-4" />
             </button>
           )}

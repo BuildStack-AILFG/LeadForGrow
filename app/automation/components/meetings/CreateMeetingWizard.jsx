@@ -1,7 +1,8 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Check, MessageCircle, Mail, GitBranch, Kanban } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Mail, GitBranch, Kanban } from 'lucide-react';
 import { WIZARD_STEPS, MEETING_TYPE_OPTIONS, ASSIGNMENT_OPTIONS } from './constants';
 
 export default function CreateMeetingWizard({
@@ -199,14 +200,14 @@ export default function CreateMeetingWizard({
           {step === 3 && (
             <div className="space-y-4">
               <ToggleRow
-                icon={MessageCircle}
+                icon={WhatsAppIcon}
                 label="WhatsApp confirmation"
                 description="Instant confirmation after booking"
                 checked={draft.automationRules?.whatsappConfirmation !== false}
                 onChange={(v) => patchAuto({ whatsappConfirmation: v })}
               />
               <ToggleRow
-                icon={MessageCircle}
+                icon={WhatsAppIcon}
                 label="WhatsApp reminder"
                 description={`${draft.automationRules?.whatsappReminderMinutes ?? 30} min before meeting`}
                 checked={draft.automationRules?.whatsappReminder !== false}

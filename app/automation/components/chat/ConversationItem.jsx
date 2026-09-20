@@ -1,5 +1,7 @@
 'use client';
 
+import { cleanEmailPreview } from '@/lib/omnichannel/preview';
+import { isAutomatedSender } from '@/lib/omnichannel/automatedSender';
 import { memo } from 'react';
 import {
   Pin, Star,
@@ -64,9 +66,11 @@ function messagePreviewMeta(chat) {
   const hasInbound = !!chat.lastInboundPreview;
   const showInbound = hasInbound && outboundIsLatest;
 
-  const preview = showInbound
+  const previewRaw = showInbound
     ? String(chat.lastInboundPreview || '').trim()
     : rawOutbound;
+  // Email previews are often a wall of tracking URLs (newsletters): show readable text only.
+  const preview = chat.channel === 'email' ? cleanEmailPreview(previewRaw) : previewRaw;
   const previewIsInbound = showInbound || chat.lastMessageDirection === 'incoming';
 
   if (/^\[Template[:\s]/i.test(preview) || /Automated message sent/i.test(preview)) {
@@ -108,7 +112,9 @@ function ConversationItem({ chat, active, onClick }) {
   // and no human has replied since. Buckets escalate visually — grey <1h,
   // amber 1-4h, red >4h — so agents can prioritize at a glance.
   let waitingBadge = null;
-  if (chat.lastMessageDirection === 'incoming' && chat.lastInboundAt) {
+  // Newsletters / no-reply / notification senders can't be replied to, so a red "6d waiting" on them is only noise.
+  const automated = isAutomatedSender({ channel: chat.channel, email: chat.participantEmail || chat.leadId?.email });
+  if (!automated && chat.lastMessageDirection === 'incoming' && chat.lastInboundAt) {
     const waitMs = Date.now() - new Date(chat.lastInboundAt).getTime();
     const waitH = waitMs / (60 * 60 * 1000);
     if (waitH >= 0.25) {  // Only show after 15 min — before that it's just "recent"
@@ -116,7 +122,7 @@ function ConversationItem({ chat, active, onClick }) {
       if (waitH < 1) { label = `${Math.round(waitH * 60)}m`; cls = 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'; }
       else if (waitH < 4) { label = `${Math.round(waitH)}h`; cls = 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300'; }
       else if (waitH < 24) { label = `${Math.round(waitH)}h`; cls = 'bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300'; }
-      else { label = `${Math.round(waitH / 24)}d`; cls = 'bg-rose-200 text-rose-800 dark:text-rose-200'; }
+      else { label = `${Math.round(waitH / 24)}d`; cls = 'bg-rose-200 dark:bg-rose-900/40 text-rose-800 dark:text-rose-200'; }
       waitingBadge = { label, cls };
     }
   }

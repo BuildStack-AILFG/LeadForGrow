@@ -1,8 +1,8 @@
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import {
   Type, Mail, Phone, MessageSquare, ChevronDown, CircleDot, CheckSquare,
-  Calendar, Upload, MapPin, Hash, Layers, MessageCircle, Home, GraduationCap,
-  LayoutTemplate, Sparkles, PanelTop, Maximize2
-} from 'lucide-react';
+  Calendar, Upload, MapPin, Hash, Layers, Home, GraduationCap,
+  LayoutTemplate, Sparkles, PanelTop, Maximize2 } from 'lucide-react';
 
 export const FIELD_CATEGORIES = [
   {
@@ -71,7 +71,7 @@ export const FORM_TEMPLATES = [
     id: 'whatsapp',
     name: 'WhatsApp Lead Form',
     desc: 'Capture leads for WhatsApp follow-up',
-    icon: MessageCircle,
+    icon: WhatsAppIcon,
     gradient: 'from-emerald-500 to-teal-600',
     formType: 'floating',
     fields: [

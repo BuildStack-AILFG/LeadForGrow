@@ -1,5 +1,6 @@
 "use client";
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
@@ -8,15 +9,13 @@ import {
   CheckCircle2, 
   Target, 
   Phone, 
-  MessageSquare, 
   Mail, 
   MapPin,
   Palette,
   Rocket,
   Plus,
   ShieldCheck,
-  Sparkles
-} from 'lucide-react';
+  Sparkles } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { authFetch } from '@/lib/apiClient';
 import UserNavbar from '../../user/Header';
@@ -251,7 +250,7 @@ export default function CreateWebsiteFunnel() {
                   {[
                     { id: 'leads', title: 'Lead Capture', icon: <Target className="w-5 h-5" />, desc: 'Focus on form submissions' },
                     { id: 'calls', title: 'Direct Calls', icon: <Phone className="w-5 h-5" />, desc: 'Primary action is tap-to-call' },
-                    { id: 'whatsapp', title: 'WhatsApp Chat', icon: <MessageSquare className="w-5 h-5" />, desc: 'Instant chat on WhatsApp' },
+                    { id: 'whatsapp', title: 'WhatsApp Chat', icon: <WhatsAppIcon className="w-5 h-5" />, desc: 'Instant chat on WhatsApp' },
                     { id: 'appointments', title: 'Bookings', icon: <Mail className="w-5 h-5" />, desc: 'Link to your calendar' }
                   ].map((goal) => (
                     <div 

@@ -165,7 +165,11 @@ export default function ChatSidebar({
                 key={f.id}
                 type="button"
                 onClick={() => onChannelFilterChange(f.id)}
-                className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded whitespace-nowrap transition-colors ${
+                // Icon-only: five labelled pills no longer fit the narrower list; the name is on hover / for screen readers.
+                title={f.label}
+                aria-label={f.label}
+                aria-pressed={active}
+                className={`inline-flex items-center justify-center flex-shrink-0 w-9 h-7 rounded transition-colors ${
                   active
                     ? `${CHANNEL_ACTIVE_BG[f.id] || CHANNEL_ACTIVE_BG.all} text-white`
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
@@ -174,9 +178,8 @@ export default function ChatSidebar({
                 <Icon
                   {...(f.id !== 'all' && !active ? { colored: true } : {})}
                   className={active ? 'text-white' : f.id === 'all' ? 'text-slate-500 dark:text-slate-400' : ''}
-                  size={13}
+                  size={15}
                 />
-                {f.label}
               </button>
             );
           })}

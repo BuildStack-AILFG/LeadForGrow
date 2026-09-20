@@ -6,7 +6,7 @@ import {
   Bold, Italic, Link2, Clock, Save, Mail, ChevronDown, ChevronUp, PenLine, X, MoreHorizontal,
   CornerUpLeft,
 } from 'lucide-react';
-import { QUICK_EMOJIS } from './constants';
+import { EMOJI_GROUPS } from './constants';
 import MediaAttachmentStrip from './MediaAttachmentStrip';
 import { useMediaUpload } from '@/app/automation/hooks/useMediaUpload';
 import { authFetch } from '@/lib/apiClient';
@@ -16,6 +16,7 @@ export default function ChatInput({
   canSend,
   hasSelection = false,
   channel = 'whatsapp',
+  fabGutter = '',
   conversationId,
   templates = [],
   aiSuggestion,
@@ -44,6 +45,20 @@ export default function ChatInput({
   const [dragOver, setDragOver] = useState(false);
   const fileRef = useRef(null);
   const editorRef = useRef(null);
+
+  // Emoji picker: closes on an outside click or Esc (it used to stay open until the smile button was pressed again).
+  const emojiRef = useRef(null);
+  useEffect(() => {
+    if (!emojiOpen) return undefined;
+    const onDown = (e) => { if (emojiRef.current && !emojiRef.current.contains(e.target)) setEmojiOpen(false); };
+    const onKey = (e) => { if (e.key === 'Escape') setEmojiOpen(false); };
+    document.addEventListener('mousedown', onDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [emojiOpen]);
   const { uploads, uploadFile, removeUpload, retryUpload, clearUploads } = useMediaUpload();
 
   // Composer state is local to this component and previously leaked across
@@ -323,7 +338,7 @@ export default function ChatInput({
 
   const composerShell = (children) => (
     <div
-      className={`flex-shrink-0 border-t transition-colors ${
+      className={`flex-shrink-0 border-t transition-colors ${fabGutter} ${
         dragOver ? 'border-teal-400 bg-teal-50/50 dark:bg-teal-950/50' : isNote ? 'border-green-200 dark:border-green-900/50 bg-green-50/30 dark:bg-green-950/10' : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900'
       }`}
       onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
@@ -508,12 +523,28 @@ export default function ChatInput({
       )}
 
       <div className="flex items-center gap-1 px-3 pt-2 text-slate-500 dark:text-slate-400">
-        <div className="relative">
-          <button type="button" onClick={() => { setEmojiOpen(!emojiOpen); setTemplatesOpen(false); }} className="p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800"><Smile className="w-4 h-4" /></button>
+        <div className="relative" ref={emojiRef}>
+          <button type="button" onClick={() => { setEmojiOpen(!emojiOpen); setTemplatesOpen(false); }} title="Emoji" aria-label="Emoji" aria-expanded={emojiOpen} className="p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800"><Smile className="w-4 h-4" /></button>
           {emojiOpen && (
-            <div className="absolute bottom-full left-0 mb-1 p-1.5 bg-white dark:bg-slate-900 border rounded shadow-lg grid grid-cols-4 gap-1 z-20">
-              {QUICK_EMOJIS.map((e) => (
-                <button key={e} type="button" onClick={() => { setText((t) => t + e); setEmojiOpen(false); }} className="text-lg p-1 hover:bg-brand-tint dark:hover:bg-slate-800 rounded">{e}</button>
+            // The panel must have its own width: it is absolutely positioned inside a wrapper that is only as wide as the
+            // smile button, so without w-[288px] the 4-column grid collapsed to ~36px and the emojis overlapped.
+            <div className="absolute bottom-full left-0 mb-2 w-[288px] max-w-[85vw] max-h-64 overflow-y-auto p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded shadow-lg z-30">
+              {EMOJI_GROUPS.map((group) => (
+                <div key={group.id} className="mb-2 last:mb-0">
+                  <p className="px-1 pb-1 text-[10px] font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">{group.label}</p>
+                  <div className="grid grid-cols-8 gap-0.5">
+                    {group.emojis.map((e) => (
+                      <button
+                        key={`${group.id}-${e}`}
+                        type="button"
+                        onClick={() => { setText((t) => t + e); setEmojiOpen(false); }}
+                        className="w-8 h-8 flex items-center justify-center text-lg rounded hover:bg-brand-tint dark:hover:bg-slate-800"
+                      >
+                        {e}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
           )}
@@ -633,7 +664,7 @@ export default function ChatInput({
           <div className="relative ml-auto">
             <button type="button" onClick={() => { setTemplatesOpen(!templatesOpen); setEmojiOpen(false); }} className="text-xs font-medium px-2.5 py-1.5 rounded bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700">Templates</button>
             {templatesOpen && (
-              <div className="absolute bottom-full right-0 mb-1 w-56 max-h-48 overflow-y-auto bg-white dark:bg-slate-900 border rounded shadow-lg z-20 p-1.5 space-y-0.5">
+              <div className="absolute bottom-full right-0 mb-1 w-56 max-h-48 overflow-y-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded shadow-lg z-20 p-1.5 space-y-0.5">
                 {templates.map((t) => (
                   <button key={t.id || t.name} type="button" onClick={() => { setText(t.body || ''); if (editorRef.current) editorRef.current.innerText = t.body || ''; setTemplatesOpen(false); }} className="w-full text-left px-2.5 py-2 text-xs rounded hover:bg-brand-tint dark:hover:bg-slate-800">
                     <span className="font-medium block">{t.name}</span>

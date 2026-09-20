@@ -1,7 +1,8 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import Link from 'next/link';
-import { Sparkles, Phone, MessageSquare, UserPlus, ChevronRight } from 'lucide-react';
+import { Sparkles, Phone, UserPlus, ChevronRight } from 'lucide-react';
 import DashboardCard from './primitives/DashboardCard';
 
 function Suggestion({ icon: Icon, title, description, href, accent }) {
@@ -47,7 +48,7 @@ export default function AiSuggestionsPanel({ notContacted = 0, overdueTasks = 0,
 
   if (unreadChats > 0) {
     suggestions.push({
-      icon: MessageSquare,
+      icon: WhatsAppIcon,
       title: `${unreadChats} unread WhatsApp chat${unreadChats > 1 ? 's' : ''}`,
       description: 'Respond quickly to improve conversion.',
       href: '/automation/chat?status=unread',

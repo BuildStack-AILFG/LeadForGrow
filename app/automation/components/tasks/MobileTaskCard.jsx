@@ -1,16 +1,15 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import Link from 'next/link';
 import {
   CheckCircle2,
   Calendar,
   Phone,
-  MessageCircle,
   Mail,
   ExternalLink,
   AlertCircle,
-  Trash2
-} from 'lucide-react';
+  Trash2 } from 'lucide-react';
 import TaskTypeBadge from './TaskTypeBadge';
 import { assigneeName } from '../leads/utils';
 import { formatDueDate, getTimeUntil, isOverdue } from './utils';
@@ -86,7 +85,7 @@ export default function MobileTaskCard({ task, onMarkDone, onReschedule, onCommu
             onClick={() => onCommunicate(task, 'whatsapp')}
             className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/30 rounded disabled:opacity-40"
           >
-            <MessageCircle className="w-3.5 h-3.5" /> WhatsApp
+            <WhatsAppIcon className="w-3.5 h-3.5" /> WhatsApp
           </button>
         )}
         {task.type === 'email' && (

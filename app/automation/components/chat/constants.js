@@ -41,3 +41,13 @@ export const CHANNEL_META = {
 export { PIPELINE_STAGES } from '../leads/constants';
 
 export const QUICK_EMOJIS = ['😊', '👍', '🙏', '✅', '👋', '📞', '💬', '🎉'];
+
+// Emoji picker in the composer: grouped, scrollable, 8 per row. Business-chat oriented (a garage, a clinic, a shop),
+// not the full Unicode set. No ZWJ sequences, so every entry renders as a single glyph on all platforms.
+export const EMOJI_GROUPS = [
+  { id: 'recent', label: 'Frequently used', emojis: QUICK_EMOJIS },
+  { id: 'smileys', label: 'Smileys', emojis: ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '🙂', '😉', '😍', '🥰', '😘', '😎', '🤗', '🤔', '😐', '😢', '😭', '😡'] },
+  { id: 'gestures', label: 'Gestures', emojis: ['👎', '👏', '🙌', '🤝', '👌', '✌️', '🤞', '👉', '👈', '💪', '🙋', '🤙'] },
+  { id: 'business', label: 'Business & travel', emojis: ['📅', '⏰', '📍', '📦', '💰', '💳', '🧾', '📝', '📎', '📷', '🔧', '🛠️', '🚗', '🏍️', '🛵', '⛽', '🔑', '🏠'] },
+  { id: 'symbols', label: 'Symbols', emojis: ['❌', '⭐', '🔥', '❤️', '💯', '⚠️', 'ℹ️', '🎁', '🎊', '✨'] },
+];

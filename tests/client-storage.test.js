@@ -30,13 +30,14 @@ describe('clearUserStorage', () => {
       theme: 'dark',
       lfg_enquiry_popup_dismissed_until: '9999999999999',
       lfg_enquiry_form_submitted_until: '9999999999999',
+      lfg_ui_inbox_profile_collapsed: '1',
       token: 't', userToken: 'u', refreshToken: 'r', userid: '1', userEmail: 'a@b.c',
       businessId: 'b', userPlan: 'growth', userRole: 'owner', accountFrozen: 'false',
     });
     clearUserStorage();
     assert.deepEqual(localStorage._keys(), [
       'lfg_cookie_consent', 'lfg_enquiry_form_submitted_until', 'lfg_enquiry_popup_dismissed_until',
-      'lfg_pending_page_views', 'lfg_visitor_id', 'theme',
+      'lfg_pending_page_views', 'lfg_ui_inbox_profile_collapsed', 'lfg_visitor_id', 'theme',
     ]);
   });
 
@@ -71,7 +72,7 @@ describe('clearUserStorage', () => {
 describe('isDeviceLevelKey', () => {
   it('matches the exact keys the banner and popup actually use', () => {
     for (const k of ['lfg_cookie_consent', 'lfg_visitor_id', 'theme', 'lfg_pending_page_views',
-      'lfg_enquiry_popup_dismissed_until', 'lfg_enquiry_form_submitted_until']) {
+      'lfg_enquiry_popup_dismissed_until', 'lfg_enquiry_form_submitted_until', 'lfg_ui_inbox_profile_collapsed']) {
       assert.equal(isDeviceLevelKey(k), true, k);
     }
     for (const k of ['token', 'userToken', 'userid', 'lfg_access', 'lfg_intro_seen_v1']) {

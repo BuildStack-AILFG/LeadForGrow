@@ -253,7 +253,11 @@ const IntegrationCredentialsSchema = new mongoose.Schema({
     appId: { type: String },
     appSecret: { type: String },
     verifyToken: { type: String },
-    lastVerified: { type: Date }
+    lastVerified: { type: Date },
+    // Refreshed from Meta by "Sync status" (test-whatsapp route) and shown on the WhatsApp settings screen.
+    // They must be declared: undeclared fields are stored but invisible to `wa.qualityRating`, so the screen showed "Unknown".
+    qualityRating: { type: String },   // GREEN | YELLOW | RED | UNKNOWN
+    displayNumber: { type: String }    // e.g. "+91 63669 66120"
   },
 
   email: {

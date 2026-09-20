@@ -1,6 +1,7 @@
 'use client';
 
-import { Phone, Mail, Tag, Clock, User, Sparkles, ChevronDown, MessageSquare, MapPin } from 'lucide-react';
+import { Phone, Mail, Tag, Clock, User, Sparkles, ChevronDown, MapPin } from 'lucide-react';
+import { WhatsAppIcon } from '../../chat/BrandIcons';
 import { useState } from 'react';
 import { PIPELINE_STAGES } from '../constants';
 import { assigneeName, formatSource, formatDate, formatRelative, mapTeamMemberOptions } from '../utils';
@@ -228,7 +229,7 @@ export default function LeadDetailProfile({
         )}
         {showWhatsAppButton && (
           <button type="button" onClick={onWhatsApp} className="w-full py-2.5 text-sm font-medium rounded bg-emerald-600 text-white hover:bg-emerald-700 flex items-center justify-center gap-2">
-            <MessageSquare className="w-4 h-4" /> Open WhatsApp
+            <WhatsAppIcon className="w-4 h-4" /> Open WhatsApp
           </button>
         )}
         {templates.length > 0 && (

@@ -1,7 +1,8 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { useEffect, useState } from 'react';
-import { Bold, Italic, Eye, Send, MessageCircle, ChevronDown } from 'lucide-react';
+import { Bold, Italic, Eye, Send, ChevronDown } from 'lucide-react';
 import { authFetch } from '@/lib/apiClient';
 import { TEMPLATE_VARIABLES, applyPreviewVars } from './constants';
 
@@ -119,7 +120,7 @@ export default function TemplateEditor({
         <>
           <div>
             <div className="flex items-center gap-1.5 mb-1.5">
-              <MessageCircle className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+              <WhatsAppIcon colored className="w-3.5 h-3.5" />
               <label className="text-xs font-medium text-slate-600 dark:text-slate-400">WhatsApp message</label>
             </div>
             <textarea

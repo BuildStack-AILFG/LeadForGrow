@@ -1,7 +1,8 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { useState, useEffect, useRef } from 'react';
-import { Phone, Bell, X, Calendar, Clock, Volume2, MessageCircle, Mail } from 'lucide-react';
+import { Phone, Bell, X, Calendar, Clock, Volume2, Mail } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import { authFetch, getUserId } from '@/lib/apiClient';
@@ -154,7 +155,7 @@ export default function ReminderMonitor() {
                         <div className="flex items-center gap-2">
                             <div className="bg-brand-tint p-1.5 rounded-md text-brand-ink">
                                 {task.type === 'call' && <Phone className="w-4 h-4" />}
-                                {task.type === 'whatsapp' && <MessageCircle className="w-4 h-4" />}
+                                {task.type === 'whatsapp' && <WhatsAppIcon className="w-4 h-4" />}
                                 {task.type === 'email' && <Mail className="w-4 h-4" />}
                                 {task.type !== 'call' && task.type !== 'whatsapp' && task.type !== 'email' && <Bell className="w-4 h-4" />}
                             </div>
@@ -185,7 +186,7 @@ export default function ReminderMonitor() {
                             className="flex-1 bg-brand text-white py-1.5 rounded text-[11px] font-semibold flex items-center justify-center gap-1.5 hover:bg-brand-hover transition-all"
                         >
                             {task.type === 'call' && <><Phone className="w-3 h-3" /> Call Now</>}
-                            {task.type === 'whatsapp' && <><MessageCircle className="w-3 h-3" /> Send Message</>}
+                            {task.type === 'whatsapp' && <><WhatsAppIcon className="w-3 h-3" /> Send Message</>}
                             {task.type === 'email' && <><Mail className="w-3 h-3" /> Send Email</>}
                             {task.type !== 'call' && task.type !== 'whatsapp' && task.type !== 'email' && <>Mark Done</>}
                         </button>

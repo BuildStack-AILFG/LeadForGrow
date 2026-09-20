@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Bell, X, MessageCircle, UserPlus, CheckCircle, Info, Clock, Sparkles, Mail, Instagram } from 'lucide-react';
+import { Bell, X, UserPlus, CheckCircle, Info, Clock, Sparkles } from 'lucide-react';
+import { WhatsAppIcon, InstagramIcon, FacebookIcon, GmailIcon } from '@/app/automation/components/chat/BrandIcons';
 import Link from 'next/link';
 import { authFetch } from '@/lib/apiClient';
 import { useRealtime, REALTIME_EVENTS } from '@/app/automation/hooks/useRealtime';
@@ -75,9 +76,11 @@ export default function NotificationCenter() {
 
   const getIcon = (type) => {
     switch (type) {
-      case 'whatsapp_message': return <MessageCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />;
-      case 'instagram_message': return <Instagram className="w-4 h-4 text-pink-600 dark:text-pink-400" />;
-      case 'email_message': return <Mail className="w-4 h-4 text-[#4285F4]" />;
+      // Real brand logos in their official colours (same marks as the inbox), not generic glyphs.
+      case 'whatsapp_message': return <WhatsAppIcon colored className="w-4 h-4" />;
+      case 'instagram_message': return <InstagramIcon colored className="w-4 h-4" />;
+      case 'facebook_message': return <FacebookIcon colored className="w-4 h-4" />;
+      case 'email_message': return <GmailIcon className="w-4 h-4" />;
       case 'conversation_assigned': return <UserPlus className="w-4 h-4 text-brand-ink" />;
       case 'internal_mention': return <Info className="w-4 h-4 text-teal-600 dark:text-teal-400" />;
       case 'new_lead': return <UserPlus className="w-4 h-4 text-brand-ink" />;

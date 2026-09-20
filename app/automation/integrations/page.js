@@ -1,10 +1,10 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
   Globe, 
-  MessageCircle, 
   Code,
   ExternalLink,
   ChevronRight,
@@ -18,8 +18,7 @@ import {
   ChevronUp,
   Menu,
   X,
-  Activity
-} from 'lucide-react';
+  Activity } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { authFetch } from '@/lib/apiClient';
 import Heading from '@/app/components/ui/Heading';
@@ -124,7 +123,7 @@ export default function IntegrationsPage() {
     {
       name: 'WhatsApp Button',
       description: 'Capture clicks on WhatsApp chat button',
-      icon: MessageCircle,
+      icon: WhatsAppIcon,
       color: 'emerald'
     },
     {

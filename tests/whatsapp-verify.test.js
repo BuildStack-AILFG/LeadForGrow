@@ -70,3 +70,19 @@ describe('Message types WhatsApp really sends', () => {
     assert.ok(ok('carrier_pigeon').validateSync()?.errors?.type);
   });
 });
+
+describe('what Sync stores must be readable by the settings route', () => {
+  it('qualityRating and displayNumber are readable as properties, like the whatsapp-status route reads them', async () => {
+    // Regression: Sync saved GREEN but the screen kept showing "Unknown", because these two fields were not declared in the
+    // Business schema, so `wa.qualityRating` was undefined even though the database had the value.
+    const { default: Business } = await import('../models/Business.js');
+    const { default: mongoose } = await import('mongoose');
+    const b = Business.hydrate({
+      _id: new mongoose.Types.ObjectId(), businessName: 'x', ownerId: new mongoose.Types.ObjectId(),
+      integrationCredentials: { whatsapp: { enabled: true, phoneNumberId: '1251139594744650', qualityRating: 'GREEN', displayNumber: '+91 63669 66120' } },
+    });
+    const wa = b.integrationCredentials.whatsapp;
+    assert.equal(wa.qualityRating, 'GREEN');
+    assert.equal(wa.displayNumber, '+91 63669 66120');
+  });
+});

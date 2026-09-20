@@ -1,9 +1,10 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Lock, Sparkles, ArrowRight, ShieldAlert, MessageCircle, Mail } from 'lucide-react';
+import { Lock, Sparkles, ArrowRight, ShieldAlert, Mail } from 'lucide-react';
 import { authFetch } from '@/lib/apiClient';
 import WorkspaceBootLoader from './WorkspaceBootLoader';
 
@@ -98,7 +99,7 @@ export default function AccessControl({ children }) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-semibold transition-all"
               >
-                <MessageCircle className="w-4 h-4" /> WhatsApp our team
+                <WhatsAppIcon className="w-4 h-4" /> WhatsApp our team
               </a>
               <a
                 href="mailto:hello@leadforgrow.com?subject=Renew%20my%20LeadForGrow%20plan"

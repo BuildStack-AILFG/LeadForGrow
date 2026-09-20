@@ -1,7 +1,8 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { motion } from 'framer-motion';
-import { Phone, PhoneOff, MessageSquare, Clock, User, ChevronRight } from 'lucide-react';
+import { Phone, PhoneOff, Clock, User, ChevronRight } from 'lucide-react';
 import { LANDING } from './landingStyles';
 import LandingSectionBg from './LandingSectionBg';
 
@@ -71,7 +72,7 @@ export default function CallingEfficiencySection() {
                   transition={{ duration: 2, repeat: Infinity }}
                   className="flex items-center gap-1.5 mt-1.5"
                 >
-                  <MessageSquare className="w-3 h-3 text-blue-600" />
+                  <WhatsAppIcon colored className="w-3 h-3" />
                   <span className="text-[10px] text-blue-700 dark:text-blue-400 font-medium">WhatsApp recovery sent</span>
                 </motion.div>
               </div>

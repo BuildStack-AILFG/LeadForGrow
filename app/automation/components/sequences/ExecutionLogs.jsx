@@ -1,5 +1,6 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { MessageCircle, Mail, Sparkles, CheckCircle2, XCircle, Clock } from 'lucide-react';
 import PageLoader from '../PageLoader';
 
@@ -17,7 +18,8 @@ const TYPE_COLORS = {
 };
 
 function LogIcon({ type }) {
-  if (type?.includes('whatsapp') || type?.includes('ai_')) return MessageCircle;
+  if (type?.includes('whatsapp')) return WhatsAppIcon;
+  if (type?.includes('ai_')) return MessageCircle;
   if (type?.includes('email')) return Mail;
   if (type?.startsWith('ai_')) return Sparkles;
   return Clock;

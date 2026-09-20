@@ -1,11 +1,11 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   X,
   Phone,
-  MessageSquare,
   ExternalLink,
   Clock,
   User,
@@ -13,8 +13,7 @@ import {
   Sparkles,
   ArrowRightLeft,
   MapPin,
-  Share2,
-} from 'lucide-react';
+  Share2} from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { authFetch, getUserId } from '@/lib/apiClient';
 import StatusBadge from './StatusBadge';
@@ -208,7 +207,7 @@ export default function LeadDrawer({
                     <Phone className="w-3.5 h-3.5" /> Call
                   </button>
                   <Link href={`/automation/chat?leadId=${leadId}`} className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 text-xs font-medium rounded-lg bg-emerald-600 text-white hover:bg-emerald-700">
-                    <MessageSquare className="w-3.5 h-3.5" /> WhatsApp
+                    <WhatsAppIcon className="w-3.5 h-3.5" /> WhatsApp
                   </Link>
                   <button type="button" onClick={() => setShowShare(true)} title="Share this lead on WhatsApp" className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 text-xs font-medium rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">
                     <Share2 className="w-3.5 h-3.5" /> Share
