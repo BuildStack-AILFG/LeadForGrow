@@ -65,7 +65,7 @@ const MessageSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['text', 'image', 'video', 'audio', 'document', 'sticker', 'location', 'contacts', 'button', 'interactive', 'email', 'story_reply'],
+    enum: ['text', 'image', 'video', 'audio', 'document', 'sticker', 'location', 'contacts', 'button', 'interactive', 'email', 'story_reply', 'system', 'unsupported', 'reaction', 'order'],
     default: 'text'
   },
   content: {
