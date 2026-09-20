@@ -22,6 +22,8 @@ export const GET = withPlanAccess('settings', async (req) => {
       success: true,
       data: {
         businessName: business.businessName,
+        // Public id used in the Meta callback URL (/api/webhooks/meta/<businessId>); not a secret.
+        businessId: String(business._id),
         whatsapp: {
           enabled: wa.enabled || false,
           provider: wa.provider || 'meta',

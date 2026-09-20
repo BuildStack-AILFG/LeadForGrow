@@ -9,6 +9,8 @@ import {
 import { authFetch } from '@/lib/apiClient';
 import { toast } from 'react-hot-toast';
 import PageLoader from '../../components/PageLoader';
+import WebhookUrlField from '@/app/automation/components/settings/WebhookUrlField';
+import { businessWebhookPath } from '@/lib/meta/webhookUrls';
 
 function StatusRow({ label, value, ok }) {
   return (
@@ -134,6 +136,29 @@ export default function WhatsAppSettingsPage() {
             <StatusRow label="Webhook" value={wa.webhookStatus || 'Active'} ok={wa.webhookStatus !== 'error'} />
             <StatusRow label="Templates synced" value={String(wa.templateCount ?? 0)} ok={(wa.templateCount ?? 0) > 0} />
             <StatusRow label="Last verified" value={wa.lastVerified ? new Date(wa.lastVerified).toLocaleString() : 'Never'} ok={!!wa.lastVerified} />
+          </div>
+
+          {/* Where to point Meta's webhook: the client copies this instead of building the URL by hand. */}
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
+            <div className="flex items-center gap-2">
+              <Webhook className="w-4 h-4 text-slate-500 dark:text-slate-400" />
+              <p className="text-sm font-semibold text-slate-900 dark:text-slate-50">Webhook setup</p>
+            </div>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              In the Meta developer dashboard open <span className="font-medium">WhatsApp → Configuration → Webhook</span>,
+              paste this Callback URL, enter your Verify token, then subscribe to <code className="text-[11px]">messages</code>.
+            </p>
+            {status?.businessId ? (
+              <WebhookUrlField path={businessWebhookPath(status.businessId)}>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                  Verify token: {wa.hasVerifyToken
+                    ? 'saved. Use the same value you saved under "Webhook Verify Token" below.'
+                    : 'not set yet. Save one under "Webhook Verify Token" below first, then use the same value in Meta.'}
+                </p>
+              </WebhookUrlField>
+            ) : (
+              <p className="text-xs text-slate-500 dark:text-slate-400">Webhook URL is not available yet.</p>
+            )}
           </div>
 
           {/* Manual credential entry — saves straight to the DB (reliable). */}

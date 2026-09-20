@@ -10,6 +10,8 @@ import { authFetch } from '@/lib/apiClient';
 import { toast } from 'react-hot-toast';
 import { useConfirm } from '@/app/components/ConfirmProvider';
 import ChannelCommentAutomations from '@/app/automation/components/settings/ChannelCommentAutomations';
+import WebhookUrlField from '@/app/automation/components/settings/WebhookUrlField';
+import { SHARED_WEBHOOK_PATH } from '@/lib/meta/webhookUrls';
 
 function StatusRow({ label, value, ok }) {
   return (
@@ -124,8 +126,12 @@ export default function FacebookSettingsPage() {
             <ul className="list-disc list-inside space-y-0.5">
               <li>A Facebook Page (Business/Creator) you manage</li>
               <li>Page Access Token with scopes: pages_messaging, pages_manage_metadata, pages_manage_engagement, pages_read_engagement</li>
-              <li>Webhook URL: <code className="text-[10px] bg-white dark:bg-slate-900 px-1 rounded">/api/webhooks/meta</code> — subscribe fields <code className="text-[10px]">messages</code>, <code className="text-[10px]">feed</code></li>
             </ul>
+            <div className="mt-3">
+              <WebhookUrlField path={SHARED_WEBHOOK_PATH} label="Webhook Callback URL">
+                <p className="text-[11px]">Paste it in Meta → Webhooks → Page, and subscribe to <code className="text-[10px]">messages</code> and <code className="text-[10px]">feed</code>. Verify token: the <code className="text-[10px]">META_VERIFY_TOKEN</code> value set on the server.</p>
+              </WebhookUrlField>
+            </div>
           </div>
 
           {/* Manual connect — paste a Page ID + Page Access Token. */}
