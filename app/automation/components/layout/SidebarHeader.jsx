@@ -7,7 +7,7 @@ import NotificationCenter from '../NotificationCenter';
 export default function SidebarHeader({ collapsed, isMobile, onToggle, onMobileClose }) {
   const LogoMark = ({ size = 'md' }) => (
     <div
-      className={`flex shrink-0 items-center justify-center rounded-xl border border-[#E8EAED] bg-white shadow-sm ${
+      className={`flex shrink-0 items-center justify-center rounded-xl border border-line bg-white dark:bg-slate-900 shadow-sm ${
         size === 'sm' ? 'h-9 w-9' : 'h-8 w-8'
       }`}
     >
@@ -17,7 +17,7 @@ export default function SidebarHeader({ collapsed, isMobile, onToggle, onMobileC
 
   return (
     <div
-      className={`flex-shrink-0 border-b border-[#E8EAED] bg-white ${
+      className={`flex-shrink-0 border-b border-line bg-white dark:bg-slate-900 ${
         collapsed ? 'px-2 py-3' : 'px-3 py-3.5'
       }`}
     >
@@ -26,7 +26,7 @@ export default function SidebarHeader({ collapsed, isMobile, onToggle, onMobileC
           <Link href="/automation" className="group flex min-w-0 flex-1 items-center gap-2.5">
             <LogoMark />
             <div className="min-w-0">
-              <p className="truncate text-sm font-semibold tracking-[-0.01em] text-[#1A1D1F] transition-colors group-hover:text-[#1D4B3E]">
+              <p className="truncate text-sm font-semibold tracking-[-0.01em] text-[#1A1D1F] dark:text-slate-100 transition-colors group-hover:text-brand-ink">
                 LeadForGrow
               </p>
             </div>
@@ -42,7 +42,7 @@ export default function SidebarHeader({ collapsed, isMobile, onToggle, onMobileC
           <button
             type="button"
             onClick={isMobile ? onMobileClose : onToggle}
-            className="rounded-lg p-2 text-[#6B7280] transition-colors hover:bg-[#F3F4F6] hover:text-[#1A1D1F]"
+            className="rounded-lg p-2 text-[#6B7280] dark:text-slate-300 transition-colors hover:bg-[#F3F4F6] dark:hover:bg-slate-800 hover:text-[#1A1D1F] dark:hover:text-slate-100"
             title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >
             {isMobile ? (

@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast';
 import { authFetch, getUserId } from '@/lib/apiClient';
 import { computeLeadIntelligence } from '@/lib/leadIntelligence';
 import { validateStageTransition } from '@/lib/crm/leadStages';
+import { getConversationId } from '@/app/automation/components/leads/detail/leadChannels';
 import { useConfirm } from '@/app/components/ConfirmProvider';
 
 export function useLeadDetail(leadId) {
@@ -96,7 +97,9 @@ export function useLeadDetail(leadId) {
         });
         const data = await res.json();
         if (data.success) {
-          setLead(data.data);
+          // PUT returns the lead WITHOUT messages/activities: merge so the conversation doesn't vanish, then refresh both.
+          setLead((prev) => ({ ...prev, ...data.data }));
+          fetchLead();
           toast.success('Stage updated');
           await fetchTasks();
           return data.data;
@@ -111,7 +114,7 @@ export function useLeadDetail(leadId) {
         setUpdating(false);
       }
     },
-    [leadId, fetchTasks]
+    [leadId, fetchTasks, fetchLead]
   );
 
   const updateStatus = useCallback(
@@ -230,6 +233,31 @@ export function useLeadDetail(leadId) {
     [leadId, fetchLead]
   );
 
+  // Phone / email edits from the profile card (e.g. adding a number to an Instagram lead).
+  const updateContact = useCallback(
+    async (fields) => {
+      try {
+        const res = await authFetch(`/api/automation/leads/${leadId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...fields, performedBy: getUserId() }),
+        });
+        const data = await res.json();
+        if (data.success) {
+          toast.success('Contact updated');
+          await fetchLead();
+          return true;
+        }
+        toast.error(data.error || 'Update failed');
+        return false;
+      } catch {
+        toast.error('Update failed');
+        return false;
+      }
+    },
+    [leadId, fetchLead]
+  );
+
   const createTask = useCallback(
     async (task) => {
       const res = await authFetch('/api/automation/tasks', {
@@ -283,6 +311,33 @@ export function useLeadDetail(leadId) {
       return false;
     },
     [leadId, fetchLead]
+  );
+
+  // Reply on whichever channel the lead is on. WhatsApp keeps its dedicated endpoint; Instagram / Messenger /
+  // email go through the inbox send route, which needs the conversation to know who to reply to.
+  const sendMessage = useCallback(
+    async (message, channel = 'whatsapp') => {
+      if (channel === 'whatsapp') return sendWhatsApp(message);
+      const conversationId = getConversationId(lead?.messages || [], channel);
+      if (!conversationId) {
+        toast.error('No open conversation on this channel yet — reply from the Inbox');
+        return false;
+      }
+      const res = await authFetch('/api/automation/inbox/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ leadId, conversationId, channel, message }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (data.success) {
+        toast.success('Message sent');
+        await fetchLead();
+        return true;
+      }
+      toast.error(data.error || 'Send failed');
+      return false;
+    },
+    [lead?.messages, leadId, sendWhatsApp, fetchLead]
   );
 
   const initiateCall = useCallback(async () => {
@@ -421,9 +476,11 @@ export function useLeadDetail(leadId) {
     confirmQualifiedAmount,
     cancelQualifiedPrompt,
     addNote,
+    updateContact,
     createTask,
     completeTask,
     sendWhatsApp,
+    sendMessage,
     initiateCall,
     openWhatsApp,
     renderTemplate,

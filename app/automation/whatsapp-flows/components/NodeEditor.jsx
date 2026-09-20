@@ -7,14 +7,14 @@ import { DEFAULT_SYSTEM_VARIABLES } from '@/lib/whatsappFlows/constants';
 function Field({ label, children }) {
   return (
     <label className="block mb-3.5">
-      <span className="text-xs font-medium text-slate-500">{label}</span>
+      <span className="text-xs font-medium text-slate-500 dark:text-slate-400">{label}</span>
       <div className="mt-1.5">{children}</div>
     </label>
   );
 }
 
 const inputClass =
-  'w-full px-3 py-2 rounded-lg border border-slate-200 bg-white text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#1D4B3E]/20 focus:border-[#1D4B3E] transition';
+  'w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm text-slate-900 dark:text-slate-50 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand transition';
 
 // Helper to count total rows across all sections
 function getTotalRows(sections) {
@@ -42,21 +42,21 @@ function RichTextToolbar({ textareaRef, value, onChange, onInsertVariable }) {
       <button
         type="button"
         onClick={onInsertVariable}
-        className="inline-flex items-center gap-1 text-[11px] font-medium text-[#1D4B3E] hover:underline px-1"
+        className="inline-flex items-center gap-1 text-[11px] font-medium text-brand-ink hover:underline px-1"
       >
         <Plus className="w-3 h-3" /> Add variable
       </button>
       <span className="flex-1" />
-      <button type="button" onClick={() => {}} className="p-1 rounded hover:bg-slate-100 text-slate-400">
+      <button type="button" onClick={() => {}} className="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-400">
         <Smile className="w-3.5 h-3.5" />
       </button>
-      <button type="button" onClick={() => wrap('*')} className="p-1 rounded hover:bg-slate-100 text-slate-400">
+      <button type="button" onClick={() => wrap('*')} className="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-400">
         <Bold className="w-3.5 h-3.5" />
       </button>
-      <button type="button" onClick={() => wrap('_')} className="p-1 rounded hover:bg-slate-100 text-slate-400">
+      <button type="button" onClick={() => wrap('_')} className="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-400">
         <Italic className="w-3.5 h-3.5" />
       </button>
-      <button type="button" onClick={() => {}} className="p-1 rounded hover:bg-slate-100 text-slate-400">
+      <button type="button" onClick={() => {}} className="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-400">
         <Link2 className="w-3.5 h-3.5" />
       </button>
     </div>
@@ -78,15 +78,15 @@ function TriggerKeywordFields({ data, set }) {
 
   return (
     <div className="mb-4">
-      <p className="text-xs font-medium text-slate-500 mb-2">Select the way to trigger automation</p>
+      <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-2">Select the way to trigger automation</p>
       <div className="flex items-center gap-4 mb-3">
         {['exact', 'contains', 'any'].map((mode) => (
-          <label key={mode} className="flex items-center gap-1.5 text-xs text-slate-700 capitalize cursor-pointer">
+          <label key={mode} className="flex items-center gap-1.5 text-xs text-slate-700 dark:text-slate-200 capitalize cursor-pointer">
             <input
               type="radio"
               checked={(data.matchMode || 'contains') === mode}
               onChange={() => set('matchMode', mode)}
-              className="text-[#1D4B3E] focus:ring-[#1D4B3E]/30"
+              className="text-brand-ink focus:ring-brand/30"
             />
             {mode === 'exact' ? 'Exact Match' : mode}
           </label>
@@ -94,8 +94,8 @@ function TriggerKeywordFields({ data, set }) {
       </div>
 
       {data.matchMode !== 'any' && (
-        <div className="rounded-lg border border-slate-200 p-2.5 mb-3">
-          <p className="text-[11px] text-slate-500 mb-1.5">Enter the keywords that trigger this flow</p>
+        <div className="rounded-lg border border-slate-200 dark:border-slate-700 p-2.5 mb-3">
+          <p className="text-[11px] text-slate-500 dark:text-slate-400 mb-1.5">Enter the keywords that trigger this flow</p>
           <div className="flex items-center gap-1.5">
             <input
               className={`${inputClass} text-xs`}
@@ -118,13 +118,13 @@ function TriggerKeywordFields({ data, set }) {
               {keywords.map((k) => (
                 <span
                   key={k}
-                  className="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full bg-[#F0F9F5] text-[#1D4B3E] border border-[#BAE0CF]"
+                  className="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full bg-brand-tint text-brand-ink border border-brand-tint-strong"
                 >
                   {k}
                   <button
                     type="button"
                     onClick={() => set('keywords', keywords.filter((x) => x !== k))}
-                    className="hover:text-rose-600"
+                    className="hover:text-rose-600 dark:hover:text-rose-400"
                   >
                     ×
                   </button>
@@ -135,13 +135,13 @@ function TriggerKeywordFields({ data, set }) {
         </div>
       )}
 
-      <div className="rounded-lg bg-slate-50 border border-slate-200 p-2.5">
-        <label className="flex items-center gap-1.5 text-[11px] font-medium text-slate-600 mb-2 cursor-pointer">
+      <div className="rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 p-2.5">
+        <label className="flex items-center gap-1.5 text-[11px] font-medium text-slate-600 dark:text-slate-300 mb-2 cursor-pointer">
           <input
             type="checkbox"
             checked={Boolean(saveResponseAs.enabled)}
             onChange={(e) => set('saveResponseAs', { ...saveResponseAs, enabled: e.target.checked })}
-            className="rounded border-slate-300 text-[#1D4B3E] focus:ring-[#1D4B3E]/30"
+            className="rounded border-slate-300 dark:border-slate-600 text-brand-ink focus:ring-brand/30"
           />
           Select where you want to save trigger response
         </label>
@@ -149,12 +149,12 @@ function TriggerKeywordFields({ data, set }) {
           <div className="pl-1 space-y-2">
             <div className="flex items-center gap-4">
               {['variable', 'trait'].map((t) => (
-                <label key={t} className="flex items-center gap-1.5 text-[11px] text-slate-700 cursor-pointer">
+                <label key={t} className="flex items-center gap-1.5 text-[11px] text-slate-700 dark:text-slate-200 cursor-pointer">
                   <input
                     type="radio"
                     checked={saveResponseAs.type === t}
                     onChange={() => set('saveResponseAs', { ...saveResponseAs, type: t })}
-                    className="text-[#1D4B3E] focus:ring-[#1D4B3E]/30"
+                    className="text-brand-ink focus:ring-brand/30"
                   />
                   {t === 'variable' ? 'Workflow Variable' : 'User Trait'}
                 </label>
@@ -229,10 +229,10 @@ export default function NodeEditor({ node, onChange, onClose, variables = [] }) 
 
   if (!node) {
     return (
-      <div className="w-full flex flex-col rounded-lg bg-white border border-slate-200 shadow-sm overflow-hidden h-full">
-        <div className="px-4 py-3 border-b border-slate-100">
+      <div className="w-full flex flex-col rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden h-full">
+        <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-800">
           <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">Node settings</h3>
-          <p className="text-[11px] text-slate-500 mt-0.5">Select a node on the canvas</p>
+          <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Select a node on the canvas</p>
         </div>
         <div className="p-4">
           <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Variables</p>
@@ -240,7 +240,7 @@ export default function NodeEditor({ node, onChange, onClose, variables = [] }) 
             {vars.map((v) => (
               <code
                 key={v.key}
-                className="text-[10px] px-2 py-1 rounded-lg bg-slate-50 text-emerald-700 border border-slate-200"
+                className="text-[10px] px-2 py-1 rounded-lg bg-slate-50 dark:bg-slate-800/50 text-emerald-700 dark:text-emerald-300 border border-slate-200 dark:border-slate-700"
               >
                 {`{{${v.key}}}`}
               </code>
@@ -264,10 +264,10 @@ export default function NodeEditor({ node, onChange, onClose, variables = [] }) 
   }
 
   return (
-    <div className="w-full flex flex-col rounded-lg bg-white border border-slate-200 shadow-xl overflow-hidden h-full border-l-4" style={{ borderLeftColor: '#1D4B3E' }}>
-      <div className="px-4 py-3 border-b border-slate-100 flex items-start justify-between gap-2">
+    <div className="w-full flex flex-col rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-xl overflow-hidden h-full border-l-4" style={{ borderLeftColor: '#1D4B3E' }}>
+      <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex items-start justify-between gap-2">
         <div className="min-w-0">
-          <p className="text-sm font-semibold text-slate-900 truncate">
+          <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 truncate">
             {data.label || node.type}
           </p>
           <p className="text-[11px] text-slate-400 truncate">{node.type}</p>
@@ -275,7 +275,7 @@ export default function NodeEditor({ node, onChange, onClose, variables = [] }) 
         <button
           type="button"
           onClick={onClose}
-          className="text-slate-400 hover:text-slate-600 hover:bg-slate-100 p-1 rounded-lg transition-colors shrink-0"
+          className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 p-1 rounded-lg transition-colors shrink-0"
         >
           <X className="w-4 h-4" />
         </button>
@@ -312,7 +312,7 @@ export default function NodeEditor({ node, onChange, onClose, variables = [] }) 
             <Field label="Template">
               <div className="space-y-2">
                 <select
-                  className={`${inputClass} cursor-pointer bg-white`}
+                  className={`${inputClass} cursor-pointer bg-white dark:bg-slate-900`}
                   value={data.templateName || ''}
                   onChange={(e) => {
                     const templateName = e.target.value;
@@ -356,12 +356,12 @@ export default function NodeEditor({ node, onChange, onClose, variables = [] }) 
 
               {templates.length === 0 && !loadingTemplates && !syncingTemplates && (
                 <div className="mt-2 space-y-1.5">
-                  <p className="text-[11px] text-amber-600 font-medium">No templates found</p>
+                  <p className="text-[11px] text-amber-600 dark:text-amber-400 font-medium">No templates found</p>
                   <button
                     type="button"
                     onClick={syncTemplatesFromMeta}
                     disabled={syncingTemplates}
-                    className="text-[11px] font-medium text-teal-600 hover:text-teal-700 hover:underline disabled:opacity-50"
+                    className="text-[11px] font-medium text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 hover:underline disabled:opacity-50"
                   >
                     ↻ Sync templates from WhatsApp
                   </button>
@@ -370,13 +370,13 @@ export default function NodeEditor({ node, onChange, onClose, variables = [] }) 
 
               {data.templateName && templates.length > 0 && (
                 <div className="mt-2 space-y-1">
-                  <p className="text-[11px] text-emerald-600 font-medium">✓ {data.templateName}</p>
-                  <p className="text-[10px] text-slate-500">Language: {data.language || 'en'}</p>
+                  <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">✓ {data.templateName}</p>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400">Language: {data.language || 'en'}</p>
                 </div>
               )}
 
               {syncMessage && (
-                <p className={`text-[11px] font-medium mt-1.5 ${syncMessage.startsWith('✓') ? 'text-emerald-600' : 'text-amber-600'}`}>
+                <p className={`text-[11px] font-medium mt-1.5 ${syncMessage.startsWith('✓') ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}`}>
                   {syncMessage}
                 </p>
               )}
@@ -416,7 +416,7 @@ export default function NodeEditor({ node, onChange, onClose, variables = [] }) 
               {(data.buttons || []).length < 3 && (
                 <button
                   type="button"
-                  className="text-xs font-medium text-teal-600 hover:text-teal-700"
+                  className="text-xs font-medium text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300"
                   onClick={() =>
                     set('buttons', [
                       ...(data.buttons || []),
@@ -453,7 +453,7 @@ export default function NodeEditor({ node, onChange, onClose, variables = [] }) 
                 placeholder="Pick from the list:"
               />
               {(!data.body || !data.body.trim()) && (
-                <p className="text-[11px] text-red-600 mt-1">Required</p>
+                <p className="text-[11px] text-red-600 dark:text-red-400 mt-1">Required</p>
               )}
             </Field>
 
@@ -476,18 +476,18 @@ export default function NodeEditor({ node, onChange, onClose, variables = [] }) 
                 placeholder="View options"
               />
               {(!data.buttonText || !data.buttonText.trim()) && (
-                <p className="text-[11px] text-red-600 mt-1">Required</p>
+                <p className="text-[11px] text-red-600 dark:text-red-400 mt-1">Required</p>
               )}
             </Field>
 
             {/* Sections Builder */}
             <Field label="Sections">
-              <div className="space-y-3 border border-slate-200 rounded-lg p-3 bg-slate-50">
+              <div className="space-y-3 border border-slate-200 dark:border-slate-700 rounded-lg p-3 bg-slate-50 dark:bg-slate-800/50">
                 {(data.sections || []).map((section, sIdx) => (
-                  <div key={sIdx} className="border-l-2 border-teal-400 pl-3 py-2 bg-white rounded px-2">
+                  <div key={sIdx} className="border-l-2 border-teal-400 pl-3 py-2 bg-white dark:bg-slate-900 rounded px-2">
                     {/* Section Title */}
                     <div className="mb-2">
-                      <label className="text-[11px] font-medium text-slate-600">Section Title</label>
+                      <label className="text-[11px] font-medium text-slate-600 dark:text-slate-300">Section Title</label>
                       <input
                         className={`${inputClass} text-xs`}
                         value={section.title || ''}
@@ -502,9 +502,9 @@ export default function NodeEditor({ node, onChange, onClose, variables = [] }) 
 
                     {/* Rows */}
                     <div className="space-y-1.5 mb-2">
-                      <div className="text-[10px] font-semibold text-slate-500 uppercase">Rows</div>
+                      <div className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 uppercase">Rows</div>
                       {(section.rows || []).map((row, rIdx) => (
-                        <div key={rIdx} className="flex gap-1.5 items-start bg-slate-50 p-1.5 rounded border border-slate-200">
+                        <div key={rIdx} className="flex gap-1.5 items-start bg-slate-50 dark:bg-slate-800/50 p-1.5 rounded border border-slate-200 dark:border-slate-700">
                           <div className="flex-1 min-w-0 space-y-1">
                             <input
                               className={`${inputClass} text-xs`}
@@ -544,7 +544,7 @@ export default function NodeEditor({ node, onChange, onClose, variables = [] }) 
                               newSections[sIdx].rows.splice(rIdx, 1);
                               set('sections', newSections);
                             }}
-                            className="text-xs font-medium text-red-600 hover:text-red-700 hover:bg-red-50 px-1.5 py-1 rounded whitespace-nowrap mt-6"
+                            className="text-xs font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-950/30 px-1.5 py-1 rounded whitespace-nowrap mt-6"
                           >
                             Delete
                           </button>
@@ -566,7 +566,7 @@ export default function NodeEditor({ node, onChange, onClose, variables = [] }) 
                         set('sections', newSections);
                       }}
                       disabled={(section.rows || []).length >= 10}
-                      className="text-[11px] font-medium text-emerald-600 hover:text-emerald-700 disabled:opacity-50"
+                      className="text-[11px] font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 disabled:opacity-50"
                     >
                       + Add Row
                     </button>
@@ -579,7 +579,7 @@ export default function NodeEditor({ node, onChange, onClose, variables = [] }) 
                         set('sections', newSections);
                       }}
                       disabled={(data.sections || []).length === 1}
-                      className="text-[11px] font-medium text-red-600 hover:text-red-700 ml-2 disabled:opacity-50"
+                      className="text-[11px] font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 ml-2 disabled:opacity-50"
                     >
                       Delete Section
                     </button>
@@ -597,14 +597,14 @@ export default function NodeEditor({ node, onChange, onClose, variables = [] }) 
                     });
                     set('sections', newSections);
                   }}
-                  className="text-[11px] font-medium text-teal-600 hover:text-teal-700 w-full py-1"
+                  className="text-[11px] font-medium text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 w-full py-1"
                 >
                   + Add Section
                 </button>
 
                 {/* Validation */}
                 {getTotalRows(data.sections) > 10 && (
-                  <p className="text-[11px] text-red-600 font-medium">⚠ Maximum 10 rows total. Current: {getTotalRows(data.sections)}</p>
+                  <p className="text-[11px] text-red-600 dark:text-red-400 font-medium">⚠ Maximum 10 rows total. Current: {getTotalRows(data.sections)}</p>
                 )}
               </div>
             </Field>
@@ -617,29 +617,29 @@ export default function NodeEditor({ node, onChange, onClose, variables = [] }) 
                 onChange={(e) => set('saveAs', e.target.value)}
                 placeholder="Variable name (e.g., service)"
               />
-              <p className="text-[10px] text-slate-500 mt-1">e.g., service = complete_service</p>
+              <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">e.g., service = complete_service</p>
             </Field>
 
             {/* WhatsApp Preview */}
-            <div className="mt-4 p-3 bg-emerald-50 border border-emerald-200 rounded-lg">
-              <p className="text-[10px] font-semibold text-emerald-800 mb-2">📱 WhatsApp Preview</p>
+            <div className="mt-4 p-3 bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 rounded-lg">
+              <p className="text-[10px] font-semibold text-emerald-800 dark:text-emerald-200 mb-2">📱 WhatsApp Preview</p>
               <div className="text-[11px] space-y-2">
-                {data.header && <div className="font-medium text-slate-900">{data.header}</div>}
-                <div className="text-slate-700">{data.body || '(Empty body)'}</div>
-                {data.footer && <div className="text-slate-600 text-[10px]">{data.footer}</div>}
-                <div className="bg-white rounded p-2 border border-emerald-200 space-y-1 mt-1">
+                {data.header && <div className="font-medium text-slate-900 dark:text-slate-50">{data.header}</div>}
+                <div className="text-slate-700 dark:text-slate-200">{data.body || '(Empty body)'}</div>
+                {data.footer && <div className="text-slate-600 dark:text-slate-300 text-[10px]">{data.footer}</div>}
+                <div className="bg-white dark:bg-slate-900 rounded p-2 border border-emerald-200 dark:border-emerald-800 space-y-1 mt-1">
                   {(data.sections || []).map((section, sIdx) => (
                     <div key={sIdx}>
-                      <div className="font-medium text-slate-800 text-[10px]">{section.title}</div>
+                      <div className="font-medium text-slate-800 dark:text-slate-100 text-[10px]">{section.title}</div>
                       {(section.rows || []).map((row, rIdx) => (
-                        <div key={rIdx} className="text-slate-600 pl-2 text-[10px]">
+                        <div key={rIdx} className="text-slate-600 dark:text-slate-300 pl-2 text-[10px]">
                           • {row.title} {row.description ? `- ${row.description}` : ''}
                         </div>
                       ))}
                     </div>
                   ))}
                 </div>
-                <div className="text-center text-slate-600 font-medium text-[10px] bg-teal-100 py-1 rounded">
+                <div className="text-center text-slate-600 dark:text-slate-300 font-medium text-[10px] bg-teal-100 dark:bg-teal-900/30 py-1 rounded">
                   {data.buttonText || 'View options'}
                 </div>
               </div>
@@ -740,10 +740,10 @@ export default function NodeEditor({ node, onChange, onClose, variables = [] }) 
         )}
 
         {node.type === 'action_end' && (
-          <label className="flex items-center gap-2 text-sm text-slate-700">
+          <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-200">
             <input
               type="checkbox"
-              className="rounded border-slate-300 text-teal-600 focus:ring-teal-500"
+              className="rounded border-slate-300 dark:border-slate-600 text-teal-600 dark:text-teal-400 focus:ring-teal-500"
               checked={Boolean(data.markConverted)}
               onChange={(e) => set('markConverted', e.target.checked)}
             />
@@ -751,14 +751,14 @@ export default function NodeEditor({ node, onChange, onClose, variables = [] }) 
           </label>
         )}
 
-        <div className="mt-5 pt-4 border-t border-slate-100">
+        <div className="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800">
           <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Insert variable</p>
           <div className="flex flex-wrap gap-1.5">
             {DEFAULT_SYSTEM_VARIABLES.map((v) => (
               <button
                 key={v.key}
                 type="button"
-                className="text-[10px] px-2 py-1 rounded-lg bg-slate-50 text-emerald-700 border border-slate-200 hover:border-teal-300 hover:bg-teal-50 transition-colors"
+                className="text-[10px] px-2 py-1 rounded-lg bg-slate-50 dark:bg-slate-800/50 text-emerald-700 dark:text-emerald-300 border border-slate-200 dark:border-slate-700 hover:border-teal-300 dark:hover:border-teal-700 hover:bg-teal-50 dark:hover:bg-teal-950/30 transition-colors"
                 onClick={() => insertVar(v.key)}
               >
                 {`{{${v.key}}}`}

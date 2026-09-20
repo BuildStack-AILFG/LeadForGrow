@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { dbConnect } from "@/lib/mongodb";
 import Business from '@/models/Business';
 import { withPlanAccess } from '@/lib/accessControl';
+import { decryptMaybe } from '@/lib/encryption';
 
 /**
  * POST /api/business/settings/test-whatsapp
@@ -97,7 +98,7 @@ export const POST = withPlanAccess('settings', async (req) => {
         const response = await fetch(`https://graph.facebook.com/v21.0/${whatsappSettings.phoneNumberId}`, {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${whatsappSettings.apiKey}`
+            'Authorization': `Bearer ${decryptMaybe(whatsappSettings.apiKey)}`
           }
         });
 

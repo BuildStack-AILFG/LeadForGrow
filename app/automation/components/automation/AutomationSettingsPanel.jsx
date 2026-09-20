@@ -26,7 +26,7 @@ function SequenceRunnerPanel({ rule, onClose }) {
               <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50 truncate">{rule.name}</h3>
               <AutomationStatusBadge rule={rule} size="xs" />
             </div>
-            <p className="text-xs text-slate-500 mt-0.5 line-clamp-2">{rule.description}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-2">{rule.description}</p>
             <div className="flex flex-wrap gap-2 mt-2 text-[10px] text-slate-400">
               <span>{getTriggerLabel(rule)}</span>
               <span>·</span>
@@ -41,25 +41,25 @@ function SequenceRunnerPanel({ rule, onClose }) {
         </div>
       </div>
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        <div className="p-4 rounded-xl bg-teal-50 dark:from-teal-950/30 dark:to-indigo-950/20 border border-teal-100 dark:border-teal-900/40">
+        <div className="p-4 rounded-xl bg-teal-50 dark:bg-teal-950/30 dark:from-teal-950/30 dark:to-indigo-950/20 border border-teal-100 dark:border-teal-900/40">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-xl bg-teal-500 flex items-center justify-center shadow-sm">
               <GitBranch className="w-5 h-5 text-white" />
             </div>
             <div>
               <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">Sequence automation</p>
-              <p className="text-xs text-slate-500">Toggle ON/OFF from the list. Edit workflow in Sequences.</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Toggle ON/OFF from the list. Edit workflow in Sequences.</p>
             </div>
           </div>
           <Link
             href="/automation/sequences"
-            className="inline-flex items-center gap-2 text-xs font-medium text-teal-600 hover:text-teal-700 dark:text-teal-400"
+            className="inline-flex items-center gap-2 text-xs font-medium text-teal-600 hover:text-teal-700 dark:hover:text-teal-300 dark:text-teal-400"
           >
             <ExternalLink className="w-3.5 h-3.5" />
             Edit workflow in Sequences
           </Link>
         </div>
-        <p className="text-xs text-slate-500 leading-relaxed">
+        <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
           This rule runs the linked sequence when its trigger fires. Use the toggle on the automation card to activate or pause — no template editing here.
         </p>
       </div>
@@ -106,7 +106,7 @@ function PanelContent({
               <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50 truncate">{rule.name}</h3>
               <AutomationStatusBadge rule={rule} size="xs" />
             </div>
-            <p className="text-xs text-slate-500 mt-0.5 line-clamp-2">{rule.description}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-2">{rule.description}</p>
             <div className="flex flex-wrap items-center gap-2 mt-2 text-[10px] text-slate-400">
               <span className="inline-flex items-center gap-1">
                 Trigger: {getTriggerLabel(rule)}
@@ -149,7 +149,7 @@ function PanelContent({
               This automation runs automatically with built-in logic. Toggle it on or off from the list — no template configuration needed.
             </p>
             {rule.type === 'auto_assign' && (
-              <p className="text-[11px] text-slate-500 mt-2">Assignment: {rule.config?.assignmentRule || 'round-robin'}</p>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-2">Assignment: {rule.config?.assignmentRule || 'round-robin'}</p>
             )}
           </div>
         )}
@@ -164,7 +164,7 @@ function PanelContent({
             className="w-full inline-flex items-center justify-center gap-2 py-2.5 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-lg disabled:opacity-50"
           >
             {saving ? (
-              <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <span className="w-4 h-4 border-2 border-white dark:border-slate-700 border-t-transparent rounded-full animate-spin" />
             ) : (
               <>
                 <Save className="w-4 h-4" /> Save settings

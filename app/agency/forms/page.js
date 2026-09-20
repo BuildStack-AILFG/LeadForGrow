@@ -81,7 +81,7 @@ export default function AgencyFormsPage() {
 
   if (loading) return (
     <div className="min-h-[60vh] flex items-center justify-center">
-      <Loader2 className="w-8 h-8 text-indigo-600 animate-spin" />
+      <Loader2 className="w-8 h-8 text-indigo-600 dark:text-indigo-400 animate-spin" />
     </div>
   );
 
@@ -90,8 +90,8 @@ export default function AgencyFormsPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-[20px] font-semibold text-slate-900 tracking-tight">Form Ingestion Hub</h1>
-          <p className="text-[13px] text-slate-500 mt-1">Manage {forms.length} active lead capture endpoints</p>
+          <h1 className="text-[20px] font-semibold text-slate-900 dark:text-slate-50 tracking-tight">Form Ingestion Hub</h1>
+          <p className="text-[13px] text-slate-500 dark:text-slate-400 mt-1">Manage {forms.length} active lead capture endpoints</p>
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
@@ -108,10 +108,10 @@ export default function AgencyFormsPage() {
           { label: 'Capture Velocity', val: forms.reduce((sum, f) => sum + f.submissionCount, 0), icon: TrendingUp },
           { label: 'Client Reach', val: new Set(forms.filter(f => f.clientId).map(f => f.clientId._id || f.clientId)).size, icon: Building2 }
         ].map((kpi, i) => (
-          <div key={i} className="bg-white border border-slate-200 p-5 rounded-xl flex items-center justify-between">
+          <div key={i} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-5 rounded-xl flex items-center justify-between">
              <div>
                 <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">{kpi.label}</p>
-                <h3 className="text-[20px] font-bold text-slate-900 mt-1">{kpi.val}</h3>
+                <h3 className="text-[20px] font-bold text-slate-900 dark:text-slate-50 mt-1">{kpi.val}</h3>
              </div>
              <kpi.icon className="w-5 h-5 text-slate-200" />
           </div>
@@ -119,9 +119,9 @@ export default function AgencyFormsPage() {
       </div>
 
      
-      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden shadow-sm">
          <table className="w-full text-left">
-            <thead className="bg-slate-50 border-b border-slate-200">
+            <thead className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700">
                <tr>
                   <th className="px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Configuration Name</th>
                   <th className="px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Client Assignment</th>
@@ -130,24 +130,24 @@ export default function AgencyFormsPage() {
                   <th className="px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-widest text-right">Actions</th>
                </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-[13px]">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-[13px]">
                {forms.map((form) => (
-                  <tr key={form._id} className="hover:bg-slate-50/50 transition-colors group">
+                  <tr key={form._id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors group">
                      <td className="px-6 py-4">
-                        <p className="font-bold text-slate-900">{form.name}</p>
+                        <p className="font-bold text-slate-900 dark:text-slate-50">{form.name}</p>
                         <p className="text-[11px] text-slate-400 truncate max-w-[200px]">{form.description || 'No description provided'}</p>
                      </td>
                      <td className="px-6 py-4">
-                        <span className="px-2 py-1 bg-indigo-50 text-indigo-700 rounded text-[10px] font-bold uppercase tracking-tight">
+                        <span className="px-2 py-1 bg-indigo-50 dark:bg-indigo-950/30 text-indigo-700 dark:text-indigo-300 rounded text-[10px] font-bold uppercase tracking-tight">
                            {form.clientId?.clientName || 'Unassigned'}
                         </span>
                      </td>
                      <td className="px-6 py-4 text-center">
-                        <span className="font-bold text-slate-900">{form.submissionCount}</span>
+                        <span className="font-bold text-slate-900 dark:text-slate-50">{form.submissionCount}</span>
                      </td>
                      <td className="px-6 py-4">
                         <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                           form.active ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-100 text-slate-400'
+                           form.active ? 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400' : 'bg-slate-100 dark:bg-slate-800 text-slate-400'
                         }`}>
                            {form.active ? 'Operational' : 'Idle'}
                         </span>
@@ -156,7 +156,7 @@ export default function AgencyFormsPage() {
                         <div className="flex items-center justify-end gap-2">
                            <button 
                              onClick={() => { setSelectedForm(form); setShowEmbedModal(true); }}
-                             className="p-2 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-indigo-600 transition-colors"
+                             className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                              title="Get Embed Code"
                            >
                               <Code className="w-4 h-4" />
@@ -167,7 +167,7 @@ export default function AgencyFormsPage() {
                                navigator.clipboard.writeText(url);
                                toast.success('URL Copied');
                              }}
-                             className="p-2 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-slate-600 transition-colors"
+                             className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
                              title="Copy Link"
                            >
                               <Copy className="w-4 h-4" />
@@ -186,8 +186,8 @@ export default function AgencyFormsPage() {
      
       {showCreateModal && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
-          <div className="bg-white rounded-xl p-8 max-w-md w-full shadow-2xl space-y-6">
-            <h2 className="text-[18px] font-bold text-slate-900 tracking-tight">Node Configuration</h2>
+          <div className="bg-white dark:bg-slate-900 rounded-xl p-8 max-w-md w-full shadow-2xl space-y-6">
+            <h2 className="text-[18px] font-bold text-slate-900 dark:text-slate-50 tracking-tight">Node Configuration</h2>
             <form onSubmit={(e) => {
                e.preventDefault();
                createForm({
@@ -198,21 +198,21 @@ export default function AgencyFormsPage() {
             }} className="space-y-4">
               <div className="space-y-1.5">
                 <label className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Client Assignment</label>
-                <select name="clientId" className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 text-[13px]" required>
+                <select name="clientId" className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 text-[13px]" required>
                    <option value="">Choose Target Client</option>
                    {clients.map(c => <option key={c._id} value={c._id}>{c.clientName}</option>)}
                 </select>
               </div>
               <div className="space-y-1.5">
                 <label className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Deployment Name</label>
-                <input name="name" type="text" className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 text-[13px]" placeholder="e.g. Website Footer Form" required />
+                <input name="name" type="text" className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 text-[13px]" placeholder="e.g. Website Footer Form" required />
               </div>
               <div className="space-y-1.5">
                 <label className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Functional Scope / Desc</label>
-                <textarea name="description" className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 text-[13px]" placeholder="Internal notes for tracking..." rows="3" />
+                <textarea name="description" className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 text-[13px]" placeholder="Internal notes for tracking..." rows="3" />
               </div>
               <div className="flex gap-3 pt-4">
-                <button type="button" onClick={() => setShowCreateModal(false)} className="flex-1 py-2 text-slate-500 text-[13px] font-bold hover:bg-slate-50 rounded-lg transition-colors">Abort</button>
+                <button type="button" onClick={() => setShowCreateModal(false)} className="flex-1 py-2 text-slate-500 dark:text-slate-400 text-[13px] font-bold hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors">Abort</button>
                 <button type="submit" className="flex-1 py-2 bg-slate-900 text-white text-[13px] font-bold rounded-lg active:scale-95 transition-all">Deploy Node</button>
               </div>
             </form>
@@ -223,14 +223,14 @@ export default function AgencyFormsPage() {
       {/* Embed Modal */}
       {showEmbedModal && selectedForm && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
-          <div className="bg-white rounded-2xl p-8 max-w-2xl w-full shadow-2xl space-y-6">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 max-w-2xl w-full shadow-2xl space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-[18px] font-bold text-slate-900 tracking-tight">Deployment Terminal</h2>
-              <button onClick={() => setShowEmbedModal(false)} className="p-2 hover:bg-slate-50 rounded-lg"><X className="w-5 h-5 text-slate-400" /></button>
+              <h2 className="text-[18px] font-bold text-slate-900 dark:text-slate-50 tracking-tight">Deployment Terminal</h2>
+              <button onClick={() => setShowEmbedModal(false)} className="p-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg"><X className="w-5 h-5 text-slate-400" /></button>
             </div>
             
             <div className="bg-slate-900 rounded-xl p-6 relative group overflow-hidden">
-               <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">HTML SNIPPET</div>
+               <div className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-4">HTML SNIPPET</div>
                <pre className="text-indigo-300 font-mono text-[12px] whitespace-pre-wrap leading-relaxed">
                   <code>{`<!-- LeadForGrow Widget -->
 <div data-lfg-token="${selectedForm.token}"></div>
@@ -241,7 +241,7 @@ export default function AgencyFormsPage() {
                    navigator.clipboard.writeText(`<!-- LeadForGrow Widget -->\n<div data-lfg-token="${selectedForm.token}"></div>\n<script src="${window.location.origin}/lfg-widget.js" async></script>`);
                    toast.success('Copied to clipboard');
                  }}
-                 className="absolute top-4 right-4 p-2 bg-white/10 text-white/60 hover:text-white rounded-lg transition-all"
+                 className="absolute top-4 right-4 p-2 bg-white/10 dark:bg-slate-900/10 text-white/60 hover:text-white rounded-lg transition-all"
                >
                   <Copy className="w-4 h-4" />
                </button>

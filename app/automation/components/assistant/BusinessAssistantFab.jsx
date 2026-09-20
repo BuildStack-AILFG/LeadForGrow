@@ -166,7 +166,7 @@ export function BusinessAssistantTrigger({ className = '' }) {
     <button
       type="button"
       onClick={open}
-      className={`inline-flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg transition-all bg-[#0f1419] text-white border border-white/[0.08] hover:border-teal-500/30 hover:bg-[#151b22] ${className}`}
+      className={`inline-flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg transition-all bg-[#0f1419] text-white border border-white dark:border-slate-700/[0.08] hover:border-teal-500/30 hover:bg-[#151b22] ${className}`}
     >
       <GroviaMark size="sm" />
       <span className="hidden md:inline font-medium tracking-tight">{ASSISTANT_NAME}</span>

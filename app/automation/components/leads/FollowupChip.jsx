@@ -5,23 +5,23 @@ import { getFollowUpMeta } from './utils';
 
 const TONE_STYLES = {
   muted: {
-    pill: 'bg-[#F9FAFB] text-[#98A2B3] border-[#EAECF0]',
-    sub: 'text-[#98A2B3]',
+    pill: 'bg-[#F9FAFB] dark:bg-slate-900 text-[#98A2B3] dark:text-slate-400 border-[#EAECF0] dark:border-slate-700',
+    sub: 'text-[#98A2B3] dark:text-slate-400',
     icon: Calendar,
   },
   overdue: {
-    pill: 'bg-[#FEF3F2] text-[#B42318] border-[#FECDCA]',
+    pill: 'bg-[#FEF3F2] dark:bg-slate-900 text-[#B42318] border-[#FECDCA]',
     sub: 'text-[#D92D20]',
     icon: AlertCircle,
   },
   today: {
-    pill: 'bg-[#FFFAEB] text-[#B54708] border-[#FEDF89]',
-    sub: 'text-[#B54708]',
+    pill: 'bg-[#FFFAEB] dark:bg-slate-900 text-[#B54708] dark:text-amber-400 border-[#FEDF89]',
+    sub: 'text-[#B54708] dark:text-amber-400',
     icon: Clock,
   },
   upcoming: {
-    pill: 'bg-[#EFF8FF] text-[#175CD3] border-[#B2DDFF]',
-    sub: 'text-[#175CD3]',
+    pill: 'bg-[#EFF8FF] dark:bg-slate-900 text-[#175CD3] dark:text-blue-400 border-[#B2DDFF]',
+    sub: 'text-[#175CD3] dark:text-blue-400',
     icon: Calendar,
   },
 };
@@ -34,10 +34,10 @@ export default function FollowupChip({ date }) {
   if (meta.key === 'none') {
     return (
       <div className="flex flex-col items-center justify-center gap-1 min-w-[96px]">
-        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#F2F4F7] text-[#98A2B3]">
+        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#F2F4F7] dark:bg-slate-900 text-[#98A2B3] dark:text-slate-400">
           <Calendar className="w-3.5 h-3.5" strokeWidth={2} />
         </span>
-        <span className="text-[10px] font-medium text-[#98A2B3] leading-none">Not set</span>
+        <span className="text-[10px] font-medium text-[#98A2B3] dark:text-slate-400 leading-none">Not set</span>
       </div>
     );
   }

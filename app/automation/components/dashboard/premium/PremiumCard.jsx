@@ -16,7 +16,7 @@ export default function PremiumCard({
 }) {
   return (
     <div
-      className={`group/card relative bg-white rounded-none border border-[#E9ECEF] ${padding} transition-[box-shadow,transform,border-color] duration-300 ease-out ${interactive ? 'hover:-translate-y-0.5 hover:border-[#DDE2E6]' : ''
+      className={`group/card relative bg-white dark:bg-slate-900 rounded-none border border-[#E9ECEF] dark:border-slate-700 ${padding} transition-[box-shadow,transform,border-color] duration-300 ease-out ${interactive ? 'hover:-translate-y-0.5 hover:border-[#DDE2E6] dark:hover:border-slate-700' : ''
         } ${className}`}
       style={{ boxShadow: DASHBOARD_THEME.shadow, ...style }}
       onMouseEnter={interactive ? (e) => { e.currentTarget.style.boxShadow = DASHBOARD_THEME.shadowHover; } : undefined}

@@ -23,16 +23,16 @@ export default function MobileLeadCard({ lead, selected, onSelect, onOpen }) {
             checked={selected}
             onChange={() => onSelect(lead._id)}
             onClick={(e) => e.stopPropagation()}
-            className="rounded border-slate-300"
+            className="rounded border-slate-300 dark:border-slate-600"
           />
           <div className="min-w-0">
             <p className="font-medium text-slate-900 dark:text-slate-100 truncate">{lead.name}</p>
-            <p className="text-xs text-slate-500 tabular-nums">{lead.phone}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 tabular-nums">{lead.phone}</p>
           </div>
         </div>
         <StatusBadge status={lead.status} size="xs" />
       </div>
-      <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500">
+      <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
         <WhatsAppIndicator lead={lead} />
         <span>·</span>
         <span>{formatSource(lead.source)}</span>

@@ -38,27 +38,38 @@ export const POST = withPlanAccess('automation', async (req) => {
     const userId = req.user.userId;
     const body = await req.json();
     const name = body.name?.trim() || 'Untitled Flow';
-    const triggerType = body.triggerType || 'incoming_message';
+    const channel = ['instagram', 'facebook'].includes(body.channel) ? body.channel : 'whatsapp';
+    const channelDefaultTrigger = { instagram: 'instagram_dm', facebook: 'facebook_dm', whatsapp: 'incoming_message' };
+    let triggerType = body.triggerType || channelDefaultTrigger[channel];
+    // Guard: a flow can only use triggers valid for its own channel.
+    if (channel === 'instagram' && !['instagram_dm', 'instagram_comment', 'keyword', 'manual'].includes(triggerType)) {
+      triggerType = 'instagram_dm';
+    }
+    if (channel === 'facebook' && !['facebook_dm', 'facebook_comment', 'keyword', 'manual'].includes(triggerType)) {
+      triggerType = 'facebook_dm';
+    }
 
     const FlowNode = (await import('@/models/automation/FlowNode')).default;
 
     const triggerNodeKey = `trigger_${Date.now()}`;
-    const triggerNodeType =
-      triggerType === 'keyword'
-        ? 'trigger_keyword'
-        : triggerType === 'contact_created'
-          ? 'trigger_contact_created'
-          : triggerType === 'lead_created'
-            ? 'trigger_lead_created'
-            : triggerType === 'manual'
-              ? 'trigger_manual'
-              : triggerType === 'webhook'
-                ? 'trigger_webhook'
-                : 'trigger_incoming_message';
+    const TRIGGER_NODE_TYPES = {
+      keyword: 'trigger_keyword',
+      contact_created: 'trigger_contact_created',
+      lead_created: 'trigger_lead_created',
+      manual: 'trigger_manual',
+      webhook: 'trigger_webhook',
+      instagram_dm: 'trigger_instagram_dm',
+      instagram_comment: 'trigger_instagram_comment',
+      facebook_dm: 'trigger_facebook_dm',
+      facebook_comment: 'trigger_facebook_comment',
+      incoming_message: 'trigger_incoming_message',
+    };
+    const triggerNodeType = TRIGGER_NODE_TYPES[triggerType] || 'trigger_incoming_message';
 
     const flow = await WhatsAppFlow.create({
       businessId,
       name,
+      channel,
       description: body.description || '',
       status: 'draft',
       triggerType,
@@ -76,7 +87,7 @@ export const POST = withPlanAccess('automation', async (req) => {
       nodeKey: triggerNodeKey,
       type: triggerNodeType,
       position: { x: 120, y: 160 },
-      data: getDefaultNodeData(triggerNodeType),
+      data: getDefaultNodeData(triggerNodeType) || {},
     });
 
     await ensureDefaultVariables(businessId, flow._id);

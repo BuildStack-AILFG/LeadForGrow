@@ -12,12 +12,12 @@ function UsageBar({ label, used, max }) {
   return (
     <div className="space-y-1">
       <div className="flex justify-between text-sm">
-        <span className="text-slate-600">{label}</span>
-        <span className={warn ? 'text-amber-600 font-medium' : 'text-slate-500'}>
+        <span className="text-slate-600 dark:text-slate-300">{label}</span>
+        <span className={warn ? 'text-amber-600 dark:text-amber-400 font-medium' : 'text-slate-500 dark:text-slate-400'}>
           {used} / {max >= 999999 ? '∞' : max}
         </span>
       </div>
-      <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+      <div className="h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
         <div
           className={`h-full rounded-full transition-all ${warn ? 'bg-amber-500' : 'bg-indigo-500'}`}
           style={{ width: `${pct}%` }}
@@ -100,24 +100,24 @@ export default function BillingSettingsPage() {
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">Billing & Subscription</h1>
-        <p className="text-slate-500 mt-1">Manage your plan, usage, and invoices</p>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-50">Billing & Subscription</h1>
+        <p className="text-slate-500 dark:text-slate-400 mt-1">Manage your plan, usage, and invoices</p>
       </div>
 
-      <div className="bg-white border border-slate-200 rounded-2xl p-6">
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl p-6">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
-            <p className="text-sm text-slate-500">Current plan</p>
-            <p className="text-xl font-bold capitalize text-slate-900">{plan}</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400">Current plan</p>
+            <p className="text-xl font-bold capitalize text-slate-900 dark:text-slate-50">{plan}</p>
             {billing?.subscription?.status && (
-              <p className="text-sm text-slate-500 mt-1">Status: {billing.subscription.status}</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Status: {billing.subscription.status}</p>
             )}
           </div>
           {billing?.subscription?.stripeCustomerId && (
             <button
               type="button"
               onClick={openPortal}
-              className="px-4 py-2 text-sm font-medium border border-slate-200 rounded-lg hover:bg-slate-50"
+              className="px-4 py-2 text-sm font-medium border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50"
             >
               Manage subscription
             </button>
@@ -125,31 +125,31 @@ export default function BillingSettingsPage() {
         </div>
       </div>
 
-      <div className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
-        <h2 className="font-semibold text-slate-900">Usage this month</h2>
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 space-y-4">
+        <h2 className="font-semibold text-slate-900 dark:text-slate-50">Usage this month</h2>
         <UsageBar label="Leads" used={usage.leads || 0} max={quotas.maxLeadsPerMonth || 50} />
         <UsageBar label="Forms" used={usage.formsCreated || 0} max={quotas.maxForms || 1} />
         <UsageBar label="Team seats" used={usage.teamMembers || 1} max={quotas.maxTeamMembers || 1} />
         {(usage.leads || 0) / (quotas.maxLeadsPerMonth || 50) >= 0.85 && (
-          <p className="text-sm text-amber-700 bg-amber-50 border border-amber-100 rounded-lg p-3">
+          <p className="text-sm text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/30 border border-amber-100 dark:border-amber-900/50 rounded-lg p-3">
             You&apos;re approaching your lead limit. Upgrade to avoid ingestion blocks.
           </p>
         )}
       </div>
 
       <div>
-        <h2 className="font-semibold text-slate-900 mb-4">Upgrade plan</h2>
+        <h2 className="font-semibold text-slate-900 dark:text-slate-50 mb-4">Upgrade plan</h2>
         <div className="grid md:grid-cols-3 gap-4">
           {Object.values(BILLING_PLANS)
             .filter((p) => p.id !== 'free')
             .map((p) => (
-              <div key={p.id} className="bg-white border border-slate-200 rounded-2xl p-5 flex flex-col">
+              <div key={p.id} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 flex flex-col">
                 <h3 className="font-bold text-lg">{p.name}</h3>
                 <p className="text-2xl font-bold mt-2">
                   ₹{p.priceInr.toLocaleString('en-IN')}
-                  <span className="text-sm font-normal text-slate-500">/mo</span>
+                  <span className="text-sm font-normal text-slate-500 dark:text-slate-400">/mo</span>
                 </p>
-                <ul className="text-sm text-slate-600 mt-4 space-y-1 flex-1">
+                <ul className="text-sm text-slate-600 dark:text-slate-300 mt-4 space-y-1 flex-1">
                   <li>{p.quotas.maxLeadsPerMonth >= 999999 ? 'Unlimited' : p.quotas.maxLeadsPerMonth} leads/mo</li>
                   <li>{p.quotas.maxTeamMembers} team seats</li>
                   <li>{p.quotas.maxWhatsappConversations >= 999999 ? 'Unlimited' : p.quotas.maxWhatsappConversations} WA chats</li>
@@ -167,7 +167,7 @@ export default function BillingSettingsPage() {
                     type="button"
                     disabled={plan === p.id || checkoutLoading}
                     onClick={() => startCheckout(p.id, 'stripe')}
-                    className="w-full py-2.5 border border-slate-200 text-sm font-medium rounded-lg hover:bg-slate-50 disabled:opacity-50"
+                    className="w-full py-2.5 border border-slate-200 dark:border-slate-700 text-sm font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 disabled:opacity-50"
                   >
                     Pay with Stripe
                   </button>
@@ -178,16 +178,16 @@ export default function BillingSettingsPage() {
       </div>
 
       {billing?.invoices?.length > 0 && (
-        <div className="bg-white border border-slate-200 rounded-2xl p-6">
-          <h2 className="font-semibold text-slate-900 mb-4">Invoice history</h2>
-          <div className="divide-y divide-slate-100">
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl p-6">
+          <h2 className="font-semibold text-slate-900 dark:text-slate-50 mb-4">Invoice history</h2>
+          <div className="divide-y divide-slate-100 dark:divide-slate-800">
             {billing.invoices.map((inv) => (
               <div key={inv._id} className="py-3 flex justify-between items-center text-sm">
                 <div>
                   <p className="font-medium">{inv.currency} {inv.amount}</p>
-                  <p className="text-slate-500">{new Date(inv.createdAt).toLocaleDateString()}</p>
+                  <p className="text-slate-500 dark:text-slate-400">{new Date(inv.createdAt).toLocaleDateString()}</p>
                 </div>
-                <span className="capitalize px-2 py-1 rounded bg-slate-100 text-slate-700">{inv.status}</span>
+                <span className="capitalize px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200">{inv.status}</span>
               </div>
             ))}
           </div>

@@ -68,7 +68,7 @@ export default function AiSuggestionsPanel({ notContacted = 0, overdueTasks = 0,
   return (
     <DashboardCard padding="p-5">
       <div className="flex items-center gap-2 mb-4">
-        <Sparkles className="w-4 h-4 text-teal-600" />
+        <Sparkles className="w-4 h-4 text-teal-600 dark:text-teal-400" />
         <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Suggested Actions</h3>
         <span className="text-[10px] font-medium text-slate-400 uppercase tracking-wide ml-auto">Smart</span>
       </div>

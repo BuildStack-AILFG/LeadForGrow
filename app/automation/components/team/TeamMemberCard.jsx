@@ -33,7 +33,7 @@ function TeamMemberCard({ member, index, onRemove }) {
               className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold flex-shrink-0 ${
                 active
                   ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400'
-                  : 'bg-slate-100 text-slate-500 dark:bg-slate-800'
+                  : 'bg-slate-100 text-slate-500 dark:text-slate-400 dark:bg-slate-800'
               }`}
             >
               <span className={`w-1.5 h-1.5 rounded-full ${active ? 'bg-emerald-500' : 'bg-slate-400'}`} />
@@ -57,12 +57,12 @@ function TeamMemberCard({ member, index, onRemove }) {
       {(email || phone) && (
         <div className="mt-3 flex flex-wrap gap-2">
           {email && (
-            <span className="inline-flex items-center gap-1 text-[10px] text-slate-500 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded-md">
+            <span className="inline-flex items-center gap-1 text-[10px] text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded-md">
               <Mail className="w-3 h-3" /> {email}
             </span>
           )}
           {phone && (
-            <span className="inline-flex items-center gap-1 text-[10px] text-slate-500 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded-md">
+            <span className="inline-flex items-center gap-1 text-[10px] text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded-md">
               <Phone className="w-3 h-3" /> {phone}
             </span>
           )}
@@ -74,7 +74,7 @@ function TeamMemberCard({ member, index, onRemove }) {
           <button
             type="button"
             onClick={() => onRemove(member._id)}
-            className="inline-flex items-center gap-1 text-xs font-medium text-red-600 hover:text-red-700 dark:text-red-400"
+            className="inline-flex items-center gap-1 text-xs font-medium text-red-600 hover:text-red-700 dark:hover:text-red-300 dark:text-red-400"
           >
             <Trash2 className="w-3.5 h-3.5" /> Remove member
           </button>

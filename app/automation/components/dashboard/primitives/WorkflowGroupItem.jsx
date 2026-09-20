@@ -25,7 +25,7 @@ function WorkflowGroupItem({ activity, showConnector }) {
         <span className="absolute left-[15px] top-8 bottom-0 w-px bg-slate-100 dark:bg-slate-800" />
       )}
       <div className="w-8 h-8 rounded-full bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900 flex items-center justify-center flex-shrink-0 z-[1]">
-        <RunIcon className={`w-3.5 h-3.5 text-indigo-600 ${activity.runStatus === 'running' ? 'animate-spin' : ''}`} />
+        <RunIcon className={`w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 ${activity.runStatus === 'running' ? 'animate-spin' : ''}`} />
       </div>
       <div className="flex-1 min-w-0 pb-4">
         <button

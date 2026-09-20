@@ -35,17 +35,17 @@ export default function UpgradeGateModal() {
             <button
               type="button"
               onClick={closeUpgrade}
-              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 rounded-lg"
+              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 rounded-lg"
             >
               <X className="w-4 h-4" />
             </button>
             <div className="w-14 h-14 rounded-2xl bg-indigo-100 dark:bg-indigo-950/50 flex items-center justify-center mb-5">
-              <Lock className="w-7 h-7 text-indigo-600" />
+              <Lock className="w-7 h-7 text-indigo-600 dark:text-indigo-400" />
             </div>
             <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-50 mb-2">
               Upgrade to {tier.name}
             </h2>
-            <p className="text-sm text-slate-500 mb-6">
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
               {upgradeModal.feature
                 ? `"${upgradeModal.feature}" requires a higher plan.`
                 : 'This feature is not included in your current plan.'}

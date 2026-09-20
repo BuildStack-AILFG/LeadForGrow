@@ -38,8 +38,8 @@ export default function FormsSidebar({ forms, selectedId, onSelect, onCreate, ma
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="text-xs font-semibold text-slate-900 dark:text-slate-100 truncate">{form.name}</p>
-                  <p className="text-[10px] text-slate-500">{form.submissionCount || 0} leads · {rate}% conv.</p>
-                  <span className={`inline-block mt-0.5 text-[9px] font-bold uppercase px-1.5 py-0.5 rounded ${form.active !== false ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'}`}>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400">{form.submissionCount || 0} leads · {rate}% conv.</p>
+                  <span className={`inline-block mt-0.5 text-[9px] font-bold uppercase px-1.5 py-0.5 rounded ${form.active !== false ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'}`}>
                     {form.active !== false ? 'Live' : 'Draft'}
                   </span>
                 </div>

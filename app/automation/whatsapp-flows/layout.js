@@ -5,7 +5,7 @@
  */
 export default function WhatsAppFlowsLayout({ children }) {
   return (
-    <div className="min-h-full bg-[#f4f6fa] text-slate-900 [&_*]:[color-scheme:light]">
+    <div className="min-h-full bg-[#f4f6fa] dark:bg-slate-900 text-slate-900 dark:text-slate-50 [&_*]:[color-scheme:light]">
       {children}
     </div>
   );

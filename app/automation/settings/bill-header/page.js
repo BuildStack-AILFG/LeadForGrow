@@ -86,15 +86,15 @@ export default function BillHeaderSettingsPage() {
   return (
     <div className="min-h-full bg-[#f4f6fa] dark:bg-slate-950 p-5">
       <div className="max-w-3xl mx-auto">
-        <Link href="/automation/bills" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-700 mb-4">
+        <Link href="/automation/bills" className="inline-flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 mb-4">
           <ArrowLeft className="w-4 h-4" /> Back to bills
         </Link>
 
         <div className="mb-5">
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <Receipt className="w-6 h-6 text-slate-500" /> Bill header settings
+            <Receipt className="w-6 h-6 text-slate-500 dark:text-slate-400" /> Bill header settings
           </h1>
-          <p className="text-sm text-slate-500 mt-1">Set your business info once — it appears on every bill PDF you send.</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Set your business info once — it appears on every bill PDF you send.</p>
         </div>
 
         {/* Logo card */}
@@ -117,10 +117,10 @@ export default function BillHeaderSettingsPage() {
                 </label>
                 {form.logo && (
                   <button type="button" onClick={handleLogoRemove} disabled={logoBusy}
-                          className="text-xs text-slate-500 hover:text-red-600">Remove</button>
+                          className="text-xs text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400">Remove</button>
                 )}
               </div>
-              <p className="text-[11px] text-slate-500 mt-2">PNG / JPG / WebP · max 2 MB · appears top-left of every bill</p>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-2">PNG / JPG / WebP · max 2 MB · appears top-left of every bill</p>
             </div>
           </div>
         </div>

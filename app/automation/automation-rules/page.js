@@ -45,7 +45,7 @@ function AutomationRulesContent() {
         <div className="mt-4 mb-4 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
             <p className="text-sm font-medium text-slate-900 dark:text-slate-100">CRM stage automations</p>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
               Configure welcome messages, meeting reminders, templates, and payment follow-ups per sales stage.
             </p>
           </div>
@@ -58,7 +58,7 @@ function AutomationRulesContent() {
           </Link>
         </div>
 
-        <div className="mt-4 mb-4 p-4 bg-slate-50 dark:from-slate-900 dark:to-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="mt-4 mb-4 p-4 bg-slate-50 dark:bg-slate-800/50 dark:from-slate-900 dark:to-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
             <p className="text-sm font-medium text-slate-900 dark:text-slate-100">💬 WhatsApp Interactive Flows</p>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">

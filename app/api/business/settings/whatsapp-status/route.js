@@ -3,6 +3,7 @@ import { dbConnect } from '@/lib/mongodb';
 import Business from '@/models/Business';
 import AutomationRule from '@/models/automation/AutomationRule';
 import { withPlanAccess } from '@/lib/accessControl';
+import { encryptOnce } from '@/lib/encryption';
 
 export const GET = withPlanAccess('settings', async (req) => {
   try {
@@ -84,12 +85,14 @@ export const PUT = withPlanAccess('settings', async (req) => {
       ...existing,
       enabled: true,
       provider: 'meta',
-      apiKey: finalToken,
+      // Secrets are encrypted at rest; encryptOnce is idempotent so an already-
+      // encrypted existing value isn't double-wrapped.
+      apiKey: encryptOnce(finalToken),
       phoneNumberId: finalPhone,
       businessAccountId: pick(body.businessAccountId, existing.businessAccountId),
       appId: pick(body.appId, existing.appId),
-      appSecret: pick(body.appSecret, existing.appSecret),
-      verifyToken: pick(body.verifyToken, existing.verifyToken),
+      appSecret: encryptOnce(pick(body.appSecret, existing.appSecret)),
+      verifyToken: encryptOnce(pick(body.verifyToken, existing.verifyToken)),
       lastVerified: new Date(),
     };
     business.markModified('integrationCredentials');

@@ -4,10 +4,10 @@ import { FileInput, TrendingUp, Eye, Percent } from 'lucide-react';
 
 export default function FormsAnalyticsBar({ stats }) {
   const cards = [
-    { label: 'Active forms', value: stats.activeForms, icon: FileInput, accent: 'text-teal-600 bg-teal-50 dark:bg-teal-950/40' },
-    { label: 'Total submissions', value: stats.totalSubmissions, icon: TrendingUp, accent: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40' },
-    { label: 'Forms with leads', value: stats.withLeads, icon: Eye, accent: 'text-violet-600 bg-violet-50 dark:bg-violet-950/40' },
-    { label: 'Avg conversion', value: `${stats.avgConversion}%`, icon: Percent, accent: 'text-amber-600 bg-amber-50 dark:bg-amber-950/40' },
+    { label: 'Active forms', value: stats.activeForms, icon: FileInput, accent: 'text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/40' },
+    { label: 'Total submissions', value: stats.totalSubmissions, icon: TrendingUp, accent: 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40' },
+    { label: 'Forms with leads', value: stats.withLeads, icon: Eye, accent: 'text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/40' },
+    { label: 'Avg conversion', value: `${stats.avgConversion}%`, icon: Percent, accent: 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40' },
   ];
 
   return (

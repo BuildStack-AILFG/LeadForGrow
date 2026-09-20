@@ -1,6 +1,6 @@
 export const CONTACT_TYPES = [
-  { key: 'personal', label: 'Personal', badge: 'bg-violet-50 text-violet-700 border-violet-200' },
-  { key: 'business', label: 'Business', badge: 'bg-teal-50 text-teal-700 border-teal-200' },
+  { key: 'personal', label: 'Personal', badge: 'bg-violet-50 dark:bg-violet-950/30 text-violet-700 dark:text-violet-300 border-violet-200 dark:border-violet-800' },
+  { key: 'business', label: 'Business', badge: 'bg-teal-50 dark:bg-teal-950/30 text-teal-700 dark:text-teal-300 border-teal-200 dark:border-teal-800' },
 ];
 
 export const TABLE_COLUMNS = [

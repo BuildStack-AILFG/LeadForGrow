@@ -50,7 +50,7 @@ function ReportsContent() {
         <AutoPageIntro />
 
         {ws.error && (
-          <div className="mt-4 px-4 py-3 text-sm text-red-700 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 rounded-lg">
+          <div className="mt-4 px-4 py-3 text-sm text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 rounded-lg">
             {ws.error}
           </div>
         )}

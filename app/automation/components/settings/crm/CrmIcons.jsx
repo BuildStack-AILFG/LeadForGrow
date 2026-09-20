@@ -129,6 +129,12 @@ export const CRM_MESSAGE_ICONS = {
       <path d="M2 10h20M6 15h2" />
     </svg>
   ),
+  won: (p) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M8 12.5l2.7 2.7L16 9.5" />
+    </svg>
+  ),
 };
 
 export function CrmHubIcon({ className = '' }) {

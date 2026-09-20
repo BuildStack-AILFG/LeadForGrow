@@ -43,7 +43,7 @@ export default function WorkspaceBootLoader({ complete = false, onFinished }) {
       {!exiting && (
         <motion.div
           key="boot-loader"
-          className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-white"
+          className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-white dark:bg-slate-900"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4, ease }}
@@ -61,7 +61,7 @@ export default function WorkspaceBootLoader({ complete = false, onFinished }) {
                 className="h-10 w-10 object-contain"
               />
               <p
-                className="mt-4 text-[13px] font-semibold tracking-wide text-slate-900"
+                className="mt-4 text-[13px] font-semibold tracking-wide text-slate-900 dark:text-slate-50"
                 style={{ fontFamily: 'var(--font-plus-jakarta)' }}
               >
                 LeadForGrow
@@ -69,7 +69,7 @@ export default function WorkspaceBootLoader({ complete = false, onFinished }) {
             </motion.div>
 
             <motion.div
-              className="mt-8 h-[2px] w-48 overflow-hidden rounded-full bg-slate-100"
+              className="mt-8 h-[2px] w-48 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.4, ease }}

@@ -34,8 +34,8 @@ function LeadRow({
       onClick={() => onOpenDrawer(lead._id)}
     >
       <td className={`py-3 pl-3 pr-2 w-10 ${TABLE_COL_LINE}`} onClick={(e) => e.stopPropagation()}>
-        <button type="button" onClick={() => onSelect(lead._id)} className="text-[#98A2B3] hover:text-[#059669]">
-          {selected ? <CheckSquare className="w-4 h-4 text-[#059669]" /> : <Square className="w-4 h-4" />}
+        <button type="button" onClick={() => onSelect(lead._id)} className="text-[#98A2B3] dark:text-slate-400 hover:text-[#059669] dark:hover:text-emerald-400">
+          {selected ? <CheckSquare className="w-4 h-4 text-[#059669] dark:text-emerald-400" /> : <Square className="w-4 h-4" />}
         </button>
       </td>
 
@@ -44,14 +44,14 @@ function LeadRow({
         <div className="flex items-center gap-2">
           {(lead.rowColor || statusColor) && (
             <span
-              className="w-2 h-2 rounded-full shrink-0 border border-slate-300/50"
+              className="w-2 h-2 rounded-full shrink-0 border border-slate-300/50 dark:border-slate-600/50"
               style={{ backgroundColor: lead.rowColor || statusColor }}
               title={lead.rowColor ? 'Custom row color' : `${statusLabel(lead.status)} status color`}
             />
           )}
           <div className="min-w-0">
             <p className="text-[14px] font-normal text-[#222222] dark:text-slate-100 truncate">{lead.name}</p>
-            {lead.email && <p className="text-[12px] text-[#667085] truncate mt-0.5">{lead.email}</p>}
+            {lead.email && <p className="text-[12px] text-[#667085] dark:text-slate-300 truncate mt-0.5">{lead.email}</p>}
           </div>
         </div>
       </td>
@@ -105,8 +105,8 @@ function LeadRow({
               title="Choose row color"
               onClick={() => setColorPickerOpen((v) => !v)}
               className={`inline-flex items-center gap-1 px-1.5 py-1 rounded hover:bg-[#F2F4F7] dark:hover:bg-slate-800 ${colorPickerOpen || lead.rowColor
-                  ? 'text-[#059669] bg-[#EFF8FF]'
-                  : 'text-[#667085]'
+                  ? 'text-[#059669] dark:text-emerald-400 bg-[#EFF8FF] dark:bg-slate-900'
+                  : 'text-[#667085] dark:text-slate-300'
                 }`}
             >
               <Palette className="w-3.5 h-3.5" />
@@ -131,14 +131,14 @@ function LeadRow({
           <button
             type="button"
             onClick={() => onCall(lead)}
-            className="p-1.5 rounded text-[#667085] hover:text-[#059669] hover:bg-[#F2F4F7] dark:hover:bg-slate-800"
+            className="p-1.5 rounded text-[#667085] dark:text-slate-300 hover:text-[#059669] dark:hover:text-emerald-400 hover:bg-[#F2F4F7] dark:hover:bg-slate-800"
           >
             <Phone className="w-3.5 h-3.5" />
           </button>
           <a
             href={`/automation/chat?leadId=${lead._id}`}
             onClick={(e) => e.stopPropagation()}
-            className="p-1.5 rounded text-[#667085] hover:text-emerald-600 hover:bg-[#F2F4F7] dark:hover:bg-slate-800"
+            className="p-1.5 rounded text-[#667085] dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-[#F2F4F7] dark:hover:bg-slate-800"
           >
             <MessageSquare className="w-3.5 h-3.5" />
           </a>

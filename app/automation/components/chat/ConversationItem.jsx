@@ -2,23 +2,18 @@
 
 import { memo } from 'react';
 import {
-  Pin, Star, Mail,
+  Pin, Star,
   ArrowLeft, ArrowRight,
   FileText, Image as ImageIcon, Mic, Video, MapPin, Phone,
   Check, CheckCheck, Clock,
 } from 'lucide-react';
-import { WhatsAppIcon, InstagramIcon } from './BrandIcons';
+import { WhatsAppIcon, InstagramIcon, FacebookIcon, GmailIcon } from './BrandIcons';
 
 const CHANNEL_ICON = {
   whatsapp: WhatsAppIcon,
-  email: Mail,
+  email: GmailIcon,
   instagram: InstagramIcon,
-};
-
-const CHANNEL_ICON_COLOR = {
-  whatsapp: 'text-[#25D366]',        // official WhatsApp brand green
-  email: 'text-[#4285F4]',
-  instagram: 'text-[#E1306C]',       // official Instagram brand pink
+  facebook: FacebookIcon,
 };
 
 // Stable per-name color for avatar backgrounds — feels alive without being random
@@ -98,7 +93,6 @@ function ConversationItem({ chat, active, onClick }) {
   const displayName = lead.name || chat.participantName || lead.phone || chat.participantEmail || 'Unknown';
   const channel = chat.channel || 'whatsapp';
   const ChannelIcon = CHANNEL_ICON[channel] || WhatsAppIcon;
-  const channelClass = CHANNEL_ICON_COLOR[channel] || 'text-emerald-600';
 
   const { Icon: PreviewIcon, label: previewLabel, isInboundPreview } = messagePreviewMeta(chat);
   // Direction arrow reflects the preview we're actually rendering, not the
@@ -119,10 +113,10 @@ function ConversationItem({ chat, active, onClick }) {
     const waitH = waitMs / (60 * 60 * 1000);
     if (waitH >= 0.25) {  // Only show after 15 min — before that it's just "recent"
       let label, cls;
-      if (waitH < 1) { label = `${Math.round(waitH * 60)}m`; cls = 'bg-slate-100 text-slate-600'; }
-      else if (waitH < 4) { label = `${Math.round(waitH)}h`; cls = 'bg-amber-100 text-amber-700'; }
-      else if (waitH < 24) { label = `${Math.round(waitH)}h`; cls = 'bg-rose-100 text-rose-700'; }
-      else { label = `${Math.round(waitH / 24)}d`; cls = 'bg-rose-200 text-rose-800'; }
+      if (waitH < 1) { label = `${Math.round(waitH * 60)}m`; cls = 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'; }
+      else if (waitH < 4) { label = `${Math.round(waitH)}h`; cls = 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300'; }
+      else if (waitH < 24) { label = `${Math.round(waitH)}h`; cls = 'bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300'; }
+      else { label = `${Math.round(waitH / 24)}d`; cls = 'bg-rose-200 text-rose-800 dark:text-rose-200'; }
       waitingBadge = { label, cls };
     }
   }
@@ -134,8 +128,8 @@ function ConversationItem({ chat, active, onClick }) {
   if (showingOutgoing) {
     const s = String(chat.lastMessageStatus || '').toLowerCase();
     if (s === 'read')          { DeliveryIcon = CheckCheck; deliveryClass = 'text-teal-500'; }
-    else if (s === 'delivered'){ DeliveryIcon = CheckCheck; deliveryClass = unread ? 'text-slate-500' : 'text-slate-400'; }
-    else if (s === 'sent' || s === 'accepted') { DeliveryIcon = Check; deliveryClass = unread ? 'text-slate-500' : 'text-slate-400'; }
+    else if (s === 'delivered'){ DeliveryIcon = CheckCheck; deliveryClass = unread ? 'text-slate-500 dark:text-slate-400' : 'text-slate-400'; }
+    else if (s === 'sent' || s === 'accepted') { DeliveryIcon = Check; deliveryClass = unread ? 'text-slate-500 dark:text-slate-400' : 'text-slate-400'; }
   }
 
   return (
@@ -144,9 +138,9 @@ function ConversationItem({ chat, active, onClick }) {
       onClick={onClick}
       className={`group w-full text-left flex items-center gap-3 pl-2 pr-3 py-2.5 border-b border-slate-100 dark:border-slate-800/80 border-l-[3px] transition-colors ${
         active
-          ? 'bg-[#F0F9F5] dark:bg-teal-950/30 border-l-[#1D4B3E]'
+          ? 'bg-brand-tint dark:bg-teal-950/30 border-l-[#1D4B3E]'
           : unread
-            ? 'bg-emerald-50/30 dark:bg-emerald-950/10 border-l-emerald-500 hover:bg-emerald-50/60'
+            ? 'bg-emerald-50/30 dark:bg-emerald-950/10 border-l-emerald-500 hover:bg-emerald-50/60 dark:hover:bg-emerald-950/60'
             : 'hover:bg-slate-50 dark:hover:bg-slate-800/40 border-l-transparent'
       }`}
     >
@@ -163,7 +157,7 @@ function ConversationItem({ chat, active, onClick }) {
           </span>
           <div className="flex items-center gap-1.5 flex-shrink-0">
             {chat.isPinned && <Pin className="w-3 h-3 text-teal-500" />}
-            {chat.isFavorite && <Star className="w-3 h-3 text-green-600 fill-green-600" />}
+            {chat.isFavorite && <Star className="w-3 h-3 text-green-600 dark:text-green-400 fill-green-600" />}
             {intervened && (
               <span className="text-[9px] font-bold px-1.5 py-[1px] rounded-full bg-teal-100 dark:bg-teal-950/40 text-teal-700 dark:text-teal-300 uppercase tracking-wide">Live</span>
             )}
@@ -179,7 +173,7 @@ function ConversationItem({ chat, active, onClick }) {
                 {waitingBadge.label}
               </span>
             )}
-            <ChannelIcon className={`w-3 h-3 ${unread ? channelClass : 'text-slate-400'}`} />
+            <ChannelIcon colored className="w-3.5 h-3.5 shrink-0" />
             <span className={`text-[11px] tabular-nums ${unread ? 'text-slate-700 dark:text-slate-300 font-medium' : 'text-slate-400'}`}>
               {formatTime(chat.lastMessageAt)}
             </span>
@@ -194,7 +188,7 @@ function ConversationItem({ chat, active, onClick }) {
         {/* Row 2 — direction arrow · type icon · delivery tick · preview */}
         <div className="flex items-center gap-1 mt-0.5 min-w-0">
           {isInboundPreview ? (
-            <ArrowLeft className={`w-3 h-3 flex-shrink-0 ${unread ? 'text-emerald-600' : 'text-slate-400'}`} />
+            <ArrowLeft className={`w-3 h-3 flex-shrink-0 ${unread ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400'}`} />
           ) : (
             <ArrowRight className="w-3 h-3 flex-shrink-0 text-slate-400" />
           )}

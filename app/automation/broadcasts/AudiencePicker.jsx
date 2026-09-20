@@ -22,7 +22,7 @@ export default function AudiencePicker({ audience, onChange, campaignName = 'bro
         {TABS.map((t) => (
           <button key={t.id} type="button" onClick={() => setTab(t.id)}
             className={`flex flex-col items-center gap-1 py-3 text-xs font-medium border-b-2 transition-colors ${
-              tab === t.id ? 'border-emerald-500 text-emerald-700 dark:text-emerald-400 bg-emerald-50/40 dark:bg-emerald-950/20' : 'border-transparent text-slate-500 hover:text-slate-700'
+              tab === t.id ? 'border-emerald-500 text-emerald-700 dark:text-emerald-400 bg-emerald-50/40 dark:bg-emerald-950/20' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
             }`}>
             <t.icon className="w-4 h-4" />
             {t.label}
@@ -89,24 +89,24 @@ function ManualPicker({ audience, onChange }) {
           className="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm" />
       </div>
       <div className="flex items-center justify-between mb-2 text-xs">
-        <span className="text-slate-500">{selected.size} selected</span>
+        <span className="text-slate-500 dark:text-slate-400">{selected.size} selected</span>
         <div className="flex gap-2">
-          <button type="button" onClick={selectAll} className="text-emerald-700 hover:underline">Select all visible</button>
-          {selected.size > 0 && <button type="button" onClick={clearAll} className="text-slate-500 hover:underline">Clear</button>}
+          <button type="button" onClick={selectAll} className="text-emerald-700 dark:text-emerald-300 hover:underline">Select all visible</button>
+          {selected.size > 0 && <button type="button" onClick={clearAll} className="text-slate-500 dark:text-slate-400 hover:underline">Clear</button>}
         </div>
       </div>
       <div className="max-h-72 overflow-y-auto rounded-lg border border-slate-100 dark:border-slate-800 divide-y divide-slate-100 dark:divide-slate-800">
         {loading ? (
           <div className="p-6 flex items-center justify-center"><Loader2 className="w-4 h-4 animate-spin text-slate-400" /></div>
         ) : leads.length === 0 ? (
-          <p className="p-6 text-center text-xs text-slate-500">No leads found</p>
+          <p className="p-6 text-center text-xs text-slate-500 dark:text-slate-400">No leads found</p>
         ) : leads.map((l) => (
           <label key={l._id} className="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer text-sm">
             <input type="checkbox" checked={selected.has(l._id)} onChange={() => toggle(l._id)}
-              className="rounded text-emerald-600 focus:ring-emerald-500" />
+              className="rounded text-emerald-600 dark:text-emerald-400 focus:ring-emerald-500" />
             <div className="flex-1 min-w-0">
               <p className="font-medium text-slate-900 dark:text-white truncate">{l.name}</p>
-              <p className="text-[11px] text-slate-500 truncate">
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
                 {l.phone || l.whatsapp || 'no phone'} · {l.status || 'new'} {l.source ? `· ${l.source}` : ''}
               </p>
             </div>
@@ -172,7 +172,7 @@ function CsvImporter({ campaignName, onChange, audience }) {
         <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
           {fileToImport?.name || 'Drop CSV or Excel file here, or click to browse'}
         </p>
-        <p className="text-[11px] text-slate-500 mt-1">Must have a column named phone / mobile / whatsapp / number</p>
+        <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Must have a column named phone / mobile / whatsapp / number</p>
         <input ref={inputRef} type="file" className="hidden" accept=".csv,.xlsx,.xlsm"
           onChange={(e) => handlePick(e.target.files?.[0])} />
       </div>
@@ -215,12 +215,12 @@ function CsvImporter({ campaignName, onChange, audience }) {
           <p className="flex items-center gap-1.5 text-emerald-800 dark:text-emerald-300 font-semibold">
             <CheckCircle2 className="w-4 h-4" /> {result.created + result.updated} recipients loaded
           </p>
-          <p className="text-slate-600 mt-1">Created {result.created}, updated {result.updated}. Tagged as <code className="bg-white dark:bg-slate-900 px-1 rounded">{result.tag}</code></p>
+          <p className="text-slate-600 dark:text-slate-300 mt-1">Created {result.created}, updated {result.updated}. Tagged as <code className="bg-white dark:bg-slate-900 px-1 rounded">{result.tag}</code></p>
         </div>
       )}
 
       {audience?.leadIds?.length > 0 && !result && (
-        <p className="text-[11px] text-slate-500">Current audience: {audience.leadIds.length} recipients</p>
+        <p className="text-[11px] text-slate-500 dark:text-slate-400">Current audience: {audience.leadIds.length} recipients</p>
       )}
     </div>
   );
@@ -232,7 +232,7 @@ function FilterPicker({ audience, onChange }) {
   return (
     <div className="grid gap-3 sm:grid-cols-2">
       <label className="text-xs">
-        <span className="text-slate-500 block mb-1">Status</span>
+        <span className="text-slate-500 dark:text-slate-400 block mb-1">Status</span>
         <select value={f.status || ''} onChange={(e) => set('status', e.target.value || undefined)}
           className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm">
           <option value="">Any status</option>
@@ -244,12 +244,12 @@ function FilterPicker({ audience, onChange }) {
         </select>
       </label>
       <label className="text-xs">
-        <span className="text-slate-500 block mb-1">Source</span>
+        <span className="text-slate-500 dark:text-slate-400 block mb-1">Source</span>
         <input value={f.source || ''} onChange={(e) => set('source', e.target.value || undefined)}
           placeholder="e.g. facebook_ad" className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm" />
       </label>
       <label className="text-xs sm:col-span-2">
-        <span className="text-slate-500 block mb-1">Tags (comma-separated)</span>
+        <span className="text-slate-500 dark:text-slate-400 block mb-1">Tags (comma-separated)</span>
         <input value={(f.tags || []).join(', ')}
           onChange={(e) => set('tags', e.target.value.split(',').map((t) => t.trim()).filter(Boolean))}
           placeholder="vip, hot_lead" className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm" />
@@ -262,7 +262,7 @@ function TagPicker({ audience, onChange }) {
   const tags = audience?.tags || [];
   return (
     <label className="text-xs block">
-      <span className="text-slate-500 block mb-1">Audience tags (comma-separated)</span>
+      <span className="text-slate-500 dark:text-slate-400 block mb-1">Audience tags (comma-separated)</span>
       <input value={tags.join(', ')}
         onChange={(e) => onChange({ type: 'tags', tags: e.target.value.split(',').map((t) => t.trim()).filter(Boolean) })}
         placeholder="e.g. newsletter, hot_lead"
@@ -274,8 +274,8 @@ function TagPicker({ audience, onChange }) {
 function Badge({ tone, children }) {
   const map = {
     emerald: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300',
-    amber: 'bg-amber-100 text-amber-800',
-    red: 'bg-red-100 text-red-800',
+    amber: 'bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200',
+    red: 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200',
   };
   return <span className={`px-2 py-1 rounded font-medium ${map[tone] || map.emerald}`}>{children}</span>;
 }

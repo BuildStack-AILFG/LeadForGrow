@@ -14,7 +14,7 @@ function StatusRow({ label, value, ok }) {
   return (
     <div className="flex items-center justify-between py-2.5 border-b border-slate-100 dark:border-slate-800 last:border-0">
       <span className="text-sm text-slate-600 dark:text-slate-400">{label}</span>
-      <span className={`text-sm font-medium flex items-center gap-1.5 ${ok ? 'text-emerald-600' : 'text-amber-600'}`}>
+      <span className={`text-sm font-medium flex items-center gap-1.5 ${ok ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}`}>
         {ok ? <CheckCircle2 className="w-4 h-4" /> : <AlertTriangle className="w-4 h-4" />}
         {value}
       </span>
@@ -106,7 +106,7 @@ export default function WhatsAppSettingsPage() {
         </Link>
         <div>
           <h1 className="text-lg font-semibold text-slate-900 dark:text-slate-50">WhatsApp Business</h1>
-          <p className="text-xs text-slate-500">Meta Cloud API connection & health</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Meta Cloud API connection & health</p>
         </div>
       </div>
 
@@ -117,13 +117,13 @@ export default function WhatsAppSettingsPage() {
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 flex items-center justify-center">
-                <Phone className="w-5 h-5 text-emerald-600" />
+                <Phone className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
               </div>
               <div>
                 <p className="font-semibold text-slate-900 dark:text-slate-50">{wa.displayNumber || 'Not connected'}</p>
-                <p className="text-xs text-slate-500">{wa.businessName || status?.businessName || '—'}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{wa.businessName || status?.businessName || '—'}</p>
               </div>
-              <span className={`ml-auto text-xs font-medium px-2.5 py-1 rounded-full ${wa.enabled ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'}`}>
+              <span className={`ml-auto text-xs font-medium px-2.5 py-1 rounded-full ${wa.enabled ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'}`}>
                 {wa.enabled ? 'Connected' : 'Disconnected'}
               </span>
             </div>
@@ -143,7 +143,7 @@ export default function WhatsAppSettingsPage() {
               onClick={() => setManualOpen((v) => !v)}
               className="w-full flex items-center gap-2 px-5 py-3.5 text-sm font-medium text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50"
             >
-              <KeyRound className="w-4 h-4 text-slate-500" />
+              <KeyRound className="w-4 h-4 text-slate-500 dark:text-slate-400" />
               {wa.enabled ? 'Edit credentials manually' : 'Connect manually (enter credentials)'}
               <ChevronDown className={`w-4 h-4 ml-auto text-slate-400 transition-transform ${manualOpen ? 'rotate-180' : ''}`} />
             </button>
@@ -186,7 +186,7 @@ export default function WhatsAppSettingsPage() {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <button type="button" onClick={handleSync} disabled={syncing} className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 disabled:opacity-50">
+            <button type="button" onClick={handleSync} disabled={syncing} className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 disabled:opacity-50">
               <RefreshCw className={`w-4 h-4 ${syncing ? 'animate-spin' : ''}`} /> Sync status
             </button>
           </div>

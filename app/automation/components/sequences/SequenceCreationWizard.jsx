@@ -64,7 +64,7 @@ export default function SequenceCreationWizard({
   }, [templates, industry, search]);
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
-      <button type="button" onClick={onCancel} className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-slate-700 mb-6">
+      <button type="button" onClick={onCancel} className="inline-flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 mb-6">
         <ArrowLeft className="w-4 h-4" /> Back to sequences
       </button>
 
@@ -72,7 +72,7 @@ export default function SequenceCreationWizard({
         {[1, 2].map((s) => (
           <div key={s} className="flex items-center gap-2 flex-1">
             <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
-              step >= s ? 'bg-teal-600 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-500'
+              step >= s ? 'bg-teal-600 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400'
             }`}>{s}</div>
             <span className={`text-xs font-medium hidden sm:block ${step >= s ? 'text-slate-900 dark:text-white' : 'text-slate-400'}`}>
               {s === 1 ? 'Details & trigger' : 'Choose template'}
@@ -87,7 +87,7 @@ export default function SequenceCreationWizard({
           <motion.div key="s1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-5">
             <div>
               <h2 className="text-xl font-bold text-slate-900 dark:text-white">Name your sequence</h2>
-              <p className="text-sm text-slate-500 mt-1">Start with basics — you can refine the workflow in the builder.</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Start with basics — you can refine the workflow in the builder.</p>
             </div>
             <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-4 shadow-sm">
               <div>
@@ -153,7 +153,7 @@ export default function SequenceCreationWizard({
           <motion.div key="s2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
             <div className="mb-4">
               <h2 className="text-xl font-bold text-slate-900 dark:text-white">Choose a template</h2>
-              <p className="text-sm text-slate-500 mt-1">Pick an industry to see flows written for that business type.</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Pick an industry to see flows written for that business type.</p>
             </div>
 
             <div className="relative mb-3">
@@ -190,7 +190,7 @@ export default function SequenceCreationWizard({
 
             {filteredTemplates.length === 0 ? (
               <div className="text-center py-12 rounded-2xl border border-dashed border-slate-200 dark:border-slate-700">
-                <p className="text-sm text-slate-500">No templates match your filter. Try a different industry or clear search.</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">No templates match your filter. Try a different industry or clear search.</p>
               </div>
             ) : (
               <div className="grid sm:grid-cols-2 gap-3">
@@ -207,7 +207,7 @@ export default function SequenceCreationWizard({
                         <Icon className="w-5 h-5 text-white" />
                       </div>
                       <h3 className="font-semibold text-sm text-slate-900 dark:text-white">{tpl.name}</h3>
-                      <p className="text-xs text-slate-500 mt-1">{tpl.description}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{tpl.description}</p>
                     </button>
                   );
                 })}
@@ -220,12 +220,12 @@ export default function SequenceCreationWizard({
                     <GitBranch className="w-5 h-5 text-slate-400" />
                   </div>
                   <h3 className="font-semibold text-sm text-slate-700 dark:text-slate-300">Blank workflow</h3>
-                  <p className="text-xs text-slate-500 mt-1">Start from scratch with drag & drop</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Start from scratch with drag & drop</p>
                 </button>
               </div>
             )}
 
-            <button type="button" onClick={onBack} className="mt-6 text-sm text-slate-500 hover:text-slate-700">
+            <button type="button" onClick={onBack} className="mt-6 text-sm text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">
               ← Back
             </button>
           </motion.div>
@@ -278,15 +278,15 @@ function TemplatePreviewModal({ tpl, onClose, onUse }) {
           </div>
           <div className="flex-1 min-w-0">
             <h3 className="text-base font-semibold text-slate-900 dark:text-white">{tpl.name}</h3>
-            <p className="text-xs text-slate-500 mt-0.5">{tpl.description}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{tpl.description}</p>
             <div className="flex items-center gap-2 mt-2 text-[11px]">
               <span className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 uppercase tracking-wide font-medium">{tpl.category}</span>
               <span className="text-slate-400">·</span>
-              <span className="text-slate-500">Trigger: {tpl.triggerType?.replace(/_/g, ' ')}</span>
+              <span className="text-slate-500 dark:text-slate-400">Trigger: {tpl.triggerType?.replace(/_/g, ' ')}</span>
               {steps.length > 0 && (
                 <>
                   <span className="text-slate-400">·</span>
-                  <span className="text-slate-500">{steps.length} {steps.length === 1 ? 'step' : 'steps'}</span>
+                  <span className="text-slate-500 dark:text-slate-400">{steps.length} {steps.length === 1 ? 'step' : 'steps'}</span>
                 </>
               )}
             </div>
@@ -295,7 +295,7 @@ function TemplatePreviewModal({ tpl, onClose, onUse }) {
 
         <div className="p-5 space-y-3">
           {isGraphOnly && (
-            <div className="text-xs text-slate-500 p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
+            <div className="text-xs text-slate-500 dark:text-slate-400 p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
               This is a visual workflow template. Open it in the builder to see nodes and branches.
             </div>
           )}
@@ -317,7 +317,7 @@ function TemplatePreviewModal({ tpl, onClose, onUse }) {
                 </div>
                 <div className="flex-1 min-w-0 pb-2">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wide">{dayLabel}</span>
+                    <span className="text-[10px] font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">{dayLabel}</span>
                     <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 uppercase font-medium">
                       {s.channel}
                     </span>
@@ -362,7 +362,7 @@ function TemplatePreviewModal({ tpl, onClose, onUse }) {
             );
           })}
           {steps.length === 0 && !isGraphOnly && (
-            <p className="text-xs text-slate-500 text-center py-6">No step details available for this template.</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 text-center py-6">No step details available for this template.</p>
           )}
         </div>
 
@@ -370,7 +370,7 @@ function TemplatePreviewModal({ tpl, onClose, onUse }) {
           <button
             type="button"
             onClick={onClose}
-            className="text-sm text-slate-500 hover:text-slate-700 px-3 py-2"
+            className="text-sm text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 px-3 py-2"
           >
             ← Back to templates
           </button>

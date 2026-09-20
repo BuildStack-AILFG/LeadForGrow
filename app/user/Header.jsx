@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { clearUserStorage } from "@/lib/clientStorage";
 import {
   ChevronDown,
   Plus,
@@ -107,7 +108,7 @@ const UserNavbar = () => {
   };
 
   const handleLogout = () => {
-    localStorage.clear();
+    clearUserStorage();
     setIsLoggedIn(false);
     window.location.href = "/";
   };

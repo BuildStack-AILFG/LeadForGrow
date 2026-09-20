@@ -34,6 +34,23 @@
   --font-whatsapp: -apple-system, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --hero-bg: #00211f;
   --hubspot-orange: #FF5C35;
+
+  /* Semantic brand/surface tokens. Use bg-brand, text-brand-ink, bg-brand-tint,
+     bg-brand-tint-strong, text-on-brand, border-line, bg-canvas-muted instead of
+     hardcoding #1D4B3E / #F0F9F5 / #E8EAED / #F8F9FA — a hardcoded hex can't follow
+     dark mode, these variables do (see .dark below). */
+  --brand: #1D4B3E;            /* brand fills: buttons, active nav */
+  --brand-hover: #163C32;
+  --brand-ink: #1D4B3E;        /* brand used as TEXT or ICON colour */
+  --brand-tint: #F0F9F5;       /* pale mint fill */
+  --brand-tint-strong: #BAE0CF;/* mint hover fill / border */
+  --on-brand: #F0F9F5;         /* text on a --brand fill */
+  --line: #E8EAED;             /* hairline borders */
+  --canvas-muted: #F8F9FA;     /* subtle grey panels, table headers */
+  --chart-1: #1D4B3E;          /* chart series ramp (dashboard) */
+  --chart-2: #2F6B58;
+  --chart-3: #8FC4AE;
+  --chart-grid: #EEF1F0;
 }
 
 @theme inline {
@@ -48,6 +65,14 @@
   --color-danger: var(--danger);
   --color-card: var(--card);
   --color-border: var(--card-border);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-tint: var(--brand-tint);
+  --color-brand-tint-strong: var(--brand-tint-strong);
+  --color-on-brand: var(--on-brand);
+  --color-line: var(--line);
+  --color-canvas-muted: var(--canvas-muted);
 }
 
 .dark {
@@ -58,6 +83,23 @@
   --text-main: #f1f5f9;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
+
+  /* Makes native controls (date pickers, selects, scrollbars, autofill) dark too. */
+  color-scheme: dark;
+
+  /* Brand in dark: deep teal is unreadable on near-black, so text/icons lighten and fills brighten. */
+  --brand: #2F7D66;
+  --brand-hover: #3A917A;
+  --brand-ink: #6FCBA8;
+  --brand-tint: #12332A;
+  --brand-tint-strong: #1B4A3D;
+  --on-brand: #F0F9F5;
+  --line: #1e293b;
+  --canvas-muted: #0f172a;
+  --chart-1: #2F7D66;
+  --chart-2: #4FAE8F;
+  --chart-3: #8FD3B8;
+  --chart-grid: #1e293b;
 }
 
 @layer base {
@@ -73,6 +115,20 @@
   h2 {
     @apply font-bold text-[#111827];
     font-family: var(--font-inter-tight);
+  }
+
+  /* Base headings are hardcoded near-black. Inside the CRM app (.crm-app) follow the theme in dark mode.
+     :where() keeps specificity at zero so any explicit text-* class on a heading still wins. */
+  :where(.dark .crm-app) :is(h1, h2, h3, h4) {
+    color: var(--text-main);
+  }
+
+  /* <body> has a hardcoded near-black text colour (app/layout.js), which every element without its own
+     colour inherits — form controls, plain text, and portalled dialogs/toasts that render outside
+     .crm-app. In dark mode, follow the theme whenever a CRM/agency page is mounted; the marketing site
+     (no dark styling) keeps its current colours. */
+  .dark body:has(.crm-app) {
+    color: var(--text-main) !important; /* beats body's own text-[#111827] utility, which outranks @layer base */
   }
 
   .metric-value {
@@ -164,6 +220,17 @@
       linear-gradient(90deg, rgba(226, 232, 240, 0.4) 1px, transparent 1px);
     background-size: 64px 64px;
     mask-image: linear-gradient(to right, black 40%, transparent 100%);
+  }
+}
+
+/* Hide scrollbars while keeping the element scrollable. Used by horizontally-scrolling chip rows
+   (e.g. inbox channel filters). Was a Tailwind v3 plugin class that was never defined in v4, so the
+   native scrollbars showed through. */
+@utility scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
   }
 }
 

@@ -5,17 +5,17 @@ import { Search, Filter, MessageSquarePlus, Loader2, LayoutGrid, Volume2, Volume
 import Link from 'next/link';
 import { INBOX_FILTERS, CHANNEL_FILTERS } from './constants';
 import ConversationItem from './ConversationItem';
-import { WhatsAppIcon, InstagramIcon, GmailMonoIcon } from './BrandIcons';
+import { WhatsAppIcon, InstagramIcon, FacebookIcon, GmailIcon, GmailMonoIcon } from './BrandIcons';
 
-// Real brand marks for the channel filter pills. Rendered at inline size
-// (12px) with the pill's text colour via currentColor — active pill turns
-// them white against emerald, inactive pill keeps them slate. LayoutGrid
-// is the neutral "all channels" mark.
+// Real brand marks for the channel filter pills. Inactive pill: the official coloured mark. Active pill
+// (solid channel-colour background): a white monochrome mark so it doesn't vanish against its own colour.
+// LayoutGrid is the neutral "all channels" mark.
 const CHANNEL_ICONS = {
-  all: LayoutGrid,
-  whatsapp: WhatsAppIcon,
-  instagram: InstagramIcon,
-  email: GmailMonoIcon,
+  all: { color: LayoutGrid, mono: LayoutGrid },
+  whatsapp: { color: WhatsAppIcon, mono: WhatsAppIcon },
+  instagram: { color: InstagramIcon, mono: InstagramIcon },
+  facebook: { color: FacebookIcon, mono: FacebookIcon },
+  email: { color: GmailIcon, mono: GmailMonoIcon },
 };
 
 // Active-pill color per channel — each channel keeps its own real brand
@@ -23,9 +23,10 @@ const CHANNEL_ICONS = {
 // of flattening every tab to the same brand teal. "All channels" has no
 // single identity, so it uses the app's own brand teal.
 const CHANNEL_ACTIVE_BG = {
-  all: 'bg-[#1D4B3E]',
+  all: 'bg-brand',
   whatsapp: 'bg-[#25D366]',
   instagram: 'bg-[#E1306C]',
+  facebook: 'bg-[#1877F2]',
   email: 'bg-[#4285F4]',
 };
 
@@ -103,14 +104,14 @@ export default function ChatSidebar({
             <button
               type="button"
               onClick={toggleSound}
-              className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
               title={soundOn ? 'Mute new-message sound' : 'Play sound on new messages'}
             >
               {soundOn ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
             </button>
             <Link
               href="/automation/leads/new"
-              className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-[#1D4B3E]"
+              className="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-brand-ink"
               title="New lead"
             >
               <MessageSquarePlus className="w-4 h-4" />
@@ -124,7 +125,7 @@ export default function ChatSidebar({
             placeholder="Search messages, leads, deals..."
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#1D4B3E]/20"
+            className="w-full pl-9 pr-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-brand/20"
           />
           {searchResults && search.length >= 2 && (
             <div className="absolute left-0 right-0 top-full mt-1 z-20 max-h-64 overflow-y-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded shadow-lg p-1.5 space-y-0.5">
@@ -133,7 +134,7 @@ export default function ChatSidebar({
                 ...(searchResults.leads || []).map((l) => ({ type: 'lead', item: l, label: l.name })),
                 ...(searchResults.messages || []).slice(0, 5).map((m) => ({ type: 'message', item: m, label: m.content?.body?.slice(0, 60) })),
               ].length === 0 ? (
-                <p className="p-3 text-xs text-slate-500">No results</p>
+                <p className="p-3 text-xs text-slate-500 dark:text-slate-400">No results</p>
               ) : (
                 [
                   ...(searchResults.conversations || []).map((c) => ({ type: 'conversation', item: c, label: c.participantName || c.lastMessagePreview })),
@@ -144,7 +145,7 @@ export default function ChatSidebar({
                     key={`${r.type}-${r.item._id || i}`}
                     type="button"
                     onClick={() => onSelectSearchResult?.(r)}
-                    className="w-full text-left px-3 py-2 text-xs rounded hover:bg-[#F0F9F5] dark:hover:bg-slate-800"
+                    className="w-full text-left px-3 py-2 text-xs rounded hover:bg-brand-tint dark:hover:bg-slate-800"
                   >
                     <span className="text-[10px] uppercase text-slate-400">{r.type}</span>
                     <p className="truncate text-slate-700 dark:text-slate-300">{r.label}</p>
@@ -156,8 +157,9 @@ export default function ChatSidebar({
         </div>
         <div className="flex gap-1.5 overflow-x-auto pb-0.5 scrollbar-hide">
           {CHANNEL_FILTERS.map((f) => {
-            const Icon = CHANNEL_ICONS[f.id] || LayoutGrid;
             const active = channelFilter === f.id;
+            const iconSet = CHANNEL_ICONS[f.id] || CHANNEL_ICONS.all;
+            const Icon = active ? iconSet.mono : iconSet.color;
             return (
               <button
                 key={f.id}
@@ -170,8 +172,9 @@ export default function ChatSidebar({
                 }`}
               >
                 <Icon
-                  className={active ? 'text-white' : 'text-slate-500 dark:text-slate-400'}
-                  size={12}
+                  {...(f.id !== 'all' && !active ? { colored: true } : {})}
+                  className={active ? 'text-white' : f.id === 'all' ? 'text-slate-500 dark:text-slate-400' : ''}
+                  size={13}
                 />
                 {f.label}
               </button>
@@ -186,7 +189,7 @@ export default function ChatSidebar({
               onClick={() => onFilterChange(f.id)}
               className={`px-2.5 py-1 text-[11px] font-medium rounded whitespace-nowrap transition-colors ${
                 filter === f.id
-                  ? 'bg-[#1D4B3E] text-white'
+                  ? 'bg-brand text-white'
                   : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
               }`}
             >
@@ -199,8 +202,8 @@ export default function ChatSidebar({
       <div className="flex-1 overflow-y-auto">
         {loading ? (
           <div className="p-6 space-y-3">
-            <div className="flex items-center justify-center gap-2 py-3 text-xs font-medium text-slate-500">
-              <Loader2 className="w-4 h-4 animate-spin text-emerald-600" />
+            <div className="flex items-center justify-center gap-2 py-3 text-xs font-medium text-slate-500 dark:text-slate-400">
+              <Loader2 className="w-4 h-4 animate-spin text-emerald-600 dark:text-emerald-400" />
               <span>Loading conversations…</span>
             </div>
             {[1, 2, 3, 4, 5].map((i) => (
@@ -229,10 +232,10 @@ export default function ChatSidebar({
             ))}
             {/* Sentinel — IntersectionObserver above triggers loadMore when this scrolls into view */}
             {hasMoreConversations && (
-              <div ref={sentinelRef} className="flex items-center justify-center gap-2 py-4 text-xs text-slate-500">
+              <div ref={sentinelRef} className="flex items-center justify-center gap-2 py-4 text-xs text-slate-500 dark:text-slate-400">
                 {loadingMoreConversations ? (
                   <>
-                    <Loader2 className="w-3.5 h-3.5 animate-spin text-emerald-600" />
+                    <Loader2 className="w-3.5 h-3.5 animate-spin text-emerald-600 dark:text-emerald-400" />
                     <span>Loading older conversations…</span>
                   </>
                 ) : (

@@ -18,7 +18,7 @@ function VariableChips({ onInsert }) {
           key={v.key}
           type="button"
           onClick={() => onInsert(`{{${v.key}}}`)}
-          className="text-[11px] font-mono px-2 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-indigo-50 hover:text-indigo-700 dark:hover:bg-indigo-950/50 border border-transparent hover:border-indigo-200 dark:hover:border-indigo-900 transition-colors"
+          className="text-[11px] font-mono px-2 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-indigo-50 hover:text-indigo-700 dark:hover:text-indigo-300 dark:hover:bg-indigo-950/50 border border-transparent hover:border-indigo-200 dark:hover:border-indigo-900 transition-colors"
         >
           {`{{${v.key}}}`}
         </button>
@@ -57,7 +57,7 @@ function ChannelCard({ channel, config, onChange, integrations }) {
           </CrmIconBadge>
           <div>
             <h4 className="text-[13px] font-semibold text-slate-900 dark:text-slate-100 tracking-tight">{channel.label}</h4>
-            <p className="text-[11px] text-slate-500 mt-0.5">
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
               {enabled
                 ? connected
                   ? 'Delivered on stage trigger'
@@ -74,7 +74,7 @@ function ChannelCard({ channel, config, onChange, integrations }) {
           <div className="p-5 space-y-3">
             {channel.channel === 'email' && channel.emailSubject && (
               <div>
-                <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">Subject line</label>
+                <label className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Subject line</label>
                 <input
                   type="text"
                   className={`${inputCls} mt-2`}
@@ -86,11 +86,11 @@ function ChannelCard({ channel, config, onChange, integrations }) {
             )}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">Message body</label>
+                <label className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Message body</label>
                 <button
                   type="button"
                   onClick={resetTemplate}
-                  className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+                  className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
                 >
                   <RotateCcw className="w-3 h-3" /> Reset to default
                 </button>
@@ -171,7 +171,7 @@ export default function CrmMessageAutomationSection({ config, onChange, integrat
                     )}
                     <span
                       className={`flex items-center justify-center w-8 h-8 rounded-lg shrink-0 ${
-                        active ? 'bg-slate-900 text-white dark:bg-indigo-600' : 'bg-slate-100 text-slate-500 dark:bg-slate-800'
+                        active ? 'bg-slate-900 text-white dark:bg-indigo-600' : 'bg-slate-100 text-slate-500 dark:text-slate-400 dark:bg-slate-800'
                       }`}
                     >
                       <GIcon className="w-4 h-4" />
@@ -201,8 +201,8 @@ export default function CrmMessageAutomationSection({ config, onChange, integrat
             </CrmIconBadge>
             <div>
               <h3 className="text-[15px] font-semibold text-slate-900 dark:text-slate-100 tracking-tight">{group.title}</h3>
-              <p className="text-[13px] text-slate-500 mt-1 max-w-lg leading-relaxed">{group.description}</p>
-              <span className="inline-flex items-center mt-3 text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-500 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-md border border-slate-200/80 dark:border-slate-700">
+              <p className="text-[13px] text-slate-500 dark:text-slate-400 mt-1 max-w-lg leading-relaxed">{group.description}</p>
+              <span className="inline-flex items-center mt-3 text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-md border border-slate-200/80 dark:border-slate-700">
                 {group.trigger}
               </span>
             </div>

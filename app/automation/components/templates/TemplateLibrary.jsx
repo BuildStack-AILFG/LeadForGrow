@@ -13,7 +13,7 @@ export default function TemplateLibrary({ templates, searchQuery, onSearchChange
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder="Search templates…"
-          className="w-full pl-10 pr-4 py-2.5 text-sm bg-white dark:bg-slate-900 border-0 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-[#1D4B3E]/25 text-slate-900 dark:text-slate-100 placeholder:text-slate-400"
+          className="w-full pl-10 pr-4 py-2.5 text-sm bg-white dark:bg-slate-900 border-0 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-brand/25 text-slate-900 dark:text-slate-100 placeholder:text-slate-400"
         />
       </div>
 
@@ -21,7 +21,7 @@ export default function TemplateLibrary({ templates, searchQuery, onSearchChange
         <div className="text-center py-16 bg-white dark:bg-slate-900 rounded shadow-sm">
           <p className="text-sm font-medium text-slate-600 dark:text-slate-400">No templates found</p>
           <p className="text-xs text-slate-400 mt-1 mb-4">Create a template or sync from Meta</p>
-          <button type="button" onClick={onCreate} className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-[#1D4B3E] rounded">
+          <button type="button" onClick={onCreate} className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-brand rounded">
             <Plus className="w-3.5 h-3.5" /> Create template
           </button>
         </div>
@@ -39,7 +39,7 @@ export default function TemplateLibrary({ templates, searchQuery, onSearchChange
           <button
             type="button"
             onClick={onCreate}
-            className="flex flex-col items-center justify-center min-h-[180px] rounded border-2 border-dashed border-slate-200 dark:border-slate-700 text-slate-400 hover:border-[#1D4B3E]/40 hover:text-[#1D4B3E] hover:bg-white dark:hover:bg-slate-900 transition-all"
+            className="flex flex-col items-center justify-center min-h-[180px] rounded border-2 border-dashed border-slate-200 dark:border-slate-700 text-slate-400 hover:border-brand/40 hover:text-brand-ink hover:bg-white dark:hover:bg-slate-900 transition-all"
           >
             <Plus className="w-8 h-8 mb-2 opacity-50" />
             <span className="text-sm font-medium">Add template</span>

@@ -25,13 +25,13 @@ export default function CreateMeetingWizard({
       <button
         type="button"
         onClick={onCancel}
-        className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-slate-800 mb-6"
+        className="inline-flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-100 mb-6"
       >
         <ArrowLeft className="w-4 h-4" /> Back to dashboard
       </button>
 
       <div className="mb-8">
-        <p className="text-[11px] font-semibold uppercase tracking-wider text-indigo-600 mb-1">
+        <p className="text-[11px] font-semibold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 mb-1">
           Revenue Scheduling Setup
         </p>
         <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-50">Create booking link</h1>
@@ -46,7 +46,7 @@ export default function CreateMeetingWizard({
                 ? 'bg-indigo-600 text-white'
                 : step > s.id
                   ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-950/50 dark:text-indigo-300'
-                  : 'bg-slate-100 text-slate-500 dark:bg-slate-800'
+                  : 'bg-slate-100 text-slate-500 dark:text-slate-400 dark:bg-slate-800'
             }`}
           >
             {step > s.id ? <Check className="w-3 h-3" /> : s.id}
@@ -75,7 +75,7 @@ export default function CreateMeetingWizard({
                 />
               </div>
               <div>
-                <label className="text-xs font-medium text-slate-600">Meeting type</label>
+                <label className="text-xs font-medium text-slate-600 dark:text-slate-300">Meeting type</label>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-2">
                   {MEETING_TYPE_OPTIONS.map((t) => {
                     const Icon = t.icon;
@@ -89,7 +89,7 @@ export default function CreateMeetingWizard({
                           sel ? 'border-indigo-500 bg-indigo-50/50 dark:bg-indigo-950/30' : 'border-slate-200 dark:border-slate-700'
                         }`}
                       >
-                        <Icon className="w-4 h-4 text-indigo-600 mb-1" />
+                        <Icon className="w-4 h-4 text-indigo-600 dark:text-indigo-400 mb-1" />
                         <p className="text-xs font-semibold text-slate-800 dark:text-slate-200">{t.label}</p>
                       </button>
                     );
@@ -98,7 +98,7 @@ export default function CreateMeetingWizard({
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-xs font-medium text-slate-600">Duration (minutes)</label>
+                  <label className="text-xs font-medium text-slate-600 dark:text-slate-300">Duration (minutes)</label>
                   <select
                     className="mt-1 w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm bg-white dark:bg-slate-950"
                     value={draft.durationMinutes}
@@ -110,9 +110,9 @@ export default function CreateMeetingWizard({
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-slate-600">Booking URL slug</label>
+                  <label className="text-xs font-medium text-slate-600 dark:text-slate-300">Booking URL slug</label>
                   <div className="mt-1 flex rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
-                    <span className="px-3 py-2.5 bg-slate-50 dark:bg-slate-800 text-xs text-slate-500">/book/</span>
+                    <span className="px-3 py-2.5 bg-slate-50 dark:bg-slate-800 text-xs text-slate-500 dark:text-slate-400">/book/</span>
                     <input
                       className="flex-1 px-2 py-2.5 text-sm bg-white dark:bg-slate-950 outline-none"
                       value={draft.bookingSlug}
@@ -123,7 +123,7 @@ export default function CreateMeetingWizard({
                 </div>
               </div>
               <div>
-                <label className="text-xs font-medium text-slate-600 mb-2 block">Assignment</label>
+                <label className="text-xs font-medium text-slate-600 dark:text-slate-300 mb-2 block">Assignment</label>
                 <div className="space-y-2">
                   {ASSIGNMENT_OPTIONS.map((a) => (
                     <button
@@ -137,7 +137,7 @@ export default function CreateMeetingWizard({
                       }`}
                     >
                       <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{a.title}</p>
-                      <p className="text-xs text-slate-500 mt-0.5">{a.description}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{a.description}</p>
                     </button>
                   ))}
                 </div>
@@ -149,7 +149,7 @@ export default function CreateMeetingWizard({
             <div className="space-y-5">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-xs font-medium text-slate-600">Start time</label>
+                  <label className="text-xs font-medium text-slate-600 dark:text-slate-300">Start time</label>
                   <input
                     type="time"
                     className="mt-1 w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm"
@@ -158,7 +158,7 @@ export default function CreateMeetingWizard({
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-slate-600">End time</label>
+                  <label className="text-xs font-medium text-slate-600 dark:text-slate-300">End time</label>
                   <input
                     type="time"
                     className="mt-1 w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm"
@@ -168,7 +168,7 @@ export default function CreateMeetingWizard({
                 </div>
               </div>
               <div>
-                <label className="text-xs font-medium text-slate-600">Buffer after meetings (min)</label>
+                <label className="text-xs font-medium text-slate-600 dark:text-slate-300">Buffer after meetings (min)</label>
                 <input
                   type="number"
                   className="mt-1 w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm"
@@ -177,7 +177,7 @@ export default function CreateMeetingWizard({
                 />
               </div>
               <div>
-                <label className="text-xs font-medium text-slate-600">Minimum notice (hours)</label>
+                <label className="text-xs font-medium text-slate-600 dark:text-slate-300">Minimum notice (hours)</label>
                 <input
                   type="number"
                   className="mt-1 w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm"
@@ -186,7 +186,7 @@ export default function CreateMeetingWizard({
                 />
               </div>
               <div>
-                <label className="text-xs font-medium text-slate-600">Timezone</label>
+                <label className="text-xs font-medium text-slate-600 dark:text-slate-300">Timezone</label>
                 <input
                   className="mt-1 w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm"
                   value={draft.availabilityRules?.timezone || 'Asia/Kolkata'}
@@ -226,7 +226,7 @@ export default function CreateMeetingWizard({
               />
               <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
                 <div className="flex items-center gap-2 text-sm font-medium text-slate-800 dark:text-slate-200 mb-2">
-                  <Kanban className="w-4 h-4 text-indigo-600" />
+                  <Kanban className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
                   CRM pipeline sync
                 </div>
                 <input
@@ -248,12 +248,12 @@ export default function CreateMeetingWizard({
           {step === 4 && (
             <div className="text-center py-4">
               <div className="w-16 h-16 rounded-2xl bg-indigo-100 dark:bg-indigo-950/50 flex items-center justify-center mx-auto mb-4">
-                <Check className="w-8 h-8 text-indigo-600" />
+                <Check className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
               </div>
               <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-2">Ready to publish</h3>
-              <p className="text-sm text-slate-500 mb-6 max-w-md mx-auto">
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 max-w-md mx-auto">
                 Your revenue scheduling link will go live at{' '}
-                <strong className="text-indigo-600">/book/{draft.bookingSlug || 'your-slug'}</strong>
+                <strong className="text-indigo-600 dark:text-indigo-400">/book/{draft.bookingSlug || 'your-slug'}</strong>
                 with WhatsApp automations enabled.
               </p>
               <ul className="text-left text-sm text-slate-600 dark:text-slate-400 space-y-2 max-w-sm mx-auto mb-8">
@@ -271,7 +271,7 @@ export default function CreateMeetingWizard({
         <button
           type="button"
           onClick={step === 1 ? onCancel : onBack}
-          className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900"
+          className="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50"
         >
           {step === 1 ? 'Cancel' : 'Back'}
         </button>
@@ -303,10 +303,10 @@ function ToggleRow({ icon: Icon, label, description, checked, onChange }) {
   return (
     <div className="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-700">
       <div className="flex items-start gap-3">
-        <Icon className="w-5 h-5 text-indigo-600 mt-0.5" />
+        <Icon className="w-5 h-5 text-indigo-600 dark:text-indigo-400 mt-0.5" />
         <div>
           <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{label}</p>
-          {description && <p className="text-xs text-slate-500 mt-0.5">{description}</p>}
+          {description && <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{description}</p>}
         </div>
       </div>
       <button

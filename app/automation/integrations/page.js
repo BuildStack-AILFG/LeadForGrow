@@ -88,10 +88,10 @@ export default function IntegrationsPage() {
 
   // Static class maps — Tailwind JIT cannot compile interpolated class names
   const colorClasses = {
-    indigo: { bg: 'bg-indigo-50', text: 'text-indigo-600' },
-    purple: { bg: 'bg-purple-50', text: 'text-purple-600' },
-    emerald: { bg: 'bg-emerald-50', text: 'text-emerald-600' },
-    blue: { bg: 'bg-teal-50', text: 'text-teal-600' },
+    indigo: { bg: 'bg-indigo-50 dark:bg-indigo-950/30', text: 'text-indigo-600 dark:text-indigo-400' },
+    purple: { bg: 'bg-purple-50 dark:bg-purple-950/30', text: 'text-purple-600 dark:text-purple-400' },
+    emerald: { bg: 'bg-emerald-50 dark:bg-emerald-950/30', text: 'text-emerald-600 dark:text-emerald-400' },
+    blue: { bg: 'bg-teal-50 dark:bg-teal-950/30', text: 'text-teal-600 dark:text-teal-400' },
   };
 
   const activeSources = [
@@ -137,20 +137,20 @@ export default function IntegrationsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-slate-50">
+      <div className="flex items-center justify-center min-h-screen bg-slate-50 dark:bg-slate-800/50">
         <div className="flex flex-col items-center gap-3">
           <div className="w-10 h-10 border-3 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-slate-500 text-sm font-medium">Loading sources...</p>
+          <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Loading sources...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 px-8 py-10">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-800/50 px-8 py-10">
       <div className="w-full">
         {/* Mobile Header */}
-        <div className="lg:hidden sticky top-0 z-50 bg-white border-b border-slate-200 px-4 py-3">
+        <div className="lg:hidden sticky top-0 z-50 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 px-4 py-3">
           <div className="flex items-center justify-between">
             <div>
               <Heading level={1} className="text-lg">Lead Sources</Heading>
@@ -158,7 +158,7 @@ export default function IntegrationsPage() {
             </div>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
+              className="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -175,43 +175,43 @@ export default function IntegrationsPage() {
 
         {/* Desktop Header */}
         <div className="hidden lg:flex items-center gap-3 mb-10">
-          <div className="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center">
-            <Globe className="w-5 h-5 text-teal-600" strokeWidth={2.5} />
+          <div className="w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-950/30 flex items-center justify-center">
+            <Globe className="w-5 h-5 text-teal-600 dark:text-teal-400" strokeWidth={2.5} />
           </div>
           <div>
-            <h1 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight leading-tight">Lead Integrations</h1>
-            <p className="text-xs text-slate-500 font-medium whitespace-nowrap">Connect external platforms and tracking scripts</p>
+            <h1 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-50 tracking-tight leading-tight">Lead Integrations</h1>
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap">Connect external platforms and tracking scripts</p>
           </div>
         </div>
 
         {/* Status Strip */}
-        <div className="bg-white rounded-lg border border-slate-200/80 p-4 mb-6 shadow-sm">
+        <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200/80 dark:border-slate-700/80 p-4 mb-6 shadow-sm">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center">
-                <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+              <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-950/30 rounded-lg flex items-center justify-center">
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
               </div>
               <div>
-                <p className="text-xs text-slate-500 font-medium">Active Sources</p>
-                <p className="text-xl font-semibold text-slate-900">{activeSources.length}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Active Sources</p>
+                <p className="text-xl font-semibold text-slate-900 dark:text-slate-50">{activeSources.length}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-indigo-50 rounded-lg flex items-center justify-center">
-                <TrendingUp className="w-5 h-5 text-indigo-600" />
+              <div className="w-10 h-10 bg-indigo-50 dark:bg-indigo-950/30 rounded-lg flex items-center justify-center">
+                <TrendingUp className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
               </div>
               <div>
-                <p className="text-xs text-slate-500 font-medium">Leads Captured</p>
-                <p className="text-xl font-semibold text-slate-900">{leads.length}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Leads Captured</p>
+                <p className="text-xl font-semibold text-slate-900 dark:text-slate-50">{leads.length}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center">
-                <Clock className="w-5 h-5 text-purple-600" />
+              <div className="w-10 h-10 bg-purple-50 dark:bg-purple-950/30 rounded-lg flex items-center justify-center">
+                <Clock className="w-5 h-5 text-purple-600 dark:text-purple-400" />
               </div>
               <div>
-                <p className="text-xs text-slate-500 font-medium">Last Lead</p>
-                <p className="text-xl font-semibold text-slate-900">{getLastLeadTime()}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Last Lead</p>
+                <p className="text-xl font-semibold text-slate-900 dark:text-slate-50">{getLastLeadTime()}</p>
               </div>
             </div>
           </div>
@@ -220,14 +220,14 @@ export default function IntegrationsPage() {
         {/* Active Sources */}
         {activeSources.length > 0 && (
           <div className="mb-6">
-            <h2 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Active Sources</h2>
+            <h2 className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">Active Sources</h2>
             <div className="space-y-3">
               {activeSources.map((source) => {
                 const Icon = source.icon;
                 return (
                   <div
                     key={source.name}
-                    className="bg-white rounded-lg border border-emerald-200 p-5 shadow-sm hover:shadow-md transition-all duration-150"
+                    className="bg-white dark:bg-slate-900 rounded-lg border border-emerald-200 dark:border-emerald-800 p-5 shadow-sm hover:shadow-md transition-all duration-150"
                   >
                     <div className="flex items-start gap-4">
                       <div className={`w-12 h-12 ${(colorClasses[source.color] || colorClasses.indigo).bg} rounded-lg flex items-center justify-center shrink-0`}>
@@ -238,17 +238,17 @@ export default function IntegrationsPage() {
                         <div className="flex items-start justify-between gap-3 mb-3">
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1">
-                              <h3 className="text-base font-semibold text-slate-900">{source.name}</h3>
-                              <span className="flex items-center gap-1 px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-md text-[10px] font-bold">
+                              <h3 className="text-base font-semibold text-slate-900 dark:text-slate-50">{source.name}</h3>
+                              <span className="flex items-center gap-1 px-2 py-0.5 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-md text-[10px] font-bold">
                                 <CheckCircle2 className="w-3 h-3" />
                                 Active
                               </span>
                             </div>
-                            <p className="text-xs text-slate-500">{source.description}</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400">{source.description}</p>
                           </div>
                         </div>
 
-                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-600 mb-3">
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-600 dark:text-slate-300 mb-3">
                           <span className="flex items-center gap-1.5">
                             <Code className="w-3.5 h-3.5" />
                             {source.formsCount} form{source.formsCount !== 1 ? 's' : ''}
@@ -281,14 +281,14 @@ export default function IntegrationsPage() {
 
         {/* Available Sources */}
         <div className="mb-6">
-          <h2 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Available Sources</h2>
+          <h2 className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">Available Sources</h2>
           <div className="space-y-3">
             {availableSources.map((source) => {
               const Icon = source.icon;
               return (
                 <div
                   key={source.name}
-                  className="bg-white rounded-lg border border-slate-200/80 p-5 shadow-sm hover:shadow-md hover:border-indigo-200 transition-all duration-150"
+                  className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200/80 dark:border-slate-700/80 p-5 shadow-sm hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-800 transition-all duration-150"
                 >
                   <div className="flex items-start gap-4">
                     <div className={`w-12 h-12 ${(colorClasses[source.color] || colorClasses.indigo).bg} rounded-lg flex items-center justify-center shrink-0`}>
@@ -299,19 +299,19 @@ export default function IntegrationsPage() {
                       <div className="flex items-start justify-between gap-3 mb-2">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
-                            <h3 className="text-base font-semibold text-slate-900">{source.name}</h3>
-                            <span className="flex items-center gap-1 px-2 py-0.5 bg-indigo-100 text-indigo-700 rounded-md text-[10px] font-bold">
+                            <h3 className="text-base font-semibold text-slate-900 dark:text-slate-50">{source.name}</h3>
+                            <span className="flex items-center gap-1 px-2 py-0.5 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded-md text-[10px] font-bold">
                               <Circle className="w-3 h-3" />
                               Ready to connect
                             </span>
                           </div>
-                          <p className="text-xs text-slate-500 mb-3">{source.description}</p>
+                          <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">{source.description}</p>
                         </div>
                       </div>
 
                       <button
                         onClick={source.action}
-                        className="px-4 py-2 bg-white border border-indigo-600 text-indigo-600 rounded-lg text-sm font-semibold hover:bg-indigo-50 transition-colors flex items-center gap-2"
+                        className="px-4 py-2 bg-white dark:bg-slate-900 border border-indigo-600 text-indigo-600 dark:text-indigo-400 rounded-lg text-sm font-semibold hover:bg-indigo-50 dark:hover:bg-indigo-950/30 transition-colors flex items-center gap-2"
                       >
                         Set up now
                         <ChevronRight className="w-4 h-4" />
@@ -328,7 +328,7 @@ export default function IntegrationsPage() {
         <div className="mb-6">
           <button
             onClick={() => setShowComingSoon(!showComingSoon)}
-            className="w-full flex items-center justify-between text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3 hover:text-slate-700 transition-colors"
+            className="w-full flex items-center justify-between text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
           >
             <span>Coming Soon</span>
             {showComingSoon ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -341,15 +341,15 @@ export default function IntegrationsPage() {
                 return (
                   <div
                     key={source.name}
-                    className="bg-slate-50 rounded-lg border border-slate-200/60 p-4 opacity-60"
+                    className="bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200/60 dark:border-slate-700/60 p-4 opacity-60"
                   >
                     <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center shrink-0`}>
+                      <div className={`w-10 h-10 bg-slate-100 dark:bg-slate-800 rounded-lg flex items-center justify-center shrink-0`}>
                         <Icon className="w-5 h-5 text-slate-400" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="text-sm font-semibold text-slate-700">{source.name}</h3>
-                        <p className="text-xs text-slate-500">{source.description}</p>
+                        <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-200">{source.name}</h3>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">{source.description}</p>
                       </div>
                       <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider shrink-0">
                         Soon
@@ -376,7 +376,7 @@ export default function IntegrationsPage() {
             </div>
           </div>
           
-          <div className="bg-white/5 backdrop-blur-md rounded-lg p-4 font-mono text-xs mb-4 border border-white/10 text-indigo-300 overflow-x-auto">
+          <div className="bg-white/5 dark:bg-slate-900/5 backdrop-blur-md rounded-lg p-4 font-mono text-xs mb-4 border border-white/10 text-indigo-300 overflow-x-auto">
             <code>{scriptTag}</code>
           </div>
           

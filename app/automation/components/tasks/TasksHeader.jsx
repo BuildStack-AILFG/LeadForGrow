@@ -28,7 +28,7 @@ export default function TasksHeader({
               placeholder="Search task, lead, phone..."
               value={search}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#1D4B3E]/20 focus:border-[#1D4B3E]"
+              className="w-full pl-9 pr-3 py-2 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand"
             />
           </div>
 
@@ -37,7 +37,7 @@ export default function TasksHeader({
               type="button"
               onClick={onRefresh}
               disabled={refreshing}
-              className="p-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 hover:bg-slate-50 disabled:opacity-50"
+              className="p-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 disabled:opacity-50"
             >
               <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
             </button>
@@ -45,7 +45,7 @@ export default function TasksHeader({
             <button
               type="button"
               onClick={onCreate}
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-[#1D4B3E] hover:bg-[#163c32] rounded shadow-sm"
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-brand hover:bg-brand-hover rounded shadow-sm"
             >
               <Plus className="w-4 h-4" />
               <span className="hidden sm:inline">Create Task</span>

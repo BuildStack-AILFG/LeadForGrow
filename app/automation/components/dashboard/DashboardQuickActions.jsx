@@ -25,7 +25,7 @@ export default function DashboardQuickActions() {
               key={label}
               href={href}
               onClick={() => setOpen(false)}
-              className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-700 rounded-lg transition-colors"
+              className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-700 dark:hover:text-emerald-300 rounded-lg transition-colors"
             >
               <Icon className="w-4 h-4" />
               {label}

@@ -15,9 +15,9 @@ export default function LivePipelineBar({ pipeline, currency = 'INR' }) {
       <div className="flex items-center justify-between mb-4">
         <div>
           <h2 className="text-base font-semibold text-slate-900 dark:text-white">Live Pipeline</h2>
-          <p className="text-xs text-slate-500 mt-0.5">Deal count and value by stage — click to filter</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Deal count and value by stage — click to filter</p>
         </div>
-        <Link href="/automation/deals" className="text-xs text-emerald-600 hover:underline font-medium">
+        <Link href="/automation/deals" className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline font-medium">
           All deals
         </Link>
       </div>
@@ -35,10 +35,10 @@ export default function LivePipelineBar({ pipeline, currency = 'INR' }) {
               className="block group"
             >
               <div className="flex items-center justify-between text-xs mb-1">
-                <span className="font-medium text-slate-700 dark:text-slate-300 group-hover:text-emerald-600 truncate">
+                <span className="font-medium text-slate-700 dark:text-slate-300 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 truncate">
                   {stage.label}
                 </span>
-                <span className="text-slate-500 tabular-nums shrink-0 ml-2">
+                <span className="text-slate-500 dark:text-slate-400 tabular-nums shrink-0 ml-2">
                   {stage.count} · {formatCurrency(stage.totalValue, currency)}
                   {stage.count > 0 && (
                     <span className="text-slate-400 ml-1">avg {formatCurrency(stage.avgValue, currency)}</span>

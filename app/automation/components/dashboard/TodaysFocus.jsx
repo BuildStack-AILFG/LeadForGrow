@@ -16,11 +16,11 @@ import { formatCurrency } from '@/lib/crm/formatCurrency';
 
 function FocusItem({ icon: Icon, title, subtitle, href, actionLabel, accent = 'slate' }) {
   const accents = {
-    slate: 'text-slate-500 bg-slate-100 dark:bg-slate-800',
-    amber: 'text-amber-600 bg-amber-50 dark:bg-amber-950/30',
-    emerald: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30',
-    red: 'text-red-600 bg-red-50 dark:bg-red-950/30',
-    violet: 'text-violet-600 bg-violet-50 dark:bg-violet-950/30',
+    slate: 'text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800',
+    amber: 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30',
+    emerald: 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30',
+    red: 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30',
+    violet: 'text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/30',
   };
 
   return (
@@ -30,12 +30,12 @@ function FocusItem({ icon: Icon, title, subtitle, href, actionLabel, accent = 's
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">{title}</p>
-        {subtitle && <p className="text-xs text-slate-500 truncate">{subtitle}</p>}
+        {subtitle && <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{subtitle}</p>}
       </div>
       {href && (
         <Link
           href={href}
-          className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 dark:bg-emerald-950/30 rounded-md hover:bg-emerald-100"
+          className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/30 rounded-md hover:bg-emerald-100 dark:hover:bg-emerald-900/30"
         >
           {actionLabel || 'Open'} <ArrowRight className="w-3 h-3" />
         </Link>
@@ -138,14 +138,14 @@ export default function TodaysFocus({ focus, currency = 'INR' }) {
       <div className="flex items-center justify-between mb-4">
         <div>
           <h2 className="text-base font-semibold text-slate-900 dark:text-white">Today&apos;s Focus</h2>
-          <p className="text-xs text-slate-500 mt-0.5">What needs your attention right now</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">What needs your attention right now</p>
         </div>
         <span className="text-xs font-medium px-2 py-1 rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400">
           {items.length} items
         </span>
       </div>
       {items.length === 0 ? (
-        <p className="text-sm text-slate-500 py-8 text-center">You&apos;re all caught up — great work!</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400 py-8 text-center">You&apos;re all caught up — great work!</p>
       ) : (
         <div className="space-y-2 max-h-[420px] overflow-y-auto pr-1">
           {items.slice(0, 12).map((item) => (

@@ -61,7 +61,7 @@ export default function TeamPermissionsWorkspace() {
   return (
     <div className="flex flex-col lg:flex-row min-h-[calc(100vh-80px)] bg-[#f4f6fa] dark:bg-slate-950">
       <aside className="lg:w-56 flex-shrink-0 border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
-        <p className="text-[10px] font-semibold uppercase tracking-wider text-indigo-600 mb-1">Admin Control</p>
+        <p className="text-[10px] font-semibold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 mb-1">Admin Control</p>
         <h1 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4">Team & Permissions</h1>
         <nav className="space-y-0.5">
           {SECTIONS.map((s) => {
@@ -85,7 +85,7 @@ export default function TeamPermissionsWorkspace() {
           })}
         </nav>
         <div className="mt-6 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
-          <p className="text-[10px] text-slate-500 uppercase font-semibold">Plan</p>
+          <p className="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-semibold">Plan</p>
           <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 capitalize">
             {ac.access?.tierLabel || ac.access?.plan}
           </p>
@@ -106,7 +106,7 @@ export default function TeamPermissionsWorkspace() {
             <div className="flex justify-between items-center">
               <div>
                 <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">Team members</h2>
-                <p className="text-sm text-slate-500">Invite, assign roles, suspend access</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Invite, assign roles, suspend access</p>
               </div>
               {canManage && (
                 <button
@@ -126,7 +126,7 @@ export default function TeamPermissionsWorkspace() {
                   <div key={m._id} className="px-4 py-3 flex flex-wrap items-center justify-between gap-3">
                     <div>
                       <p className="font-medium text-slate-900 dark:text-slate-100">{name}</p>
-                      <p className="text-xs text-slate-500">{u.email}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">{u.email}</p>
                     </div>
                     {canManage && (
                       <select
@@ -164,7 +164,7 @@ export default function TeamPermissionsWorkspace() {
             <div className="flex justify-between items-center">
               <div>
                 <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">Roles</h2>
-                <p className="text-sm text-slate-500">Built-in and custom workspace roles</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Built-in and custom workspace roles</p>
               </div>
               {canManage && ac.access?.tierFeatures?.custom_roles && (
                 <button
@@ -173,7 +173,7 @@ export default function TeamPermissionsWorkspace() {
                     const name = await confirm({ mode: 'prompt', title: 'New role', message: 'Role name', placeholder: 'e.g. Sales Manager', required: true });
                     if (name) ac.createRole(name, '');
                   }}
-                  className="text-sm font-medium text-indigo-600 hover:underline"
+                  className="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:underline"
                 >
                   + Custom role
                 </button>
@@ -185,11 +185,11 @@ export default function TeamPermissionsWorkspace() {
                   key={r.slug}
                   className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900"
                 >
-                  <span className="text-[10px] font-semibold uppercase text-indigo-600">{r.slug}</span>
+                  <span className="text-[10px] font-semibold uppercase text-indigo-600 dark:text-indigo-400">{r.slug}</span>
                   <p className="font-semibold text-slate-900 dark:text-slate-100 mt-1">{r.name}</p>
-                  <p className="text-xs text-slate-500 mt-1">{r.description}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{r.description}</p>
                   {r.systemRole && (
-                    <span className="inline-block mt-2 text-[10px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600">
+                    <span className="inline-block mt-2 text-[10px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
                       System
                     </span>
                   )}
@@ -205,12 +205,12 @@ export default function TeamPermissionsWorkspace() {
               <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">
                 {section === 'features' ? 'Feature access matrix' : 'Access policies'}
               </h2>
-              <p className="text-sm text-slate-500 mb-4">
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
                 Control view, create, edit, delete, export, and manage per module. Plan locks apply on top.
               </p>
             </div>
             {ac.saving && (
-              <p className="text-xs text-indigo-600">Saving permissions…</p>
+              <p className="text-xs text-indigo-600 dark:text-indigo-400">Saving permissions…</p>
             )}
             <EnterprisePermissionMatrix
               roles={ac.roles}
@@ -223,7 +223,7 @@ export default function TeamPermissionsWorkspace() {
         {section === 'usage' && (
           <div className="space-y-4">
             <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">Usage limits</h2>
-            <p className="text-sm text-slate-500">Real-time usage vs plan quotas</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400">Real-time usage vs plan quotas</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {ac.usageLimits.map((u) => {
                 const pct = u.limit > 0 ? Math.min(100, Math.round((u.used / u.limit) * 100)) : 0;
@@ -235,7 +235,7 @@ export default function TeamPermissionsWorkspace() {
                   >
                     <div className="flex justify-between text-sm mb-2">
                       <span className="font-medium text-slate-800 dark:text-slate-200">{u.label}</span>
-                      <span className="text-slate-500 tabular-nums">
+                      <span className="text-slate-500 dark:text-slate-400 tabular-nums">
                         {u.used} / {u.limit >= 999999 ? '∞' : u.limit}
                       </span>
                     </div>
@@ -246,7 +246,7 @@ export default function TeamPermissionsWorkspace() {
                       />
                     </div>
                     {warn && (
-                      <p className="text-[10px] text-amber-600 mt-2">Approaching limit — consider upgrading</p>
+                      <p className="text-[10px] text-amber-600 dark:text-amber-400 mt-2">Approaching limit — consider upgrading</p>
                     )}
                   </div>
                 );
@@ -260,7 +260,7 @@ export default function TeamPermissionsWorkspace() {
             <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">Audit logs</h2>
             <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
               {ac.auditLogs.length === 0 ? (
-                <p className="p-8 text-sm text-slate-500 text-center">No audit events yet.</p>
+                <p className="p-8 text-sm text-slate-500 dark:text-slate-400 text-center">No audit events yet.</p>
               ) : (
                 <div className="divide-y divide-slate-100 dark:divide-slate-800 max-h-[500px] overflow-y-auto">
                   {ac.auditLogs.map((log) => (

@@ -166,7 +166,7 @@ export default function LiveDialer({ callData, onHangup }) {
     }
 
     return (
-        <div className="fixed bottom-6 right-6 z-[100] w-96 bg-white rounded-[24px] shadow-[0_20px_60px_rgba(0,0,0,0.15)] border border-slate-100 overflow-hidden animate-in slide-in-from-bottom-10 duration-500">
+        <div className="fixed bottom-6 right-6 z-[100] w-96 bg-white dark:bg-slate-900 rounded-[24px] shadow-[0_20px_60px_rgba(0,0,0,0.15)] border border-slate-100 dark:border-slate-800 overflow-hidden animate-in slide-in-from-bottom-10 duration-500">
             {/* Header */}
             <div className="bg-slate-900 px-5 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -186,7 +186,7 @@ export default function LiveDialer({ callData, onHangup }) {
             {/* Body */}
             <div className="p-6 text-center bg-gradient-to-b from-white to-slate-50/50">
                 <div className="flex items-center justify-between mb-4">
-                    <div className="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center shadow-sm">
+                    <div className="w-14 h-14 bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center shadow-sm">
                         <Phone className={`w-6 h-6 ${status === 'connecting' ? 'animate-bounce' : ''}`} />
                     </div>
                     <div className="bg-slate-900 text-white px-4 py-1.5 rounded-full font-mono text-lg font-bold tracking-tighter shadow-lg">
@@ -194,14 +194,14 @@ export default function LiveDialer({ callData, onHangup }) {
                     </div>
                 </div>
 
-                <h3 className="text-lg font-bold text-slate-900 mb-0.5 text-left">On Call Discussion</h3>
-                <p className="text-xs font-medium text-slate-500 mb-4 text-left">{status === 'connecting' ? 'Dialing...' : 'Live using ' + callData.provider.toUpperCase()}</p>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-50 mb-0.5 text-left">On Call Discussion</h3>
+                <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-4 text-left">{status === 'connecting' ? 'Dialing...' : 'Live using ' + callData.provider.toUpperCase()}</p>
 
                 {/* Notes Section */}
                 <div className="mb-4">
                     <textarea
                         placeholder="Write important notes here while discussing..."
-                        className="w-full h-24 p-4 bg-white border border-slate-200 rounded-xl text-sm text-slate-700 outline-none focus:border-indigo-500 transition-colors resize-none shadow-inner"
+                        className="w-full h-24 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-700 dark:text-slate-200 outline-none focus:border-indigo-500 transition-colors resize-none shadow-inner"
                         value={notes}
                         onChange={(e) => setNotes(e.target.value)}
                     />
@@ -212,7 +212,7 @@ export default function LiveDialer({ callData, onHangup }) {
                     {!showReschedule ? (
                         <button
                             onClick={() => setShowReschedule(true)}
-                            className="w-full py-2.5 border-2 border-dashed border-slate-200 rounded-xl text-xs font-bold text-slate-400 hover:border-indigo-300 hover:text-indigo-500 transition-all flex items-center justify-center gap-2"
+                            className="w-full py-2.5 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-400 hover:border-indigo-300 dark:hover:border-indigo-700 hover:text-indigo-500 transition-all flex items-center justify-center gap-2"
                         >
                             <Calendar className="w-4 h-4" />
                             Schedule Call-back
@@ -221,13 +221,13 @@ export default function LiveDialer({ callData, onHangup }) {
                         <div className="animate-in fade-in zoom-in duration-200">
                             <div className="flex items-center justify-between mb-2">
                                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Reschedule Call</span>
-                                <button onClick={() => setShowReschedule(false)} className="text-slate-400 hover:text-slate-900">
+                                <button onClick={() => setShowReschedule(false)} className="text-slate-400 hover:text-slate-900 dark:hover:text-slate-50">
                                     <X className="w-3 h-3" />
                                 </button>
                             </div>
                             <input
                                 type="datetime-local"
-                                className="w-full px-4 py-2 bg-indigo-50 border border-indigo-100 rounded-lg text-sm font-bold text-indigo-600 outline-none"
+                                className="w-full px-4 py-2 bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-900/50 rounded-lg text-sm font-bold text-indigo-600 dark:text-indigo-400 outline-none"
                                 value={followUpTime}
                                 onChange={(e) => setFollowUpTime(e.target.value)}
                             />
@@ -239,7 +239,7 @@ export default function LiveDialer({ callData, onHangup }) {
                 <div className="flex items-center justify-between gap-4">
                     <button
                         onClick={() => setIsMuted(!isMuted)}
-                        className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl transition-all font-bold text-xs ${isMuted ? 'bg-rose-50 text-rose-600' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+                        className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl transition-all font-bold text-xs ${isMuted ? 'bg-rose-50 dark:bg-rose-950/30 text-rose-600 dark:text-rose-400' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'}`}
                     >
                         {isMuted ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
                         {isMuted ? 'Muted' : 'Mute'}
@@ -254,14 +254,14 @@ export default function LiveDialer({ callData, onHangup }) {
                         {savingNotes ? 'Saving...' : 'End Call'}
                     </button>
 
-                    <div className="p-3 bg-slate-100 text-slate-600 rounded-xl outline-none">
+                    <div className="p-3 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl outline-none">
                         <Volume2 className="w-5 h-5" />
                     </div>
                 </div>
             </div>
 
             {/* Footer / Status */}
-            <div className="px-6 py-3 border-t border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <div className="px-6 py-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/50">
                 <div className="flex items-center gap-1.5 text-[9px] font-bold text-rose-500 uppercase tracking-widest">
                     <div className="w-1.5 h-1.5 bg-rose-500 rounded-full animate-pulse"></div>
                     Auto-Recording

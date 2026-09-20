@@ -59,17 +59,17 @@ export default function TeamSettingsPanel({
         title="Team members"
         description={`${roleStats.total} of ${roleStats.limit} seats used`}
         footer={
-          <button type="button" onClick={onAdd} className="inline-flex items-center gap-1.5 text-xs font-medium text-teal-600 hover:text-teal-700">
+          <button type="button" onClick={onAdd} className="inline-flex items-center gap-1.5 text-xs font-medium text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300">
             <UserPlus className="w-3.5 h-3.5" /> Add team member
           </button>
         }
       >
         {loading ? (
-          <p className="text-sm text-slate-500 py-6 text-center">Loading team…</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400 py-6 text-center">Loading team…</p>
         ) : members.length === 0 ? (
           <div className="py-8 text-center">
             <p className="text-sm text-slate-600 dark:text-slate-400">No team members yet.</p>
-            <button type="button" onClick={onAdd} className="mt-3 text-xs font-medium text-teal-600 hover:text-teal-700">
+            <button type="button" onClick={onAdd} className="mt-3 text-xs font-medium text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300">
               Add your first team member
             </button>
           </div>
@@ -87,18 +87,18 @@ export default function TeamSettingsPanel({
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">{name}</p>
-                    <p className="text-xs text-slate-500 truncate flex items-center gap-1">
+                    <p className="text-xs text-slate-500 dark:text-slate-400 truncate flex items-center gap-1">
                       <Mail className="w-3 h-3" /> {email}
                     </p>
                   </div>
                   <span className={`px-2 py-0.5 rounded-md text-[10px] font-semibold capitalize ${ROLE_COLORS[member.role] || ROLE_COLORS.team_member}`}>
                     {formatRole(member.role)}
                   </span>
-                  <span className={`text-[10px] ${member.active !== false ? 'text-emerald-600' : 'text-slate-400'}`}>
+                  <span className={`text-[10px] ${member.active !== false ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400'}`}>
                     {formatLastActive(member)}
                   </span>
                   {!isOwner && (
-                    <button type="button" onClick={() => onRemove(member._id)} className="opacity-0 group-hover:opacity-100 p-1 text-red-500 hover:text-red-600">
+                    <button type="button" onClick={() => onRemove(member._id)} className="opacity-0 group-hover:opacity-100 p-1 text-red-500 hover:text-red-600 dark:hover:text-red-400">
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
                   )}
@@ -114,7 +114,7 @@ export default function TeamSettingsPanel({
           {roles.map((role) => (
             <div key={role.id} className="p-3 rounded-lg border border-slate-200 dark:border-slate-700">
               <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-semibold mb-1 ${ROLE_COLORS[role.id] || ROLE_COLORS.viewer}`}>{role.name}</span>
-              <p className="text-xs text-slate-500">{role.description}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{role.description}</p>
             </div>
           ))}
         </div>

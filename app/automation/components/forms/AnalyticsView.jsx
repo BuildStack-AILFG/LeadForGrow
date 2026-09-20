@@ -11,7 +11,7 @@ export default function AnalyticsView({ form, submissions, submissionsLoading, s
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="mb-8">
         <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-50">Analytics</h2>
-        <p className="text-sm text-slate-500 mt-1">Track performance for {form?.name}</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Track performance for {form?.name}</p>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
@@ -24,9 +24,9 @@ export default function AnalyticsView({ form, submissions, submissionsLoading, s
           const Icon = c.icon;
           return (
             <div key={c.label} className="bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm">
-              <Icon className="w-4 h-4 text-teal-600 mb-2" />
+              <Icon className="w-4 h-4 text-teal-600 dark:text-teal-400 mb-2" />
               <p className="text-xl font-semibold text-slate-900 dark:text-slate-50 tabular-nums">{c.value}</p>
-              <p className="text-xs text-slate-500">{c.label}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{c.label}</p>
             </div>
           );
         })}

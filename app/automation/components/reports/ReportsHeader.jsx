@@ -59,7 +59,7 @@ export default function ReportsHeader({
                 <div className="fixed inset-0 z-10" onClick={() => setViewsOpen(false)} />
                 <div className="absolute right-0 mt-1 w-48 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg z-20 py-1">
                   {savedViews.length === 0 ? (
-                    <p className="px-3 py-2 text-xs text-slate-500">No saved views</p>
+                    <p className="px-3 py-2 text-xs text-slate-500 dark:text-slate-400">No saved views</p>
                   ) : (
                     savedViews.map((v) => (
                       <button
@@ -75,7 +75,7 @@ export default function ReportsHeader({
                   <button
                     type="button"
                     onClick={() => { onSaveView(); setViewsOpen(false); }}
-                    className="w-full px-3 py-2 text-left text-xs text-teal-600 border-t border-slate-100 dark:border-slate-800"
+                    className="w-full px-3 py-2 text-left text-xs text-teal-600 dark:text-teal-400 border-t border-slate-100 dark:border-slate-800"
                   >
                     Save current view
                   </button>
@@ -90,7 +90,7 @@ export default function ReportsHeader({
             type="button"
             onClick={onRefresh}
             disabled={refreshing}
-            className="p-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 hover:bg-slate-50 disabled:opacity-50"
+            className="p-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 disabled:opacity-50"
           >
             <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
           </button>

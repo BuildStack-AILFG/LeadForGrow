@@ -27,23 +27,23 @@ export default function TemplateCard({ template, index, onEdit, onDelete }) {
             </div>
             <div className="min-w-0">
               <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 truncate">{template.name}</p>
-              <p className="text-xs text-slate-500 capitalize">{template.channel}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 capitalize">{template.channel}</p>
             </div>
           </div>
           <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
             {!template.isMetaTemplate && (
-              <button type="button" onClick={() => onEdit(template)} className="p-2 text-slate-400 hover:text-[#1D4B3E] hover:bg-[#1D4B3E]/10 rounded">
+              <button type="button" onClick={() => onEdit(template)} className="p-2 text-slate-400 hover:text-brand-ink hover:bg-brand/10 rounded">
                 <Pencil className="w-3.5 h-3.5" />
               </button>
             )}
-            <button type="button" onClick={() => onDelete(template)} className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 rounded">
+            <button type="button" onClick={() => onDelete(template)} className="p-2 text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 rounded">
               <Trash2 className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
 
         {template.isMetaTemplate && (
-          <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-[#1D4B3E] bg-[#1D4B3E]/10 px-2 py-0.5 rounded mb-3">
+          <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-brand-ink bg-brand/10 px-2 py-0.5 rounded mb-3">
             <ShieldCheck className="w-3 h-3" /> Meta · {template.metaCategory || 'Marketing'}
           </span>
         )}
@@ -60,7 +60,7 @@ export default function TemplateCard({ template, index, onEdit, onDelete }) {
       <button
         type="button"
         onClick={() => onEdit(template)}
-        className="w-full px-5 py-3 text-xs font-medium text-[#1D4B3E] bg-slate-50 dark:bg-slate-800/50 hover:bg-[#1D4B3E]/10 dark:hover:bg-teal-950/20 border-t border-slate-100 dark:border-slate-800 transition-colors text-left"
+        className="w-full px-5 py-3 text-xs font-medium text-brand-ink bg-slate-50 dark:bg-slate-800/50 hover:bg-brand/10 dark:hover:bg-teal-950/20 border-t border-slate-100 dark:border-slate-800 transition-colors text-left"
       >
         {template.isMetaTemplate ? 'View template' : 'Edit template →'}
       </button>

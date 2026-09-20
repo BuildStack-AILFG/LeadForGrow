@@ -63,7 +63,7 @@ export default function ConfirmDialog({
             type="button"
             onClick={onCancel}
             disabled={saving}
-            className="p-1.5 rounded-md text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50"
+            className="p-1.5 rounded-md text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50"
           >
             <X className="w-4 h-4" />
           </button>

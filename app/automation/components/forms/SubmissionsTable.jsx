@@ -62,13 +62,13 @@ export default function SubmissionsTable({ submissions, loading, formName }) {
 
       {filtered.length === 0 ? (
         <div className="py-16 text-center border border-dashed border-slate-200 dark:border-slate-700 rounded-xl">
-          <p className="text-sm text-slate-500">No submissions yet for this form</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">No submissions yet for this form</p>
           <p className="text-xs text-slate-400 mt-1">Leads from this form appear here automatically</p>
         </div>
       ) : (
         <div className="overflow-x-auto border border-slate-200 dark:border-slate-800 rounded-xl">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 uppercase tracking-wide">
+            <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 uppercase tracking-wide">
               <tr>
                 <th className="px-4 py-3 font-semibold">Lead</th>
                 <th className="px-4 py-3 font-semibold">Contact</th>
@@ -87,9 +87,9 @@ export default function SubmissionsTable({ submissions, loading, formName }) {
                   <td className="px-4 py-3">
                     <span className="px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 capitalize">{s.status}</span>
                   </td>
-                  <td className="px-4 py-3 text-slate-500">{new Date(s.receivedAt).toLocaleString()}</td>
+                  <td className="px-4 py-3 text-slate-500 dark:text-slate-400">{new Date(s.receivedAt).toLocaleString()}</td>
                   <td className="px-4 py-3">
-                    <Link href={`/automation/leads/${s._id}`} className="text-teal-600 hover:underline inline-flex items-center gap-1">
+                    <Link href={`/automation/leads/${s._id}`} className="text-teal-600 dark:text-teal-400 hover:underline inline-flex items-center gap-1">
                       View <ExternalLink className="w-3 h-3" />
                     </Link>
                   </td>

@@ -95,7 +95,7 @@ export default function GeneralSettingsPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <SettingsField label="Primary color">
               <div className="flex items-center gap-2">
-                <input type="color" value={branding.primaryColor} onChange={(e) => setBranding({ ...branding, primaryColor: e.target.value })} className="w-10 h-10 rounded-lg border border-slate-200 cursor-pointer" />
+                <input type="color" value={branding.primaryColor} onChange={(e) => setBranding({ ...branding, primaryColor: e.target.value })} className="w-10 h-10 rounded-lg border border-slate-200 dark:border-slate-700 cursor-pointer" />
                 <SettingsInput value={branding.primaryColor} onChange={(e) => setBranding({ ...branding, primaryColor: e.target.value })} />
               </div>
             </SettingsField>

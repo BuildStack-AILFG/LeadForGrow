@@ -75,15 +75,15 @@ export default function NotificationCenter() {
 
   const getIcon = (type) => {
     switch (type) {
-      case 'whatsapp_message': return <MessageCircle className="w-4 h-4 text-emerald-600" />;
-      case 'instagram_message': return <Instagram className="w-4 h-4 text-pink-600" />;
+      case 'whatsapp_message': return <MessageCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />;
+      case 'instagram_message': return <Instagram className="w-4 h-4 text-pink-600 dark:text-pink-400" />;
       case 'email_message': return <Mail className="w-4 h-4 text-[#4285F4]" />;
-      case 'conversation_assigned': return <UserPlus className="w-4 h-4 text-[#1D4B3E]" />;
-      case 'internal_mention': return <Info className="w-4 h-4 text-teal-600" />;
-      case 'new_lead': return <UserPlus className="w-4 h-4 text-[#1D4B3E]" />;
-      case 'task_reminder': return <Clock className="w-4 h-4 text-teal-600" />;
-      case 'automation_alert': return <Sparkles className="w-4 h-4 text-teal-600" />;
-      default: return <Info className="w-4 h-4 text-slate-600" />;
+      case 'conversation_assigned': return <UserPlus className="w-4 h-4 text-brand-ink" />;
+      case 'internal_mention': return <Info className="w-4 h-4 text-teal-600 dark:text-teal-400" />;
+      case 'new_lead': return <UserPlus className="w-4 h-4 text-brand-ink" />;
+      case 'task_reminder': return <Clock className="w-4 h-4 text-teal-600 dark:text-teal-400" />;
+      case 'automation_alert': return <Sparkles className="w-4 h-4 text-teal-600 dark:text-teal-400" />;
+      default: return <Info className="w-4 h-4 text-slate-600 dark:text-slate-300" />;
     }
   };
 
@@ -91,24 +91,24 @@ export default function NotificationCenter() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 rounded-none hover:bg-[#F0F9F5] hover:text-[#1D4B3E] transition-colors text-slate-600"
+        className="relative p-2 rounded-none hover:bg-brand-tint hover:text-brand-ink transition-colors text-slate-600 dark:text-slate-300"
       >
         <Bell className="w-5 h-5" />
         {unreadCount > 0 && (
-          <span className="absolute top-1.5 right-1.5 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white">
+          <span className="absolute top-1.5 right-1.5 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white dark:border-slate-700">
             {unreadCount > 9 ? '9+' : unreadCount}
           </span>
         )}
       </button>
 
       {isOpen && (
-        <div className="absolute left-0 mt-2 w-80 md:w-96 bg-white rounded-none shadow-2xl border border-[#E5E7EB] z-[100] animate-in fade-in zoom-in-95 duration-200 origin-top-left">
-          <div className="p-4 border-b border-slate-100 flex items-center justify-between">
-            <h3 className="font-bold text-slate-900">Notifications</h3>
+        <div className="absolute left-0 mt-2 w-80 md:w-96 bg-white dark:bg-slate-900 rounded-none shadow-2xl border border-[#E5E7EB] dark:border-slate-700 z-[100] animate-in fade-in zoom-in-95 duration-200 origin-top-left">
+          <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+            <h3 className="font-bold text-slate-900 dark:text-slate-50">Notifications</h3>
             {unreadCount > 0 && (
               <button
                 onClick={markAllAsRead}
-                className="text-[10px] font-black text-[#1D4B3E] uppercase tracking-widest hover:text-[#163c32]"
+                className="text-[10px] font-black text-brand-ink uppercase tracking-widest hover:text-brand-ink"
               >
                 Mark all as read
               </button>
@@ -118,33 +118,33 @@ export default function NotificationCenter() {
           <div className="max-h-[400px] overflow-y-auto">
             {notifications.length === 0 ? (
               <div className="p-10 text-center">
-                <div className="w-12 h-12 bg-[#F0F9F5] rounded-full flex items-center justify-center mx-auto mb-3">
-                  <CheckCircle className="w-6 h-6 text-[#1D4B3E]" />
+                <div className="w-12 h-12 bg-brand-tint rounded-full flex items-center justify-center mx-auto mb-3">
+                  <CheckCircle className="w-6 h-6 text-brand-ink" />
                 </div>
-                <p className="text-sm text-slate-500">All caught up!</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">All caught up!</p>
               </div>
             ) : (
               notifications.map((n) => (
                 <div
                   key={n._id}
-                  className={`p-4 border-b border-slate-50 hover:bg-[#F0F9F5] transition-colors relative group ${!n.isRead ? 'bg-[#F0F9F5]/60' : ''}`}
+                  className={`p-4 border-b border-slate-50 hover:bg-brand-tint transition-colors relative group ${!n.isRead ? 'bg-brand-tint/60' : ''}`}
                 >
                   <div className="flex gap-3">
                     <div className="mt-1 flex-shrink-0">
-                      <div className="w-8 h-8 rounded-none bg-white shadow-sm flex items-center justify-center border border-slate-100">
+                      <div className="w-8 h-8 rounded-none bg-white dark:bg-slate-900 shadow-sm flex items-center justify-center border border-slate-100 dark:border-slate-800">
                         {getIcon(n.type)}
                       </div>
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex justify-between items-start gap-2">
-                        <p className={`text-sm leading-tight ${!n.isRead ? 'font-bold text-slate-900' : 'text-slate-700'}`}>
+                        <p className={`text-sm leading-tight ${!n.isRead ? 'font-bold text-slate-900 dark:text-slate-50' : 'text-slate-700 dark:text-slate-200'}`}>
                           {n.title}
                         </p>
                         <span className="text-[10px] text-slate-400 whitespace-nowrap">
                           {new Date(n.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </span>
                       </div>
-                      <p className="text-xs text-slate-500 mt-1 line-clamp-2">
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
                         {n.message}
                       </p>
                       {n.link && (
@@ -154,7 +154,7 @@ export default function NotificationCenter() {
                             markAsRead(n._id);
                             setIsOpen(false);
                           }}
-                          className="inline-block mt-2 text-[10px] font-bold text-[#1D4B3E] hover:underline"
+                          className="inline-block mt-2 text-[10px] font-bold text-brand-ink hover:underline"
                         >
                           View Details →
                         </Link>
@@ -166,7 +166,7 @@ export default function NotificationCenter() {
                       onClick={() => markAsRead(n._id)}
                       className="absolute right-4 bottom-4 opacity-0 group-hover:opacity-100 transition-opacity"
                     >
-                      <div className="w-2 h-2 bg-[#1D4B3E] rounded-full"></div>
+                      <div className="w-2 h-2 bg-brand rounded-full"></div>
                     </button>
                   )}
                 </div>
@@ -174,8 +174,8 @@ export default function NotificationCenter() {
             )}
           </div>
 
-          <div className="p-3 bg-slate-50 text-center">
-            <Link href="/automation/reports" className="text-[10px] font-bold text-slate-500 uppercase tracking-widest hover:text-[#1D4B3E]">
+          <div className="p-3 bg-slate-50 dark:bg-slate-800/50 text-center">
+            <Link href="/automation/reports" className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest hover:text-brand-ink">
               View All Activity
             </Link>
           </div>

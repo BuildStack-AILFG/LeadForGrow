@@ -55,7 +55,7 @@ export default function UserProfileCard({
           <div className="absolute left-2 right-2 bottom-full mb-1 z-20 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-lg py-1 overflow-hidden">
             <div className="px-3 py-2 border-b border-slate-100 dark:border-slate-800">
               <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">{displayName}</p>
-              <p className="text-[11px] text-slate-500 truncate">{email}</p>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">{email}</p>
               <span className="inline-block mt-1 text-[10px] text-slate-400">{plan} · {roleLabel}</span>
             </div>
             <Link href="/user/home" className="flex items-center gap-2 px-3 py-2 text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800" onClick={() => setOpen(false)}>
@@ -70,7 +70,7 @@ export default function UserProfileCard({
             <button
               type="button"
               onClick={() => { setOpen(false); onLogout(); }}
-              className="w-full flex items-center gap-2 px-3 py-2 text-xs text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 border-t border-slate-100 dark:border-slate-800 mt-1"
+              className="w-full flex items-center gap-2 px-3 py-2 text-xs text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 border-t border-slate-100 dark:border-slate-800 mt-1"
             >
               <LogOut className="w-3.5 h-3.5" /> Sign out
             </button>

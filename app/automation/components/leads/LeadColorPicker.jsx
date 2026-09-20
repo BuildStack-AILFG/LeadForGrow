@@ -113,7 +113,7 @@ export default function LeadColorPicker({ open, onClose, currentColor, onSelect,
         <button
           type="button"
           onClick={() => onSelect(null)}
-          className="mt-2 w-full text-[11px] text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 py-1"
+          className="mt-2 w-full text-[11px] text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 py-1"
         >
           Clear color
         </button>

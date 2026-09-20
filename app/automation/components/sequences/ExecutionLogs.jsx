@@ -37,7 +37,7 @@ export default function ExecutionLogs({ executions, timeline, loading }) {
   if (!feed.length) {
     return (
       <div className="text-center py-12 px-4">
-        <p className="text-sm text-slate-500">No execution activity yet</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">No execution activity yet</p>
         <p className="text-xs text-slate-400 mt-1">Logs appear here when leads enter this sequence</p>
       </div>
     );
@@ -50,7 +50,7 @@ export default function ExecutionLogs({ executions, timeline, loading }) {
         {feed.slice(0, 40).map((log, i) => {
           const Icon = LogIcon(log.nodeType);
           const StatusIcon = STATUS_ICON[log.status] || Clock;
-          const colorClass = TYPE_COLORS[log.nodeType] || 'text-slate-500 bg-slate-50 dark:bg-slate-800';
+          const colorClass = TYPE_COLORS[log.nodeType] || 'text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800';
           return (
             <div key={i} className="flex items-start gap-3 p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
               <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${colorClass}`}>
@@ -74,7 +74,7 @@ export default function ExecutionLogs({ executions, timeline, loading }) {
           <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2 px-1">Recent enrollments</h4>
           <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
             <table className="w-full text-sm">
-              <thead className="bg-slate-50 dark:bg-slate-800/50 text-xs text-slate-500">
+              <thead className="bg-slate-50 dark:bg-slate-800/50 text-xs text-slate-500 dark:text-slate-400">
                 <tr>
                   <th className="text-left px-4 py-2 font-medium">Lead</th>
                   <th className="text-left px-4 py-2 font-medium">Status</th>
@@ -88,12 +88,12 @@ export default function ExecutionLogs({ executions, timeline, loading }) {
                     <td className="px-4 py-2.5 font-medium text-slate-900 dark:text-white">{ex.lead?.name || 'Unknown'}</td>
                     <td className="px-4 py-2.5">
                       <span className={`text-xs px-2 py-0.5 rounded-full ${
-                        ex.status === 'completed' ? 'bg-emerald-100 text-emerald-700' :
-                        ex.status === 'failed' ? 'bg-red-100 text-red-700' :
-                        'bg-teal-100 text-teal-700'
+                        ex.status === 'completed' ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300' :
+                        ex.status === 'failed' ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300' :
+                        'bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300'
                       }`}>{ex.status}</span>
                     </td>
-                    <td className="px-4 py-2.5 text-slate-500">{ex.logs?.length || 0}</td>
+                    <td className="px-4 py-2.5 text-slate-500 dark:text-slate-400">{ex.logs?.length || 0}</td>
                     <td className="px-4 py-2.5 text-slate-400 text-xs">{ex.startedAt ? new Date(ex.startedAt).toLocaleString() : '—'}</td>
                   </tr>
                 ))}

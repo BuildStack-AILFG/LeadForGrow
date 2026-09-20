@@ -322,8 +322,8 @@ export default function InvoicesPage() {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-[18px] font-semibold text-slate-900">Invoices</h1>
-          <p className="text-[13px] text-slate-500 mt-1">Financial ledger for {invoices.length} transactions</p>
+          <h1 className="text-[18px] font-semibold text-slate-900 dark:text-slate-50">Invoices</h1>
+          <p className="text-[13px] text-slate-500 dark:text-slate-400 mt-1">Financial ledger for {invoices.length} transactions</p>
         </div>
         <button
           onClick={() => {
@@ -351,17 +351,17 @@ export default function InvoicesPage() {
 
       {/* KPI Band */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-         <div className="bg-white border border-slate-200 p-5 rounded-xl flex flex-col justify-between h-[100px]">
+         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-5 rounded-xl flex flex-col justify-between h-[100px]">
             <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Total Invoiced</p>
-            <h3 className="text-[20px] font-bold text-slate-900">₹{stats.total.toLocaleString()}</h3>
+            <h3 className="text-[20px] font-bold text-slate-900 dark:text-slate-50">₹{stats.total.toLocaleString()}</h3>
          </div>
-         <div className="bg-white border border-slate-200 p-5 rounded-xl flex flex-col justify-between h-[100px]">
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest text-emerald-600">Total Collected</p>
-            <h3 className="text-[20px] font-bold text-emerald-600">₹{stats.paid.toLocaleString()}</h3>
+         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-5 rounded-xl flex flex-col justify-between h-[100px]">
+            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest text-emerald-600 dark:text-emerald-400">Total Collected</p>
+            <h3 className="text-[20px] font-bold text-emerald-600 dark:text-emerald-400">₹{stats.paid.toLocaleString()}</h3>
          </div>
-         <div className="bg-white border border-slate-200 p-5 rounded-xl flex flex-col justify-between h-[100px]">
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest text-amber-600">Outstanding</p>
-            <h3 className="text-[20px] font-bold text-amber-600">₹{stats.pending.toLocaleString()}</h3>
+         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-5 rounded-xl flex flex-col justify-between h-[100px]">
+            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest text-amber-600 dark:text-amber-400">Outstanding</p>
+            <h3 className="text-[20px] font-bold text-amber-600 dark:text-amber-400">₹{stats.pending.toLocaleString()}</h3>
          </div>
       </div>
 
@@ -374,18 +374,18 @@ export default function InvoicesPage() {
             placeholder="Search invoice number or client..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-lg text-[13px] focus:outline-none focus:ring-1 focus:ring-slate-400"
+            className="w-full pl-9 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-[13px] focus:outline-none focus:ring-1 focus:ring-slate-400"
           />
         </div>
         <div className="flex items-center gap-3 w-full md:w-auto">
-           <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} className="px-3 py-2 bg-white border border-slate-200 rounded-lg text-[12px] font-medium text-slate-600 outline-none">
+           <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} className="px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-[12px] font-medium text-slate-600 dark:text-slate-300 outline-none">
               <option value="all">Any Status</option>
               <option value="draft">Draft</option>
               <option value="sent">Sent</option>
               <option value="paid">Paid</option>
               <option value="overdue">Overdue</option>
            </select>
-           <select value={filterClient} onChange={(e) => setFilterClient(e.target.value)} className="px-3 py-2 bg-white border border-slate-200 rounded-lg text-[12px] font-medium text-slate-600 outline-none">
+           <select value={filterClient} onChange={(e) => setFilterClient(e.target.value)} className="px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-[12px] font-medium text-slate-600 dark:text-slate-300 outline-none">
               <option value="all">All Clients</option>
               {clients.map(c => <option key={c._id} value={c._id}>{c.clientName}</option>)}
            </select>
@@ -393,9 +393,9 @@ export default function InvoicesPage() {
       </div>
 
       {/* Ledger Table */}
-      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden shadow-sm">
         <table className="w-full text-left">
-          <thead className="bg-slate-50 border-b border-slate-200">
+          <thead className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700">
             <tr>
               <th className="px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Descriptor</th>
               <th className="px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Client Name</th>
@@ -405,19 +405,19 @@ export default function InvoicesPage() {
               <th className="px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-widest text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 text-[13px]">
+          <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-[13px]">
             {filteredInvoices.map((inv) => (
-              <tr key={inv._id} className="hover:bg-slate-50/50 transition-colors group">
-                <td className="px-6 py-4 font-mono font-bold text-slate-900">{inv.invoiceNumber}</td>
+              <tr key={inv._id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors group">
+                <td className="px-6 py-4 font-mono font-bold text-slate-900 dark:text-slate-50">{inv.invoiceNumber}</td>
                 <td className="px-6 py-4">
-                   <p className="font-bold text-slate-900">{inv.clientId?.clientName || 'Deleted Client'}</p>
+                   <p className="font-bold text-slate-900 dark:text-slate-50">{inv.clientId?.clientName || 'Deleted Client'}</p>
                 </td>
-                <td className="px-6 py-4 text-center font-bold text-slate-900">₹{inv.amount?.toLocaleString()}</td>
+                <td className="px-6 py-4 text-center font-bold text-slate-900 dark:text-slate-50">₹{inv.amount?.toLocaleString()}</td>
                 <td className="px-6 py-4 text-center">
                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-tighter ${
-                      inv.status === 'paid' ? 'bg-emerald-50 text-emerald-600' :
-                      inv.status === 'overdue' ? 'bg-rose-50 text-rose-600' :
-                      'bg-slate-100 text-slate-500'
+                      inv.status === 'paid' ? 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400' :
+                      inv.status === 'overdue' ? 'bg-rose-50 dark:bg-rose-950/30 text-rose-600 dark:text-rose-400' :
+                      'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                    }`}>
                       {inv.status}
                    </span>
@@ -425,10 +425,10 @@ export default function InvoicesPage() {
                 <td className="px-6 py-4 text-slate-400 text-[12px]">{new Date(inv.createdAt).toLocaleDateString()}</td>
                 <td className="px-6 py-4 text-right">
                    <div className="flex justify-end gap-2 text-right">
-                      <button onClick={() => generatePDF(inv)} className="p-1.5 text-slate-500 hover:text-blue-600 rounded-md transition-all bg-slate-100 hover:bg-blue-50" title="Download PDF"><Download className="w-4 h-4" /></button>
-                      {inv.status === 'draft' && <button onClick={() => handleStatusChange(inv._id, 'sent')} className="p-1.5 text-slate-400 hover:text-indigo-600 rounded-md transition-all"><FileText className="w-4 h-4" /></button>}
-                      {inv.status === 'sent' && <button onClick={() => handleStatusChange(inv._id, 'paid')} className="p-1.5 text-slate-400 hover:text-emerald-600 rounded-md transition-all"><Check className="w-4 h-4" /></button>}
-                      <button className="p-1.5 text-slate-400 hover:text-slate-900 rounded-md transition-all"><Settings className="w-4 h-4" /></button>
+                      <button onClick={() => generatePDF(inv)} className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 rounded-md transition-all bg-slate-100 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950/30" title="Download PDF"><Download className="w-4 h-4" /></button>
+                      {inv.status === 'draft' && <button onClick={() => handleStatusChange(inv._id, 'sent')} className="p-1.5 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-md transition-all"><FileText className="w-4 h-4" /></button>}
+                      {inv.status === 'sent' && <button onClick={() => handleStatusChange(inv._id, 'paid')} className="p-1.5 text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 rounded-md transition-all"><Check className="w-4 h-4" /></button>}
+                      <button className="p-1.5 text-slate-400 hover:text-slate-900 dark:hover:text-slate-50 rounded-md transition-all"><Settings className="w-4 h-4" /></button>
                    </div>
                 </td>
               </tr>
@@ -443,17 +443,17 @@ export default function InvoicesPage() {
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-           <div className="bg-white rounded-2xl p-8 max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+           <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
               <div className="flex items-center justify-between mb-8">
-                 <h2 className="text-[18px] font-semibold text-slate-900">New Financial Document</h2>
-                 <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-slate-900">✕</button>
+                 <h2 className="text-[18px] font-semibold text-slate-900 dark:text-slate-50">New Financial Document</h2>
+                 <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-slate-900 dark:hover:text-slate-50">✕</button>
               </div>
 
-              {error && <div className="mb-6 p-4 bg-rose-50 border border-rose-100 rounded-xl text-rose-600 text-[12px] font-medium">{error}</div>}
+              {error && <div className="mb-6 p-4 bg-rose-50 dark:bg-rose-950/30 border border-rose-100 dark:border-rose-900/50 rounded-xl text-rose-600 dark:text-rose-400 text-[12px] font-medium">{error}</div>}
 
               <form onSubmit={handleCreate} className="space-y-6">
                   <div className="space-y-4">
-                    <h3 className="text-[12px] font-bold text-slate-900 uppercase tracking-tight">Billing Profiles</h3>
+                    <h3 className="text-[12px] font-bold text-slate-900 dark:text-slate-50 uppercase tracking-tight">Billing Profiles</h3>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-3">
                         <div>
@@ -462,7 +462,7 @@ export default function InvoicesPage() {
                             value={formData.agencyDetails.address} 
                             onChange={(e) => setFormData({...formData, agencyDetails: {...formData.agencyDetails, address: e.target.value}})}
                             placeholder="Your agency business address..."
-                            className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-[13px] h-20 resize-none"
+                            className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-[13px] h-20 resize-none"
                           />
                         </div>
                       </div>
@@ -473,7 +473,7 @@ export default function InvoicesPage() {
                             value={formData.clientDetails.address} 
                             onChange={(e) => setFormData({...formData, clientDetails: {...formData.clientDetails, address: e.target.value}})}
                             placeholder="Client's billing address..."
-                            className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-[13px] h-20 resize-none"
+                            className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-[13px] h-20 resize-none"
                           />
                         </div>
                       </div>
@@ -498,7 +498,7 @@ export default function InvoicesPage() {
                             } : prev.clientDetails
                          }));
                       }}
-                      className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-[13px] outline-none"
+                      className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-[13px] outline-none"
                     >
                       <option value="">Select recipient...</option>
                       {clients.map(c => <option key={c._id} value={c._id}>{c.clientName}</option>)}
@@ -508,11 +508,11 @@ export default function InvoicesPage() {
                  <div className="grid grid-cols-2 gap-4">
                      <div>
                         <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Total Amount (Auto-calculated) *</label>
-                        <input type="number" required readOnly value={formData.amount} className="w-full px-4 py-2 bg-slate-100 border border-slate-200 rounded-lg text-[13px] font-bold cursor-not-allowed" />
+                        <input type="number" required readOnly value={formData.amount} className="w-full px-4 py-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-[13px] font-bold cursor-not-allowed" />
                      </div>
                     <div>
                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Currency</label>
-                       <select value={formData.currency} onChange={(e) => setFormData({...formData, currency: e.target.value})} className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-[13px]">
+                       <select value={formData.currency} onChange={(e) => setFormData({...formData, currency: e.target.value})} className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-[13px]">
                           <option value="INR">INR (₹)</option>
                           <option value="USD">USD ($)</option>
                        </select>
@@ -520,23 +520,23 @@ export default function InvoicesPage() {
                  </div>
 
                   <div className="space-y-4">
-                    <h3 className="text-[12px] font-bold text-slate-900 uppercase tracking-tight">Invoice Details</h3>
+                    <h3 className="text-[12px] font-bold text-slate-900 dark:text-slate-50 uppercase tracking-tight">Invoice Details</h3>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Project / Service Name</label>
-                        <input type="text" value={formData.projectTitle} onChange={(e) => setFormData({...formData, projectTitle: e.target.value})} placeholder="e.g. Q1 Marketing Campaign" className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-[13px]" />
+                        <input type="text" value={formData.projectTitle} onChange={(e) => setFormData({...formData, projectTitle: e.target.value})} placeholder="e.g. Q1 Marketing Campaign" className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-[13px]" />
                       </div>
                       <div>
                         <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Due Date</label>
-                        <input type="date" value={formData.dueDate} onChange={(e) => setFormData({...formData, dueDate: e.target.value})} className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-[13px]" />
+                        <input type="date" value={formData.dueDate} onChange={(e) => setFormData({...formData, dueDate: e.target.value})} className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-[13px]" />
                       </div>
                     </div>
                   </div>
 
                   <div className="space-y-4">
                     <div className="flex justify-between items-center">
-                      <h3 className="text-[12px] font-bold text-slate-900 uppercase tracking-tight">Service Breakdown</h3>
-                      <button type="button" onClick={() => setFormData({...formData, lineItems: [...formData.lineItems, { description: '', quantity: 1, unitPrice: 0, total: 0 }]})} className="text-[11px] font-bold text-indigo-600 hover:underline">+ Add Item</button>
+                      <h3 className="text-[12px] font-bold text-slate-900 dark:text-slate-50 uppercase tracking-tight">Service Breakdown</h3>
+                      <button type="button" onClick={() => setFormData({...formData, lineItems: [...formData.lineItems, { description: '', quantity: 1, unitPrice: 0, total: 0 }]})} className="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline">+ Add Item</button>
                     </div>
                     {formData.lineItems.map((item, idx) => (
                       <div key={idx} className="grid grid-cols-12 gap-2 items-end">
@@ -546,7 +546,7 @@ export default function InvoicesPage() {
                             const newItems = [...formData.lineItems];
                             newItems[idx].description = e.target.value;
                             setFormData({...formData, lineItems: newItems});
-                          }} className="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded text-[12px]" />
+                          }} className="w-full px-3 py-1.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded text-[12px]" />
                         </div>
                         <div className="col-span-2">
                            <label className="block text-[10px] text-slate-400 font-bold mb-1">Qty</label>
@@ -556,7 +556,7 @@ export default function InvoicesPage() {
                             newItems[idx].total = newItems[idx].quantity * newItems[idx].unitPrice;
                             const totalAmount = newItems.reduce((sum, i) => sum + i.total, 0);
                             setFormData({...formData, lineItems: newItems, amount: totalAmount});
-                          }} className="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded text-[12px]" />
+                          }} className="w-full px-3 py-1.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded text-[12px]" />
                         </div>
                         <div className="col-span-3">
                            <label className="block text-[10px] text-slate-400 font-bold mb-1">Rate</label>
@@ -566,14 +566,14 @@ export default function InvoicesPage() {
                             newItems[idx].total = newItems[idx].quantity * newItems[idx].unitPrice;
                             const totalAmount = newItems.reduce((sum, i) => sum + i.total, 0);
                             setFormData({...formData, lineItems: newItems, amount: totalAmount});
-                          }} className="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded text-[12px]" />
+                          }} className="w-full px-3 py-1.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded text-[12px]" />
                         </div>
                         <div className="col-span-1 pb-2">
                            <button type="button" onClick={() => {
                              const newItems = formData.lineItems.filter((_, i) => i !== idx);
                              const totalAmount = newItems.reduce((sum, i) => sum + i.total, 0);
                              setFormData({...formData, lineItems: newItems, amount: totalAmount});
-                           }} className="text-rose-500 hover:text-rose-700">✕</button>
+                           }} className="text-rose-500 hover:text-rose-700 dark:hover:text-rose-300">✕</button>
                         </div>
                       </div>
                     ))}
@@ -582,16 +582,16 @@ export default function InvoicesPage() {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                         <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Period Start</label>
-                        <input type="date" required value={formData.billingPeriod.startDate} onChange={(e) => setFormData({...formData, billingPeriod: {...formData.billingPeriod, startDate: e.target.value}})} className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-[13px]" />
+                        <input type="date" required value={formData.billingPeriod.startDate} onChange={(e) => setFormData({...formData, billingPeriod: {...formData.billingPeriod, startDate: e.target.value}})} className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-[13px]" />
                     </div>
                     <div>
                         <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Period End</label>
-                        <input type="date" required value={formData.billingPeriod.endDate} onChange={(e) => setFormData({...formData, billingPeriod: {...formData.billingPeriod, endDate: e.target.value}})} className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-[13px]" />
+                        <input type="date" required value={formData.billingPeriod.endDate} onChange={(e) => setFormData({...formData, billingPeriod: {...formData.billingPeriod, endDate: e.target.value}})} className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-[13px]" />
                     </div>
                   </div>
 
-                 <div className="pt-6 border-t border-slate-100 flex gap-3">
-                    <button type="button" onClick={() => setShowModal(false)} className="flex-1 px-4 py-2.5 bg-slate-50 text-slate-600 rounded-lg text-[13px] font-bold border border-slate-200">Cancel</button>
+                 <div className="pt-6 border-t border-slate-100 dark:border-slate-800 flex gap-3">
+                    <button type="button" onClick={() => setShowModal(false)} className="flex-1 px-4 py-2.5 bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 rounded-lg text-[13px] font-bold border border-slate-200 dark:border-slate-700">Cancel</button>
                     <button type="submit" disabled={creating} className="flex-1 px-4 py-2.5 bg-slate-900 text-white rounded-lg text-[13px] font-bold active:scale-95 disabled:opacity-50">{creating ? 'Processing...' : 'Issue Document'}</button>
                  </div>
               </form>

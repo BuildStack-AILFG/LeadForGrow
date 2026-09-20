@@ -70,13 +70,13 @@ export default function AiSettingsPage() {
           <h1 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-violet-500" /> AI Settings
           </h1>
-          <p className="text-sm text-slate-500">Configure Grovia — tone, handoff, languages, and agent behavior</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Configure Grovia — tone, handoff, languages, and agent behavior</p>
         </div>
       </div>
 
       <AutoPageIntro />
 
-      <div className={`flex items-center gap-2 px-4 py-3 rounded-xl border ${settings?.configured ? 'bg-emerald-50 border-emerald-200 text-emerald-800' : 'bg-amber-50 border-amber-200 text-amber-800'}`}>
+      <div className={`flex items-center gap-2 px-4 py-3 rounded-xl border ${settings?.configured ? 'bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200' : 'bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-200'}`}>
         {settings?.configured ? <CheckCircle2 className="w-4 h-4" /> : <AlertTriangle className="w-4 h-4" />}
         <span className="text-sm">{settings?.configured ? 'AI provider configured' : 'Set GROQ_API_KEY for full AI features'}</span>
       </div>
@@ -92,7 +92,7 @@ export default function AiSettingsPage() {
             checked={settings?.whatsappAutoReply === true}
             onChange={(v) => update('whatsappAutoReply', v)}
           />
-          <p className="text-xs text-slate-500 mt-1 ml-1">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 ml-1">
             When ON, the AI answers incoming WhatsApp messages automatically using your Knowledge Base
             (instead of only suggesting a reply). Skipped while a flow is running or a human has taken over.
           </p>
@@ -144,7 +144,7 @@ export default function AiSettingsPage() {
             onChange={(e) => update('handoffKeywords', e.target.value.split(',').map((k) => k.trim()).filter(Boolean))}
             className="w-full text-sm px-3 py-2 border rounded-lg bg-slate-50 dark:bg-slate-800"
           />
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
             Any message containing one of these words skips auto-reply and waits for a human —
             covers both explicit requests for a person and topics too sensitive to answer unsupervised.
           </p>
@@ -159,12 +159,12 @@ export default function AiSettingsPage() {
             onChange={(e) => update('confidenceThreshold', parseFloat(e.target.value))}
             className="w-full"
           />
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
             Below this confidence, the AI leaves the message for a human instead of auto-sending a guess.
           </p>
         </Field>
         <Toggle label="AI only during working hours" checked={!!settings?.workingHoursOnly} onChange={(v) => update('workingHoursOnly', v)} />
-        <p className="text-xs text-slate-500 -mt-2 ml-1">
+        <p className="text-xs text-slate-500 dark:text-slate-400 -mt-2 ml-1">
           Outside your configured business hours, messages wait for a human instead of getting an auto-reply.
         </p>
       </section>
@@ -179,7 +179,7 @@ export default function AiSettingsPage() {
           {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           Save settings
         </button>
-        <Link href="/automation/ai/knowledge" className="inline-flex items-center gap-2 px-4 py-2.5 border rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">
+        <Link href="/automation/ai/knowledge" className="inline-flex items-center gap-2 px-4 py-2.5 border rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50">
           Manage Knowledge Base
         </Link>
       </div>
@@ -207,7 +207,7 @@ function Toggle({ label, checked, onChange }) {
 function Field({ label, children }) {
   return (
     <div>
-      <label className="block text-xs font-medium text-slate-500 mb-1.5">{label}</label>
+      <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5">{label}</label>
       {children}
     </div>
   );

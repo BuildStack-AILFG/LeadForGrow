@@ -25,14 +25,14 @@ export default function ChatbotTranscript({ lead }) {
   if (!hasTranscript && !hasResponses && !supportMessage) return null;
 
   return (
-    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm overflow-hidden">
+    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded shadow-sm overflow-hidden">
       <div className="px-5 py-3.5 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2">
-        <div className="w-8 h-8 rounded-lg bg-teal-50 dark:bg-teal-950/40 flex items-center justify-center">
+        <div className="w-8 h-8 rounded bg-teal-50 dark:bg-teal-950/40 flex items-center justify-center">
           <Bot className="w-4 h-4 text-teal-600 dark:text-teal-400" />
         </div>
         <div>
           <p className="text-sm font-semibold text-slate-900 dark:text-slate-50">Chatbot conversation</p>
-          <p className="text-[11px] text-slate-500">Captured from website widget</p>
+          <p className="text-[11px] text-slate-500 dark:text-slate-400">Captured from website widget</p>
         </div>
       </div>
 
@@ -42,7 +42,7 @@ export default function ChatbotTranscript({ lead }) {
             {transcript.map((msg, i) => (
               <div key={i} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
                 <div
-                  className={`max-w-[85%] px-3 py-2 rounded-xl text-xs leading-relaxed ${
+                  className={`max-w-[85%] px-3 py-2 rounded text-xs leading-relaxed ${
                     msg.type === 'user'
                       ? 'bg-teal-600 text-white rounded-br-sm'
                       : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-bl-sm'
@@ -66,7 +66,7 @@ export default function ChatbotTranscript({ lead }) {
               </div>
             )}
             {supportType && (
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Support type: <span className="font-medium text-slate-700 dark:text-slate-300 capitalize">{supportType}</span>
               </p>
             )}

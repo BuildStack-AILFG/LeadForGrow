@@ -27,12 +27,12 @@ export default function TemplateGalleryModal({ onClose, onSelect }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
       <div
-        className="w-full max-w-lg max-h-[80vh] flex flex-col rounded-lg bg-white shadow-2xl overflow-hidden"
+        className="w-full max-w-lg max-h-[80vh] flex flex-col rounded-lg bg-white dark:bg-slate-900 shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-slate-900">Template gallery</h3>
-          <button type="button" onClick={onClose} className="p-1 rounded hover:bg-slate-100 text-slate-400">
+        <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+          <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50">Template gallery</h3>
+          <button type="button" onClick={onClose} className="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-400">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -43,7 +43,7 @@ export default function TemplateGalleryModal({ onClose, onSelect }) {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search templates…"
-              className="w-full pl-8 pr-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#1D4B3E]/20 focus:border-[#1D4B3E]"
+              className="w-full pl-8 pr-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand"
             />
           </div>
         </div>
@@ -58,11 +58,11 @@ export default function TemplateGalleryModal({ onClose, onSelect }) {
                 key={t.id || t.name}
                 type="button"
                 onClick={() => onSelect(t)}
-                className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-slate-100 hover:border-[#BAE0CF] hover:bg-[#F0F9F5] text-left transition-colors"
+                className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-slate-100 dark:border-slate-800 hover:border-brand-tint-strong hover:bg-brand-tint text-left transition-colors"
               >
                 <FileText className="w-4 h-4 text-slate-400 shrink-0" />
                 <div className="min-w-0">
-                  <div className="text-sm font-medium text-slate-800 truncate">{t.name}</div>
+                  <div className="text-sm font-medium text-slate-800 dark:text-slate-100 truncate">{t.name}</div>
                   <div className="text-[11px] text-slate-400">{t.language || 'en'}</div>
                 </div>
               </button>

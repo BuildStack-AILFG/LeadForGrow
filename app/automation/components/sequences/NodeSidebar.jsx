@@ -26,7 +26,7 @@ export default function NodeSidebar({ onAddNode }) {
     <aside className="w-56 shrink-0 flex flex-col rounded-2xl bg-white/90 dark:bg-slate-900/90 backdrop-blur border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
       <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-800">
         <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">Node library</h3>
-        <p className="text-[11px] text-slate-500 mt-0.5">Click to add to canvas</p>
+        <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Click to add to canvas</p>
       </div>
       <div className="flex-1 overflow-y-auto p-2 space-y-1">
         {SECTIONS.map((sec) => (

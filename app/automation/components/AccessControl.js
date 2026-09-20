@@ -102,7 +102,7 @@ export default function AccessControl({ children }) {
               </a>
               <a
                 href="mailto:hello@leadforgrow.com?subject=Renew%20my%20LeadForGrow%20plan"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 rounded-2xl font-semibold border-2 border-slate-200 dark:border-slate-700 hover:border-slate-300 transition-all"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 rounded-2xl font-semibold border-2 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-all"
               >
                 <Mail className="w-4 h-4" /> Email us
               </a>
@@ -139,12 +139,12 @@ export default function AccessControl({ children }) {
 
             {userPlan && (
               <div className="inline-flex items-center gap-2 px-6 py-3 bg-slate-100 dark:bg-slate-800 rounded-2xl mb-8">
-                <span className="text-sm text-slate-500 font-medium">Current Plan:</span>
+                <span className="text-sm text-slate-500 dark:text-slate-400 font-medium">Current Plan:</span>
                 <span className="text-sm text-slate-900 dark:text-slate-100 font-bold capitalize">{userPlan}</span>
               </div>
             )}
 
-            <div className="bg-indigo-50 dark:from-indigo-950/40 dark:to-purple-950/30 rounded-2xl p-8 mb-8 text-left">
+            <div className="bg-indigo-50 dark:bg-indigo-950/30 dark:from-indigo-950/40 dark:to-purple-950/30 rounded-2xl p-8 mb-8 text-left">
               <div className="flex items-center gap-3 mb-6">
                 <Sparkles className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
                 <h3 className="text-xl font-bold text-slate-900 dark:text-slate-50">What you&apos;ll get:</h3>

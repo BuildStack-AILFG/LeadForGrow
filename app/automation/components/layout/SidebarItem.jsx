@@ -54,13 +54,13 @@ export default function SidebarItem({
         title={collapsed ? `${item.name} (Upgrade)` : undefined}
         className={`group relative flex w-full items-center gap-3 text-[14px] font-medium transition-colors duration-150 ${
           collapsed ? 'justify-center px-2 py-3 rounded-lg' : 'px-4 py-3'
-        } cursor-pointer text-black/40 ${hovered ? 'bg-[#F0F9F5]' : ''}`}
+        } cursor-pointer text-black/40 dark:text-white/40 ${hovered ? 'bg-brand-tint' : ''}`}
       >
-        <Icon className="h-[18px] w-[18px] text-black/40" strokeWidth={1.75} />
+        <Icon className="h-[18px] w-[18px] text-black/40 dark:text-white/40" strokeWidth={1.75} />
         {!collapsed && (
           <>
             <span className="flex-1 truncate text-left">{item.name}</span>
-            <Lock className="h-3.5 w-3.5 shrink-0 text-black/30" />
+            <Lock className="h-3.5 w-3.5 shrink-0 text-black/30 dark:text-white/30" />
           </>
         )}
       </button>
@@ -78,15 +78,15 @@ export default function SidebarItem({
         collapsed ? 'justify-center px-2 py-3 rounded-lg' : 'px-4 py-3'
       } ${
         active
-          ? 'bg-[#1D4B3E] text-[#F0F9F5]'
+          ? 'bg-brand text-on-brand'
           : hovered
-            ? 'bg-[#BAE0CF] text-[#1D4B3E]'
-            : 'text-[#0A0B10]'
+            ? 'bg-brand-tint-strong text-brand-ink'
+            : 'text-[#0A0B10] dark:text-slate-100'
       }`}
     >
       <span className="relative shrink-0">
         <Icon
-          className={`h-[18px] w-[18px] ${active ? 'text-[#F0F9F5]' : 'text-[#1D4B3E]'}`}
+          className={`h-[18px] w-[18px] ${active ? 'text-on-brand' : 'text-brand-ink'}`}
           strokeWidth={1.75}
         />
         {collapsed && (

@@ -13,13 +13,13 @@ export default function FormSettingsPanel({ field, fieldIndex, onChange, mobile 
           animate={{ opacity: 1, y: 0 }}
           className="text-center max-w-[220px]"
         >
-          <div className="w-16 h-16 rounded-2xl bg-teal-50 dark:from-teal-950/40 dark:to-indigo-950/40 flex items-center justify-center mx-auto mb-5">
-            <MousePointerClick className="w-7 h-7 text-teal-600" />
+          <div className="w-16 h-16 rounded-2xl bg-teal-50 dark:bg-teal-950/30 dark:from-teal-950/40 dark:to-indigo-950/40 flex items-center justify-center mx-auto mb-5">
+            <MousePointerClick className="w-7 h-7 text-teal-600 dark:text-teal-400" />
           </div>
           <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-200">Select a field</h3>
-          <p className="text-xs text-slate-500 mt-2 leading-relaxed">Click any field on the canvas to customize its label, validation, and appearance.</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">Click any field on the canvas to customize its label, validation, and appearance.</p>
           <div className="mt-6 flex items-start gap-2 text-left p-3 bg-amber-50/80 dark:bg-amber-950/20 rounded-xl">
-            <Lightbulb className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+            <Lightbulb className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
             <p className="text-[11px] text-amber-800 dark:text-amber-200 leading-relaxed">Tip: Hover a field block for quick duplicate and required toggles.</p>
           </div>
         </motion.div>
@@ -42,7 +42,7 @@ export default function FormSettingsPanel({ field, fieldIndex, onChange, mobile 
         className={mobile ? 'flex flex-col' : 'hidden xl:flex w-72 flex-shrink-0 flex-col'}
       >
         <div className="mb-4">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-teal-600">{field.type}</p>
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-teal-600 dark:text-teal-400">{field.type}</p>
           <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50 mt-0.5">Field settings</h3>
         </div>
 
@@ -84,7 +84,7 @@ export default function FormSettingsPanel({ field, fieldIndex, onChange, mobile 
                   type="button"
                   onClick={() => update('width', w)}
                   className={`flex-1 py-2 text-xs font-medium rounded-lg transition-colors ${
-                    (field.width || 'full') === w ? 'bg-teal-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600'
+                    (field.width || 'full') === w ? 'bg-teal-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'
                   }`}
                 >
                   {w === 'full' ? 'Full' : 'Half'}
@@ -112,7 +112,7 @@ const inputClass = 'w-full px-3 py-2.5 text-sm bg-slate-50 dark:bg-slate-800/80 
 function SettingField({ label, children }) {
   return (
     <div>
-      <label className="block text-xs font-medium text-slate-500 mb-1.5">{label}</label>
+      <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5">{label}</label>
       {children}
     </div>
   );

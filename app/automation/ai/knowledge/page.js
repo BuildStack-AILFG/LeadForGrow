@@ -24,10 +24,10 @@ const TYPE_META = {
 };
 
 const STATUS_COLORS = {
-  ready: 'text-emerald-600 bg-emerald-50',
-  indexing: 'text-teal-600 bg-teal-50',
-  pending: 'text-amber-600 bg-amber-50',
-  error: 'text-red-600 bg-red-50',
+  ready: 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30',
+  indexing: 'text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/30',
+  pending: 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30',
+  error: 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30',
 };
 
 export default function KnowledgeBasePage() {
@@ -129,7 +129,7 @@ export default function KnowledgeBasePage() {
             <h1 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-violet-500" /> AI Knowledge Base
             </h1>
-            <p className="text-sm text-slate-500">Train Grovia with your business knowledge — AI answers only from these sources</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400">Train Grovia with your business knowledge — AI answers only from these sources</p>
           </div>
         </div>
         <button
@@ -152,17 +152,17 @@ export default function KnowledgeBasePage() {
           className="flex-1 text-sm px-3 py-2 border rounded-lg bg-white dark:bg-slate-900"
           onKeyDown={(e) => e.key === 'Enter' && testSearch()}
         />
-        <button type="button" onClick={testSearch} className="px-3 py-2 border rounded-lg text-sm hover:bg-slate-50">
+        <button type="button" onClick={testSearch} className="px-3 py-2 border rounded-lg text-sm hover:bg-slate-50 dark:hover:bg-slate-800/50">
           <Search className="w-4 h-4" />
         </button>
       </div>
 
       {searchResults && (
-        <div className="p-4 rounded-xl bg-violet-50 dark:bg-violet-950/20 border border-violet-200 space-y-2">
-          <p className="text-xs font-semibold text-violet-700">{searchResults.length} results</p>
+        <div className="p-4 rounded-xl bg-violet-50 dark:bg-violet-950/20 border border-violet-200 dark:border-violet-800 space-y-2">
+          <p className="text-xs font-semibold text-violet-700 dark:text-violet-300">{searchResults.length} results</p>
           {searchResults.map((r, i) => (
             <div key={i} className="text-xs text-slate-600 dark:text-slate-400 p-2 bg-white/60 dark:bg-slate-900/60 rounded-lg">
-              <span className="font-medium text-violet-600">{r.sourceName}</span>
+              <span className="font-medium text-violet-600 dark:text-violet-400">{r.sourceName}</span>
               <p className="mt-1 line-clamp-3">{r.content}</p>
             </div>
           ))}
@@ -203,7 +203,7 @@ export default function KnowledgeBasePage() {
       {loading ? (
         <PageLoader label="Loading knowledge sources…" height="12rem" />
       ) : sources.length === 0 ? (
-        <div className="text-center py-12 text-slate-500">
+        <div className="text-center py-12 text-slate-500 dark:text-slate-400">
           <BookOpen className="w-10 h-10 mx-auto mb-3 opacity-40" />
           <p className="text-slate-700 dark:text-slate-300 font-medium">No knowledge sources yet</p>
           <p className="text-sm mt-1 mb-4">Add company info, FAQs, or crawl your website — your AI can only answer from what's here.</p>
@@ -223,7 +223,7 @@ export default function KnowledgeBasePage() {
             return (
               <div key={s._id} className="flex items-center gap-3 p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
                 <div className="w-10 h-10 rounded-lg bg-violet-50 dark:bg-violet-950/30 flex items-center justify-center shrink-0">
-                  <Icon className="w-5 h-5 text-violet-600" />
+                  <Icon className="w-5 h-5 text-violet-600 dark:text-violet-400" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
@@ -233,17 +233,17 @@ export default function KnowledgeBasePage() {
                     </span>
                     {s.category && <span className="text-[10px] text-slate-400">{s.category}</span>}
                   </div>
-                  <p className="text-xs text-slate-500 mt-0.5">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                     {meta.label} · v{s.version || 1} · {s.chunkCount || 0} chunks
                     {s.lastIndexedAt && ` · indexed ${new Date(s.lastIndexedAt).toLocaleDateString()}`}
                   </p>
                   {s.lastError && <p className="text-xs text-red-500 mt-0.5">{s.lastError}</p>}
                 </div>
                 <div className="flex gap-1 shrink-0">
-                  <button type="button" onClick={() => reindex(s._id)} title="Re-index" className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500">
+                  <button type="button" onClick={() => reindex(s._id)} title="Re-index" className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400">
                     <RefreshCw className="w-4 h-4" />
                   </button>
-                  <button type="button" onClick={() => remove(s._id)} title="Delete" className="p-2 rounded-lg hover:bg-red-50 text-red-500">
+                  <button type="button" onClick={() => remove(s._id)} title="Delete" className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/30 text-red-500">
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>

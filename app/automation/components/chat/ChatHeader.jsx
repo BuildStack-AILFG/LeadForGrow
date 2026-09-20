@@ -31,7 +31,7 @@ export default function ChatHeader({
   if (!chat) {
     return (
       <div className="h-14 flex-shrink-0 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex items-center px-4">
-        <p className="text-sm text-slate-500">Select a conversation</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Select a conversation</p>
       </div>
     );
   }
@@ -47,7 +47,7 @@ export default function ChatHeader({
       <div className="flex items-center gap-2 min-w-0 flex-1">
         {showBack && (
           <button type="button" onClick={onBack} className="lg:hidden p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
-            <ChevronLeft className="w-5 h-5 text-slate-600" />
+            <ChevronLeft className="w-5 h-5 text-slate-600 dark:text-slate-300" />
           </button>
         )}
         <div className="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-sm font-semibold text-slate-600 dark:text-slate-300 flex-shrink-0">
@@ -58,7 +58,7 @@ export default function ChatHeader({
             <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-50 truncate">{lead.name}</h2>
             <StatusBadge status={lead.status} size="xs" />
           </div>
-          <p className="text-[11px] text-slate-500 truncate">
+          <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
             {lead.phone || lead.email || 'No contact'} · {assignee ? assigneeName(assignee) : 'Unassigned'}
           </p>
         </div>
@@ -70,7 +70,7 @@ export default function ChatHeader({
             type="button"
             onClick={onIntervene}
             title="Take over — pauses the AI agent"
-            className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-teal-700 bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-900 rounded hover:bg-teal-100"
+            className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-teal-700 dark:text-teal-300 bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-900 rounded hover:bg-teal-100 dark:hover:bg-teal-900/30"
           >
             <Hand className="w-3.5 h-3.5" /> Intervene
           </button>
@@ -80,15 +80,15 @@ export default function ChatHeader({
             type="button"
             onClick={onReleaseIntervene}
             title="Hand back to AI — the AI agent resumes replying"
-            className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900 rounded hover:bg-emerald-100"
+            className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900 rounded hover:bg-emerald-100 dark:hover:bg-emerald-900/30"
           >
             <Bot className="w-3.5 h-3.5" /> Resume AI
           </button>
         )}
-        <button type="button" onClick={onCall} className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800" title="Call">
+        <button type="button" onClick={onCall} className="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800" title="Call">
           <Phone className="w-4 h-4" />
         </button>
-        <button type="button" onClick={onProfile} className="xl:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800" title="CRM profile">
+        <button type="button" onClick={onProfile} className="xl:hidden p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800" title="CRM profile">
           <UserPlus className="w-4 h-4" />
         </button>
         {/* Open lead / Mark won / Mark lost moved into the overflow menu below —

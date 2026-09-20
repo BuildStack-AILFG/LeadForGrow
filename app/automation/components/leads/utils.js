@@ -165,11 +165,31 @@ export function getStatusAccentColor(status) {
   return LEAD_STATUS_ACCENT_COLORS[key] || LEAD_STATUS_ACCENT_COLORS[status] || '#94a3b8';
 }
 
-/** Manual rowColor overrides automatic status color */
+/**
+ * Dark-mode counterpart of a row tint. Pastel row colours (#fef3c7 …) are solid light fills, which
+ * make the light text used in dark mode unreadable, so in dark mode the same hue is drawn as a
+ * translucent wash over the dark surface. 8-digit hex (status colours already carry alpha) is kept.
+ */
+function darkRowTint(color) {
+  const hex = String(color || '').trim().toLowerCase();
+  if (/^#[0-9a-f]{8}$/.test(hex)) return hex;
+  const m = hex.match(/^#([0-9a-f]{6})$/);
+  if (!m) return color;
+  const n = parseInt(m[1], 16);
+  const alpha = hex === '#ffffff' ? 0.06 : 0.15;
+  return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${alpha})`;
+}
+
+/**
+ * Manual rowColor overrides automatic status color.
+ * light-dark() follows the page's colour-scheme (globals.css sets color-scheme: dark on .dark),
+ * so every consumer (table, kanban, mobile card) gets a readable row in both themes without
+ * needing to know the theme.
+ */
 export function getLeadRowBackgroundStyle(lead) {
   const color = lead?.rowColor || getStatusRowColor(lead?.status);
   if (!color) return undefined;
-  return { backgroundColor: color };
+  return { backgroundColor: `light-dark(${color}, ${darkRowTint(color)})` };
 }
 
 function readMeta(lead, key) {

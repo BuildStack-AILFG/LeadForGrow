@@ -74,6 +74,6 @@ export const TABLE_COLUMNS = [
 ];
 
 /** White vertical divider between table columns */
-export const TABLE_COL_LINE = 'border-r border-solid border-white';
+export const TABLE_COL_LINE = 'border-r border-solid border-white dark:border-slate-700';
 /** Row divider — #E5E5E7 matches Interakt's own Contacts table border exactly. */
-export const TABLE_ROW_LINE = 'border-b border-solid border-[#E5E5E7]';
+export const TABLE_ROW_LINE = 'border-b border-solid border-[#E5E5E7] dark:border-slate-700';

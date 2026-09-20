@@ -338,21 +338,21 @@ export default function CallIntegrationPage() {
   };
 
   return (
-    <div className="px-8 py-10 min-h-screen bg-[#FDFDFF] font-sans selection:bg-indigo-100 selection:text-indigo-900">
+    <div className="px-8 py-10 min-h-screen bg-[#FDFDFF] dark:bg-slate-900 font-sans selection:bg-indigo-100 dark:selection:bg-indigo-900/30 selection:text-indigo-900 dark:selection:text-indigo-200">
       {/* 1️⃣ Top Header Bar */}
       <div className="flex items-center justify-between mb-12 animate-in fade-in slide-in-from-top-4 duration-700">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center">
-            <PhoneCall className="w-5 h-5 text-red-600" strokeWidth={2.5} />
+          <div className="w-10 h-10 rounded-xl bg-red-50 dark:bg-red-950/30 flex items-center justify-center">
+            <PhoneCall className="w-5 h-5 text-red-600 dark:text-red-400" strokeWidth={2.5} />
           </div>
           <div>
-            <h1 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight leading-tight">Call Recovery</h1>
-            <p className="text-xs text-slate-500 font-medium">Automatically capture and recover unanswered calls</p>
+            <h1 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-50 tracking-tight leading-tight">Call Recovery</h1>
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Automatically capture and recover unanswered calls</p>
           </div>
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-600 rounded-full border border-emerald-100/50 shadow-sm shadow-emerald-100/20">
+          <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 rounded-full border border-emerald-100/50 shadow-sm shadow-emerald-100/20">
             <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
             <span className="text-xs font-bold uppercase tracking-wider">System Active</span>
           </div>
@@ -367,7 +367,7 @@ export default function CallIntegrationPage() {
 
           <button
             onClick={() => setWizardStep(2)}
-            className="p-3 bg-white border border-slate-200 text-slate-400 rounded-[14px] hover:bg-slate-50 hover:text-slate-600 transition-all duration-300 shadow-sm"
+            className="p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-400 rounded-[14px] hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-600 dark:hover:text-slate-300 transition-all duration-300 shadow-sm"
           >
             <Settings className="w-5 h-5" />
           </button>
@@ -378,13 +378,13 @@ export default function CallIntegrationPage() {
 
       {wizardStep === 1 && (
         <div className="max-w-xl">
-          <div className="bg-white rounded-[32px] p-12 shadow-sm border border-slate-100 relative overflow-hidden">
+          <div className="bg-white dark:bg-slate-900 rounded-[32px] p-12 shadow-sm border border-slate-100 dark:border-slate-800 relative overflow-hidden">
             <div className="relative z-10 text-left mb-10">
-              <div className="w-20 h-20 bg-indigo-50 text-indigo-600 rounded-[24px] flex items-center justify-center mb-8">
+              <div className="w-20 h-20 bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 rounded-[24px] flex items-center justify-center mb-8">
                 <Phone className="w-10 h-10" />
               </div>
-              <h2 className="text-3xl font-bold text-slate-900 mb-4 tracking-tight">Connect Your Line</h2>
-              <p className="text-slate-500 text-lg leading-relaxed px-6 font-medium">
+              <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-50 mb-4 tracking-tight">Connect Your Line</h2>
+              <p className="text-slate-500 dark:text-slate-400 text-lg leading-relaxed px-6 font-medium">
                 Enter your business or personal number to start capturing missed calls.
               </p>
             </div>
@@ -395,7 +395,7 @@ export default function CallIntegrationPage() {
                 placeholder="+91 98765 43210"
                 value={phoneInput}
                 onChange={(e) => setPhoneInput(e.target.value)}
-                className="w-full px-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-[20px] focus:border-indigo-600 focus:bg-white outline-none transition-all font-bold text-xl text-slate-900 placeholder:text-slate-300"
+                className="w-full px-8 py-5 bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-100 dark:border-slate-800 rounded-[20px] focus:border-indigo-600 focus:bg-white dark:focus:bg-slate-800 outline-none transition-all font-bold text-xl text-slate-900 dark:text-slate-50 placeholder:text-slate-300"
               />
               <button
                 onClick={handleConnect}
@@ -413,22 +413,22 @@ export default function CallIntegrationPage() {
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 lg:gap-12 items-start animate-in fade-in slide-in-from-bottom-8 duration-700">
           {/* Provider Settings (Left) */}
           <div className="xl:col-span-7">
-            <div className="bg-white rounded-[32px] p-8 lg:p-12 shadow-sm border border-slate-100 flex flex-col h-full">
+            <div className="bg-white dark:bg-slate-900 rounded-[32px] p-8 lg:p-12 shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col h-full">
               <div className="flex items-center gap-4 mb-10">
-                <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center">
-                  <Settings className="w-6 h-6 text-indigo-600" />
+                <div className="w-12 h-12 bg-indigo-50 dark:bg-indigo-950/30 rounded-2xl flex items-center justify-center">
+                  <Settings className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
                 </div>
-                <h2 className="text-3xl font-bold text-slate-900 tracking-tight flex-1 pr-12">Provider Settings</h2>
+                <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-50 tracking-tight flex-1 pr-12">Provider Settings</h2>
               </div>
 
-              <div className="flex gap-4 mb-10 p-1.5 bg-slate-50 rounded-[20px] border border-slate-100">
+              <div className="flex gap-4 mb-10 p-1.5 bg-slate-50 dark:bg-slate-800/50 rounded-[20px] border border-slate-100 dark:border-slate-800">
                 {['vapi', 'twilio'].map(p => (
                   <button
                     key={p}
                     onClick={() => setSettings(s => ({ ...s, telephony: { ...s.telephony, provider: p } }))}
                     className={`flex-1 py-3.5 px-6 rounded-[16px] font-bold tracking-tight text-sm transition-all duration-300 ${settings.telephony.provider === p
-                        ? 'bg-white shadow-md text-slate-900'
-                        : 'text-slate-400 hover:text-slate-600'
+                        ? 'bg-white dark:bg-slate-900 shadow-md text-slate-900 dark:text-slate-50'
+                        : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
                       }`}
                   >
                     {p.toUpperCase()}
@@ -446,7 +446,7 @@ export default function CallIntegrationPage() {
                         placeholder="Paste Private API Key"
                         value={settings.telephony.apiKey}
                         onChange={(e) => setSettings(s => ({ ...s, telephony: { ...s.telephony, apiKey: e.target.value } }))}
-                        className="w-full px-7 py-4.5 bg-slate-50 border-2 border-slate-100 rounded-[18px] focus:border-indigo-600 outline-none transition-all text-slate-900 font-bold"
+                        className="w-full px-7 py-4.5 bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-100 dark:border-slate-800 rounded-[18px] focus:border-indigo-600 outline-none transition-all text-slate-900 dark:text-slate-50 font-bold"
                       />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -457,7 +457,7 @@ export default function CallIntegrationPage() {
                           placeholder="id_..."
                           value={settings.telephony.assistantId}
                           onChange={(e) => setSettings(s => ({ ...s, telephony: { ...s.telephony, assistantId: e.target.value } }))}
-                          className="w-full px-7 py-4.5 bg-slate-50 border-2 border-slate-100 rounded-[18px] focus:border-indigo-600 outline-none transition-all text-slate-900 font-bold"
+                          className="w-full px-7 py-4.5 bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-100 dark:border-slate-800 rounded-[18px] focus:border-indigo-600 outline-none transition-all text-slate-900 dark:text-slate-50 font-bold"
                         />
                       </div>
                       <div className="space-y-2">
@@ -467,7 +467,7 @@ export default function CallIntegrationPage() {
                           placeholder="+1..."
                           value={settings.telephony.phoneNumberId}
                           onChange={(e) => setSettings(s => ({ ...s, telephony: { ...s.telephony, phoneNumberId: e.target.value } }))}
-                          className="w-full px-7 py-4.5 bg-slate-50 border-2 border-slate-100 rounded-[18px] focus:border-indigo-600 outline-none transition-all text-slate-900 font-bold"
+                          className="w-full px-7 py-4.5 bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-100 dark:border-slate-800 rounded-[18px] focus:border-indigo-600 outline-none transition-all text-slate-900 dark:text-slate-50 font-bold"
                         />
                       </div>
                     </div>
@@ -481,7 +481,7 @@ export default function CallIntegrationPage() {
                         placeholder="AC..."
                         value={settings.telephony.assistantId}
                         onChange={(e) => setSettings(s => ({ ...s, telephony: { ...s.telephony, assistantId: e.target.value } }))}
-                        className="w-full px-7 py-4.5 bg-slate-50 border-2 border-slate-100 rounded-[18px] focus:border-indigo-600 outline-none transition-all text-slate-900 font-bold"
+                        className="w-full px-7 py-4.5 bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-100 dark:border-slate-800 rounded-[18px] focus:border-indigo-600 outline-none transition-all text-slate-900 dark:text-slate-50 font-bold"
                       />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -492,7 +492,7 @@ export default function CallIntegrationPage() {
                           placeholder="SK..."
                           value={settings.telephony.apiKey}
                           onChange={(e) => setSettings(s => ({ ...s, telephony: { ...s.telephony, apiKey: e.target.value } }))}
-                          className="w-full px-7 py-4.5 bg-slate-50 border-2 border-slate-100 rounded-[18px] focus:border-indigo-600 outline-none transition-all text-slate-900 font-bold"
+                          className="w-full px-7 py-4.5 bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-100 dark:border-slate-800 rounded-[18px] focus:border-indigo-600 outline-none transition-all text-slate-900 dark:text-slate-50 font-bold"
                         />
                       </div>
                       <div className="space-y-2">
@@ -502,7 +502,7 @@ export default function CallIntegrationPage() {
                           placeholder="Twilio Secret"
                           value={settings.telephony.apiSecret}
                           onChange={(e) => setSettings(s => ({ ...s, telephony: { ...s.telephony, apiSecret: e.target.value } }))}
-                          className="w-full px-7 py-4.5 bg-slate-50 border-2 border-slate-100 rounded-[18px] focus:border-indigo-600 outline-none transition-all text-slate-900 font-bold"
+                          className="w-full px-7 py-4.5 bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-100 dark:border-slate-800 rounded-[18px] focus:border-indigo-600 outline-none transition-all text-slate-900 dark:text-slate-50 font-bold"
                         />
                       </div>
                     </div>
@@ -514,7 +514,7 @@ export default function CallIntegrationPage() {
                           placeholder="AP..."
                           value={settings.telephony.twimlAppSid}
                           onChange={(e) => setSettings(s => ({ ...s, telephony: { ...s.telephony, twimlAppSid: e.target.value } }))}
-                          className="w-full px-7 py-4.5 bg-slate-50 border-2 border-slate-100 rounded-[18px] focus:border-indigo-600 outline-none transition-all text-slate-900 font-bold"
+                          className="w-full px-7 py-4.5 bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-100 dark:border-slate-800 rounded-[18px] focus:border-indigo-600 outline-none transition-all text-slate-900 dark:text-slate-50 font-bold"
                         />
                       </div>
                       <div className="space-y-2">
@@ -524,7 +524,7 @@ export default function CallIntegrationPage() {
                           placeholder="+1..."
                           value={settings.telephony.phoneNumberId}
                           onChange={(e) => setSettings(s => ({ ...s, telephony: { ...s.telephony, phoneNumberId: e.target.value } }))}
-                          className="w-full px-7 py-4.5 bg-slate-50 border-2 border-slate-100 rounded-[18px] focus:border-indigo-600 outline-none transition-all text-slate-900 font-bold"
+                          className="w-full px-7 py-4.5 bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-100 dark:border-slate-800 rounded-[18px] focus:border-indigo-600 outline-none transition-all text-slate-900 dark:text-slate-50 font-bold"
                         />
                       </div>
                     </div>
@@ -605,11 +605,11 @@ export default function CallIntegrationPage() {
                  </div>
                  <div className="grid grid-cols-2 gap-4">
                    <div>
-                     <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Lead Retention</p>
+                     <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1">Lead Retention</p>
                      <p className="text-xl font-black text-emerald-400">+99.2%</p>
                    </div>
                    <div>
-                     <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Avg. Response</p>
+                     <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1">Avg. Response</p>
                      <p className="text-xl font-black text-indigo-400">12s</p>
                    </div>
                  </div>
@@ -624,22 +624,22 @@ export default function CallIntegrationPage() {
 
           {/* 3️⃣ Metric Cards (Left Column) */}
           <div className="col-span-12 lg:col-span-3 space-y-8">
-            <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-indigo-100/30 transition-shadow duration-500">
+            <div className="bg-white dark:bg-slate-900 p-8 rounded-[32px] border border-slate-100 dark:border-slate-800 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-indigo-100/30 transition-shadow duration-500">
               <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-4">Calls Today</p>
               <div className="flex items-baseline gap-2">
-                <p className="text-6xl font-bold text-slate-900 tracking-tighter">{missedCalls.length}</p>
+                <p className="text-6xl font-bold text-slate-900 dark:text-slate-50 tracking-tighter">{missedCalls.length}</p>
                 <span className="text-slate-300 font-bold text-xl">/ 0</span>
               </div>
-              <p className="text-[10px] font-bold text-indigo-500 mt-4 px-2.5 py-1 bg-indigo-50 rounded-full w-fit">Updated just now</p>
+              <p className="text-[10px] font-bold text-indigo-500 mt-4 px-2.5 py-1 bg-indigo-50 dark:bg-indigo-950/30 rounded-full w-fit">Updated just now</p>
             </div>
 
-            <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
+            <div className="bg-white dark:bg-slate-900 p-8 rounded-[32px] border border-slate-100 dark:border-slate-800 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
               <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-4">Recovery Performance</p>
-              <p className="text-5xl font-bold text-slate-900 tracking-tighter">—</p>
+              <p className="text-5xl font-bold text-slate-900 dark:text-slate-50 tracking-tighter">—</p>
               <p className="text-xs font-medium text-slate-400 mt-4">Waiting for first call</p>
             </div>
 
-            <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] relative overflow-hidden group">
+            <div className="bg-white dark:bg-slate-900 p-8 rounded-[32px] border border-slate-100 dark:border-slate-800 shadow-[0_4px_20px_rgba(0,0,0,0.03)] relative overflow-hidden group">
               <div className="flex items-center justify-between mb-6">
                 <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">Active Call Bridge</p>
                 <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
@@ -647,15 +647,15 @@ export default function CallIntegrationPage() {
 
               <div className="space-y-5">
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-500 text-xs font-medium">Signal</span>
-                  <span className="flex items-center gap-1.5 text-xs font-bold text-emerald-600">
+                  <span className="text-slate-500 dark:text-slate-400 text-xs font-medium">Signal</span>
+                  <span className="flex items-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400">
                     <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
                     Stable
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-500 text-xs font-medium">Forwarding</span>
-                  <span className="flex items-center gap-1.5 text-xs font-bold text-emerald-600">
+                  <span className="text-slate-500 dark:text-slate-400 text-xs font-medium">Forwarding</span>
+                  <span className="flex items-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400">
                     <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
                     Active
                   </span>
@@ -664,18 +664,18 @@ export default function CallIntegrationPage() {
 
               <div className="mt-8 pt-6 border-t border-slate-50">
                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Connected Number</p>
-                <p className="text-lg font-bold text-slate-900 tracking-tight">{maskPhone(usage.connectedPhone)}</p>
+                <p className="text-lg font-bold text-slate-900 dark:text-slate-50 tracking-tight">{maskPhone(usage.connectedPhone)}</p>
               </div>
             </div>
           </div>
 
           {/* 4️⃣ Center Area (Recovery Stream) */}
           <div className="col-span-12 lg:col-span-5 flex flex-col">
-            <div className="bg-white rounded-[40px] border border-slate-100 shadow-[0_10px_40px_rgba(0,0,0,0.04)] overflow-hidden flex-1 flex flex-col relative min-h-[600px]">
+            <div className="bg-white dark:bg-slate-900 rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-[0_10px_40px_rgba(0,0,0,0.04)] overflow-hidden flex-1 flex flex-col relative min-h-[600px]">
               <div className="absolute inset-0 bg-gradient-to-b from-slate-50/50 to-transparent pointer-events-none"></div>
 
               <div className="flex items-center justify-between px-10 py-8 border-b border-slate-50 relative z-10">
-                <h3 className="text-xl font-bold text-slate-900 tracking-tight">Recovery Stream</h3>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-slate-50 tracking-tight">Recovery Stream</h3>
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 bg-indigo-500 rounded-full animate-pulse"></span>
                   <span className="text-[11px] font-bold text-indigo-500 uppercase tracking-widest">Live Activity</span>
@@ -686,12 +686,12 @@ export default function CallIntegrationPage() {
                 {missedCalls.length === 0 ? (
                   <div className="flex-1 flex flex-col items-center justify-center p-12 text-center animate-in fade-in zoom-in-95 duration-1000">
                     <div className="relative mb-8">
-                      <div className="w-24 h-24 bg-indigo-50 rounded-[32px] flex items-center justify-center text-indigo-200">
+                      <div className="w-24 h-24 bg-indigo-50 dark:bg-indigo-950/30 rounded-[32px] flex items-center justify-center text-indigo-200">
                         <PhoneOff className="w-12 h-12" />
                       </div>
-                      <div className="absolute -inset-4 bg-indigo-100/30 rounded-full blur-2xl animate-pulse -z-10"></div>
+                      <div className="absolute -inset-4 bg-indigo-100/30 dark:bg-indigo-900/30 rounded-full blur-2xl animate-pulse -z-10"></div>
                     </div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Waiting for incoming calls</h4>
+                    <h4 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-2">Waiting for incoming calls</h4>
                     <p className="text-sm font-medium text-slate-400 max-w-[280px] leading-relaxed">
                       When a call is unanswered, it will appear here instantly with follow-up status.
                     </p>
@@ -699,13 +699,13 @@ export default function CallIntegrationPage() {
                 ) : (
                   <div className="space-y-4 p-6 overflow-y-auto max-h-[700px]">
                     {missedCalls.map(call => (
-                      <div key={call._id} className="group p-6 bg-white hover:bg-slate-50/50 rounded-[28px] border border-slate-50 hover:border-indigo-100 transition-all duration-300 flex items-center justify-between shadow-sm hover:shadow-md">
+                      <div key={call._id} className="group p-6 bg-white dark:bg-slate-900 hover:bg-slate-50/50 dark:hover:bg-slate-800/50 rounded-[28px] border border-slate-50 hover:border-indigo-100 dark:hover:border-indigo-900/50 transition-all duration-300 flex items-center justify-between shadow-sm hover:shadow-md">
                         <div className="flex items-center gap-5">
-                          <div className="w-14 h-14 bg-slate-50 group-hover:bg-white rounded-2xl flex items-center justify-center text-slate-400 group-hover:text-indigo-600 transition-colors">
+                          <div className="w-14 h-14 bg-slate-50 dark:bg-slate-800/50 group-hover:bg-white dark:group-hover:bg-slate-800 rounded-2xl flex items-center justify-center text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                             <Phone className="w-6 h-6" />
                           </div>
                           <div>
-                            <p className="font-bold text-slate-900 text-lg tracking-tight">{call.callerNumber}</p>
+                            <p className="font-bold text-slate-900 dark:text-slate-50 text-lg tracking-tight">{call.callerNumber}</p>
                             <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Missed {new Date(call.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
                           </div>
                         </div>
@@ -713,7 +713,7 @@ export default function CallIntegrationPage() {
                         <div className="flex items-center gap-3">
                           <button
                             onClick={() => handleTriggerAI(call._id)}
-                            className="px-5 py-3 bg-white text-indigo-600 border border-indigo-100 rounded-xl font-bold text-xs hover:bg-indigo-600 hover:text-white transition-all shadow-sm active:scale-95"
+                            className="px-5 py-3 bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/50 rounded-xl font-bold text-xs hover:bg-indigo-600 hover:text-white transition-all shadow-sm active:scale-95"
                           >
                             Recover Now
                           </button>
@@ -731,7 +731,7 @@ export default function CallIntegrationPage() {
                 )}
               </div>
 
-              <div className="p-6 border-t border-slate-50 bg-slate-50/30 relative z-10 flex items-center justify-center gap-6">
+              <div className="p-6 border-t border-slate-50 bg-slate-50/30 dark:bg-slate-800/30 relative z-10 flex items-center justify-center gap-6">
                 <p className="text-[10px] font-bold text-slate-400 flex items-center gap-1.5 uppercase tracking-widest">
                   <div className="w-1 h-1 bg-slate-400 rounded-full"></div>
                   No calls are recorded
@@ -746,25 +746,25 @@ export default function CallIntegrationPage() {
 
           {/* 5️⃣ Right Panel — Guided Setup (Major Redesign) */}
           <div className="col-span-12 lg:col-span-4 space-y-8 animate-in fade-in slide-in-from-right-8 duration-700">
-            <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-[0_20px_50px_rgba(0,0,0,0.04)] relative group overflow-hidden">
-              <div className="absolute top-0 right-0 w-40 h-40 bg-indigo-50/50 rounded-full -mr-20 -mt-20 blur-3xl transition-transform duration-1000 group-hover:scale-150"></div>
+            <div className="bg-white dark:bg-slate-900 p-10 rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-[0_20px_50px_rgba(0,0,0,0.04)] relative group overflow-hidden">
+              <div className="absolute top-0 right-0 w-40 h-40 bg-indigo-50/50 dark:bg-indigo-950/50 rounded-full -mr-20 -mt-20 blur-3xl transition-transform duration-1000 group-hover:scale-150"></div>
 
               <div className="relative z-10">
-                <h3 className="text-2xl font-bold text-slate-900 tracking-tight mb-2">Call Recovery Setup</h3>
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-50 tracking-tight mb-2">Call Recovery Setup</h3>
                 <p className="text-slate-400 text-sm font-medium mb-10">Takes less than 2 minutes</p>
 
                 <div className="space-y-10 mb-12">
                   <div className="flex gap-6">
                     <div className="w-10 h-10 bg-indigo-600 text-white rounded-[14px] flex items-center justify-center font-bold text-sm flex-shrink-0 shadow-sm">1</div>
                     <div className="flex-1 pt-1.5">
-                      <p className="text-slate-900 font-bold text-sm mb-2">Enable Call Forwarding</p>
+                      <p className="text-slate-900 dark:text-slate-50 font-bold text-sm mb-2">Enable Call Forwarding</p>
                       <p className="text-slate-400 text-[11px] font-medium leading-relaxed mb-4">Set your line to forward to our capture node when unanswered.</p>
                       <button
                         onClick={() => {
                           navigator.clipboard.writeText(settings.telephony?.phoneNumberId || '');
                           toast.success('Number copied!');
                         }}
-                        className="px-5 py-2.5 bg-slate-50 text-indigo-600 rounded-xl text-[11px] font-bold border border-slate-100 hover:bg-indigo-50 transition-colors flex items-center gap-2"
+                        className="px-5 py-2.5 bg-slate-50 dark:bg-slate-800/50 text-indigo-600 dark:text-indigo-400 rounded-xl text-[11px] font-bold border border-slate-100 dark:border-slate-800 hover:bg-indigo-50 dark:hover:bg-indigo-950/30 transition-colors flex items-center gap-2"
                       >
                         <RefreshCcw className="w-3.5 h-3.5" />
                         Copy Forwarding Number
@@ -773,13 +773,13 @@ export default function CallIntegrationPage() {
                   </div>
 
                   <div className="flex gap-6">
-                    <div className="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-[14px] flex items-center justify-center font-bold text-sm flex-shrink-0">
+                    <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 rounded-[14px] flex items-center justify-center font-bold text-sm flex-shrink-0">
                       <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div>
                     </div>
                     <div className="flex-1 pt-1.5">
                       <div className="flex items-center gap-2 mb-2">
-                        <p className="text-slate-900 font-bold text-sm">Connect to LeadForGrow</p>
-                        <span className="flex items-center gap-1 text-[10px] font-bold text-emerald-600 uppercase tracking-widest px-2 py-0.5 bg-emerald-50 rounded-full">
+                        <p className="text-slate-900 dark:text-slate-50 font-bold text-sm">Connect to LeadForGrow</p>
+                        <span className="flex items-center gap-1 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest px-2 py-0.5 bg-emerald-50 dark:bg-emerald-950/30 rounded-full">
                           Connected
                         </span>
                       </div>
@@ -788,9 +788,9 @@ export default function CallIntegrationPage() {
                   </div>
 
                   <div className="flex gap-6">
-                    <div className="w-10 h-10 bg-slate-50 text-slate-400 rounded-[14px] flex items-center justify-center font-bold text-sm flex-shrink-0">3</div>
+                    <div className="w-10 h-10 bg-slate-50 dark:bg-slate-800/50 text-slate-400 rounded-[14px] flex items-center justify-center font-bold text-sm flex-shrink-0">3</div>
                     <div className="flex-1 pt-1.5">
-                      <p className="text-slate-900 font-bold text-sm mb-2 text-indigo-600">Test Your Setup</p>
+                      <p className="text-slate-900 dark:text-slate-50 font-bold text-sm mb-2 text-indigo-600 dark:text-indigo-400">Test Your Setup</p>
                       <p className="text-slate-400 text-[11px] font-medium leading-relaxed mb-6">Verify incoming signals reach your recovery system successfully.</p>
                       <button
                         onClick={handleTestBridge}
@@ -802,25 +802,25 @@ export default function CallIntegrationPage() {
                   </div>
                 </div>
 
-                <div className="p-5 bg-slate-50/50 rounded-[24px] border border-slate-100 flex items-center gap-4">
-                  <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-slate-400">
+                <div className="p-5 bg-slate-50/50 dark:bg-slate-800/50 rounded-[24px] border border-slate-100 dark:border-slate-800 flex items-center gap-4">
+                  <div className="w-10 h-10 bg-white dark:bg-slate-900 rounded-xl flex items-center justify-center text-slate-400">
                     <Settings className="w-5 h-5" />
                   </div>
                   <div className="flex-1">
                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Trust Signal</p>
-                    <p className="text-[11px] font-bold text-slate-600">Designed for healthcare & service teams</p>
+                    <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300">Designed for healthcare & service teams</p>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Simulation Sandbox - Styled as a secondary card */}
-            <div className="bg-slate-50/50 p-8 rounded-[32px] border border-slate-100">
+            <div className="bg-slate-50/50 dark:bg-slate-800/50 p-8 rounded-[32px] border border-slate-100 dark:border-slate-800">
               <div className="flex items-center justify-between mb-6">
                 <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Automation Sandbox</p>
                 <button
                   onClick={handleResetIntegration}
-                  className="text-[10px] font-bold text-rose-500 hover:text-rose-600 uppercase tracking-widest"
+                  className="text-[10px] font-bold text-rose-500 hover:text-rose-600 dark:hover:text-rose-400 uppercase tracking-widest"
                 >
                   Reset All
                 </button>
@@ -831,7 +831,7 @@ export default function CallIntegrationPage() {
                   placeholder="Simulation Number (+91...)"
                   value={bridgeSimNumber}
                   onChange={(e) => setBridgeSimNumber(e.target.value)}
-                  className="w-full bg-white border border-slate-200 rounded-[16px] px-6 py-3.5 text-slate-900 text-sm outline-none font-bold placeholder:text-slate-300 focus:border-slate-400 transition-colors"
+                  className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-[16px] px-6 py-3.5 text-slate-900 dark:text-slate-50 text-sm outline-none font-bold placeholder:text-slate-300 focus:border-slate-400 transition-colors"
                 />
                 <button
                   onClick={handleBridgeSimulate}

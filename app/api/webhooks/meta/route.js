@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import Business from '@/models/Business';
 import { verifyMetaSignature } from '@/lib/webhookSecurity';
+import { decryptMaybe } from '@/lib/encryption';
 import { parseMetaWebhook } from '@/lib/whatsapp/parser';
 import { leadManager } from '@/lib/automation/leadManager';
 import { processLeadgenPayload, findBusinessByMetaPageId } from '@/lib/meta/leadgenHandler';
@@ -63,6 +64,61 @@ export async function POST(req) {
       payload
     });
     ingressId = ingressDoc._id;
+
+    // Facebook Page — Messenger DMs (entry.messaging[]) and post comments
+    // (entry.changes[] field==='feed', item==='comment'). Meta bundles these under
+    // object==='page'; genuine lead-ads 'page' events have field==='leadgen' and
+    // fall through to the leadgen handler below.
+    if (payload.object === 'page') {
+      const entries = payload.entry || [];
+      const hasMessaging = entries.some((e) => Array.isArray(e.messaging) && e.messaging.length);
+      const hasFeedComment = entries.some((e) =>
+        (e.changes || []).some((c) => c.field === 'feed' && c.value?.item === 'comment')
+      );
+
+      if (hasMessaging || hasFeedComment) {
+        const {
+          parseMessengerEvents,
+          processMessengerEvent,
+          parseFacebookComments,
+          processFacebookCommentEvent,
+        } = await import('@/lib/facebook/handler');
+
+        let totalProcessed = 0;
+        let businessesTouched = 0;
+
+        for (const entry of entries) {
+          const pageId = entry?.id;
+          const business = await Business.findOne({
+            $or: [
+              { 'integrationCredentials.facebook.pageId': pageId },
+              { 'integrationCredentials.facebookAds.pageId': pageId },
+            ],
+          });
+          if (!business) continue;
+          businessesTouched += 1;
+
+          for (const event of parseMessengerEvents(entry)) {
+            await processMessengerEvent(business._id, event);
+            totalProcessed += 1;
+          }
+          for (const event of parseFacebookComments(entry)) {
+            await processFacebookCommentEvent(business._id, event);
+            totalProcessed += 1;
+          }
+        }
+
+        if (businessesTouched) {
+          await finalizeMetaWebhookIngress(ingressId, {
+            outcome: 'success',
+            processing: { step: 'facebook_processed', count: totalProcessed },
+          });
+          return NextResponse.json({ status: 'success', processed: totalProcessed }, { status: 200 });
+        }
+        // No business matched this page's messaging/comments — fall through to
+        // leadgen, which resolves the business differently (by page_id in value).
+      }
+    }
 
     const parsedFields = parseLeadgenFields(payload);
     metaLog('Webhook Generic', 'Parsed leadgen fields', parsedFields);
@@ -263,7 +319,7 @@ export async function POST(req) {
     const isValid = verifyMetaSignature(
       rawBody,
       signature,
-      business.integrationCredentials.whatsapp.appSecret || process.env.META_APP_SECRET
+      decryptMaybe(business.integrationCredentials.whatsapp.appSecret) || process.env.META_APP_SECRET
     );
 
     if (!isValid) {

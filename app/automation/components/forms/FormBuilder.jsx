@@ -72,7 +72,7 @@ export default function FormBuilder({ fields, setFields, selectedIndex, setSelec
       <div className="flex-1 min-w-0">
         <div className="mb-4">
           <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50">Form canvas</h3>
-          <p className="text-xs text-slate-500 mt-0.5">Drag to reorder · click to edit</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Drag to reorder · click to edit</p>
         </div>
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <SortableContext items={fields.map((f) => f.name)} strategy={verticalListSortingStrategy}>

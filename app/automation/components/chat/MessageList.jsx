@@ -42,7 +42,7 @@ export default function MessageList({ messages, loading, hasMore, onLoadMore, lo
   if (loading) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center gap-3 bg-[#F1F6F3] dark:bg-[#0b141a]">
-        <div className="w-9 h-9 border-2 border-[#1D4B3E] border-t-transparent rounded-full animate-spin" />
+        <div className="w-9 h-9 border-2 border-brand border-t-transparent rounded-full animate-spin" />
         <p className="text-xs font-medium text-slate-600 dark:text-slate-400">Loading messages…</p>
       </div>
     );
@@ -51,7 +51,7 @@ export default function MessageList({ messages, loading, hasMore, onLoadMore, lo
   if (!messages.length) {
     return (
       <div className="flex-1 flex items-center justify-center p-8 bg-[#F1F6F3] dark:bg-[#0b141a]">
-        <p className="text-sm text-slate-500 text-center max-w-xs">
+        <p className="text-sm text-slate-500 dark:text-slate-400 text-center max-w-xs">
           {emptyLabel || 'No messages yet. Start the conversation.'}
         </p>
       </div>

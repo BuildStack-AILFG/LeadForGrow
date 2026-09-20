@@ -40,7 +40,7 @@ export default function CreateTaskModal({
                 required
                 value={task.leadId}
                 onChange={(e) => onChange({ ...task, leadId: e.target.value })}
-                className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#1D4B3E]/20"
+                className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-brand/20"
               >
                 <option value="">Select lead...</option>
                 {leads.map((l) => (
@@ -54,7 +54,7 @@ export default function CreateTaskModal({
                 required
                 value={task.assignedTo}
                 onChange={(e) => onChange({ ...task, assignedTo: e.target.value })}
-                className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#1D4B3E]/20"
+                className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-brand/20"
               >
                 <option value="">Select teammate...</option>
                 {mapTeamMemberOptions(teamMembers).map((m) => (
@@ -70,7 +70,7 @@ export default function CreateTaskModal({
               <select
                 value={task.type}
                 onChange={(e) => onChange({ ...task, type: e.target.value })}
-                className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#1D4B3E]/20"
+                className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-brand/20"
               >
                 <option value="call">Call</option>
                 <option value="whatsapp">WhatsApp</option>
@@ -85,7 +85,7 @@ export default function CreateTaskModal({
                 required
                 value={task.dueDate}
                 onChange={(e) => onChange({ ...task, dueDate: e.target.value })}
-                className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#1D4B3E]/20"
+                className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-brand/20"
               />
             </div>
           </div>
@@ -98,7 +98,7 @@ export default function CreateTaskModal({
               placeholder="e.g. Discovery call"
               value={task.title}
               onChange={(e) => onChange({ ...task, title: e.target.value })}
-              className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#1D4B3E]/20"
+              className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-brand/20"
             />
           </div>
 
@@ -108,7 +108,7 @@ export default function CreateTaskModal({
               rows={3}
               value={task.description}
               onChange={(e) => onChange({ ...task, description: e.target.value })}
-              className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#1D4B3E]/20 resize-none"
+              className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-brand/20 resize-none"
             />
           </div>
 
@@ -116,12 +116,12 @@ export default function CreateTaskModal({
             <div className="p-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded space-y-3">
               <div className="flex items-center justify-between">
                 <span className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-400">
-                  <Sparkles className="w-3.5 h-3.5 text-[#1D4B3E]" /> Auto-send message
+                  <Sparkles className="w-3.5 h-3.5 text-brand-ink" /> Auto-send message
                 </span>
                 <button
                   type="button"
                   onClick={() => onChange({ ...task, autoSend: !task.autoSend })}
-                  className={`w-9 h-5 rounded-full relative transition-colors ${task.autoSend ? 'bg-[#1D4B3E]' : 'bg-slate-300 dark:bg-slate-600'}`}
+                  className={`w-9 h-5 rounded-full relative transition-colors ${task.autoSend ? 'bg-brand' : 'bg-slate-300 dark:bg-slate-600'}`}
                 >
                   <span className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform ${task.autoSend ? 'translate-x-4' : ''}`} />
                 </button>
@@ -141,7 +141,7 @@ export default function CreateTaskModal({
           <button
             type="submit"
             disabled={saving}
-            className="w-full inline-flex items-center justify-center gap-2 py-2.5 text-sm font-medium text-white bg-[#1D4B3E] hover:bg-[#163c32] rounded disabled:opacity-60"
+            className="w-full inline-flex items-center justify-center gap-2 py-2.5 text-sm font-medium text-white bg-brand hover:bg-brand-hover rounded disabled:opacity-60"
           >
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
             {saving ? 'Creating…' : 'Create task'}

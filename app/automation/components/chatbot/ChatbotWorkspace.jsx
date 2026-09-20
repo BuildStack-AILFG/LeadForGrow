@@ -35,7 +35,7 @@ export default function ChatbotWorkspace() {
             </div>
             <div className="min-w-0">
               <h1 className="text-lg font-semibold text-slate-900 dark:text-slate-50 truncate">Website Chatbot</h1>
-              <p className="text-xs text-slate-500 truncate">Capture & qualify leads from your website — source tagged as Bot</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 truncate">Capture & qualify leads from your website — source tagged as Bot</p>
             </div>
           </div>
 
@@ -100,7 +100,7 @@ export default function ChatbotWorkspace() {
               className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all ${
                 tab === id
                   ? 'bg-teal-600 text-white shadow-sm'
-                  : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
               }`}
             >
               {label}
@@ -111,7 +111,7 @@ export default function ChatbotWorkspace() {
         {tab === 'leads' ? (
           <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-8 shadow-sm">
             <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">Leads from your chatbot</h2>
-            <p className="text-sm text-slate-500 mt-1 mb-6">
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-6">
               Every submission is saved with source <span className="font-medium text-slate-700 dark:text-slate-300">Bot</span> and includes the full conversation transcript.
             </p>
             <div className="flex flex-wrap gap-3">
@@ -164,11 +164,11 @@ export default function ChatbotWorkspace() {
 
 function StatCard({ label, value, icon: Icon, accent }) {
   const colors = {
-    emerald: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30',
-    amber: 'text-amber-600 bg-amber-50 dark:bg-amber-950/30',
-    teal: 'text-teal-600 bg-teal-50 dark:bg-teal-950/30',
-    blue: 'text-teal-600 bg-teal-50 dark:bg-teal-950/30',
-    slate: 'text-slate-600 bg-slate-100 dark:bg-slate-800',
+    emerald: 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30',
+    amber: 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30',
+    teal: 'text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/30',
+    blue: 'text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/30',
+    slate: 'text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800',
   };
   return (
     <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 shadow-sm">

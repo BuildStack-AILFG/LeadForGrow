@@ -31,32 +31,32 @@ export default function AgencyAutomationPage() {
   const AutomationCard = ({ title, description, icon: Icon, active, type }) => (
     <div className={`p-6 rounded-xl border transition-all duration-300 group relative ${
       active 
-        ? 'bg-white border-slate-200 shadow-sm' 
-        : 'bg-slate-50 border-slate-100 opacity-60'
+        ? 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm' 
+        : 'bg-slate-50 dark:bg-slate-800/50 border-slate-100 dark:border-slate-800 opacity-60'
     }`}>
       <div className="flex items-center justify-between mb-4">
         <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-          active ? 'bg-slate-900 text-white' : 'bg-slate-200 text-slate-400'
+          active ? 'bg-slate-900 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-400'
         }`}>
           <Icon className="w-5 h-5" />
         </div>
         {active && (
-          <span className="flex items-center gap-1.5 px-2 py-0.5 bg-emerald-50 text-emerald-600 rounded text-[10px] font-bold uppercase tracking-widest">
+          <span className="flex items-center gap-1.5 px-2 py-0.5 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 rounded text-[10px] font-bold uppercase tracking-widest">
             <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></div>
             Online
           </span>
         )}
       </div>
       
-      <h3 className={`text-[15px] font-bold mb-1 ${active ? 'text-slate-900' : 'text-slate-500'}`}>{title}</h3>
-      <p className={`text-[12px] font-medium leading-relaxed mb-6 ${active ? 'text-slate-500' : 'text-slate-400'}`}>
+      <h3 className={`text-[15px] font-bold mb-1 ${active ? 'text-slate-900 dark:text-slate-50' : 'text-slate-500 dark:text-slate-400'}`}>{title}</h3>
+      <p className={`text-[12px] font-medium leading-relaxed mb-6 ${active ? 'text-slate-500 dark:text-slate-400' : 'text-slate-400'}`}>
         {description}
       </p>
       
       <div className="flex items-center justify-between pt-4 border-t border-slate-50">
         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{type}</span>
         <button className={`flex items-center gap-1.5 font-bold text-[11px] transition-colors ${
-          active ? 'text-indigo-600 hover:text-indigo-700' : 'text-slate-400 cursor-not-allowed'
+          active ? 'text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300' : 'text-slate-400 cursor-not-allowed'
         }`}>
           Configure <ArrowRight className="w-3 h-3" />
         </button>
@@ -66,7 +66,7 @@ export default function AgencyAutomationPage() {
 
   if (loading) return (
     <div className="min-h-[60vh] flex items-center justify-center">
-      <Loader2 className="w-8 h-8 text-indigo-600 animate-spin" />
+      <Loader2 className="w-8 h-8 text-indigo-600 dark:text-indigo-400 animate-spin" />
     </div>
   );
 
@@ -75,8 +75,8 @@ export default function AgencyAutomationPage() {
       {/* Header Context */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-[20px] font-semibold text-slate-900 tracking-tight">Global Logic Engine</h1>
-          <p className="text-[13px] text-slate-500 mt-1">Configure cross-account automation and white-label triggers</p>
+          <h1 className="text-[20px] font-semibold text-slate-900 dark:text-slate-50 tracking-tight">Global Logic Engine</h1>
+          <p className="text-[13px] text-slate-500 dark:text-slate-400 mt-1">Configure cross-account automation and white-label triggers</p>
         </div>
         <button className="px-4 py-2 bg-slate-900 text-white rounded-lg text-[13px] font-bold active:scale-95 flex items-center gap-2">
           <Plus className="w-4 h-4" /> Create Workflow
@@ -84,13 +84,13 @@ export default function AgencyAutomationPage() {
       </div>
 
       {/* Logic Tabs */}
-      <div className="flex gap-8 border-b border-slate-100">
+      <div className="flex gap-8 border-b border-slate-100 dark:border-slate-800">
         {['workflows', 'notifications', 'security', 'api'].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`pb-3 text-[12px] font-bold uppercase tracking-widest transition-all relative ${
-              activeTab === tab ? 'text-slate-900' : 'text-slate-400 hover:text-slate-600'
+              activeTab === tab ? 'text-slate-900 dark:text-slate-50' : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
             }`}
           >
             {tab}
@@ -112,23 +112,23 @@ export default function AgencyAutomationPage() {
       </div>
 
       {/* Health Signal Footer */}
-      <div className="p-6 bg-slate-50 border border-slate-200 rounded-xl flex flex-col md:flex-row items-center justify-between gap-6">
+      <div className="p-6 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl flex flex-col md:flex-row items-center justify-between gap-6">
          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
+            <div className="w-10 h-10 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
                <CheckCircle2 className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-[14px] font-bold text-slate-900">System Integrity: 100%</p>
+              <p className="text-[14px] font-bold text-slate-900 dark:text-slate-50">System Integrity: 100%</p>
               <p className="text-[11px] text-slate-400 font-medium tracking-tight">Active nodes responding across 12 region clusters</p>
             </div>
          </div>
          <div className="flex items-center gap-12">
             <div>
-               <p className="text-[18px] font-black text-slate-900">14.2k</p>
+               <p className="text-[18px] font-black text-slate-900 dark:text-slate-50">14.2k</p>
                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Tasks / 24H</p>
             </div>
-            <div className="border-l border-slate-200 pl-12">
-               <p className="text-[18px] font-black text-slate-900">1.2s</p>
+            <div className="border-l border-slate-200 dark:border-slate-700 pl-12">
+               <p className="text-[18px] font-black text-slate-900 dark:text-slate-50">1.2s</p>
                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">P99 Latency</p>
             </div>
          </div>

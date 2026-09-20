@@ -4,7 +4,7 @@ import { Plus, Trash2, GripVertical } from 'lucide-react';
 import { COLOR_PRESETS } from './constants';
 
 const inputClass = 'w-full text-sm px-3 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 outline-none transition-all';
-const labelClass = 'text-[11px] font-semibold uppercase tracking-wide text-slate-500 mb-1.5 block';
+const labelClass = 'text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1.5 block';
 
 export default function ChatbotCustomizePanel({ config, onChange }) {
   const { appearance, messages, flow } = config;
@@ -128,7 +128,7 @@ export default function ChatbotCustomizePanel({ config, onChange }) {
                 type="checkbox"
                 checked={!!flow[key]}
                 onChange={(e) => setFlow({ [key]: e.target.checked })}
-                className="rounded text-teal-600"
+                className="rounded text-teal-600 dark:text-teal-400"
               />
               <span className="text-sm text-slate-700 dark:text-slate-300">{label}</span>
             </label>
@@ -159,7 +159,7 @@ export default function ChatbotCustomizePanel({ config, onChange }) {
           <button
             type="button"
             onClick={addQuestion}
-            className="inline-flex items-center gap-1.5 text-xs font-medium text-teal-700 hover:text-teal-800 mt-1"
+            className="inline-flex items-center gap-1.5 text-xs font-medium text-teal-700 dark:text-teal-300 hover:text-teal-800 dark:hover:text-teal-200 mt-1"
           >
             <Plus className="w-3.5 h-3.5" /> Add question
           </button>

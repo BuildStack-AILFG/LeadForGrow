@@ -38,9 +38,9 @@ export default function SettingsHub() {
           {/* Quick stats */}
           <div className="grid grid-cols-3 gap-3 mt-6">
             {[
-              { label: 'Sections', value: String(SETTINGS_HUB_CARDS.length), icon: Settings, accent: 'text-teal-600 bg-teal-50 dark:bg-teal-950/40' },
-              { label: 'Integrations', value: '25+ apps', icon: Plug, accent: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40' },
-              { label: 'Team', value: 'Roles & access', icon: Users, accent: 'text-violet-600 bg-violet-50 dark:bg-violet-950/40' }
+              { label: 'Sections', value: String(SETTINGS_HUB_CARDS.length), icon: Settings, accent: 'text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/40' },
+              { label: 'Integrations', value: '25+ apps', icon: Plug, accent: 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40' },
+              { label: 'Team', value: 'Roles & access', icon: Users, accent: 'text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/40' }
             ].map((s) => {
               const Icon = s.icon;
               return (

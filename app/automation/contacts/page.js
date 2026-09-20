@@ -18,17 +18,17 @@ import AutoPageIntro from '@/app/automation/components/shared/tour/AutoPageIntro
 function ContactsEmptyState({ onCreate }) {
   return (
     <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
-      <div className="w-16 h-16 rounded-2xl bg-[#F9FAFB] border border-[#E5E7EB] flex items-center justify-center mb-5">
-        <UserCircle className="w-8 h-8 text-[#98A2B3]" strokeWidth={1.5} />
+      <div className="w-16 h-16 rounded-2xl bg-[#F9FAFB] dark:bg-slate-900 border border-[#E5E7EB] dark:border-slate-700 flex items-center justify-center mb-5">
+        <UserCircle className="w-8 h-8 text-[#98A2B3] dark:text-slate-400" strokeWidth={1.5} />
       </div>
-      <h3 className="text-[16px] font-semibold text-[#101828] mb-1">No contacts yet</h3>
-      <p className="text-[13px] text-[#667085] max-w-sm mb-6">
+      <h3 className="text-[16px] font-semibold text-[#101828] dark:text-slate-100 mb-1">No contacts yet</h3>
+      <p className="text-[13px] text-[#667085] dark:text-slate-300 max-w-sm mb-6">
         Add your first contact to track relationships, deals, and activity in one place.
       </p>
       <button
         type="button"
         onClick={onCreate}
-        className="px-5 py-2.5 text-[13px] font-semibold text-white bg-[#101828] hover:bg-[#1F2937] rounded-lg shadow-sm transition-colors"
+        className="px-5 py-2.5 text-[13px] font-semibold text-white bg-[#101828] dark:bg-slate-700 hover:bg-[#1F2937] rounded-lg shadow-sm transition-colors"
       >
         Add First Contact
       </button>
@@ -44,7 +44,7 @@ function ContactsContent() {
   const hasFilters = ws.filters.search || ws.filters.type || ws.filters.ownerId || ws.filters.hasOpenDeals;
 
   return (
-    <div className="min-h-full bg-white">
+    <div className="min-h-full bg-white dark:bg-slate-900">
       <div className="px-4 sm:px-6 pb-8 max-w-[1600px] mx-auto pt-6">
         <ContactsHeader
           search={ws.searchInput}

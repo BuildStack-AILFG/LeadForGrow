@@ -32,7 +32,7 @@ export default function AutomationAnalyticsPage() {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
       <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Automation Analytics</h1>
-      <p className="text-sm text-slate-500 mb-8">Platform-wide workflow performance</p>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-8">Platform-wide workflow performance</p>
 
       <AutoPageIntro />
 
@@ -44,7 +44,7 @@ export default function AutomationAnalyticsPage() {
           { label: 'Avg duration', value: o.avgDurationMs ? `${Math.round(o.avgDurationMs / 1000)}s` : '—', icon: Activity, color: 'violet' },
         ].map((s) => (
           <div key={s.label} className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-            <p className="text-xs text-slate-500">{s.label}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">{s.label}</p>
             <p className="text-2xl font-bold text-slate-900 dark:text-white mt-1">{s.value ?? 0}</p>
           </div>
         ))}
@@ -59,7 +59,7 @@ export default function AutomationAnalyticsPage() {
             {(data?.workflows || []).map((w) => (
               <div key={w.id} className="flex items-center justify-between text-sm py-2 border-b border-slate-100 dark:border-slate-800 last:border-0">
                 <span className="text-slate-700 dark:text-slate-300 truncate">{w.name}</span>
-                <span className="text-xs text-slate-500 shrink-0 ml-2">{w.runs} runs · {w.completed} done</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400 shrink-0 ml-2">{w.runs} runs · {w.completed} done</span>
               </div>
             ))}
           </div>
@@ -71,12 +71,12 @@ export default function AutomationAnalyticsPage() {
           </h2>
           <div className="space-y-2">
             {(data?.broadcasts || []).length === 0 ? (
-              <p className="text-sm text-slate-500">No broadcasts yet</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400">No broadcasts yet</p>
             ) : (
               data.broadcasts.map((b) => (
                 <div key={b.id} className="flex items-center justify-between text-sm py-2 border-b border-slate-100 dark:border-slate-800 last:border-0">
                   <span className="text-slate-700 dark:text-slate-300 truncate">{b.name}</span>
-                  <span className="text-xs text-slate-500">{b.sent} sent</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">{b.sent} sent</span>
                 </div>
               ))
             )}

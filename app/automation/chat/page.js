@@ -286,7 +286,7 @@ function ChatInboxContent() {
                         <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">
                           {draft.subject || '(no subject)'}
                         </p>
-                        <p className="text-xs text-slate-500 truncate mt-0.5">
+                        <p className="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">
                           {draft.bodyText || 'Empty draft'}
                         </p>
                         <p className="text-[10px] text-slate-400 mt-1">
@@ -294,10 +294,10 @@ function ChatInboxContent() {
                         </p>
                       </div>
                       <div className="flex items-center gap-1 shrink-0">
-                        <button type="button" onClick={() => continueDraft(draft)} className="px-2.5 py-1.5 text-xs font-semibold text-[#1D4B3E] bg-[#F0F9F5] hover:bg-[#dcefe6] rounded">
+                        <button type="button" onClick={() => continueDraft(draft)} className="px-2.5 py-1.5 text-xs font-semibold text-brand-ink bg-brand-tint hover:bg-[#dcefe6] dark:hover:bg-slate-700 rounded">
                           Continue editing
                         </button>
-                        <button type="button" onClick={() => deleteDraft(draft)} className="p-1.5 rounded text-slate-400 hover:text-red-600 hover:bg-red-50" title="Delete draft">
+                        <button type="button" onClick={() => deleteDraft(draft)} className="p-1.5 rounded text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30" title="Delete draft">
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
@@ -378,7 +378,7 @@ function ChatInboxContent() {
               <MessageSquare className="w-8 h-8 text-slate-300" />
             </div>
             <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-200">Unified Inbox</h2>
-            <p className="text-sm text-slate-500 mt-1 max-w-sm">WhatsApp, Instagram & Email — select a conversation to reply.</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-sm">WhatsApp, Instagram & Email — select a conversation to reply.</p>
           </div>
         )}
       </main>
@@ -429,7 +429,7 @@ function ChatInboxContent() {
 
 export default function ChatInboxPage() {
   return (
-    <Suspense fallback={<div className="h-screen flex items-center justify-center"><div className="w-8 h-8 border-2 border-[#1D4B3E] border-t-transparent rounded-full animate-spin" /></div>}>
+    <Suspense fallback={<div className="h-screen flex items-center justify-center"><div className="w-8 h-8 border-2 border-brand border-t-transparent rounded-full animate-spin" /></div>}>
       <ChatInboxContent />
     </Suspense>
   );

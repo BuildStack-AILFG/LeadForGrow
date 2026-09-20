@@ -37,11 +37,11 @@ function Row({ href, title, sub, chip, chipClass }) {
   const content = (
     <>
       <div className="min-w-0">
-        <p className="text-[13px] font-medium text-[#1A1D1F] truncate">{title}</p>
-        {sub && <p className="text-[11px] text-[#94A3B8] truncate mt-0.5">{sub}</p>}
+        <p className="text-[13px] font-medium text-[#1A1D1F] dark:text-slate-100 truncate">{title}</p>
+        {sub && <p className="text-[11px] text-[#94A3B8] dark:text-slate-400 truncate mt-0.5">{sub}</p>}
       </div>
       {chip && (
-        <span className={`shrink-0 text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${chipClass || 'bg-[#F0F9F5] text-[#1D4B3E]'}`}>
+        <span className={`shrink-0 text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${chipClass || 'bg-brand-tint text-brand-ink'}`}>
           {chip}
         </span>
       )}
@@ -49,7 +49,7 @@ function Row({ href, title, sub, chip, chipClass }) {
   );
   const className = 'flex items-center justify-between gap-3 py-2.5 px-1 -mx-1 rounded transition-colors';
   return href
-    ? <Link href={href} className={`${className} hover:bg-[#FAFBFB]`}>{content}</Link>
+    ? <Link href={href} className={`${className} hover:bg-[#FAFBFB] dark:hover:bg-slate-800`}>{content}</Link>
     : <div className={className}>{content}</div>;
 }
 
@@ -61,7 +61,7 @@ function buildRows(tab, focus, currency) {
       title: l.name || 'Unnamed lead',
       sub: l.phone,
       chip: l.priority === 'urgent' ? 'Urgent' : 'High',
-      chipClass: l.priority === 'urgent' ? 'bg-[#FEF3F2] text-[#C0353A]' : 'bg-[#FFFBEB] text-[#B45309]',
+      chipClass: l.priority === 'urgent' ? 'bg-[#FEF3F2] dark:bg-slate-900 text-[#C0353A] dark:text-red-400' : 'bg-[#FFFBEB] dark:bg-slate-900 text-[#B45309] dark:text-amber-400',
     }));
   }
   if (tab === 'staleDeals') {
@@ -100,7 +100,7 @@ function buildRows(tab, focus, currency) {
     title: t.title || 'Untitled task',
     sub: `Due ${relativeDays(t.dueDate)}`,
     chip: t.type,
-    chipClass: 'bg-[#FEF3F2] text-[#C0353A]',
+    chipClass: 'bg-[#FEF3F2] dark:bg-slate-900 text-[#C0353A] dark:text-red-400',
   }));
 }
 
@@ -132,22 +132,22 @@ export default function NeedsAttentionCard({ focus, currency = 'INR', onRefresh 
             type="button"
             onClick={() => setTab(t.id)}
             className={`shrink-0 inline-flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-medium rounded-none transition-colors whitespace-nowrap ${
-              tab === t.id ? 'bg-[#1D4B3E] text-white' : 'bg-[#F2F4F3] text-[#667085] hover:text-[#101828]'
+              tab === t.id ? 'bg-brand text-white' : 'bg-[#F2F4F3] dark:bg-slate-900 text-[#667085] dark:text-slate-300 hover:text-[#101828] dark:hover:text-slate-100'
             }`}
           >
             {t.label}
             {counts[t.id] > 0 && (
-              <span className={tab === t.id ? 'text-white/80' : 'text-[#94A3B8]'}>{counts[t.id]}</span>
+              <span className={tab === t.id ? 'text-white/80' : 'text-[#94A3B8] dark:text-slate-400'}>{counts[t.id]}</span>
             )}
           </button>
         ))}
       </div>
 
-      <div className="flex-1 min-h-0 overflow-y-auto divide-y divide-[#F1F3F2]">
+      <div className="flex-1 min-h-0 overflow-y-auto divide-y divide-[#F1F3F2] dark:divide-slate-700">
         {rows.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full py-8 text-center px-4">
-            <p className="text-[13px] font-medium text-[#475569]">All clear</p>
-            <p className="text-[12px] text-[#98A2B3] mt-1 max-w-[220px]">{EMPTY_COPY[tab]}</p>
+            <p className="text-[13px] font-medium text-[#475569] dark:text-slate-300">All clear</p>
+            <p className="text-[12px] text-[#98A2B3] dark:text-slate-400 mt-1 max-w-[220px]">{EMPTY_COPY[tab]}</p>
           </div>
         ) : (
           rows.slice(0, 8).map((r) => <Row key={r.id} {...r} />)

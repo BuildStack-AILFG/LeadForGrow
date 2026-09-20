@@ -117,14 +117,14 @@ function LeadsWorkspaceContent() {
                 />
               ))}
               {ws.leads.length === 0 && (
-                <p className="text-center text-sm text-slate-500 py-12">No leads match your filters.</p>
+                <p className="text-center text-sm text-slate-500 dark:text-slate-400 py-12">No leads match your filters.</p>
               )}
             </div>
           </>
         ) : ws.leads.length === 0 ? (
           <div className="py-20 text-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl">
             <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">No leads in your pipeline</p>
-            <p className="text-sm text-slate-500 mt-1">Adjust filters or capture new leads to see them here.</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Adjust filters or capture new leads to see them here.</p>
           </div>
         ) : (
           <>
@@ -134,7 +134,7 @@ function LeadsWorkspaceContent() {
             onOpenDrawer={ws.setDrawerLeadId}
           />
           {ws.pagination.total > ws.leads.length && (
-            <p className="mt-3 text-xs text-amber-700 bg-amber-50 border border-amber-100 rounded-lg px-3 py-2">
+            <p className="mt-3 text-xs text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/30 border border-amber-100 dark:border-amber-900/50 rounded-lg px-3 py-2">
               Showing {ws.leads.length} of {ws.pagination.total} leads in pipeline view. Use filters to narrow results.
             </p>
           )}

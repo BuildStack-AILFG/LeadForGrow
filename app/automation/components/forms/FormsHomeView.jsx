@@ -26,7 +26,7 @@ export default function FormsHomeView({ forms, stats, maxForms, onCreate, onSele
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
         <div>
           <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-50 tracking-tight">Lead capture forms</h1>
-          <p className="text-sm text-slate-500 mt-1">Build, publish, and track forms that feed your CRM.</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Build, publish, and track forms that feed your CRM.</p>
         </div>
         <button
           type="button"
@@ -50,9 +50,9 @@ export default function FormsHomeView({ forms, stats, maxForms, onCreate, onSele
           const Icon = c.icon;
           return (
             <div key={c.label} className="bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm">
-              <Icon className="w-4 h-4 text-teal-600 mb-2" />
+              <Icon className="w-4 h-4 text-teal-600 dark:text-teal-400 mb-2" />
               <p className="text-2xl font-semibold text-slate-900 dark:text-slate-50 tabular-nums">{c.value}</p>
-              <p className="text-xs text-slate-500 mt-0.5">{c.label}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{c.label}</p>
             </div>
           );
         })}
@@ -61,10 +61,10 @@ export default function FormsHomeView({ forms, stats, maxForms, onCreate, onSele
       {forms.length === 0 ? (
         <div className="text-center py-20 bg-white dark:bg-slate-900 rounded-2xl shadow-sm">
           <div className="w-16 h-16 rounded-2xl bg-teal-50 dark:bg-teal-950/50 flex items-center justify-center mx-auto mb-4">
-            <FileInput className="w-8 h-8 text-teal-600" />
+            <FileInput className="w-8 h-8 text-teal-600 dark:text-teal-400" />
           </div>
           <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">No forms yet</h2>
-          <p className="text-sm text-slate-500 mt-2 max-w-xs mx-auto">Create your first lead capture form in under 2 minutes.</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 max-w-xs mx-auto">Create your first lead capture form in under 2 minutes.</p>
           <button type="button" onClick={onCreate} className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-teal-600 rounded-xl">
             <Plus className="w-4 h-4" /> Get started
           </button>
@@ -94,15 +94,15 @@ export default function FormsHomeView({ forms, stats, maxForms, onCreate, onSele
                     <div className="flex items-start justify-between gap-2 pr-6">
                       <div className="min-w-0">
                         <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 truncate">{form.name}</p>
-                        <p className="text-xs text-slate-500 mt-0.5">{form.submissionCount || 0} leads · {rate}% conv.</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{form.submissionCount || 0} leads · {rate}% conv.</p>
                       </div>
                       <span className={`text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full flex-shrink-0 ${
-                        form.active !== false ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-500'
+                        form.active !== false ? 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                       }`}>
                         {form.active !== false ? 'Live' : 'Draft'}
                       </span>
                     </div>
-                    <div className="flex items-center gap-1 mt-3 text-xs font-medium text-teal-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="flex items-center gap-1 mt-3 text-xs font-medium text-teal-600 dark:text-teal-400 opacity-0 group-hover:opacity-100 transition-opacity">
                       Open builder <ArrowRight className="w-3.5 h-3.5" />
                     </div>
                   </div>
@@ -112,7 +112,7 @@ export default function FormsHomeView({ forms, stats, maxForms, onCreate, onSele
                   <button
                     type="button"
                     onClick={(e) => { e.stopPropagation(); setMenuId(menuOpen ? null : form._id); }}
-                    className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-white/90 dark:hover:bg-slate-800 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-all"
+                    className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-white/90 dark:hover:bg-slate-800 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-all"
                     aria-label="Form options"
                   >
                     <MoreVertical className="w-4 h-4" />
@@ -131,7 +131,7 @@ export default function FormsHomeView({ forms, stats, maxForms, onCreate, onSele
                         <button
                           type="button"
                           onClick={(e) => handleDelete(e, form)}
-                          className="w-full flex items-center gap-2 px-3 py-2 text-xs text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30"
+                          className="w-full flex items-center gap-2 px-3 py-2 text-xs text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30"
                         >
                           <Trash2 className="w-3.5 h-3.5" /> Delete
                         </button>

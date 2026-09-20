@@ -77,17 +77,17 @@ export default function WorkflowCanvas({
     <div className="relative flex-1 flex flex-col min-h-0 rounded-2xl overflow-hidden border border-slate-200/80 dark:border-slate-800 bg-[#eef1f8] dark:bg-slate-950">
       {/* Toolbar */}
       <div className="absolute top-3 left-3 z-30 flex items-center gap-1 p-1 rounded-xl bg-white/90 dark:bg-slate-900/90 backdrop-blur border border-slate-200 dark:border-slate-700 shadow-lg">
-        <button type="button" onClick={() => setZoom((z) => Math.min(2, z + 0.1))} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600" title="Zoom in"><ZoomIn className="w-4 h-4" /></button>
-        <button type="button" onClick={() => setZoom((z) => Math.max(0.4, z - 0.1))} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600" title="Zoom out"><ZoomOut className="w-4 h-4" /></button>
-        <button type="button" onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600" title="Reset"><Maximize2 className="w-4 h-4" /></button>
+        <button type="button" onClick={() => setZoom((z) => Math.min(2, z + 0.1))} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300" title="Zoom in"><ZoomIn className="w-4 h-4" /></button>
+        <button type="button" onClick={() => setZoom((z) => Math.max(0.4, z - 0.1))} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300" title="Zoom out"><ZoomOut className="w-4 h-4" /></button>
+        <button type="button" onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300" title="Reset"><Maximize2 className="w-4 h-4" /></button>
         <div className="w-px h-5 bg-slate-200 dark:bg-slate-700 mx-0.5" />
-        <button type="button" onClick={onUndo} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600"><Undo2 className="w-4 h-4" /></button>
-        <button type="button" onClick={onRedo} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600"><Redo2 className="w-4 h-4" /></button>
+        <button type="button" onClick={onUndo} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300"><Undo2 className="w-4 h-4" /></button>
+        <button type="button" onClick={onRedo} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300"><Redo2 className="w-4 h-4" /></button>
         <div className="w-px h-5 bg-slate-200 dark:bg-slate-700 mx-0.5" />
         <button
           type="button"
           onClick={() => { setConnectMode(!connectMode); setConnectFrom(null); }}
-          className={`p-2 rounded-lg ${connectMode ? 'bg-teal-100 text-teal-600' : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600'}`}
+          className={`p-2 rounded-lg ${connectMode ? 'bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400' : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300'}`}
           title="Connect nodes"
         >
           <Link2 className="w-4 h-4" />
