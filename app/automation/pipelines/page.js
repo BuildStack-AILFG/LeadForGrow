@@ -183,7 +183,7 @@ function PipelinesContent() {
           <span>Stage name</span>
           <span className="text-center">Score %</span>
           <span>Color</span>
-          <span>Won</span>
+          <span>Won / Lost</span>
           <span />
         </div>
 

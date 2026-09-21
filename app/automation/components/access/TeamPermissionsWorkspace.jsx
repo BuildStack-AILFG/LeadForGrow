@@ -10,6 +10,7 @@ import {
   Key,
   Plus,
   Loader2,
+  Trash2,
 } from 'lucide-react';
 import { useAccessControl } from '../../hooks/useAccessControl';
 import { useTeamWorkspace } from '../../hooks/useTeamWorkspace';
@@ -23,7 +24,6 @@ const SECTIONS = [
   { id: 'members', label: 'Team Members', icon: Users },
   { id: 'roles', label: 'Roles', icon: Shield },
   { id: 'features', label: 'Feature Access', icon: LayoutGrid },
-  { id: 'policies', label: 'Access Policies', icon: Shield },
   { id: 'usage', label: 'Usage Limits', icon: Gauge },
   { id: 'audit', label: 'Audit Logs', icon: ScrollText },
 ];
@@ -131,7 +131,7 @@ export default function TeamPermissionsWorkspace() {
                     {canManage && (
                       <select
                         className="text-sm border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-1.5 bg-white dark:bg-slate-950"
-                        value={m.role === 'owner' ? 'owner' : m.role === 'admin' ? 'admin' : 'sales_agent'}
+                        value={m.roleSlug || (m.role === 'owner' ? 'owner' : m.role === 'admin' ? 'admin' : 'sales_agent')}
                         onChange={(e) =>
                           ac.updateMemberAccess(String(u._id || m.userId), { roleSlug: e.target.value })
                         }
@@ -185,7 +185,23 @@ export default function TeamPermissionsWorkspace() {
                   key={r.slug}
                   className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900"
                 >
-                  <span className="text-[10px] font-semibold uppercase text-indigo-600">{r.slug}</span>
+                  <div className="flex items-start justify-between gap-2">
+                    <span className="text-[10px] font-semibold uppercase text-indigo-600">{r.slug}</span>
+                    {canManage && !r.systemRole && (
+                      <button
+                        type="button"
+                        onClick={async () => {
+                          if (await confirm({ title: 'Delete role', message: `Delete the "${r.name}" role? Members assigned to it will need to be reassigned.`, confirmLabel: 'Delete', danger: true })) {
+                            ac.deleteRole(r._id);
+                          }
+                        }}
+                        className="text-slate-400 hover:text-red-600 shrink-0"
+                        title="Delete role"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
                   <p className="font-semibold text-slate-900 dark:text-slate-100 mt-1">{r.name}</p>
                   <p className="text-xs text-slate-500 mt-1">{r.description}</p>
                   {r.systemRole && (
@@ -199,11 +215,11 @@ export default function TeamPermissionsWorkspace() {
           </div>
         )}
 
-        {(section === 'features' || section === 'policies') && (
+        {section === 'features' && (
           <div className="space-y-4">
             <div>
               <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">
-                {section === 'features' ? 'Feature access matrix' : 'Access policies'}
+                Feature access matrix
               </h2>
               <p className="text-sm text-slate-500 mb-4">
                 Control view, create, edit, delete, export, and manage per module. Plan locks apply on top.

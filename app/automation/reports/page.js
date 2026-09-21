@@ -90,7 +90,7 @@ function ReportsContent() {
           <LeadAnalyticsSection
             sources={ws.filteredSources}
             totalLeads={ws.reports?.totalLeads}
-            statusCounts={statusCounts}
+            statusCounts={ws.filteredStatusCounts}
           />
 
           <SalesAnalyticsSection reports={ws.reports} metrics={ws.metrics} />

@@ -123,34 +123,24 @@ function buildTimelineRows(meetings) {
   );
 
   if (!sorted.length) {
-    const base = new Date();
-    base.setHours(9, 0, 0, 0);
-    return [
-      {
-        key: 'empty-9',
-        hour: 9,
-        hourLabel: hourLabel(9),
+    // Empty day — represent the whole business day (9am–6pm, matching the booking
+    // engine's default hours) as hourly "Available Time" rows, not just 3 fixed
+    // morning slots — that hardcoded list was the entire reason the schedule looked
+    // like it "couldn't scroll past 11 AM": there was nothing rendered after it.
+    const rows = [];
+    for (let hour = 9; hour < 18; hour += 1) {
+      const start = new Date();
+      start.setHours(hour, 0, 0, 0);
+      rows.push({
+        key: `empty-${hour}`,
+        hour,
+        hourLabel: hourLabel(hour),
         type: 'available',
-        start: base,
-        end: new Date(base.getTime() + 60 * 60000),
-      },
-      {
-        key: 'empty-10',
-        hour: 10,
-        hourLabel: hourLabel(10),
-        type: 'available',
-        start: new Date(base.getTime() + 60 * 60000),
-        end: new Date(base.getTime() + 100 * 60000),
-      },
-      {
-        key: 'empty-11',
-        hour: 11,
-        hourLabel: hourLabel(11),
-        type: 'available',
-        start: new Date(base.getTime() + 120 * 60000),
-        end: new Date(base.getTime() + 180 * 60000),
-      },
-    ];
+        start,
+        end: new Date(start.getTime() + 60 * 60000),
+      });
+    }
+    return rows;
   }
 
   const rows = [];

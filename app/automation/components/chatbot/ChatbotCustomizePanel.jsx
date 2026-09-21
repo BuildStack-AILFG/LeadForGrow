@@ -3,7 +3,7 @@
 import { Plus, Trash2, GripVertical } from 'lucide-react';
 import { COLOR_PRESETS } from './constants';
 
-const inputClass = 'w-full text-sm px-3 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 outline-none transition-all';
+const inputClass = 'w-full text-sm px-3 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded focus:ring-2 focus:ring-[#1D4B3E]/30 focus:border-teal-500 outline-none transition-all';
 const labelClass = 'text-[11px] font-semibold uppercase tracking-wide text-slate-500 mb-1.5 block';
 
 export default function ChatbotCustomizePanel({ config, onChange }) {
@@ -123,12 +123,12 @@ export default function ChatbotCustomizePanel({ config, onChange }) {
             { key: 'askSupportType', label: 'Ask sales vs support' },
             { key: 'aiEnabled', label: 'Answer their final message with AI (using your Knowledge Base) instead of a canned "thank you"' },
           ].map(({ key, label }) => (
-            <label key={key} className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 cursor-pointer">
+            <label key={key} className="flex items-center gap-3 p-3 rounded bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 cursor-pointer">
               <input
                 type="checkbox"
                 checked={!!flow[key]}
                 onChange={(e) => setFlow({ [key]: e.target.checked })}
-                className="rounded text-teal-600"
+                className="rounded text-[#1D4B3E]"
               />
               <span className="text-sm text-slate-700 dark:text-slate-300">{label}</span>
             </label>

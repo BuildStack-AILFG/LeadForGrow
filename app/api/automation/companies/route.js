@@ -7,6 +7,7 @@ import { withTenantAuth, resolveTenant } from '@/lib/auth';
 import { parseListParams, buildSearchOr, paginationMeta } from '@/lib/crm/queryBuilder';
 import { logTimelineEvent } from '@/lib/crm/timeline';
 import { enrichCompaniesWithStats } from '@/lib/crm/companyService';
+import { CLOSED_STAGES } from '@/lib/crm/stageKeys';
 
 export const dynamic = 'force-dynamic';
 
@@ -41,24 +42,30 @@ export const GET = withTenantAuth(async (request) => {
     const searchOr = buildSearchOr(['name', 'domain', 'website', 'email', 'gstNumber'], search);
     if (searchOr) query.$or = searchOr;
 
-    let companies = await Company.find(query)
+    // Resolved before pagination (not filtered after, on just the current page's rows) so
+    // `total`/`pages` reflect every matching company, not just however many of the current
+    // page happen to also match — that previously left Next permanently disabled once this
+    // filter was combined with pagination, since `total` could never exceed `limit`.
+    if (hasOpenDeals === 'yes' || hasOpenDeals === 'no') {
+      const openCompanyIds = await Deal.distinct('companyId', {
+        businessId: tenant.business._id,
+        archived: false,
+        companyId: { $ne: null },
+        stage: { $nin: CLOSED_STAGES },
+      });
+      query._id = hasOpenDeals === 'yes' ? { $in: openCompanyIds } : { $nin: openCompanyIds };
+    }
+
+    const companies = await Company.find(query)
       .populate('ownerId', 'firstName lastName email')
       .sort({ [sortField]: sortDir })
       .skip(skip)
       .limit(limit)
       .lean();
 
-    let enriched = await enrichCompaniesWithStats(tenant.business._id, companies);
+    const enriched = await enrichCompaniesWithStats(tenant.business._id, companies);
 
-    if (hasOpenDeals === 'yes') {
-      enriched = enriched.filter((c) => (c.stats?.openDealCount || 0) > 0);
-    } else if (hasOpenDeals === 'no') {
-      enriched = enriched.filter((c) => (c.stats?.openDealCount || 0) === 0);
-    }
-
-    const total = hasOpenDeals
-      ? enriched.length
-      : await Company.countDocuments(query);
+    const total = await Company.countDocuments(query);
 
     return NextResponse.json({ success: true, data: enriched, pagination: paginationMeta(total, page, limit) });
   } catch (error) {

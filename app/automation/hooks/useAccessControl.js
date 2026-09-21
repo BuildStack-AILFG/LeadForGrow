@@ -72,6 +72,14 @@ export function useAccessControl() {
     } else toast.error(res.error || 'Failed');
   };
 
+  const deleteRole = async (roleId) => {
+    const res = await authJson(`/api/access/roles/${roleId}`, { method: 'DELETE' });
+    if (res.success) {
+      toast.success('Role deleted');
+      load();
+    } else toast.error(res.error || 'Failed to delete role');
+  };
+
   const updateMemberAccess = async (userId, payload) => {
     const res = await authJson(`/api/access/members/${userId}`, {
       method: 'PATCH',
@@ -95,6 +103,7 @@ export function useAccessControl() {
     loadAudit,
     updateRolePermissions,
     createRole,
+    deleteRole,
     updateMemberAccess,
   };
 }

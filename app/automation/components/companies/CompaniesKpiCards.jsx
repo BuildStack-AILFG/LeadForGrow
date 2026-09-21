@@ -27,23 +27,23 @@ function MiniSparkline({ data = [], color = '#344054' }) {
 function KpiCard({ label, value, trend, trendLabel, sparkData, accent, pipelineText }) {
   const trendUp = trend == null ? true : trend >= 0;
   return (
-    <div className="bg-white border border-[#E5E7EB] rounded-xl p-4 shadow-[0_1px_2px_rgba(16,24,40,0.04)] hover:shadow-[0_4px_12px_rgba(16,24,40,0.06)] transition-shadow duration-200">
+    <div className="bg-white border border-[#E5E7EB] rounded-xl p-3.5 shadow-[0_1px_2px_rgba(16,24,40,0.04)] hover:shadow-[0_4px_12px_rgba(16,24,40,0.06)] transition-shadow duration-200">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
-          <p className="text-[12px] font-medium text-[#667085] mb-2">{label}</p>
-          <p className="text-[26px] font-semibold text-[#101828] tracking-tight tabular-nums leading-none">
+          <p className="text-[12px] font-medium text-[#667085] mb-1.5">{label}</p>
+          <p className="text-[22px] font-semibold text-[#101828] tracking-tight tabular-nums leading-none">
             {value}
           </p>
           {pipelineText && (
-            <p className="text-[11px] font-medium mt-2 text-[#667085]">{pipelineText}</p>
+            <p className="text-[11px] font-medium mt-1.5 text-[#667085]">{pipelineText}</p>
           )}
           {trendLabel && trend != null && (
-            <p className={`text-[11px] font-medium mt-2 ${trendUp ? 'text-emerald-600' : 'text-red-500'}`}>
+            <p className={`text-[11px] font-medium mt-1.5 ${trendUp ? 'text-emerald-600' : 'text-red-500'}`}>
               {trendUp && trend > 0 ? '+' : ''}{trend}% {trendLabel}
             </p>
           )}
           {trendLabel && trend == null && !pipelineText && (
-            <p className="text-[11px] font-medium mt-2 text-[#667085]">{trendLabel}</p>
+            <p className="text-[11px] font-medium mt-1.5 text-[#667085]">{trendLabel}</p>
           )}
         </div>
         <MiniSparkline data={sparkData} color={accent || '#667085'} />

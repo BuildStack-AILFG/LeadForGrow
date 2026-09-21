@@ -37,6 +37,7 @@ export function useSequencesWorkspace() {
   const [testModeOpen, setTestModeOpen] = useState(false);
   const historyRef = useRef({ past: [], future: [] });
   const clipboardRef = useRef(null);
+  const [hasClipboard, setHasClipboard] = useState(false);
 
   const selectedSequence = useMemo(
     () => sequences.find((s) => s._id === selectedId) || null,
@@ -300,6 +301,7 @@ export function useSequencesWorkspace() {
     const node = draftNodes.find((n) => n.id === selectedNodeId);
     if (node) {
       clipboardRef.current = JSON.parse(JSON.stringify(node));
+      setHasClipboard(true);
       toast.success('Node copied');
     }
   };
@@ -487,7 +489,7 @@ export function useSequencesWorkspace() {
     startWizard, openEditor, finishWizard, saveSequence, deleteSequence,
     fetchSequences, loadExecutions, updateNode, addNode, removeNode, duplicateNode,
     connectNodes, moveNode, undo, redo, setDraftNodes, setDraftEdges,
-    copySelection, pasteSelection, openTestMode, runTestMode, testModeOpen, setTestModeOpen, toggleEnabled,
+    copySelection, pasteSelection, hasClipboard, openTestMode, runTestMode, testModeOpen, setTestModeOpen, toggleEnabled,
     templates: SEQUENCE_TEMPLATES,
   };
 }

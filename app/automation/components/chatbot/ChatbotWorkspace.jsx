@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   Bot, Loader2, Save, Eye, Rocket, Users, MessageSquare,
@@ -18,6 +18,13 @@ export default function ChatbotWorkspace() {
   const ws = useChatbotWorkspace();
   const [tab, setTab] = useState('customize');
 
+  // Loading→loaded swaps a short skeleton for much taller real content — if the browser
+  // carried over a scroll position from wherever the user navigated from, that same
+  // scrollTop now lands partway down the real page instead of at its top.
+  useEffect(() => {
+    if (!ws.loading) window.scrollTo(0, 0);
+  }, [ws.loading]);
+
   if (ws.loading) {
     return <PageLoader label="Loading chatbot…" />;
   }
@@ -30,7 +37,7 @@ export default function ChatbotWorkspace() {
       <div className="sticky top-0 z-20 bg-white/90 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
         <div className="max-w-[1400px] mx-auto px-6 py-4 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="w-10 h-10 rounded-xl bg-teal-600 flex items-center justify-center shadow-lg shadow-teal-600/20 flex-shrink-0">
+            <div className="w-10 h-10 rounded bg-[#1D4B3E] flex items-center justify-center shadow-lg shadow-teal-600/20 flex-shrink-0">
               <Bot className="w-5 h-5 text-white" strokeWidth={2} />
             </div>
             <div className="min-w-0">
@@ -45,7 +52,7 @@ export default function ChatbotWorkspace() {
                 type="button"
                 onClick={() => ws.save()}
                 disabled={ws.saving}
-                className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors disabled:opacity-50"
               >
                 {ws.saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
                 Save
@@ -56,7 +63,7 @@ export default function ChatbotWorkspace() {
                 type="button"
                 onClick={ws.unpublish}
                 disabled={ws.saving}
-                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 shadow-sm"
+                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 shadow-sm"
               >
                 <PauseCircle className="w-3.5 h-3.5" /> Unpublish
               </button>
@@ -65,7 +72,7 @@ export default function ChatbotWorkspace() {
                 type="button"
                 onClick={ws.publish}
                 disabled={ws.saving}
-                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-xl bg-teal-600 text-white shadow-lg shadow-teal-600/25 hover:bg-teal-700 transition-colors disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded bg-[#1D4B3E] text-white shadow-lg shadow-teal-600/25 hover:bg-[#163c32] transition-colors disabled:opacity-50"
               >
                 <Rocket className="w-3.5 h-3.5" /> Publish chatbot
               </button>
@@ -91,7 +98,7 @@ export default function ChatbotWorkspace() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 p-1 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 w-fit mb-6 shadow-sm">
+        <div className="flex gap-1 p-1 bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-800 w-fit mb-6 shadow-sm">
           {WORKSPACE_TABS.map(({ id, label }) => (
             <button
               key={id}
@@ -99,7 +106,7 @@ export default function ChatbotWorkspace() {
               onClick={() => setTab(id)}
               className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all ${
                 tab === id
-                  ? 'bg-teal-600 text-white shadow-sm'
+                  ? 'bg-[#1D4B3E] text-white shadow-sm'
                   : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
               }`}
             >
@@ -109,7 +116,7 @@ export default function ChatbotWorkspace() {
         </div>
 
         {tab === 'leads' ? (
-          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-8 shadow-sm">
+          <div className="bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-800 p-8 shadow-sm">
             <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">Leads from your chatbot</h2>
             <p className="text-sm text-slate-500 mt-1 mb-6">
               Every submission is saved with source <span className="font-medium text-slate-700 dark:text-slate-300">Bot</span> and includes the full conversation transcript.
@@ -117,7 +124,7 @@ export default function ChatbotWorkspace() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/automation/leads?source=bot"
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white text-sm font-semibold rounded-xl hover:bg-teal-700 transition-colors"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1D4B3E] text-white text-sm font-semibold rounded hover:bg-[#163c32] transition-colors"
               >
                 View bot leads <ArrowUpRight className="w-4 h-4" />
               </Link>
@@ -126,7 +133,7 @@ export default function ChatbotWorkspace() {
         ) : (
           <div className="grid grid-cols-1 xl:grid-cols-5 gap-8">
             <div className="xl:col-span-2">
-              <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+              <div className="bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
                 {tab === 'customize' && (
                   <ChatbotCustomizePanel config={ws.config} onChange={ws.patchConfig} />
                 )}
@@ -141,7 +148,7 @@ export default function ChatbotWorkspace() {
             </div>
 
             <div className="xl:col-span-3">
-              <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 shadow-sm">
+              <div className="bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-800 p-4 shadow-sm">
                 <div className="flex items-center justify-between px-2 pb-3">
                   <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
                     <Eye className="w-3.5 h-3.5" /> Live preview
@@ -166,12 +173,12 @@ function StatCard({ label, value, icon: Icon, accent }) {
   const colors = {
     emerald: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30',
     amber: 'text-amber-600 bg-amber-50 dark:bg-amber-950/30',
-    teal: 'text-teal-600 bg-teal-50 dark:bg-teal-950/30',
-    blue: 'text-teal-600 bg-teal-50 dark:bg-teal-950/30',
+    teal: 'text-[#1D4B3E] bg-teal-50 dark:bg-teal-950/30',
+    blue: 'text-[#1D4B3E] bg-teal-50 dark:bg-teal-950/30',
     slate: 'text-slate-600 bg-slate-100 dark:bg-slate-800',
   };
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 shadow-sm">
+    <div className="bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-800 p-4 shadow-sm">
       <div className="flex items-center justify-between">
         <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">{label}</p>
         <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${colors[accent]}`}>

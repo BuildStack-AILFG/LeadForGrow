@@ -74,7 +74,7 @@ export default function HelpLauncher() {
       {open && (
         <div
           ref={panelRef}
-          className="lfg-tour-pop glass-panel fixed z-[9996] bottom-[172px] right-6 w-72 rounded-2xl p-4 shadow-2xl"
+          className="lfg-tour-pop glass-panel fixed z-[9996] bottom-[148px] right-6 w-72 rounded-2xl p-4 shadow-2xl"
         >
           <div className="flex items-center justify-between mb-3">
             <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
@@ -133,7 +133,7 @@ export default function HelpLauncher() {
         onClick={() => setOpen((v) => !v)}
         aria-label="Open help"
         aria-expanded={open}
-        className="fixed z-[9995] bottom-[104px] right-6 w-11 h-11 rounded-full glass-dark text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-transform"
+        className="fixed z-[9995] bottom-[80px] right-6 w-11 h-11 rounded-full glass-dark text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-transform"
         title="Need help?"
       >
         <Compass className="w-[18px] h-[18px]" />

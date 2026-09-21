@@ -7,7 +7,8 @@ import KnowledgeChunk from '@/models/ai/KnowledgeChunk';
 export const GET = withAuth()(async (req, { params }) => {
   try {
     await dbConnect();
-    const source = await KnowledgeSource.findOne({ _id: params.id, businessId: req.user.businessId }).lean();
+    const { id } = await params;
+    const source = await KnowledgeSource.findOne({ _id: id, businessId: req.user.businessId }).lean();
     if (!source) return NextResponse.json({ success: false, error: 'Not found' }, { status: 404 });
     return NextResponse.json({ success: true, data: source });
   } catch (error) {
@@ -18,6 +19,7 @@ export const GET = withAuth()(async (req, { params }) => {
 export const PUT = withAuth()(async (req, { params }) => {
   try {
     await dbConnect();
+    const { id } = await params;
     const body = await req.json();
     const allowed = ['name', 'category', 'url', 'fileUrl', 'fileName', 'mimeType', 'content', 'faqs', 'catalog', 'customInstructions'];
     const patch = {};
@@ -26,7 +28,7 @@ export const PUT = withAuth()(async (req, { params }) => {
     }
 
     const source = await KnowledgeSource.findOneAndUpdate(
-      { _id: params.id, businessId: req.user.businessId },
+      { _id: id, businessId: req.user.businessId },
       { $set: patch, status: 'pending' },
       { new: true }
     );
@@ -40,7 +42,8 @@ export const PUT = withAuth()(async (req, { params }) => {
 export const DELETE = withAuth()(async (req, { params }) => {
   try {
     await dbConnect();
-    const source = await KnowledgeSource.findOneAndDelete({ _id: params.id, businessId: req.user.businessId });
+    const { id } = await params;
+    const source = await KnowledgeSource.findOneAndDelete({ _id: id, businessId: req.user.businessId });
     if (!source) return NextResponse.json({ success: false, error: 'Not found' }, { status: 404 });
     await KnowledgeChunk.deleteMany({ sourceId: source._id, businessId: req.user.businessId });
     return NextResponse.json({ success: true });

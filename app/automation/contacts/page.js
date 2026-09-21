@@ -1,8 +1,7 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { UserCircle } from 'lucide-react';
-import { toast } from 'react-hot-toast';
 import { useContactsWorkspace } from '../hooks/useContactsWorkspace';
 import ContactsHeader from '../components/contacts/ContactsHeader';
 import ContactsKpiCards from '../components/contacts/ContactsKpiCards';
@@ -11,6 +10,7 @@ import ContactTable from '../components/contacts/ContactTable';
 import ContactsBulkBar from '../components/contacts/ContactsBulkBar';
 import ContactsPagination from '../components/contacts/ContactsPagination';
 import ContactCreateModal from '../components/contacts/ContactCreateModal';
+import ContactsImportModal from '../components/contacts/ContactsImportModal';
 import ContactDrawer from '../components/contacts/ContactDrawer';
 import ContactsSkeleton from '../components/contacts/ContactsSkeleton';
 import AutoPageIntro from '@/app/automation/components/shared/tour/AutoPageIntro';
@@ -38,6 +38,7 @@ function ContactsEmptyState({ onCreate }) {
 
 function ContactsContent() {
   const ws = useContactsWorkspace();
+  const [showImport, setShowImport] = useState(false);
 
   if (ws.loading && !ws.contacts.length) return <ContactsSkeleton />;
 
@@ -54,7 +55,7 @@ function ContactsContent() {
           onRefresh={() => { ws.fetchContacts(true); }}
           onCreate={() => ws.setShowModal(true)}
           onExport={ws.exportContacts}
-          onImport={() => toast('Import coming soon')}
+          onImport={() => setShowImport(true)}
           showFilters={ws.showFilters}
           onToggleFilters={() => ws.setShowFilters((v) => !v)}
           showSort={ws.showSort}
@@ -123,6 +124,12 @@ function ContactsContent() {
         contactId={ws.drawerId}
         onClose={() => ws.setDrawerId(null)}
         onUpdated={() => ws.fetchContacts(true)}
+      />
+
+      <ContactsImportModal
+        open={showImport}
+        onClose={() => setShowImport(false)}
+        onImported={() => ws.fetchContacts(true)}
       />
     </div>
   );

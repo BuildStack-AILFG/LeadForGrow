@@ -302,14 +302,22 @@ export default function FormsWorkspace() {
               </div>
             )}
 
-            {ws.view === 'publish' && ws.selectedForm && (
-              <PublishPanel
-                form={ws.selectedForm}
-                styling={ws.draftStyling}
-                onStylingChange={ws.setDraftStyling}
-                onPublish={(active) => ws.togglePublish(active)}
-                isPublished={ws.selectedForm.active !== false}
-              />
+            {ws.view === 'publish' && (
+              ws.selectedForm ? (
+                <PublishPanel
+                  form={ws.selectedForm}
+                  styling={ws.draftStyling}
+                  onStylingChange={ws.setDraftStyling}
+                  onPublish={(active) => ws.togglePublish(active)}
+                  isPublished={ws.selectedForm.active !== false}
+                />
+              ) : (
+                <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
+                  <Rocket className="w-10 h-10 text-slate-300 mb-3" />
+                  <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Save your form to publish it</p>
+                  <p className="text-xs text-slate-500 mt-1 max-w-sm">Publishing options appear once this form has been saved for the first time.</p>
+                </div>
+              )
             )}
 
             {ws.view === 'analytics' && (

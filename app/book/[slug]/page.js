@@ -30,6 +30,7 @@ export default function PublicBookingPage() {
   const [booked, setBooked] = useState(null);
   const [form, setForm] = useState({ name: '', email: '', phone: '', notes: '' });
   const [calendarMonth, setCalendarMonth] = useState(() => new Date());
+  const [showMonthPicker, setShowMonthPicker] = useState(false);
 
   useEffect(() => {
     if (slug) fetchMeeting();
@@ -185,8 +186,8 @@ export default function PublicBookingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f4f6fa]">
-      <div className="max-w-5xl mx-auto min-h-screen flex flex-col lg:flex-row">
+    <div className="min-h-screen bg-[#f4f6fa] flex items-center justify-center py-8 px-4">
+      <div className="max-w-5xl w-full mx-auto rounded-3xl overflow-hidden shadow-xl flex flex-col lg:flex-row">
         {/* Left panel */}
         <div
           className="lg:w-[38%] p-8 lg:p-10 text-white flex flex-col"
@@ -241,9 +242,59 @@ export default function PublicBookingPage() {
                     >
                       <ChevronLeft className="w-4 h-4" />
                     </button>
-                    <span className="text-sm font-semibold text-slate-800">
-                      {calendarMonth.toLocaleString('en-IN', { month: 'long', year: 'numeric' })}
-                    </span>
+                    <div className="relative">
+                      <button
+                        type="button"
+                        onClick={() => setShowMonthPicker((v) => !v)}
+                        className="text-sm font-semibold text-slate-800 px-2 py-1 rounded-lg hover:bg-slate-100"
+                      >
+                        {calendarMonth.toLocaleString('en-IN', { month: 'long', year: 'numeric' })}
+                      </button>
+                      {showMonthPicker && (
+                        <>
+                          <div className="fixed inset-0 z-10" onClick={() => setShowMonthPicker(false)} />
+                          <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 z-20 w-56 p-2 rounded-lg border border-slate-200 bg-white shadow-lg">
+                            <div className="flex items-center justify-between mb-2 px-1">
+                              <button
+                                type="button"
+                                onClick={() => setCalendarMonth(new Date(calendarMonth.getFullYear() - 1, calendarMonth.getMonth()))}
+                                className="p-1 rounded hover:bg-slate-100"
+                              >
+                                <ChevronLeft className="w-3.5 h-3.5" />
+                              </button>
+                              <span className="text-xs font-semibold text-slate-700">{calendarMonth.getFullYear()}</span>
+                              <button
+                                type="button"
+                                onClick={() => setCalendarMonth(new Date(calendarMonth.getFullYear() + 1, calendarMonth.getMonth()))}
+                                className="p-1 rounded hover:bg-slate-100"
+                              >
+                                <ChevronRight className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                            <div className="grid grid-cols-3 gap-1">
+                              {Array.from({ length: 12 }, (_, m) => (
+                                <button
+                                  key={m}
+                                  type="button"
+                                  onClick={() => {
+                                    setCalendarMonth(new Date(calendarMonth.getFullYear(), m));
+                                    setShowMonthPicker(false);
+                                  }}
+                                  className={`text-xs py-1.5 rounded-md ${
+                                    m === calendarMonth.getMonth()
+                                      ? 'text-white font-semibold'
+                                      : 'text-slate-600 hover:bg-slate-100'
+                                  }`}
+                                  style={m === calendarMonth.getMonth() ? { backgroundColor: accent } : {}}
+                                >
+                                  {new Date(2000, m, 1).toLocaleString('en-IN', { month: 'short' })}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        </>
+                      )}
+                    </div>
                     <button
                       type="button"
                       onClick={() =>

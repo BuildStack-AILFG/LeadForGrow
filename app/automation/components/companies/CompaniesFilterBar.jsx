@@ -51,10 +51,19 @@ export default function CompaniesFilterBar({
             />
             Recently Added
           </label>
-          {(filters.industry || filters.status || filters.ownerId || filters.hasOpenDeals || filters.recentlyAdded) && (
+          <label className="inline-flex items-center gap-2 text-[12px] text-[#475467] px-2">
+            <input
+              type="checkbox"
+              checked={filters.archived}
+              onChange={(e) => onFilterChange({ archived: e.target.checked, page: 1 })}
+              className="rounded border-[#D0D5DD]"
+            />
+            Archived only
+          </label>
+          {(filters.industry || filters.status || filters.ownerId || filters.hasOpenDeals || filters.recentlyAdded || filters.archived) && (
             <button
               type="button"
-              onClick={() => onFilterChange({ industry: '', status: '', ownerId: '', hasOpenDeals: '', recentlyAdded: false, page: 1 })}
+              onClick={() => onFilterChange({ industry: '', status: '', ownerId: '', hasOpenDeals: '', recentlyAdded: false, archived: false, page: 1 })}
               className="text-[12px] text-[#667085] hover:text-[#344054] underline"
             >
               Clear filters

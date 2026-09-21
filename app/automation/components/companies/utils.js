@@ -52,6 +52,7 @@ export function buildCompaniesQuery(filters) {
   if (filters.country) params.set('country', filters.country);
   if (filters.hasOpenDeals) params.set('hasOpenDeals', filters.hasOpenDeals);
   if (filters.recentlyAdded) params.set('recentlyAdded', '1');
+  if (filters.archived) params.set('archived', 'true');
   if (filters.tag) params.set('tag', filters.tag);
   if (filters.sort) params.set('sort', filters.sort);
   if (filters.dir) params.set('dir', filters.dir);

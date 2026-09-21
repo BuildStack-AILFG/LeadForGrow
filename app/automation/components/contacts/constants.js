@@ -30,6 +30,7 @@ export const DEFAULT_FILTERS = {
   ownerId: '',
   hasOpenDeals: '',
   recentlyAdded: false,
+  archived: false,
   sort: 'updatedAt',
   dir: 'desc',
   page: 1,

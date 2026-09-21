@@ -103,7 +103,7 @@ export default function SequencesWorkspace() {
               type="button"
               onClick={() => ws.saveSequence(false)}
               disabled={ws.saving}
-              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50"
             >
               {ws.saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
               Save draft
@@ -113,18 +113,30 @@ export default function SequencesWorkspace() {
                 type="button"
                 onClick={ws.openTestMode}
                 disabled={ws.saving}
-                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-amber-200 text-amber-700 text-sm font-medium hover:bg-amber-50 disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded border border-amber-200 text-amber-700 text-sm font-medium hover:bg-amber-50 disabled:opacity-50"
               >
                 <FlaskConical className="w-4 h-4" /> Test
               </button>
             )}
-            <button type="button" onClick={ws.copySelection} className="p-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-500" title="Copy"><Copy className="w-4 h-4" /></button>
-            <button type="button" onClick={ws.pasteSelection} className="p-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-500" title="Paste"><ClipboardPaste className="w-4 h-4" /></button>
+            <button
+              type="button"
+              onClick={ws.copySelection}
+              disabled={!ws.selectedNodeId}
+              className="p-2 rounded border border-slate-200 dark:border-slate-700 text-slate-500 disabled:opacity-40 disabled:cursor-not-allowed"
+              title={ws.selectedNodeId ? 'Copy selected node' : 'Select a node first'}
+            ><Copy className="w-4 h-4" /></button>
+            <button
+              type="button"
+              onClick={ws.pasteSelection}
+              disabled={!ws.hasClipboard}
+              className="p-2 rounded border border-slate-200 dark:border-slate-700 text-slate-500 disabled:opacity-40 disabled:cursor-not-allowed"
+              title={ws.hasClipboard ? 'Paste copied node' : 'Nothing copied yet'}
+            ><ClipboardPaste className="w-4 h-4" /></button>
             <button
               type="button"
               onClick={() => ws.saveSequence(true)}
               disabled={ws.saving}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-teal-700 text-white text-sm font-semibold shadow-sm disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded bg-[#1D4B3E] hover:bg-[#163c32] text-white text-sm font-semibold shadow-sm disabled:opacity-50"
             >
               <Play className="w-4 h-4" /> Activate
             </button>
@@ -141,7 +153,7 @@ export default function SequencesWorkspace() {
               }}
               className={`inline-flex items-center gap-1.5 px-4 py-2.5 text-xs font-medium border-b-2 transition-colors ${
                 ws.builderTab === tab.id
-                  ? 'border-teal-600 text-teal-600'
+                  ? 'border-[#1D4B3E] text-[#1D4B3E]'
                   : 'border-transparent text-slate-500 hover:text-slate-700'
               }`}
             >

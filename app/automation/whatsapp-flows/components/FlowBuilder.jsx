@@ -694,7 +694,13 @@ function FlowBuilderInner({ flowId }) {
                   setNodes((nds) => nds.map((n) => (n.id === selectedId ? { ...n, data: nextData } : n)));
                   setDirty(true);
                 }}
-                onClose={() => setSelectedId(null)}
+                onClose={() => {
+                  // Also clear React Flow's own `selected` flag on the node — leaving it
+                  // true let a later internal selection-change event re-derive the same
+                  // selectedId and instantly re-open the panel right after closing it.
+                  setNodes((nds) => nds.map((n) => (n.id === selectedId ? { ...n, selected: false } : n)));
+                  setSelectedId(null);
+                }}
               />
             </div>
           )}

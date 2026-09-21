@@ -100,10 +100,10 @@ export default function BroadcastDetail({ broadcastId, onClose }) {
             )}
           </div>
           <div className="flex items-center gap-2">
-            <button type="button" onClick={load} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800" title="Refresh">
+            <button type="button" onClick={load} className="p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800" title="Refresh">
               <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
             </button>
-            <button type="button" onClick={onClose} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800" title="Close">
+            <button type="button" onClick={onClose} className="p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800" title="Close">
               <X className="w-4 h-4" />
             </button>
           </div>
@@ -122,14 +122,14 @@ export default function BroadcastDetail({ broadcastId, onClose }) {
             </div>
 
             {stats.opted_out > 0 && (
-              <div className="mx-5 mb-3 rounded-lg bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-900 p-2 text-xs text-purple-800 dark:text-purple-300 flex items-center gap-2">
+              <div className="mx-5 mb-3 rounded bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-900 p-2 text-xs text-purple-800 dark:text-purple-300 flex items-center gap-2">
                 <UserX className="w-3.5 h-3.5" />
                 {stats.opted_out} recipients skipped — previously opted out
               </div>
             )}
 
             {broadcast?.abortReason && (
-              <div className="mx-5 mb-3 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900 p-3 text-xs text-amber-800 dark:text-amber-300 flex items-start gap-2">
+              <div className="mx-5 mb-3 rounded bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900 p-3 text-xs text-amber-800 dark:text-amber-300 flex items-start gap-2">
                 <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
                 <div>
                   <p className="font-semibold">Broadcast auto-paused by quality guardrail</p>
@@ -140,7 +140,7 @@ export default function BroadcastDetail({ broadcastId, onClose }) {
 
             {/* Toolbar */}
             <div className="px-5 pb-3 flex flex-wrap gap-2 items-center">
-              <div className="flex gap-1 p-1 bg-slate-100 dark:bg-slate-900 rounded-lg">
+              <div className="flex gap-1 p-1 bg-slate-100 dark:bg-slate-900 rounded">
                 {FILTERS.map((f) => {
                   const count = f === 'all' ? stats.total : (stats[f] || 0);
                   return (
@@ -157,11 +157,11 @@ export default function BroadcastDetail({ broadcastId, onClose }) {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search name / phone"
-                className="flex-1 min-w-[160px] px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs"
+                className="flex-1 min-w-[160px] px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs"
               />
               {stats.failed > 0 && (
                 <button type="button" onClick={exportFailedCsv}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-red-700 bg-red-50 hover:bg-red-100">
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-medium text-red-700 bg-red-50 hover:bg-red-100">
                   <Download className="w-3.5 h-3.5" /> Export failed
                 </button>
               )}
@@ -172,7 +172,7 @@ export default function BroadcastDetail({ broadcastId, onClose }) {
               {filtered.length === 0 ? (
                 <p className="text-center text-sm text-slate-500 py-16">No recipients match this view</p>
               ) : (
-                <div className="rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+                <div className="rounded border border-slate-200 dark:border-slate-800 overflow-hidden">
                   <table className="w-full text-xs">
                     <thead className="bg-slate-50 dark:bg-slate-900 text-slate-500 uppercase tracking-wide">
                       <tr>
@@ -264,7 +264,7 @@ function StatTile({ label, value, tone = 'slate', hint }) {
     red: 'text-red-600',
   };
   return (
-    <div className="rounded-xl border border-slate-200 dark:border-slate-800 p-3 bg-white dark:bg-slate-900">
+    <div className="rounded border border-slate-200 dark:border-slate-800 p-3 bg-white dark:bg-slate-900">
       <p className="text-[10px] uppercase font-medium text-slate-500">{label}</p>
       <p className={`text-2xl font-bold ${toneMap[tone]}`}>{value}</p>
       {hint && <p className="text-[10px] text-slate-400 mt-0.5">{hint}</p>}

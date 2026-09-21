@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Bold, Italic, Eye, Send, MessageCircle, ChevronDown } from 'lucide-react';
 import { authFetch } from '@/lib/apiClient';
 import { TEMPLATE_VARIABLES, applyPreviewVars } from './constants';
@@ -43,6 +43,7 @@ export default function TemplateEditor({
 }) {
   const [showPreview, setShowPreview] = useState(false);
   const [approvedTemplates, setApprovedTemplates] = useState([]);
+  const emailBodyRef = useRef(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -63,8 +64,22 @@ export default function TemplateEditor({
   };
 
   const wrapSelection = (field, wrapper) => {
+    const el = emailBodyRef.current;
     const val = form[field] || '';
-    onChange({ ...form, [field]: val + wrapper });
+    if (!el) {
+      onChange({ ...form, [field]: val + wrapper + wrapper });
+      return;
+    }
+    const start = el.selectionStart ?? val.length;
+    const end = el.selectionEnd ?? val.length;
+    const selected = val.slice(start, end);
+    const next = `${val.slice(0, start)}${wrapper}${selected}${wrapper}${val.slice(end)}`;
+    onChange({ ...form, [field]: next });
+    requestAnimationFrame(() => {
+      el.focus();
+      const cursor = selected ? end + wrapper.length * 2 : start + wrapper.length;
+      el.setSelectionRange(cursor, cursor);
+    });
   };
 
   const showEmail = ['email', 'both'].includes(form.channel);
@@ -103,6 +118,7 @@ export default function TemplateEditor({
               </div>
             </div>
             <textarea
+              ref={emailBodyRef}
               rows={5}
               value={form.messageTemplate}
               onChange={(e) => onChange({ ...form, messageTemplate: e.target.value })}

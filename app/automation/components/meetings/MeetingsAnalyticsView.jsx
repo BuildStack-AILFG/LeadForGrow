@@ -47,7 +47,7 @@ export default function MeetingsAnalyticsView() {
         <DashboardCard padding="p-5">
           <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-4">Bookings over time</h2>
           {chartData.length > 0 ? (
-            <SimpleBarChart data={chartData} color="#4338ca" />
+            <SimpleBarChart data={chartData} color="#1D4B3E" />
           ) : (
             <p className="text-sm text-slate-500 py-12 text-center">No booking data yet.</p>
           )}
@@ -72,25 +72,45 @@ export default function MeetingsAnalyticsView() {
 
         <DashboardCard padding="p-5">
           <h2 className="text-sm font-semibold mb-4">Source conversion</h2>
-          <div className="space-y-2">
-            {(data?.sources || []).map((s) => (
-              <div key={s.source} className="flex justify-between text-sm">
-                <span className="capitalize text-slate-700 dark:text-slate-300">{s.source?.replace('_', ' ')}</span>
-                <span className="font-medium">{s.count}</span>
-              </div>
-            ))}
+          <div className="space-y-3">
+            {(() => {
+              const sources = data?.sources || [];
+              const max = Math.max(1, ...sources.map((s) => s.count || 0));
+              return sources.map((s) => (
+                <div key={s.source}>
+                  <div className="flex justify-between text-sm mb-1">
+                    <span className="capitalize text-slate-700 dark:text-slate-300">{s.source?.replace('_', ' ')}</span>
+                    <span className="font-medium tabular-nums">{s.count}</span>
+                  </div>
+                  <div className="h-1.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                    <div className="h-full bg-[#1D4B3E] rounded-full" style={{ width: `${((s.count || 0) / max) * 100}%` }} />
+                  </div>
+                </div>
+              ));
+            })()}
+            {!data?.sources?.length && <p className="text-sm text-slate-500 text-center py-8">No source data yet.</p>}
           </div>
         </DashboardCard>
 
         <DashboardCard padding="p-5">
           <h2 className="text-sm font-semibold mb-4">Best booking times</h2>
-          <div className="space-y-2">
-            {(data?.bestTimes || []).slice(0, 6).map((t) => (
-              <div key={t.hour} className="flex justify-between text-sm">
-                <span className="text-slate-700 dark:text-slate-300">{t.hour}:00</span>
-                <span className="font-medium">{t.count} meetings</span>
-              </div>
-            ))}
+          <div className="space-y-3">
+            {(() => {
+              const times = (data?.bestTimes || []).slice(0, 6);
+              const max = Math.max(1, ...times.map((t) => t.count || 0));
+              return times.map((t) => (
+                <div key={t.hour}>
+                  <div className="flex justify-between text-sm mb-1">
+                    <span className="text-slate-700 dark:text-slate-300">{t.hour}:00</span>
+                    <span className="font-medium tabular-nums">{t.count} meetings</span>
+                  </div>
+                  <div className="h-1.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                    <div className="h-full bg-[#8FC4AE] rounded-full" style={{ width: `${((t.count || 0) / max) * 100}%` }} />
+                  </div>
+                </div>
+              ));
+            })()}
+            {!data?.bestTimes?.length && <p className="text-sm text-slate-500 text-center py-8">No timing data yet.</p>}
           </div>
         </DashboardCard>
       </div>

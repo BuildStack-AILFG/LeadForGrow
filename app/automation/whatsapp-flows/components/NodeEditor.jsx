@@ -173,18 +173,135 @@ function TriggerKeywordFields({ data, set }) {
   );
 }
 
+/** Simple key/value list editor backing a `{ [field]: value }` data object. */
+function FieldValueListEditor({ label, fields, onChange }) {
+  const rows = Object.entries(fields || {});
+
+  function updateRow(index, key, value) {
+    const next = [...rows];
+    next[index] = [key, value];
+    onChange(Object.fromEntries(next.filter(([k]) => k)));
+  }
+
+  function removeRow(index) {
+    const next = rows.filter((_, i) => i !== index);
+    onChange(Object.fromEntries(next));
+  }
+
+  function addRow() {
+    onChange(Object.fromEntries([...rows, ['', '']]));
+  }
+
+  return (
+    <Field label={label}>
+      <div className="space-y-2">
+        {rows.map(([key, value], i) => (
+          <div key={i} className="flex items-center gap-1.5">
+            <input
+              className={`${inputClass} flex-1`}
+              value={key}
+              onChange={(e) => updateRow(i, e.target.value, value)}
+              placeholder="field"
+            />
+            <input
+              className={`${inputClass} flex-1`}
+              value={value}
+              onChange={(e) => updateRow(i, key, e.target.value)}
+              placeholder="value or {{variable}}"
+            />
+            <button type="button" onClick={() => removeRow(i)} className="p-2 rounded hover:bg-slate-100 text-slate-400 hover:text-rose-500 shrink-0">
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        ))}
+        <button
+          type="button"
+          onClick={addRow}
+          className="inline-flex items-center gap-1 text-[11px] font-medium text-[#1D4B3E] hover:underline"
+        >
+          <Plus className="w-3 h-3" /> Add field
+        </button>
+      </div>
+    </Field>
+  );
+}
+
+/** Variable + value→branch case list backing a logic_switch node's `variable`/`cases`. */
+function SwitchCasesEditor({ variable, cases, onChange }) {
+  function updateCase(index, patch) {
+    const next = [...cases];
+    next[index] = { ...next[index], ...patch };
+    onChange({ cases: next });
+  }
+
+  function removeCase(index) {
+    onChange({ cases: cases.filter((_, i) => i !== index) });
+  }
+
+  function addCase() {
+    onChange({ cases: [...cases, { value: '', handle: '' }] });
+  }
+
+  return (
+    <>
+      <Field label="Variable to switch on">
+        <input className={inputClass} value={variable} onChange={(e) => onChange({ variable: e.target.value })} placeholder="service" />
+      </Field>
+      <Field label="Cases (value → branch handle)">
+        <div className="space-y-2">
+          {cases.map((c, i) => (
+            <div key={i} className="flex items-center gap-1.5">
+              <input
+                className={`${inputClass} flex-1`}
+                value={c.value || ''}
+                onChange={(e) => updateCase(i, { value: e.target.value })}
+                placeholder="value"
+              />
+              <input
+                className={`${inputClass} flex-1`}
+                value={c.handle || ''}
+                onChange={(e) => updateCase(i, { handle: e.target.value })}
+                placeholder="branch name"
+              />
+              <button type="button" onClick={() => removeCase(i)} className="p-2 rounded hover:bg-slate-100 text-slate-400 hover:text-rose-500 shrink-0">
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={addCase}
+            className="inline-flex items-center gap-1 text-[11px] font-medium text-[#1D4B3E] hover:underline"
+          >
+            <Plus className="w-3 h-3" /> Add case
+          </button>
+        </div>
+      </Field>
+    </>
+  );
+}
+
 export default function NodeEditor({ node, onChange, onClose, variables = [] }) {
   const vars = variables.length ? variables : DEFAULT_SYSTEM_VARIABLES;
   const [templates, setTemplates] = useState([]);
   const [loadingTemplates, setLoadingTemplates] = useState(false);
   const [syncingTemplates, setSyncingTemplates] = useState(false);
   const [syncMessage, setSyncMessage] = useState('');
+  const [teamMembers, setTeamMembers] = useState([]);
 
   // Fetch available templates on mount
   useEffect(() => {
     if (node?.type === 'action_send_template') {
       fetchTemplates();
     }
+  }, [node?.type]);
+
+  useEffect(() => {
+    if (node?.type !== 'action_assign') return;
+    fetch('/api/automation/team')
+      .then((r) => r.json())
+      .then((res) => { if (res.success) setTeamMembers(res.data || []); })
+      .catch(() => {});
   }, [node?.type]);
 
   const fetchTemplates = async () => {
@@ -257,9 +374,27 @@ export default function NodeEditor({ node, onChange, onClose, variables = [] }) 
     onChange({ ...data, [key]: value });
   }
 
+  // Explicit per-node-type mapping — the field a message actually renders into
+  // varies by node type (send_text uses `text`, buttons/list use `body`, media
+  // uses `caption`, etc.), so guessing from which field happens to be non-empty
+  // silently wrote into an unrendered field for node types not covered by that
+  // heuristic (e.g. media nodes), making "Insert variable" look like a no-op.
+  const INSERT_VAR_FIELD_BY_TYPE = {
+    action_send_text: 'text',
+    action_ai_response: 'prompt',
+    action_send_buttons: 'body',
+    action_send_list: 'body',
+    action_send_image: 'caption',
+    action_send_video: 'caption',
+    action_send_document: 'caption',
+    action_send_audio: 'caption',
+    action_http: 'body',
+    action_webhook: 'body',
+    logic_save_variable: 'value',
+  };
+
   function insertVar(key) {
-    const field =
-      data.text != null ? 'text' : data.body != null ? 'body' : data.prompt != null ? 'prompt' : 'text';
+    const field = INSERT_VAR_FIELD_BY_TYPE[node.type] || 'text';
     set(field, `${data[field] || ''}{{${key}}}`);
   }
 
@@ -737,6 +872,59 @@ export default function NodeEditor({ node, onChange, onClose, variables = [] }) 
               <textarea rows={3} className={inputClass} value={data.body || '{}'} onChange={(e) => set('body', e.target.value)} />
             </Field>
           </>
+        )}
+
+        {node.type === 'action_assign' && (
+          <Field label="Assign to">
+            <select className={inputClass} value={data.userId || ''} onChange={(e) => set('userId', e.target.value)}>
+              <option value="">— Choose a team member —</option>
+              {teamMembers.map((m) => {
+                const id = m.userId?._id || m.userId || m._id;
+                const label = [m.userId?.firstName || m.firstName, m.userId?.lastName || m.lastName].filter(Boolean).join(' ') || m.userId?.email || m.email;
+                return <option key={id} value={id}>{label}</option>;
+              })}
+            </select>
+          </Field>
+        )}
+
+        {(node.type === 'action_update_contact' || node.type === 'action_update_lead') && (
+          <FieldValueListEditor
+            label={node.type === 'action_update_contact' ? 'Contact fields to update' : 'Lead fields to update'}
+            fields={data.fields || {}}
+            onChange={(fields) => set('fields', fields)}
+          />
+        )}
+
+        {node.type === 'action_create_lead' && (
+          <>
+            <Field label="Lead name">
+              <input className={inputClass} value={data.name || ''} onChange={(e) => set('name', e.target.value)} placeholder="{{customer_name}}" />
+            </Field>
+            <Field label="Phone">
+              <input className={inputClass} value={data.phone || ''} onChange={(e) => set('phone', e.target.value)} placeholder="{{phone}}" />
+            </Field>
+            <Field label="Source">
+              <input className={inputClass} value={data.source || ''} onChange={(e) => set('source', e.target.value)} placeholder="whatsapp_flow" />
+            </Field>
+          </>
+        )}
+
+        {node.type === 'logic_switch' && (
+          <SwitchCasesEditor
+            variable={data.variable || ''}
+            cases={data.cases || []}
+            onChange={(patch) => onChange({ ...data, ...patch })}
+          />
+        )}
+
+        {['trigger_incoming_message', 'trigger_contact_created', 'trigger_lead_created', 'trigger_manual', 'trigger_webhook'].includes(node.type) && (
+          <p className="text-xs text-slate-500 bg-slate-50 border border-slate-200 rounded-lg p-3">
+            {node.type === 'trigger_incoming_message' && 'Starts this flow whenever a WhatsApp message arrives — no configuration needed.'}
+            {node.type === 'trigger_contact_created' && 'Starts this flow whenever a new contact is created — no configuration needed.'}
+            {node.type === 'trigger_lead_created' && 'Starts this flow whenever a new lead is created — no configuration needed.'}
+            {node.type === 'trigger_manual' && 'This flow only starts when triggered manually from the inbox or via the API — no configuration needed.'}
+            {node.type === 'trigger_webhook' && 'This flow starts when its webhook URL receives a POST request — no configuration needed.'}
+          </p>
         )}
 
         {node.type === 'action_end' && (

@@ -154,13 +154,13 @@ export function useContactsWorkspace() {
       const result = await res.json();
       if (result.success) { toast.success('Contact deleted'); fetchContacts(true); fetchStats(); }
       else toast.error(result.error);
-    } else if (action === 'archive') {
+    } else if (action === 'archive' || action === 'restore') {
       const res = await authFetch('/api/automation/contacts/bulk', {
         method: 'POST',
-        body: JSON.stringify({ ids: [id], action: 'archive' }),
+        body: JSON.stringify({ ids: [id], action }),
       });
       const result = await res.json();
-      if (result.success) { toast.success('Contact archived'); fetchContacts(true); fetchStats(); }
+      if (result.success) { toast.success(action === 'archive' ? 'Contact archived' : 'Contact restored'); fetchContacts(true); fetchStats(); }
       else toast.error(result.error);
     }
   };

@@ -1,6 +1,7 @@
 'use client';
 
-import { memo, useState } from 'react';
+import { memo, useLayoutEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { CheckSquare, Square, MoreHorizontal, Building2, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import CompanyStatusBadge from './CompanyStatusBadge';
@@ -12,6 +13,8 @@ import {
   formatWebsite,
   companyLogoUrl,
 } from './utils';
+
+const MENU_WIDTH = 160; // w-40
 
 function Avatar({ name, src, size = 'sm' }) {
   const sz = size === 'sm' ? 'w-7 h-7 text-[10px]' : 'w-8 h-8 text-[11px]';
@@ -33,9 +36,38 @@ function CompanyRow({
   onMenuAction,
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [menuPos, setMenuPos] = useState(null);
+  const btnRef = useRef(null);
   const logo = companyLogoUrl(company);
   const stats = company.stats || {};
   const contact = company.primaryContact;
+
+  // Rendered through a portal and positioned from the trigger button's own bounding
+  // rect (fixed coordinates) instead of `position: absolute` nested inside the table's
+  // overflow-x-auto/overflow-hidden wrapper — that ancestor was clipping the menu (and
+  // its "View details" item) for rows near the bottom of the table.
+  useLayoutEffect(() => {
+    if (!menuOpen || !btnRef.current) return undefined;
+    function place() {
+      const rect = btnRef.current.getBoundingClientRect();
+      const viewport = { w: window.innerWidth, h: window.innerHeight };
+      let left = rect.right - MENU_WIDTH;
+      left = Math.max(8, Math.min(left, viewport.w - MENU_WIDTH - 8));
+      let top = rect.bottom + 4;
+      const menuHeight = 160;
+      if (top + menuHeight > viewport.h - 8) {
+        top = rect.top - menuHeight - 4;
+      }
+      setMenuPos({ top: Math.max(8, top), left });
+    }
+    place();
+    window.addEventListener('resize', place);
+    window.addEventListener('scroll', place, true);
+    return () => {
+      window.removeEventListener('resize', place);
+      window.removeEventListener('scroll', place, true);
+    };
+  }, [menuOpen]);
 
   return (
     <tr
@@ -118,24 +150,33 @@ function CompanyRow({
       <td className="py-3 px-2 w-10" onClick={(e) => e.stopPropagation()}>
         <div className="relative">
           <button
+            ref={btnRef}
             type="button"
             onClick={() => setMenuOpen(!menuOpen)}
             className="p-1.5 rounded-md text-[#98A2B3] hover:text-[#344054] hover:bg-[#F2F4F7] transition-opacity"
           >
             <MoreHorizontal className="w-4 h-4" />
           </button>
-          {menuOpen && (
+          {menuOpen && menuPos && createPortal(
             <>
-              <div className="fixed inset-0 z-10" onClick={() => setMenuOpen(false)} />
-              <div className="absolute right-0 mt-1 w-40 bg-white border border-[#E5E7EB] rounded-lg shadow-lg z-20 py-1">
+              <div className="fixed inset-0 z-[100]" onClick={() => setMenuOpen(false)} />
+              <div
+                className="fixed w-40 bg-white border border-[#E5E7EB] rounded-lg shadow-lg z-[101] py-1"
+                style={{ top: menuPos.top, left: menuPos.left }}
+              >
                 <button type="button" onClick={() => { setMenuOpen(false); onOpen(company._id); }} className="w-full px-3 py-2 text-left text-[12px] hover:bg-[#F9FAFB]">View details</button>
                 <Link href={`/automation/companies/${company._id}`} onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 text-[12px] hover:bg-[#F9FAFB]">
                   <ExternalLink className="w-3.5 h-3.5" /> Full page
                 </Link>
-                <button type="button" onClick={() => { setMenuOpen(false); onMenuAction?.('archive', company._id); }} className="w-full px-3 py-2 text-left text-[12px] hover:bg-[#F9FAFB]">Archive</button>
+                {company.archived ? (
+                  <button type="button" onClick={() => { setMenuOpen(false); onMenuAction?.('restore', company._id); }} className="w-full px-3 py-2 text-left text-[12px] hover:bg-[#F9FAFB]">Restore</button>
+                ) : (
+                  <button type="button" onClick={() => { setMenuOpen(false); onMenuAction?.('archive', company._id); }} className="w-full px-3 py-2 text-left text-[12px] hover:bg-[#F9FAFB]">Archive</button>
+                )}
                 <button type="button" onClick={() => { setMenuOpen(false); onMenuAction?.('delete', company._id); }} className="w-full px-3 py-2 text-left text-[12px] text-red-600 hover:bg-red-50">Delete</button>
               </div>
-            </>
+            </>,
+            document.body
           )}
         </div>
       </td>

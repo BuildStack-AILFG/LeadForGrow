@@ -54,7 +54,7 @@ export default function QualityRatingBanner({ audienceCount, className = '' }) {
 
   if (loading) {
     return (
-      <div className={`rounded-xl border border-slate-200 dark:border-slate-800 p-3 text-xs text-slate-500 flex items-center gap-2 ${className}`}>
+      <div className={`rounded border border-slate-200 dark:border-slate-800 p-3 text-xs text-slate-500 flex items-center gap-2 ${className}`}>
         <Loader2 className="w-3.5 h-3.5 animate-spin" /> Checking Meta quality rating…
       </div>
     );
@@ -62,7 +62,7 @@ export default function QualityRatingBanner({ audienceCount, className = '' }) {
 
   if (error) {
     return (
-      <div className={`rounded-xl border border-slate-200 dark:border-slate-800 p-3 text-xs text-slate-500 ${className}`}>
+      <div className={`rounded border border-slate-200 dark:border-slate-800 p-3 text-xs text-slate-500 ${className}`}>
         Could not fetch quality rating: {error}
       </div>
     );
@@ -78,7 +78,7 @@ export default function QualityRatingBanner({ audienceCount, className = '' }) {
   const overLimit = audienceCount && audienceCount > tierCap;
 
   return (
-    <div className={`rounded-xl border p-3 space-y-2 ${TONE_CLASSES[meta.tone]} ${className}`}>
+    <div className={`rounded border p-3 space-y-2 ${TONE_CLASSES[meta.tone]} ${className}`}>
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-2 min-w-0">
           <Icon className="w-4 h-4 shrink-0 mt-0.5" />

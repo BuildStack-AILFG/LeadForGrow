@@ -58,6 +58,7 @@ export const DEFAULT_FILTERS = {
   country: '',
   hasOpenDeals: '',
   recentlyAdded: false,
+  archived: false,
   tag: '',
   sort: 'updatedAt',
   dir: 'desc',

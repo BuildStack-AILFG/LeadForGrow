@@ -1,8 +1,7 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { Building2 } from 'lucide-react';
-import { toast } from 'react-hot-toast';
 import { useCompaniesWorkspace } from '../hooks/useCompaniesWorkspace';
 import CompaniesHeader from '../components/companies/CompaniesHeader';
 import CompaniesKpiCards from '../components/companies/CompaniesKpiCards';
@@ -11,6 +10,7 @@ import CompanyTable from '../components/companies/CompanyTable';
 import CompaniesBulkBar from '../components/companies/CompaniesBulkBar';
 import CompaniesPagination from '../components/companies/CompaniesPagination';
 import CompanyCreateModal from '../components/companies/CompanyCreateModal';
+import CompaniesImportModal from '../components/companies/CompaniesImportModal';
 import CompanyDrawer from '../components/companies/CompanyDrawer';
 import CompaniesSkeleton from '../components/companies/CompaniesSkeleton';
 import AutoPageIntro from '@/app/automation/components/shared/tour/AutoPageIntro';
@@ -38,6 +38,7 @@ function CompaniesEmptyState({ onCreate }) {
 
 function CompaniesContent() {
   const ws = useCompaniesWorkspace();
+  const [showImport, setShowImport] = useState(false);
 
   if (ws.loading && !ws.companies.length) return <CompaniesSkeleton />;
 
@@ -54,7 +55,7 @@ function CompaniesContent() {
           onRefresh={() => ws.fetchCompanies(true)}
           onCreate={() => ws.setShowModal(true)}
           onExport={ws.exportCompanies}
-          onImport={() => toast('Import coming soon')}
+          onImport={() => setShowImport(true)}
           showFilters={ws.showFilters}
           onToggleFilters={() => ws.setShowFilters((v) => !v)}
           showSort={ws.showSort}
@@ -130,6 +131,12 @@ function CompaniesContent() {
         companyId={ws.drawerId}
         onClose={() => ws.setDrawerId(null)}
         onUpdated={() => ws.fetchCompanies(true)}
+      />
+
+      <CompaniesImportModal
+        open={showImport}
+        onClose={() => setShowImport(false)}
+        onImported={() => ws.fetchCompanies(true)}
       />
     </div>
   );

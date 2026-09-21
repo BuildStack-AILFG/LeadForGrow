@@ -253,7 +253,7 @@ export default function BroadcastsPage() {
         <button
           type="button"
           onClick={() => setShowCreate(true)}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-teal-700 text-white text-sm font-semibold"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded bg-[#1D4B3E] text-white text-sm font-semibold transition-colors hover:bg-[#163c32]"
         >
           <Plus className="w-4 h-4" /> New broadcast
         </button>
@@ -262,7 +262,7 @@ export default function BroadcastsPage() {
       <AutoPageIntro />
 
       {showCreate && (
-        <div className="mb-8 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-5">
+        <div className="mb-8 p-6 rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-5">
           <div className="flex items-center justify-between">
             <h2 className="font-semibold text-slate-900 dark:text-white">Create broadcast</h2>
             <button type="button" onClick={() => { setShowCreate(false); setDraft(emptyDraft); }}
@@ -275,12 +275,12 @@ export default function BroadcastsPage() {
               value={draft.name}
               onChange={(e) => setDraft({ ...draft, name: e.target.value })}
               placeholder="Campaign name"
-              className="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-sm"
+              className="px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-transparent text-sm"
             />
             <select
               value={draft.channel}
               onChange={(e) => setDraft({ ...draft, channel: e.target.value, templateName: '', templateLanguage: '' })}
-              className="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-sm"
+              className="px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-transparent text-sm"
             >
               <option value="whatsapp">WhatsApp</option>
               <option value="email">Email</option>
@@ -306,7 +306,7 @@ export default function BroadcastsPage() {
             />
 
             {isWhatsApp && (
-              <div className="mt-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 flex flex-wrap items-center gap-3">
+              <div className="mt-3 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 flex flex-wrap items-center gap-3">
                 <label className="flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300 cursor-pointer">
                   <input
                     type="checkbox"
@@ -326,7 +326,7 @@ export default function BroadcastsPage() {
                       ...draft,
                       audience: { ...draft.audience, engagementDays: Number(e.target.value) },
                     })}
-                    className="px-2 py-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs"
+                    className="px-2 py-1 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs"
                   >
                     <option value={7}>last 7 days</option>
                     <option value={30}>last 30 days</option>
@@ -344,7 +344,7 @@ export default function BroadcastsPage() {
           {/* Step 3: WhatsApp template */}
           {isWhatsApp && (
             <div className="space-y-4">
-              <div className="rounded-xl border border-emerald-200 dark:border-emerald-900 bg-emerald-50/40 dark:bg-emerald-950/20 p-4 space-y-3">
+              <div className="rounded border border-emerald-200 dark:border-emerald-900 bg-emerald-50/40 dark:bg-emerald-950/20 p-4 space-y-3">
                 <div className="flex items-center justify-between">
                   <p className="text-xs font-semibold text-emerald-800 dark:text-emerald-300">Approved WhatsApp template</p>
                   <button type="button" onClick={fetchApprovedTemplates}
@@ -353,7 +353,7 @@ export default function BroadcastsPage() {
                   </button>
                 </div>
                 {approvedTemplates.length === 0 ? (
-                  <div className="flex items-start gap-2 text-xs text-amber-800 bg-amber-50 p-3 rounded-lg">
+                  <div className="flex items-start gap-2 text-xs text-amber-800 bg-amber-50 p-3 rounded">
                     <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
                     <div>
                       No approved templates yet.{' '}
@@ -376,7 +376,7 @@ export default function BroadcastsPage() {
                           headerMediaUrl: savedMediaUrl,
                         });
                       }}
-                      className="w-full px-3 py-2 rounded-lg border border-emerald-300 bg-white dark:bg-slate-900 text-sm"
+                      className="w-full px-3 py-2 rounded border border-emerald-300 bg-white dark:bg-slate-900 text-sm"
                     >
                       <option value="">— Choose a template —</option>
                       {approvedTemplates.map((t) => (
@@ -386,7 +386,7 @@ export default function BroadcastsPage() {
                       ))}
                     </select>
                     {selectedTemplate && (
-                      <div className="text-xs bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-3 space-y-1">
+                      <div className="text-xs bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded p-3 space-y-1">
                         <p className="flex items-center gap-1 text-emerald-700 font-semibold">
                           <CheckCircle2 className="w-3.5 h-3.5" /> Meta approved
                         </p>
@@ -410,7 +410,7 @@ export default function BroadcastsPage() {
                   ? 'border-emerald-200 dark:border-emerald-900 bg-emerald-50/60 dark:bg-emerald-950/20'
                   : 'border-amber-200 dark:border-amber-900 bg-amber-50/60 dark:bg-amber-950/20';
                 return (
-                  <div className={`rounded-xl border ${tone} p-4 space-y-2`}>
+                  <div className={`rounded border ${tone} p-4 space-y-2`}>
                     <div className="flex items-center justify-between">
                       <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">
                         {header.format.charAt(0) + header.format.slice(1).toLowerCase()} for this campaign
@@ -433,12 +433,12 @@ export default function BroadcastsPage() {
                         value={draft.headerMediaUrl}
                         onChange={(e) => setDraft({ ...draft, headerMediaUrl: e.target.value })}
                         placeholder={header.format === 'DOCUMENT' ? 'https://…/file.pdf' : header.format === 'VIDEO' ? 'https://…/video.mp4' : 'https://…/image.jpg'}
-                        className="flex-1 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-mono"
+                        className="flex-1 px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-mono"
                       />
                       {savedUrl && !usingSaved && (
                         <button type="button"
                           onClick={() => setDraft({ ...draft, headerMediaUrl: savedUrl })}
-                          className="px-3 py-2 text-[11px] font-medium rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700">
+                          className="px-3 py-2 text-[11px] font-medium rounded bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700">
                           Reset
                         </button>
                       )}
@@ -459,7 +459,7 @@ export default function BroadcastsPage() {
 
           {/* Email content */}
           {isEmail && (
-            <div className="space-y-3 rounded-xl border border-violet-200 dark:border-violet-900 bg-violet-50/40 dark:bg-violet-950/20 p-4">
+            <div className="space-y-3 rounded border border-violet-200 dark:border-violet-900 bg-violet-50/40 dark:bg-violet-950/20 p-4">
               <div className="flex items-center justify-between">
                 <p className="text-xs font-semibold text-violet-800 dark:text-violet-300">Email content</p>
                 <a href="/automation/templates" className="text-[11px] text-violet-700 hover:underline">
@@ -474,7 +474,7 @@ export default function BroadcastsPage() {
                     const t = emailTemplates.find((x) => String(x.id) === e.target.value);
                     if (t) setDraft({ ...draft, subject: t.subject || draft.subject, body: t.body || draft.body });
                   }}
-                  className="w-full px-3 py-2 rounded-lg border border-violet-300 bg-white dark:bg-slate-900 text-sm"
+                  className="w-full px-3 py-2 rounded border border-violet-300 bg-white dark:bg-slate-900 text-sm"
                 >
                   <option value="">— Load from saved email template (optional) —</option>
                   {emailTemplates.map((t) => (
@@ -487,14 +487,14 @@ export default function BroadcastsPage() {
                 value={draft.subject}
                 onChange={(e) => setDraft({ ...draft, subject: e.target.value })}
                 placeholder="Email subject — use {{name}} for personalization"
-                className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm"
+                className="w-full px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm"
               />
               <textarea
                 value={draft.body}
                 onChange={(e) => setDraft({ ...draft, body: e.target.value })}
                 placeholder={'Email body — supports {{name}}, {{email}}, {{phone}}\n\nBasic HTML works too: <b>, <a>, <br>'}
                 rows={6}
-                className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm font-mono"
+                className="w-full px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm font-mono"
               />
               <p className="text-[11px] text-slate-500">
                 An unsubscribe link is auto-added to every email footer for compliance.
@@ -503,7 +503,7 @@ export default function BroadcastsPage() {
           )}
 
           {samplePreview?.to && (
-            <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900/40 p-4 space-y-2">
+            <div className="rounded border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900/40 p-4 space-y-2">
               <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
                 Preview — first recipient will see:
               </p>
@@ -513,7 +513,7 @@ export default function BroadcastsPage() {
                 <span className="font-mono">{samplePreview.to.phone || samplePreview.to.email}</span>
               </p>
               {samplePreview.whatsapp && (
-                <div className="rounded-lg bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900 p-3 space-y-2">
+                <div className="rounded bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900 p-3 space-y-2">
                   <p className="text-[10px] uppercase font-semibold text-emerald-700">WhatsApp</p>
 
                   {samplePreview.whatsapp.header && (
@@ -562,7 +562,7 @@ export default function BroadcastsPage() {
                 </div>
               )}
               {samplePreview.email && (
-                <div className="rounded-lg bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-900 p-3">
+                <div className="rounded bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-900 p-3">
                   <p className="text-[10px] uppercase font-semibold text-violet-700 mb-1">Email</p>
                   <p className="text-xs font-semibold text-slate-900 dark:text-white mb-1">{samplePreview.email.subject || '(no subject)'}</p>
                   <p className="text-xs text-slate-800 dark:text-slate-200 whitespace-pre-wrap">{samplePreview.email.body}</p>
@@ -574,11 +574,11 @@ export default function BroadcastsPage() {
           {/* Review + send */}
           <div className="flex flex-wrap gap-2 items-center pt-2 border-t border-slate-100 dark:border-slate-800">
             <button type="button" onClick={() => createBroadcast(true)} disabled={saving}
-              className="px-4 py-2 rounded-xl border text-sm font-medium">
+              className="px-4 py-2 rounded border text-sm font-medium">
               Test send
             </button>
             <button type="button" onClick={() => createBroadcast(false)} disabled={saving || !canSend}
-              className="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold disabled:opacity-50">
+              className="px-4 py-2 rounded bg-[#1D4B3E] hover:bg-[#163c32] text-white text-sm font-semibold disabled:opacity-50">
               {saving
                 ? 'Sending…'
                 : audienceCount?.count > 0
@@ -590,7 +590,7 @@ export default function BroadcastsPage() {
       )}
 
       {broadcasts.length === 0 ? (
-        <div className="text-center py-16 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700">
+        <div className="text-center py-16 rounded border-2 border-dashed border-slate-200 dark:border-slate-700">
           <Send className="w-10 h-10 mx-auto text-slate-400 mb-3" />
           <p className="text-slate-900 dark:text-white font-semibold">No broadcasts yet</p>
           <p className="text-sm text-slate-500 mt-1 max-w-sm mx-auto mb-5">
@@ -599,7 +599,7 @@ export default function BroadcastsPage() {
           <button
             type="button"
             onClick={() => setShowCreate(true)}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-teal-700 text-white text-sm font-semibold"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded bg-[#1D4B3E] text-white text-sm font-semibold transition-colors hover:bg-[#163c32]"
           >
             <Plus className="w-4 h-4" /> New broadcast
           </button>
@@ -617,7 +617,7 @@ export default function BroadcastsPage() {
               <div
                 key={b._id}
                 onClick={() => setDetailId(b._id)}
-                className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-between gap-4 cursor-pointer hover:border-teal-300 hover:shadow-sm transition-all"
+                className="p-4 rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-between gap-4 cursor-pointer hover:border-[#1D4B3E]/40 hover:shadow-sm transition-all"
               >
                 <div className="flex items-center gap-3 min-w-0">
                   {b.channel === 'email' ? <Mail className="w-5 h-5 text-violet-500 shrink-0" /> : <MessageCircle className="w-5 h-5 text-emerald-500 shrink-0" />}
@@ -625,7 +625,7 @@ export default function BroadcastsPage() {
                     <p className="font-medium text-slate-900 dark:text-white truncate">{b.name}</p>
                     <p className="text-xs text-slate-500">
                       <span className="text-slate-700 dark:text-slate-300">{a.sent || 0}</span> sent
-                      {' · '}<span className="text-teal-600">{reached}</span> delivered
+                      {' · '}<span className="text-[#1D4B3E]">{reached}</span> delivered
                       {a.read ? <> · <span className="text-emerald-600">{a.read}</span> read</> : null}
                       {a.failed ? <> · <span className="text-red-600">{a.failed}</span> failed</> : null}
                       {a.optedOut ? <> · <span className="text-purple-600">{a.optedOut}</span> opted-out</> : null}
@@ -638,12 +638,12 @@ export default function BroadcastsPage() {
                     {b.status}
                   </span>
                   {b.status === 'draft' && (
-                    <button type="button" onClick={() => runAction(b._id, 'send')} className="p-2 rounded-lg hover:bg-slate-100" title="Send">
+                    <button type="button" onClick={() => runAction(b._id, 'send')} className="p-2 rounded hover:bg-slate-100" title="Send">
                       <Send className="w-4 h-4" />
                     </button>
                   )}
                   {a.failed > 0 && (
-                    <button type="button" onClick={() => runAction(b._id, 'retry_failed')} className="p-2 rounded-lg hover:bg-slate-100" title="Retry failed">
+                    <button type="button" onClick={() => runAction(b._id, 'retry_failed')} className="p-2 rounded hover:bg-slate-100" title="Retry failed">
                       <RefreshCw className="w-4 h-4" />
                     </button>
                   )}
