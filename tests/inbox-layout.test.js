@@ -25,8 +25,8 @@ describe('channel pills', () => {
   it('are icon-only with an accessible name and tooltip (five labelled pills do not fit a narrow list)', () => {
     assert.match(sidebar, /title=\{f\.label\}/);
     assert.match(sidebar, /aria-label=\{f\.label\}/);
-    // Only the channel pills block: the status tabs (Unread, Assigned, ...) below it keep their text labels.
-    const pills = sidebar.slice(sidebar.indexOf('CHANNEL_FILTERS.map'), sidebar.indexOf('INBOX_FILTERS.map'));
+    // Only the channel pills block: the view tabs (Needs reply, Mine, ...) below it keep their text labels.
+    const pills = sidebar.slice(sidebar.indexOf('CHANNEL_FILTERS.map'), sidebar.indexOf('<InboxViewTabs'));
     assert.ok(pills.length > 100, 'could not isolate the channel pills block');
     assert.doesNotMatch(pills, /^\s*\{f\.label\}\s*$/m, 'the visible text label must be gone from the pill');
   });

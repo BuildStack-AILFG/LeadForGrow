@@ -75,7 +75,7 @@ export default function ChatHeader({
       </div>
 
       <div className="flex items-center gap-1 flex-shrink-0">
-        {chat.channel === 'whatsapp' && !isIntervened && (
+        {chat.channel === 'whatsapp' && !isIntervened && !chat.isNew && (
           <button
             type="button"
             onClick={onIntervene}

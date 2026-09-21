@@ -103,20 +103,57 @@ describe('dropdown rows', () => {
 describe('wiring', () => {
   it('the search API uses the tolerant lead search and attaches the conversation to open', () => {
     const route = read('app/api/automation/inbox/search/route.js');
-    assert.ok(route.includes('leadSearchClauses(rawQ, q)') && route.includes('pickConversationForLead('));
+    assert.ok(route.includes('filters.leads') && route.includes('pickConversationForLead('));
+    assert.ok(Q.buildSearchFilters({ businessId: 'b', rawQ: 'Preeti', escaped: 'Preeti' }).leads.$or.length === 4);
     assert.ok(route.includes("select('name phone email status source whatsapp whatsappId')"));
   });
 
   it('clicking a lead opens its chat, or the template picker, or explains why it cannot', () => {
     const page = read('app/automation/chat/page.js');
-    assert.ok(page.includes('setNewChatLead(lead)'));
+    assert.ok(page.includes('inbox.selectChat(makeNewChat(lead))'), 'a lead without a chat opens a NEW CHAT in the inbox layout');
     assert.ok(page.includes('has no phone number, so there is no WhatsApp chat to start'));
-    assert.ok(page.includes('<SendTemplateModal') && page.includes('inbox.refresh()'));
-    assert.ok(page.includes('setOpenLeadWhenListed(lead._id)'), 'the new conversation is opened after the first send');
+    assert.ok(!page.includes('SendTemplateModal'), 'no modal in the inbox any more');
   });
 
   it('the dropdown shows the number and a "Start new chat" hint', () => {
     const side = read('app/automation/components/chat/ChatSidebar.jsx');
     assert.ok(side.includes('buildSearchRows(searchResults)') && side.includes('Start new chat'));
+  });
+});
+
+describe('every search section is a valid query for its model (the route answered HTTP 500 to EVERY search before)', () => {
+  const biz = '507f1f77bcf86cd799439011';
+  const cases = [
+    ['messages', '../models/automation/Message.js'],
+    ['conversations', '../models/omnichannel/Conversation.js'],
+    ['leads', '../models/automation/Lead.js'],
+    ['contacts', '../models/automation/Contact.js'],
+    ['companies', '../models/automation/Company.js'],
+    ['deals', '../models/automation/Deal.js'],
+  ];
+  const inputs = ['Preeti', '99860 30563', '+91 99860-30563', 'a@b.com'];
+
+  for (const [name, modelPath] of cases) {
+    it(`${name}: casts for a name, a number and an email`, async () => {
+      const { default: Model } = await import(modelPath);
+      for (const raw of inputs) {
+        const escaped = raw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const filter = Q.buildSearchFilters({ businessId: biz, rawQ: raw, escaped })[name];
+        assert.doesNotThrow(() => Model.find(filter).cast(Model), `${name} filter for "${raw}"`);
+      }
+    });
+  }
+
+  it('the OLD contact filter (regex straight on the sub-document arrays) is rejected: the test catches the bug', async () => {
+    const { default: Contact } = await import('../models/automation/Contact.js');
+    const old = { businessId: biz, $or: [{ firstName: /x/i }, { emails: { $regex: 'x', $options: 'i' } }, { phones: { $regex: 'x', $options: 'i' } }] };
+    assert.throws(() => Contact.find(old).cast(Contact), /Cast to embedded failed/);
+  });
+
+  it('the route uses these filters and isolates each section, so one failure never blanks the dropdown', () => {
+    const route = read('app/api/automation/inbox/search/route.js');
+    assert.ok(route.includes('buildSearchFilters({ businessId, rawQ, escaped: q })'));
+    assert.ok(route.includes('async function section(name, fn)') && (route.match(/jobs\.push\(section\(/g) || []).length === 6);
+    assert.ok(!/phones: regex|emails: regex/.test(route));
   });
 });

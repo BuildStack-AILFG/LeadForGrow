@@ -14,7 +14,7 @@ import AiReplyBar from '../components/ai/AiReplyBar';
 import CRMProfilePanel from '../components/chat/CRMProfilePanel';
 import OutOfWindowTemplateBar, { useIsWithin24hWindow } from '../components/chat/OutOfWindowTemplateBar';
 import LostReasonModal from '../components/leads/LostReasonModal';
-import SendTemplateModal from '../components/leads/SendTemplateModal';
+import { makeNewChat, isNewChat } from '@/lib/omnichannel/newChat';
 import { toast } from 'react-hot-toast';
 import { useConfirm } from '@/app/components/ConfirmProvider';
 
@@ -95,8 +95,11 @@ function ChatInboxContent() {
     setEmailDrafts((prev) => prev.filter((d) => d._id !== draft._id));
   };
 
+  const newChat = isNewChat(inbox.selectedChat);
+  // A new chat needs no take-over: its composer is the template picker (the only thing WhatsApp allows as a first message).
   const canReply =
-    inbox.selectedChat?.channel === 'whatsapp'
+    newChat ? true
+    : inbox.selectedChat?.channel === 'whatsapp'
       ? inbox.selectedChat?.inboxStatus === 'intervened' || inbox.selectedChat?.status === 'intervened'
       : !!inbox.selectedChat;
 
@@ -224,8 +227,10 @@ function ChatInboxContent() {
         inbox.selectChat(known);
         setMobileView('chat');
       } else if (lead.phone) {
-        // Never messaged: there is no chat yet, and WhatsApp only allows an approved template to start one.
-        setNewChatLead(lead);
+        // Never messaged: there is no conversation yet. Open a NEW CHAT in the normal layout (header, thread, CRM panel);
+        // WhatsApp only allows an approved template as the first message, so the composer is the template picker.
+        inbox.selectChat(makeNewChat(lead));
+        setMobileView('chat');
       } else {
         toast.error(`${lead.name || 'This lead'} has no phone number, so there is no WhatsApp chat to start. Open the lead and add one.`);
       }
@@ -233,20 +238,17 @@ function ChatInboxContent() {
     inbox.setSearch('');
   };
 
-  // After the first template is sent the conversation exists on the server: reload the list and open it.
-  const [newChatLead, setNewChatLead] = useState(null);
-  const [openLeadWhenListed, setOpenLeadWhenListed] = useState(null);
-  useEffect(() => {
-    if (!openLeadWhenListed) return;
-    const match = inbox.conversations.find(
-      (c) => (c.leadId?._id || c.leadId) === openLeadWhenListed && c.channel === 'whatsapp'
-    );
-    if (match) {
-      inbox.selectChat(match);
-      setMobileView('chat');
-      setOpenLeadWhenListed(null);
+  // The conversation a new chat creates (its first template) is not in the current list view (e.g. Needs reply: we wrote last),
+  // so ask the server for it instead of waiting for it to appear in the list.
+  const findLeadConversation = async (lead) => {
+    try {
+      const res = await authFetch(`/api/automation/inbox/search?type=leads&q=${encodeURIComponent(lead.phone || lead.name || '')}`);
+      const data = await res.json();
+      return (data.data?.leads || []).find((l) => String(l._id) === String(lead._id))?.conversation || null;
+    } catch {
+      return null;
     }
-  }, [openLeadWhenListed, inbox.conversations, inbox.selectChat]);
+  };
 
   return (
     <div className="flex h-[calc(100vh-0px)] bg-[#f8f9fc] dark:bg-slate-950 overflow-hidden font-[family-name:var(--font-whatsapp)]">
@@ -264,6 +266,12 @@ function ChatInboxContent() {
           onSearchChange={inbox.setSearch}
           searchResults={inbox.searchResults}
           onSelectSearchResult={handleSearchResult}
+          viewCounts={inbox.viewCounts}
+          onMarkDone={inbox.markDone}
+          onAssignToMe={inbox.assignToMe}
+          onAssignTo={inbox.assignTo}
+          teamMembers={inbox.teamMembers}
+          currentUserId={inbox.currentUserId}
           onSelect={(chat) => {
             inbox.selectChat(chat);
             setMobileView('chat');
@@ -368,7 +376,7 @@ function ChatInboxContent() {
                 onLoadMore={inbox.loadOlderMessages}
                 loadingMore={inbox.loadingMore}
                 onMessageAction={inbox.messageAction}
-                emptyLabel={emptyLabel}
+                emptyLabel={newChat ? 'No messages yet. Send an approved template below to start the conversation.' : emptyLabel}
                 gutterClass={listGutter}
                 // Passed so MessageBubble's EmailSenderHeader can fall back
                 // to the conversation's participant when a specific Message's
@@ -397,11 +405,21 @@ function ChatInboxContent() {
             )}
             {showTemplateBar ? (
               <OutOfWindowTemplateBar
+                firstContact={newChat}
                 leadName={inbox.selectedChat?.leadId?.name}
                 lead={inbox.selectedChat?.leadId}
-                onSend={(template) =>
-                  inbox.sendMessage('', { template })
-                }
+                onSend={async (template) => {
+                  const lead = inbox.selectedChat?.leadId;
+                  const ok = await inbox.sendMessage('', { template });
+                  if (ok === false) throw new Error('Could not send the template');
+                  if (newChat && lead) {
+                    // The server created the conversation with that message: refresh the list and switch to the real one.
+                    inbox.refresh();
+                    const conversation = await findLeadConversation(lead);
+                    if (conversation) inbox.selectChat(conversation);
+                  }
+                  return ok;
+                }}
               />
             ) : (
               <ChatInput
@@ -472,17 +490,6 @@ function ChatInboxContent() {
           onToggleLabel={inbox.toggleLabel}
           onUpdateFollowUp={inbox.updateLeadFollowUp}
           onClose={() => setProfileOpen(false)}
-        />
-      )}
-
-      {newChatLead && (
-        <SendTemplateModal
-          lead={newChatLead}
-          onClose={() => setNewChatLead(null)}
-          onSent={(lead) => {
-            setOpenLeadWhenListed(lead._id);
-            inbox.refresh();
-          }}
         />
       )}
 

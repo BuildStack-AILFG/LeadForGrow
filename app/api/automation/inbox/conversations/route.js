@@ -5,6 +5,8 @@ import Conversation from '@/models/omnichannel/Conversation';
 import Lead from '@/models/automation/Lead';
 import { withPermissions } from '@/lib/rbac';
 import { syncLegacyWhatsAppConversations } from '@/lib/omnichannel/conversationService';
+import { isServerView, viewClauses } from '@/lib/omnichannel/inboxViews';
+import { loadViewInputs } from '@/lib/omnichannel/inboxViewQuery';
 
 async function handler(req) {
   try {
@@ -95,6 +97,16 @@ async function handler(req) {
       });
     }
 
+    // Inbox queues (?view=needs_reply|mine|unassigned|taken_over): same rules the tab counts use.
+    let sortOrder = { isPinned: -1, lastMessageAt: -1 };
+    const view = searchParams.get('view');
+    if (isServerView(view)) {
+      const inputs = await loadViewInputs({ businessId: user.businessId, userId: user.userId, view });
+      const { clauses, sort } = viewClauses(view, inputs);
+      andClauses.push(...clauses);
+      if (sort) sortOrder = sort;
+    }
+
     if (andClauses.length) query.$and = andClauses;
 
     // countDocuments on a big Conversation collection is the second-biggest
@@ -107,7 +119,7 @@ async function handler(req) {
       .populate('contactId', 'firstName lastName email phones')
       .populate('companyId', 'name')
       .populate('dealId', 'title amount stage')
-      .sort({ isPinned: -1, lastMessageAt: -1 })
+      .sort(sortOrder)
       .skip(skip)
       .limit(limit)
       .lean();

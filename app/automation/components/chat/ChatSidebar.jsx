@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Search, Filter, MessageSquarePlus, Loader2, LayoutGrid, Volume2, VolumeX } from 'lucide-react';
 import Link from 'next/link';
 import { INBOX_FILTERS, CHANNEL_FILTERS } from './constants';
+import InboxViewTabs from './InboxViewTabs';
 import ConversationItem from './ConversationItem';
 import { buildSearchRows } from '@/lib/omnichannel/searchRows';
 import { WhatsAppIcon, InstagramIcon, FacebookIcon, GmailIcon, GmailMonoIcon } from './BrandIcons';
@@ -42,6 +43,12 @@ export default function ChatSidebar({
   onSearchChange,
   searchResults,
   onSelectSearchResult,
+  viewCounts,
+  onMarkDone,
+  onAssignToMe,
+  onAssignTo,
+  teamMembers,
+  currentUserId,
   onSelect,
   loading,
   hasMoreConversations,
@@ -186,22 +193,7 @@ export default function ChatSidebar({
             );
           })}
         </div>
-        <div className="flex gap-1.5 overflow-x-auto pb-0.5 scrollbar-hide">
-          {INBOX_FILTERS.map((f) => (
-            <button
-              key={f.id}
-              type="button"
-              onClick={() => onFilterChange(f.id)}
-              className={`px-2.5 py-1 text-[11px] font-medium rounded whitespace-nowrap transition-colors ${
-                filter === f.id
-                  ? 'bg-brand text-white'
-                  : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
-              }`}
-            >
-              {f.label}
-            </button>
-          ))}
-        </div>
+        <InboxViewTabs filter={filter} onChange={onFilterChange} counts={viewCounts} />
       </div>
 
       <div className="flex-1 overflow-y-auto">
@@ -222,8 +214,14 @@ export default function ChatSidebar({
         ) : conversations.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full p-8 text-center">
             <Filter className="w-10 h-10 text-slate-300 mb-2" />
-            <p className="text-sm font-medium text-slate-600 dark:text-slate-400">No conversations</p>
-            <p className="text-xs text-slate-400 mt-1">Try a different filter or search term.</p>
+            <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
+              {search ? 'No conversations match' : (INBOX_FILTERS.find((f) => f.id === filter)?.empty || 'No conversations')}
+            </p>
+            <p className="text-xs text-slate-400 mt-1">
+              {search
+                ? 'A lead who never messaged shows in the results above: pick it to start a new chat.'
+                : filter !== 'all' ? 'Switch to All to see every conversation.' : 'Try a different filter or search term.'}
+            </p>
           </div>
         ) : (
           <>
@@ -233,6 +231,12 @@ export default function ChatSidebar({
                 chat={chat}
                 active={selectedId === chat._id}
                 onClick={() => onSelect(chat)}
+                onDone={onMarkDone}
+                onAssignToMe={onAssignToMe}
+                onAssignTo={onAssignTo}
+                teamMembers={teamMembers}
+                currentUserId={currentUserId}
+                showAssignToMe={filter === 'unassigned'}
               />
             ))}
             {/* Sentinel — IntersectionObserver above triggers loadMore when this scrolls into view */}

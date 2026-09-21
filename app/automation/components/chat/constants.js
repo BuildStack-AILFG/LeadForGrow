@@ -6,19 +6,29 @@ export const CHANNEL_FILTERS = [
   { id: 'email', label: 'Email' },
 ];
 
-export const INBOX_FILTERS = [
-  { id: 'all', label: 'All' },
-  { id: 'unread', label: 'Unread' },
-  { id: 'assigned', label: 'Assigned' },
-  { id: 'unassigned', label: 'Unassigned' },
-  { id: 'intervened', label: 'Live' },
-  { id: 'automated', label: 'Automated' },
-  { id: 'human', label: 'Human replies' },
-  { id: 'hot', label: 'Hot Leads' },
-  { id: 'followup', label: 'Follow-up' },
-  { id: 'pinned', label: 'Pinned' },
-  { id: 'archived', label: 'Archived' },
+// The inbox opens on a few QUEUES (what a person needs to act on), each with a live count; everything else is a
+// secondary view under "More". `count` = the key in /api/automation/inbox/counts; `empty` = the message when the
+// queue is clear (an empty queue is good news, not "no results").
+export const INBOX_PRIMARY_VIEWS = [
+  { id: 'needs_reply', label: 'Needs reply', count: 'needs_reply', hint: 'Customers who wrote last and are waiting for an answer. Longest wait first.', empty: 'Nobody is waiting for a reply. Inbox zero.' },
+  { id: 'mine', label: 'Mine', count: 'mine', hint: 'Conversations assigned to you.', empty: 'Nothing is assigned to you right now.' },
+  { id: 'unassigned', label: 'Unassigned', count: 'unassigned', hint: 'Conversations nobody owns yet.', empty: 'Every conversation has an owner.' },
+  { id: 'all', label: 'All', hint: 'Every open conversation, newest first.', empty: 'No conversations yet.' },
 ];
+
+export const INBOX_MORE_VIEWS = [
+  { id: 'taken_over', label: 'Taken over', count: 'taken_over', hint: 'A team member took the conversation over from the bot.', empty: 'No conversation is taken over by your team.' },
+  { id: 'automated', label: 'Bot handling', hint: 'Conversations where the last message was sent by an automation.', empty: 'No conversation is being handled by automation.' },
+  { id: 'unread', label: 'Unread', count: 'unread', hint: 'Conversations you have not opened.', empty: 'Everything has been read.' },
+  { id: 'human', label: 'Human replies', hint: 'Conversations where the last message was written by a person.', empty: 'No conversations with human replies.' },
+  { id: 'hot', label: 'Hot leads', hint: 'High-priority leads.', empty: 'No hot leads in the loaded conversations.' },
+  { id: 'followup', label: 'Follow-up due', hint: 'Leads whose follow-up is due today or earlier.', empty: 'No follow-ups are due.' },
+  { id: 'pinned', label: 'Pinned', hint: 'Conversations you pinned.', empty: 'Nothing is pinned.' },
+  { id: 'archived', label: 'Archived', hint: 'Archived conversations.', empty: 'Nothing is archived.' },
+];
+
+export const INBOX_FILTERS = [...INBOX_PRIMARY_VIEWS, ...INBOX_MORE_VIEWS];
+export const INBOX_VIEW_IDS = INBOX_FILTERS.map((f) => f.id);
 
 // Visual tag on each message — matches Message.origin values. Rendered as
 // a small pill next to the sender name in the message list.

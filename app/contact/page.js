@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Mail, Phone, MapPin, Clock, Send, Building2, Headphones, Handshake, Newspaper } from 'lucide-react';
+import { MapPin, Clock, Send, Building2, Headphones, Handshake, Newspaper } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import MarketingShell from '@/app/components/marketing/MarketingShell';
 import { MARKETING } from '@/lib/marketing/designTokens';
+import CompanyAddress from '@/app/components/marketing/CompanyAddress';
 
 const CHANNELS = [
   { id: 'sales', icon: Building2, title: 'Sales', email: 'sales@leadforgrow.com', desc: 'Demos, pricing, and enterprise plans' },
@@ -60,20 +61,12 @@ export default function ContactPage() {
             <div className={`${MARKETING.card} p-5 space-y-3 mt-6`}>
               <div className="flex items-start gap-3 text-sm text-[#64748B]">
                 <MapPin className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                <span>ScaleDesk Technology, India<br />Remote-first team</span>
+                <CompanyAddress variant="public" />
               </div>
               <div className="flex items-center gap-3 text-sm text-[#64748B]">
                 <Clock className="w-4 h-4 text-emerald-600 shrink-0" />
                 <span>Mon–Fri, 9:00 AM – 6:00 PM IST</span>
               </div>
-              <div className="flex items-center gap-3 text-sm text-[#64748B]">
-                <Phone className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>+91 (available on request)</span>
-              </div>
-            </div>
-
-            <div className="aspect-video rounded-2xl bg-emerald-100/50 border border-emerald-200 flex items-center justify-center text-sm text-emerald-700">
-              Map placeholder — office location
             </div>
           </div>
 

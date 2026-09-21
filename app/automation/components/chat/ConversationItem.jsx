@@ -7,8 +7,9 @@ import {
   Pin, Star,
   ArrowLeft, ArrowRight,
   FileText, Image as ImageIcon, Mic, Video, MapPin, Phone,
-  Check, CheckCheck, Clock,
+  Check, CheckCheck, CheckCircle2, Clock,
 } from 'lucide-react';
+import AssignMenu from './AssignMenu';
 import { WhatsAppIcon, InstagramIcon, FacebookIcon, GmailIcon } from './BrandIcons';
 
 const CHANNEL_ICON = {
@@ -91,7 +92,7 @@ function messagePreviewMeta(chat) {
   return { Icon: null, label: previewIsInbound ? preview : `You: ${preview}`, isInboundPreview: previewIsInbound };
 }
 
-function ConversationItem({ chat, active, onClick }) {
+function ConversationItem({ chat, active, onClick, onDone, onAssignToMe, onAssignTo, teamMembers, currentUserId, showAssignToMe = false }) {
   const lead = chat.leadId || {};
   const unread = chat.unreadCount > 0 || chat.inboxStatus === 'unread' || chat.status === 'unread';
   const displayName = lead.name || chat.participantName || lead.phone || chat.participantEmail || 'Unknown';
@@ -138,7 +139,14 @@ function ConversationItem({ chat, active, onClick }) {
     else if (s === 'sent' || s === 'accepted') { DeliveryIcon = Check; deliveryClass = unread ? 'text-slate-500 dark:text-slate-400' : 'text-slate-400'; }
   }
 
+  // Quick actions live OUTSIDE the row button (a button inside a button is invalid HTML) and are always visible: hover-only
+  // controls never appear on touchscreen laptops. "Done" only for a conversation that is waiting on us.
+  const canDone = Boolean(onDone) && chat.status !== 'closed' && chat.lastMessageDirection === 'incoming' && !automated;
+  const canAssign = Boolean(onAssignToMe) && showAssignToMe;
+  const hasActions = canDone || canAssign;
+
   return (
+    <div className="relative">
     <button
       type="button"
       onClick={onClick}
@@ -192,7 +200,7 @@ function ConversationItem({ chat, active, onClick }) {
         </div>
 
         {/* Row 2 — direction arrow · type icon · delivery tick · preview */}
-        <div className="flex items-center gap-1 mt-0.5 min-w-0">
+        <div className={`flex items-center gap-1 mt-0.5 min-w-0 ${canAssign ? 'pr-44' : canDone ? 'pr-8' : ''}`}>
           {isInboundPreview ? (
             <ArrowLeft className={`w-3 h-3 flex-shrink-0 ${unread ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400'}`} />
           ) : (
@@ -210,6 +218,26 @@ function ConversationItem({ chat, active, onClick }) {
         </div>
       </div>
     </button>
+    {hasActions && (
+      <div className="absolute right-2 bottom-1.5 flex items-center gap-1">
+        {canAssign && (
+          <AssignMenu chat={chat} teamMembers={teamMembers} currentUserId={currentUserId} onAssignToMe={onAssignToMe} onAssignTo={onAssignTo} />
+        )}
+        {canDone && (
+          <button
+            type="button"
+            data-row-action="done"
+            title="Mark done: nothing more to reply. It comes back if the customer writes again."
+            aria-label="Mark done"
+            onClick={() => onDone(chat)}
+            className="inline-flex items-center justify-center w-6 h-6 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-brand-tint dark:hover:bg-slate-800 hover:text-brand-ink"
+          >
+            <CheckCircle2 className="w-3.5 h-3.5" />
+          </button>
+        )}
+      </div>
+    )}
+    </div>
   );
 }
 

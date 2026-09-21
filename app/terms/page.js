@@ -3,6 +3,8 @@
 import React from 'react';
 import MarketingLayout from '@/app/components/MarketingLayout';
 import Heading from '@/app/components/ui/Heading';
+import CompanyAddress from '@/app/components/marketing/CompanyAddress';
+import { LEGAL_NAME, PRODUCT_STATEMENT } from '@/lib/company';
 
 export default function TermsOfService() {
  const terms = [
@@ -98,7 +100,15 @@ export default function TermsOfService() {
     >
       <div className="bg-white dark:bg-slate-900/40 rounded-3xl p-8 md:p-12 border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none">
         <div className="prose prose-slate dark:prose-invert max-w-none">
-          <p className="text-slate-500 dark:text-slate-400 mb-12 italic">Last Updated: January 8, 2026</p>
+          <p className="text-slate-500 dark:text-slate-400 mb-12 italic">Last Updated: September 21, 2026</p>
+
+          <div className="mb-12 rounded-2xl border border-slate-100 dark:border-slate-800 p-6 md:p-8 text-slate-600 dark:text-slate-300 leading-relaxed">
+            <Heading level={2} className="text-2xl mb-4">Who These Terms Are With</Heading>
+            <p className="mb-4">
+              {PRODUCT_STATEMENT} These Terms of Service are an agreement between you and {LEGAL_NAME}. In these Terms, &ldquo;we&rdquo;, &ldquo;us&rdquo; and &ldquo;our&rdquo; mean {LEGAL_NAME}; &ldquo;LeadForGrow&rdquo; is the name of the platform and product we operate and is not a separate legal entity.
+            </p>
+            <CompanyAddress variant="full" />
+          </div>
           
           {terms.map((term, idx) => (
             <div key={idx} className="mb-12 last:mb-0">
