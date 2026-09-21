@@ -5,7 +5,7 @@ export const metadata = {
   description: "Partner with LeadForGrow for 100% managed lead generation. We build your funnels, run your ads, and manage your CRM while you focus on closing deals.",
   keywords: ["managed growth service", "lead generation agency India", "fractional sales operations", "outsourced lead management", "business growth consultant"],
   alternates: {
-    canonical: 'https://leadforgrow.online/services/managed-growth'
+    canonical: 'https://www.leadforgrow.com/services/managed-growth'
   }
 };
 

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import MarketingLayout from '@/app/components/MarketingLayout';
+import Link from 'next/link';
 import Heading from '@/app/components/ui/Heading';
 import CompanyAddress from '@/app/components/marketing/CompanyAddress';
 import { LEGAL_NAME, PRODUCT_STATEMENT } from '@/lib/company';
@@ -34,9 +35,15 @@ export default function TermsOfService() {
       "Free trial access may be offered at our discretion. At the end of the trial period, continued use of the service requires an active paid subscription. We reserve the right to limit or revoke trial access in cases of abuse."
   },
   {
-  title: "6. Payments, Cancellation & No-Refund Policy",
+  title: "6. Payments, Cancellation & Refunds",
   content:
-    "All subscription fees, usage charges, setup fees, onboarding services, and add-ons are billed in advance and are strictly non-refundable. Once a payment is completed, no refunds, credits, or chargebacks will be issued under any circumstances. You may cancel your subscription at any time, but cancellation will only prevent future billing and will not result in a refund for the current billing period."
+    <>
+      Subscription fees, usage charges, and add-ons are billed in advance. You may cancel your subscription at any time from your
+      billing settings; cancellation prevents future billing, and access continues until the end of the current billing period.
+      Refunds, where available, are governed by our{' '}
+      <Link href="/refund-policy" className="font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">Refund Policy</Link>,
+      which forms part of these Terms.
+    </>
 },
 
   {
@@ -121,8 +128,8 @@ export default function TermsOfService() {
           
           <div className="mt-16 pt-12 border-t border-slate-100 dark:border-slate-800 text-center">
             <p className="text-slate-500 dark:text-slate-400 mb-4">Need clarification on our terms?</p>
-            <a href="mailto:legal@leadforgrow.online" className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline">
-              legal@leadforgrow.online
+            <a href="mailto:legal@leadforgrow.com" className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline">
+              legal@leadforgrow.com
             </a>
           </div>
         </div>

@@ -71,7 +71,7 @@ export default function PrivacyPolicy() {
   {
     title: "13. Contact Information",
     content:
-      "If you have questions or concerns about this Privacy Policy, you may contact us at privacy@leadforgrow.online."
+      "If you have questions or concerns about this Privacy Policy, you may contact us at privacy@leadforgrow.com."
   }
 ];
 
@@ -104,8 +104,8 @@ export default function PrivacyPolicy() {
           
           <div className="mt-16 pt-12 border-t border-slate-100 dark:border-slate-800 text-center">
             <p className="text-slate-500 dark:text-slate-400 mb-4">Questions about our privacy policy?</p>
-            <a href="mailto:privacy@leadforgrow.online" className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline">
-              privacy@leadforgrow.online
+            <a href="mailto:privacy@leadforgrow.com" className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline">
+              privacy@leadforgrow.com
             </a>
           </div>
         </div>

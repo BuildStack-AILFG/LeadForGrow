@@ -5,7 +5,7 @@ export const metadata = {
   description: "Expert implementation of your LeadForGrow automation sequences. We build your WhatsApp, Email, and team alerts for zero-latency lead response.",
   keywords: ["sales automation setup", "WhatsApp automation expert India", "lead workflow design", "automated email sequences", "sales operations consulting"],
   alternates: {
-    canonical: 'https://leadforgrow.online/services/automation-setup'
+    canonical: 'https://www.leadforgrow.com/services/automation-setup'
   }
 };
 

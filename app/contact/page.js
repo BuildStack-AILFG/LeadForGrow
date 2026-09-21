@@ -7,6 +7,8 @@ import { toast } from 'react-hot-toast';
 import MarketingShell from '@/app/components/marketing/MarketingShell';
 import { MARKETING } from '@/lib/marketing/designTokens';
 import CompanyAddress from '@/app/components/marketing/CompanyAddress';
+import { submitContactForm } from '@/lib/contactForm';
+import { getConsentPayloadForForms } from '@/lib/consent/client';
 
 const CHANNELS = [
   { id: 'sales', icon: Building2, title: 'Sales', email: 'sales@leadforgrow.com', desc: 'Demos, pricing, and enterprise plans' },
@@ -21,12 +23,16 @@ export default function ContactPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (sending) return;
     setSending(true);
-    setTimeout(() => {
-      toast.success('Message sent! We\'ll respond within 1 business day.');
-      setSending(false);
+    const result = await submitContactForm(form, { consent: getConsentPayloadForForms() });
+    setSending(false);
+    if (result.ok) {
+      toast.success(result.message);
       setForm({ name: '', email: '', company: '', topic: 'sales', message: '' });
-    }, 800);
+    } else {
+      toast.error(result.error);
+    }
   };
 
   return (

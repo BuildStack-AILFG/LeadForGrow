@@ -253,7 +253,7 @@ export default function ClientDetailPage({ params }) {
                   <div className="p-6 space-y-6">
                      <div className="space-y-1.5">
                         <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Submission API</p>
-                        <code className="block p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg text-[12px] text-slate-600 dark:text-slate-300 break-all font-mono">https://api.leadforgrow.online/api/forms/submit?clientId={clientId}</code>
+                        <code className="block p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg text-[12px] text-slate-600 dark:text-slate-300 break-all font-mono">https://www.leadforgrow.com/api/forms/submit?clientId={clientId}</code>
                      </div>
                      <div className="flex items-center justify-between p-4 bg-rose-50 dark:bg-rose-950/30 border border-rose-100 dark:border-rose-900/50 rounded-xl">
                         <div>

@@ -13,7 +13,7 @@ const CONTACT_ITEMS = [
   {
     icon: Mail,
     label: 'Email us',
-    value: 'sales@leadforgrow.online',
+    value: 'sales@leadforgrow.com',
     iconClass: 'bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400',
   },
   {

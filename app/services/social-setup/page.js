@@ -5,7 +5,7 @@ export const metadata = {
   description: "Expert setup of your LinkedIn, Instagram, and Meta profiles for lead generation. We connect your social presence to your LeadForGrow sales engine.",
   keywords: ["social media profile optimization", "professional LinkedIn setup India", "Instagram for lead generation", "social sales funnel setup", "digital identity management"],
   alternates: {
-    canonical: 'https://leadforgrow.online/services/social-setup'
+    canonical: 'https://www.leadforgrow.com/services/social-setup'
   }
 };
 

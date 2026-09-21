@@ -5,7 +5,7 @@ export const metadata = {
   description: "Track your lead conversion ratios, team response times, and marketing ROI with LeadForGrow. Simple, visual reporting built for business owners.",
   keywords: ["sales analytics software", "lead ROI tracking India", "agency reporting tool", "conversion rate analytics", "sales team performance metrics"],
   alternates: {
-    canonical: 'https://leadforgrow.online/product/analytics'
+    canonical: 'https://www.leadforgrow.com/product/analytics'
   }
 };
 

@@ -5,7 +5,7 @@ export const metadata = {
   description: "Tweak multiple client accounts from a single master login. LeadForGrow's multi-tenant architecture eliminates login fatigue and boosts agency efficiency.",
   keywords: ["manage multiple client accounts", "agency multi-tenant CRM", "centralized lead management software", "client account isolation", "scaling marketing agency operations"],
   alternates: {
-    canonical: 'https://leadforgrow.online/agencies/clients'
+    canonical: 'https://www.leadforgrow.com/agencies/clients'
   }
 };
 

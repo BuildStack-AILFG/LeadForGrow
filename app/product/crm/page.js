@@ -5,7 +5,7 @@ export const metadata = {
   description: "Scale your agency with LeadForGrow's lead management CRM. Automate follow-ups, track won/lost leads, and ensure zero enquiries are missed. Start your free trial.",
   keywords: ["lead management system", "CRM for small business", "agency lead tracking", "sales lead automation", "India lead management software"],
   alternates: {
-    canonical: 'https://leadforgrow.online/product/crm'
+    canonical: 'https://www.leadforgrow.com/product/crm'
   }
 };
 
