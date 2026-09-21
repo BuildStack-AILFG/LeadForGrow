@@ -1,6 +1,7 @@
 'use client';
 
-import { Suspense, useCallback } from 'react';
+import { Suspense, useCallback, useState } from 'react';
+import SendTemplateModal from '../components/leads/SendTemplateModal';
 import { SMART_VIEWS } from '../components/leads/constants';
 import { useLeadsWorkspace } from '../hooks/useLeadsWorkspace';
 import LeadsHeader from '../components/leads/LeadsHeader';
@@ -24,6 +25,7 @@ import DiscoveryLink from '../components/shared/tour/DiscoveryLink';
 function LeadsWorkspaceContent() {
   const ws = useLeadsWorkspace();
   useAutoStartTour(TOURS.leads, !ws.loading);
+  const [templateLead, setTemplateLead] = useState(null); // lead whose WhatsApp template picker is open
 
   const handleSearch = useCallback((value) => ws.setSearchInput(value), [ws]);
 
@@ -100,6 +102,7 @@ function LeadsWorkspaceContent() {
                 onAssign={ws.assignLead}
                 onStatusChange={ws.updateLeadStatus}
                 onCall={ws.initiateCall}
+                onSendTemplate={setTemplateLead}
                 onRowColorChange={ws.updateLeadRowColor}
                 sortField={ws.sortField}
                 sortDir={ws.sortDir}
@@ -159,6 +162,8 @@ function LeadsWorkspaceContent() {
         onCall={ws.initiateCall}
         onConvertLead={ws.convertLead}
       />
+
+      {templateLead && <SendTemplateModal lead={templateLead} onClose={() => setTemplateLead(null)} />}
 
       <QualifiedSummaryModal
         open={!!ws.qualifiedPrompt}

@@ -6,6 +6,8 @@ import StatusBadge from './StatusBadge';
 import LeadScoreBadge from './LeadScoreBadge';
 import LeadActionsMenu from './LeadActionsMenu';
 import LeadColorPicker from './LeadColorPicker';
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
+import { hasWhatsAppHistory } from '@/lib/whatsapp/waPhone';
 import { assigneeName, formatRelative, formatSource, formatDate, getLeadRowBackgroundStyle, getStatusRowColor, statusLabel } from './utils';
 import { TABLE_COL_LINE, TABLE_ROW_LINE } from './constants';
 
@@ -19,6 +21,7 @@ function LeadRow({
   onAssign,
   onStatusChange,
   onCall,
+  onSendTemplate,
   onRowColorChange
 }) {
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
@@ -135,13 +138,27 @@ function LeadRow({
           >
             <Phone className="w-3.5 h-3.5" />
           </button>
-          <a
-            href={`/automation/chat?leadId=${lead._id}`}
-            onClick={(e) => e.stopPropagation()}
-            className="p-1.5 rounded text-[#667085] dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-[#F2F4F7] dark:hover:bg-slate-800"
-          >
-            <MessageSquare className="w-3.5 h-3.5" />
-          </a>
+          {lead.phone && !hasWhatsAppHistory(lead) && onSendTemplate ? (
+            // Never messaged on WhatsApp: no Inbox conversation exists, and only an approved template may start one.
+            <button
+              type="button"
+              title="Send a WhatsApp template"
+              aria-label="Send a WhatsApp template"
+              onClick={() => onSendTemplate(lead)}
+              className="p-1.5 rounded hover:bg-[#F2F4F7] dark:hover:bg-slate-800"
+            >
+              <WhatsAppIcon colored className="w-3.5 h-3.5" />
+            </button>
+          ) : (
+            <a
+              href={`/automation/chat?leadId=${lead._id}`}
+              title={lead.phone ? 'Open the WhatsApp chat' : 'Open the conversation'}
+              onClick={(e) => e.stopPropagation()}
+              className="p-1.5 rounded text-[#667085] dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-[#F2F4F7] dark:hover:bg-slate-800"
+            >
+              {lead.phone ? <WhatsAppIcon colored className="w-3.5 h-3.5" /> : <MessageSquare className="w-3.5 h-3.5" />}
+            </a>
+          )}
           <LeadActionsMenu
             lead={lead}
             teamMembers={teamMembers}

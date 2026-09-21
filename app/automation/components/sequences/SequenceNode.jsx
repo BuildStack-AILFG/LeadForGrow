@@ -8,6 +8,7 @@ import {
   Copy, Trash2, GripVertical
 } from 'lucide-react';
 import { getNodeDef, getNodeStyle } from '@/lib/sequences/constants';
+import { NODE_W, NODE_H } from '@/lib/sequences/canvasMath';
 
 const ICONS = {
   UserPlus, MessageCircle, Mail, UserCheck, Tag, CheckSquare, ArrowRight, Bell,
@@ -15,24 +16,28 @@ const ICONS = {
   Megaphone, FileInput, GitBranch, PhoneMissed, CreditCard,
 };
 
-const NODE_W = 220;
-const NODE_H = 72;
-
 export { NODE_W, NODE_H };
 
 export default function SequenceNode({
-  node, selected, onSelect, onDragStart, onDuplicate, onDelete, connectingFrom,
+  node, selected, onSelect, onDragStart, onConnectStart, onDuplicate, onDelete, connectingFrom, dimmed = false,
 }) {
   const def = getNodeDef(node.type);
   const Icon = ICONS[def.icon] || MessageCircle;
   const gradient = getNodeStyle(node.type);
   const isTrigger = node.type?.startsWith('trigger_');
+  const isEnd = node.type === 'end';
 
+  // No framer-motion `layout` here: the node is positioned with left/top while it is dragged, and `layout`
+  // animates every position change (the node trailed behind the cursor) and mis-measures inside the
+  // scaled/translated canvas layer (nodes lagged when panning or zooming).
   return (
     <motion.div
-      layout
+      data-node-id={node.id}
       initial={{ scale: 0.9, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
+      // While a line is being dragged, nodes that cannot receive it fade (e.g. triggers). Opacity is animated
+      // here because framer-motion writes an inline opacity that would override a CSS class.
+      animate={{ scale: 1, opacity: dimmed ? 0.4 : 1 }}
+      transition={{ duration: 0.15 }}
       className={`absolute select-none cursor-grab active:cursor-grabbing group ${selected ? 'z-20' : 'z-10'}`}
       style={{ left: node.position?.x ?? 0, top: node.position?.y ?? 0, width: NODE_W }}
       onMouseDown={(e) => {
@@ -67,14 +72,28 @@ export default function SequenceNode({
       {!isTrigger && (
         <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-slate-300 border-2 border-white dark:border-slate-900" />
       )}
-      <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-teal-500 border-2 border-white dark:border-slate-900 shadow-sm" />
+      {/* Output handle: press and drag from here onto another node to connect them. */}
+      {!isEnd && (
+        <div
+          data-connect-handle
+          title="Drag to another node to connect"
+          className="absolute -bottom-3.5 left-1/2 -translate-x-1/2 w-7 h-7 flex items-center justify-center cursor-crosshair"
+          onMouseDown={(e) => {
+            e.stopPropagation();
+            onConnectStart?.(e, node.id);
+          }}
+        >
+          <div className="w-3.5 h-3.5 rounded-full bg-teal-500 border-2 border-white dark:border-slate-900 shadow-sm hover:scale-125 transition-transform" />
+        </div>
+      )}
 
+      {/* Shown whenever the node is selected (not only on hover: hover-only controls never appear on touchscreen laptops). */}
       {selected && (
-        <div className="absolute -top-10 right-0 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button type="button" onClick={(e) => { e.stopPropagation(); onDuplicate?.(node.id); }} className="p-1 rounded-lg bg-white dark:bg-slate-800 shadow border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400">
+        <div className="absolute -top-10 right-0 flex gap-1" onMouseDown={(e) => e.stopPropagation()}>
+          <button type="button" title="Duplicate" onClick={(e) => { e.stopPropagation(); onDuplicate?.(node.id); }} className="p-1 rounded-lg bg-white dark:bg-slate-800 shadow border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400">
             <Copy className="w-3 h-3" />
           </button>
-          <button type="button" onClick={(e) => { e.stopPropagation(); onDelete?.(node.id); }} className="p-1 rounded-lg bg-white dark:bg-slate-800 shadow border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-red-500">
+          <button type="button" title="Delete" onClick={(e) => { e.stopPropagation(); onDelete?.(node.id); }} className="p-1 rounded-lg bg-white dark:bg-slate-800 shadow border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-red-500">
             <Trash2 className="w-3 h-3" />
           </button>
         </div>

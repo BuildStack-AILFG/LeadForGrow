@@ -21,6 +21,7 @@ const ALLOWED = [
   ['app/components/landing/WhatsAppAutomationSection.jsx', 'Team inbox'],    // shared inbox feature
   ['app/automation/components/sequences/ExecutionLogs.jsx', "includes('ai_')"], // AI steps that are not WhatsApp
   ['app/automation/components/chat/BrandIcons.jsx', 'generic MessageCircle'], // the doc comment itself
+  ['app/automation/components/leads/LeadRow.jsx', ': <MessageSquare'],        // conversation link for a lead WITHOUT a phone (Instagram, email)
 ];
 
 function walk(dir, out = []) {

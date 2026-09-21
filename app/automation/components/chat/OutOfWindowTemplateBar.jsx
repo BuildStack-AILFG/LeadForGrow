@@ -10,7 +10,7 @@ import { authFetch } from '@/lib/apiClient';
  * closed. Meta only allows approved templates in this state — this bar swaps
  * out the free-text reply box for an approved-template picker + send.
  */
-export default function OutOfWindowTemplateBar({ leadName, lead, onSend }) {
+export default function OutOfWindowTemplateBar({ leadName, lead, onSend, firstContact = false }) {
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pick, setPick] = useState('');
@@ -96,10 +96,12 @@ export default function OutOfWindowTemplateBar({ leadName, lead, onSend }) {
       <div className="flex items-start gap-2 text-xs text-green-800 dark:text-green-300">
         <Clock className="w-4 h-4 shrink-0 mt-0.5" />
         <div>
-          <p className="font-semibold">24-hour reply window closed</p>
+          <p className="font-semibold">{firstContact ? 'First message on WhatsApp' : '24-hour reply window closed'}</p>
           <p className="text-green-700 dark:text-green-400 mt-0.5">
-            {leadName ? `${leadName} hasn't messaged you in the last 24 hours. ` : 'This chat is outside the 24h window. '}
-            Meta only allows <strong>approved templates</strong> to reopen conversation.
+            {firstContact
+              ? `${leadName || 'This lead'} has not messaged you on WhatsApp yet. `
+              : leadName ? `${leadName} hasn't messaged you in the last 24 hours. ` : 'This chat is outside the 24h window. '}
+            Meta only allows <strong>approved templates</strong> {firstContact ? 'to start a conversation.' : 'to reopen conversation.'}
           </p>
         </div>
       </div>

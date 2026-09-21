@@ -5,6 +5,7 @@ import { Search, Filter, MessageSquarePlus, Loader2, LayoutGrid, Volume2, Volume
 import Link from 'next/link';
 import { INBOX_FILTERS, CHANNEL_FILTERS } from './constants';
 import ConversationItem from './ConversationItem';
+import { buildSearchRows } from '@/lib/omnichannel/searchRows';
 import { WhatsAppIcon, InstagramIcon, FacebookIcon, GmailIcon, GmailMonoIcon } from './BrandIcons';
 
 // Real brand marks for the channel filter pills. Inactive pill: the official coloured mark. Active pill
@@ -48,6 +49,7 @@ export default function ChatSidebar({
   onLoadMoreConversations,
   realtimeConnected = false,
 }) {
+  const searchRows = buildSearchRows(searchResults);
   // Sound preference lives in localStorage — persists per browser without
   // needing a backend column. Default off so we don't ambush users with
   // audio on first load; they opt-in via the speaker icon in the header.
@@ -129,26 +131,26 @@ export default function ChatSidebar({
           />
           {searchResults && search.length >= 2 && (
             <div className="absolute left-0 right-0 top-full mt-1 z-20 max-h-64 overflow-y-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded shadow-lg p-1.5 space-y-0.5">
-              {[
-                ...(searchResults.conversations || []).map((c) => ({ type: 'conversation', item: c, label: c.participantName || c.lastMessagePreview })),
-                ...(searchResults.leads || []).map((l) => ({ type: 'lead', item: l, label: l.name })),
-                ...(searchResults.messages || []).slice(0, 5).map((m) => ({ type: 'message', item: m, label: m.content?.body?.slice(0, 60) })),
-              ].length === 0 ? (
+              {searchRows.length === 0 ? (
                 <p className="p-3 text-xs text-slate-500 dark:text-slate-400">No results</p>
               ) : (
-                [
-                  ...(searchResults.conversations || []).map((c) => ({ type: 'conversation', item: c, label: c.participantName || c.lastMessagePreview })),
-                  ...(searchResults.leads || []).map((l) => ({ type: 'lead', item: l, label: l.name })),
-                  ...(searchResults.messages || []).slice(0, 5).map((m) => ({ type: 'message', item: m, label: m.content?.body?.slice(0, 60) })),
-                ].map((r, i) => (
+                searchRows.map((r, i) => (
                   <button
                     key={`${r.type}-${r.item._id || i}`}
                     type="button"
                     onClick={() => onSelectSearchResult?.(r)}
                     className="w-full text-left px-3 py-2 text-xs rounded hover:bg-brand-tint dark:hover:bg-slate-800"
                   >
-                    <span className="text-[10px] uppercase text-slate-400">{r.type}</span>
+                    <span className="flex items-center gap-1.5">
+                      <span className="text-[10px] uppercase text-slate-400">{r.type}</span>
+                      {r.type === 'lead' && !r.hasChat && (
+                        <span className="text-[10px] font-medium px-1.5 py-px rounded bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300">
+                          Start new chat
+                        </span>
+                      )}
+                    </span>
                     <p className="truncate text-slate-700 dark:text-slate-300">{r.label}</p>
+                    {r.sub && <p className="truncate text-[11px] text-slate-500 dark:text-slate-400">{r.sub}</p>}
                   </button>
                 ))
               )}

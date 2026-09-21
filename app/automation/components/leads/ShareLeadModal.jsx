@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { X, Plus, Trash2, Send, UserPlus } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { authFetch } from '@/lib/apiClient';
+import { toWhatsAppNumber } from '@/lib/whatsapp/waPhone';
 
 export function resolveLeadLocation(lead) {
   const loc = lead?.location;
@@ -102,7 +103,7 @@ export default function ShareLeadModal({ lead, shareMessage, onClose }) {
   };
 
   const shareTo = (contact) => {
-    const number = String(contact.whatsapp).replace(/[^\d]/g, '');
+    const number = toWhatsAppNumber(contact.whatsapp);
     const text = encodeURIComponent(buildShareText(lead, shareMessage));
     window.open(`https://wa.me/${number}?text=${text}`, '_blank', 'noopener,noreferrer');
   };

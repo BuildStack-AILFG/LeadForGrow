@@ -26,6 +26,8 @@ import { normalizeLeadStatus } from '@/lib/crm/leadStages';
 import { computeLeadIntelligence } from '@/lib/leadIntelligence';
 import ConvertLeadDialog from './ConvertLeadDialog';
 import ShareLeadModal, { resolveLeadLocation } from './ShareLeadModal';
+import SendTemplateModal from './SendTemplateModal';
+import { hasWhatsAppHistory } from '@/lib/whatsapp/waPhone';
 
 export default function LeadDrawer({
   leadId,
@@ -44,6 +46,7 @@ export default function LeadDrawer({
   const [showConvert, setShowConvert] = useState(false);
   const [converting, setConverting] = useState(false);
   const [showShare, setShowShare] = useState(false);
+  const [showTemplate, setShowTemplate] = useState(false);
   const [locationForm, setLocationForm] = useState({
     street: '',
     city: '',
@@ -206,9 +209,17 @@ export default function LeadDrawer({
                   <button type="button" onClick={() => onCall(lead)} className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 text-xs font-medium rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">
                     <Phone className="w-3.5 h-3.5" /> Call
                   </button>
-                  <Link href={`/automation/chat?leadId=${leadId}`} className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 text-xs font-medium rounded-lg bg-emerald-600 text-white hover:bg-emerald-700">
-                    <WhatsAppIcon className="w-3.5 h-3.5" /> WhatsApp
-                  </Link>
+                  {/* Someone who has never messaged on WhatsApp has no Inbox conversation to open, and WhatsApp only
+                      allows an approved template as the first message: open the template picker for them. */}
+                  {lead.phone && !hasWhatsAppHistory(lead) ? (
+                    <button type="button" onClick={() => setShowTemplate(true)} className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 text-xs font-medium rounded-lg bg-emerald-600 text-white hover:bg-emerald-700">
+                      <WhatsAppIcon className="w-3.5 h-3.5" /> WhatsApp
+                    </button>
+                  ) : (
+                    <Link href={`/automation/chat?leadId=${leadId}`} className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 text-xs font-medium rounded-lg bg-emerald-600 text-white hover:bg-emerald-700">
+                      <WhatsAppIcon className="w-3.5 h-3.5" /> WhatsApp
+                    </Link>
+                  )}
                   <button type="button" onClick={() => setShowShare(true)} title="Share this lead on WhatsApp" className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 text-xs font-medium rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">
                     <Share2 className="w-3.5 h-3.5" /> Share
                   </button>
@@ -428,6 +439,9 @@ export default function LeadDrawer({
             </>
           ) : null}
 
+          {lead && showTemplate && (
+            <SendTemplateModal lead={lead} onClose={() => setShowTemplate(false)} />
+          )}
           {lead && showShare && (
             <ShareLeadModal lead={lead} shareMessage={lastMessage} onClose={() => setShowShare(false)} />
           )}

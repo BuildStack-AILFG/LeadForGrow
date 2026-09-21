@@ -14,6 +14,8 @@ import AiReplyBar from '../components/ai/AiReplyBar';
 import CRMProfilePanel from '../components/chat/CRMProfilePanel';
 import OutOfWindowTemplateBar, { useIsWithin24hWindow } from '../components/chat/OutOfWindowTemplateBar';
 import LostReasonModal from '../components/leads/LostReasonModal';
+import SendTemplateModal from '../components/leads/SendTemplateModal';
+import { toast } from 'react-hot-toast';
 import { useConfirm } from '@/app/components/ConfirmProvider';
 
 const PROFILE_COLLAPSED_KEY = 'lfg_ui_inbox_profile_collapsed';
@@ -213,16 +215,38 @@ function ChatInboxContent() {
       inbox.selectChat(match);
       setMobileView('chat');
     } else if (result.type === 'lead') {
-      const match = inbox.conversations.find(
-        (c) => c.leadId?._id === result.item._id || c.leadId === result.item._id
-      );
-      if (match) {
-        inbox.selectChat(match);
+      const lead = result.item;
+      // The search API says which conversation (WhatsApp first) belongs to the lead; prefer the loaded copy of it.
+      const known = lead.conversation
+        ? inbox.conversations.find((c) => c._id === lead.conversation._id) || lead.conversation
+        : null;
+      if (known) {
+        inbox.selectChat(known);
         setMobileView('chat');
+      } else if (lead.phone) {
+        // Never messaged: there is no chat yet, and WhatsApp only allows an approved template to start one.
+        setNewChatLead(lead);
+      } else {
+        toast.error(`${lead.name || 'This lead'} has no phone number, so there is no WhatsApp chat to start. Open the lead and add one.`);
       }
     }
     inbox.setSearch('');
   };
+
+  // After the first template is sent the conversation exists on the server: reload the list and open it.
+  const [newChatLead, setNewChatLead] = useState(null);
+  const [openLeadWhenListed, setOpenLeadWhenListed] = useState(null);
+  useEffect(() => {
+    if (!openLeadWhenListed) return;
+    const match = inbox.conversations.find(
+      (c) => (c.leadId?._id || c.leadId) === openLeadWhenListed && c.channel === 'whatsapp'
+    );
+    if (match) {
+      inbox.selectChat(match);
+      setMobileView('chat');
+      setOpenLeadWhenListed(null);
+    }
+  }, [openLeadWhenListed, inbox.conversations, inbox.selectChat]);
 
   return (
     <div className="flex h-[calc(100vh-0px)] bg-[#f8f9fc] dark:bg-slate-950 overflow-hidden font-[family-name:var(--font-whatsapp)]">
@@ -448,6 +472,17 @@ function ChatInboxContent() {
           onToggleLabel={inbox.toggleLabel}
           onUpdateFollowUp={inbox.updateLeadFollowUp}
           onClose={() => setProfileOpen(false)}
+        />
+      )}
+
+      {newChatLead && (
+        <SendTemplateModal
+          lead={newChatLead}
+          onClose={() => setNewChatLead(null)}
+          onSent={(lead) => {
+            setOpenLeadWhenListed(lead._id);
+            inbox.refresh();
+          }}
         />
       )}
 

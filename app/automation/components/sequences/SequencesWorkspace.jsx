@@ -14,6 +14,7 @@ import SequenceWorkflowSettings from './SequenceWorkflowSettings';
 import ApprovalQueue from './ApprovalQueue';
 import SimpleEditView from './SimpleEditView';
 import ConfirmDialog from '../shared/ConfirmDialog';
+import { nextNodePosition, defaultAnchorId } from '@/lib/sequences/canvasMath';
 
 // Simple edit is FIRST — most non-technical SMB customers want to edit 3
 // messages, not build a graph. Advanced users can still switch to Builder.
@@ -165,13 +166,23 @@ export default function SequencesWorkspace() {
         )}
         {ws.builderTab === 'builder' && (
           <div className="flex gap-3 h-[calc(100vh-180px)] min-h-[480px]">
-            <NodeSidebar onAddNode={ws.addNode} />
+            {/* Click: add after the selected node, wired into its path. Drag: drop where released, unconnected. */}
+            <NodeSidebar
+              onAddNode={(type) => {
+                const anchor = ws.selectedNodeId || defaultAnchorId(ws.draftNodes, ws.draftEdges);
+                return anchor ? ws.addNodeAfter(type, anchor) : ws.addNode(type, nextNodePosition(ws.draftNodes, null));
+              }}
+            />
             <WorkflowCanvas
               nodes={ws.draftNodes}
               edges={ws.draftEdges}
               selectedNodeId={ws.selectedNodeId}
               onSelectNode={ws.setSelectedNodeId}
               onMoveNode={ws.moveNode}
+              onBeginMove={ws.beginMove}
+              onDropNode={(type, position) => ws.addNode(type, position)}
+              onDeleteEdge={ws.removeEdge}
+              onFlipEdgeLabel={ws.flipEdgeLabel}
               onConnect={ws.connectNodes}
               onDuplicate={ws.duplicateNode}
               onDelete={ws.removeNode}

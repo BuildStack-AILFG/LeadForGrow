@@ -8,6 +8,7 @@ import { computeLeadIntelligence } from '@/lib/leadIntelligence';
 import { validateStageTransition } from '@/lib/crm/leadStages';
 import { getConversationId } from '@/app/automation/components/leads/detail/leadChannels';
 import { useConfirm } from '@/app/components/ConfirmProvider';
+import { toWhatsAppNumber } from '@/lib/whatsapp/waPhone';
 
 export function useLeadDetail(leadId) {
   const confirm = useConfirm();
@@ -373,7 +374,7 @@ export function useLeadDetail(leadId) {
         toast.error('No phone number');
         return;
       }
-      const phone = lead.phone.replace(/\D/g, '');
+      const phone = toWhatsAppNumber(lead.phone); // adds 91 to a 10-digit number, like the API send path
       const url = customMessage
         ? `https://wa.me/${phone}?text=${encodeURIComponent(customMessage)}`
         : `https://wa.me/${phone}`;

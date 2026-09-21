@@ -5,6 +5,8 @@ import { toast } from 'react-hot-toast';
 import { authFetch } from '@/lib/apiClient';
 import { SEQUENCE_TEMPLATES } from '@/lib/sequences/templates';
 import { createNode, TRIGGER_TYPES } from '@/lib/sequences/constants';
+import { connectBlock, planAddAfter, nextNodePosition, hasTrigger, TRIGGER_EXISTS_MESSAGE } from '@/lib/sequences/canvasMath';
+import { isBranchNode, isNoEdge, nextBranchLabel, flipBranchLabel } from '@/lib/sequences/edges';
 
 export function useSequencesWorkspace() {
   const [loading, setLoading] = useState(true);
@@ -258,10 +260,56 @@ export function useSequencesWorkspace() {
     setDraftNodes((prev) => prev.map((n) => (n.id === nodeId ? { ...n, ...patch, data: { ...n.data, ...patch.data } } : n)));
   };
 
+  // A second trigger would do nothing (the engine reads the first one) and is the usual mistake when someone
+  // picks "Email Sent" from the Triggers list meaning the "Send Email" action.
+  const refuseSecondTrigger = (type) => {
+    if (String(type || '').startsWith('trigger_') && hasTrigger(draftNodes)) {
+      toast.error(TRIGGER_EXISTS_MESSAGE(draftNodes), { duration: 7000 });
+      return true;
+    }
+    return false;
+  };
+
   const addNode = (type, position) => {
+    if (refuseSecondTrigger(type)) return null;
     pushHistory();
     const node = createNode(type, position);
     setDraftNodes((prev) => [...prev, node]);
+    setSelectedNodeId(node.id);
+    return node;
+  };
+
+  // Library click with a node selected: place the node after it, make room below, and wire it into the
+  // path (see planAddAfter). Nodes, edges and selection change together, so this is ONE undo step.
+  const addNodeAfter = (type, sourceId) => {
+    if (refuseSecondTrigger(type)) return null;
+    const plan = planAddAfter({ nodes: draftNodes, edges: draftEdges, sourceId, newType: type });
+    if (!plan) return addNode(type, nextNodePosition(draftNodes, null));
+    pushHistory();
+    const node = createNode(type, plan.position);
+    setDraftNodes((prev) => [
+      ...prev.map((n) => (plan.shiftIds.includes(n.id) ? { ...n, position: { ...n.position, y: n.position.y + plan.shiftBy } } : n)),
+      node,
+    ]);
+    const branchSource = isBranchNode(draftNodes.find((n) => n.id === sourceId));
+    setDraftEdges((prev) => {
+      let next = prev;
+      const old = plan.rewireEdgeId ? prev.find((e) => e.id === plan.rewireEdgeId) : null;
+      if (old) {
+        // The exit label (Yes / No) belongs to the source's exit, so it stays on source -> new; new -> old target has none.
+        next = next.map((e) => (e.id === old.id
+          ? { ...e, id: `e_${node.id}_${e.target}`, source: node.id, ...(branchSource ? { label: undefined, sourceHandle: undefined } : {}) }
+          : e));
+      }
+      if (plan.chains) {
+        const label = !branchSource ? null : (old ? (isNoEdge(old) ? 'No' : 'Yes') : nextBranchLabel(prev.filter((e) => e.source === sourceId)));
+        // A branch node with both exits taken gets the node placed but not connected.
+        if (!branchSource || label) {
+          next = [...next, { id: `e_${sourceId}_${node.id}`, source: sourceId, target: node.id, ...(label ? { label } : {}) }];
+        }
+      }
+      return next;
+    });
     setSelectedNodeId(node.id);
     return node;
   };
@@ -276,6 +324,7 @@ export function useSequencesWorkspace() {
   const duplicateNode = (nodeId) => {
     const src = draftNodes.find((n) => n.id === nodeId);
     if (!src) return;
+    if (refuseSecondTrigger(src.type)) return;
     pushHistory();
     const copy = createNode(src.type, { x: src.position.x + 40, y: src.position.y + 40 });
     copy.data = { ...src.data };
@@ -284,11 +333,29 @@ export function useSequencesWorkspace() {
   };
 
   const connectNodes = (source, target) => {
-    if (source === target) return;
-    const exists = draftEdges.some((e) => e.source === source && e.target === target);
-    if (exists) return;
+    // No self loops / duplicates, nothing into a trigger, nothing out of an End node.
+    const block = connectBlock({ nodes: draftNodes, edges: draftEdges, source, target });
+    if (block) {
+      if (block.message) toast.error(block.message, { duration: 6000 }); // never let a refused line vanish silently
+      return;
+    }
     pushHistory();
-    setDraftEdges((prev) => [...prev, { id: `e_${source}_${target}`, source, target }]);
+    // Out of an If / Else the first exit is "Yes", the second "No" (the engine routes on these labels).
+    const label = isBranchNode(draftNodes.find((n) => n.id === source))
+      ? nextBranchLabel(draftEdges.filter((e) => e.source === source))
+      : null;
+    setDraftEdges((prev) => [...prev, { id: `e_${source}_${target}`, source, target, ...(label ? { label } : {}) }]);
+  };
+
+  // Swap an If / Else exit between Yes and No (the other exit takes the opposite label).
+  const flipEdgeLabel = (edgeId) => {
+    pushHistory();
+    setDraftEdges((prev) => flipBranchLabel(prev, edgeId));
+  };
+
+  const removeEdge = (edgeId) => {
+    pushHistory();
+    setDraftEdges((prev) => prev.filter((e) => e.id !== edgeId));
   };
 
   const moveNode = (nodeId, position) => {
@@ -306,6 +373,7 @@ export function useSequencesWorkspace() {
 
   const pasteSelection = () => {
     if (!clipboardRef.current) return toast.error('Nothing to paste');
+    if (refuseSecondTrigger(clipboardRef.current.type)) return;
     pushHistory();
     const copy = createNode(clipboardRef.current.type, {
       x: (clipboardRef.current.position?.x || 0) + 40,
@@ -485,8 +553,8 @@ export function useSequencesWorkspace() {
     createFolder, renameFolder, deleteFolder, moveSequenceToFolder,
     duplicateSequence, archiveSequence, toggleFolderFavorite,
     startWizard, openEditor, finishWizard, saveSequence, deleteSequence,
-    fetchSequences, loadExecutions, updateNode, addNode, removeNode, duplicateNode,
-    connectNodes, moveNode, undo, redo, setDraftNodes, setDraftEdges,
+    fetchSequences, loadExecutions, updateNode, addNode, addNodeAfter, removeNode, duplicateNode,
+    connectNodes, removeEdge, flipEdgeLabel, moveNode, beginMove: pushHistory, undo, redo, setDraftNodes, setDraftEdges,
     copySelection, pasteSelection, openTestMode, runTestMode, testModeOpen, setTestModeOpen, toggleEnabled,
     templates: SEQUENCE_TEMPLATES,
   };

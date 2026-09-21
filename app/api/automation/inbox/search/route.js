@@ -8,12 +8,14 @@ import Contact from '@/models/automation/Contact';
 import Company from '@/models/automation/Company';
 import Deal from '@/models/automation/Deal';
 import { withPermissions } from '@/lib/rbac';
+import { leadSearchClauses, phoneSearchRegexes, pickConversationForLead } from '@/lib/omnichannel/searchQuery';
 
 async function handler(req) {
   try {
     const { user } = req;
     const { searchParams } = new URL(req.url);
-    const q = escapeRegex(searchParams.get('q')?.trim() || '').slice(0, 200) || null;
+    const rawQ = (searchParams.get('q')?.trim() || '').slice(0, 200);
+    const q = escapeRegex(rawQ) || null;
     const type = searchParams.get('type') || 'all';
     const limit = Math.min(30, parseInt(searchParams.get('limit') || '20', 10));
 
@@ -47,6 +49,7 @@ async function handler(req) {
           { participantName: regex },
           { participantEmail: regex },
           { participantPhone: regex },
+          ...phoneSearchRegexes(rawQ).map((re) => ({ participantPhone: { $regex: re } })),
           { lastMessagePreview: regex },
         ],
       })
@@ -56,13 +59,27 @@ async function handler(req) {
     }
 
     if (type === 'all' || type === 'leads') {
-      results.leads = await Lead.find({
-        businessId,
-        $or: [{ name: regex }, { phone: regex }, { email: regex }],
-      })
+      // Every lead, whether or not it has ever messaged: the Inbox can start a chat with any lead that has a phone.
+      results.leads = await Lead.find({ businessId, $or: leadSearchClauses(rawQ, q) })
+        .sort({ createdAt: -1 })
         .limit(limit)
-        .select('name phone email status')
+        .select('name phone email status source whatsapp whatsappId')
         .lean();
+
+      // Attach the conversation to open (WhatsApp first), so the client can tell "has a chat" from "start a new chat"
+      // without depending on which conversations happen to be loaded in the list.
+      if (results.leads.length) {
+        const convs = await Conversation.find({ businessId, leadId: { $in: results.leads.map((l) => l._id) } })
+          .sort({ lastMessageAt: -1 })
+          .lean();
+        const byLead = new Map();
+        for (const c of convs) {
+          const k = String(c.leadId);
+          if (!byLead.has(k)) byLead.set(k, []);
+          byLead.get(k).push(c);
+        }
+        results.leads = results.leads.map((l) => ({ ...l, conversation: pickConversationForLead(byLead.get(String(l._id)) || []) }));
+      }
     }
 
     if (type === 'all' || type === 'contacts') {
