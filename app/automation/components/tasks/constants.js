@@ -1,4 +1,5 @@
-import { Clock, AlertCircle, Calendar, CheckCircle2, Phone, MessageCircle, Mail, Users } from 'lucide-react';
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
+import { Clock, AlertCircle, Calendar, CheckCircle2, Phone, Mail, Users } from 'lucide-react';
 
 export const TASK_FILTERS = [
   { id: 'today', label: 'Due Today', icon: Clock },
@@ -9,7 +10,7 @@ export const TASK_FILTERS = [
 
 export const TASK_TYPES = {
   call: { label: 'Call', icon: Phone, accent: 'blue' },
-  whatsapp: { label: 'WhatsApp', icon: MessageCircle, accent: 'green' },
+  whatsapp: { label: 'WhatsApp', icon: WhatsAppIcon, accent: 'green' },
   email: { label: 'Email', icon: Mail, accent: 'sky' },
   meeting: { label: 'Meeting', icon: Users, accent: 'slate' }
 };

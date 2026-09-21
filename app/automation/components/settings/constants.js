@@ -23,6 +23,9 @@ import {
   Globe,
   BookOpen,
   Mail,
+  Instagram,
+  Facebook,
+  MessagesSquare,
 } from 'lucide-react';
 
 export const SETTINGS_GROUPS = [
@@ -39,7 +42,10 @@ export const SETTINGS_GROUPS = [
     id: 'integrations',
     label: 'Integrations',
     items: [
+      { id: 'channels-hub', label: 'Channels', href: '/automation/settings/channels', icon: MessagesSquare },
       { id: 'email-accounts', label: 'Email Accounts', href: '/automation/settings/email', icon: Mail },
+      { id: 'instagram-direct', label: 'Instagram Direct', href: '/automation/settings/instagram', icon: Instagram },
+      { id: 'facebook-page', label: 'Facebook Page', href: '/automation/settings/facebook', icon: Facebook },
       { id: 'integrations-hub', label: 'App Marketplace', href: '/automation/settings/integrations', icon: Plug }
     ]
   },
@@ -112,6 +118,7 @@ export const SECTION_COLORS = {
 
 export const SETTINGS_HUB_CARDS = [
   { id: 'general', href: '/automation/settings/general', icon: Building2, color: 'blue', title: 'General', description: 'Business profile, workspace preferences, and branding', count: 3 },
+  { id: 'channels', href: '/automation/settings/channels', icon: MessagesSquare, color: 'cyan', title: 'Channels', description: 'WhatsApp, Instagram & Facebook — connect, flip AI replies per channel, and manage automations', count: 3 },
   { id: 'email-accounts', href: '/automation/settings/email', icon: Mail, color: 'cyan', title: 'Email Accounts', description: 'Connect your Gmail or Hostinger mailbox to send & receive from the Unified Inbox', count: 1 },
   { id: 'integrations', href: '/automation/settings/integrations', icon: Plug, color: 'cyan', title: 'Integrations', description: 'Connect WhatsApp, Meta Ads, Stripe, Zapier, and 20+ apps', count: 25 },
   { id: 'admin', href: '/automation/settings/team-permissions', icon: ShieldCheck, color: 'indigo', title: 'Team & Permissions', description: 'Enterprise access control, roles, usage limits, and audit logs', count: 7 },

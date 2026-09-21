@@ -42,7 +42,7 @@ export default function ChatbotWorkspace() {
             </div>
             <div className="min-w-0">
               <h1 className="text-lg font-semibold text-slate-900 dark:text-slate-50 truncate">Website Chatbot</h1>
-              <p className="text-xs text-slate-500 truncate">Capture & qualify leads from your website — source tagged as Bot</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 truncate">Capture & qualify leads from your website — source tagged as Bot</p>
             </div>
           </div>
 
@@ -118,7 +118,7 @@ export default function ChatbotWorkspace() {
         {tab === 'leads' ? (
           <div className="bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-800 p-8 shadow-sm">
             <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">Leads from your chatbot</h2>
-            <p className="text-sm text-slate-500 mt-1 mb-6">
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-6">
               Every submission is saved with source <span className="font-medium text-slate-700 dark:text-slate-300">Bot</span> and includes the full conversation transcript.
             </p>
             <div className="flex flex-wrap gap-3">

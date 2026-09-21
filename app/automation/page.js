@@ -25,7 +25,7 @@ export default function AutomationDashboard() {
   if (loading) return <DashboardSkeleton />;
 
   return (
-    <div className="min-h-full bg-[#F8F9FA]">
+    <div className="min-h-full bg-[#F8F9FA] dark:bg-slate-900">
       {/* Extra bottom clearance (beyond the usual pb-12) so the last card can always be
           scrolled clear of the fixed Help/Grovia floating buttons in the bottom-right corner. */}
       <div className="px-4 sm:px-6 pb-12 lg:pb-[180px] max-w-[1560px] mx-auto">
@@ -40,7 +40,7 @@ export default function AutomationDashboard() {
         />
 
         {error && (
-          <div className="mb-6 flex items-center gap-2.5 px-4 py-3 text-[13px] font-normal text-[#C0353A] bg-[#FEF3F2] border border-[#FECDCA] rounded-none">
+          <div className="mb-6 flex items-center gap-2.5 px-4 py-3 text-[13px] font-normal text-[#C0353A] dark:text-red-400 bg-[#FEF3F2] dark:bg-slate-900 border border-[#FECDCA] rounded-none">
             <AlertCircle className="w-4 h-4 shrink-0" />
             {error}
           </div>

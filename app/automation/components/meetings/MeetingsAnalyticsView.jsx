@@ -24,12 +24,12 @@ export default function MeetingsAnalyticsView() {
 
   return (
     <div className="p-4 sm:p-6 max-w-[1400px] mx-auto space-y-6">
-      <Link href="/automation/meetings" className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-slate-800">
+      <Link href="/automation/meetings" className="inline-flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-100">
         <ArrowLeft className="w-4 h-4" /> Revenue Scheduling
       </Link>
       <header>
         <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-50">Meeting analytics</h1>
-        <p className="text-sm text-slate-500 mt-1">Bookings, no-shows, conversion, and rep performance — last 30 days.</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Bookings, no-shows, conversion, and rep performance — last 30 days.</p>
       </header>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
@@ -49,7 +49,7 @@ export default function MeetingsAnalyticsView() {
           {chartData.length > 0 ? (
             <SimpleBarChart data={chartData} color="#1D4B3E" />
           ) : (
-            <p className="text-sm text-slate-500 py-12 text-center">No booking data yet.</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 py-12 text-center">No booking data yet.</p>
           )}
         </DashboardCard>
 
@@ -59,13 +59,13 @@ export default function MeetingsAnalyticsView() {
             {(data?.topReps || []).map((r, i) => (
               <div key={r.userId || i} className="flex items-center justify-between text-sm">
                 <span className="font-medium text-slate-800 dark:text-slate-200">{r.name}</span>
-                <span className="text-slate-500">
+                <span className="text-slate-500 dark:text-slate-400">
                   {r.bookings} booked · {r.conversionRate}% conv.
                 </span>
               </div>
             ))}
             {!data?.topReps?.length && (
-              <p className="text-sm text-slate-500 text-center py-8">No rep data yet.</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 text-center py-8">No rep data yet.</p>
             )}
           </div>
         </DashboardCard>

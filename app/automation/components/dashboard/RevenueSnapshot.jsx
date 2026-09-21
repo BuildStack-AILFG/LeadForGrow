@@ -7,7 +7,7 @@ import { formatCurrency } from '@/lib/crm/formatCurrency';
 function Metric({ label, value, sub }) {
   return (
     <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
-      <p className="text-[10px] font-medium text-slate-500 uppercase tracking-wide">{label}</p>
+      <p className="text-[10px] font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">{label}</p>
       <p className="text-lg font-bold text-slate-900 dark:text-white tabular-nums mt-1">{value}</p>
       {sub && <p className="text-[10px] text-slate-400 mt-0.5">{sub}</p>}
     </div>
@@ -23,7 +23,7 @@ export default function RevenueSnapshot({ revenue, currency = 'INR' }) {
     <DashboardCard padding="p-5">
       <div className="mb-4">
         <h2 className="text-base font-semibold text-slate-900 dark:text-white">Revenue Snapshot</h2>
-        <p className="text-xs text-slate-500 mt-0.5">From real deal records — never mixed</p>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">From real deal records — never mixed</p>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
@@ -43,8 +43,8 @@ export default function RevenueSnapshot({ revenue, currency = 'INR' }) {
           </p>
         </div>
         <div className="text-right">
-          <p className="text-xs text-slate-500">vs last month</p>
-          <p className={`text-sm font-semibold inline-flex items-center gap-1 ${monthUp ? 'text-emerald-600' : 'text-red-600'}`}>
+          <p className="text-xs text-slate-500 dark:text-slate-400">vs last month</p>
+          <p className={`text-sm font-semibold inline-flex items-center gap-1 ${monthUp ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}`}>
             {monthUp ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
             {formatCurrency(revenue.wonLastMonth, currency)}
             <span className="text-xs">({revenue.monthChange >= 0 ? '+' : ''}{revenue.monthChange}%)</span>

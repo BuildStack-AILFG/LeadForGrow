@@ -85,7 +85,7 @@ export default function IntegrationConfigForm({ integration, onSubmit, submittin
                 {field.label}{field.required ? ' *' : ''}
               </label>
               {alreadySaved && (
-                <span className="text-[10px] font-medium text-emerald-600 flex items-center gap-1">
+                <span className="text-[10px] font-medium text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
                   <CheckCircle2 className="w-3 h-3" /> Saved
                 </span>
               )}
@@ -111,7 +111,7 @@ export default function IntegrationConfigForm({ integration, onSubmit, submittin
                   disabled={submitting}
                   className={`w-full px-3 py-2 text-xs border rounded-lg bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500/20 pr-9 ${
                     alreadySaved
-                      ? 'border-emerald-200 dark:border-emerald-900 placeholder:text-emerald-700/60'
+                      ? 'border-emerald-200 dark:border-emerald-900 placeholder:text-emerald-700/60 dark:placeholder:text-emerald-300/60'
                       : 'border-slate-200 dark:border-slate-700'
                   }`}
                 />
@@ -119,7 +119,7 @@ export default function IntegrationConfigForm({ integration, onSubmit, submittin
                   <button
                     type="button"
                     onClick={() => setShowSecrets((s) => ({ ...s, [field.key]: !s[field.key] }))}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
                   >
                     {showSecrets[field.key] ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                   </button>

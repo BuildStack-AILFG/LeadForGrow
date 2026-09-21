@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import UserNavbar from "../../Header";
 import { getUserId } from "@/lib/apiClient";
+import { clearUserStorage } from "@/lib/clientStorage";
 import toast from "react-hot-toast";
 
 function isValidObjectId(id) {
@@ -333,7 +334,7 @@ export default function ProfilePage() {
 
           <button
             type="button"
-            onClick={() => { localStorage.clear(); window.location.href = "/"; }}
+            onClick={() => { clearUserStorage(); window.location.href = "/"; }}
             className="w-full py-3 text-[#64748B] hover:text-rose-600 transition-colors flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest"
           >
             <LogOut className="w-4 h-4" /> Sign Out

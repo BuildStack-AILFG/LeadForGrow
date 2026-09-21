@@ -15,7 +15,7 @@ const NotificationSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['whatsapp_message', 'instagram_message', 'email_message', 'conversation_assigned', 'internal_mention', 'new_lead', 'task_reminder', 'automation_alert', 'system'],
+    enum: ['whatsapp_message', 'instagram_message', 'facebook_message', 'email_message', 'conversation_assigned', 'internal_mention', 'new_lead', 'task_reminder', 'automation_alert', 'system'],
     required: true
   },
   title: {

@@ -11,12 +11,12 @@ function ConvertForm({ lead, teamMembers, form, setForm, pipelines, stages }) {
   return (
     <div className="space-y-3">
       <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 text-sm">
-        <p className="text-xs text-slate-500">Lead</p>
+        <p className="text-xs text-slate-500 dark:text-slate-400">Lead</p>
         <p className="font-medium text-slate-900 dark:text-white">{lead?.name || '—'}</p>
       </div>
 
       <div>
-        <label className="text-xs font-medium text-slate-500">Company</label>
+        <label className="text-xs font-medium text-slate-500 dark:text-slate-400">Company</label>
         <input
           className={`${inputCls} mt-1`}
           value={form.companyName}
@@ -26,7 +26,7 @@ function ConvertForm({ lead, teamMembers, form, setForm, pipelines, stages }) {
       </div>
 
       <div>
-        <label className="text-xs font-medium text-slate-500">Deal Name *</label>
+        <label className="text-xs font-medium text-slate-500 dark:text-slate-400">Deal Name *</label>
         <input
           className={`${inputCls} mt-1`}
           value={form.dealTitle}
@@ -36,7 +36,7 @@ function ConvertForm({ lead, teamMembers, form, setForm, pipelines, stages }) {
       </div>
 
       <div>
-        <label className="text-xs font-medium text-slate-500">Deal Amount</label>
+        <label className="text-xs font-medium text-slate-500 dark:text-slate-400">Deal Amount</label>
         <input
           type="number"
           className={`${inputCls} mt-1`}
@@ -47,7 +47,7 @@ function ConvertForm({ lead, teamMembers, form, setForm, pipelines, stages }) {
       </div>
 
       <div>
-        <label className="text-xs font-medium text-slate-500">Expected Close Date</label>
+        <label className="text-xs font-medium text-slate-500 dark:text-slate-400">Expected Close Date</label>
         <input
           type="date"
           className={`${inputCls} mt-1`}
@@ -57,7 +57,7 @@ function ConvertForm({ lead, teamMembers, form, setForm, pipelines, stages }) {
       </div>
 
       <div>
-        <label className="text-xs font-medium text-slate-500">Pipeline</label>
+        <label className="text-xs font-medium text-slate-500 dark:text-slate-400">Pipeline</label>
         <select
           className={`${inputCls} mt-1`}
           value={form.pipelineId}
@@ -77,7 +77,7 @@ function ConvertForm({ lead, teamMembers, form, setForm, pipelines, stages }) {
       </div>
 
       <div>
-        <label className="text-xs font-medium text-slate-500">Starting Stage</label>
+        <label className="text-xs font-medium text-slate-500 dark:text-slate-400">Starting Stage</label>
         <select
           className={`${inputCls} mt-1`}
           value={form.dealStage}
@@ -90,7 +90,7 @@ function ConvertForm({ lead, teamMembers, form, setForm, pipelines, stages }) {
       </div>
 
       <div>
-        <label className="text-xs font-medium text-slate-500">Owner *</label>
+        <label className="text-xs font-medium text-slate-500 dark:text-slate-400">Owner *</label>
         <select
           className={`${inputCls} mt-1`}
           value={form.assignedTo}
@@ -211,9 +211,9 @@ export default function ConvertLeadDialog({
         <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200 dark:border-slate-800">
           <div>
             <h3 className="font-semibold text-slate-900 dark:text-white">Convert to Deal</h3>
-            <p className="text-xs text-slate-500 mt-0.5">Creates contact, company & deal — lead moves to Deals</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Creates contact, company & deal — lead moves to Deals</p>
           </div>
-          <button type="button" onClick={onClose} className="p-2 rounded-md text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
+          <button type="button" onClick={onClose} className="p-2 rounded-md text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -232,7 +232,7 @@ export default function ConvertLeadDialog({
       <div className="bg-white dark:bg-slate-900 rounded-xl shadow-xl w-full max-w-md max-h-[90vh] flex flex-col">
         <div className="px-5 py-4 border-b border-slate-100 dark:border-slate-800">
           <h3 className="font-semibold text-slate-900 dark:text-white">Convert to Deal</h3>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
             This lead will be marked converted and removed from your active leads list.
           </p>
         </div>

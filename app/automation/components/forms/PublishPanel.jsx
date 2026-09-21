@@ -27,23 +27,23 @@ export default function PublishPanel({ form, styling, onStylingChange, onPublish
     <div className="max-w-3xl mx-auto px-4 py-8">
       <div className="mb-8">
         <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-50">Publish your form</h2>
-        <p className="text-sm text-slate-500 mt-1">Share, embed, or connect via API. Existing tokens stay the same.</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Share, embed, or connect via API. Existing tokens stay the same.</p>
       </div>
 
       {/* Publish status */}
       <div className={`flex items-center justify-between p-4 rounded-2xl mb-8 ${isPublished ? 'bg-emerald-50 dark:bg-emerald-950/30' : 'bg-amber-50 dark:bg-amber-950/30'}`}>
         <div className="flex items-center gap-3">
-          <CheckCircle2 className={`w-5 h-5 ${isPublished ? 'text-emerald-600' : 'text-amber-600'}`} />
+          <CheckCircle2 className={`w-5 h-5 ${isPublished ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}`} />
           <div>
             <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{isPublished ? 'Form is live' : 'Form is unpublished'}</p>
-            <p className="text-xs text-slate-500">{isPublished ? 'Accepting submissions' : 'Not accepting submissions yet'}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">{isPublished ? 'Accepting submissions' : 'Not accepting submissions yet'}</p>
           </div>
         </div>
         <button
           type="button"
           onClick={() => onPublish(!isPublished)}
           className={`px-4 py-2 text-xs font-semibold rounded-xl transition-colors ${
-            isPublished ? 'bg-white dark:bg-slate-800 text-slate-700 shadow-sm' : 'bg-teal-600 text-white shadow-lg shadow-teal-600/20'
+            isPublished ? 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 shadow-sm' : 'bg-teal-600 text-white shadow-lg shadow-teal-600/20'
           }`}
         >
           {isPublished ? 'Unpublish' : 'Publish now'}
@@ -58,7 +58,7 @@ export default function PublishPanel({ form, styling, onStylingChange, onPublish
             type="button"
             onClick={() => setSection(id)}
             className={`inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-lg transition-all ${
-              section === id ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+              section === id ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
             }`}
           >
             <Icon className="w-3.5 h-3.5" /> {label}
@@ -69,11 +69,11 @@ export default function PublishPanel({ form, styling, onStylingChange, onPublish
       {section === 'share' && (
         <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm space-y-4">
           <p className="text-sm font-medium text-slate-900 dark:text-slate-100">Public link</p>
-          <p className="text-xs text-slate-500">Share in ads, WhatsApp, or email — no website needed.</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Share in ads, WhatsApp, or email — no website needed.</p>
           <div className="flex gap-2">
             <code className="flex-1 text-xs bg-slate-50 dark:bg-slate-800 p-3 rounded-xl break-all">{snippets.hostedLink}</code>
-            <button type="button" onClick={() => copy(snippets.hostedLink)} className="p-3 text-teal-600 hover:bg-teal-50 rounded-xl"><Copy className="w-4 h-4" /></button>
-            <a href={snippets.hostedLink} target="_blank" rel="noopener noreferrer" className="p-3 text-teal-600 hover:bg-teal-50 rounded-xl"><ExternalLink className="w-4 h-4" /></a>
+            <button type="button" onClick={() => copy(snippets.hostedLink)} className="p-3 text-teal-600 dark:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-950/30 rounded-xl"><Copy className="w-4 h-4" /></button>
+            <a href={snippets.hostedLink} target="_blank" rel="noopener noreferrer" className="p-3 text-teal-600 dark:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-950/30 rounded-xl"><ExternalLink className="w-4 h-4" /></a>
           </div>
         </div>
       )}
@@ -109,11 +109,11 @@ export default function PublishPanel({ form, styling, onStylingChange, onPublish
                   ...styling,
                   automation: { ...styling.automation, [item.key]: e.target.checked },
                 })}
-                className="mt-0.5 rounded text-teal-600"
+                className="mt-0.5 rounded text-teal-600 dark:text-teal-400"
               />
               <div>
                 <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{item.label}</p>
-                <p className="text-xs text-slate-500">{item.desc}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{item.desc}</p>
               </div>
             </label>
           ))}
@@ -128,7 +128,7 @@ function CodeBlock({ label, code, onCopy }) {
     <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 shadow-sm">
       <div className="flex items-center justify-between mb-3">
         <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{label}</span>
-        <button type="button" onClick={onCopy} className="flex items-center gap-1 text-xs text-teal-600 font-medium">
+        <button type="button" onClick={onCopy} className="flex items-center gap-1 text-xs text-teal-600 dark:text-teal-400 font-medium">
           <Copy className="w-3.5 h-3.5" /> Copy
         </button>
       </div>

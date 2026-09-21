@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRealtime, REALTIME_EVENTS } from './useRealtime';
 import { playMessageChime, playLeadChime, playPaidChime } from '@/lib/notifications/soundPlayer';
+import { CHANNEL_META } from '@/lib/omnichannel/constants';
 
 /**
  * useAppNotifications — global notification behaviour for the workspace.
@@ -118,8 +119,11 @@ export function useAppNotifications() {
         if (event.data?.direction === 'outgoing') return;
         playMessageChime();
         startTitleFlash('New message · LeadForGrow');
+        // Channel and sender come with the event (it used to say "WhatsApp" for every channel and never who wrote).
+        const channelLabel = CHANNEL_META[event.data?.channel]?.label || 'WhatsApp';
+        const from = event.data?.senderName;
         maybeShowBrowserNotification({
-          title: 'New WhatsApp message',
+          title: from ? `${channelLabel} · ${from}` : `New ${channelLabel} message`,
           body: event.data?.preview || 'A customer just messaged you.',
           url: '/automation/chat',
         });

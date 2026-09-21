@@ -1,3 +1,4 @@
+import { pickDraftFields, workingDraftFilter } from '@/lib/omnichannel/draftFields';
 import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import EmailDraft from '@/models/omnichannel/EmailDraft';
@@ -61,11 +62,20 @@ async function postHandler(req) {
     const { user } = req;
     const body = await req.json();
     await dbConnect();
-    const draft = await EmailDraft.create({
-      businessId: user.businessId,
-      createdBy: user.userId,
-      ...body,
-    });
+    // Only known fields (the body used to be spread into the document, which let a client set businessId / createdBy).
+    const fields = pickDraftFields(body);
+
+    // Auto-save fires every ~2 s while typing: update the thread's single working draft instead of creating a new row each time.
+    if (fields.conversationId) {
+      const draft = await EmailDraft.findOneAndUpdate(
+        workingDraftFilter({ businessId: user.businessId, conversationId: fields.conversationId, userId: user.userId }),
+        { $set: fields },
+        { upsert: true, new: true, setDefaultsOnInsert: true }
+      );
+      return NextResponse.json({ success: true, data: draft }, { status: 200 });
+    }
+
+    const draft = await EmailDraft.create({ ...fields, businessId: user.businessId, createdBy: user.userId });
     return NextResponse.json({ success: true, data: draft }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ success: false, error: 'Failed' }, { status: 500 });
@@ -76,11 +86,11 @@ async function putHandler(req) {
   try {
     const { user } = req;
     const body = await req.json();
-    const { id, ...updates } = body;
+    const { id } = body;
     await dbConnect();
     const draft = await EmailDraft.findOneAndUpdate(
       { _id: id, businessId: user.businessId },
-      { $set: updates },
+      { $set: pickDraftFields(body) },
       { new: true }
     );
     return NextResponse.json({ success: true, data: draft });

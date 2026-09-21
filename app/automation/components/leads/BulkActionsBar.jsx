@@ -66,7 +66,7 @@ export default function BulkActionsBar({
                   onBulkRowColorChange?.(null);
                   setColorOpen(false);
                 }}
-                className="mt-2 w-full text-[11px] text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 py-1"
+                className="mt-2 w-full text-[11px] text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 py-1"
               >
                 Clear color
               </button>
@@ -83,7 +83,7 @@ export default function BulkActionsBar({
             <option key={m.id} value={m.id}>{m.label}</option>
           ))}
         </select>
-        <button type="button" onClick={onExport} className="inline-flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-md bg-white dark:bg-slate-900 border border-teal-200 dark:border-teal-800 hover:bg-teal-100/50">
+        <button type="button" onClick={onExport} className="inline-flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-md bg-white dark:bg-slate-900 border border-teal-200 dark:border-teal-800 hover:bg-teal-100/50 dark:hover:bg-teal-900/50">
           <Download className="w-3.5 h-3.5" /> Export
         </button>
         <button type="button" onClick={onDelete} className="inline-flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-md bg-red-600 text-white hover:bg-red-700">

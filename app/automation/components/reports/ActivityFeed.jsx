@@ -11,7 +11,7 @@ export default function ActivityFeed({ activities = [], recentLeads = [] }) {
       <ChartCard title="Live Activity" subtitle="Recent CRM events">
         <div className="max-h-72 overflow-y-auto">
           {activities.length === 0 ? (
-            <p className="text-sm text-slate-500 py-4">No recent activity.</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 py-4">No recent activity.</p>
           ) : (
             activities.slice(0, 10).map((a, i) => (
               <ActivityItem key={a._id || i} activity={a} showConnector={i < Math.min(activities.length, 10) - 1} />
@@ -24,14 +24,14 @@ export default function ActivityFeed({ activities = [], recentLeads = [] }) {
         title="Recent Conversions"
         subtitle="Latest won and contacted leads"
         action={
-          <Link href="/automation/leads" className="text-xs font-medium text-teal-600 hover:text-teal-700">
+          <Link href="/automation/leads" className="text-xs font-medium text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300">
             All leads
           </Link>
         }
       >
         <div className="space-y-1 max-h-72 overflow-y-auto">
           {recentLeads?.length === 0 ? (
-            <p className="text-sm text-slate-500 py-4">No recent conversions.</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 py-4">No recent conversions.</p>
           ) : (
             recentLeads.map((lead) => (
               <Link
@@ -41,7 +41,7 @@ export default function ActivityFeed({ activities = [], recentLeads = [] }) {
               >
                 <div className="min-w-0">
                   <p className="text-sm font-medium text-slate-800 dark:text-slate-200 truncate">{lead.name}</p>
-                  <p className="text-[11px] text-slate-500 truncate">{lead.serviceInterest || 'General inquiry'}</p>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">{lead.serviceInterest || 'General inquiry'}</p>
                 </div>
                 <StatusBadge status={lead.status} size="xs" />
               </Link>

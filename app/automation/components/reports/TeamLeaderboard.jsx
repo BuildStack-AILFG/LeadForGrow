@@ -13,7 +13,7 @@ export default function TeamLeaderboard({ team = [] }) {
       label: '#',
       render: (row) => (
         <span className={`inline-flex w-6 h-6 items-center justify-center rounded-full text-xs font-bold ${
-          row.rank === 1 ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-600'
+          row.rank === 1 ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'
         }`}>
           {row.rank === 1 ? <Trophy className="w-3 h-3" /> : row.rank}
         </span>
@@ -21,7 +21,7 @@ export default function TeamLeaderboard({ team = [] }) {
     },
     { key: 'name', label: 'Agent' },
     { key: 'total', label: 'Assigned', render: (r) => <span className="tabular-nums">{r.total}</span> },
-    { key: 'converted', label: 'Closed', render: (r) => <span className="tabular-nums text-emerald-600">{r.converted}</span> },
+    { key: 'converted', label: 'Closed', render: (r) => <span className="tabular-nums text-emerald-600 dark:text-emerald-400">{r.converted}</span> },
     {
       key: 'rate',
       label: 'Conversion',
@@ -37,7 +37,7 @@ export default function TeamLeaderboard({ team = [] }) {
     {
       key: 'response',
       label: 'Avg response',
-      render: (r) => <span className="text-xs text-slate-500">{r.response}</span>
+      render: (r) => <span className="text-xs text-slate-500 dark:text-slate-400">{r.response}</span>
     }
   ];
 

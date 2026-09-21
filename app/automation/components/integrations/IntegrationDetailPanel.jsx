@@ -66,7 +66,7 @@ export default function IntegrationDetailPanel({
               </span>
             </div>
           </div>
-          <button type="button" onClick={onClose} className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500">
+          <button type="button" onClick={onClose} className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -79,12 +79,12 @@ export default function IntegrationDetailPanel({
               <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400 mb-1">Connected account</p>
               <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{integration.account}</p>
               {integration.lastSynced && (
-                <p className="text-xs text-slate-500 mt-1 flex items-center gap-1">
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1">
                   <Clock className="w-3 h-3" /> Last synced {integration.lastSynced}
                 </p>
               )}
               {integration.lastTestResult && (
-                <p className={`text-xs mt-1 flex items-center gap-1 ${integration.lastTestResult.success ? 'text-emerald-600' : 'text-red-600'}`}>
+                <p className={`text-xs mt-1 flex items-center gap-1 ${integration.lastTestResult.success ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}`}>
                   <ShieldCheck className="w-3 h-3" /> {integration.lastTestResult.message}
                 </p>
               )}
@@ -130,7 +130,7 @@ export default function IntegrationDetailPanel({
                     type="checkbox"
                     checked={integration.config?.syncEnabled !== false}
                     onChange={(e) => onUpdateConfig?.(integration.id, { config: { syncEnabled: e.target.checked } })}
-                    className="rounded border-slate-300 text-teal-600"
+                    className="rounded border-slate-300 dark:border-slate-600 text-teal-600 dark:text-teal-400"
                   />
                 </label>
                 <label className="flex items-center justify-between text-xs">
@@ -139,7 +139,7 @@ export default function IntegrationDetailPanel({
                     type="checkbox"
                     checked={integration.config?.autoSync === true}
                     onChange={(e) => onUpdateConfig?.(integration.id, { config: { autoSync: e.target.checked } })}
-                    className="rounded border-slate-300 text-teal-600"
+                    className="rounded border-slate-300 dark:border-slate-600 text-teal-600 dark:text-teal-400"
                   />
                 </label>
                 <label className="flex items-center justify-between text-xs">
@@ -148,7 +148,7 @@ export default function IntegrationDetailPanel({
                     type="checkbox"
                     checked={integration.config?.webhookEnabled !== false}
                     onChange={(e) => onUpdateConfig?.(integration.id, { config: { webhookEnabled: e.target.checked } })}
-                    className="rounded border-slate-300 text-teal-600"
+                    className="rounded border-slate-300 dark:border-slate-600 text-teal-600 dark:text-teal-400"
                   />
                 </label>
               </div>
@@ -160,7 +160,7 @@ export default function IntegrationDetailPanel({
                     <code className="flex-1 text-[10px] font-mono text-slate-600 dark:text-slate-400 break-all">
                       {integration.webhookUrl}
                     </code>
-                    <button type="button" onClick={copyWebhook} className="p-1.5 text-slate-400 hover:text-teal-600">
+                    <button type="button" onClick={copyWebhook} className="p-1.5 text-slate-400 hover:text-teal-600 dark:hover:text-teal-400">
                       {copied ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
                     </button>
                   </div>
@@ -217,7 +217,7 @@ export default function IntegrationDetailPanel({
                   type="button"
                   onClick={() => onTest?.(integration.id)}
                   disabled={connecting}
-                  className="flex items-center justify-center gap-2 px-3 py-2.5 text-xs font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-lg hover:bg-slate-200 disabled:opacity-50"
+                  className="flex items-center justify-center gap-2 px-3 py-2.5 text-xs font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-50"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 ${connecting ? 'animate-spin' : ''}`} /> Test
                 </button>
@@ -225,7 +225,7 @@ export default function IntegrationDetailPanel({
                   type="button"
                   onClick={() => onSync?.(integration.id)}
                   disabled={connecting}
-                  className="flex items-center justify-center gap-2 px-3 py-2.5 text-xs font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-lg hover:bg-slate-200 disabled:opacity-50"
+                  className="flex items-center justify-center gap-2 px-3 py-2.5 text-xs font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-50"
                 >
                   <RotateCcw className={`w-3.5 h-3.5 ${connecting ? 'animate-spin' : ''}`} /> Sync now
                 </button>
@@ -234,7 +234,7 @@ export default function IntegrationDetailPanel({
                 <button
                   type="button"
                   onClick={() => setEditMode((v) => !v)}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2 text-xs font-medium text-teal-600 hover:bg-teal-50 dark:hover:bg-teal-950/20 rounded-lg"
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2 text-xs font-medium text-teal-600 dark:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-950/20 rounded-lg"
                 >
                   <Settings2 className="w-3.5 h-3.5" /> {editMode ? 'Cancel edit' : 'Edit credentials'}
                 </button>
@@ -243,7 +243,7 @@ export default function IntegrationDetailPanel({
                 type="button"
                 onClick={() => onDisconnect(integration.id)}
                 disabled={connecting}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-lg"
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-lg"
               >
                 <Unplug className="w-4 h-4" /> Disconnect
               </button>

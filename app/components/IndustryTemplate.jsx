@@ -1,5 +1,6 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import React, { useState } from 'react';
 import UserNavbar from '../user/Header';
 import AIChatPopup from './AIChatPopup';
@@ -319,7 +320,7 @@ export default function IndustryTemplate({ data }) {
               { t: "Customer Support", d: "Dedicated onboarding sessions and a WhatsApp group for your team members.", i: Headphones },
               { t: "Intuitive Interface", d: "Easy-to-use interface, specially designed for non-tech-savvy agents.", i: Layout },
               { t: "Affordable", d: "Extensive features designed for your business at an unmatchable price.", i: ArrowRight },
-              { t: "WhatsApp-first", d: "Manage all WhatsApp interactions from one central hub 24/7.", i: MessageSquare },
+              { t: "WhatsApp-first", d: "Manage all WhatsApp interactions from one central hub 24/7.", i: WhatsAppIcon },
             ].map((item, i) => (
               <div key={i} className="p-8 border border-slate-100 rounded-2xl bg-slate-50/30 hover:shadow-xl transition-all">
                 <div className="text-indigo-600 mb-6"><item.i size={28} /></div>

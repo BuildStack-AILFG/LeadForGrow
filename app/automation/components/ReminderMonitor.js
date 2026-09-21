@@ -1,7 +1,8 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { useState, useEffect, useRef } from 'react';
-import { Phone, Bell, X, Calendar, Clock, Volume2, MessageCircle, Mail } from 'lucide-react';
+import { Phone, Bell, X, Calendar, Clock, Volume2, Mail } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import { authFetch, getUserId } from '@/lib/apiClient';
@@ -135,11 +136,11 @@ export default function ReminderMonitor() {
                 </button>
             </div>
             {overflowCount > 0 && (
-                <div className="pointer-events-auto bg-[#1D4B3E] text-white rounded-lg shadow-lg p-3 flex items-center justify-between gap-3">
+                <div className="pointer-events-auto bg-brand text-white rounded-lg shadow-lg p-3 flex items-center justify-between gap-3">
                     <span className="text-xs font-semibold">+{overflowCount} more follow-up{overflowCount === 1 ? '' : 's'} need attention</span>
                     <button
                         onClick={() => router.push('/automation/tasks')}
-                        className="shrink-0 bg-white/15 hover:bg-white/25 px-2.5 py-1 rounded text-[11px] font-medium transition-all"
+                        className="shrink-0 bg-white/15 dark:bg-slate-900/15 hover:bg-white/25 dark:hover:bg-slate-800/25 px-2.5 py-1 rounded text-[11px] font-medium transition-all"
                     >
                         View all
                     </button>
@@ -148,33 +149,33 @@ export default function ReminderMonitor() {
             {visible.map((task) => (
                 <div
                     key={task._id}
-                    className="pointer-events-auto bg-white border-l-4 border-[#1D4B3E] rounded-lg shadow-lg p-3 animate-in slide-in-from-right-10 duration-500 overflow-hidden"
+                    className="pointer-events-auto bg-white dark:bg-slate-900 border-l-4 border-brand rounded-lg shadow-lg p-3 animate-in slide-in-from-right-10 duration-500 overflow-hidden"
                 >
                     <div className="flex justify-between items-start mb-1.5">
                         <div className="flex items-center gap-2">
-                            <div className="bg-[#F0F9F5] p-1.5 rounded-md text-[#1D4B3E]">
+                            <div className="bg-brand-tint p-1.5 rounded-md text-brand-ink">
                                 {task.type === 'call' && <Phone className="w-4 h-4" />}
-                                {task.type === 'whatsapp' && <MessageCircle className="w-4 h-4" />}
+                                {task.type === 'whatsapp' && <WhatsAppIcon className="w-4 h-4" />}
                                 {task.type === 'email' && <Mail className="w-4 h-4" />}
                                 {task.type !== 'call' && task.type !== 'whatsapp' && task.type !== 'email' && <Bell className="w-4 h-4" />}
                             </div>
                             <div>
-                                <h4 className="text-[13px] font-semibold text-slate-900 leading-tight">
+                                <h4 className="text-[13px] font-semibold text-slate-900 dark:text-slate-50 leading-tight">
                                     {task.type === 'call' ? 'Call Due' :
                                         task.type === 'whatsapp' ? 'WhatsApp Due' :
                                             task.type === 'email' ? 'Email Due' : 'Follow-up Due'}
                                 </h4>
-                                <p className="text-[11px] font-medium text-slate-500">
+                                <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
                                     {task.leadId?.name || 'Scheduled Lead'}
                                 </p>
                             </div>
                         </div>
-                        <button onClick={() => dismissReminder(task._id)} className="p-1 hover:bg-slate-50 rounded-md transition-colors">
+                        <button onClick={() => dismissReminder(task._id)} className="p-1 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-md transition-colors">
                             <X className="w-3.5 h-3.5 text-slate-400" />
                         </button>
                     </div>
 
-                    <div className="flex items-center gap-1.5 mb-3 text-[11px] font-medium text-slate-600">
+                    <div className="flex items-center gap-1.5 mb-3 text-[11px] font-medium text-slate-600 dark:text-slate-300">
                         <Calendar className="w-3 h-3 text-slate-400" />
                         <span>Today, {new Date(task.dueDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                     </div>
@@ -182,10 +183,10 @@ export default function ReminderMonitor() {
                     <div className="flex gap-1.5">
                         <button
                             onClick={() => handleAction(task)}
-                            className="flex-1 bg-[#1D4B3E] text-white py-1.5 rounded text-[11px] font-semibold flex items-center justify-center gap-1.5 hover:bg-[#163c32] transition-all"
+                            className="flex-1 bg-brand text-white py-1.5 rounded text-[11px] font-semibold flex items-center justify-center gap-1.5 hover:bg-brand-hover transition-all"
                         >
                             {task.type === 'call' && <><Phone className="w-3 h-3" /> Call Now</>}
-                            {task.type === 'whatsapp' && <><MessageCircle className="w-3 h-3" /> Send Message</>}
+                            {task.type === 'whatsapp' && <><WhatsAppIcon className="w-3 h-3" /> Send Message</>}
                             {task.type === 'email' && <><Mail className="w-3 h-3" /> Send Email</>}
                             {task.type !== 'call' && task.type !== 'whatsapp' && task.type !== 'email' && <>Mark Done</>}
                         </button>
@@ -194,7 +195,7 @@ export default function ReminderMonitor() {
                                 router.push(`/automation/leads/${task.leadId?._id || task.leadId}`);
                                 dismissReminder(task._id);
                             }}
-                            className="px-3 py-1.5 border border-slate-200 text-slate-600 rounded text-[11px] font-medium hover:bg-slate-50 transition-all"
+                            className="px-3 py-1.5 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 rounded text-[11px] font-medium hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all"
                         >
                             View Lead
                         </button>

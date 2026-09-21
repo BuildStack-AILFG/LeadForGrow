@@ -92,7 +92,7 @@ export default function QuotationSentModal({
       <div className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700">
         <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 dark:border-slate-800">
           <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Send proposal / quotation</h3>
-          <button type="button" onClick={onCancel} disabled={saving || uploading} className="p-1.5 rounded-md text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
+          <button type="button" onClick={onCancel} disabled={saving || uploading} className="p-1.5 rounded-md text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -105,14 +105,14 @@ export default function QuotationSentModal({
             <button
               type="button"
               onClick={() => setMode('file')}
-              className={`flex-1 inline-flex items-center justify-center gap-1.5 py-1.5 text-xs font-medium rounded-md ${mode === 'file' ? 'bg-white dark:bg-slate-900 shadow-sm text-slate-900 dark:text-slate-100' : 'text-slate-500'}`}
+              className={`flex-1 inline-flex items-center justify-center gap-1.5 py-1.5 text-xs font-medium rounded-md ${mode === 'file' ? 'bg-white dark:bg-slate-900 shadow-sm text-slate-900 dark:text-slate-100' : 'text-slate-500 dark:text-slate-400'}`}
             >
               <Upload className="w-3.5 h-3.5" /> Upload file
             </button>
             <button
               type="button"
               onClick={() => setMode('link')}
-              className={`flex-1 inline-flex items-center justify-center gap-1.5 py-1.5 text-xs font-medium rounded-md ${mode === 'link' ? 'bg-white dark:bg-slate-900 shadow-sm text-slate-900 dark:text-slate-100' : 'text-slate-500'}`}
+              className={`flex-1 inline-flex items-center justify-center gap-1.5 py-1.5 text-xs font-medium rounded-md ${mode === 'link' ? 'bg-white dark:bg-slate-900 shadow-sm text-slate-900 dark:text-slate-100' : 'text-slate-500 dark:text-slate-400'}`}
             >
               <Link2 className="w-3.5 h-3.5" /> Paste link
             </button>
@@ -134,9 +134,9 @@ export default function QuotationSentModal({
                 onChange={(e) => handleFile(e.target.files?.[0])}
               />
               {uploading ? (
-                <p className="text-sm text-slate-500">Uploading…</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Uploading…</p>
               ) : fileName && quotationUrl ? (
-                <div className="flex items-center justify-center gap-2 text-sm text-emerald-600">
+                <div className="flex items-center justify-center gap-2 text-sm text-emerald-600 dark:text-emerald-400">
                   <FileText className="w-4 h-4" /> {fileName}
                 </div>
               ) : (
@@ -149,7 +149,7 @@ export default function QuotationSentModal({
             </div>
           ) : (
             <div>
-              <label className="text-xs font-medium text-slate-500">Quotation link *</label>
+              <label className="text-xs font-medium text-slate-500 dark:text-slate-400">Quotation link *</label>
               <input
                 type="url"
                 required
@@ -162,7 +162,7 @@ export default function QuotationSentModal({
           )}
 
           <div>
-            <label className="text-xs font-medium text-slate-500">Message to customer</label>
+            <label className="text-xs font-medium text-slate-500 dark:text-slate-400">Message to customer</label>
             <textarea
               rows={3}
               placeholder="e.g. Please find our proposal attached. Valid for 14 days."

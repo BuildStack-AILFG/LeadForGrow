@@ -1,3 +1,4 @@
+import { workingDraftFilter } from '@/lib/omnichannel/draftFields';
 import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import Business from '@/models/Business';
@@ -193,9 +194,38 @@ async function handler(req) {
       }
 
       if (!igResult.success) {
+        // A human's reply isn't limited, but a platform block seen here must still pause automation + alert.
+        const { recordSendResult } = await import('@/lib/social/sendSafety');
+        await recordSendResult(business, 'instagram', igResult);
         return NextResponse.json({ success: false, error: igResult.error }, { status: 500 });
       }
       externalMessageId = igResult.messageId;
+    } else if (activeChannel === 'facebook') {
+      const { sendMessengerMessage, sendMessengerMedia, sendFacebookCommentReply } = await import('@/lib/facebook/send');
+      const { FB_COMMENT_PARTICIPANT_PREFIX } = await import('@/lib/facebook/handler');
+      const participantId = conversation?.participantId || '';
+      const isCommentThread = participantId.startsWith(FB_COMMENT_PARTICIPANT_PREFIX);
+
+      let fbResult;
+      if (isCommentThread) {
+        const targetCommentId = conversation?.metadata?.get?.('lastCommentId')
+          || conversation?.metadata?.lastCommentId;
+        if (!targetCommentId) {
+          return NextResponse.json({ success: false, error: 'No comment to reply to on this thread' }, { status: 400 });
+        }
+        fbResult = await sendFacebookCommentReply(business, targetCommentId, message.trim());
+      } else {
+        fbResult = hasMedia
+          ? await sendMessengerMedia(business, participantId, { mediaUrl, messageType: resolvedType })
+          : await sendMessengerMessage(business, participantId, message.trim());
+      }
+
+      if (!fbResult.success) {
+        const { recordSendResult } = await import('@/lib/social/sendSafety');
+        await recordSendResult(business, 'facebook', fbResult);
+        return NextResponse.json({ success: false, error: fbResult.error }, { status: 500 });
+      }
+      externalMessageId = fbResult.messageId;
     } else {
       return NextResponse.json({ success: false, error: 'Unsupported channel' }, { status: 400 });
     }
@@ -234,6 +264,10 @@ async function handler(req) {
 
     if (draftId) {
       await EmailDraft.findOneAndDelete({ _id: draftId, businessId: user.businessId });
+    }
+    // The auto-saved working draft of this thread is obsolete once the reply is sent (drafts used to pile up forever).
+    if (activeChannel === 'email' && conversation?._id) {
+      await EmailDraft.deleteMany(workingDraftFilter({ businessId: user.businessId, conversationId: conversation._id, userId: user.userId }));
     }
 
     return NextResponse.json({ success: true, data: result.message, messageId: externalMessageId });

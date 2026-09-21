@@ -36,17 +36,17 @@ const STEPS = [
 ];
 
 const inputClass =
-  'w-full h-10 px-3 text-[13px] rounded-lg border border-[#E5E7EB] bg-white text-[#101828] placeholder:text-[#98A2B3] focus:outline-none focus:ring-2 focus:ring-[#059669]/15 focus:border-[#059669] transition-all';
+  'w-full h-10 px-3 text-[13px] rounded-lg border border-[#E5E7EB] dark:border-slate-700 bg-white dark:bg-slate-900 text-[#101828] dark:text-slate-100 placeholder:text-[#98A2B3] dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#059669]/15 focus:border-[#059669] transition-all';
 
 function Field({ label, required, children, hint, className = '' }) {
   return (
     <div className={`space-y-1.5 ${className}`}>
-      <label className="text-[11px] font-medium uppercase tracking-wide text-[#667085]">
+      <label className="text-[11px] font-medium uppercase tracking-wide text-[#667085] dark:text-slate-300">
         {label}
         {required && <span className="text-red-500 ml-0.5">*</span>}
       </label>
       {children}
-      {hint && <p className="text-[11px] text-[#98A2B3] leading-snug">{hint}</p>}
+      {hint && <p className="text-[11px] text-[#98A2B3] dark:text-slate-400 leading-snug">{hint}</p>}
     </div>
   );
 }
@@ -55,13 +55,13 @@ function Section({ step, title, subtitle, children, activeStep }) {
   const isActive = step === activeStep;
   return (
     <section
-      className={`bg-white border rounded-xl overflow-hidden transition-shadow duration-200 ${
+      className={`bg-white dark:bg-slate-900 border rounded-xl overflow-hidden transition-shadow duration-200 ${
         isActive
           ? 'border-[#059669]/30 shadow-[0_4px_16px_rgba(26,69,165,0.08)]'
-          : 'border-[#E5E7EB] shadow-[0_1px_2px_rgba(16,24,40,0.04)]'
+          : 'border-[#E5E7EB] dark:border-slate-700 shadow-[0_1px_2px_rgba(16,24,40,0.04)]'
       }`}
     >
-      <div className="px-5 py-4 border-b border-[#F2F4F7] flex items-center gap-3">
+      <div className="px-5 py-4 border-b border-[#F2F4F7] dark:border-slate-700 flex items-center gap-3">
         <span
           className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[12px] font-semibold text-white"
           style={{ backgroundColor: isActive ? BLUE : '#98A2B3' }}
@@ -69,8 +69,8 @@ function Section({ step, title, subtitle, children, activeStep }) {
           {step}
         </span>
         <div>
-          <h2 className="text-[14px] font-semibold text-[#101828]">{title}</h2>
-          {subtitle && <p className="text-[12px] text-[#667085] mt-0.5">{subtitle}</p>}
+          <h2 className="text-[14px] font-semibold text-[#101828] dark:text-slate-100">{title}</h2>
+          {subtitle && <p className="text-[12px] text-[#667085] dark:text-slate-300 mt-0.5">{subtitle}</p>}
         </div>
       </div>
       <div className="p-5">{children}</div>
@@ -89,15 +89,15 @@ function PreviewPanel({ formData }) {
 
   return (
     <div className="sticky top-6 space-y-4">
-      <div className="rounded-xl border border-[#E5E7EB] bg-white shadow-[0_1px_2px_rgba(16,24,40,0.04)] overflow-hidden">
-        <div className="px-5 py-4 border-b border-[#F2F4F7]" style={{ backgroundColor: BLUE_LIGHT }}>
+      <div className="rounded-xl border border-[#E5E7EB] dark:border-slate-700 bg-white dark:bg-slate-900 shadow-[0_1px_2px_rgba(16,24,40,0.04)] overflow-hidden">
+        <div className="px-5 py-4 border-b border-[#F2F4F7] dark:border-slate-700" style={{ backgroundColor: BLUE_LIGHT }}>
           <div className="flex items-center gap-2 mb-1">
             <Sparkles className="w-4 h-4" style={{ color: BLUE }} />
             <p className="text-[11px] font-semibold uppercase tracking-wide" style={{ color: BLUE }}>
               Live preview
             </p>
           </div>
-          <p className="text-[12px] text-[#667085]">How this lead will appear in your CRM</p>
+          <p className="text-[12px] text-[#667085] dark:text-slate-300">How this lead will appear in your CRM</p>
         </div>
         <div className="p-5 space-y-4">
           <div className="flex items-center gap-3">
@@ -108,10 +108,10 @@ function PreviewPanel({ formData }) {
               {(formData.name || '?').charAt(0).toUpperCase()}
             </div>
             <div className="min-w-0">
-              <p className="text-[15px] font-semibold text-[#101828] truncate">
+              <p className="text-[15px] font-semibold text-[#101828] dark:text-slate-100 truncate">
                 {formData.name || 'Lead name'}
               </p>
-              <p className="text-[12px] text-[#667085] truncate">
+              <p className="text-[12px] text-[#667085] dark:text-slate-300 truncate">
                 {formData.phone || 'No phone yet'}
               </p>
             </div>
@@ -119,33 +119,33 @@ function PreviewPanel({ formData }) {
 
           <div className="space-y-2 text-[12px]">
             {formData.email && (
-              <div className="flex items-center gap-2 text-[#475467]">
-                <Mail className="w-3.5 h-3.5 text-[#98A2B3]" />
+              <div className="flex items-center gap-2 text-[#475467] dark:text-slate-300">
+                <Mail className="w-3.5 h-3.5 text-[#98A2B3] dark:text-slate-400" />
                 <span className="truncate">{formData.email}</span>
               </div>
             )}
             {formData.serviceInterest && (
-              <div className="flex items-center gap-2 text-[#475467]">
-                <Briefcase className="w-3.5 h-3.5 text-[#98A2B3]" />
+              <div className="flex items-center gap-2 text-[#475467] dark:text-slate-300">
+                <Briefcase className="w-3.5 h-3.5 text-[#98A2B3] dark:text-slate-400" />
                 <span className="truncate">{formData.serviceInterest}</span>
               </div>
             )}
             {locationLine && (
-              <div className="flex items-center gap-2 text-[#475467]">
-                <MapPin className="w-3.5 h-3.5 text-[#98A2B3]" />
+              <div className="flex items-center gap-2 text-[#475467] dark:text-slate-300">
+                <MapPin className="w-3.5 h-3.5 text-[#98A2B3] dark:text-slate-400" />
                 <span className="truncate">{locationLine}</span>
               </div>
             )}
           </div>
 
           <div className="flex flex-wrap gap-1.5 pt-1">
-            <span className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-[#F2F4F7] text-[#475467] border border-[#E5E7EB] capitalize">
+            <span className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-[#F2F4F7] dark:bg-slate-900 text-[#475467] dark:text-slate-300 border border-[#E5E7EB] dark:border-slate-700 capitalize">
               {MANUAL_SOURCES.find((s) => s.value === formData.source)?.label || formData.source}
             </span>
-            <span className={`text-[10px] font-medium px-2 py-0.5 rounded-md border ${priorityCfg?.badge || 'bg-slate-100 text-slate-700 border-slate-200'}`}>
+            <span className={`text-[10px] font-medium px-2 py-0.5 rounded-md border ${priorityCfg?.badge || 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700'}`}>
               {priorityCfg?.label || formData.priority}
             </span>
-            <span className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-[#E8EFFC] text-[#059669] border border-[#C7D7F5]">
+            <span className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-[#E8EFFC] dark:bg-slate-800 text-[#059669] dark:text-emerald-400 border border-[#C7D7F5]">
               New Lead
             </span>
           </div>
@@ -153,7 +153,7 @@ function PreviewPanel({ formData }) {
           {formData.tags.length > 0 && (
             <div className="flex flex-wrap gap-1">
               {formData.tags.map((tag) => (
-                <span key={tag} className="text-[10px] px-2 py-0.5 rounded-full bg-[#F9FAFB] border border-[#E5E7EB] text-[#667085]">
+                <span key={tag} className="text-[10px] px-2 py-0.5 rounded-full bg-[#F9FAFB] dark:bg-slate-900 border border-[#E5E7EB] dark:border-slate-700 text-[#667085] dark:text-slate-300">
                   {tag}
                 </span>
               ))}
@@ -162,15 +162,15 @@ function PreviewPanel({ formData }) {
         </div>
       </div>
 
-      <div className="rounded-xl border border-[#E5E7EB] bg-[#FAFBFC] p-4 space-y-3">
-        <p className="text-[11px] font-semibold uppercase tracking-wide text-[#667085]">On save</p>
+      <div className="rounded-xl border border-[#E5E7EB] dark:border-slate-700 bg-[#FAFBFC] dark:bg-slate-900 p-4 space-y-3">
+        <p className="text-[11px] font-semibold uppercase tracking-wide text-[#667085] dark:text-slate-300">On save</p>
         {[
           { icon: BarChart3, text: 'Added to lead pipeline' },
           { icon: Inbox, text: 'Synced to inbox & activity feed' },
           { icon: Zap, text: 'Automations triggered if configured' },
         ].map(({ icon: Icon, text }) => (
-          <div key={text} className="flex items-center gap-2.5 text-[12px] text-[#475467]">
-            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-white border border-[#E5E7EB]">
+          <div key={text} className="flex items-center gap-2.5 text-[12px] text-[#475467] dark:text-slate-300">
+            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-white dark:bg-slate-900 border border-[#E5E7EB] dark:border-slate-700">
               <Icon className="w-3.5 h-3.5" style={{ color: BLUE }} />
             </span>
             {text}
@@ -274,13 +274,13 @@ export default function NewLeadPage() {
   };
 
   return (
-    <div className="min-h-full bg-[#FAFBFC]">
+    <div className="min-h-full bg-[#FAFBFC] dark:bg-slate-900">
       {/* Top bar */}
-      <div className="border-b border-[#E5E7EB] bg-white sticky top-0 z-30">
+      <div className="border-b border-[#E5E7EB] dark:border-slate-700 bg-white dark:bg-slate-900 sticky top-0 z-30">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
           <Link
             href="/automation/leads"
-            className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#667085] hover:text-[#059669] transition-colors group"
+            className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#667085] dark:text-slate-300 hover:text-[#059669] dark:hover:text-emerald-400 transition-colors group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
             Back to Leads
@@ -298,8 +298,8 @@ export default function NewLeadPage() {
                     active
                       ? 'text-white'
                       : done
-                        ? 'text-[#059669] bg-[#E8EFFC]'
-                        : 'text-[#98A2B3] hover:bg-[#F2F4F7]'
+                        ? 'text-[#059669] dark:text-emerald-400 bg-[#E8EFFC] dark:bg-slate-800'
+                        : 'text-[#98A2B3] dark:text-slate-400 hover:bg-[#F2F4F7] dark:hover:bg-slate-800'
                   }`}
                   style={active ? { backgroundColor: BLUE } : undefined}
                 >
@@ -310,8 +310,8 @@ export default function NewLeadPage() {
             })}
           </div>
           <div className="flex items-center gap-2 min-w-[100px] justify-end">
-            <span className="text-[11px] text-[#98A2B3] hidden sm:inline">{completion}% complete</span>
-            <div className="w-16 h-1.5 rounded-full bg-[#E5E7EB] overflow-hidden">
+            <span className="text-[11px] text-[#98A2B3] dark:text-slate-400 hidden sm:inline">{completion}% complete</span>
+            <div className="w-16 h-1.5 rounded-full bg-[#E5E7EB] dark:bg-slate-800 overflow-hidden">
               <div
                 className="h-full rounded-full transition-all duration-300"
                 style={{ width: `${completion}%`, backgroundColor: BLUE }}
@@ -332,8 +332,8 @@ export default function NewLeadPage() {
               <UserPlus className="h-6 w-6" strokeWidth={1.75} />
             </div>
             <div>
-              <h1 className="text-[22px] font-semibold text-[#101828] tracking-tight">Add New Lead</h1>
-              <p className="text-[13px] text-[#667085] mt-1 max-w-lg">
+              <h1 className="text-[22px] font-semibold text-[#101828] dark:text-slate-100 tracking-tight">Add New Lead</h1>
+              <p className="text-[13px] text-[#667085] dark:text-slate-300 mt-1 max-w-lg">
                 Register a new enquiry manually. It will sync to your pipeline, inbox, and dashboard instantly.
               </p>
             </div>
@@ -352,7 +352,7 @@ export default function NewLeadPage() {
                         type="text"
                         value={formData.name}
                         onChange={(e) => set('name', e.target.value)}
-                        placeholder="e.g. S.Singh"
+                        placeholder="e.g. Priya Sharma"
                         className={inputClass}
                         autoComplete="name"
                       />
@@ -477,7 +477,7 @@ export default function NewLeadPage() {
                               className={`px-3 py-1.5 text-[12px] font-medium rounded-lg border transition-all ${
                                 active
                                   ? 'text-white border-transparent shadow-sm'
-                                  : 'text-[#475467] border-[#E5E7EB] bg-white hover:border-[#C7D7F5] hover:bg-[#F9FAFB]'
+                                  : 'text-[#475467] dark:text-slate-300 border-[#E5E7EB] dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-[#C7D7F5] hover:bg-[#F9FAFB] dark:hover:bg-slate-800'
                               }`}
                               style={active ? { backgroundColor: BLUE } : undefined}
                             >
@@ -542,9 +542,9 @@ export default function NewLeadPage() {
       </div>
 
       {/* Sticky footer */}
-      <div className="fixed bottom-0 left-0 right-0 z-20 border-t border-[#E5E7EB] bg-white/95 backdrop-blur-md px-4 sm:px-6 py-4 shadow-[0_-4px_16px_rgba(16,24,40,0.06)]">
+      <div className="fixed bottom-0 left-0 right-0 z-20 border-t border-[#E5E7EB] dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-4 sm:px-6 py-4 shadow-[0_-4px_16px_rgba(16,24,40,0.06)]">
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
-          <p className="text-[12px] text-[#667085] hidden md:flex items-center gap-2">
+          <p className="text-[12px] text-[#667085] dark:text-slate-300 hidden md:flex items-center gap-2">
             <Globe className="w-3.5 h-3.5" style={{ color: BLUE }} />
             Manual entry · syncs to pipeline & inbox
           </p>
@@ -552,7 +552,7 @@ export default function NewLeadPage() {
             <button
               type="button"
               onClick={() => router.push('/automation/leads')}
-              className="flex-1 md:flex-none h-10 px-5 text-[13px] font-medium text-[#344054] border border-[#E5E7EB] rounded-lg hover:bg-[#F9FAFB] transition-colors"
+              className="flex-1 md:flex-none h-10 px-5 text-[13px] font-medium text-[#344054] dark:text-slate-200 border border-[#E5E7EB] dark:border-slate-700 rounded-lg hover:bg-[#F9FAFB] dark:hover:bg-slate-800 transition-colors"
             >
               Cancel
             </button>

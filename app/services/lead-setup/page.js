@@ -5,7 +5,7 @@ export const metadata = {
   description: "Expert setup of your LeadForGrow capture and management infrastructure. We connect your ads, forms, and CRM for 100% lead trackability. Start today.",
   keywords: ["lead system setup service", "sales infrastructure audit India", "lead capture setup", "crm implementation services", "marketing system specialist"],
   alternates: {
-    canonical: 'https://leadforgrow.online/services/lead-setup'
+    canonical: 'https://www.leadforgrow.com/services/lead-setup'
   }
 };
 

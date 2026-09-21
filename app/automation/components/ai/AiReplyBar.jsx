@@ -82,7 +82,7 @@ export default function AiReplyBar({
           type="button"
           onClick={() => generate()}
           disabled={loading}
-          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-[11px] font-medium rounded-lg bg-violet-50 dark:bg-violet-950/30 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800 hover:bg-violet-100 disabled:opacity-50"
+          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-[11px] font-medium rounded-lg bg-violet-50 dark:bg-violet-950/30 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800 hover:bg-violet-100 dark:hover:bg-violet-900/30 disabled:opacity-50"
         >
           {loading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
           AI Reply
@@ -96,7 +96,7 @@ export default function AiReplyBar({
             className={`px-2 py-1 text-[10px] rounded-md border transition-colors ${
               style === s.id
                 ? 'bg-violet-600 text-white border-violet-600'
-                : 'text-slate-500 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
+                : 'text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
             }`}
           >
             {s.label}
@@ -107,24 +107,24 @@ export default function AiReplyBar({
       {reply && open && (
         <div className="mt-2 p-3 rounded-xl bg-violet-50/80 dark:bg-violet-950/20 border border-violet-200 dark:border-violet-800">
           <div className="flex items-center justify-between gap-2 mb-1.5">
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-violet-600 flex items-center gap-1">
+            <span className="text-[10px] font-semibold uppercase tracking-wide text-violet-600 dark:text-violet-400 flex items-center gap-1">
               <Zap className="w-3 h-3" /> AI {style} reply
               {reply.confidence != null && (
-                <span className="ml-1 px-1.5 py-0.5 rounded bg-white/60 text-violet-700">
+                <span className="ml-1 px-1.5 py-0.5 rounded bg-white/60 dark:bg-slate-900/60 text-violet-700 dark:text-violet-300">
                   {Math.round(reply.confidence * 100)}%
                 </span>
               )}
             </span>
-            <button type="button" onClick={() => setOpen(false)} className="text-slate-400 hover:text-slate-600">
+            <button type="button" onClick={() => setOpen(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
               <ChevronDown className="w-3.5 h-3.5" />
             </button>
           </div>
           <p className="text-xs text-slate-700 dark:text-slate-300 whitespace-pre-wrap leading-relaxed">{reply.reply}</p>
           {reply.sources?.length > 0 && (
-            <p className="text-[10px] text-slate-500 mt-1.5">Sources: {reply.sources.join(', ')}</p>
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1.5">Sources: {reply.sources.join(', ')}</p>
           )}
           <div className="flex gap-2 mt-2.5">
-            <button type="button" onClick={handleUse} className="flex-1 text-xs py-1.5 rounded-lg border border-violet-300 text-violet-700 hover:bg-white/50">
+            <button type="button" onClick={handleUse} className="flex-1 text-xs py-1.5 rounded-lg border border-violet-300 dark:border-violet-700 text-violet-700 dark:text-violet-300 hover:bg-white/50 dark:hover:bg-slate-800/50">
               Insert
             </button>
             <button type="button" onClick={handleSend} className="flex-1 text-xs py-1.5 rounded-lg bg-violet-600 text-white hover:bg-violet-700 flex items-center justify-center gap-1">

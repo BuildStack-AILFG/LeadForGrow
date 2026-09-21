@@ -26,8 +26,8 @@ export default function PageLoader({
     return (
       <div className={`p-6 space-y-3 ${className}`}>
         {label && (
-          <div className="flex items-center justify-center gap-2 py-2 text-xs font-medium text-slate-500">
-            <Loader2 className="w-4 h-4 animate-spin text-emerald-600" />
+          <div className="flex items-center justify-center gap-2 py-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+            <Loader2 className="w-4 h-4 animate-spin text-emerald-600 dark:text-emerald-400" />
             <span>{label}</span>
           </div>
         )}
@@ -44,8 +44,8 @@ export default function PageLoader({
 
   if (inline) {
     return (
-      <span className={`inline-flex items-center gap-2 text-xs text-slate-500 ${className}`}>
-        <Loader2 className="w-3.5 h-3.5 animate-spin text-emerald-600" />
+      <span className={`inline-flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 ${className}`}>
+        <Loader2 className="w-3.5 h-3.5 animate-spin text-emerald-600 dark:text-emerald-400" />
         {label || 'Loading…'}
       </span>
     );

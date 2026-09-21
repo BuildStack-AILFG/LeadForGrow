@@ -36,7 +36,7 @@ export default function WorkspaceSwitcher({ compact = false }) {
                 key={ws.id}
                 type="button"
                 onClick={() => { switchWorkspace(ws.id); setOpen(false); }}
-                className={`w-full text-left px-3 py-2 text-xs hover:bg-slate-50 dark:hover:bg-slate-800 ${ws.id === workspace.id ? 'text-teal-600 font-medium' : 'text-slate-700 dark:text-slate-300'}`}
+                className={`w-full text-left px-3 py-2 text-xs hover:bg-slate-50 dark:hover:bg-slate-800 ${ws.id === workspace.id ? 'text-teal-600 dark:text-teal-400 font-medium' : 'text-slate-700 dark:text-slate-300'}`}
               >
                 {ws.name}
                 <span className="text-slate-400 ml-1">· {ws.plan}</span>

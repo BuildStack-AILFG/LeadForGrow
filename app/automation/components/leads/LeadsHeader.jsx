@@ -58,7 +58,7 @@ export default function LeadsHeader({
                 <button
                   type="button"
                   onClick={() => onViewModeChange('table')}
-                  className={`p-2 ${viewMode === 'table' ? 'bg-teal-600 text-white' : 'bg-white dark:bg-slate-900 text-slate-600'}`}
+                  className={`p-2 ${viewMode === 'table' ? 'bg-teal-600 text-white' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300'}`}
                   title="Table view"
                 >
                   <LayoutList className="w-4 h-4" />
@@ -67,7 +67,7 @@ export default function LeadsHeader({
                   type="button"
                   data-tour="leads-pipeline-toggle"
                   onClick={() => onViewModeChange('kanban')}
-                  className={`p-2 ${viewMode === 'kanban' ? 'bg-teal-600 text-white' : 'bg-white dark:bg-slate-900 text-slate-600'}`}
+                  className={`p-2 ${viewMode === 'kanban' ? 'bg-teal-600 text-white' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300'}`}
                   title="Pipeline view"
                 >
                   <Columns3 className="w-4 h-4" />
@@ -78,7 +78,7 @@ export default function LeadsHeader({
                 type="button"
                 onClick={onRefresh}
                 disabled={refreshing}
-                className="p-2 rounded border border-[#D0D4E1] dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 hover:bg-slate-50 disabled:opacity-50 shrink-0"
+                className="p-2 rounded border border-[#D0D4E1] dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 disabled:opacity-50 shrink-0"
               >
                 <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
               </button>
@@ -87,7 +87,7 @@ export default function LeadsHeader({
                 <button
                   type="button"
                   onClick={() => setExportOpen(!exportOpen)}
-                  className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-[#222222] dark:text-slate-200 bg-white dark:bg-slate-900 border border-[#D0D4E1] dark:border-slate-700 rounded hover:bg-slate-50 whitespace-nowrap"
+                  className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-[#222222] dark:text-slate-200 bg-white dark:bg-slate-900 border border-[#D0D4E1] dark:border-slate-700 rounded hover:bg-slate-50 dark:hover:bg-slate-800/50 whitespace-nowrap"
                 >
                   <Download className="w-4 h-4" />
                   <span className="hidden sm:inline">Export</span>
@@ -106,7 +106,7 @@ export default function LeadsHeader({
 
               <Link
                 href="/automation/leads/bulk"
-                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-[#222222] dark:text-slate-200 bg-white dark:bg-slate-900 border border-[#D0D4E1] dark:border-slate-700 rounded hover:bg-slate-50 shrink-0 whitespace-nowrap"
+                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-[#222222] dark:text-slate-200 bg-white dark:bg-slate-900 border border-[#D0D4E1] dark:border-slate-700 rounded hover:bg-slate-50 dark:hover:bg-slate-800/50 shrink-0 whitespace-nowrap"
               >
                 <Upload className="w-4 h-4" /> Import
               </Link>

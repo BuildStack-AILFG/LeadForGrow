@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { dbConnect } from "@/lib/mongodb";
 import Business from '@/models/Business';
 import { withPlanAccess } from '@/lib/accessControl';
+import { decryptMaybe } from '@/lib/encryption';
+import { resolveVerifySettings, metaPhoneFields } from '@/lib/whatsapp/verifySettings';
 
 /**
  * POST /api/business/settings/test-whatsapp
@@ -11,7 +13,20 @@ export const POST = withPlanAccess('settings', async (req) => {
   try {
     await dbConnect();
     const user = req.user;
-    const { whatsappSettings, testPhone, testTemplate } = await req.json();
+    const body = await req.json();
+    const { testPhone, testTemplate } = body;
+
+    // "Sync status" sends only { verifyOnly: true }: verify the credentials already saved for this business.
+    let stored;
+    if (!body.whatsappSettings) {
+      const biz = await Business.findById(user.businessId).select('integrationCredentials.whatsapp').lean();
+      stored = biz?.integrationCredentials?.whatsapp;
+    }
+    const resolved = resolveVerifySettings({ whatsappSettings: body.whatsappSettings, stored });
+    if (resolved.error) {
+      return NextResponse.json({ success: false, error: resolved.error }, { status: resolved.status });
+    }
+    const whatsappSettings = resolved.settings;
     const provider = whatsappSettings.provider || 'meta';
 
     if (testPhone) {
@@ -97,7 +112,7 @@ export const POST = withPlanAccess('settings', async (req) => {
         const response = await fetch(`https://graph.facebook.com/v21.0/${whatsappSettings.phoneNumberId}`, {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${whatsappSettings.apiKey}`
+            'Authorization': `Bearer ${decryptMaybe(whatsappSettings.apiKey)}`
           }
         });
 
@@ -110,7 +125,8 @@ export const POST = withPlanAccess('settings', async (req) => {
           }, { status: response.status });
         }
 
-        return await markSuccess(user.businessId, whatsappSettings, 'meta');
+        // Refresh what Meta reports about the number (quality rating, display number) together with the verification.
+        return await markSuccess(user.businessId, { ...whatsappSettings, ...metaPhoneFields(data) }, 'meta');
 
       } catch (fetchError) {
         return NextResponse.json({ success: false, error: 'CONNECTION ERROR: Unable to reach Meta API.' }, { status: 500 });

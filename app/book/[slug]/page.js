@@ -1,5 +1,6 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { useState, useEffect, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -11,11 +12,9 @@ import {
   ChevronLeft,
   ChevronRight,
   CheckCircle2,
-  MessageCircle,
   Calendar,
   Video,
-  Mail,
-} from 'lucide-react';
+  Mail} from 'lucide-react';
 import { MEETING_CATEGORY_LABELS } from '@/lib/meetings/constants';
 
 export default function PublicBookingPage() {
@@ -164,7 +163,7 @@ export default function PublicBookingPage() {
           )}
           {booked.whatsappSent !== false && (
             <div className="flex items-center justify-center gap-2 text-sm font-medium text-emerald-700 bg-emerald-50 py-3 px-4 rounded-xl mb-4">
-              <MessageCircle className="w-4 h-4" />
+              <WhatsAppIcon className="w-4 h-4" />
               WhatsApp confirmation sent
             </div>
           )}
@@ -424,7 +423,7 @@ export default function PublicBookingPage() {
                         <Loader2 className="w-4 h-4 animate-spin" />
                       ) : (
                         <>
-                          <MessageCircle className="w-4 h-4" />
+                          <WhatsAppIcon className="w-4 h-4" />
                           Confirm & send WhatsApp
                         </>
                       )}

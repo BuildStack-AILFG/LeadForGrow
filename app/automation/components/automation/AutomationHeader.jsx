@@ -30,7 +30,7 @@ export default function AutomationHeader({
             </p>
             <Link
               href="/help/automation-rules"
-              className="inline-flex items-center gap-1 text-xs font-medium text-teal-600 hover:text-teal-700 dark:text-teal-400 mt-1.5"
+              className="inline-flex items-center gap-1 text-xs font-medium text-teal-600 hover:text-teal-700 dark:hover:text-teal-300 dark:text-teal-400 mt-1.5"
             >
               <BookOpen className="w-3 h-3" /> Learn how automations work
             </Link>
@@ -59,7 +59,7 @@ export default function AutomationHeader({
               <button
                 type="button"
                 onClick={() => setFilterOpen(!filterOpen)}
-                className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50"
+                className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50"
               >
                 {activeFilter?.label || 'Filter'}
                 <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
@@ -77,7 +77,7 @@ export default function AutomationHeader({
                           setFilterOpen(false);
                         }}
                         className={`w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-800 ${
-                          statusFilter === f.id ? 'text-teal-600 font-medium' : 'text-slate-700 dark:text-slate-300'
+                          statusFilter === f.id ? 'text-teal-600 dark:text-teal-400 font-medium' : 'text-slate-700 dark:text-slate-300'
                         }`}
                       >
                         {f.label}
@@ -92,7 +92,7 @@ export default function AutomationHeader({
               type="button"
               onClick={onRefresh}
               disabled={refreshing}
-              className="p-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 hover:bg-slate-50 disabled:opacity-50"
+              className="p-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 disabled:opacity-50"
             >
               <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
             </button>

@@ -86,7 +86,7 @@ export default function AgencyDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#F7F8FC] flex items-center justify-center">
+      <div className="min-h-screen bg-[#F7F8FC] dark:bg-slate-900 flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-4 border-[#5B5FF6]/20 border-t-[#5B5FF6] rounded-full animate-spin"></div>
           <p className="small-label">Initializing Intelligence...</p>
@@ -97,8 +97,8 @@ export default function AgencyDashboard() {
 
   const Card = ({ children, className = "", noPadding = false, dark = false }) => (
     <div className={`
-      rounded-[24px] border border-[#EAECEF] 
-      ${dark ? 'bg-[#0F172A] text-white border-none' : 'bg-white text-[#0F172A]'}
+      rounded-[24px] border border-[#EAECEF] dark:border-slate-700 
+      ${dark ? 'bg-[#0F172A] dark:bg-slate-700 text-white border-none' : 'bg-white dark:bg-slate-900 text-[#0F172A] dark:text-slate-100'}
       shadow-[0_1px_2px_rgba(15,23,42,0.04)]
       transition-all duration-200 hover:shadow-[0_4px_12px_rgba(15,23,42,0.06)]
       ${noPadding ? '' : 'p-8'}
@@ -111,8 +111,8 @@ export default function AgencyDashboard() {
   const KPICard = ({ title, value, trend, icon: Icon }) => (
     <Card className="flex flex-col justify-between h-full min-h-[140px]">
       <div className="flex items-center justify-between">
-        <div className="p-2 bg-[#F8FAFC] rounded-xl border border-[#EAECEF]">
-          <Icon className="w-5 h-5 text-[#94A3B8] stroke-[1.5]" />
+        <div className="p-2 bg-[#F8FAFC] dark:bg-slate-900 rounded-xl border border-[#EAECEF] dark:border-slate-700">
+          <Icon className="w-5 h-5 text-[#94A3B8] dark:text-slate-400 stroke-[1.5]" />
         </div>
         {trend && (
           <span className={`text-[13px] font-bold flex items-center gap-1 ${trend > 0 ? 'text-[#10B981]' : 'text-[#EF4444]'}`}>
@@ -128,40 +128,40 @@ export default function AgencyDashboard() {
   );
 
   return (
-    <div className="min-h-screen bg-[#F7F8FC] pb-12">
+    <div className="min-h-screen bg-[#F7F8FC] dark:bg-slate-900 pb-12">
       {/* Topbar */}
-      <nav className="h-20 bg-white border-b border-[#EAECEF] px-8 flex items-center justify-between sticky top-0 z-50">
+      <nav className="h-20 bg-white dark:bg-slate-900 border-b border-[#EAECEF] dark:border-slate-700 px-8 flex items-center justify-between sticky top-0 z-50">
         <div className="flex items-center gap-8">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-[#5B5FF6] rounded-lg flex items-center justify-center text-white font-bold">L</div>
             <span className="font-bold text-[18px] tracking-tight">LeadForGrow</span>
           </div>
-          <div className="h-8 w-[1px] bg-[#EAECEF]" />
-          <div className="flex items-center gap-2 cursor-pointer hover:bg-[#F8FAFC] px-3 py-1.5 rounded-lg transition-colors">
+          <div className="h-8 w-[1px] bg-[#EAECEF] dark:bg-slate-800" />
+          <div className="flex items-center gap-2 cursor-pointer hover:bg-[#F8FAFC] dark:hover:bg-slate-800 px-3 py-1.5 rounded-lg transition-colors">
             <span className="text-[14px] font-semibold">{summary.agency.name || 'Workspace'}</span>
-            <ChevronDown className="w-4 h-4 text-[#94A3B8]" />
+            <ChevronDown className="w-4 h-4 text-[#94A3B8] dark:text-slate-400" />
           </div>
         </div>
 
         <div className="flex-1 max-w-md mx-12">
           <div className="relative group">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94A3B8] group-focus-within:text-[#5B5FF6] transition-colors" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94A3B8] dark:text-slate-400 group-focus-within:text-[#5B5FF6] dark:group-focus-within:text-indigo-400 transition-colors" />
             <input 
               type="text" 
               placeholder="Search intelligence..." 
-              className="w-full bg-[#F8FAFC] border border-[#EAECEF] rounded-xl py-2.5 pl-10 pr-4 text-[14px] focus:outline-none focus:ring-2 focus:ring-[#5B5FF6]/20 focus:border-[#5B5FF6] transition-all"
+              className="w-full bg-[#F8FAFC] dark:bg-slate-900 border border-[#EAECEF] dark:border-slate-700 rounded-xl py-2.5 pl-10 pr-4 text-[14px] focus:outline-none focus:ring-2 focus:ring-[#5B5FF6]/20 focus:border-[#5B5FF6] transition-all"
             />
           </div>
         </div>
 
         <div className="flex items-center gap-5">
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-[#F0FDF4] rounded-full border border-[#DCFCE7]">
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-[#F0FDF4] dark:bg-slate-900 rounded-full border border-[#DCFCE7] dark:border-slate-700">
             <div className="w-1.5 h-1.5 bg-[#10B981] rounded-full animate-pulse" />
             <span className="text-[11px] font-bold text-[#10B981] uppercase tracking-wider">AI Live</span>
           </div>
-          <button className="p-2 hover:bg-[#F8FAFC] rounded-xl transition-colors relative">
-            <Bell className="w-5 h-5 text-[#64748B]" />
-            <div className="absolute top-2 right-2 w-2 h-2 bg-[#EF4444] rounded-full border-2 border-white" />
+          <button className="p-2 hover:bg-[#F8FAFC] dark:hover:bg-slate-800 rounded-xl transition-colors relative">
+            <Bell className="w-5 h-5 text-[#64748B] dark:text-slate-300" />
+            <div className="absolute top-2 right-2 w-2 h-2 bg-[#EF4444] rounded-full border-2 border-white dark:border-slate-700" />
           </button>
           <div className="flex items-center gap-3 pl-2">
             <div className="w-9 h-9 bg-gradient-to-br from-[#5B5FF6] to-[#818CF8] rounded-full" />
@@ -178,14 +178,14 @@ export default function AgencyDashboard() {
               <div className="p-8 pb-0 flex items-center justify-between">
                 <div>
                   <h2 className="text-[24px] font-bold tracking-tight">Revenue Forecast</h2>
-                  <p className="text-[#64748B] text-[14px]">Projected pipeline performance • Q3–Q4</p>
+                  <p className="text-[#64748B] dark:text-slate-300 text-[14px]">Projected pipeline performance • Q3–Q4</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-2 px-3 py-1.5 bg-[#F0FDF4] rounded-full border border-[#DCFCE7]">
+                  <div className="flex items-center gap-2 px-3 py-1.5 bg-[#F0FDF4] dark:bg-slate-900 rounded-full border border-[#DCFCE7] dark:border-slate-700">
                     <div className="w-2 h-2 bg-[#10B981] rounded-full" />
                     <span className="text-[11px] font-bold text-[#10B981] uppercase tracking-wider">94% Confidence</span>
                   </div>
-                  <div className="px-3 py-1.5 bg-[#F8FAFC] rounded-full border border-[#EAECEF] text-[11px] font-bold text-[#64748B] uppercase tracking-wider">
+                  <div className="px-3 py-1.5 bg-[#F8FAFC] dark:bg-slate-900 rounded-full border border-[#EAECEF] dark:border-slate-700 text-[11px] font-bold text-[#64748B] dark:text-slate-300 uppercase tracking-wider">
                     Live AI Forecast
                   </div>
                 </div>
@@ -204,10 +204,10 @@ export default function AgencyDashboard() {
                       `}
                       style={{ height: `${val * 1.5}px` }}
                     />
-                    <span className="text-[10px] font-semibold text-[#94A3B8]">{['J','F','M','A','M','J','J','A','S','O','N','D'][i]}</span>
+                    <span className="text-[10px] font-semibold text-[#94A3B8] dark:text-slate-400">{['J','F','M','A','M','J','J','A','S','O','N','D'][i]}</span>
                     
                     {/* Tooltip on hover */}
-                    <div className="absolute bottom-full mb-2 bg-[#0F172A] text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
+                    <div className="absolute bottom-full mb-2 bg-[#0F172A] dark:bg-slate-700 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
                       ₹{(val * 1000).toLocaleString()}
                     </div>
                   </div>
@@ -215,7 +215,7 @@ export default function AgencyDashboard() {
               </div>
 
               {/* AI Insight Bar */}
-              <div className="bg-[#0F172A] p-4 flex items-center gap-3">
+              <div className="bg-[#0F172A] dark:bg-slate-700 p-4 flex items-center gap-3">
                 <Sparkles className="w-4 h-4 text-[#818CF8]" />
                 <p className="text-[13px] text-white/90">
                   Forecast momentum increased <span className="text-[#10B981] font-bold">18%</span> after AI-led follow-up automation optimization.
@@ -240,7 +240,7 @@ export default function AgencyDashboard() {
             <Card dark className="h-full">
               <div className="flex items-center justify-between mb-8">
                 <h2 className="text-white text-[20px] font-bold">Executive Intelligence Summary</h2>
-                <button className="bg-white text-[#0F172A] px-4 py-2 rounded-xl text-[13px] font-bold hover:bg-[#F8FAFC] transition-colors">
+                <button className="bg-white dark:bg-slate-900 text-[#0F172A] dark:text-slate-100 px-4 py-2 rounded-xl text-[13px] font-bold hover:bg-[#F8FAFC] dark:hover:bg-slate-800 transition-colors">
                   Generate Full Report
                 </button>
               </div>
@@ -267,12 +267,12 @@ export default function AgencyDashboard() {
             <Card className="h-full flex flex-col justify-between border-dashed border-2 border-[#5B5FF6]/30 bg-[#5B5FF6]/5">
               <div>
                 <div className="flex items-center gap-2 mb-6">
-                  <Sparkles className="w-5 h-5 text-[#5B5FF6]" />
+                  <Sparkles className="w-5 h-5 text-[#5B5FF6] dark:text-indigo-400" />
                   <h2 className="text-[18px] font-bold">Revenue Assistant</h2>
                 </div>
                 <div className="space-y-3">
                   {['Analyze pipeline risk', 'Show lead decay', 'Predict close probability'].map((s, i) => (
-                    <button key={i} className="w-full text-left px-4 py-3 bg-white border border-[#EAECEF] rounded-xl text-[13px] font-medium hover:border-[#5B5FF6] hover:text-[#5B5FF6] transition-all">
+                    <button key={i} className="w-full text-left px-4 py-3 bg-white dark:bg-slate-900 border border-[#EAECEF] dark:border-slate-700 rounded-xl text-[13px] font-medium hover:border-[#5B5FF6] hover:text-[#5B5FF6] dark:hover:text-indigo-400 transition-all">
                       {s}
                     </button>
                   ))}
@@ -282,7 +282,7 @@ export default function AgencyDashboard() {
                 <input 
                   type="text" 
                   placeholder="Ask revenue intelligence..." 
-                  className="w-full bg-white border border-[#EAECEF] rounded-xl py-3 pl-4 pr-10 text-[14px] focus:outline-none focus:border-[#5B5FF6]"
+                  className="w-full bg-white dark:bg-slate-900 border border-[#EAECEF] dark:border-slate-700 rounded-xl py-3 pl-4 pr-10 text-[14px] focus:outline-none focus:border-[#5B5FF6]"
                 />
                 <button className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 bg-[#5B5FF6] text-white rounded-lg">
                   <ArrowRight className="w-4 h-4" />
@@ -299,24 +299,24 @@ export default function AgencyDashboard() {
             <h3 className="small-label mb-6">Revenue Audit</h3>
             <div className="flex items-center justify-between mb-8">
               <div>
-                <p className="text-[24px] font-bold text-[#EF4444]">₹84,000<span className="text-[14px] text-[#94A3B8] font-medium">/mo</span></p>
-                <p className="text-[12px] font-semibold text-[#64748B] uppercase tracking-wider">Leak Velocity</p>
+                <p className="text-[24px] font-bold text-[#EF4444]">₹84,000<span className="text-[14px] text-[#94A3B8] dark:text-slate-400 font-medium">/mo</span></p>
+                <p className="text-[12px] font-semibold text-[#64748B] dark:text-slate-300 uppercase tracking-wider">Leak Velocity</p>
               </div>
               <div className="text-right">
                 <p className="text-[14px] font-bold">Abandonment</p>
-                <p className="text-[12px] font-semibold text-[#94A3B8] uppercase tracking-wider">Primary Vector</p>
+                <p className="text-[12px] font-semibold text-[#94A3B8] dark:text-slate-400 uppercase tracking-wider">Primary Vector</p>
               </div>
             </div>
-            <div className="p-4 bg-[#F0FDF4] rounded-2xl border border-[#DCFCE7] mb-6">
+            <div className="p-4 bg-[#F0FDF4] dark:bg-slate-900 rounded-2xl border border-[#DCFCE7] dark:border-slate-700 mb-6">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[12px] font-bold text-[#10B981]">84% Recoverable</span>
                 <span className="text-[11px] font-medium text-[#10B981]">via Automation</span>
               </div>
-              <div className="h-1.5 bg-[#DCFCE7] rounded-full overflow-hidden">
+              <div className="h-1.5 bg-[#DCFCE7] dark:bg-slate-800 rounded-full overflow-hidden">
                 <div className="h-full bg-[#10B981]" style={{ width: '84%' }} />
               </div>
             </div>
-            <button className="w-full flex items-center justify-center gap-2 text-[13px] font-bold text-[#5B5FF6] hover:underline">
+            <button className="w-full flex items-center justify-center gap-2 text-[13px] font-bold text-[#5B5FF6] dark:text-indigo-400 hover:underline">
               View AI Analysis <ArrowRight className="w-4 h-4" />
             </button>
           </Card>
@@ -333,9 +333,9 @@ export default function AgencyDashboard() {
                 <div key={i} className="space-y-2">
                   <div className="flex items-center justify-between text-[13px] font-bold">
                     <span>{item.label}</span>
-                    <span className="text-[#64748B]">{item.value}%</span>
+                    <span className="text-[#64748B] dark:text-slate-300">{item.value}%</span>
                   </div>
-                  <div className="h-1.5 bg-[#F8FAFC] rounded-full overflow-hidden border border-[#EAECEF]">
+                  <div className="h-1.5 bg-[#F8FAFC] dark:bg-slate-900 rounded-full overflow-hidden border border-[#EAECEF] dark:border-slate-700">
                     <div className="h-full rounded-full transition-all duration-500" style={{ width: `${item.value}%`, backgroundColor: item.color }} />
                   </div>
                 </div>
@@ -352,19 +352,19 @@ export default function AgencyDashboard() {
                 { name: 'Mike K.', leads: 38, score: 92 },
                 { name: 'AI Automator', leads: 156, score: 99 }
               ].map((member, i) => (
-                <div key={i} className="flex items-center justify-between p-3 bg-[#F8FAFC] rounded-xl border border-[#EAECEF]">
+                <div key={i} className="flex items-center justify-between p-3 bg-[#F8FAFC] dark:bg-slate-900 rounded-xl border border-[#EAECEF] dark:border-slate-700">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-white rounded-lg border border-[#EAECEF] flex items-center justify-center font-bold text-[12px]">
+                    <div className="w-8 h-8 bg-white dark:bg-slate-900 rounded-lg border border-[#EAECEF] dark:border-slate-700 flex items-center justify-center font-bold text-[12px]">
                       {member.name[0]}
                     </div>
                     <div>
                       <p className="text-[13px] font-bold">{member.name}</p>
-                      <p className="text-[11px] text-[#94A3B8]">{member.leads} Signals</p>
+                      <p className="text-[11px] text-[#94A3B8] dark:text-slate-400">{member.leads} Signals</p>
                     </div>
                   </div>
                   <div className="text-right">
                     <p className="text-[13px] font-bold text-[#10B981]">{member.score}%</p>
-                    <p className="text-[11px] text-[#94A3B8] font-medium uppercase">Efficiency</p>
+                    <p className="text-[11px] text-[#94A3B8] dark:text-slate-400 font-medium uppercase">Efficiency</p>
                   </div>
                 </div>
               ))}
@@ -379,27 +379,27 @@ export default function AgencyDashboard() {
             <Card>
               <div className="flex items-center justify-between mb-8">
                 <h2 className="text-[18px] font-bold">Intelligence Feed</h2>
-                <button className="text-[12px] font-bold text-[#5B5FF6] flex items-center gap-1">
+                <button className="text-[12px] font-bold text-[#5B5FF6] dark:text-indigo-400 flex items-center gap-1">
                   View All <ArrowRight className="w-3 h-3" />
                 </button>
               </div>
-              <div className="divide-y divide-[#EAECEF]">
+              <div className="divide-y divide-[#EAECEF] dark:divide-slate-700">
                 {activity.map((item) => (
                   <div key={item.id} className="py-4 first:pt-0 last:pb-0 flex items-center justify-between group">
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 bg-[#F8FAFC] rounded-xl border border-[#EAECEF] flex items-center justify-center group-hover:border-[#5B5FF6]/30 transition-colors">
-                        <item.icon className="w-5 h-5 text-[#94A3B8] group-hover:text-[#5B5FF6] transition-colors" />
+                      <div className="w-10 h-10 bg-[#F8FAFC] dark:bg-slate-900 rounded-xl border border-[#EAECEF] dark:border-slate-700 flex items-center justify-center group-hover:border-[#5B5FF6]/30 transition-colors">
+                        <item.icon className="w-5 h-5 text-[#94A3B8] dark:text-slate-400 group-hover:text-[#5B5FF6] dark:group-hover:text-indigo-400 transition-colors" />
                       </div>
                       <div>
                         <p className="text-[14px] font-bold">{item.action}</p>
                         <div className="flex items-center gap-2 mt-0.5">
-                          <span className="text-[12px] text-[#64748B]">{item.client}</span>
+                          <span className="text-[12px] text-[#64748B] dark:text-slate-300">{item.client}</span>
                           <span className="text-[#EAECEF]">·</span>
-                          <span className="text-[12px] text-[#94A3B8]">{item.actor}</span>
+                          <span className="text-[12px] text-[#94A3B8] dark:text-slate-400">{item.actor}</span>
                         </div>
                       </div>
                     </div>
-                    <span className="text-[12px] font-medium text-[#94A3B8]">{item.time}</span>
+                    <span className="text-[12px] font-medium text-[#94A3B8] dark:text-slate-400">{item.time}</span>
                   </div>
                 ))}
               </div>
@@ -427,7 +427,7 @@ export default function AgencyDashboard() {
                       }}
                     />
                     <div className="absolute inset-0 px-4 flex items-center justify-between">
-                      <span className="text-[13px] font-bold text-[#0F172A]">{step.label}</span>
+                      <span className="text-[13px] font-bold text-[#0F172A] dark:text-slate-100">{step.label}</span>
                       <span className="text-[14px] font-bold">{step.count}</span>
                     </div>
                   </div>

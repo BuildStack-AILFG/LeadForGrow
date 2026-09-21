@@ -20,7 +20,7 @@ function renderMarkdown(text) {
 
 function MetricPill({ icon: Icon, label, value, color }) {
   return (
-    <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 border border-white/10">
+    <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 dark:bg-slate-900/5 border border-white/10">
       <Icon className={`w-3.5 h-3.5 ${color}`} />
       <div>
         <p className="text-[10px] text-slate-400 uppercase tracking-wide">{label}</p>
@@ -89,12 +89,12 @@ export default function BusinessAssistantPanel() {
                     <button
                       type="button"
                       onClick={() => chat.reset()}
-                      className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                      className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 dark:hover:bg-slate-800/10 transition-colors"
                       title="Reset chat"
                     >
                       <RotateCcw className="w-4 h-4" />
                     </button>
-                    <button type="button" onClick={close} className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors">
+                    <button type="button" onClick={close} className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 dark:hover:bg-slate-800/10 transition-colors">
                       <X className="w-4 h-4" />
                     </button>
                   </div>
@@ -126,12 +126,12 @@ export default function BusinessAssistantPanel() {
                           ? 'bg-teal-700 text-white rounded-br-md'
                           : msg.error
                             ? 'bg-red-500/10 text-red-300 border border-red-500/20 rounded-bl-md'
-                            : 'bg-white/[0.06] text-slate-200 border border-white/[0.08] rounded-bl-md'
+                            : 'bg-white dark:bg-slate-900/[0.06] text-slate-200 border border-white dark:border-slate-700/[0.08] rounded-bl-md'
                       }`}
                       dangerouslySetInnerHTML={{ __html: renderMarkdown(msg.content) }}
                     />
                     {msg.source && msg.role === 'assistant' && (
-                      <p className="text-[10px] text-slate-600 mt-1 ml-1">{msg.source === 'ai' ? 'Live data' : 'Insights'}</p>
+                      <p className="text-[10px] text-slate-600 dark:text-slate-300 mt-1 ml-1">{msg.source === 'ai' ? 'Live data' : 'Insights'}</p>
                     )}
                     {msg.suggestions && (
                       <div className="mt-3 flex flex-col gap-1.5">
@@ -140,7 +140,7 @@ export default function BusinessAssistantPanel() {
                             key={s}
                             type="button"
                             onClick={() => chat.sendMessage(s)}
-                            className="group flex items-center justify-between px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-left text-xs text-slate-300 hover:bg-teal-500/10 hover:border-teal-500/30 hover:text-teal-300 transition-all"
+                            className="group flex items-center justify-between px-3 py-2.5 rounded-xl bg-white dark:bg-slate-900/[0.04] border border-white dark:border-slate-700/[0.08] text-left text-xs text-slate-300 hover:bg-teal-500/10 hover:border-teal-500/30 hover:text-teal-300 transition-all"
                           >
                             {s}
                             <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -157,7 +157,7 @@ export default function BusinessAssistantPanel() {
                   <div className="w-7 h-7 rounded-lg bg-teal-500/15 border border-teal-500/25 flex items-center justify-center text-teal-400">
                     <GroviaIcon className="w-3.5 h-3.5" />
                   </div>
-                  <div className="px-4 py-3 rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center gap-2">
+                  <div className="px-4 py-3 rounded-2xl bg-white dark:bg-slate-900/[0.04] border border-white dark:border-slate-700/[0.08] flex items-center gap-2">
                     <Loader2 className="w-4 h-4 text-teal-400 animate-spin" />
                     <span className="text-xs text-slate-400">Checking your numbers…</span>
                   </div>
@@ -167,7 +167,7 @@ export default function BusinessAssistantPanel() {
             </div>
 
             {/* Input */}
-            <div className="shrink-0 p-4 border-t border-white/[0.06] bg-[#0a0f1a]/80 backdrop-blur">
+            <div className="shrink-0 p-4 border-t border-white dark:border-slate-700/[0.06] bg-[#0a0f1a]/80 backdrop-blur">
               <form
                 onSubmit={(e) => { e.preventDefault(); chat.sendMessage(); }}
                 className="flex items-end gap-2"
@@ -183,7 +183,7 @@ export default function BusinessAssistantPanel() {
                   }}
                   rows={1}
                   placeholder="Ask about pipeline, leads, automations…"
-                  className="flex-1 resize-none px-4 py-3 rounded-xl bg-white/[0.06] border border-white/10 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500/40 max-h-28"
+                  className="flex-1 resize-none px-4 py-3 rounded-xl bg-white dark:bg-slate-900/[0.06] border border-white/10 text-sm text-white placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/40 max-h-28"
                 />
                 <button
                   type="submit"
@@ -193,7 +193,7 @@ export default function BusinessAssistantPanel() {
                   <Send className="w-4 h-4" />
                 </button>
               </form>
-              <p className="text-[10px] text-slate-600 text-center mt-2">
+              <p className="text-[10px] text-slate-600 dark:text-slate-300 text-center mt-2">
                 {ASSISTANT_NAME} · Private to your team · Not visible to leads
               </p>
             </div>

@@ -5,7 +5,7 @@ export const metadata = {
   description: "Launch secure, fast, and branded agency websites with LeadForGrow. Global edge hosting, free SSL, and one-click custom domain setup. Build trust instantly.",
   keywords: ["agency website hosting", "custom domain for SaaS", "secure lead capture hosting India", "unlimited website hosting", "fast edge hosting for funnels"],
   alternates: {
-    canonical: 'https://leadforgrow.online/product/hosting'
+    canonical: 'https://www.leadforgrow.com/product/hosting'
   }
 };
 

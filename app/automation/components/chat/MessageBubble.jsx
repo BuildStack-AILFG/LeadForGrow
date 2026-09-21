@@ -9,6 +9,7 @@ import {
 import { formatFileSize } from '@/lib/omnichannel/mediaTypes';
 import { decodeMetaError, extractErrorCode } from '@/lib/whatsapp/metaErrors';
 import { ORIGIN_META } from './constants';
+import { splitQuotedBody } from '@/lib/omnichannel/emailThread';
 
 /**
  * Rewrite a Cloudinary URL so the file downloads instead of trying to
@@ -36,17 +37,17 @@ function toDownloadUrl(url) {
  */
 function iconForMime(mimeType = '') {
   const t = mimeType.toLowerCase();
-  if (t.startsWith('image/')) return { Icon: ImageIcon, color: 'text-emerald-600' };
-  if (t.startsWith('video/')) return { Icon: Film, color: 'text-violet-600' };
-  if (t.startsWith('audio/')) return { Icon: Music, color: 'text-amber-600' };
-  if (t.includes('pdf')) return { Icon: FileText, color: 'text-rose-600' };
+  if (t.startsWith('image/')) return { Icon: ImageIcon, color: 'text-emerald-600 dark:text-emerald-400' };
+  if (t.startsWith('video/')) return { Icon: Film, color: 'text-violet-600 dark:text-violet-400' };
+  if (t.startsWith('audio/')) return { Icon: Music, color: 'text-amber-600 dark:text-amber-400' };
+  if (t.includes('pdf')) return { Icon: FileText, color: 'text-rose-600 dark:text-rose-400' };
   if (t.includes('word') || t.includes('officedocument.word')) {
-    return { Icon: FileText, color: 'text-blue-600' };
+    return { Icon: FileText, color: 'text-blue-600 dark:text-blue-400' };
   }
   if (t.includes('sheet') || t.includes('excel') || t.includes('officedocument.spreadsheet')) {
-    return { Icon: FileText, color: 'text-green-700' };
+    return { Icon: FileText, color: 'text-green-700 dark:text-green-300' };
   }
-  return { Icon: FileIcon, color: 'text-slate-500' };
+  return { Icon: FileIcon, color: 'text-slate-500 dark:text-slate-400' };
 }
 
 /**
@@ -57,7 +58,7 @@ function iconForMime(mimeType = '') {
  * Images use an inline thumbnail preview; everything else is a filename + size
  * download card. The click always opens/downloads via the Cloudinary URL.
  */
-function AttachmentCards({ attachments }) {
+export function AttachmentCards({ attachments }) {
   if (!Array.isArray(attachments) || attachments.length === 0) return null;
   return (
     <div className="flex flex-col gap-1.5 mb-1.5">
@@ -102,14 +103,14 @@ function AttachmentCards({ attachments }) {
             key={att.url || i}
             href={href}
             download={att.fileName}
-            className="flex items-center gap-2 p-2.5 rounded-lg bg-slate-100/80 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 hover:bg-slate-200/80 transition-colors max-w-[320px]"
+            className="flex items-center gap-2 p-2.5 rounded-lg bg-slate-100/80 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 hover:bg-slate-200/80 dark:hover:bg-slate-700/80 transition-colors max-w-[320px]"
             title={`Download ${att.fileName}`}
           >
             <Icon className={`w-5 h-5 flex-shrink-0 ${color}`} />
             <div className="min-w-0 flex-1">
               <p className="text-xs font-medium truncate">{att.fileName}</p>
               {att.size ? (
-                <p className="text-[10px] text-slate-500">{formatFileSize(att.size)}</p>
+                <p className="text-[10px] text-slate-500 dark:text-slate-400">{formatFileSize(att.size)}</p>
               ) : null}
             </div>
             <Download className="w-4 h-4 text-slate-400 flex-shrink-0" />
@@ -157,12 +158,12 @@ function MediaContent({ message }) {
         download={fileName}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-2 p-2.5 mb-1 rounded-lg bg-slate-100/80 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 hover:bg-slate-200/80 transition-colors"
+        className="flex items-center gap-2 p-2.5 mb-1 rounded-lg bg-slate-100/80 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 hover:bg-slate-200/80 dark:hover:bg-slate-700/80 transition-colors"
       >
-        <FileText className="w-5 h-5 text-teal-600 flex-shrink-0" />
+        <FileText className="w-5 h-5 text-teal-600 dark:text-teal-400 flex-shrink-0" />
         <div className="min-w-0 flex-1">
           <p className="text-xs font-medium truncate">{fileName}</p>
-          {content?.fileSize && <p className="text-[10px] text-slate-500">{formatFileSize(content.fileSize)}</p>}
+          {content?.fileSize && <p className="text-[10px] text-slate-500 dark:text-slate-400">{formatFileSize(content.fileSize)}</p>}
         </div>
         <Download className="w-4 h-4 text-slate-400 flex-shrink-0" />
       </a>
@@ -179,20 +180,20 @@ function MediaContent({ message }) {
  * Same name always produces the same color — deterministic hash of the
  * first character.
  */
-function InitialAvatar({ name = '?', size = 'sm' }) {
+export function InitialAvatar({ name = '?', size = 'sm' }) {
   const ch = (name.trim()[0] || '?').toUpperCase();
   // Palette rotated by char code — matches Gmail's approach of "same
   // sender = same tile color forever," which agents rely on for quick
   // visual scan of a thread.
   const palette = [
-    'bg-emerald-100 text-emerald-800',
-    'bg-blue-100 text-blue-800',
-    'bg-violet-100 text-violet-800',
-    'bg-rose-100 text-rose-800',
-    'bg-amber-100 text-amber-800',
-    'bg-cyan-100 text-cyan-800',
-    'bg-fuchsia-100 text-fuchsia-800',
-    'bg-teal-100 text-teal-800',
+    'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-200',
+    'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200',
+    'bg-violet-100 dark:bg-violet-900/30 text-violet-800 dark:text-violet-200',
+    'bg-rose-100 dark:bg-rose-900/30 text-rose-800 dark:text-rose-200',
+    'bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200',
+    'bg-cyan-100 dark:bg-cyan-900/30 text-cyan-800 dark:text-cyan-200',
+    'bg-fuchsia-100 dark:bg-fuchsia-900/30 text-fuchsia-800 dark:text-fuchsia-200',
+    'bg-teal-100 dark:bg-teal-900/30 text-teal-800 dark:text-teal-200',
   ];
   const color = palette[ch.charCodeAt(0) % palette.length];
   const dim = size === 'sm' ? 'w-6 h-6 text-[10px]' : 'w-8 h-8 text-xs';
@@ -276,7 +277,7 @@ function EmailSenderHeader({ message, outgoing, conversation }) {
  * are given loading=lazy and max-width so a marketing email with 10 huge
  * hero images doesn't tank scroll performance.
  */
-function EmailHtmlBody({ html }) {
+export function EmailHtmlBody({ html }) {
   return (
     <div
       className="email-html-body max-w-full overflow-hidden text-sm leading-relaxed"
@@ -311,7 +312,7 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
   if (message.direction === 'system') {
     return (
       <div className="flex justify-center my-3">
-        <span className="px-3 py-1 text-[11px] text-slate-500 bg-white/80 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700 rounded-full shadow-sm">
+        <span className="px-3 py-1 text-[11px] text-slate-500 dark:text-slate-400 bg-white/80 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700 rounded-full shadow-sm">
           {message.content?.body}
         </span>
       </div>
@@ -331,7 +332,7 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
             type="button"
             onClick={() => onAction(message._id, 'restore')}
             title="Restore message"
-            className="ml-1 p-0.5 rounded text-slate-400 hover:text-teal-600 hover:bg-white dark:hover:bg-slate-700 opacity-0 group-hover:opacity-100 transition-opacity"
+            className="ml-1 p-0.5 rounded text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 hover:bg-white dark:hover:bg-slate-700 opacity-0 group-hover:opacity-100 transition-opacity"
           >
             <RotateCcw className="w-3.5 h-3.5" />
           </button>
@@ -352,45 +353,10 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
   // a "..." toggle so agents can peek at prior thread context without it
   // dominating the bubble. `newBody` is what shows by default; `quotedBody`
   // is the collapsed section revealed on click.
-  const { newBody, quotedBody } = useMemo(() => {
-    if (message.type !== 'email' || !rawBody) return { newBody: rawBody, quotedBody: '' };
-
-    // Find where the quoted section starts. Priority order matches how the
-    // three major mail clients wrap replies:
-    //   - Gmail:   "On <date>, <name> <email> wrote:"
-    //   - Outlook: "-----Original Message-----" divider
-    //   - Outlook: "From: X\nSent: Y" header block
-    //   - Everyone: leading ">" line prefixes (older clients)
-    const markers = [
-      /(^|\n)\s*On\s[\s\S]+?wrote:/i,
-      /(^|\n)\s*-----\s*Original Message\s*-----/i,
-      /(^|\n)\s*From:\s.+\r?\nSent:\s/i,
-    ];
-    let splitAt = -1;
-    for (const m of markers) {
-      const match = rawBody.match(m);
-      if (match) {
-        splitAt = match.index + (match[1] ? match[1].length : 0);
-        break;
-      }
-    }
-    // Fallback — if no explicit marker, look for the first run of ">" quoted
-    // lines and split there. Catches older mail clients that don't emit a
-    // "wrote:" preamble.
-    if (splitAt < 0) {
-      const lines = rawBody.split('\n');
-      const quoteStartIdx = lines.findIndex((line) => /^\s*>/.test(line));
-      if (quoteStartIdx > 0) {
-        splitAt = lines.slice(0, quoteStartIdx).join('\n').length;
-      }
-    }
-    if (splitAt < 0) return { newBody: rawBody, quotedBody: '' };
-
-    return {
-      newBody: rawBody.slice(0, splitAt).trim(),
-      quotedBody: rawBody.slice(splitAt).trim(),
-    };
-  }, [rawBody, message.type]);
+  const { newBody, quotedBody } = useMemo(
+    () => (message.type !== 'email' ? { newBody: rawBody, quotedBody: '' } : splitQuotedBody(rawBody)),
+    [rawBody, message.type]
+  );
   const bodyText = newBody;
   const [quoteExpanded, setQuoteExpanded] = useState(false);
 
@@ -436,7 +402,7 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
             <button
               type="button"
               onClick={() => onAction(message._id, 'reply')}
-              className="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-blue-600"
+              className="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400"
               title="Reply to this message"
             >
               <CornerUpLeft className="w-3.5 h-3.5" />
@@ -445,7 +411,7 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
           <button
             type="button"
             onClick={() => onAction(message._id, message.starred ? 'unstar' : 'star')}
-            className={`p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 ${message.starred ? 'text-green-600' : 'text-slate-400'}`}
+            className={`p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 ${message.starred ? 'text-green-600 dark:text-green-400' : 'text-slate-400'}`}
             title={message.starred ? 'Remove star' : 'Star message'}
           >
             <Star className="w-3.5 h-3.5" fill={message.starred ? 'currentColor' : 'none'} />
@@ -453,7 +419,7 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
           <button
             type="button"
             onClick={() => onAction(message._id, 'trash')}
-            className="p-1 rounded text-slate-400 hover:text-rose-600 hover:bg-slate-100 dark:hover:bg-slate-800"
+            className="p-1 rounded text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-slate-100 dark:hover:bg-slate-800"
             title="Delete message"
             aria-label="Delete message"
           >
@@ -514,7 +480,7 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
             <button
               type="button"
               onClick={() => setQuoteExpanded((v) => !v)}
-              className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-slate-500 hover:text-slate-800 hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition-colors leading-none"
+              className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-100 hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition-colors leading-none"
               title={quoteExpanded ? 'Hide quoted history' : 'Show quoted history'}
               aria-expanded={quoteExpanded}
             >
@@ -567,7 +533,7 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
   );
 }
 
-function FailedIndicator({ message }) {
+export function FailedIndicator({ message }) {
   const [open, setOpen] = useState(false);
   const err = message.rawMetadata?.deliveryError || message.error;
   const raw = typeof err === 'string' ? err : (err?.details || err?.message || '');
@@ -583,7 +549,7 @@ function FailedIndicator({ message }) {
       <button
         type="button"
         onClick={(e) => { e.stopPropagation(); setOpen((v) => !v); }}
-        className="inline-flex items-center gap-1 text-[9px] font-semibold text-red-500 hover:text-red-700 cursor-pointer"
+        className="inline-flex items-center gap-1 text-[9px] font-semibold text-red-500 hover:text-red-700 dark:hover:text-red-300 cursor-pointer"
         title="Click to see why it failed"
       >
         <AlertCircle className="w-3 h-3" /> Failed
@@ -595,7 +561,7 @@ function FailedIndicator({ message }) {
         >
           <div className="flex items-start gap-2 mb-1.5">
             {decoded?.code && (
-              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-red-50 border border-red-200 text-red-700 shrink-0">
+              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 shrink-0">
                 {decoded.code}
               </span>
             )}
@@ -614,12 +580,12 @@ function FailedIndicator({ message }) {
             </p>
           )}
           {raw && !decoded?.isKnown && (
-            <p className="text-[10px] text-slate-500 font-mono break-words">{String(raw).slice(0, 240)}</p>
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-mono break-words">{String(raw).slice(0, 240)}</p>
           )}
           <button
             type="button"
             onClick={() => setOpen(false)}
-            className="mt-2 text-[10px] text-slate-500 hover:underline"
+            className="mt-2 text-[10px] text-slate-500 dark:text-slate-400 hover:underline"
           >
             Close
           </button>

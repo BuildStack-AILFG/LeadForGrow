@@ -1,7 +1,11 @@
+import { disconnectInstagram } from '@/lib/social/disconnect';
 import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import Business from '@/models/Business';
 import { withPlanAccess } from '@/lib/accessControl';
+import { encryptOnce } from '@/lib/encryption';
+import { serializeCommentRule, sanitizeCommentRules } from '@/lib/automation/commentRules';
+import { getSafetySummary } from '@/lib/social/sendSafety';
 
 export const GET = withPlanAccess('settings', async (req) => {
   try {
@@ -21,8 +25,12 @@ export const GET = withPlanAccess('settings', async (req) => {
       profilePicture: ig.profilePicture,
       accessToken: ig.accessToken ? '••••' : undefined,
       webhookStatus: ig.webhookStatus || (enabled ? 'active' : 'pending'),
+      aiReplyEnabled: !!ig.aiReplyEnabled,
+      commentLeadMode: ig.commentLeadMode === 'all' ? 'all' : 'matched',
+      safety: await getSafetySummary(business._id, 'instagram'),
       lastSyncAt: ig.lastSyncAt || ig.lastVerified || fb.lastVerified,
       lastVerified: ig.lastVerified,
+      commentAutomations: (ig.commentAutomations || []).map(serializeCommentRule),
     };
 
     return NextResponse.json({ success: true, data: { instagram } });
@@ -49,22 +57,107 @@ export const POST = withPlanAccess('settings', async (req) => {
   }
 });
 
+// Manual connect — paste a Page ID + Page Access Token directly (used when the
+// full Meta OAuth app isn't set up yet, and for Phase-1 testing). The webhook
+// matches inbound events by integrationCredentials.instagram.pageId.
+export const PUT = withPlanAccess('settings', async (req) => {
+  try {
+    await dbConnect();
+    const body = await req.json();
+    const pageId = (body.pageId || '').trim();
+    const accessToken = (body.accessToken || '').trim();
+    const username = (body.username || '').trim();
+    const igUserId = (body.igUserId || '').trim();
+
+    if (!pageId || !accessToken) {
+      return NextResponse.json(
+        { success: false, error: 'Page ID and Access Token are both required' },
+        { status: 400 }
+      );
+    }
+
+    const business = await Business.findById(req.user.businessId);
+    if (!business) return NextResponse.json({ success: false, error: 'Not found' }, { status: 404 });
+
+    business.integrationCredentials = business.integrationCredentials || {};
+    business.integrationCredentials.instagram = {
+      ...(business.integrationCredentials.instagram || {}),
+      enabled: true,
+      pageId,
+      accessToken: encryptOnce(accessToken), // encrypted at rest
+      igUserId: igUserId || business.integrationCredentials.instagram?.igUserId || null,
+      username: username || business.integrationCredentials.instagram?.username || null,
+      webhookStatus: 'active',
+      disconnectedAt: null,
+      lastVerified: new Date(),
+    };
+    business.markModified('integrationCredentials');
+    await business.save();
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+});
+
+// Save the keyword comment-automation rules and/or the channel AI switch.
+export const PATCH = withPlanAccess('settings', async (req) => {
+  try {
+    await dbConnect();
+    const body = await req.json();
+    const rules = Array.isArray(body.commentAutomations) ? body.commentAutomations : null;
+    const leadMode = ['matched', 'all'].includes(body.commentLeadMode) ? body.commentLeadMode : null;
+    if (!rules && typeof body.aiReplyEnabled !== 'boolean' && !leadMode) {
+      return NextResponse.json({ success: false, error: 'commentAutomations, aiReplyEnabled or commentLeadMode required' }, { status: 400 });
+    }
+
+    const business = await Business.findById(req.user.businessId);
+    if (!business) return NextResponse.json({ success: false, error: 'Not found' }, { status: 404 });
+
+    business.integrationCredentials = business.integrationCredentials || {};
+    business.integrationCredentials.instagram = business.integrationCredentials.instagram || {};
+
+    if (rules) {
+      business.integrationCredentials.instagram.commentAutomations = sanitizeCommentRules(
+        rules,
+        business.integrationCredentials.instagram.commentAutomations
+      );
+    }
+
+    if (typeof body.aiReplyEnabled === 'boolean') {
+      business.integrationCredentials.instagram.aiReplyEnabled = body.aiReplyEnabled;
+    }
+    if (leadMode) {
+      business.integrationCredentials.instagram.commentLeadMode = leadMode;
+    }
+
+    business.markModified('integrationCredentials');
+    await business.save();
+
+    return NextResponse.json({
+      success: true,
+      data: {
+        commentAutomations: (business.integrationCredentials.instagram.commentAutomations || []).map(serializeCommentRule),
+        aiReplyEnabled: !!business.integrationCredentials.instagram.aiReplyEnabled,
+        commentLeadMode: business.integrationCredentials.instagram.commentLeadMode === 'all' ? 'all' : 'matched',
+      },
+    });
+  } catch (error) {
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+});
+
 export const DELETE = withPlanAccess('settings', async (req) => {
   try {
     await dbConnect();
     const business = await Business.findById(req.user.businessId);
     if (!business) return NextResponse.json({ success: false, error: 'Not found' }, { status: 404 });
-    business.integrationCredentials.instagram = {
-      enabled: false,
-      pageId: null,
-      igUserId: null,
-      username: null,
-      accessToken: null,
-      profilePicture: null,
-      webhookStatus: 'pending',
-    };
+    // Stops Meta's events, clears the credentials and marks the account disconnected. Automation rules, the AI
+    // switch and "create a lead from" stay saved (they can't run while disconnected); leads and conversations are kept.
+    const result = await disconnectInstagram(business);
+    business.markModified('integrationCredentials');
     await business.save();
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, webhook: result.webhook, keptRules: result.keptRules });
   } catch (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }

@@ -36,7 +36,7 @@ export default function CRMFilterBar({
             onClick={() => onFilterChange({ view: view.id, status: 'all' })}
             className={`px-3 py-1.5 text-[14px] font-medium rounded whitespace-nowrap transition-colors ${filters.view === view.id
                 ? 'bg-teal-600 text-white shadow-sm'
-                : 'bg-white dark:bg-slate-900 text-[#222222] dark:text-slate-300 border border-[#D0D4E1] dark:border-slate-700 hover:border-teal-300'
+                : 'bg-white dark:bg-slate-900 text-[#222222] dark:text-slate-300 border border-[#D0D4E1] dark:border-slate-700 hover:border-teal-300 dark:hover:border-teal-700'
               }`}
           >
             {view.label}
@@ -54,7 +54,7 @@ export default function CRMFilterBar({
               type="button"
               onClick={(e) => handleDeleteView(e, view)}
               title="Delete view"
-              className="p-0.5 rounded hover:bg-violet-100 dark:hover:bg-violet-900 text-violet-500 hover:text-violet-800"
+              className="p-0.5 rounded hover:bg-violet-100 dark:hover:bg-violet-900 text-violet-500 hover:text-violet-800 dark:hover:text-violet-200"
             >
               <X className="w-3 h-3" />
             </button>
@@ -103,7 +103,7 @@ export default function CRMFilterBar({
             type="checkbox"
             checked={!!filters.showConverted}
             onChange={(e) => onFilterChange({ showConverted: e.target.checked, view: 'all' })}
-            className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+            className="rounded border-slate-300 dark:border-slate-600 text-indigo-600 dark:text-indigo-400 focus:ring-indigo-500"
           />
           Show converted
         </label>
@@ -128,7 +128,7 @@ export default function CRMFilterBar({
             type="button"
             disabled={!saveName.trim()}
             onClick={() => { onSaveView(saveName.trim()); setSaveName(''); }}
-            className="p-2 rounded border border-[#D0D4E1] dark:border-slate-700 text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-40"
+            className="p-2 rounded border border-[#D0D4E1] dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-40"
             title="Save current filters"
           >
             <BookmarkPlus className="w-4 h-4" />
@@ -138,14 +138,14 @@ export default function CRMFilterBar({
 
       {showAdvanced && (
         <div className="flex flex-wrap items-center gap-2 p-3 bg-slate-50 dark:bg-slate-900/50 rounded border border-slate-100 dark:border-slate-800">
-          <label className="text-[14px] text-slate-500">From</label>
+          <label className="text-[14px] text-slate-500 dark:text-slate-400">From</label>
           <input
             type="date"
             value={filters.dateFrom}
             onChange={(e) => onFilterChange({ dateFrom: e.target.value })}
             className="text-[14px] px-2 py-1.5 border border-[#D0D4E1] dark:border-slate-700 rounded bg-white dark:bg-slate-900"
           />
-          <label className="text-[14px] text-slate-500">To</label>
+          <label className="text-[14px] text-slate-500 dark:text-slate-400">To</label>
           <input
             type="date"
             value={filters.dateTo}
@@ -156,7 +156,7 @@ export default function CRMFilterBar({
             <button
               type="button"
               onClick={() => onFilterChange({ dateFrom: '', dateTo: '' })}
-              className="text-xs text-teal-600 hover:underline"
+              className="text-xs text-teal-600 dark:text-teal-400 hover:underline"
             >
               Clear dates
             </button>

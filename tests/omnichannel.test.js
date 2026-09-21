@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import { CHANNELS, MESSAGE_ACTIVITY_MAP } from '../lib/omnichannel/constants.js';
 
 describe('Omnichannel constants', () => {
-  it('supports whatsapp, instagram, email channels', () => {
-    assert.deepEqual(CHANNELS, ['whatsapp', 'instagram', 'email']);
+  it('supports whatsapp, instagram, facebook, email channels', () => {
+    assert.deepEqual(CHANNELS, ['whatsapp', 'instagram', 'facebook', 'email']);
   });
 
   it('maps channels to activity types', () => {
@@ -14,7 +14,8 @@ describe('Omnichannel constants', () => {
   });
 
   it('maps all channel directions', () => {
-    for (const ch of CHANNELS) {
+    // Facebook deliberately has no Activity enum type yet: conversationService skips the activity when unmapped.
+    for (const ch of CHANNELS.filter((c) => c !== 'facebook')) {
       assert.ok(MESSAGE_ACTIVITY_MAP[ch].incoming);
       assert.ok(MESSAGE_ACTIVITY_MAP[ch].outgoing);
     }

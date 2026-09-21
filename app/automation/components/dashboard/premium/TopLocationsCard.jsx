@@ -60,7 +60,7 @@ function SimpleWorldMap({ highlightCountries = [] }) {
   );
 
   return (
-    <div className="rounded-[12px] border border-[#E8ECEF] overflow-hidden" style={{ backgroundColor: OCEAN }}>
+    <div className="rounded-[12px] border border-[#E8ECEF] dark:border-slate-700 overflow-hidden" style={{ backgroundColor: OCEAN }}>
       <ComposableMap
         projection="geoEqualEarth"
         projectionConfig={{ scale: 145 }}
@@ -110,10 +110,10 @@ export default function TopLocationsCard({ locations = [], onRefresh }) {
     <PremiumCard padding="p-4" className="h-full flex flex-col">
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex items-center gap-2.5">
-          <span className="flex items-center justify-center w-8 h-8 rounded-[9px] bg-[#E8EFFC] text-[#059669]">
+          <span className="flex items-center justify-center w-8 h-8 rounded-[9px] bg-[#E8EFFC] dark:bg-slate-800 text-[#059669] dark:text-emerald-400">
             <MapPin className="w-4 h-4" strokeWidth={2} />
           </span>
-          <h2 className="text-[13px] font-medium text-[#1A1D1F] tracking-[-0.01em]">
+          <h2 className="text-[13px] font-medium text-[#1A1D1F] dark:text-slate-100 tracking-[-0.01em]">
             Top Customer Locations
           </h2>
         </div>
@@ -134,10 +134,10 @@ export default function TopLocationsCard({ locations = [], onRefresh }) {
         <div className="mt-5 space-y-3.5 flex-1">
           {locations.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-8 gap-2 text-center">
-              <div className="w-11 h-11 rounded-full bg-[#F2F4F3] flex items-center justify-center">
+              <div className="w-11 h-11 rounded-full bg-[#F2F4F3] dark:bg-slate-900 flex items-center justify-center">
                 <MapPin className="w-5 h-5 text-[#CBD3DA]" />
               </div>
-              <p className="text-[13px] text-[#98A2B3] max-w-[200px]">
+              <p className="text-[13px] text-[#98A2B3] dark:text-slate-400 max-w-[200px]">
                 Add lead or contact locations to see insights
               </p>
             </div>
@@ -146,20 +146,20 @@ export default function TopLocationsCard({ locations = [], onRefresh }) {
               const widthPct = Math.max(8, (Number(loc.percent || 0) / maxPct) * 100);
               return (
                 <div key={loc.country || i} className="flex items-center gap-3">
-                  <span className="text-[12px] font-normal text-[#94A3B8] w-4 tabular-nums">
+                  <span className="text-[12px] font-normal text-[#94A3B8] dark:text-slate-400 w-4 tabular-nums">
                     {i + 1}
                   </span>
                   <span className="text-lg leading-none shrink-0">{getFlag(loc.country)}</span>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between mb-1.5 gap-2">
-                      <p className="text-[13px] font-normal text-[#475569] truncate">
+                      <p className="text-[13px] font-normal text-[#475569] dark:text-slate-300 truncate">
                         {loc.country}
                       </p>
-                      <span className="text-[13px] font-medium text-[#1A1D1F] tabular-nums shrink-0">
+                      <span className="text-[13px] font-medium text-[#1A1D1F] dark:text-slate-100 tabular-nums shrink-0">
                         {loc.percent}%
                       </span>
                     </div>
-                    <div className="h-2 rounded-full bg-[#EEF1F0] overflow-hidden">
+                    <div className="h-2 rounded-full bg-[#EEF1F0] dark:bg-slate-800 overflow-hidden">
                       <div
                         className="h-full rounded-full transition-[width] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
                         style={{

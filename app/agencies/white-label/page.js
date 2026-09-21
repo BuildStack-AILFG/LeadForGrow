@@ -5,7 +5,7 @@ export const metadata = {
   description: "Launch your own branded SaaS in minutes. LeadForGrow's white-label solution allows you to put your logo, domain, and colors on our elite technology.",
   keywords: ["white-label CRM for agencies", "branded lead management software", "resell SaaS marketing tools", "agency branded dashboard", "white label funnel builder India"],
   alternates: {
-    canonical: 'https://leadforgrow.online/agencies/white-label'
+    canonical: 'https://www.leadforgrow.com/agencies/white-label'
   }
 };
 

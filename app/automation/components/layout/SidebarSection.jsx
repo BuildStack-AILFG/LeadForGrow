@@ -52,7 +52,7 @@ export default function SidebarSection({
     // with no gap between them — header has no own margin/bg, the parent
     // div carries the mint tint continuously through both when open, so
     // there's no seam of white between the header and the first item.
-    <div className={open ? 'bg-[#F0F9F5] pb-1' : ''}>
+    <div className={open ? 'bg-brand-tint pb-1' : ''}>
       {/* Styled as a full-weight nav row — same size/padding/font as a leaf
           item (Home/Campaigns-style in Interakt), NOT a small uppercase-caps
           section label. Icon + normal-case label + trailing chevron. */}
@@ -63,18 +63,18 @@ export default function SidebarSection({
         onMouseLeave={() => setHeaderHovered(false)}
         className={`group flex w-full items-center gap-3 px-4 py-3 text-[14px] font-medium transition-colors duration-150 ${
           open
-            ? 'text-[#1D4B3E]'
+            ? 'text-brand-ink'
             : headerHovered
-              ? 'bg-[#F0F9F5] text-[#1D4B3E]'
-              : 'text-[#0A0B10]'
+              ? 'bg-brand-tint text-brand-ink'
+              : 'text-[#0A0B10] dark:text-slate-100'
         }`}
       >
         {GroupIcon && (
-          <GroupIcon className={`h-[18px] w-[18px] shrink-0 text-[#1D4B3E]`} strokeWidth={1.75} />
+          <GroupIcon className={`h-[18px] w-[18px] shrink-0 text-brand-ink`} strokeWidth={1.75} />
         )}
         <span className="flex-1 truncate text-left">{group.label}</span>
         <ChevronDown
-          className={`h-4 w-4 shrink-0 text-[#1D4B3E] transition-transform duration-200 ${open ? 'rotate-180' : 'rotate-0'}`}
+          className={`h-4 w-4 shrink-0 text-brand-ink transition-transform duration-200 ${open ? 'rotate-180' : 'rotate-0'}`}
         />
       </button>
       {open && (

@@ -55,7 +55,7 @@ export default function DemoScheduledModal({ open, leadName, entityName, onConfi
       <div className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 dark:border-slate-800 sticky top-0 bg-white dark:bg-slate-900">
           <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Schedule demo</h3>
-          <button type="button" onClick={onCancel} disabled={saving} className="p-1.5 rounded-md text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
+          <button type="button" onClick={onCancel} disabled={saving} className="p-1.5 rounded-md text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -65,20 +65,20 @@ export default function DemoScheduledModal({ open, leadName, entityName, onConfi
           </p>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-xs font-medium text-slate-500">Date *</label>
+              <label className="text-xs font-medium text-slate-500 dark:text-slate-400">Date *</label>
               <input type="date" required className={`${inputCls} mt-1`} value={form.meetingDate} onChange={(e) => setForm({ ...form, meetingDate: e.target.value })} />
             </div>
             <div>
-              <label className="text-xs font-medium text-slate-500">Time *</label>
+              <label className="text-xs font-medium text-slate-500 dark:text-slate-400">Time *</label>
               <input type="time" required className={`${inputCls} mt-1`} value={form.meetingTime} onChange={(e) => setForm({ ...form, meetingTime: e.target.value })} />
             </div>
           </div>
           <div>
-            <label className="text-xs font-medium text-slate-500">Duration (minutes)</label>
+            <label className="text-xs font-medium text-slate-500 dark:text-slate-400">Duration (minutes)</label>
             <input type="number" min="15" step="15" className={`${inputCls} mt-1`} value={form.meetingDuration} onChange={(e) => setForm({ ...form, meetingDuration: e.target.value })} />
           </div>
           <div>
-            <label className="text-xs font-medium text-slate-500">Platform</label>
+            <label className="text-xs font-medium text-slate-500 dark:text-slate-400">Platform</label>
             <select className={`${inputCls} mt-1`} value={form.meetingPlatform} onChange={(e) => setForm({ ...form, meetingPlatform: e.target.value })}>
               {PLATFORMS.map((p) => (
                 <option key={p.value} value={p.value}>{p.label}</option>
@@ -87,7 +87,7 @@ export default function DemoScheduledModal({ open, leadName, entityName, onConfi
           </div>
           {form.meetingPlatform === 'custom' && (
             <div>
-              <label className="text-xs font-medium text-slate-500">Meeting link</label>
+              <label className="text-xs font-medium text-slate-500 dark:text-slate-400">Meeting link</label>
               <input type="url" placeholder="https://..." className={`${inputCls} mt-1`} value={form.meetingLink} onChange={(e) => setForm({ ...form, meetingLink: e.target.value })} />
             </div>
           )}

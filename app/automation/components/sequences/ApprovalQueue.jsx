@@ -55,7 +55,7 @@ export default function ApprovalQueue() {
   }
 
   if (!items.length) {
-    return <p className="text-sm text-slate-500 text-center py-12">No pending approvals.</p>;
+    return <p className="text-sm text-slate-500 dark:text-slate-400 text-center py-12">No pending approvals.</p>;
   }
 
   return (
@@ -67,7 +67,7 @@ export default function ApprovalQueue() {
               <p className="text-sm font-semibold text-slate-900 dark:text-white">
                 {ex.sequenceId?.name || 'Workflow'}
               </p>
-              <p className="text-xs text-slate-500 mt-0.5">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                 Lead: {ex.leadId?.name || ex.leadId?.phone || ex.leadId?._id}
               </p>
               <p className="text-xs text-slate-400 mt-1">{ex.pendingApproval?.reason || 'Approval required'}</p>
@@ -85,7 +85,7 @@ export default function ApprovalQueue() {
                 type="button"
                 disabled={acting === ex._id}
                 onClick={() => setRejectTarget(ex._id)}
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-red-200 text-red-600 text-xs font-medium disabled:opacity-50"
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 text-xs font-medium disabled:opacity-50"
               >
                 <X className="w-3.5 h-3.5" /> Reject
               </button>

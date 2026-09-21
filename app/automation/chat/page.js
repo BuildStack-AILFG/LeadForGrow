@@ -1,5 +1,6 @@
 'use client';
 
+import { htmlToPlainText } from '@/lib/omnichannel/draftFields';
 import { Suspense, useState, useMemo, useEffect } from 'react';
 import { MessageSquare, FileText, Trash2 } from 'lucide-react';
 import { authFetch } from '@/lib/apiClient';
@@ -13,13 +14,38 @@ import AiReplyBar from '../components/ai/AiReplyBar';
 import CRMProfilePanel from '../components/chat/CRMProfilePanel';
 import OutOfWindowTemplateBar, { useIsWithin24hWindow } from '../components/chat/OutOfWindowTemplateBar';
 import LostReasonModal from '../components/leads/LostReasonModal';
+import { makeNewChat, isNewChat } from '@/lib/omnichannel/newChat';
+import { toast } from 'react-hot-toast';
 import { useConfirm } from '@/app/components/ConfirmProvider';
+
+const PROFILE_COLLAPSED_KEY = 'lfg_ui_inbox_profile_collapsed';
 
 function ChatInboxContent() {
   const inbox = useChatInbox();
   const confirm = useConfirm();
   const [mobileView, setMobileView] = useState('list');
+  // Customer profile panel. Below the xl breakpoint it is an overlay (profileOpen); from xl up it is a right column that is
+  // open by default and can be closed with the X / the header button — the choice is remembered per browser (lfg_ui_ keys
+  // also survive logout, see lib/clientStorage.js).
   const [profileOpen, setProfileOpen] = useState(false);
+  const [profileCollapsed, setProfileCollapsed] = useState(false);
+  useEffect(() => {
+    try { if (localStorage.getItem(PROFILE_COLLAPSED_KEY) === '1') setProfileCollapsed(true); } catch { /* storage blocked: stay open */ }
+  }, []);
+  const setCollapsed = (collapsed) => {
+    setProfileCollapsed(collapsed);
+    try { localStorage.setItem(PROFILE_COLLAPSED_KEY, collapsed ? '1' : '0'); } catch { /* not remembered */ }
+  };
+  const handleProfileToggle = () => {
+    const wide = typeof window !== 'undefined' && window.matchMedia('(min-width: 1280px)').matches;
+    if (wide) setCollapsed(!profileCollapsed);
+    else setProfileOpen(true);
+  };
+  // The fixed Help / Grovia buttons live in the bottom-right corner (~72px). Reserve that strip on the message list and the
+  // composer whenever they would sit over the chat: always below xl (profile is an overlay), and at xl when the profile panel
+  // is closed. With the panel open they float over the panel instead (which reserves its own space).
+  const listGutter = profileCollapsed ? 'pr-[76px]' : 'pr-[76px] xl:pr-4';
+  const composerGutter = profileCollapsed ? 'pr-[76px]' : 'pr-[76px] xl:pr-0';
   const [emailFolder, setEmailFolder] = useState('inbox');
 
   const [aiReplyText, setAiReplyText] = useState(null);
@@ -53,7 +79,13 @@ function ChatInboxContent() {
   }, [emailFolder, isEmailChat, conversationId]);
 
   const continueDraft = (draft) => {
-    window.dispatchEvent(new CustomEvent('lfg:insert-reply', { detail: { text: draft.bodyText || '' } }));
+    // Older drafts were saved as HTML only (no bodyText), so fall back to the HTML.
+    const text = draft.bodyText || htmlToPlainText(draft.bodyHtml);
+    const emails = (list) => (list || []).map((c) => c?.email).filter(Boolean).join(', ');
+    if (draft.subject) inbox.setEmailSubject(draft.subject);
+    inbox.setEmailCc(emails(draft.cc));
+    inbox.setEmailBcc(emails(draft.bcc));
+    window.dispatchEvent(new CustomEvent('lfg:insert-reply', { detail: { text } }));
     setEmailFolder('inbox');
   };
 
@@ -63,8 +95,11 @@ function ChatInboxContent() {
     setEmailDrafts((prev) => prev.filter((d) => d._id !== draft._id));
   };
 
+  const newChat = isNewChat(inbox.selectedChat);
+  // A new chat needs no take-over: its composer is the template picker (the only thing WhatsApp allows as a first message).
   const canReply =
-    inbox.selectedChat?.channel === 'whatsapp'
+    newChat ? true
+    : inbox.selectedChat?.channel === 'whatsapp'
       ? inbox.selectedChat?.inboxStatus === 'intervened' || inbox.selectedChat?.status === 'intervened'
       : !!inbox.selectedChat;
 
@@ -183,21 +218,42 @@ function ChatInboxContent() {
       inbox.selectChat(match);
       setMobileView('chat');
     } else if (result.type === 'lead') {
-      const match = inbox.conversations.find(
-        (c) => c.leadId?._id === result.item._id || c.leadId === result.item._id
-      );
-      if (match) {
-        inbox.selectChat(match);
+      const lead = result.item;
+      // The search API says which conversation (WhatsApp first) belongs to the lead; prefer the loaded copy of it.
+      const known = lead.conversation
+        ? inbox.conversations.find((c) => c._id === lead.conversation._id) || lead.conversation
+        : null;
+      if (known) {
+        inbox.selectChat(known);
         setMobileView('chat');
+      } else if (lead.phone) {
+        // Never messaged: there is no conversation yet. Open a NEW CHAT in the normal layout (header, thread, CRM panel);
+        // WhatsApp only allows an approved template as the first message, so the composer is the template picker.
+        inbox.selectChat(makeNewChat(lead));
+        setMobileView('chat');
+      } else {
+        toast.error(`${lead.name || 'This lead'} has no phone number, so there is no WhatsApp chat to start. Open the lead and add one.`);
       }
     }
     inbox.setSearch('');
   };
 
+  // The conversation a new chat creates (its first template) is not in the current list view (e.g. Needs reply: we wrote last),
+  // so ask the server for it instead of waiting for it to appear in the list.
+  const findLeadConversation = async (lead) => {
+    try {
+      const res = await authFetch(`/api/automation/inbox/search?type=leads&q=${encodeURIComponent(lead.phone || lead.name || '')}`);
+      const data = await res.json();
+      return (data.data?.leads || []).find((l) => String(l._id) === String(lead._id))?.conversation || null;
+    } catch {
+      return null;
+    }
+  };
+
   return (
     <div className="flex h-[calc(100vh-0px)] bg-[#f8f9fc] dark:bg-slate-950 overflow-hidden font-[family-name:var(--font-whatsapp)]">
       <div
-        className={`${mobileView === 'list' ? 'flex' : 'hidden'} lg:flex h-full flex-shrink-0 w-full lg:w-[380px] xl:w-[420px] 2xl:w-[460px]`}
+        className={`${mobileView === 'list' ? 'flex' : 'hidden'} lg:flex h-full flex-shrink-0 w-full lg:w-[320px] xl:w-[360px] 2xl:w-[380px]`}
       >
         <ChatSidebar
           conversations={inbox.conversations}
@@ -210,6 +266,12 @@ function ChatInboxContent() {
           onSearchChange={inbox.setSearch}
           searchResults={inbox.searchResults}
           onSelectSearchResult={handleSearchResult}
+          viewCounts={inbox.viewCounts}
+          onMarkDone={inbox.markDone}
+          onAssignToMe={inbox.assignToMe}
+          onAssignTo={inbox.assignTo}
+          teamMembers={inbox.teamMembers}
+          currentUserId={inbox.currentUserId}
           onSelect={(chat) => {
             inbox.selectChat(chat);
             setMobileView('chat');
@@ -236,7 +298,8 @@ function ChatInboxContent() {
           onSchedule={() => {}}
           onWon={() => inbox.updateLeadStatus('converted')}
           onLost={() => inbox.updateLeadStatus('lost')}
-          onProfile={() => setProfileOpen(true)}
+          onProfile={handleProfileToggle}
+          profileOpen={!profileCollapsed}
           onIntervene={inbox.intervene}
           onReleaseIntervene={inbox.releaseIntervene}
           onUpdateConversation={inbox.updateConversation}
@@ -286,7 +349,7 @@ function ChatInboxContent() {
                         <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">
                           {draft.subject || '(no subject)'}
                         </p>
-                        <p className="text-xs text-slate-500 truncate mt-0.5">
+                        <p className="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">
                           {draft.bodyText || 'Empty draft'}
                         </p>
                         <p className="text-[10px] text-slate-400 mt-1">
@@ -294,10 +357,10 @@ function ChatInboxContent() {
                         </p>
                       </div>
                       <div className="flex items-center gap-1 shrink-0">
-                        <button type="button" onClick={() => continueDraft(draft)} className="px-2.5 py-1.5 text-xs font-semibold text-[#1D4B3E] bg-[#F0F9F5] hover:bg-[#dcefe6] rounded">
+                        <button type="button" onClick={() => continueDraft(draft)} className="px-2.5 py-1.5 text-xs font-semibold text-brand-ink bg-brand-tint hover:bg-[#dcefe6] dark:hover:bg-slate-700 rounded">
                           Continue editing
                         </button>
-                        <button type="button" onClick={() => deleteDraft(draft)} className="p-1.5 rounded text-slate-400 hover:text-red-600 hover:bg-red-50" title="Delete draft">
+                        <button type="button" onClick={() => deleteDraft(draft)} className="p-1.5 rounded text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30" title="Delete draft">
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
@@ -313,7 +376,8 @@ function ChatInboxContent() {
                 onLoadMore={inbox.loadOlderMessages}
                 loadingMore={inbox.loadingMore}
                 onMessageAction={inbox.messageAction}
-                emptyLabel={emptyLabel}
+                emptyLabel={newChat ? 'No messages yet. Send an approved template below to start the conversation.' : emptyLabel}
+                gutterClass={listGutter}
                 // Passed so MessageBubble's EmailSenderHeader can fall back
                 // to the conversation's participant when a specific Message's
                 // content.participantName/Email aren't populated (older rows
@@ -341,17 +405,28 @@ function ChatInboxContent() {
             )}
             {showTemplateBar ? (
               <OutOfWindowTemplateBar
+                firstContact={newChat}
                 leadName={inbox.selectedChat?.leadId?.name}
                 lead={inbox.selectedChat?.leadId}
-                onSend={(template) =>
-                  inbox.sendMessage('', { template })
-                }
+                onSend={async (template) => {
+                  const lead = inbox.selectedChat?.leadId;
+                  const ok = await inbox.sendMessage('', { template });
+                  if (ok === false) throw new Error('Could not send the template');
+                  if (newChat && lead) {
+                    // The server created the conversation with that message: refresh the list and switch to the real one.
+                    inbox.refresh();
+                    const conversation = await findLeadConversation(lead);
+                    if (conversation) inbox.selectChat(conversation);
+                  }
+                  return ok;
+                }}
               />
             ) : (
               <ChatInput
                 canSend={canReply}
                 hasSelection={!!inbox.selectedChat}
                 channel={inbox.selectedChat?.channel || 'whatsapp'}
+                fabGutter={composerGutter}
                 conversationId={inbox.selectedChat?._id}
                 templates={inbox.templates}
                 aiSuggestion={aiReplyText || aiSuggestion}
@@ -378,24 +453,27 @@ function ChatInboxContent() {
               <MessageSquare className="w-8 h-8 text-slate-300" />
             </div>
             <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-200">Unified Inbox</h2>
-            <p className="text-sm text-slate-500 mt-1 max-w-sm">WhatsApp, Instagram & Email — select a conversation to reply.</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-sm">WhatsApp, Instagram & Email — select a conversation to reply.</p>
           </div>
         )}
       </main>
 
-      <CRMProfilePanel
-        chat={inbox.selectedChat}
-        leadDetail={inbox.leadDetail}
-        conversationDetail={inbox.conversationDetail}
-        intelligence={inbox.intelligence}
-        teamMembers={inbox.teamMembers}
-        labels={inbox.labels}
-        onStatusChange={inbox.updateLeadStatus}
-        onAssign={inbox.assignChat}
-        onAddNote={inbox.addNote}
-        onToggleLabel={inbox.toggleLabel}
-        onUpdateFollowUp={inbox.updateLeadFollowUp}
-      />
+      {!profileCollapsed && (
+        <CRMProfilePanel
+          chat={inbox.selectedChat}
+          leadDetail={inbox.leadDetail}
+          conversationDetail={inbox.conversationDetail}
+          intelligence={inbox.intelligence}
+          teamMembers={inbox.teamMembers}
+          labels={inbox.labels}
+          onStatusChange={inbox.updateLeadStatus}
+          onAssign={inbox.assignChat}
+          onAddNote={inbox.addNote}
+          onToggleLabel={inbox.toggleLabel}
+          onUpdateFollowUp={inbox.updateLeadFollowUp}
+          onClose={() => setCollapsed(true)}
+        />
+      )}
 
       {profileOpen && inbox.selectedChat && (
         <CRMProfilePanel
@@ -429,7 +507,7 @@ function ChatInboxContent() {
 
 export default function ChatInboxPage() {
   return (
-    <Suspense fallback={<div className="h-screen flex items-center justify-center"><div className="w-8 h-8 border-2 border-[#1D4B3E] border-t-transparent rounded-full animate-spin" /></div>}>
+    <Suspense fallback={<div className="h-screen flex items-center justify-center"><div className="w-8 h-8 border-2 border-brand border-t-transparent rounded-full animate-spin" /></div>}>
       <ChatInboxContent />
     </Suspense>
   );

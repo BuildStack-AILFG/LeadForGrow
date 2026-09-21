@@ -12,7 +12,7 @@ export default function TeamGrid({ team, userPlan, maxTeamMembers = 1, onAdd, on
           <Users className="w-6 h-6 text-violet-600 dark:text-violet-400" />
         </div>
         <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">No team members yet</p>
-        <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">Add sales staff to distribute leads and track performance.</p>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm mx-auto">Add sales staff to distribute leads and track performance.</p>
         <button
           type="button"
           onClick={onAdd}

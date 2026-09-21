@@ -26,7 +26,7 @@ export default function PipelineOverview({ statusCounts = {} }) {
       action={
         <Link
           href="/automation/leads"
-          className="text-xs font-medium text-teal-600 hover:text-teal-700 flex items-center gap-1"
+          className="text-xs font-medium text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 flex items-center gap-1"
         >
           View all <ArrowRight className="w-3 h-3" />
         </Link>

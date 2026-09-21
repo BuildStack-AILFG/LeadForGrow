@@ -74,7 +74,7 @@ function BillsList({ onNew, onOpen }) {
         <div className="flex items-center justify-between mb-5">
           <div>
             <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Bills</h1>
-            <p className="text-sm text-slate-500 mt-1">Send professional-looking bills to customers via WhatsApp.</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Send professional-looking bills to customers via WhatsApp.</p>
           </div>
           <button
             type="button"
@@ -122,7 +122,7 @@ function BillsList({ onNew, onOpen }) {
           <div className="text-center py-16 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
             <Receipt className="w-12 h-12 text-slate-300 mx-auto mb-3" />
             <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">No bills yet</p>
-            <p className="text-xs text-slate-500 mt-1 mb-4">Create your first bill and send it directly to the customer on WhatsApp.</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 mb-4">Create your first bill and send it directly to the customer on WhatsApp.</p>
             <button type="button" onClick={onNew} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-teal-600 text-white text-sm font-semibold">
               <Plus className="w-4 h-4" /> Create bill
             </button>
@@ -130,7 +130,7 @@ function BillsList({ onNew, onOpen }) {
         ) : (
           <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
             <table className="w-full text-sm">
-              <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 text-xs uppercase tracking-wider">
+              <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">
                 <tr>
                   <th className="text-left px-4 py-3">Bill #</th>
                   <th className="text-left px-4 py-3">Customer</th>
@@ -149,7 +149,7 @@ function BillsList({ onNew, onOpen }) {
                     <td className="px-4 py-3 text-slate-900 dark:text-slate-100">{b.customerName}<div className="text-xs text-slate-400">{b.customerPhone}</div></td>
                     <td className="px-4 py-3 text-right tabular-nums font-semibold">₹{Number(b.total).toLocaleString('en-IN')}</td>
                     <td className="px-4 py-3"><StatusPill status={b.status} /></td>
-                    <td className="px-4 py-3 text-xs text-slate-500">{new Date(b.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
+                    <td className="px-4 py-3 text-xs text-slate-500 dark:text-slate-400">{new Date(b.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
                     <td className="px-2 text-slate-300"><ChevronRight className="w-4 h-4" /></td>
                   </tr>
                 ))}
@@ -235,13 +235,13 @@ function BillEditor({ existingBill, onCancel, onSaved }) {
   return (
     <div className="min-h-full bg-[#f4f6fa] dark:bg-slate-950 p-5">
       <div className="max-w-4xl mx-auto">
-        <button type="button" onClick={onCancel} className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-700 mb-4">
+        <button type="button" onClick={onCancel} className="inline-flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 mb-4">
           <ArrowLeft className="w-4 h-4" /> Back to bills
         </button>
 
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6">
           <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-1">New bill</h2>
-          <p className="text-xs text-slate-500 mb-5">The bill number is generated automatically when you save.</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mb-5">The bill number is generated automatically when you save.</p>
 
           <BillHeaderPreview />
 
@@ -285,14 +285,14 @@ function BillEditor({ existingBill, onCancel, onSaved }) {
                   type="button"
                   onClick={() => removeItem(i)}
                   disabled={form.lineItems.length === 1}
-                  className="col-span-1 p-1 rounded text-slate-400 hover:text-red-600 disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="col-span-1 p-1 rounded text-slate-400 hover:text-red-600 dark:hover:text-red-400 disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>
             ))}
           </div>
-          <button type="button" onClick={addItem} className="text-xs font-semibold text-teal-600 hover:text-teal-700 mb-5">
+          <button type="button" onClick={addItem} className="text-xs font-semibold text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 mb-5">
             + Add another item
           </button>
 
@@ -301,18 +301,18 @@ function BillEditor({ existingBill, onCancel, onSaved }) {
               <SectionLabel>Adjustments</SectionLabel>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs text-slate-500">Discount (₹)</label>
+                  <label className="text-xs text-slate-500 dark:text-slate-400">Discount (₹)</label>
                   <input type="number" min="0" value={form.discount} onChange={(e) => setForm({ ...form, discount: e.target.value })}
                          className="mt-1 w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-right tabular-nums" />
                 </div>
                 <div>
-                  <label className="text-xs text-slate-500">Tax %</label>
+                  <label className="text-xs text-slate-500 dark:text-slate-400">Tax %</label>
                   <input type="number" min="0" max="100" value={form.taxRate} onChange={(e) => setForm({ ...form, taxRate: e.target.value })}
                          className="mt-1 w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-right tabular-nums" />
                 </div>
               </div>
               <div className="mt-3">
-                <label className="text-xs text-slate-500">GSTIN (optional, displays on PDF)</label>
+                <label className="text-xs text-slate-500 dark:text-slate-400">GSTIN (optional, displays on PDF)</label>
                 <input type="text" value={form.gstNumber} onChange={(e) => setForm({ ...form, gstNumber: e.target.value })}
                        className="mt-1 w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm" />
               </div>
@@ -338,7 +338,7 @@ function BillEditor({ existingBill, onCancel, onSaved }) {
           />
 
           <div className="flex items-center justify-between border-t border-slate-100 dark:border-slate-800 pt-4">
-            <button type="button" onClick={onCancel} className="text-sm text-slate-500 hover:text-slate-700">Cancel</button>
+            <button type="button" onClick={onCancel} className="text-sm text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">Cancel</button>
             <div className="flex items-center gap-2">
               <button type="button" onClick={() => handleSave(false)} disabled={!canSave || saving}
                       className="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-sm font-semibold disabled:opacity-50">
@@ -431,13 +431,13 @@ function BillDetail({ billId, onBack }) {
   return (
     <div className="min-h-full bg-[#f4f6fa] dark:bg-slate-950 p-5">
       <div className="max-w-3xl mx-auto">
-        <button type="button" onClick={onBack} className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-700 mb-4">
+        <button type="button" onClick={onBack} className="inline-flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 mb-4">
           <ArrowLeft className="w-4 h-4" /> Back to bills
         </button>
 
         <div className="flex items-center justify-between mb-4">
           <div>
-            <div className="text-xs text-slate-500 uppercase tracking-wider">Bill</div>
+            <div className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider">Bill</div>
             <h1 className="text-2xl font-bold text-slate-900 dark:text-white font-mono">{bill.billNumber}</h1>
           </div>
           <StatusPill status={bill.status} big />
@@ -472,17 +472,17 @@ function BillDetail({ billId, onBack }) {
             <PaymentLinkButton bill={bill} onUpdated={load} />
             {bill.status !== 'void' && bill.status !== 'paid' && (
               <button type="button" onClick={() => setVoidOpen(true)} disabled={busy === 'void'}
-                      className="ml-auto inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm text-slate-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30">
+                      className="ml-auto inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30">
                 <XCircle className="w-4 h-4" /> Void
               </button>
             )}
           </div>
           {bill.pdfUrl && (
-            <div className="text-[11px] text-slate-500 inline-flex items-center gap-1.5">
+            <div className="text-[11px] text-slate-500 dark:text-slate-400 inline-flex items-center gap-1.5">
               <span>PDF hosted at:</span>
-              <a href={bill.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-teal-600 hover:underline break-all">{bill.pdfUrl}</a>
+              <a href={bill.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-teal-600 dark:text-teal-400 hover:underline break-all">{bill.pdfUrl}</a>
               <button type="button" onClick={() => { navigator.clipboard.writeText(bill.pdfUrl); toast.success('Copied'); }}
-                      className="text-slate-400 hover:text-slate-700"><Copy className="w-3 h-3" /></button>
+                      className="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"><Copy className="w-3 h-3" /></button>
             </div>
           )}
         </div>
@@ -490,21 +490,21 @@ function BillDetail({ billId, onBack }) {
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6">
           <div className="flex justify-between text-sm mb-5">
             <div>
-              <div className="text-xs text-slate-500 uppercase">Billed to</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400 uppercase">Billed to</div>
               <div className="font-semibold text-slate-900 dark:text-white">{bill.customerName}</div>
-              {bill.customerPhone && <div className="text-slate-500 text-xs">{bill.customerPhone}</div>}
-              {bill.customerEmail && <div className="text-slate-500 text-xs">{bill.customerEmail}</div>}
+              {bill.customerPhone && <div className="text-slate-500 dark:text-slate-400 text-xs">{bill.customerPhone}</div>}
+              {bill.customerEmail && <div className="text-slate-500 dark:text-slate-400 text-xs">{bill.customerEmail}</div>}
             </div>
             <div className="text-right">
-              <div className="text-xs text-slate-500 uppercase">Date</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400 uppercase">Date</div>
               <div className="text-slate-700 dark:text-slate-300">{new Date(bill.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</div>
-              {bill.sentAt && <div className="text-xs text-slate-500 mt-2">Sent {new Date(bill.sentAt).toLocaleString('en-IN')}</div>}
-              {bill.paidAt && <div className="text-xs text-emerald-600 mt-1">Paid {new Date(bill.paidAt).toLocaleString('en-IN')}{bill.paymentNote ? ` · ${bill.paymentNote}` : ''}</div>}
+              {bill.sentAt && <div className="text-xs text-slate-500 dark:text-slate-400 mt-2">Sent {new Date(bill.sentAt).toLocaleString('en-IN')}</div>}
+              {bill.paidAt && <div className="text-xs text-emerald-600 dark:text-emerald-400 mt-1">Paid {new Date(bill.paidAt).toLocaleString('en-IN')}{bill.paymentNote ? ` · ${bill.paymentNote}` : ''}</div>}
             </div>
           </div>
 
           <table className="w-full text-sm mb-4">
-            <thead className="text-xs text-slate-500 uppercase border-b border-slate-100 dark:border-slate-800">
+            <thead className="text-xs text-slate-500 dark:text-slate-400 uppercase border-b border-slate-100 dark:border-slate-800">
               <tr>
                 <th className="text-left py-2">Description</th>
                 <th className="text-right py-2 w-16">Qty</th>
@@ -532,7 +532,7 @@ function BillDetail({ billId, onBack }) {
           </div>
 
           {(bill.notes || bill.gstNumber) && (
-            <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-500 space-y-1">
+            <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400 space-y-1">
               {bill.notes && <div><span className="font-semibold text-slate-700 dark:text-slate-400">Notes:</span> {bill.notes}</div>}
               {bill.gstNumber && <div><span className="font-semibold text-slate-700 dark:text-slate-400">GSTIN:</span> {bill.gstNumber}</div>}
             </div>
@@ -576,7 +576,7 @@ function StatCard({ label, value, tone = 'slate' }) {
   };
   return (
     <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-3">
-      <div className="text-xs text-slate-500">{label}</div>
+      <div className="text-xs text-slate-500 dark:text-slate-400">{label}</div>
       <div className={`text-lg font-bold tabular-nums mt-0.5 ${toneMap[tone]}`}>{value}</div>
     </div>
   );
@@ -601,14 +601,14 @@ function StatusPill({ status, big = false }) {
 function TotalsRow({ label, value, big = false }) {
   return (
     <div className={`flex items-center justify-between ${big ? 'text-base font-bold' : 'text-sm'}`}>
-      <span className={big ? 'text-slate-900 dark:text-white' : 'text-slate-500'}>{label}</span>
+      <span className={big ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}>{label}</span>
       <span className="tabular-nums">{value < 0 ? '- ' : ''}₹{Math.abs(Number(value) || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
     </div>
   );
 }
 
 function SectionLabel({ children }) {
-  return <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-2">{children}</div>;
+  return <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">{children}</div>;
 }
 
 /**
@@ -674,7 +674,7 @@ function PaymentLinkButton({ bill, onUpdated }) {
     return (
       <>
         <button type="button" onClick={() => setShowConnect(true)}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-indigo-200 bg-indigo-50 dark:bg-indigo-950/40 dark:border-indigo-900/60 text-indigo-700 dark:text-indigo-300 text-sm font-semibold hover:bg-indigo-100">
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-indigo-200 bg-indigo-50 dark:bg-indigo-950/40 dark:border-indigo-900/60 text-indigo-700 dark:text-indigo-300 text-sm font-semibold hover:bg-indigo-100 dark:hover:bg-indigo-900/30">
           <CreditCard className="w-4 h-4" /> Connect Razorpay to send a payment link
         </button>
         {showConnect && <ConnectRazorpayModal onClose={() => setShowConnect(false)} onConnected={() => { setShowConnect(false); setRzp({ enabled: true }); }} />}
@@ -684,19 +684,19 @@ function PaymentLinkButton({ bill, onUpdated }) {
   if (link) {
     return (
       <div className="inline-flex items-center gap-2 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5">
-        <Link2 className="w-4 h-4 text-emerald-600" />
+        <Link2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
         <a href={link} target="_blank" rel="noopener noreferrer"
-           className="text-sm font-medium text-emerald-700 hover:underline flex items-center gap-1 max-w-[220px] truncate">
+           className="text-sm font-medium text-emerald-700 dark:text-emerald-300 hover:underline flex items-center gap-1 max-w-[220px] truncate">
           {link} <ExternalLink className="w-3 h-3 shrink-0" />
         </a>
-        <button type="button" onClick={handleCopy} className="p-1 text-slate-400 hover:text-slate-700" title="Copy link">
+        <button type="button" onClick={handleCopy} className="p-1 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200" title="Copy link">
           <Copy className="w-3.5 h-3.5" />
         </button>
         {linkStatus && (
           <span className={`text-[10px] uppercase font-semibold px-1.5 py-0.5 rounded ${
-            linkStatus === 'paid' ? 'bg-emerald-100 text-emerald-700'
-              : linkStatus === 'cancelled' || linkStatus === 'expired' ? 'bg-red-100 text-red-700'
-                : 'bg-slate-100 text-slate-600'
+            linkStatus === 'paid' ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300'
+              : linkStatus === 'cancelled' || linkStatus === 'expired' ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'
           }`}>{linkStatus}</span>
         )}
       </div>
@@ -736,19 +736,19 @@ function ConnectRazorpayModal({ onClose, onConnected }) {
     <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4" onClick={onClose}>
       <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full shadow-2xl p-6" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-start gap-3 mb-4">
-          <div className="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 flex items-center justify-center shrink-0">
             <CreditCard className="w-5 h-5" />
           </div>
           <div>
             <h3 className="text-base font-semibold text-slate-900 dark:text-white">Connect your Razorpay account</h3>
-            <p className="text-xs text-slate-500 mt-1">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
               Money goes directly to your bank account. LeadForGrow never holds funds.
             </p>
           </div>
         </div>
 
         <ol className="text-xs text-slate-600 dark:text-slate-400 space-y-1.5 mb-4 pl-5 list-decimal">
-          <li>Open <a href="https://dashboard.razorpay.com/app/website-app-settings/api-keys" target="_blank" rel="noopener noreferrer" className="text-indigo-600 underline">Razorpay → Settings → API Keys</a></li>
+          <li>Open <a href="https://dashboard.razorpay.com/app/website-app-settings/api-keys" target="_blank" rel="noopener noreferrer" className="text-indigo-600 dark:text-indigo-400 underline">Razorpay → Settings → API Keys</a></li>
           <li>Click <strong>Generate Key</strong> and copy the Key ID + Key Secret</li>
           <li>Paste them below</li>
         </ol>
@@ -771,14 +771,14 @@ function ConnectRazorpayModal({ onClose, onConnected }) {
             <input type="password" value={form.webhookSecret} onChange={(e) => setForm({ ...form, webhookSecret: e.target.value })}
                    placeholder="From Razorpay → Webhooks"
                    className="mt-1 w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-mono" />
-            <p className="text-[10px] text-slate-500 mt-1">
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">
               Add a webhook in Razorpay dashboard pointing to <code className="text-[10px]">/api/webhooks/razorpay</code> with events: <code>payment_link.paid</code>, <code>payment_link.expired</code>, <code>payment_link.cancelled</code>. Paste the shared secret here so LFG can verify events.
             </p>
           </div>
         </div>
 
         <div className="flex items-center justify-between mt-5">
-          <button type="button" onClick={onClose} className="text-sm text-slate-500 hover:text-slate-700">Cancel</button>
+          <button type="button" onClick={onClose} className="text-sm text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">Cancel</button>
           <button type="button" onClick={handleSave} disabled={saving}
                   className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold disabled:opacity-50">
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
@@ -841,12 +841,12 @@ function BillHeaderPreview() {
             </span>
             <span className="text-[10px] uppercase tracking-wider text-slate-400">Bill header</span>
           </div>
-          <div className="text-[11px] text-slate-500 mt-0.5 truncate">
+          <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 truncate">
             {[header.phone, header.email, header.address].filter(Boolean).join(' · ') || 'Add your phone, email, and address to print on every bill'}
           </div>
         </div>
         <Link href="/automation/settings/bill-header"
-              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-100 text-slate-700 dark:text-slate-300 shrink-0">
+              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 shrink-0">
           {missing.length > 0 ? 'Complete setup' : 'Edit'}
         </Link>
       </div>

@@ -24,7 +24,7 @@ const LabelRefSchema = new mongoose.Schema(
 const ConversationSchema = new mongoose.Schema(
   {
     businessId: { type: mongoose.Schema.Types.ObjectId, ref: 'Business', required: true, index: true },
-    channel: { type: String, enum: ['whatsapp', 'instagram', 'email'], required: true, index: true },
+    channel: { type: String, enum: ['whatsapp', 'instagram', 'facebook', 'email'], required: true, index: true },
     leadId: { type: mongoose.Schema.Types.ObjectId, ref: 'Lead', index: true },
     contactId: { type: mongoose.Schema.Types.ObjectId, ref: 'Contact', index: true },
     companyId: { type: mongoose.Schema.Types.ObjectId, ref: 'Company', index: true },

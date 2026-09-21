@@ -15,7 +15,7 @@ export default function TemplatesHeader({ stats, saving, syncing, onSave, onSync
             </p>
             <a
               href="/automation/whatsapp-templates"
-              className="mt-1 inline-flex items-center gap-1.5 text-[11px] font-medium text-[#1D4B3E] dark:text-emerald-400 hover:underline"
+              className="mt-1 inline-flex items-center gap-1.5 text-[11px] font-medium text-brand-ink dark:text-emerald-400 hover:underline"
             >
               → For Meta-approved WhatsApp templates, use WhatsApp Templates
             </a>
@@ -23,7 +23,7 @@ export default function TemplatesHeader({ stats, saving, syncing, onSave, onSync
           <div className="flex items-center gap-2 flex-wrap">
             <a
               href="/automation/whatsapp-templates"
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-[#1D4B3E] dark:text-emerald-400 bg-[#25D366]/10 dark:bg-emerald-950/40 hover:bg-[#25D366]/20 dark:hover:bg-emerald-950/60 rounded transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-brand-ink dark:text-emerald-400 bg-[#25D366]/10 dark:bg-emerald-950/40 hover:bg-[#25D366]/20 dark:hover:bg-emerald-950/60 rounded transition-colors"
             >
               <WhatsAppIcon size={14} style={{ color: '#25D366' }} />
               WhatsApp Templates
@@ -39,7 +39,7 @@ export default function TemplatesHeader({ stats, saving, syncing, onSave, onSync
               type="button"
               onClick={onSave}
               disabled={saving}
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-[#1D4B3E] hover:bg-[#163c32] rounded shadow-md shadow-[#1D4B3E]/20 disabled:opacity-50 transition-all"
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-brand hover:bg-brand-hover rounded shadow-md shadow-[#1D4B3E]/20 disabled:opacity-50 transition-all"
             >
               {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
               Save changes

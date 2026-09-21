@@ -15,7 +15,7 @@ function ChannelCard({ label, connected, href, icon, variant }) {
       className={`group relative flex items-center gap-4 p-5 rounded-2xl border transition-all duration-200 ${
         connected
           ? 'bg-white dark:bg-slate-900/80 border-slate-200/90 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-md hover:shadow-slate-200/50 dark:hover:shadow-none'
-          : 'bg-gradient-to-br from-amber-50/80 to-orange-50/40 dark:from-amber-950/20 dark:to-slate-900 border-amber-200/60 dark:border-amber-900/30 hover:border-amber-300'
+          : 'bg-gradient-to-br from-amber-50/80 to-orange-50/40 dark:from-amber-950/20 dark:to-slate-900 border-amber-200/60 dark:border-amber-900/30 hover:border-amber-300 dark:hover:border-amber-700'
       }`}
     >
       <CrmIconBadge variant={variant} size="lg" ring>
@@ -37,7 +37,7 @@ function ChannelCard({ label, connected, href, icon, variant }) {
         </div>
       </div>
       {!connected && (
-        <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-slate-600 group-hover:translate-x-0.5 transition-all shrink-0" />
+        <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-300 group-hover:translate-x-0.5 transition-all shrink-0" />
       )}
     </div>
   );
@@ -73,10 +73,10 @@ export default function CrmChannelStatus({ integrations, activeAutomations = 0 }
         </CrmIconBadge>
         <div>
           <p className="text-[13px] font-semibold text-slate-900 dark:text-slate-100 tracking-tight">Message automations</p>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
             <span className="text-lg font-semibold text-slate-900 dark:text-slate-50 tabular-nums tracking-tight">{activeAutomations}</span>
             <span className="text-slate-400 mx-1">/</span>
-            <span className="text-slate-500">8 channels active</span>
+            <span className="text-slate-500 dark:text-slate-400">8 channels active</span>
           </p>
         </div>
       </div>

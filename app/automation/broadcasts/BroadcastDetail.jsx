@@ -8,13 +8,13 @@ import { decodeMetaError, extractErrorCode } from '@/lib/whatsapp/metaErrors';
 import PageLoader from '../components/PageLoader';
 
 const STATUS_META = {
-  sent: { label: 'Sent', color: 'text-slate-700', bg: 'bg-slate-100', Icon: Send },
-  delivered: { label: 'Delivered', color: 'text-teal-700', bg: 'bg-teal-100', Icon: CheckCircle2 },
-  read: { label: 'Read', color: 'text-emerald-700', bg: 'bg-emerald-100', Icon: Eye },
-  failed: { label: 'Failed', color: 'text-red-700', bg: 'bg-red-100', Icon: AlertCircle },
-  pending: { label: 'Pending', color: 'text-amber-700', bg: 'bg-amber-100', Icon: Loader2 },
-  skipped: { label: 'Skipped', color: 'text-slate-500', bg: 'bg-slate-100', Icon: UserX },
-  opted_out: { label: 'Opted out', color: 'text-purple-700', bg: 'bg-purple-100', Icon: UserX },
+  sent: { label: 'Sent', color: 'text-slate-700 dark:text-slate-200', bg: 'bg-slate-100 dark:bg-slate-800', Icon: Send },
+  delivered: { label: 'Delivered', color: 'text-teal-700 dark:text-teal-300', bg: 'bg-teal-100 dark:bg-teal-900/30', Icon: CheckCircle2 },
+  read: { label: 'Read', color: 'text-emerald-700 dark:text-emerald-300', bg: 'bg-emerald-100 dark:bg-emerald-900/30', Icon: Eye },
+  failed: { label: 'Failed', color: 'text-red-700 dark:text-red-300', bg: 'bg-red-100 dark:bg-red-900/30', Icon: AlertCircle },
+  pending: { label: 'Pending', color: 'text-amber-700 dark:text-amber-300', bg: 'bg-amber-100 dark:bg-amber-900/30', Icon: Loader2 },
+  skipped: { label: 'Skipped', color: 'text-slate-500 dark:text-slate-400', bg: 'bg-slate-100 dark:bg-slate-800', Icon: UserX },
+  opted_out: { label: 'Opted out', color: 'text-purple-700 dark:text-purple-300', bg: 'bg-purple-100 dark:bg-purple-900/30', Icon: UserX },
 };
 
 const FILTERS = ['all', 'delivered', 'read', 'failed', 'pending', 'sent'];
@@ -93,7 +93,7 @@ export default function BroadcastDetail({ broadcastId, onClose }) {
               </h2>
             </div>
             {broadcast?.content?.whatsappTemplateName && (
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                 Template: <span className="font-mono">{broadcast.content.whatsappTemplateName}</span>
                 {broadcast.content.whatsappTemplateLanguage ? ` · ${broadcast.content.whatsappTemplateLanguage}` : ''}
               </p>
@@ -146,7 +146,7 @@ export default function BroadcastDetail({ broadcastId, onClose }) {
                   return (
                     <button key={f} type="button" onClick={() => setFilter(f)}
                       className={`px-2.5 py-1 text-[11px] font-medium rounded-md ${
-                        filter === f ? 'bg-white dark:bg-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+                        filter === f ? 'bg-white dark:bg-slate-800 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
                       }`}>
                       {f.charAt(0).toUpperCase() + f.slice(1)} {count > 0 && <span className="text-slate-400">{count}</span>}
                     </button>
@@ -161,7 +161,7 @@ export default function BroadcastDetail({ broadcastId, onClose }) {
               />
               {stats.failed > 0 && (
                 <button type="button" onClick={exportFailedCsv}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-medium text-red-700 bg-red-50 hover:bg-red-100">
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-950/30 hover:bg-red-100 dark:hover:bg-red-900/30">
                   <Download className="w-3.5 h-3.5" /> Export failed
                 </button>
               )}
@@ -170,11 +170,11 @@ export default function BroadcastDetail({ broadcastId, onClose }) {
             {/* Table */}
             <div className="flex-1 overflow-y-auto px-5 pb-5">
               {filtered.length === 0 ? (
-                <p className="text-center text-sm text-slate-500 py-16">No recipients match this view</p>
+                <p className="text-center text-sm text-slate-500 dark:text-slate-400 py-16">No recipients match this view</p>
               ) : (
                 <div className="rounded border border-slate-200 dark:border-slate-800 overflow-hidden">
                   <table className="w-full text-xs">
-                    <thead className="bg-slate-50 dark:bg-slate-900 text-slate-500 uppercase tracking-wide">
+                    <thead className="bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400 uppercase tracking-wide">
                       <tr>
                         <th className="text-left p-2 font-medium">Recipient</th>
                         <th className="text-left p-2 font-medium">Status</th>
@@ -190,21 +190,21 @@ export default function BroadcastDetail({ broadcastId, onClose }) {
                           <tr key={r.leadId ? `${r.leadId}-${i}` : i} className="hover:bg-slate-50/60 dark:hover:bg-slate-900/40">
                             <td className="p-2">
                               <p className="font-medium text-slate-900 dark:text-white truncate max-w-[180px]">{r.name || 'Unnamed'}</p>
-                              <p className="text-[10px] text-slate-500">{r.phone || r.email}</p>
+                              <p className="text-[10px] text-slate-500 dark:text-slate-400">{r.phone || r.email}</p>
                             </td>
                             <td className="p-2">
                               <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold ${meta.bg} ${meta.color}`}>
                                 <Icon className="w-3 h-3" /> {meta.label}
                               </span>
                             </td>
-                            <td className="p-2 text-slate-500 whitespace-nowrap">
+                            <td className="p-2 text-slate-500 dark:text-slate-400 whitespace-nowrap">
                               {r.readAt ? relTime(r.readAt) : r.deliveredAt ? relTime(r.deliveredAt) : r.failedAt ? relTime(r.failedAt) : r.sentAt ? relTime(r.sentAt) : '—'}
                             </td>
-                            <td className="p-2 text-slate-500 max-w-[280px]">
+                            <td className="p-2 text-slate-500 dark:text-slate-400 max-w-[280px]">
                               {r.error ? (
                                 <FailureCell error={r.error} failureCode={r.failureCode} failureTitle={r.failureTitle} />
                               ) : r.status === 'opted_out' ? (
-                                <span className="text-purple-700">Previously opted out</span>
+                                <span className="text-purple-700 dark:text-purple-300">Previously opted out</span>
                               ) : '—'}
                             </td>
                           </tr>
@@ -229,27 +229,27 @@ function FailureCell({ error, failureCode, failureTitle }) {
 
   if (!decoded?.isKnown) {
     return (
-      <span className="text-red-600" title={error}>
+      <span className="text-red-600 dark:text-red-400" title={error}>
         {failureTitle ? `${failureTitle}: ` : ''}{truncate(error, 80)}
       </span>
     );
   }
 
   return (
-    <div className="text-red-700">
+    <div className="text-red-700 dark:text-red-300">
       <button type="button"
         onClick={() => setExpanded((v) => !v)}
         className="flex items-start gap-1 text-left hover:underline">
-        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-red-50 border border-red-200 shrink-0 mt-0.5">
+        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 shrink-0 mt-0.5">
           {decoded.code}
         </span>
         <span className="font-medium">{decoded.title}</span>
       </button>
       {expanded && (
-        <div className="mt-1.5 bg-red-50 border border-red-200 rounded-md p-2 space-y-1 text-[11px] text-slate-700">
-          <p><span className="font-semibold text-slate-900">Why:</span> {decoded.explanation}</p>
-          <p><span className="font-semibold text-slate-900">Fix:</span> {decoded.actionable}</p>
-          {error && <p className="text-[10px] text-slate-500 font-mono truncate" title={error}>Raw: {error}</p>}
+        <div className="mt-1.5 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 rounded-md p-2 space-y-1 text-[11px] text-slate-700 dark:text-slate-200">
+          <p><span className="font-semibold text-slate-900 dark:text-slate-50">Why:</span> {decoded.explanation}</p>
+          <p><span className="font-semibold text-slate-900 dark:text-slate-50">Fix:</span> {decoded.actionable}</p>
+          {error && <p className="text-[10px] text-slate-500 dark:text-slate-400 font-mono truncate" title={error}>Raw: {error}</p>}
         </div>
       )}
     </div>
@@ -259,13 +259,13 @@ function FailureCell({ error, failureCode, failureTitle }) {
 function StatTile({ label, value, tone = 'slate', hint }) {
   const toneMap = {
     slate: 'text-slate-900 dark:text-white',
-    blue: 'text-teal-600',
-    emerald: 'text-emerald-600',
-    red: 'text-red-600',
+    blue: 'text-teal-600 dark:text-teal-400',
+    emerald: 'text-emerald-600 dark:text-emerald-400',
+    red: 'text-red-600 dark:text-red-400',
   };
   return (
-    <div className="rounded border border-slate-200 dark:border-slate-800 p-3 bg-white dark:bg-slate-900">
-      <p className="text-[10px] uppercase font-medium text-slate-500">{label}</p>
+    <div className="rounded-xl border border-slate-200 dark:border-slate-800 p-3 bg-white dark:bg-slate-900">
+      <p className="text-[10px] uppercase font-medium text-slate-500 dark:text-slate-400">{label}</p>
       <p className={`text-2xl font-bold ${toneMap[tone]}`}>{value}</p>
       {hint && <p className="text-[10px] text-slate-400 mt-0.5">{hint}</p>}
     </div>

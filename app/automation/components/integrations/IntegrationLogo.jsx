@@ -16,7 +16,7 @@ const LUCIDE_ICONS = {
 function Chip({ size, children }) {
   return (
     <div
-      className="rounded-xl flex items-center justify-center flex-shrink-0 bg-white border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden"
+      className="rounded-xl flex items-center justify-center flex-shrink-0 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden"
       style={{ width: size, height: size }}
     >
       {children}

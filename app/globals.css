@@ -34,6 +34,23 @@
   --font-whatsapp: -apple-system, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --hero-bg: #00211f;
   --hubspot-orange: #FF5C35;
+
+  /* Semantic brand/surface tokens. Use bg-brand, text-brand-ink, bg-brand-tint,
+     bg-brand-tint-strong, text-on-brand, border-line, bg-canvas-muted instead of
+     hardcoding #1D4B3E / #F0F9F5 / #E8EAED / #F8F9FA — a hardcoded hex can't follow
+     dark mode, these variables do (see .dark below). */
+  --brand: #1D4B3E;            /* brand fills: buttons, active nav */
+  --brand-hover: #163C32;
+  --brand-ink: #1D4B3E;        /* brand used as TEXT or ICON colour */
+  --brand-tint: #F0F9F5;       /* pale mint fill */
+  --brand-tint-strong: #BAE0CF;/* mint hover fill / border */
+  --on-brand: #F0F9F5;         /* text on a --brand fill */
+  --line: #E8EAED;             /* hairline borders */
+  --canvas-muted: #F8F9FA;     /* subtle grey panels, table headers */
+  --chart-1: #1D4B3E;          /* chart series ramp (dashboard) */
+  --chart-2: #2F6B58;
+  --chart-3: #8FC4AE;
+  --chart-grid: #EEF1F0;
 }
 
 @theme inline {
@@ -48,6 +65,14 @@
   --color-danger: var(--danger);
   --color-card: var(--card);
   --color-border: var(--card-border);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-tint: var(--brand-tint);
+  --color-brand-tint-strong: var(--brand-tint-strong);
+  --color-on-brand: var(--on-brand);
+  --color-line: var(--line);
+  --color-canvas-muted: var(--canvas-muted);
 }
 
 .dark {
@@ -58,6 +83,23 @@
   --text-main: #f1f5f9;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
+
+  /* Makes native controls (date pickers, selects, scrollbars, autofill) dark too. */
+  color-scheme: dark;
+
+  /* Brand in dark: deep teal is unreadable on near-black, so text/icons lighten and fills brighten. */
+  --brand: #2F7D66;
+  --brand-hover: #3A917A;
+  --brand-ink: #6FCBA8;
+  --brand-tint: #12332A;
+  --brand-tint-strong: #1B4A3D;
+  --on-brand: #F0F9F5;
+  --line: #1e293b;
+  --canvas-muted: #0f172a;
+  --chart-1: #2F7D66;
+  --chart-2: #4FAE8F;
+  --chart-3: #8FD3B8;
+  --chart-grid: #1e293b;
 }
 
 @layer base {
@@ -73,6 +115,20 @@
   h2 {
     @apply font-bold text-[#111827];
     font-family: var(--font-inter-tight);
+  }
+
+  /* Base headings are hardcoded near-black. Inside the CRM app (.crm-app) follow the theme in dark mode.
+     :where() keeps specificity at zero so any explicit text-* class on a heading still wins. */
+  :where(.dark .crm-app) :is(h1, h2, h3, h4) {
+    color: var(--text-main);
+  }
+
+  /* <body> has a hardcoded near-black text colour (app/layout.js), which every element without its own
+     colour inherits — form controls, plain text, and portalled dialogs/toasts that render outside
+     .crm-app. In dark mode, follow the theme whenever a CRM/agency page is mounted; the marketing site
+     (no dark styling) keeps its current colours. */
+  .dark body:has(.crm-app) {
+    color: var(--text-main) !important; /* beats body's own text-[#111827] utility, which outranks @layer base */
   }
 
   .metric-value {
@@ -164,6 +220,17 @@
       linear-gradient(90deg, rgba(226, 232, 240, 0.4) 1px, transparent 1px);
     background-size: 64px 64px;
     mask-image: linear-gradient(to right, black 40%, transparent 100%);
+  }
+}
+
+/* Hide scrollbars while keeping the element scrollable. Used by horizontally-scrolling chip rows
+   (e.g. inbox channel filters). Was a Tailwind v3 plugin class that was never defined in v4, so the
+   native scrollbars showed through. */
+@utility scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
   }
 }
 
@@ -591,4 +658,18 @@
 .email-html-body > table,
 .email-html-body > div > table {
   width: 100% !important;
+}
+
+/* Chat thread wallpaper (WhatsApp / Instagram / Messenger threads in the Unified Inbox; email threads stay flat): the flat
+   #F1F6F3 base plus a very faint tile of brand-green line icons, so a short conversation in a wide pane doesn't look bare.
+   Industry-neutral icons only (the tile is shown to every business). Pure CSS/SVG (no image file). ~7% opacity so it never
+   competes with the bubbles; dark mode uses a lighter stroke on the dark base. */
+.chat-wallpaper {
+  background-color: #F1F6F3;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'240'%20height%3D'240'%20viewBox%3D'0%200%20240%20240'%3E%3Cg%20fill%3D'none'%20stroke%3D'%231D4B3E'%20stroke-opacity%3D'0.07'%20stroke-width%3D'1.5'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cg%20transform%3D'translate(24%2026)%20rotate(-12%2012%2012)%20scale(1.1)'%3E%3Cpath%20d%3D'M7.9%2020A9%209%200%201%200%204%2016.1L2%2022Z'%2F%3E%3C%2Fg%3E%3Cg%20transform%3D'translate(108%2016)%20rotate(8%2012%2012)%20scale(1.1)'%3E%3Cpath%20d%3D'M18%206%207%2017l-5-5'%2F%3E%3Cpath%20d%3D'm22%2010-7.5%207.5L13%2016'%2F%3E%3C%2Fg%3E%3Cg%20transform%3D'translate(176%2048)%20rotate(14%2012%2012)%20scale(1.1)'%3E%3Cpath%20d%3D'M22%2016.92v3a2%202%200%200%201-2.18%202%2019.79%2019.79%200%200%201-8.63-3.07%2019.5%2019.5%200%200%201-6-6%2019.79%2019.79%200%200%201-3.07-8.67A2%202%200%200%201%204.11%202h3a2%202%200%200%201%202%201.72%2012.84%2012.84%200%200%200%20.7%202.81%202%202%200%200%201-.45%202.11L8.09%209.91a16%2016%200%200%200%206%206l1.27-1.27a2%202%200%200%201%202.11-.45%2012.84%2012.84%200%200%200%202.81.7A2%202%200%200%201%2022%2016.92z'%2F%3E%3C%2Fg%3E%3Cg%20transform%3D'translate(38%20104)%20rotate(10%2012%2012)%20scale(1.1)'%3E%3Cpath%20d%3D'M12%202l3.09%206.26L22%209.27l-5%204.87%201.18%206.88L12%2017.77l-6.18%203.25L7%2014.14%202%209.27l6.91-1.01L12%202z'%2F%3E%3C%2Fg%3E%3Cg%20transform%3D'translate(112%2094)%20rotate(-6%2012%2012)%20scale(1.1)'%3E%3Cpath%20d%3D'M7%2010v12'%2F%3E%3Cpath%20d%3D'M15%205.88%2014%2010h5.83a2%202%200%200%201%201.92%202.56l-2.33%208A2%202%200%200%201%2017.5%2022H4a2%202%200%200%201-2-2v-8a2%202%200%200%201%202-2h2.76a2%202%200%200%200%201.79-1.11L12%202a3.13%203.13%200%200%201%203%203.88Z'%2F%3E%3C%2Fg%3E%3Cg%20transform%3D'translate(190%20130)%20rotate(-10%2012%2012)%20scale(1.1)'%3E%3Cpath%20d%3D'M19%2014c1.49-1.46%203-3.21%203-5.5A5.5%205.5%200%200%200%2016.5%203c-1.76%200-3%20.5-4.5%202-1.5-1.5-2.74-2-4.5-2A5.5%205.5%200%200%200%202%208.5c0%202.3%201.5%204.05%203%205.5l7%207Z'%2F%3E%3C%2Fg%3E%3Cg%20transform%3D'translate(26%20176)%20rotate(-8%2012%2012)%20scale(1.1)'%3E%3Crect%20width%3D'18'%20height%3D'18'%20x%3D'3'%20y%3D'4'%20rx%3D'2'%2F%3E%3Cpath%20d%3D'M16%202v4M8%202v4M3%2010h18'%2F%3E%3C%2Fg%3E%3Cg%20transform%3D'translate(100%20172)%20rotate(14%2012%2012)%20scale(1.1)'%3E%3Ccircle%20cx%3D'12'%20cy%3D'12'%20r%3D'10'%2F%3E%3Cpath%20d%3D'M12%206v6l4%202'%2F%3E%3C%2Fg%3E%3Cg%20transform%3D'translate(176%20198)%20rotate(6%2012%2012)%20scale(1.1)'%3E%3Ccircle%20cx%3D'12'%20cy%3D'12'%20r%3D'10'%2F%3E%3Cpath%20d%3D'M8%2014s1.5%202%204%202%204-2%204-2M9%209h.01M15%209h.01'%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+  background-size: 240px 240px;
+}
+.dark .chat-wallpaper {
+  background-color: #0b141a;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'240'%20height%3D'240'%20viewBox%3D'0%200%20240%20240'%3E%3Cg%20fill%3D'none'%20stroke%3D'%23ffffff'%20stroke-opacity%3D'0.04'%20stroke-width%3D'1.5'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cg%20transform%3D'translate(24%2026)%20rotate(-12%2012%2012)%20scale(1.1)'%3E%3Cpath%20d%3D'M7.9%2020A9%209%200%201%200%204%2016.1L2%2022Z'%2F%3E%3C%2Fg%3E%3Cg%20transform%3D'translate(108%2016)%20rotate(8%2012%2012)%20scale(1.1)'%3E%3Cpath%20d%3D'M18%206%207%2017l-5-5'%2F%3E%3Cpath%20d%3D'm22%2010-7.5%207.5L13%2016'%2F%3E%3C%2Fg%3E%3Cg%20transform%3D'translate(176%2048)%20rotate(14%2012%2012)%20scale(1.1)'%3E%3Cpath%20d%3D'M22%2016.92v3a2%202%200%200%201-2.18%202%2019.79%2019.79%200%200%201-8.63-3.07%2019.5%2019.5%200%200%201-6-6%2019.79%2019.79%200%200%201-3.07-8.67A2%202%200%200%201%204.11%202h3a2%202%200%200%201%202%201.72%2012.84%2012.84%200%200%200%20.7%202.81%202%202%200%200%201-.45%202.11L8.09%209.91a16%2016%200%200%200%206%206l1.27-1.27a2%202%200%200%201%202.11-.45%2012.84%2012.84%200%200%200%202.81.7A2%202%200%200%201%2022%2016.92z'%2F%3E%3C%2Fg%3E%3Cg%20transform%3D'translate(38%20104)%20rotate(10%2012%2012)%20scale(1.1)'%3E%3Cpath%20d%3D'M12%202l3.09%206.26L22%209.27l-5%204.87%201.18%206.88L12%2017.77l-6.18%203.25L7%2014.14%202%209.27l6.91-1.01L12%202z'%2F%3E%3C%2Fg%3E%3Cg%20transform%3D'translate(112%2094)%20rotate(-6%2012%2012)%20scale(1.1)'%3E%3Cpath%20d%3D'M7%2010v12'%2F%3E%3Cpath%20d%3D'M15%205.88%2014%2010h5.83a2%202%200%200%201%201.92%202.56l-2.33%208A2%202%200%200%201%2017.5%2022H4a2%202%200%200%201-2-2v-8a2%202%200%200%201%202-2h2.76a2%202%200%200%200%201.79-1.11L12%202a3.13%203.13%200%200%201%203%203.88Z'%2F%3E%3C%2Fg%3E%3Cg%20transform%3D'translate(190%20130)%20rotate(-10%2012%2012)%20scale(1.1)'%3E%3Cpath%20d%3D'M19%2014c1.49-1.46%203-3.21%203-5.5A5.5%205.5%200%200%200%2016.5%203c-1.76%200-3%20.5-4.5%202-1.5-1.5-2.74-2-4.5-2A5.5%205.5%200%200%200%202%208.5c0%202.3%201.5%204.05%203%205.5l7%207Z'%2F%3E%3C%2Fg%3E%3Cg%20transform%3D'translate(26%20176)%20rotate(-8%2012%2012)%20scale(1.1)'%3E%3Crect%20width%3D'18'%20height%3D'18'%20x%3D'3'%20y%3D'4'%20rx%3D'2'%2F%3E%3Cpath%20d%3D'M16%202v4M8%202v4M3%2010h18'%2F%3E%3C%2Fg%3E%3Cg%20transform%3D'translate(100%20172)%20rotate(14%2012%2012)%20scale(1.1)'%3E%3Ccircle%20cx%3D'12'%20cy%3D'12'%20r%3D'10'%2F%3E%3Cpath%20d%3D'M12%206v6l4%202'%2F%3E%3C%2Fg%3E%3Cg%20transform%3D'translate(176%20198)%20rotate(6%2012%2012)%20scale(1.1)'%3E%3Ccircle%20cx%3D'12'%20cy%3D'12'%20r%3D'10'%2F%3E%3Cpath%20d%3D'M8%2014s1.5%202%204%202%204-2%204-2M9%209h.01M15%209h.01'%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E");
 }

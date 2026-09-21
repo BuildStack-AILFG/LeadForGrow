@@ -89,14 +89,14 @@ export default function CRMKanban({ leads, onStatusChange, onOpenDrawer }) {
       <DragOverlay>
         {activeLead ? (
           <div
-            className="p-3 bg-white dark:bg-slate-900 border border-slate-200/80 border-l-[3px] rounded-lg shadow-lg w-64 rotate-2"
+            className="p-3 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-700/80 border-l-[3px] rounded-lg shadow-lg w-64 rotate-2"
             style={{
               borderLeftColor: activeLead.rowColor || getStatusAccentColor(activeLead.status),
               ...getLeadRowBackgroundStyle(activeLead),
             }}
           >
             <p className="font-medium text-sm">{activeLead.name}</p>
-            <p className="text-xs text-slate-500">{formatSource(activeLead.source)}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">{formatSource(activeLead.source)}</p>
           </div>
         ) : null}
       </DragOverlay>

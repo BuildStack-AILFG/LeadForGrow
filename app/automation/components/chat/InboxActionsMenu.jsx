@@ -68,7 +68,7 @@ export default function InboxActionsMenu({ chat, onUpdate, onClaim, onAction, cu
 
   return (
     <div className="relative" ref={ref}>
-      <button type="button" onClick={() => setOpen(!open)} className="p-2 rounded text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800" title="More actions">
+      <button type="button" onClick={() => setOpen(!open)} className="p-2 rounded text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800" title="More actions">
         <MoreVertical className="w-4 h-4" />
       </button>
       {open && (
@@ -82,10 +82,10 @@ export default function InboxActionsMenu({ chat, onUpdate, onClaim, onAction, cu
                   onClick={() => { action.onClick(); if (!action.keepOpen) setOpen(false); }}
                   className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left rounded transition-colors ${
                     action.danger
-                      ? 'text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30'
+                      ? 'text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30'
                       : action.active
-                        ? 'text-green-600 hover:bg-green-50 dark:hover:bg-green-950/30'
-                        : 'text-slate-700 dark:text-slate-300 hover:bg-[#F0F9F5] dark:hover:bg-slate-800'
+                        ? 'text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-950/30'
+                        : 'text-slate-700 dark:text-slate-300 hover:bg-brand-tint dark:hover:bg-slate-800'
                   }`}
                 >
                   <span className="w-4 h-4 flex items-center justify-center flex-shrink-0">
@@ -106,7 +106,7 @@ export default function InboxActionsMenu({ chat, onUpdate, onClaim, onAction, cu
                           setOpen(false);
                           setSnoozeOpen(false);
                         }}
-                        className="w-full text-left px-2.5 py-1.5 text-[11px] text-slate-600 dark:text-slate-400 hover:bg-[#F0F9F5] dark:hover:bg-slate-800 rounded transition-colors"
+                        className="w-full text-left px-2.5 py-1.5 text-[11px] text-slate-600 dark:text-slate-400 hover:bg-brand-tint dark:hover:bg-slate-800 rounded transition-colors"
                       >
                         {p.label}
                       </button>

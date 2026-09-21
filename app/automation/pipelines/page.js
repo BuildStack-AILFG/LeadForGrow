@@ -140,7 +140,7 @@ function PipelinesContent() {
   return (
     <div className="min-h-full bg-[#FAFDFA] dark:bg-slate-950 px-4 sm:px-6 py-6 max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Deal Pipeline</h1>
-      <p className="text-sm text-slate-500 mt-1 mb-6">
+      <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-6">
         Customize stage names, win probability scores, and colors. Changes appear instantly across Kanban, deals table, and deal detail.
       </p>
 
@@ -163,7 +163,7 @@ function PipelinesContent() {
             <button
               type="button"
               onClick={addStage}
-              className="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-slate-700 border border-slate-200 rounded-lg hover:bg-white"
+              className="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-white dark:hover:bg-slate-800"
             >
               <Plus className="w-3.5 h-3.5" /> Add stage
             </button>
@@ -213,7 +213,7 @@ function PipelinesContent() {
                 type="color"
                 value={s.color || '#6366f1'}
                 onChange={(e) => updateStage(i, { color: e.target.value })}
-                className="w-10 h-9 rounded border border-slate-200 cursor-pointer"
+                className="w-10 h-9 rounded border border-slate-200 dark:border-slate-700 cursor-pointer"
               />
               <div className="flex flex-col gap-1 text-[10px]">
                 <label className="flex items-center gap-1 cursor-pointer">
@@ -234,13 +234,13 @@ function PipelinesContent() {
                 </label>
               </div>
               <div className="flex items-center gap-0.5">
-                <button type="button" onClick={() => moveStage(i, -1)} className="p-1 text-slate-400 hover:text-slate-600" title="Move up">
+                <button type="button" onClick={() => moveStage(i, -1)} className="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300" title="Move up">
                   <ChevronUp className="w-4 h-4" />
                 </button>
-                <button type="button" onClick={() => moveStage(i, 1)} className="p-1 text-slate-400 hover:text-slate-600" title="Move down">
+                <button type="button" onClick={() => moveStage(i, 1)} className="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300" title="Move down">
                   <ChevronDown className="w-4 h-4" />
                 </button>
-                <button type="button" onClick={() => removeStage(i)} className="p-1 text-red-400 hover:text-red-600" title="Remove">
+                <button type="button" onClick={() => removeStage(i)} className="p-1 text-red-400 hover:text-red-600 dark:hover:text-red-400" title="Remove">
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>

@@ -1,13 +1,6 @@
 export const FEATURE_CATEGORIES = ['All', 'Platform', 'Automation'];
 
 export const BLOG_AUTHORS = {
-  'saurabh-singh': {
-    slug: 'saurabh-singh',
-    name: 'S.Singh',
-    role: 'Co-Founder & CTO',
-    bio: 'Leads product and engineering at LeadForGrow — writing about CRM, automation, and AI for revenue teams.',
-    initials: 'SS',
-  },
   'leadforgrow-team': {
     slug: 'leadforgrow-team',
     name: 'LeadForGrow Team',
@@ -21,7 +14,7 @@ export const featureArticles = [
   {
     slug: 'crm-sales-pipeline',
     category: 'Platform',
-    author: 'saurabh-singh',
+    author: 'leadforgrow-team',
     title: 'CRM & Sales Pipeline',
     excerpt:
       'Track every lead from first enquiry to closed deal with a visual pipeline built for fast-moving sales teams.',
@@ -83,7 +76,7 @@ export const featureArticles = [
   {
     slug: 'ai-reply-assistant',
     category: 'Platform',
-    author: 'saurabh-singh',
+    author: 'leadforgrow-team',
     title: 'AI Reply Assistant',
     excerpt:
       'Let AI draft replies, answer FAQs, and keep conversations moving—while your team stays in control.',
@@ -145,7 +138,7 @@ export const featureArticles = [
   {
     slug: 'analytics-reports',
     category: 'Platform',
-    author: 'saurabh-singh',
+    author: 'leadforgrow-team',
     title: 'Analytics & Reports',
     excerpt:
       'Measure response times, conversion rates, and team performance with dashboards built for sales leaders.',
@@ -207,7 +200,7 @@ export const featureArticles = [
   {
     slug: 'whatsapp-automation',
     category: 'Automation',
-    author: 'saurabh-singh',
+    author: 'leadforgrow-team',
     title: 'WhatsApp Automation',
     excerpt:
       'Connect WhatsApp Business API, send template messages, and automate follow-ups at scale.',
@@ -269,7 +262,7 @@ export const featureArticles = [
   {
     slug: 'email-automation',
     category: 'Automation',
-    author: 'saurabh-singh',
+    author: 'leadforgrow-team',
     title: 'Email Automation',
     excerpt:
       'Send timely email follow-ups, nurture sequences, and notifications tied to your sales pipeline.',

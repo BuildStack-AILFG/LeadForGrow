@@ -52,7 +52,7 @@ export default function ApiKeysSettingsPage() {
       <div className="p-8 text-center rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
         <Key className="w-10 h-10 text-slate-400 mx-auto mb-4" />
         <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-2">API access locked</h2>
-        <p className="text-sm text-slate-500 mb-4">Upgrade to Scale to generate API keys and webhooks.</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Upgrade to Scale to generate API keys and webhooks.</p>
         <button
           type="button"
           onClick={() => showUpgrade('API Keys', 'scale')}
@@ -69,7 +69,7 @@ export default function ApiKeysSettingsPage() {
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">API keys</h2>
-          <p className="text-sm text-slate-500">Manage scopes and track API usage</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Manage scopes and track API usage</p>
         </div>
         <button
           type="button"
@@ -87,12 +87,12 @@ export default function ApiKeysSettingsPage() {
           >
             <div>
               <p className="font-medium text-slate-900 dark:text-slate-100">{k.name}</p>
-              <p className="text-xs text-slate-500 font-mono">{k.keyPrefix}••••••••</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-mono">{k.keyPrefix}••••••••</p>
             </div>
             <span className="text-[10px] text-slate-400">{k.usageCount || 0} requests</span>
           </div>
         ))}
-        {!keys.length && <p className="text-sm text-slate-500 py-8 text-center">No API keys yet.</p>}
+        {!keys.length && <p className="text-sm text-slate-500 dark:text-slate-400 py-8 text-center">No API keys yet.</p>}
       </div>
     </div>
   );

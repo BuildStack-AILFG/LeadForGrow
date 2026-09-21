@@ -39,8 +39,8 @@ export default function StatCard({
           <span
             className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-md ${
               trend >= 0
-                ? 'text-emerald-700 bg-emerald-50 dark:bg-emerald-950/30'
-                : 'text-red-700 bg-red-50 dark:bg-red-950/30'
+                ? 'text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/30'
+                : 'text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-950/30'
             }`}
           >
             {trend >= 0 ? '+' : ''}{trend}%
@@ -48,7 +48,7 @@ export default function StatCard({
         )}
       </div>
       <div>
-        <p className="text-[10px] font-medium text-slate-500 uppercase tracking-wide">{label}</p>
+        <p className="text-[10px] font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">{label}</p>
         <p className="text-lg font-semibold text-slate-900 dark:text-slate-50 tabular-nums mt-0.5">{value}</p>
         {trendLabel && <p className="text-[10px] text-slate-400 mt-0.5">{trendLabel}</p>}
       </div>

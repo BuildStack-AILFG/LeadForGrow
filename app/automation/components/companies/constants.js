@@ -1,9 +1,9 @@
 export const COMPANY_STATUSES = [
-  { key: 'prospect', label: 'Prospect', badge: 'bg-slate-100 text-slate-700 border-slate-200' },
-  { key: 'customer', label: 'Customer', badge: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
-  { key: 'inactive', label: 'Inactive', badge: 'bg-gray-100 text-gray-600 border-gray-200' },
-  { key: 'partner', label: 'Partner', badge: 'bg-teal-50 text-teal-700 border-teal-200' },
-  { key: 'lost', label: 'Lost', badge: 'bg-red-50 text-red-700 border-red-200' },
+  { key: 'prospect', label: 'Prospect', badge: 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700' },
+  { key: 'customer', label: 'Customer', badge: 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800' },
+  { key: 'inactive', label: 'Inactive', badge: 'bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-slate-300 border-gray-200 dark:border-slate-700' },
+  { key: 'partner', label: 'Partner', badge: 'bg-teal-50 dark:bg-teal-950/30 text-teal-700 dark:text-teal-300 border-teal-200 dark:border-teal-800' },
+  { key: 'lost', label: 'Lost', badge: 'bg-red-50 dark:bg-red-950/30 text-red-700 dark:text-red-300 border-red-200 dark:border-red-800' },
 ];
 
 export const INDUSTRIES = [

@@ -1,5 +1,6 @@
 "use client";
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import {
@@ -315,7 +316,7 @@ export default function HowItWorks() {
                   { text: "Lead submits website form", badgeClass: "bg-blue-50 text-blue-600", hoverClass: "hover:border-blue-300", icon: <Globe className="w-5 h-5" /> },
                   { text: "Lead captured instantly in DB", badgeClass: "bg-indigo-50 text-indigo-600", hoverClass: "hover:border-indigo-300", icon: <Database className="w-5 h-5" /> },
                   { text: "Assigned to best sales rep", badgeClass: "bg-purple-50 text-purple-600", hoverClass: "hover:border-purple-300", icon: <Network className="w-5 h-5" /> },
-                  { text: "Rep gets WhatsApp notification", badgeClass: "bg-green-50 text-green-600", hoverClass: "hover:border-green-300", icon: <MessageSquare className="w-5 h-5" /> },
+                  { text: "Rep gets WhatsApp notification", badgeClass: "bg-green-50 text-green-600", hoverClass: "hover:border-green-300", icon: <WhatsAppIcon className="w-5 h-5" /> },
                   { text: "Rep calls lead via system", badgeClass: "bg-orange-50 text-orange-600", hoverClass: "hover:border-orange-300", icon: <Smartphone className="w-5 h-5" /> },
                   { text: "Lead qualification status updated", badgeClass: "bg-yellow-50 text-yellow-600", hoverClass: "hover:border-yellow-300", icon: <TrendingUp className="w-5 h-5" /> },
                   { text: "Revenue dashboard metrics updated", badgeClass: "bg-emerald-50 text-emerald-600", hoverClass: "hover:border-emerald-300", icon: <BarChart3 className="w-5 h-5" /> },
@@ -379,7 +380,7 @@ export default function HowItWorks() {
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
               {[
-                { name: "WhatsApp Business", icon: <MessageSquare /> },
+                { name: "WhatsApp Business", icon: <WhatsAppIcon size={24} /> },
                 { name: "Website Forms", icon: <Globe /> },
                 { name: "Google Ads", icon: <MonitorPlay /> },
                 { name: "Facebook Leads", icon: <Facebook /> },

@@ -73,9 +73,9 @@ export default function DealsKanban({
 
       <DragOverlay>
         {activeDeal ? (
-          <div className="p-3.5 bg-white border border-[#E5E7EB] rounded-xl shadow-lg w-72 rotate-1">
-            <p className="text-[13px] font-semibold text-[#101828] truncate">{activeDeal.title}</p>
-            <p className="text-[13px] font-semibold text-[#101828] mt-1 tabular-nums">
+          <div className="p-3.5 bg-white dark:bg-slate-900 border border-[#E5E7EB] dark:border-slate-700 rounded-xl shadow-lg w-72 rotate-1">
+            <p className="text-[13px] font-semibold text-[#101828] dark:text-slate-100 truncate">{activeDeal.title}</p>
+            <p className="text-[13px] font-semibold text-[#101828] dark:text-slate-100 mt-1 tabular-nums">
               {formatValue(activeDeal.amount, activeDeal.currency)}
             </p>
             <div className="mt-2">

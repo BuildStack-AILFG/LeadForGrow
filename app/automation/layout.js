@@ -21,7 +21,7 @@ export default function AutomationLayout({ children }) {
       <AccessProvider>
       <TourProvider>
       <BusinessAssistantRoot>
-        <div className="flex h-screen bg-white dark:bg-slate-950 relative overflow-hidden transition-colors duration-300">
+        <div className="crm-app flex h-screen bg-white dark:bg-slate-950 text-[#111827] dark:text-slate-100 relative overflow-hidden transition-colors duration-300">
           <style dangerouslySetInnerHTML={{
             __html: `body { overflow: hidden !important; height: 100vh !important; }`
           }} />

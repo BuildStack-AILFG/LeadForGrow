@@ -24,7 +24,7 @@ export default function FunnelChart({ statusCounts = {}, totalLeads = 0 }) {
             <div key={stage.key}>
               <div className="flex items-center justify-between text-xs mb-1">
                 <span className="font-medium text-slate-700 dark:text-slate-300">{stage.label}</span>
-                <span className="text-slate-500 tabular-nums">
+                <span className="text-slate-500 dark:text-slate-400 tabular-nums">
                   {stage.count.toLocaleString()} · {pct}%
                   {dropOff > 0 && <span className="text-red-500 ml-1">−{dropOff}%</span>}
                 </span>

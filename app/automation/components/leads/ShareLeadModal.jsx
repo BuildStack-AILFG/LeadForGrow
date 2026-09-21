@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { X, Plus, Trash2, Send, UserPlus } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { authFetch } from '@/lib/apiClient';
+import { toWhatsAppNumber } from '@/lib/whatsapp/waPhone';
 
 export function resolveLeadLocation(lead) {
   const loc = lead?.location;
@@ -102,7 +103,7 @@ export default function ShareLeadModal({ lead, shareMessage, onClose }) {
   };
 
   const shareTo = (contact) => {
-    const number = String(contact.whatsapp).replace(/[^\d]/g, '');
+    const number = toWhatsAppNumber(contact.whatsapp);
     const text = encodeURIComponent(buildShareText(lead, shareMessage));
     window.open(`https://wa.me/${number}?text=${text}`, '_blank', 'noopener,noreferrer');
   };
@@ -113,13 +114,13 @@ export default function ShareLeadModal({ lead, shareMessage, onClose }) {
       <div className="relative w-full max-w-sm bg-white dark:bg-slate-950 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col max-h-[80vh]">
         <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 dark:border-slate-800">
           <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Share lead on WhatsApp</h3>
-          <button type="button" onClick={onClose} aria-label="Close" className="p-1.5 rounded-md text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
+          <button type="button" onClick={onClose} aria-label="Close" className="p-1.5 rounded-md text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
             <X className="w-4 h-4" />
           </button>
         </div>
 
         <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-800">
-          <p className="text-xs text-slate-500">Sharing:</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Sharing:</p>
           <p className="text-sm font-medium text-slate-800 dark:text-slate-200">{lead?.name} · {lead?.phone || lead?.whatsappId || '—'}</p>
         </div>
 
@@ -134,7 +135,7 @@ export default function ShareLeadModal({ lead, shareMessage, onClose }) {
                 <div key={c._id} className="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900">
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-medium text-slate-800 dark:text-slate-200 truncate">{c.name}</p>
-                    <p className="text-xs text-slate-500">+{c.whatsapp}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">+{c.whatsapp}</p>
                   </div>
                   <button
                     type="button"
@@ -154,14 +155,14 @@ export default function ShareLeadModal({ lead, shareMessage, onClose }) {
                 </div>
               ))}
               {!contacts.length && !showAdd && (
-                <p className="text-sm text-slate-500 text-center py-4">No saved contacts yet. Add one below.</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400 text-center py-4">No saved contacts yet. Add one below.</p>
               )}
             </>
           )}
 
           {showAdd ? (
             <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 space-y-2">
-              <p className="text-xs font-medium text-slate-500 flex items-center gap-1"><UserPlus className="w-3 h-3" /> New contact</p>
+              <p className="text-xs font-medium text-slate-500 dark:text-slate-400 flex items-center gap-1"><UserPlus className="w-3 h-3" /> New contact</p>
               <input
                 type="text"
                 value={form.name}

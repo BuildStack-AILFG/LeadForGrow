@@ -46,11 +46,11 @@ export default function JourneysPage() {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
       <div className="mb-8">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-100 dark:bg-violet-950/40 text-violet-700 text-xs font-medium mb-3">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-100 dark:bg-violet-950/40 text-violet-700 dark:text-violet-300 text-xs font-medium mb-3">
           <Map className="w-3.5 h-3.5" /> Customer Journeys
         </div>
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Live journey tracker</h1>
-        <p className="text-sm text-slate-500 mt-1">Real-time progress across all active workflow executions</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Real-time progress across all active workflow executions</p>
       </div>
 
       <AutoPageIntro />
@@ -59,7 +59,7 @@ export default function JourneysPage() {
         <div className="text-center py-16 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700">
           <Map className="w-10 h-10 mx-auto text-slate-400 mb-3" />
           <p className="text-slate-900 dark:text-white font-semibold mb-1">No active journeys yet</p>
-          <p className="text-slate-500 text-sm max-w-sm mx-auto mb-5">
+          <p className="text-slate-500 dark:text-slate-400 text-sm max-w-sm mx-auto mb-5">
             Journeys appear here once a lead is enrolled in a Sequence. Build one to see it tracked live.
           </p>
           <Link
@@ -78,13 +78,13 @@ export default function JourneysPage() {
                 <div className="flex items-start justify-between gap-4 mb-4">
                   <div>
                     <p className="font-semibold text-slate-900 dark:text-white">{j.sequenceName}</p>
-                    <p className="text-xs text-slate-500">Lead {j.leadId?.slice?.(-6) || j.leadId}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">Lead {j.leadId?.slice?.(-6) || j.leadId}</p>
                   </div>
                   <span className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full ${
-                    j.completed ? 'bg-emerald-100 text-emerald-700' :
-                    j.failed ? 'bg-red-100 text-red-700' :
-                    j.waiting ? 'bg-amber-100 text-amber-700' :
-                    'bg-teal-100 text-teal-700'
+                    j.completed ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300' :
+                    j.failed ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300' :
+                    j.waiting ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300' :
+                    'bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300'
                   }`}>
                     <Icon className="w-3 h-3" /> {j.status}
                   </span>
@@ -115,12 +115,12 @@ export default function JourneysPage() {
 
                 {(j.logs || []).length > 0 && (
                   <details className="mt-3">
-                    <summary className="text-xs text-slate-500 cursor-pointer flex items-center gap-1">
+                    <summary className="text-xs text-slate-500 dark:text-slate-400 cursor-pointer flex items-center gap-1">
                       <ChevronRight className="w-3 h-3" /> {j.logs.length} steps logged
                     </summary>
                     <div className="mt-2 space-y-1 max-h-32 overflow-y-auto">
                       {j.logs.map((log, i) => (
-                        <div key={i} className="text-[11px] text-slate-500 flex gap-2">
+                        <div key={i} className="text-[11px] text-slate-500 dark:text-slate-400 flex gap-2">
                           <span className={log.status === 'success' ? 'text-emerald-500' : log.status === 'failed' ? 'text-red-500' : ''}>
                             {log.status}
                           </span>

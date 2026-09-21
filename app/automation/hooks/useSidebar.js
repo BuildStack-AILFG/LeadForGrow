@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { authFetch } from '@/lib/apiClient';
 import { useConfirm } from '@/app/components/ConfirmProvider';
+import { clearUserStorage } from '@/lib/clientStorage';
 
 export function useSidebar() {
   const confirm = useConfirm();
@@ -125,7 +126,7 @@ export function useSidebar() {
       danger: true,
     });
     if (!ok) return;
-    localStorage.clear();
+    clearUserStorage(); // keeps cookie-consent / theme / popup snooze — see lib/clientStorage.js
     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     window.location.href = '/';
   }, [confirm]);

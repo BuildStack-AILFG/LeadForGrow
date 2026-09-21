@@ -53,18 +53,18 @@ export default function QualifiedSummaryModal({ open, leadName, onConfirm, onCan
         <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 dark:border-slate-800 sticky top-0 bg-white dark:bg-slate-900">
           <div>
             <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Qualification Summary</h3>
-            <p className="text-xs text-slate-500 mt-0.5">{leadName || 'Lead'}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{leadName || 'Lead'}</p>
           </div>
-          <button type="button" onClick={onCancel} disabled={saving} className="p-1.5 rounded-md text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50">
+          <button type="button" onClick={onCancel} disabled={saving} className="p-1.5 rounded-md text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50">
             <X className="w-4 h-4" />
           </button>
         </div>
         <form onSubmit={handleSubmit} className="p-4 space-y-3">
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-slate-500 dark:text-slate-400">
             Capture qualification details before marking this lead as Qualified. Use <strong>Convert to Deal</strong> when ready to move to the sales pipeline.
           </p>
           <div>
-            <label className="text-xs font-medium text-slate-500">Estimated Budget (INR) *</label>
+            <label className="text-xs font-medium text-slate-500 dark:text-slate-400">Estimated Budget (INR) *</label>
             <input
               type="number"
               min="1"
@@ -78,7 +78,7 @@ export default function QualifiedSummaryModal({ open, leadName, onConfirm, onCan
             />
           </div>
           <div>
-            <label className="text-xs font-medium text-slate-500">Expected Timeline</label>
+            <label className="text-xs font-medium text-slate-500 dark:text-slate-400">Expected Timeline</label>
             <input
               className={`${inputCls} mt-1`}
               value={form.expectedTimeline}
@@ -87,7 +87,7 @@ export default function QualifiedSummaryModal({ open, leadName, onConfirm, onCan
             />
           </div>
           <div>
-            <label className="text-xs font-medium text-slate-500">Requirements</label>
+            <label className="text-xs font-medium text-slate-500 dark:text-slate-400">Requirements</label>
             <textarea
               rows={2}
               className={`${inputCls} mt-1 resize-none`}
@@ -97,7 +97,7 @@ export default function QualifiedSummaryModal({ open, leadName, onConfirm, onCan
             />
           </div>
           <div>
-            <label className="text-xs font-medium text-slate-500">Decision Maker</label>
+            <label className="text-xs font-medium text-slate-500 dark:text-slate-400">Decision Maker</label>
             <input
               className={`${inputCls} mt-1`}
               value={form.decisionMaker}
@@ -106,7 +106,7 @@ export default function QualifiedSummaryModal({ open, leadName, onConfirm, onCan
             />
           </div>
           <div>
-            <label className="text-xs font-medium text-slate-500">Next Follow-up Date</label>
+            <label className="text-xs font-medium text-slate-500 dark:text-slate-400">Next Follow-up Date</label>
             <input
               type="datetime-local"
               className={`${inputCls} mt-1`}

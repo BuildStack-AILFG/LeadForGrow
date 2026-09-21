@@ -1,8 +1,9 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { useRef } from 'react';
 import { motion, useSpring } from 'framer-motion';
-import { MessageCircle, Users, UserCheck, Inbox, Bell, TrendingUp } from 'lucide-react';
+import { Users, UserCheck, Inbox, Bell, TrendingUp } from 'lucide-react';
 import { useMouseParallax } from './useMouseParallax';
 import LiveDemoLoop from './LiveDemoLoop';
 
@@ -88,7 +89,7 @@ export default function CrmCommandCenter() {
       <FloatingCard depth={1.2} mouse={mouse} delay={0.25} className="absolute left-0 top-[52%] w-[48%] z-[3]">
         <div className="rounded-xl border border-blue-200/60 dark:border-blue-800/40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl shadow-lg p-3">
           <div className="flex items-center gap-2 mb-2">
-            <MessageCircle className="w-3.5 h-3.5 text-blue-600" />
+            <WhatsAppIcon colored className="w-3.5 h-3.5" />
             <span className="text-[10px] font-semibold text-slate-700 dark:text-slate-200">WhatsApp Inbox</span>
           </div>
           <div className="space-y-1.5">

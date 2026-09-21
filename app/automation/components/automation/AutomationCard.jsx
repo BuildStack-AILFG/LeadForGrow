@@ -82,7 +82,7 @@ function AutomationCard({ rule, selected, onSelect, onToggle }) {
               </span>
             )}
             <span className="text-[10px] text-slate-400">·</span>
-            <span className="text-[10px] text-slate-500">{getTriggerLabel(rule)}</span>
+            <span className="text-[10px] text-slate-500 dark:text-slate-400">{getTriggerLabel(rule)}</span>
           </div>
 
           <div className="flex items-center gap-3 mt-2 text-[10px] text-slate-400">

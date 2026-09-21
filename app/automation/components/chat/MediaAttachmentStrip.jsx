@@ -19,21 +19,21 @@ export default function MediaAttachmentStrip({ uploads, onRemove, onRetry }) {
         <div
           key={u.id}
           className={`relative flex-shrink-0 w-20 h-20 rounded-lg border overflow-hidden ${
-            u.status === 'failed' ? 'border-red-300 bg-red-50' : 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800'
+            u.status === 'failed' ? 'border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-950/30' : 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800'
           }`}
         >
           {u.preview ? (
             <img src={u.preview} alt="" className="w-full h-full object-cover" />
           ) : (
-            <div className="w-full h-full flex flex-col items-center justify-center p-1 text-slate-500">
+            <div className="w-full h-full flex flex-col items-center justify-center p-1 text-slate-500 dark:text-slate-400">
               <FileIcon mimeType={u.mimeType} />
               <span className="text-[8px] truncate w-full text-center mt-1">{u.name}</span>
             </div>
           )}
           {u.status === 'uploading' && (
             <div className="absolute inset-0 bg-black/40 flex items-end">
-              <div className="w-full h-1 bg-slate-200">
-                <div className="h-full bg-[#1D4B3E] transition-all" style={{ width: `${u.progress}%` }} />
+              <div className="w-full h-1 bg-slate-200 dark:bg-slate-700">
+                <div className="h-full bg-brand transition-all" style={{ width: `${u.progress}%` }} />
               </div>
             </div>
           )}
@@ -44,7 +44,7 @@ export default function MediaAttachmentStrip({ uploads, onRemove, onRetry }) {
               className="absolute inset-0 flex items-center justify-center bg-red-500/20"
               title={u.error || 'Retry'}
             >
-              <RotateCcw className="w-4 h-4 text-red-600" />
+              <RotateCcw className="w-4 h-4 text-red-600 dark:text-red-400" />
             </button>
           )}
           <button

@@ -41,26 +41,26 @@ export default function CompanyCard({ company }) {
   return (
     <Link
       href={`/automation/companies/${company._id}`}
-      className="group block bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl p-5 hover:border-emerald-200 hover:shadow-md hover:shadow-emerald-500/5 transition-all"
+      className="group block bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl p-5 hover:border-emerald-200 dark:hover:border-emerald-800 hover:shadow-md hover:shadow-emerald-500/5 transition-all"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-3 min-w-0">
           <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-900 flex items-center justify-center">
-            <Building2 className="w-5 h-5 text-emerald-600" />
+            <Building2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
           </div>
           <div className="min-w-0">
             <h3 className="font-semibold text-slate-900 dark:text-white truncate group-hover:text-emerald-700 dark:group-hover:text-emerald-400">
               {company.name}
             </h3>
             {company.industry && (
-              <p className="text-xs text-slate-500 mt-0.5">{company.industry}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{company.industry}</p>
             )}
           </div>
         </div>
       </div>
 
       {company.website && (
-        <div className="flex items-center gap-1.5 mt-3 text-xs text-emerald-600 truncate">
+        <div className="flex items-center gap-1.5 mt-3 text-xs text-emerald-600 dark:text-emerald-400 truncate">
           <Globe className="w-3.5 h-3.5 flex-shrink-0" />
           <span className="truncate">{company.website.replace(/^https?:\/\//, '')}</span>
         </div>
@@ -84,7 +84,7 @@ export default function CompanyCard({ company }) {
           </p>
         </div>
         <div className="rounded-lg bg-emerald-50/60 dark:bg-emerald-950/20 px-2.5 py-2 col-span-2">
-          <div className="flex items-center gap-1 text-[10px] uppercase tracking-wide text-emerald-600/80">
+          <div className="flex items-center gap-1 text-[10px] uppercase tracking-wide text-emerald-600/80 dark:text-emerald-400/80">
             <IndianRupee className="w-3 h-3" /> Total Revenue
           </div>
           <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-400 mt-0.5">
@@ -93,7 +93,7 @@ export default function CompanyCard({ company }) {
         </div>
       </div>
 
-      <div className="flex items-center justify-between mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-500">
+      <div className="flex items-center justify-between mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400">
         <div className="flex items-center gap-1 truncate">
           <User className="w-3.5 h-3.5 flex-shrink-0" />
           <span className="truncate">{ownerLabel(company.ownerId)}</span>

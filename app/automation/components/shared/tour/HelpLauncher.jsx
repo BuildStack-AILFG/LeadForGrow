@@ -78,7 +78,7 @@ export default function HelpLauncher() {
         >
           <div className="flex items-center justify-between mb-3">
             <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
-              <Compass className="w-4 h-4 text-teal-600" /> Need help?
+              <Compass className="w-4 h-4 text-teal-600 dark:text-teal-400" /> Need help?
             </p>
             <button type="button" onClick={() => setOpen(false)} className="p-1 rounded-lg text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
               <X className="w-3.5 h-3.5" />

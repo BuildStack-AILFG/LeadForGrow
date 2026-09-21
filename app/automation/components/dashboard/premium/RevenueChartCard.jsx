@@ -193,15 +193,15 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3 shrink-0">
         <div>
           <div className="flex items-center gap-1 mb-1.5">
-            <p className="text-[13px] font-normal text-[#475569]">Revenue</p>
-            <ChevronDown className="w-3.5 h-3.5 text-[#94A3B8]" strokeWidth={1.75} />
+            <p className="text-[13px] font-normal text-[#475569] dark:text-slate-300">Revenue</p>
+            <ChevronDown className="w-3.5 h-3.5 text-[#94A3B8] dark:text-slate-400" strokeWidth={1.75} />
           </div>
           <div className="flex items-baseline gap-2.5 flex-wrap">
-            <p className="text-[22px] font-medium text-[#1A1D1F] tabular-nums leading-none tracking-[-0.02em]">
+            <p className="text-[22px] font-medium text-[#1A1D1F] dark:text-slate-100 tabular-nums leading-none tracking-[-0.02em]">
               {formatCurrency(total, currency)}
             </p>
-            <p className="text-[12px] font-normal text-[#94A3B8]">
-              <span className={monthUp ? 'text-[#059669]' : 'text-[#E5484D]'}>
+            <p className="text-[12px] font-normal text-[#94A3B8] dark:text-slate-400">
+              <span className={monthUp ? 'text-[#059669] dark:text-emerald-400' : 'text-[#E5484D]'}>
                 {monthUp ? '+' : ''}{monthChange}%
               </span>
               {' '}vs last month
@@ -210,9 +210,9 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
         </div>
 
         <div className="flex items-center gap-2 self-start">
-          <div className="relative flex p-1 bg-[#F2F4F3] rounded-none">
+          <div className="relative flex p-1 bg-[#F2F4F3] dark:bg-slate-900 rounded-none">
             <span
-              className="absolute top-1 bottom-1 rounded-none bg-white shadow-[0_1px_2px_rgba(16,24,40,0.06)] transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+              className="absolute top-1 bottom-1 rounded-none bg-white dark:bg-slate-900 shadow-[0_1px_2px_rgba(16,24,40,0.06)] transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
               style={{
                 left: 4,
                 width: `calc((100% - 8px) / ${TIMEFRAMES.length})`,
@@ -227,7 +227,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
                   setTimeframe(tf);
                   setHoverIdx(null);
                 }}
-                className={`relative z-10 flex-1 px-2 py-1.5 text-[11px] font-normal rounded-none transition-colors duration-200 ${timeframe === tf ? 'text-[#1A1D1F]' : 'text-[#64748B] hover:text-[#1A1D1F]'
+                className={`relative z-10 flex-1 px-2 py-1.5 text-[11px] font-normal rounded-none transition-colors duration-200 ${timeframe === tf ? 'text-[#1A1D1F] dark:text-slate-100' : 'text-[#64748B] dark:text-slate-300 hover:text-[#1A1D1F] dark:hover:text-slate-100'
                   }`}
               >
                 {tf}
@@ -252,7 +252,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
             {chart.yTicks.map((tick) => (
               <span
                 key={tick}
-                className="text-[10px] font-normal text-[#94A3B8] tabular-nums leading-none"
+                className="text-[10px] font-normal text-[#94A3B8] dark:text-slate-400 tabular-nums leading-none"
               >
                 {formatYTick(tick)}
               </span>
@@ -274,9 +274,9 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
               >
                 <defs>
                   <linearGradient id="revenueGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#1D4B3E" stopOpacity="0.2" />
-                    <stop offset="55%" stopColor="#1D4B3E" stopOpacity="0.06" />
-                    <stop offset="100%" stopColor="#1D4B3E" stopOpacity="0" />
+                    <stop offset="0%" style={{ stopColor: 'var(--brand-ink)', stopOpacity: 0.2 }} />
+                    <stop offset="55%" style={{ stopColor: 'var(--brand-ink)', stopOpacity: 0.06 }} />
+                    <stop offset="100%" style={{ stopColor: 'var(--brand-ink)', stopOpacity: 0 }} />
                   </linearGradient>
                 </defs>
 
@@ -290,7 +290,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
                       x2={100 - PAD.right}
                       y1={y}
                       y2={y}
-                      stroke="#E8ECEF"
+                      className="stroke-line"
                       strokeWidth="1"
                       strokeDasharray="4 4"
                       vectorEffect="non-scaling-stroke"
@@ -306,7 +306,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
                     x2={p.x}
                     y1={PAD.top}
                     y2={100 - PAD.bottom}
-                    stroke="#F1F3F2"
+                    className="stroke-line" opacity="0.5"
                     strokeWidth="1"
                     strokeDasharray="4 4"
                     vectorEffect="non-scaling-stroke"
@@ -323,7 +323,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
                   <path
                     d={chart.lineD}
                     fill="none"
-                    stroke="#1D4B3E"
+                    className="stroke-brand-ink"
                     strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -339,7 +339,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
                       x2={hovered.x}
                       y1={PAD.top}
                       y2={100 - PAD.bottom}
-                      stroke="#1D4B3E"
+                      className="stroke-brand-ink"
                       strokeWidth="1"
                       strokeDasharray="3 3"
                       opacity="0.4"
@@ -349,7 +349,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
                       cx={hovered.x}
                       cy={hovered.y}
                       r="4"
-                      fill="#1D4B3E"
+                      className="fill-brand-ink"
                       opacity="0.12"
                       vectorEffect="non-scaling-stroke"
                     />
@@ -357,7 +357,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
                       cx={hovered.x}
                       cy={hovered.y}
                       r="2"
-                      fill="#1D4B3E"
+                      className="fill-brand-ink"
                       stroke="white"
                       strokeWidth="1.5"
                       vectorEffect="non-scaling-stroke"
@@ -368,7 +368,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
 
               {hovered && (
                 <div
-                  className="absolute top-0 pointer-events-none px-2.5 py-1.5 bg-[#1A1D1F] text-white rounded-none shadow-[0_6px_16px_rgba(16,24,40,0.18)] tabular-nums whitespace-nowrap z-10"
+                  className="absolute top-0 pointer-events-none px-2.5 py-1.5 bg-[#1A1D1F] dark:bg-slate-700 text-white rounded-none shadow-[0_6px_16px_rgba(16,24,40,0.18)] tabular-nums whitespace-nowrap z-10"
                   style={{
                     left: `${hovered.x}%`,
                     transform: `translateX(${hovered.x > 75 ? '-90%' : hovered.x < 15 ? '-10%' : '-50%'})`,
@@ -393,7 +393,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
                 return (
                   <span
                     key={`${p.label}-${i}`}
-                    className="absolute text-[10px] font-normal text-[#94A3B8] tabular-nums -translate-x-1/2"
+                    className="absolute text-[10px] font-normal text-[#94A3B8] dark:text-slate-400 tabular-nums -translate-x-1/2"
                     style={{ left: `${p.x}%` }}
                   >
                     {p.displayLabel}

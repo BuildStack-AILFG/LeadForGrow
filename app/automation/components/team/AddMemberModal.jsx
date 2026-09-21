@@ -29,7 +29,7 @@ export default function AddMemberModal({
         {createdInfo ? (
           <div className="p-5 space-y-4">
             <div className="p-4 rounded-xl bg-emerald-50/80 dark:bg-emerald-950/20 border border-emerald-200/80 dark:border-emerald-900/50 text-center">
-              <CheckCircle2 className="w-8 h-8 text-emerald-600 mx-auto mb-2" />
+              <CheckCircle2 className="w-8 h-8 text-emerald-600 dark:text-emerald-400 mx-auto mb-2" />
               <p className="text-sm font-medium text-slate-800 dark:text-slate-200 mb-3">Share login credentials</p>
               <div className="space-y-2 text-left">
                 <div className="p-3 rounded-lg bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/50">
@@ -90,7 +90,7 @@ export default function AddMemberModal({
                 placeholder="Set password for this member (auto-generated if empty)"
                 className="w-full px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800"
               />
-              <p className="mt-1 text-[10px] text-slate-500">Share this email and password so they can log in at /user/register?mode=login</p>
+              <p className="mt-1 text-[10px] text-slate-500 dark:text-slate-400">Share this email and password so they can log in at /user/register?mode=login</p>
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Phone</label>
@@ -102,7 +102,7 @@ export default function AddMemberModal({
               />
             </div>
             <div className="flex gap-2 pt-1">
-              <button type="button" onClick={onClose} className="flex-1 py-2.5 text-sm font-medium text-slate-700 bg-slate-100 dark:bg-slate-800 rounded-lg">
+              <button type="button" onClick={onClose} className="flex-1 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 rounded-lg">
                 Cancel
               </button>
               <button type="submit" disabled={saving} className="flex-1 py-2.5 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-lg disabled:opacity-50">

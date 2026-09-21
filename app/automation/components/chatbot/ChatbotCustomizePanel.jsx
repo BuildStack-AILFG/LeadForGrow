@@ -159,7 +159,7 @@ export default function ChatbotCustomizePanel({ config, onChange }) {
           <button
             type="button"
             onClick={addQuestion}
-            className="inline-flex items-center gap-1.5 text-xs font-medium text-teal-700 hover:text-teal-800 mt-1"
+            className="inline-flex items-center gap-1.5 text-xs font-medium text-teal-700 dark:text-teal-300 hover:text-teal-800 dark:hover:text-teal-200 mt-1"
           >
             <Plus className="w-3.5 h-3.5" /> Add question
           </button>

@@ -5,7 +5,7 @@ export const metadata = {
   description: "Transform your website visitors into quality enquiries with LeadForGrow's smart lead capture forms. Natively integrated, behavior-triggered, and conversion-optimized.",
   keywords: ["lead capture forms", "contact form automation", "website lead widgets India", "custom lead forms", "enquiry management system"],
   alternates: {
-    canonical: 'https://leadforgrow.online/product/forms'
+    canonical: 'https://www.leadforgrow.com/product/forms'
   }
 };
 

@@ -27,13 +27,13 @@ export default function RetentionChartCard({ retention, onRefresh }) {
     <PremiumCard padding="p-4" className="h-full flex flex-col">
       <div className="flex items-start justify-between gap-3 mb-3">
         <div>
-          <p className="text-[13px] font-normal text-[#475569] mb-1.5">Retention Rate</p>
+          <p className="text-[13px] font-normal text-[#475569] dark:text-slate-300 mb-1.5">Retention Rate</p>
           <div className="flex items-baseline gap-2">
-            <p className="text-[22px] font-medium text-[#1A1D1F] tabular-nums leading-none tracking-[-0.02em]">
+            <p className="text-[22px] font-medium text-[#1A1D1F] dark:text-slate-100 tabular-nums leading-none tracking-[-0.02em]">
               {rate}%
             </p>
             <span
-              className={`inline-flex items-center px-1.5 py-0.5 rounded-full text-[11px] font-normal ${monthUp ? 'text-[#047857] bg-[#ECFDF5]' : 'text-[#C0353A] bg-[#FEF3F2]'
+              className={`inline-flex items-center px-1.5 py-0.5 rounded-full text-[11px] font-normal ${monthUp ? 'text-[#047857] dark:text-emerald-400 bg-[#ECFDF5] dark:bg-slate-900' : 'text-[#C0353A] dark:text-red-400 bg-[#FEF3F2] dark:bg-slate-900'
                 }`}
             >
               {monthUp ? '+' : ''}{change}%
@@ -54,7 +54,7 @@ export default function RetentionChartCard({ retention, onRefresh }) {
         {greenSegments.length > 0 && (
           <div className="flex flex-wrap gap-x-4 gap-y-2 mb-4">
             {greenSegments.map((seg) => (
-              <span key={seg.key} className="inline-flex items-center gap-1.5 text-[11.5px] text-[#667085] font-medium">
+              <span key={seg.key} className="inline-flex items-center gap-1.5 text-[11.5px] text-[#667085] dark:text-slate-300 font-medium">
                 <span className="w-2 h-2 rounded-full" style={{ backgroundColor: seg.color }} />
                 {seg.label}
               </span>
@@ -65,8 +65,8 @@ export default function RetentionChartCard({ retention, onRefresh }) {
         <div className="flex-1 min-h-[180px]">
           {monthly.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center px-4">
-              <p className="text-[13px] font-medium text-[#475569]">No retention data yet</p>
-              <p className="text-[12px] text-[#98A2B3] mt-1">This fills in once customers start coming back for repeat business.</p>
+              <p className="text-[13px] font-medium text-[#475569] dark:text-slate-300">No retention data yet</p>
+              <p className="text-[12px] text-[#98A2B3] dark:text-slate-400 mt-1">This fills in once customers start coming back for repeat business.</p>
             </div>
           ) : (
             <div className="flex items-end justify-between gap-2 h-full pt-2">
@@ -91,7 +91,7 @@ export default function RetentionChartCard({ retention, onRefresh }) {
                       );
                     })}
                   </div>
-                  <span className="text-[10px] text-[#98A2B3] font-medium">{month.month}</span>
+                  <span className="text-[10px] text-[#98A2B3] dark:text-slate-400 font-medium">{month.month}</span>
                 </div>
               ))}
             </div>

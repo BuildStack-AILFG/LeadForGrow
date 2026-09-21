@@ -57,7 +57,7 @@ export default function CompaniesKpiCards({ stats, loading }) {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="h-[120px] rounded-xl border border-[#E5E7EB] bg-white animate-shimmer bg-gradient-to-r from-[#F9FAFB] via-white to-[#F9FAFB] bg-[length:200%_100%]" />
+          <div key={i} className="h-[120px] rounded-xl border border-[#E5E7EB] dark:border-slate-700 bg-white dark:bg-slate-900 animate-shimmer bg-gradient-to-r from-[#F9FAFB] via-white to-[#F9FAFB] bg-[length:200%_100%]" />
         ))}
       </div>
     );

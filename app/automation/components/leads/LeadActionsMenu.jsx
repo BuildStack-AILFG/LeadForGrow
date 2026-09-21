@@ -1,19 +1,18 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import {
   MoreHorizontal,
   ExternalLink,
-  MessageSquare,
   Phone,
   UserPlus,
   RefreshCw,
   StickyNote,
   Calendar,
   Trophy,
-  XCircle
-} from 'lucide-react';
+  XCircle } from 'lucide-react';
 import { PIPELINE_STAGES } from './constants';
 import { mapTeamMemberOptions } from './utils';
 
@@ -70,7 +69,7 @@ export default function LeadActionsMenu({
             className="w-full px-3 py-2 text-left flex items-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300"
             onClick={() => setOpen(false)}
           >
-            <MessageSquare className="w-3.5 h-3.5" /> WhatsApp
+            <WhatsAppIcon colored className="w-3.5 h-3.5" /> WhatsApp
           </Link>
           <button
             type="button"

@@ -6,6 +6,13 @@ import { toast } from 'react-hot-toast';
 import { authFetch, getUserId } from '@/lib/apiClient';
 import { computeLeadIntelligence } from '@/lib/leadIntelligence';
 import { useRealtime, REALTIME_EVENTS } from '@/app/automation/hooks/useRealtime';
+import { defaultInboxView, isServerView } from '@/lib/omnichannel/inboxViews';
+import { isNewChat } from '@/lib/omnichannel/newChat';
+import { INBOX_VIEW_IDS } from '@/app/automation/components/chat/constants';
+import { showUndoToast } from '@/app/automation/components/chat/UndoToast';
+import { showIncomingMessageToast } from '@/app/automation/components/chat/IncomingMessageToast';
+
+const VIEW_STORAGE_KEY = 'lfg_ui_inbox_view';
 
 export function useChatInbox() {
   const searchParams = useSearchParams();
@@ -17,7 +24,10 @@ export function useChatInbox() {
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [messagesLoading, setMessagesLoading] = useState(false);
-  const [filter, setFilter] = useState('all');
+  // Same first value on the server render and the first client render; the real starting view (remembered choice, else
+  // by role) is applied in an effect right after mount, so there is no hydration mismatch.
+  const [filter, setFilterState] = useState('needs_reply');
+  const [viewCounts, setViewCounts] = useState(null);
   const [channelFilter, setChannelFilter] = useState('all');
   const [search, setSearch] = useState('');
   const [businessName, setBusinessName] = useState('us');
@@ -44,13 +54,29 @@ export function useChatInbox() {
   const selectedLeadIdRef = useRef(null);
   selectedLeadIdRef.current = selectedChat?.leadId?._id;
 
+  // A view the user picked is remembered in this browser; a first visit starts on the role's view: the owner / manager
+  // sees who is waiting, an agent sees their own conversations. A deep link to one lead's chat starts on All so the
+  // conversation is always found.
+  const setFilter = useCallback((view) => {
+    setFilterState(view);
+    try { localStorage.setItem(VIEW_STORAGE_KEY, view); } catch { /* storage blocked: the choice just isn't remembered */ }
+  }, []);
+  useEffect(() => {
+    if (initialLeadId.current) { setFilterState('all'); return; }
+    let saved = null;
+    let role = 'member';
+    try { saved = localStorage.getItem(VIEW_STORAGE_KEY); role = localStorage.getItem('userRole') || 'member'; } catch { /* ignore */ }
+    setFilterState(saved && INBOX_VIEW_IDS.includes(saved) ? saved : defaultInboxView(role));
+  }, []);
+  const convRequestRef = useRef(0); // only the newest list request may write the list (a view switch mid-load must not be overwritten)
+
   const buildConvParams = useCallback((page) => {
     const params = new URLSearchParams();
     if (channelFilter !== 'all') params.set('channel', channelFilter);
-    if (filter === 'unread') params.set('inboxStatus', 'unread');
-    else if (filter === 'intervened') params.set('inboxStatus', 'intervened');
-    else if (filter === 'assigned') params.set('status', 'assigned');
-    else if (filter === 'unassigned') params.set('status', 'unassigned');
+    // Queues (needs_reply / mine / unassigned / taken_over) are decided by the server, with the same rules as the tab counts.
+    // While searching, a queue must not hide matches: search looks across everything (like a mailbox search).
+    if (isServerView(filter)) { if (!search) params.set('view', filter); }
+    else if (filter === 'unread') params.set('inboxStatus', 'unread');
     else if (filter === 'pinned') params.set('pinned', 'true');
     else if (filter === 'archived') params.set('archived', 'true');
     // New: origin filters. 'automated' is the shortcut for everything the
@@ -66,8 +92,15 @@ export function useChatInbox() {
   const fetchConversations = useCallback(async (silent = false) => {
     try {
       if (!silent) setLoading(true);
+      // The tab numbers refresh with every list refresh (realtime events already trigger this), so they never drift.
+      authFetch('/api/automation/inbox/counts')
+        .then((r) => r.json())
+        .then((d) => { if (d.success) setViewCounts(d.data); })
+        .catch(() => {});
+      const requestId = ++convRequestRef.current;
       const res = await authFetch(`/api/automation/inbox/conversations?${buildConvParams(1)}`);
       const data = await res.json();
+      if (requestId !== convRequestRef.current) return;
       if (data.success) {
         // `status` (open/closed/lost) and `inboxStatus` (unread/read/intervened) are
         // separate fields server-side — previously this overwrote `status` with
@@ -268,14 +301,15 @@ export function useChatInbox() {
           // viewing → surface a toast so they don't miss it. Silent for
           // outbound (they know they just sent it) and silent for the
           // active conversation (message pops into the pane, no toast).
-          const senderName =
-            conversations.find((c) => c._id === eventConvId)?.leadId?.name ||
-            conversations.find((c) => c._id === eventConvId)?.participantName ||
-            'a customer';
-          const channelLabel = event.data.channel === 'email' ? '📧 email'
-            : event.data.channel === 'instagram' ? '📸 Instagram'
-            : '💬 WhatsApp';
-          toast.success(`New ${channelLabel} from ${senderName}`, { duration: 4000 });
+          // The server puts the sender's name on the event; the list on screen only knows conversations of the current
+          // view, so it is just a fallback.
+          const known = conversations.find((c) => c._id === eventConvId);
+          showIncomingMessageToast({
+            channel: event.data.channel,
+            senderName: event.data.senderName || known?.leadId?.name || known?.participantName || null,
+            preview: event.data.preview,
+            messageId: event.data.messageId,
+          });
 
           // Optional sound — muted by default via user pref check.
           try {
@@ -346,12 +380,9 @@ export function useChatInbox() {
   }, [messages, selectedChat?._id, selectedChat?.channel, subjectAutofilled, emailSubject]);
 
   const filteredConversations = useMemo(() => {
+    // The server already applied the queues and Unread; only the lead-based views are still filtered here.
     let list = [...conversations];
-    if (filter === 'unread') list = list.filter((c) => c.status === 'unread' || c.unreadCount > 0);
-    else if (filter === 'intervened') list = list.filter((c) => c.status === 'intervened');
-    else if (filter === 'assigned') list = list.filter((c) => c.assignedTo || c.leadId?.assignedTo);
-    else if (filter === 'unassigned') list = list.filter((c) => !c.assignedTo && !c.leadId?.assignedTo);
-    else if (filter === 'hot') {
+    if (filter === 'hot') {
       list = list.filter((c) => {
         const p = c.leadId?.priority;
         return p === 'high' || p === 'urgent';
@@ -691,9 +722,29 @@ export function useChatInbox() {
     }
   }, [messages]);
 
+  // A new chat has no conversation record yet, so the assignment goes to the LEAD (the conversation, once it exists, falls
+  // back to the lead's assignee).
+  const assignNewChatLead = useCallback(async (chat, assigneeId) => {
+    const res = await authFetch(`/api/automation/leads/${chat.leadId._id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ assignedTo: assigneeId || null, performedBy: getUserId() }),
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error || 'Assign failed');
+    const assignedTo = data.data?.assignedTo || null;
+    setSelectedChat((prev) => (prev?._id === chat._id ? { ...prev, assignedTo, leadId: { ...prev.leadId, assignedTo } } : prev));
+    fetchLeadDetail(chat.leadId._id);
+    toast.success(assigneeId ? 'Lead assigned' : 'Lead unassigned');
+  }, [fetchLeadDetail]);
+
   const assignChat = useCallback(
     async (assigneeId) => {
       if (!selectedChat) return;
+      if (isNewChat(selectedChat)) {
+        try { await assignNewChatLead(selectedChat, assigneeId); } catch (e) { toast.error(e.message || 'Assign failed'); }
+        return;
+      }
       const conversationId = selectedChat._id;
       const endpoint = conversationId && !String(conversationId).startsWith('temp_')
         ? `/api/automation/inbox/conversations/${conversationId}/assign`
@@ -710,11 +761,15 @@ export function useChatInbox() {
         toast.success('Conversation assigned');
       }
     },
-    [selectedChat, fetchConversationDetail]
+    [selectedChat, fetchConversationDetail, assignNewChatLead]
   );
 
   const claimConversation = useCallback(async () => {
     if (!selectedChat?._id) return;
+    if (isNewChat(selectedChat)) {
+      try { await assignNewChatLead(selectedChat, getUserId()); } catch (e) { toast.error(e.message || 'Could not claim'); }
+      return;
+    }
     const res = await authFetch(`/api/automation/inbox/conversations/${selectedChat._id}/assign`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -726,7 +781,7 @@ export function useChatInbox() {
       fetchConversationDetail(selectedChat._id);
       toast.success('Conversation claimed');
     }
-  }, [selectedChat, fetchConversationDetail]);
+  }, [selectedChat, fetchConversationDetail, assignNewChatLead]);
 
   const updateConversation = useCallback(
     async (updates) => {
@@ -749,6 +804,90 @@ export function useChatInbox() {
       }
     },
     [selectedChat, fetchConversations]
+  );
+
+  // "Done": nothing more to reply. The conversation is closed (a new customer message reopens it, see
+  // upsertConversation) and leaves the queue it was in; Undo puts it back.
+  const markDone = useCallback(
+    async (chat) => {
+      if (!chat?._id) return;
+      const setStatus = async (status) => {
+        const res = await authFetch(`/api/automation/inbox/conversations/${chat._id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status }),
+        });
+        const data = await res.json();
+        if (!data.success) throw new Error(data.error || 'Failed');
+      };
+      try {
+        await setStatus('closed');
+        setConversations((prev) => (filter === 'all'
+          ? prev.map((c) => (c._id === chat._id ? { ...c, status: 'closed' } : c))
+          : prev.filter((c) => c._id !== chat._id)));
+        setSelectedChat((prev) => (prev?._id === chat._id ? { ...prev, status: 'closed' } : prev));
+        fetchConversations(true); // refreshes the tab counts too
+        showUndoToast('Marked done', async () => {
+          try { await setStatus('open'); fetchConversations(true); } catch { toast.error('Could not undo'); }
+        });
+      } catch {
+        toast.error('Could not mark this conversation done');
+      }
+    },
+    [filter, fetchConversations]
+  );
+
+  // "Assign to me" straight from the Unassigned queue (same claim call as the profile panel's Claim).
+  const assignToMe = useCallback(
+    async (chat) => {
+      if (!chat?._id) return;
+      try {
+        const res = await authFetch(`/api/automation/inbox/conversations/${chat._id}/assign`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ claim: true }),
+        });
+        const data = await res.json();
+        if (!data.success) throw new Error(data.error || 'Failed');
+        const assignedTo = data.data?.assignedTo;
+        setConversations((prev) => (filter === 'unassigned'
+          ? prev.filter((c) => c._id !== chat._id)
+          : prev.map((c) => (c._id === chat._id ? { ...c, assignedTo } : c))));
+        setSelectedChat((prev) => (prev?._id === chat._id ? { ...prev, assignedTo } : prev));
+        fetchConversations(true);
+        toast.success('Assigned to you');
+      } catch (e) {
+        toast.error(e.message || 'Could not assign this conversation');
+      }
+    },
+    [filter, fetchConversations]
+  );
+
+  // "Assign to" from a row: any team member (the profile panel's Assigned agent does the same for the open chat).
+  const assignTo = useCallback(
+    async (chat, assigneeId) => {
+      if (!chat?._id || !assigneeId) return;
+      try {
+        const res = await authFetch(`/api/automation/inbox/conversations/${chat._id}/assign`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ assignedTo: assigneeId }),
+        });
+        const data = await res.json();
+        if (!data.success) throw new Error(data.error || 'Failed');
+        const assignedTo = data.data?.assignedTo;
+        setConversations((prev) => (filter === 'unassigned'
+          ? prev.filter((c) => c._id !== chat._id)
+          : prev.map((c) => (c._id === chat._id ? { ...c, assignedTo } : c))));
+        setSelectedChat((prev) => (prev?._id === chat._id ? { ...prev, assignedTo } : prev));
+        fetchConversations(true);
+        const name = [assignedTo?.firstName, assignedTo?.lastName].filter(Boolean).join(' ');
+        toast.success(name ? `Assigned to ${name}` : 'Conversation assigned');
+      } catch (e) {
+        toast.error(e.message || 'Could not assign this conversation');
+      }
+    },
+    [filter, fetchConversations]
   );
 
   const toggleLabel = useCallback(
@@ -916,6 +1055,7 @@ export function useChatInbox() {
     messagesLoading,
     filter,
     setFilter,
+    viewCounts,
     channelFilter,
     setChannelFilter,
     search,
@@ -928,6 +1068,9 @@ export function useChatInbox() {
     messageAction,
     claimConversation,
     updateConversation,
+    markDone,
+    assignToMe,
+    assignTo,
     realtimeConnected: realtime.connected,
     toggleLabel,
     updateLeadStatus,

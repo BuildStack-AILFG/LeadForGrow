@@ -10,7 +10,7 @@ import { authFetch } from '@/lib/apiClient';
  * closed. Meta only allows approved templates in this state — this bar swaps
  * out the free-text reply box for an approved-template picker + send.
  */
-export default function OutOfWindowTemplateBar({ leadName, lead, onSend }) {
+export default function OutOfWindowTemplateBar({ leadName, lead, onSend, firstContact = false }) {
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pick, setPick] = useState('');
@@ -96,10 +96,12 @@ export default function OutOfWindowTemplateBar({ leadName, lead, onSend }) {
       <div className="flex items-start gap-2 text-xs text-green-800 dark:text-green-300">
         <Clock className="w-4 h-4 shrink-0 mt-0.5" />
         <div>
-          <p className="font-semibold">24-hour reply window closed</p>
+          <p className="font-semibold">{firstContact ? 'First message on WhatsApp' : '24-hour reply window closed'}</p>
           <p className="text-green-700 dark:text-green-400 mt-0.5">
-            {leadName ? `${leadName} hasn't messaged you in the last 24 hours. ` : 'This chat is outside the 24h window. '}
-            Meta only allows <strong>approved templates</strong> to reopen conversation.
+            {firstContact
+              ? `${leadName || 'This lead'} has not messaged you on WhatsApp yet. `
+              : leadName ? `${leadName} hasn't messaged you in the last 24 hours. ` : 'This chat is outside the 24h window. '}
+            Meta only allows <strong>approved templates</strong> {firstContact ? 'to start a conversation.' : 'to reopen conversation.'}
           </p>
         </div>
       </div>
@@ -110,7 +112,7 @@ export default function OutOfWindowTemplateBar({ leadName, lead, onSend }) {
               instead of a bare HTML dropdown. */}
           <div className="flex items-center gap-2">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-green-600/70" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-green-600/70 dark:text-green-400/70" />
               <input
                 type="search"
                 value={search}
@@ -130,17 +132,17 @@ export default function OutOfWindowTemplateBar({ leadName, lead, onSend }) {
           </div>
 
           {loading ? (
-            <div className="flex items-center gap-2 py-6 justify-center text-xs text-green-700">
+            <div className="flex items-center gap-2 py-6 justify-center text-xs text-green-700 dark:text-green-300">
               <Loader2 className="w-4 h-4 animate-spin" /> Loading approved templates…
             </div>
           ) : templates.length === 0 ? (
-            <div className="rounded bg-white dark:bg-slate-900 border border-dashed border-green-300 p-4 text-center">
+            <div className="rounded bg-white dark:bg-slate-900 border border-dashed border-green-300 dark:border-green-700 p-4 text-center">
               <FileText className="w-6 h-6 mx-auto text-green-400 mb-2" />
               <p className="text-xs font-semibold text-green-800 dark:text-green-300">No approved templates yet</p>
               <p className="text-[11px] text-green-700/80 dark:text-green-400/80 mt-1">
                 Meta requires an approved template to reopen a chat after 24h.
               </p>
-              <a href="/automation/whatsapp-templates" className="inline-block mt-2 text-[11px] font-semibold text-emerald-700 hover:underline">
+              <a href="/automation/whatsapp-templates" className="inline-block mt-2 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300 hover:underline">
                 Build your first template →
               </a>
             </div>
@@ -167,7 +169,7 @@ export default function OutOfWindowTemplateBar({ leadName, lead, onSend }) {
                       className="w-full text-left px-3 py-2 hover:bg-green-50 dark:hover:bg-green-950/20 transition-colors"
                     >
                       <div className="flex items-center gap-2 mb-0.5">
-                        <FileText className="w-3 h-3 text-green-600 flex-shrink-0" />
+                        <FileText className="w-3 h-3 text-green-600 dark:text-green-400 flex-shrink-0" />
                         <span className="text-xs font-semibold text-slate-900 dark:text-slate-100 truncate">{t.name}</span>
                         <span className="text-[9px] font-medium uppercase tracking-wide px-1.5 py-[1px] rounded bg-green-100 dark:bg-green-950/40 text-green-700 dark:text-green-300">
                           {t.category}
@@ -189,13 +191,13 @@ export default function OutOfWindowTemplateBar({ leadName, lead, onSend }) {
             <button
               type="button"
               onClick={() => { setPick(''); setHeaderMediaUrl(''); setVariableValues([]); }}
-              className="inline-flex items-center gap-1 text-[11px] font-semibold text-green-700 hover:text-green-900"
+              className="inline-flex items-center gap-1 text-[11px] font-semibold text-green-700 dark:text-green-300 hover:text-green-900 dark:hover:text-green-200"
             >
               <ChevronLeft className="w-3 h-3" /> Pick another
             </button>
-            <span className="text-[11px] text-slate-500">·</span>
+            <span className="text-[11px] text-slate-500 dark:text-slate-400">·</span>
             <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">{selected.name}</span>
-            <span className="text-[10px] px-1.5 py-[1px] rounded bg-green-100 dark:bg-green-950/40 text-green-700 uppercase tracking-wide font-medium">
+            <span className="text-[10px] px-1.5 py-[1px] rounded bg-green-100 dark:bg-green-950/40 text-green-700 dark:text-green-300 uppercase tracking-wide font-medium">
               {selected.category}
             </span>
           </div>
@@ -211,7 +213,7 @@ export default function OutOfWindowTemplateBar({ leadName, lead, onSend }) {
           value={headerMediaUrl}
           onChange={(e) => setHeaderMediaUrl(e.target.value)}
           placeholder="Media URL for template header (https://…)"
-          className="w-full px-3 py-2 rounded border border-green-300 bg-white dark:bg-slate-900 text-xs font-mono"
+          className="w-full px-3 py-2 rounded border border-green-300 dark:border-green-700 bg-white dark:bg-slate-900 text-xs font-mono"
         />
       )}
 
@@ -223,7 +225,7 @@ export default function OutOfWindowTemplateBar({ leadName, lead, onSend }) {
           <div className="grid gap-2 sm:grid-cols-2">
             {Array.from({ length: varCount }).map((_, i) => (
               <div key={i} className="flex items-center gap-2">
-                <span className="text-[11px] font-mono text-slate-500 shrink-0 w-8">{`{{${i + 1}}}`}</span>
+                <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400 shrink-0 w-8">{`{{${i + 1}}}`}</span>
                 <input
                   value={variableValues[i] || ''}
                   onChange={(e) => {
@@ -232,7 +234,7 @@ export default function OutOfWindowTemplateBar({ leadName, lead, onSend }) {
                     setVariableValues(next);
                   }}
                   placeholder={i === 0 ? "Recipient's first name" : `Value for {{${i + 1}}}`}
-                  className="flex-1 px-2 py-1.5 rounded border border-green-300 bg-white dark:bg-slate-900 text-xs"
+                  className="flex-1 px-2 py-1.5 rounded border border-green-300 dark:border-green-700 bg-white dark:bg-slate-900 text-xs"
                 />
               </div>
             ))}
@@ -241,18 +243,18 @@ export default function OutOfWindowTemplateBar({ leadName, lead, onSend }) {
       )}
 
       <div className="flex justify-between items-center">
-        <a href="/automation/whatsapp-templates" className="text-[11px] text-green-700 hover:underline">
+        <a href="/automation/whatsapp-templates" className="text-[11px] text-green-700 dark:text-green-300 hover:underline">
           + Build a new template
         </a>
         <button type="button" onClick={handleSend} disabled={!canSend || sending}
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded text-xs font-semibold text-white bg-[#1D4B3E] hover:bg-[#163c32] disabled:opacity-40 disabled:cursor-not-allowed">
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded text-xs font-semibold text-white bg-brand hover:bg-brand-hover disabled:opacity-40 disabled:cursor-not-allowed">
           {sending ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
           Send template
         </button>
       </div>
 
       {!canSend && selected && (
-        <p className="text-[11px] text-green-700">
+        <p className="text-[11px] text-green-700 dark:text-green-300">
           {headerNeedsMedia && !headerMediaUrl.trim()
             ? `${selected.components.find((c) => c.type === 'HEADER').format.toLowerCase()} URL required for this template's header`
             : !allVarsFilled

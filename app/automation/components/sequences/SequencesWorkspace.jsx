@@ -14,6 +14,7 @@ import SequenceWorkflowSettings from './SequenceWorkflowSettings';
 import ApprovalQueue from './ApprovalQueue';
 import SimpleEditView from './SimpleEditView';
 import ConfirmDialog from '../shared/ConfirmDialog';
+import { nextNodePosition, defaultAnchorId } from '@/lib/sequences/canvasMath';
 
 // Simple edit is FIRST — most non-technical SMB customers want to edit 3
 // messages, not build a graph. Advanced users can still switch to Builder.
@@ -83,7 +84,7 @@ export default function SequencesWorkspace() {
       <header className="sticky top-0 z-40 bg-white/80 dark:bg-slate-950/80 backdrop-blur border-b border-slate-200 dark:border-slate-800">
         <div className="px-4 py-3 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3 min-w-0">
-            <button type="button" onClick={() => ws.setWorkspaceMode('home')} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500">
+            <button type="button" onClick={() => ws.setWorkspaceMode('home')} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400">
               <ArrowLeft className="w-4 h-4" />
             </button>
             <div className="min-w-0">
@@ -92,12 +93,12 @@ export default function SequencesWorkspace() {
                 onChange={(e) => ws.setDraftMeta((m) => ({ ...m, name: e.target.value }))}
                 className="text-lg font-bold bg-transparent border-none outline-none text-slate-900 dark:text-white w-full truncate"
               />
-              <p className="text-xs text-slate-500 truncate">{ws.draftMeta.description || 'Workflow sequence'}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{ws.draftMeta.description || 'Workflow sequence'}</p>
             </div>
           </div>
           <div className="flex items-center gap-2 shrink-0">
             <span className={`hidden sm:inline text-[10px] font-semibold uppercase px-2 py-1 rounded-full ${
-              ws.draftMeta.status === 'active' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'
+              ws.draftMeta.status === 'active' ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300' : 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300'
             }`}>{ws.draftMeta.status}</span>
             <button
               type="button"
@@ -177,13 +178,23 @@ export default function SequencesWorkspace() {
         )}
         {ws.builderTab === 'builder' && (
           <div className="flex gap-3 h-[calc(100vh-180px)] min-h-[480px]">
-            <NodeSidebar onAddNode={ws.addNode} />
+            {/* Click: add after the selected node, wired into its path. Drag: drop where released, unconnected. */}
+            <NodeSidebar
+              onAddNode={(type) => {
+                const anchor = ws.selectedNodeId || defaultAnchorId(ws.draftNodes, ws.draftEdges);
+                return anchor ? ws.addNodeAfter(type, anchor) : ws.addNode(type, nextNodePosition(ws.draftNodes, null));
+              }}
+            />
             <WorkflowCanvas
               nodes={ws.draftNodes}
               edges={ws.draftEdges}
               selectedNodeId={ws.selectedNodeId}
               onSelectNode={ws.setSelectedNodeId}
               onMoveNode={ws.moveNode}
+              onBeginMove={ws.beginMove}
+              onDropNode={(type, position) => ws.addNode(type, position)}
+              onDeleteEdge={ws.removeEdge}
+              onFlipEdgeLabel={ws.flipEdgeLabel}
               onConnect={ws.connectNodes}
               onDuplicate={ws.duplicateNode}
               onDelete={ws.removeNode}

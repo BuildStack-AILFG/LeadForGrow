@@ -331,7 +331,7 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
             <h1 className="text-lg font-semibold text-slate-900 dark:text-white truncate">
               {isNew ? 'New WhatsApp template' : template.name}
             </h1>
-            <div className="flex items-center gap-2 text-xs text-slate-500">
+            <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
               <StatusBadge status={template.status} />
               {template.metaLastCheckedAt && (
                 <span>Last checked {new Date(template.metaLastCheckedAt).toLocaleString()}</span>
@@ -372,7 +372,7 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
               {submitting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
               Submit for approval
               {!validation.valid && (
-                <span className="ml-1 px-1.5 py-0.5 rounded bg-white/20 text-[10px] font-bold">
+                <span className="ml-1 px-1.5 py-0.5 rounded bg-white/20 dark:bg-slate-900/20 text-[10px] font-bold">
                   {validation.totalCount}
                 </span>
               )}
@@ -383,7 +383,7 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
 
       {template.status === 'REJECTED' && template.metaRejectionReason && (
         <div className="mb-4 p-4 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 flex gap-3">
-          <AlertCircle className="w-5 h-5 text-red-600 shrink-0" />
+          <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 shrink-0" />
           <div>
             <p className="text-sm font-semibold text-red-800 dark:text-red-200">Meta rejected this template</p>
             <p className="text-xs text-red-700 dark:text-red-300 mt-1">{template.metaRejectionReason}</p>
@@ -393,7 +393,7 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
       )}
       {readOnly && (
         <div className="mb-4 p-3 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900 flex gap-2">
-          <Info className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+          <Info className="w-4 h-4 text-amber-700 dark:text-amber-300 shrink-0 mt-0.5" />
           <p className="text-xs text-amber-800 dark:text-amber-200">
             This template is {template.status.toLowerCase()} — edits are locked. Duplicate it to make changes.
           </p>
@@ -407,14 +407,14 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
         }`}>
           {validation.valid ? (
             <>
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
               <p className="text-xs font-medium text-emerald-800 dark:text-emerald-300">
                 Ready to submit for Meta approval
               </p>
             </>
           ) : (
             <>
-              <AlertCircle className="w-4 h-4 text-slate-500 shrink-0" />
+              <AlertCircle className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
               <p className="text-xs text-slate-600 dark:text-slate-400">
                 Fix <span className="font-semibold text-slate-900 dark:text-white">{validation.totalCount}</span> issue{validation.totalCount === 1 ? '' : 's'} in the sections below before submitting to Meta
               </p>
@@ -453,10 +453,10 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
                       className={`text-left p-3 rounded-lg border text-xs ${
                         template.category === c.id
                           ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/20'
-                          : 'border-slate-200 dark:border-slate-700 hover:border-slate-300'
+                          : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
                       }`}>
                       <p className="font-semibold">{c.label}</p>
-                      <p className="text-slate-500 mt-0.5 leading-tight">{c.desc}</p>
+                      <p className="text-slate-500 dark:text-slate-400 mt-0.5 leading-tight">{c.desc}</p>
                     </button>
                   ))}
                 </div>
@@ -527,7 +527,7 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
                 placeholder="Hi {{1}}, your order #{{2}} has been confirmed."
                 className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm font-mono" />
               <button type="button" disabled={readOnly} onClick={insertBodyVar}
-                className="mt-2 inline-flex items-center gap-1 text-xs text-emerald-700 hover:underline">
+                className="mt-2 inline-flex items-center gap-1 text-xs text-emerald-700 dark:text-emerald-300 hover:underline">
                 <Plus className="w-3 h-3" /> Add variable
               </button>
             </Field>
@@ -571,7 +571,7 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
             <div className="space-y-2">
               {(buttons?.buttons || []).map((b, i) => (
                 <div key={i} className="grid grid-cols-[80px_1fr_auto] gap-2 items-center p-2 rounded-lg bg-slate-50 dark:bg-slate-900/50">
-                  <span className="text-[10px] font-semibold uppercase text-slate-500 px-2">{b.type.replace('_', ' ')}</span>
+                  <span className="text-[10px] font-semibold uppercase text-slate-500 dark:text-slate-400 px-2">{b.type.replace('_', ' ')}</span>
                   <div className="flex gap-2">
                     <input disabled={readOnly}
                       maxLength={25}
@@ -608,7 +608,7 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
                   </div>
                   <button type="button" disabled={readOnly}
                     onClick={() => updateComponent('BUTTONS', { buttons: buttons.buttons.filter((_, x) => x !== i) })}
-                    className="p-1.5 rounded hover:bg-red-100 text-red-600">
+                    className="p-1.5 rounded hover:bg-red-100 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400">
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -634,7 +634,7 @@ function Section({ title, optional, required, children, issues }) {
     }`}>
       <div className="flex items-center gap-2">
         <h3 className="text-sm font-semibold text-slate-900 dark:text-white">{title}</h3>
-        {required && <span className="text-[10px] font-medium text-red-600">Required</span>}
+        {required && <span className="text-[10px] font-medium text-red-600 dark:text-red-400">Required</span>}
         {optional && <span className="text-[10px] font-medium text-slate-400">Optional</span>}
         {hasIssues && (
           <span className="text-[10px] font-semibold text-amber-700 dark:text-amber-400 flex items-center gap-1">
@@ -662,7 +662,7 @@ function Field({ label, hint, children, full }) {
     <div className={full ? 'sm:col-span-2' : ''}>
       <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">{label}</label>
       {children}
-      {hint && <p className="text-[11px] text-slate-500 mt-1">{hint}</p>}
+      {hint && <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">{hint}</p>}
     </div>
   );
 }
@@ -674,7 +674,7 @@ function SampleValueEditor({ label, count, values, onChange, disabled }) {
       <div className="grid gap-2 sm:grid-cols-2">
         {Array.from({ length: count }, (_, i) => (
           <div key={i} className="flex items-center gap-2">
-            <span className="text-[11px] font-mono text-slate-500 shrink-0">{`{{${i + 1}}}`}</span>
+            <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400 shrink-0">{`{{${i + 1}}}`}</span>
             <input disabled={disabled}
               value={values[i] || ''}
               onChange={(e) => {
@@ -758,7 +758,7 @@ function MediaSampleField({ format, handle, filename, onChange, disabled }) {
               type="button"
               disabled={disabled}
               onClick={() => onChange({ handle: '', filename: '', publicUrl: '' })}
-              className="inline-flex items-center gap-1 px-2 py-2 rounded-lg text-xs text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="inline-flex items-center gap-1 px-2 py-2 rounded-lg text-xs text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
             >
               <X className="w-3.5 h-3.5" /> Clear
             </button>
@@ -776,13 +776,13 @@ function MediaSampleField({ format, handle, filename, onChange, disabled }) {
           <div className="text-[11px] text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5 bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900 rounded-md px-2 py-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
             <span className="font-medium">Sample uploaded to Meta</span>
-            {filename && <span className="text-slate-500">· {filename}</span>}
+            {filename && <span className="text-slate-500 dark:text-slate-400">· {filename}</span>}
             <span className="text-slate-400 font-mono truncate" title={handle}>
               · {isHandle ? `${String(handle).slice(0, 14)}…` : handle}
             </span>
           </div>
         ) : (
-          <p className="text-[11px] text-slate-500">
+          <p className="text-[11px] text-slate-500 dark:text-slate-400">
             Meta accepts {format === 'IMAGE' ? 'JPEG/PNG up to 5MB' : format === 'VIDEO' ? 'MP4/3GP up to 16MB' : 'PDF up to 100MB'}.
             The file is used only during Meta's review; real messages can attach any compliant file.
           </p>
@@ -794,12 +794,12 @@ function MediaSampleField({ format, handle, filename, onChange, disabled }) {
 
 function StatusBadge({ status }) {
   const styles = {
-    DRAFT: 'bg-slate-100 text-slate-700',
-    PENDING: 'bg-amber-100 text-amber-800',
-    APPROVED: 'bg-emerald-100 text-emerald-800',
-    REJECTED: 'bg-red-100 text-red-800',
-    DISABLED: 'bg-slate-100 text-slate-500',
-    PAUSED: 'bg-teal-100 text-teal-700',
+    DRAFT: 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200',
+    PENDING: 'bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200',
+    APPROVED: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-200',
+    REJECTED: 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200',
+    DISABLED: 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400',
+    PAUSED: 'bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300',
   };
   return (
     <span className={`text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full ${styles[status] || styles.DRAFT}`}>

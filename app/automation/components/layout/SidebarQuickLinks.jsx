@@ -20,7 +20,7 @@ export default function SidebarQuickLinks({ items, pathname, searchParams, stats
   };
 
   return (
-    <div className="bg-[#F7FCFA] pb-1">
+    <div className="bg-[#F7FCFA] dark:bg-slate-900 pb-1">
       <div className="px-4 py-1.5">
         <span className="text-[10px] font-bold uppercase tracking-wider text-[#737DA5]">Quick Links</span>
       </div>

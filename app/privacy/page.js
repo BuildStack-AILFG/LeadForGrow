@@ -3,6 +3,8 @@
 import React from 'react';
 import MarketingLayout from '@/app/components/MarketingLayout';
 import Heading from '@/app/components/ui/Heading';
+import CompanyAddress from '@/app/components/marketing/CompanyAddress';
+import { LEGAL_NAME, PRODUCT_STATEMENT } from '@/lib/company';
 
 export default function PrivacyPolicy() {
  const sections = [
@@ -69,7 +71,7 @@ export default function PrivacyPolicy() {
   {
     title: "13. Contact Information",
     content:
-      "If you have questions or concerns about this Privacy Policy, you may contact us at privacy@leadforgrow.online."
+      "If you have questions or concerns about this Privacy Policy, you may contact us at privacy@leadforgrow.com."
   }
 ];
 
@@ -81,7 +83,15 @@ export default function PrivacyPolicy() {
     >
       <div className="bg-white dark:bg-slate-900/40 rounded-3xl p-8 md:p-12 border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none">
         <div className="prose prose-slate dark:prose-invert max-w-none">
-          <p className="text-slate-500 dark:text-slate-400 mb-12 italic">Last Updated: January 8, 2026</p>
+          <p className="text-slate-500 dark:text-slate-400 mb-12 italic">Last Updated: September 21, 2026</p>
+
+          <div className="mb-12 rounded-2xl border border-slate-100 dark:border-slate-800 p-6 md:p-8 text-slate-600 dark:text-slate-300 leading-relaxed">
+            <Heading level={2} className="text-2xl mb-4">Who We Are</Heading>
+            <p className="mb-4">
+              {PRODUCT_STATEMENT} In this Privacy Policy, &ldquo;we&rdquo;, &ldquo;us&rdquo; and &ldquo;our&rdquo; mean {LEGAL_NAME}. We are the data controller for account and platform data; for customer data you process through LeadForGrow, we act as a data processor.
+            </p>
+            <CompanyAddress variant="full" />
+          </div>
           
           {sections.map((section, idx) => (
             <div key={idx} className="mb-12 last:mb-0">
@@ -94,8 +104,8 @@ export default function PrivacyPolicy() {
           
           <div className="mt-16 pt-12 border-t border-slate-100 dark:border-slate-800 text-center">
             <p className="text-slate-500 dark:text-slate-400 mb-4">Questions about our privacy policy?</p>
-            <a href="mailto:privacy@leadforgrow.online" className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline">
-              privacy@leadforgrow.online
+            <a href="mailto:privacy@leadforgrow.com" className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline">
+              privacy@leadforgrow.com
             </a>
           </div>
         </div>

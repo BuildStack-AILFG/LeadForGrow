@@ -20,7 +20,7 @@ const MessageSchema = new mongoose.Schema({
   },
   channel: {
     type: String,
-    enum: ['whatsapp', 'instagram', 'email'],
+    enum: ['whatsapp', 'instagram', 'facebook', 'email'],
     default: 'whatsapp',
     index: true
   },
@@ -65,7 +65,7 @@ const MessageSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['text', 'image', 'video', 'audio', 'document', 'sticker', 'location', 'contacts', 'button', 'interactive', 'email', 'story_reply'],
+    enum: ['text', 'image', 'video', 'audio', 'document', 'sticker', 'location', 'contacts', 'button', 'interactive', 'email', 'story_reply', 'system', 'unsupported', 'reaction', 'order'],
     default: 'text'
   },
   content: {

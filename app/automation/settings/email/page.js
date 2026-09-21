@@ -49,11 +49,11 @@ function GmailBrandMark({ className = 'w-4 h-4' }) {
 
 function StatusBadge({ status }) {
   const map = {
-    active: { label: 'Connected', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200', Icon: CheckCircle2 },
-    pending: { label: 'Not tested', cls: 'bg-slate-100 text-slate-600 border-slate-200', Icon: Clock },
-    error: { label: 'Error', cls: 'bg-rose-50 text-rose-700 border-rose-200', Icon: AlertCircle },
-    disconnected: { label: 'Disconnected', cls: 'bg-slate-100 text-slate-500 border-slate-200', Icon: AlertCircle },
-    archived: { label: 'Archived', cls: 'bg-slate-100 text-slate-400 border-slate-200', Icon: AlertCircle },
+    active: { label: 'Connected', cls: 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800', Icon: CheckCircle2 },
+    pending: { label: 'Not tested', cls: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700', Icon: Clock },
+    error: { label: 'Error', cls: 'bg-rose-50 dark:bg-rose-950/30 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800', Icon: AlertCircle },
+    disconnected: { label: 'Disconnected', cls: 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700', Icon: AlertCircle },
+    archived: { label: 'Archived', cls: 'bg-slate-100 dark:bg-slate-800 text-slate-400 border-slate-200 dark:border-slate-700', Icon: AlertCircle },
   };
   const entry = map[status] || map.pending;
   const { Icon } = entry;
@@ -175,16 +175,16 @@ function GmailConnectModal({ open, onClose, onConnected }) {
         className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm"
         onClick={() => !saving && !testing && onClose()}
       />
-      <div className="relative w-full max-w-md rounded-2xl border border-slate-200 bg-white shadow-2xl">
-        <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4">
+      <div className="relative w-full max-w-md rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-2xl">
+        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 px-5 py-4">
           <div className="flex items-center gap-2">
             <GmailBrandMark className="h-5 w-5" />
-            <h2 className="text-base font-semibold text-slate-900">Connect Gmail</h2>
+            <h2 className="text-base font-semibold text-slate-900 dark:text-slate-50">Connect Gmail</h2>
           </div>
           <button
             type="button"
             onClick={() => !saving && !testing && onClose()}
-            className="rounded-lg p-1 text-slate-500 hover:bg-slate-100"
+            className="rounded-lg p-1 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700"
             aria-label="Close"
           >
             <X className="h-4 w-4" />
@@ -192,7 +192,7 @@ function GmailConnectModal({ open, onClose, onConnected }) {
         </div>
 
         <form onSubmit={submit} className="space-y-4 px-5 py-4">
-          <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900">
+          <div className="rounded-lg border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/30 px-3 py-2 text-xs text-amber-900 dark:text-amber-200">
             <p className="font-semibold">You'll need a Google App Password.</p>
             <p className="mt-1">
               Requires 2-Step Verification enabled on your Google account.{' '}
@@ -200,7 +200,7 @@ function GmailConnectModal({ open, onClose, onConnected }) {
                 href="https://myaccount.google.com/apppasswords"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-0.5 font-semibold text-amber-900 underline"
+                className="inline-flex items-center gap-0.5 font-semibold text-amber-900 dark:text-amber-200 underline"
               >
                 Generate one <ExternalLink className="h-3 w-3" />
               </a>
@@ -208,7 +208,7 @@ function GmailConnectModal({ open, onClose, onConnected }) {
           </div>
 
           <div>
-            <label className="mb-1 block text-xs font-semibold text-slate-700">
+            <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-200">
               Gmail address
             </label>
             <input
@@ -218,12 +218,12 @@ function GmailConnectModal({ open, onClose, onConnected }) {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@gmail.com"
               disabled={saving || testing}
-              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 disabled:bg-slate-50"
+              className="w-full rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 text-sm outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 dark:focus:ring-indigo-900/50 disabled:bg-slate-50 dark:disabled:bg-slate-800/50"
             />
           </div>
 
           <div>
-            <label className="mb-1 block text-xs font-semibold text-slate-700">
+            <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-200">
               App Password
             </label>
             <input
@@ -233,15 +233,15 @@ function GmailConnectModal({ open, onClose, onConnected }) {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="abcd efgh ijkl mnop"
               disabled={saving || testing}
-              className="w-full rounded-lg border border-slate-200 px-3 py-2 font-mono text-sm outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 disabled:bg-slate-50"
+              className="w-full rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 font-mono text-sm outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 dark:focus:ring-indigo-900/50 disabled:bg-slate-50 dark:disabled:bg-slate-800/50"
             />
-            <p className="mt-1 text-[10px] text-slate-500">
+            <p className="mt-1 text-[10px] text-slate-500 dark:text-slate-400">
               16 characters. Spaces are fine — we strip them.
             </p>
           </div>
 
           <div>
-            <label className="mb-1 block text-xs font-semibold text-slate-700">
+            <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-200">
               Display name{' '}
               <span className="font-normal text-slate-400">(optional)</span>
             </label>
@@ -250,12 +250,12 @@ function GmailConnectModal({ open, onClose, onConnected }) {
               onChange={(e) => setDisplayName(e.target.value)}
               placeholder="Your name as recipients will see it"
               disabled={saving || testing}
-              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 disabled:bg-slate-50"
+              className="w-full rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 text-sm outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 dark:focus:ring-indigo-900/50 disabled:bg-slate-50 dark:disabled:bg-slate-800/50"
             />
           </div>
 
           <div>
-            <label className="mb-1 block text-xs font-semibold text-slate-700">
+            <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-200">
               Signatures{' '}
               <span className="font-normal text-slate-400">(optional)</span>
             </label>
@@ -265,13 +265,13 @@ function GmailConnectModal({ open, onClose, onConnected }) {
               busy={saving || testing}
               onChange={setSignatures}
             />
-            <p className="mt-1 text-[10px] text-slate-500">
+            <p className="mt-1 text-[10px] text-slate-500 dark:text-slate-400">
               Create as many as you need (Sales, HR, Personal…). The one marked Default is used unless you pick another at compose time.
             </p>
           </div>
 
           {testResult && !testResult.success && (
-            <div className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-900">
+            <div className="rounded-lg border border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/30 px-3 py-2 text-xs text-rose-900 dark:text-rose-200">
               <p className="font-semibold">Connection test failed</p>
               {testResult.data?.smtp && !testResult.data.smtp.ok && (
                 <p className="mt-1">SMTP: {testResult.data.smtp.message}</p>
@@ -286,7 +286,7 @@ function GmailConnectModal({ open, onClose, onConnected }) {
             <button
               type="button"
               onClick={() => !saving && !testing && onClose()}
-              className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+              className="rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50"
             >
               Cancel
             </button>
@@ -383,7 +383,7 @@ function SignatureEditor({ account, busy, onSave, onSavePatch }) {
 
   return (
     <details className="border-t border-slate-100 dark:border-slate-800 group">
-      <summary className="flex items-center gap-2 px-4 py-2 text-xs font-medium text-slate-600 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 list-none [&::-webkit-details-marker]:hidden">
+      <summary className="flex items-center gap-2 px-4 py-2 text-xs font-medium text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 list-none [&::-webkit-details-marker]:hidden">
         <span className="flex-1">
           Signature{' '}
           <span className="text-slate-400">
@@ -402,7 +402,7 @@ function SignatureEditor({ account, busy, onSave, onSavePatch }) {
         {/* Logo section — preview + upload/replace/remove */}
         <div className="flex items-start gap-3">
           <div className="flex-1">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">
               Company logo
             </p>
             {account.signatureLogoUrl ? (
@@ -410,10 +410,10 @@ function SignatureEditor({ account, busy, onSave, onSavePatch }) {
                 <img
                   src={account.signatureLogoUrl}
                   alt="Signature logo"
-                  className="max-h-16 max-w-[180px] border border-slate-200 rounded bg-white p-1"
+                  className="max-h-16 max-w-[180px] border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-900 p-1"
                 />
                 <div className="flex flex-col gap-1">
-                  <label className="cursor-pointer inline-flex items-center gap-1 rounded-lg border border-slate-200 px-2 py-1 text-[11px] font-medium text-slate-700 hover:bg-slate-50">
+                  <label className="cursor-pointer inline-flex items-center gap-1 rounded-lg border border-slate-200 dark:border-slate-700 px-2 py-1 text-[11px] font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50">
                     {uploading ? 'Uploading…' : 'Replace'}
                     <input
                       type="file"
@@ -427,7 +427,7 @@ function SignatureEditor({ account, busy, onSave, onSavePatch }) {
                     type="button"
                     onClick={removeLogo}
                     disabled={uploading || busy}
-                    className="inline-flex items-center gap-1 rounded-lg border border-rose-200 px-2 py-1 text-[11px] font-medium text-rose-700 hover:bg-rose-50 disabled:opacity-40"
+                    className="inline-flex items-center gap-1 rounded-lg border border-rose-200 dark:border-rose-800 px-2 py-1 text-[11px] font-medium text-rose-700 dark:text-rose-300 hover:bg-rose-50 dark:hover:bg-rose-950/30 disabled:opacity-40"
                   >
                     Remove
                   </button>
@@ -435,7 +435,7 @@ function SignatureEditor({ account, busy, onSave, onSavePatch }) {
               </div>
             ) : (
               <div className="space-y-2">
-                <label className="cursor-pointer inline-flex items-center gap-1.5 rounded-lg border border-dashed border-slate-300 px-3 py-2 text-[11px] font-medium text-slate-600 hover:bg-slate-50 hover:border-slate-400">
+                <label className="cursor-pointer inline-flex items-center gap-1.5 rounded-lg border border-dashed border-slate-300 dark:border-slate-600 px-3 py-2 text-[11px] font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:border-slate-400">
                   {uploading ? 'Uploading…' : '+ Upload logo (PNG/JPG, ≤2 MB)'}
                   <input
                     type="file"
@@ -450,7 +450,7 @@ function SignatureEditor({ account, busy, onSave, onSavePatch }) {
                   <button
                     type="button"
                     onClick={() => setShowUrlInput((v) => !v)}
-                    className="underline hover:text-slate-600"
+                    className="underline hover:text-slate-600 dark:hover:text-slate-300"
                   >
                     paste an image URL
                   </button>
@@ -463,7 +463,7 @@ function SignatureEditor({ account, busy, onSave, onSavePatch }) {
                       value={urlInput}
                       onChange={(e) => setUrlInput(e.target.value)}
                       placeholder="https://yourdomain.com/logo.png"
-                      className="flex-1 rounded-lg border border-slate-200 px-2 py-1.5 text-[11px] outline-none focus:border-indigo-400"
+                      className="flex-1 rounded-lg border border-slate-200 dark:border-slate-700 px-2 py-1.5 text-[11px] outline-none focus:border-indigo-400"
                     />
                     <button
                       type="button"
@@ -567,22 +567,22 @@ function AutoReplyCard() {
   const toggle = () => save({ ...cfg, enabled: !cfg.enabled });
 
   return (
-    <div className={`rounded-xl border p-4 ${cfg.enabled ? 'border-indigo-200 bg-indigo-50/40' : 'border-slate-200 bg-white'}`}>
+    <div className={`rounded-xl border p-4 ${cfg.enabled ? 'border-indigo-200 dark:border-indigo-800 bg-indigo-50/40 dark:bg-indigo-950/40' : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900'}`}>
       <div className="flex items-start gap-3">
         {/* Bare icon — no container. Opacity dims it in the OFF state so
             the disabled look still reads at a glance. */}
         <AiBadgeIcon className={`h-9 w-9 shrink-0 ${cfg.enabled ? '' : 'opacity-60'}`} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <p className="text-sm font-semibold text-slate-900">SLA safety net — auto-reply</p>
-            <span className={`text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded ${cfg.enabled ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'}`}>
+            <p className="text-sm font-semibold text-slate-900 dark:text-slate-50">SLA safety net — auto-reply</p>
+            <span className={`text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded ${cfg.enabled ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'}`}>
               {cfg.enabled ? 'ON' : 'OFF'}
             </span>
             {cfg.totalSent > 0 && (
-              <span className="text-[10px] text-slate-500">· {cfg.totalSent} sent</span>
+              <span className="text-[10px] text-slate-500 dark:text-slate-400">· {cfg.totalSent} sent</span>
             )}
           </div>
-          <p className="mt-1 text-xs text-slate-600">
+          <p className="mt-1 text-xs text-slate-600 dark:text-slate-300">
             If a customer emails you and nobody replies within{' '}
             <strong>{cfg.thresholdMinutes} minute{cfg.thresholdMinutes === 1 ? '' : 's'}</strong>,
             we send a polite &quot;we&apos;ll get back to you&quot; from the mailbox that owns the thread.
@@ -596,16 +596,16 @@ function AutoReplyCard() {
             disabled={saving}
             className="sr-only peer"
           />
-          <div className="w-9 h-5 bg-slate-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:mt-0.5 after:ml-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all after:border after:border-slate-300 peer-checked:bg-indigo-600 relative" />
+          <div className="w-9 h-5 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white dark:peer-checked:after:border-slate-700 after:content-[''] after:absolute after:mt-0.5 after:ml-0.5 after:bg-white dark:after:bg-slate-900 after:rounded-full after:h-4 after:w-4 after:transition-all after:border after:border-slate-300 dark:after:border-slate-600 peer-checked:bg-indigo-600 relative" />
         </label>
       </div>
 
       {cfg.enabled && (
-        <div className="mt-3 border-t border-indigo-100 pt-3">
+        <div className="mt-3 border-t border-indigo-100 dark:border-indigo-900/50 pt-3">
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="text-[11px] font-semibold text-indigo-700 hover:underline"
+            className="text-[11px] font-semibold text-indigo-700 dark:text-indigo-300 hover:underline"
           >
             {open ? 'Hide details' : 'Configure threshold, message, and guardrails →'}
           </button>
@@ -642,7 +642,7 @@ function AutoReplyConfig({ cfg, onSave, saving }) {
   return (
     <div className="mt-3 space-y-3">
       <div>
-        <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+        <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
           Wait before auto-replying
         </label>
         <div className="flex items-center gap-2">
@@ -659,25 +659,25 @@ function AutoReplyConfig({ cfg, onSave, saving }) {
       </div>
 
       <div>
-        <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+        <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
           Message template
         </label>
         <textarea
           value={draft.template}
           onChange={(e) => setField('template', e.target.value)}
           rows={5}
-          className="w-full rounded-lg border border-slate-200 px-3 py-2 text-xs font-mono resize-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 outline-none"
+          className="w-full rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 text-xs font-mono resize-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 dark:focus:ring-indigo-900/50 outline-none"
         />
-        <p className="mt-1 text-[10px] text-slate-500">
+        <p className="mt-1 text-[10px] text-slate-500 dark:text-slate-400">
           Variables: <code>{'{{name}}'}</code>, <code>{'{{businessName}}'}</code>, <code>{'{{subject}}'}</code>
         </p>
       </div>
 
       <div className="space-y-1.5">
-        <label className="block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+        <label className="block text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
           Guardrails
         </label>
-        <label className="flex items-center gap-2 text-xs text-slate-700">
+        <label className="flex items-center gap-2 text-xs text-slate-700 dark:text-slate-200">
           <input
             type="checkbox"
             checked={!!draft.guardrails?.businessHoursOnly}
@@ -685,7 +685,7 @@ function AutoReplyConfig({ cfg, onSave, saving }) {
           />
           Only during business hours
         </label>
-        <label className="flex items-center gap-2 text-xs text-slate-700">
+        <label className="flex items-center gap-2 text-xs text-slate-700 dark:text-slate-200">
           <input
             type="checkbox"
             checked={!!draft.guardrails?.onePerConversation}
@@ -694,14 +694,14 @@ function AutoReplyConfig({ cfg, onSave, saving }) {
           Send at most once per conversation
         </label>
         <div>
-          <label className="mt-1 block text-[10px] text-slate-500 mb-1">
+          <label className="mt-1 block text-[10px] text-slate-500 dark:text-slate-400 mb-1">
             Skip if the customer&apos;s message contains any of these words (comma-separated)
           </label>
           <input
             type="text"
             value={(draft.guardrails?.skipKeywords || []).join(', ')}
             onChange={(e) => setField('guardrails.skipKeywords', e.target.value.split(',').map((s) => s.trim()).filter(Boolean))}
-            className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 outline-none"
+            className="w-full rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-1.5 text-xs focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 dark:focus:ring-indigo-900/50 outline-none"
           />
         </div>
       </div>
@@ -865,13 +865,13 @@ export default function EmailSettingsPage() {
       <div className="flex items-center gap-3">
         <Link
           href="/automation/settings/integrations"
-          className="rounded-lg p-2 hover:bg-slate-100"
+          className="rounded-lg p-2 hover:bg-slate-100 dark:hover:bg-slate-700"
         >
           <ArrowLeft className="h-4 w-4" />
         </Link>
         <div>
           <h1 className="text-lg font-semibold">Email Accounts</h1>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-slate-500 dark:text-slate-400">
             Send and receive from your own mailbox. Connect Gmail in one click, or use SMTP/IMAP for anything else.
           </p>
         </div>
@@ -883,7 +883,7 @@ export default function EmailSettingsPage() {
         <button
           type="button"
           onClick={() => setShowGmail(true)}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-800 shadow-sm hover:bg-slate-50"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm font-medium text-slate-800 dark:text-slate-100 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800/50"
         >
           <GmailBrandMark className="h-4 w-4" />
           Connect Gmail
@@ -891,14 +891,14 @@ export default function EmailSettingsPage() {
         <button
           type="button"
           onClick={() => setShowGenericForm((v) => !v)}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50"
         >
           <Plus className="h-4 w-4" /> Add SMTP/IMAP
         </button>
         <button
           type="button"
           onClick={handleSync}
-          className="ml-auto inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-600 hover:bg-slate-50"
+          className="ml-auto inline-flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50"
         >
           <RefreshCw className="h-4 w-4" /> Sync now
         </button>
@@ -907,9 +907,9 @@ export default function EmailSettingsPage() {
       {showGenericForm && (
         <form
           onSubmit={handleSaveGeneric}
-          className="space-y-3 rounded-xl border border-slate-200 bg-white p-4 dark:bg-slate-900"
+          className="space-y-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white p-4 dark:bg-slate-900"
         >
-          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
             Custom IMAP / SMTP
           </p>
           <input
@@ -926,7 +926,7 @@ export default function EmailSettingsPage() {
             className="w-full rounded-lg border px-3 py-2 text-sm"
           />
           <div>
-            <label className="mb-1 block text-xs font-semibold text-slate-700">
+            <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-200">
               Signatures <span className="font-normal text-slate-400">(optional)</span>
             </label>
             <MultiSignatureEditor
@@ -938,7 +938,7 @@ export default function EmailSettingsPage() {
               }}
               onChange={(signatures) => setForm({ ...form, signatures })}
             />
-            <p className="mt-1 text-[10px] text-slate-500">
+            <p className="mt-1 text-[10px] text-slate-500 dark:text-slate-400">
               Create as many as you need (Sales, HR, Personal…). The one marked Default is used unless you pick another at compose time.
             </p>
           </div>
@@ -984,12 +984,12 @@ export default function EmailSettingsPage() {
       {loading ? (
         <PageLoader label="Loading email accounts…" height="8rem" />
       ) : accounts.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-slate-200 py-10 text-center">
+        <div className="rounded-xl border border-dashed border-slate-200 dark:border-slate-700 py-10 text-center">
           <Mail className="mx-auto mb-2 h-8 w-8 text-slate-300" />
-          <p className="text-sm font-semibold text-slate-700">
+          <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">
             No mailboxes connected yet.
           </p>
-          <p className="mt-1 text-xs text-slate-500">
+          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
             Connect your Gmail to start sending and receiving from the CRM.
           </p>
         </div>
@@ -1000,12 +1000,12 @@ export default function EmailSettingsPage() {
               a.provider === 'gmail' ? (
                 <GmailBrandMark className="h-5 w-5" />
               ) : (
-                <Mail className="h-5 w-5 text-indigo-600" />
+                <Mail className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
               );
             return (
               <li
                 key={a._id}
-                className="rounded-xl border border-slate-200 bg-white dark:bg-slate-900"
+                className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900"
               >
                 <div className="flex items-center gap-3 p-4">
                   {brand}
@@ -1016,24 +1016,24 @@ export default function EmailSettingsPage() {
                       </p>
                       <StatusBadge status={a.status} />
                       {a.type === 'shared' && (
-                        <span className="rounded bg-indigo-50 px-1.5 py-0.5 text-[10px] font-semibold text-indigo-700">
+                        <span className="rounded bg-indigo-50 dark:bg-indigo-950/30 px-1.5 py-0.5 text-[10px] font-semibold text-indigo-700 dark:text-indigo-300">
                           Shared
                         </span>
                       )}
                       {a.type === 'legacy' && (
-                        <span className="rounded bg-amber-50 px-1.5 py-0.5 text-[10px] font-semibold text-amber-700">
+                        <span className="rounded bg-amber-50 dark:bg-amber-950/30 px-1.5 py-0.5 text-[10px] font-semibold text-amber-700 dark:text-amber-300">
                           Legacy
                         </span>
                       )}
                     </div>
-                    <p className="mt-0.5 truncate text-xs text-slate-500">
+                    <p className="mt-0.5 truncate text-xs text-slate-500 dark:text-slate-400">
                       {a.email}
                       {a.lastSyncAt
                         ? ` · Synced ${new Date(a.lastSyncAt).toLocaleString()}`
                         : ' · Never synced'}
                     </p>
                     {a.status === 'error' && a.lastError && (
-                      <p className="mt-1 line-clamp-2 text-[11px] text-rose-600">
+                      <p className="mt-1 line-clamp-2 text-[11px] text-rose-600 dark:text-rose-400">
                         {a.lastError}
                       </p>
                     )}
@@ -1043,7 +1043,7 @@ export default function EmailSettingsPage() {
                     onClick={() => handleTest(a._id)}
                     disabled={busyId === a._id}
                     title="Test connection"
-                    className="rounded-lg border border-slate-200 p-1.5 text-slate-600 hover:bg-slate-50 disabled:opacity-50"
+                    className="rounded-lg border border-slate-200 dark:border-slate-700 p-1.5 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 disabled:opacity-50"
                   >
                     <Plug className="h-4 w-4" />
                   </button>
@@ -1052,7 +1052,7 @@ export default function EmailSettingsPage() {
                     onClick={() => handleDisconnect(a._id)}
                     disabled={busyId === a._id}
                     title="Disconnect"
-                    className="rounded-lg border border-slate-200 p-1.5 text-rose-600 hover:bg-rose-50 disabled:opacity-50"
+                    className="rounded-lg border border-slate-200 dark:border-slate-700 p-1.5 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 disabled:opacity-50"
                   >
                     <Trash2 className="h-4 w-4" />
                   </button>

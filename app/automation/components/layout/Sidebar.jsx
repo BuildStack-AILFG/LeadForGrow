@@ -73,7 +73,7 @@ export default function Sidebar() {
         onMouseEnter={() => { if (railMode) setHoverExpanded(true); }}
         onMouseLeave={() => { if (railMode) setHoverExpanded(false); }}
         style={{ width: sidebar.isMobile ? SIDEBAR_WIDTH.expanded : width }}
-        className={`flex flex-col h-screen z-50 bg-white border-r border-[#E8EAED] transition-[width,transform] duration-200 ease-out ${
+        className={`flex flex-col h-screen z-50 bg-white dark:bg-slate-900 border-r border-line transition-[width,transform] duration-200 ease-out ${
           sidebar.isMobile
             ? `fixed top-0 left-0 flex-shrink-0 shadow-2xl ${sidebar.mobileOpen ? 'translate-x-0' : '-translate-x-full'}`
             : railMode
@@ -119,7 +119,7 @@ export default function Sidebar() {
           ))}
         </nav>
 
-        <div className="flex-shrink-0 border-t border-[#E8EAED] bg-white">
+        <div className="flex-shrink-0 border-t border-line bg-white dark:bg-slate-900">
           <WorkspaceSwitcher
             workspace={sidebar.userData.workspace}
             plan={sidebar.userData.plan}
@@ -136,7 +136,7 @@ export default function Sidebar() {
         <button
           type="button"
           onClick={sidebar.toggleMobile}
-          className="fixed top-3.5 left-3.5 z-40 w-9 h-9 bg-white border border-[#E8EAED] rounded-lg flex items-center justify-center text-[#1A1D1F] shadow-md hover:bg-[#F8F9FA] transition-colors lg:hidden"
+          className="fixed top-3.5 left-3.5 z-40 w-9 h-9 bg-white dark:bg-slate-900 border border-line rounded-lg flex items-center justify-center text-[#1A1D1F] dark:text-slate-100 shadow-md hover:bg-[#F8F9FA] dark:hover:bg-slate-800 transition-colors lg:hidden"
           title="Open navigation"
         >
           <Menu className="w-4 h-4" />
