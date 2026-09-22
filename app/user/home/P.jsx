@@ -212,7 +212,7 @@ export default function PricingSection() {
         "Dedicated account manager",
         "Custom integrations",
         "White-glove onboarding",
-        "24/7 priority support"
+        "Priority support"
       ],
       description: 'Enterprise-grade solution for large agencies with custom needs.',
       why: 'Built for scale, security, and custom workflows.',

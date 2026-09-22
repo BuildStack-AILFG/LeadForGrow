@@ -152,8 +152,8 @@ export default function SEOSetupPage() {
         "@type": "Service",
         "serviceType": "Technical and Foundational SEO Optimization",
         "provider": {
-          "@type": "LocalBusiness",
-          "name": "LeadForGrow SEO Lab"
+          "@type": "Organization",
+          "name": "ScaleDesk Technology Private Limited"
         },
         "areaServed": "India",
         "description": "Comprehensive technical SEO audit, schema implementation, keyword mapping and core web vitals optimization."

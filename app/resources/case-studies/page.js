@@ -667,7 +667,7 @@ export default function CaseStudiesPage() {
             Ready to grow your leads?
           </motion.h2>
           <p className="text-2xl text-slate-500 font-light">
-            Join the 2,500+ businesses who have transformed their sales process with LeadForGrow.
+            See how LeadForGrow can help streamline your sales process.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-4">
             <a

@@ -103,24 +103,27 @@ export const PRICING_PLANS = [
 // BrandIcons.jsx). "Webhooks" isn't a company, so it uses lucide's generic
 // Webhook glyph instead of a fabricated brand mark.
 export const INTEGRATIONS_COUNT = '17+';
+// Owner decision: all of these are shown to visitors. `onRequest: true` marks the ones that have no ready-made sync in the product
+// (only credential entries in lib/integrations/catalog.js) and are connected per client requirement. It is metadata only -
+// nothing renders it - kept so the list can be labelled later without re-auditing the code.
 export const INTEGRATIONS = [
   { name: 'WhatsApp', icon: 'whatsapp', color: '#25D366' },
   { name: 'Instagram', icon: 'instagram', color: '#DD2A7B' },
   { name: 'Gmail', icon: 'email', color: '#EA4335' },
   { name: 'Meta Lead Ads', icon: 'meta', color: '#0866FF' },
   { name: 'Google Calendar', icon: 'googleCalendar', color: '#4285F4' },
-  { name: 'Salesforce', icon: 'salesforce', color: '#00A1E0' },
-  { name: 'HubSpot', icon: 'hubspot', color: '#FF7A59' },
-  { name: 'Shopify', icon: 'shopify', color: '#95BF47' },
-  { name: 'Zoho', icon: 'zoho', color: '#C8202F' },
-  { name: 'Slack', icon: 'slack', color: '#4A154B' },
-  { name: 'Calendly', icon: 'calendly', color: '#006BFF' },
+  { name: 'Salesforce', icon: 'salesforce', color: '#00A1E0', onRequest: true },
+  { name: 'HubSpot', icon: 'hubspot', color: '#FF7A59', onRequest: true },
+  { name: 'Shopify', icon: 'shopify', color: '#95BF47', onRequest: true },
+  { name: 'Zoho', icon: 'zoho', color: '#C8202F', onRequest: true },
+  { name: 'Slack', icon: 'slack', color: '#4A154B', onRequest: true },
+  { name: 'Calendly', icon: 'calendly', color: '#006BFF', onRequest: true },
   { name: 'Razorpay', icon: 'razorpay', color: '#0C2451' },
   { name: 'Stripe', icon: 'stripe', color: '#635BFF' },
   { name: 'Twilio', icon: 'twilio', color: '#F22F46' },
-  { name: 'Zapier', icon: 'zapier', color: '#FF4A00' },
+  { name: 'Zapier', icon: 'zapier', color: '#FF4A00', onRequest: true },
   { name: 'Webhooks', icon: 'webhooks', color: '#111827' },
-  { name: 'Google Sheets', icon: 'googleSheets', color: '#0F9D58' },
+  { name: 'Google Sheets', icon: 'googleSheets', color: '#0F9D58', onRequest: true },
 ];
 
 // v = true | false | string (shown as-is) | { starter, growth, scale, enterprise } per-plan override

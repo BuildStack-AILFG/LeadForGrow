@@ -139,7 +139,7 @@ export default function MarketingLayout({
         {/* Closing CTA */}
         <div className="py-24 text-center border-t border-slate-50 dark:border-slate-800/50">
           <Heading level={2} className="text-5xl mb-8">Ready to transform your business?</Heading>
-          <p className="text-2xl text-slate-500 dark:text-slate-400 mb-12 font-light">Join 500+ agencies and businesses scaling with LeadForGrow.</p>
+          <p className="text-2xl text-slate-500 dark:text-slate-400 mb-12 font-light">Start capturing and following up on leads with LeadForGrow.</p>
           <div className="flex flex-col sm:flex-row justify-center gap-8">
             <a
               href="/user/register"

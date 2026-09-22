@@ -152,8 +152,8 @@ export default function AutomationSetupPage() {
         "@type": "Service",
         "serviceType": "Sales and Marketing Automation Setup",
         "provider": {
-          "@type": "LocalBusiness",
-          "name": "LeadForGrow Automation Lab"
+          "@type": "Organization",
+          "name": "ScaleDesk Technology Private Limited"
         },
         "areaServed": "India",
         "description": "Expert design and implementation of lead follow-up sequences, WhatsApp automation, and automated sales routing."

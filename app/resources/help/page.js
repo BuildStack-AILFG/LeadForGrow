@@ -134,7 +134,7 @@ export default function HelpCenter() {
     },
     {
       question: "Can LeadForGrow integrate with my CRM?",
-      answer: "Yes, LeadForGrow is designed to layer on top of your existing ecosystem. We offer native integrations with popular CRMs like Salesforce, HubSpot, and Zoho, ensuring bidirectional data sync without duplicating work."
+      answer: "LeadForGrow can import your existing leads from CSV files and can receive leads from other tools through forms and webhooks. Connections to CRMs such as Salesforce, HubSpot, or Zoho can be built on request around your requirements; they are not part of the standard product."
     },
     {
       question: "How can I track revenue and conversions?",

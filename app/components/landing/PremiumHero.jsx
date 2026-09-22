@@ -42,10 +42,8 @@ function Spark({ left, top, size = '3cqw', rotate = 0, color = '#1D4B3E' }) {
   );
 }
 
-// Bare integration logos, same treatment as the left cluster — real,
-// already-supported LeadForGrow integrations (per the pricing page's own
-// integrations list) rather than the generic Instant/Every chat/Revenue
-// concept icons this replaced.
+// Bare integration logos, same treatment as the left cluster. Same tools as the pricing page's integrations list; some of them
+// are connected per client requirement (see `onRequest` in pricingData.js).
 const RIGHT_CARDS = [
   { key: 'zapier', left: '0%', top: '0%', rotate: -6, color: '#FF4A00', icon: <ZapierIcon className="h-full w-full" /> },
   // Slack's real 4-color mark is baked into its own paths, not currentColor.
