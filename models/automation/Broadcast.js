@@ -57,12 +57,22 @@ const BroadcastSchema = new mongoose.Schema({
   content: {
     subject: String,
     body: String,
+    // Rich HTML body from the WYSIWYG editor (email broadcasts). When present
+    // the engine sends this as the HTML part; `body` stays the plain-text
+    // fallback (multipart text/plain). Absent → plain-text body only.
+    bodyHtml: String,
     whatsappTemplate: String,
     whatsappTemplateName: String,
     whatsappTemplateLanguage: String,
     // Public URL to media used in the template's header at send time.
     // Required when the selected template has an IMAGE/VIDEO/DOCUMENT header.
     whatsappHeaderMediaUrl: String,
+    // Email broadcasts: which mailbox sends this campaign and which of that
+    // mailbox's saved signatures[] gets appended to every email. When set, the
+    // engine sends from this account's SMTP with the resolved signature; when
+    // absent it falls back to the legacy business-wide email transport.
+    emailAccountId: { type: mongoose.Schema.Types.ObjectId, ref: 'EmailAccount' },
+    signatureId: String,
     // Meta template variables — each {{n}} in body gets resolved from these.
     // source: 'lead.name' | 'lead.email' | 'lead.phone' | 'lead.city' | 'literal'
     variableMapping: [

@@ -7,6 +7,7 @@ import { authFetch } from '@/lib/apiClient';
 import AudiencePicker from './AudiencePicker';
 import VariableMapping from './VariableMapping';
 import BroadcastDetail from './BroadcastDetail';
+import RichEmailBodyEditor from './RichEmailBodyEditor';
 import QualityRatingBanner from './QualityRatingBanner';
 import AutoPageIntro from '../components/shared/tour/AutoPageIntro';
 import PageLoader from '../components/PageLoader';
@@ -29,6 +30,9 @@ const emptyDraft = {
   headerMediaUrl: '',
   subject: '',
   body: '',
+  bodyHtml: '',
+  emailAccountId: '',
+  signatureId: '',
   audience: { type: 'manual', leadIds: [], engagementDays: 0 },
   variableMapping: [],
 };
@@ -39,9 +43,14 @@ export default function BroadcastsPage() {
   const [broadcasts, setBroadcasts] = useState([]);
   const [approvedTemplates, setApprovedTemplates] = useState([]);
   const [emailTemplates, setEmailTemplates] = useState([]);
+  const [emailAccounts, setEmailAccounts] = useState([]);
   const [showCreate, setShowCreate] = useState(false);
   const [saving, setSaving] = useState(false);
   const [draft, setDraft] = useState(emptyDraft);
+  // Bumped when a saved template loads, to remount the rich body editor so it
+  // adopts the new content (the editor otherwise ignores external value changes
+  // while non-empty, to avoid clobbering what the user is typing).
+  const [bodyEditorKey, setBodyEditorKey] = useState(0);
   const [audienceCount, setAudienceCount] = useState(null);
   const [countLoading, setCountLoading] = useState(false);
   const [samplePreview, setSamplePreview] = useState(null);
@@ -82,11 +91,52 @@ export default function BroadcastsPage() {
     }
   }, []);
 
+  const fetchEmailAccounts = useCallback(async () => {
+    try {
+      const res = await authFetch('/api/automation/inbox/email-accounts');
+      const data = await res.json();
+      if (data.success && Array.isArray(data.data)) setEmailAccounts(data.data);
+    } catch {
+      /* silent — picker is optional; engine falls back to the default mailbox */
+    }
+  }, []);
+
   useEffect(() => {
     fetchBroadcasts();
     fetchApprovedTemplates();
     fetchEmailTemplates();
-  }, [fetchBroadcasts, fetchApprovedTemplates, fetchEmailTemplates]);
+    fetchEmailAccounts();
+  }, [fetchBroadcasts, fetchApprovedTemplates, fetchEmailTemplates, fetchEmailAccounts]);
+
+  // When the email channel first turns on, default to the default mailbox.
+  const selectedEmailAccount = emailAccounts.find((a) => a._id === draft.emailAccountId) || null;
+  const emailSignatures = selectedEmailAccount?.signatures || [];
+
+  useEffect(() => {
+    const emailOn = draft.channel === 'email' || draft.channel === 'both';
+    if (!emailOn || draft.emailAccountId || emailAccounts.length === 0) return;
+    const def = emailAccounts.find((a) => a.isDefault) || emailAccounts[0];
+    if (def) setDraft((d) => ({ ...d, emailAccountId: def._id }));
+  }, [draft.channel, draft.emailAccountId, emailAccounts]);
+
+  // When the mailbox changes, default to that mailbox's default signature.
+  useEffect(() => {
+    if (!selectedEmailAccount) return;
+    const def = emailSignatures.find((s) => s.isDefault) || emailSignatures[0];
+    setDraft((d) => ({ ...d, signatureId: def?.id || '' }));
+  }, [draft.emailAccountId]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Editing signatures happens in a separate Email-settings tab. When the user
+  // switches back here, refetch accounts so the edited signature shows in the
+  // preview without a manual reload. Scoped to the open email form so we don't
+  // poll needlessly.
+  useEffect(() => {
+    const emailOn = draft.channel === 'email' || draft.channel === 'both';
+    if (!showCreate || !emailOn) return;
+    const onFocus = () => fetchEmailAccounts();
+    window.addEventListener('focus', onFocus);
+    return () => window.removeEventListener('focus', onFocus);
+  }, [showCreate, draft.channel, fetchEmailAccounts]);
 
   const selectedTemplate = approvedTemplates.find(
     (t) => t.name === draft.templateName && t.language === draft.templateLanguage
@@ -126,11 +176,14 @@ export default function BroadcastsPage() {
             channel: draft.channel,
             content: {
               body: bodyText,
+              bodyHtml: draft.bodyHtml || undefined,
               subject: draft.subject,
               whatsappTemplate: bodyText,
               whatsappTemplateName: draft.templateName,
               whatsappTemplateLanguage: draft.templateLanguage,
               variableMapping: draft.variableMapping,
+              emailAccountId: draft.emailAccountId || undefined,
+              signatureId: draft.signatureId || undefined,
             },
           }),
         });
@@ -139,7 +192,7 @@ export default function BroadcastsPage() {
       } catch { /* silent */ }
     }, 500);
     return () => clearTimeout(t);
-  }, [showCreate, draft.audience, draft.channel, draft.body, draft.subject, draft.templateName, draft.templateLanguage, draft.variableMapping, selectedTemplate]);
+  }, [showCreate, draft.audience, draft.channel, draft.body, draft.bodyHtml, draft.subject, draft.templateName, draft.templateLanguage, draft.variableMapping, draft.emailAccountId, draft.signatureId, selectedTemplate]);
 
   const isWhatsApp = draft.channel === 'whatsapp' || draft.channel === 'both';
   const isEmail = draft.channel === 'email' || draft.channel === 'both';
@@ -190,12 +243,15 @@ export default function BroadcastsPage() {
           channel: draft.channel,
           content: {
             body: bodyText,
+            bodyHtml: draft.bodyHtml || undefined,
             subject: draft.subject,
             whatsappTemplate: bodyText,
             whatsappTemplateName: draft.templateName || undefined,
             whatsappTemplateLanguage: draft.templateLanguage || undefined,
             whatsappHeaderMediaUrl: draft.headerMediaUrl || undefined,
             variableMapping: draft.variableMapping,
+            emailAccountId: draft.emailAccountId || undefined,
+            signatureId: draft.signatureId || undefined,
           },
           audience: draft.audience,
           sendNow: !testSend,
@@ -303,6 +359,7 @@ export default function BroadcastsPage() {
               audience={draft.audience}
               onChange={(audience) => setDraft({ ...draft, audience: { ...audience, engagementDays: draft.audience.engagementDays || 0 } })}
               campaignName={draft.name || 'broadcast'}
+              channel={draft.channel}
             />
 
             {isWhatsApp && (
@@ -467,12 +524,73 @@ export default function BroadcastsPage() {
                 </a>
               </div>
 
+              {/* From mailbox + signature — which inbox sends this and which saved
+                  signature gets appended to every email. */}
+              {emailAccounts.length > 0 ? (
+                <div className="grid gap-2 sm:grid-cols-2">
+                  <div>
+                    <label className="block text-[10px] font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1">Send from</label>
+                    <select
+                      value={draft.emailAccountId}
+                      onChange={(e) => setDraft({ ...draft, emailAccountId: e.target.value })}
+                      className="w-full px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm"
+                    >
+                      {emailAccounts.map((a) => <option key={a._id} value={a._id}>{a.email}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="block text-[10px] font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">Signature</label>
+                      {draft.emailAccountId && (
+                        <a
+                          href="/automation/settings/email"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[10px] font-medium text-violet-600 dark:text-violet-400 hover:underline"
+                          title="Edit signatures in Email settings (opens in a new tab so your draft stays)"
+                        >
+                          Edit
+                        </a>
+                      )}
+                    </div>
+                    {emailSignatures.length > 0 ? (
+                      <select
+                        value={draft.signatureId}
+                        onChange={(e) => setDraft({ ...draft, signatureId: e.target.value })}
+                        className="w-full px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm"
+                      >
+                        <option value="">No signature</option>
+                        {emailSignatures.map((s) => (
+                          <option key={s.id} value={s.id}>{s.name || 'Signature'}{s.isDefault ? ' (default)' : ''}</option>
+                        ))}
+                      </select>
+                    ) : (
+                      <p className="px-3 py-2 text-[11px] text-slate-400 border border-dashed border-slate-200 dark:border-slate-700 rounded">
+                        No signatures on this mailbox —{' '}
+                        <a href="/automation/settings/email" className="text-violet-600 dark:text-violet-400 hover:underline">add one</a>
+                      </p>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <p className="text-[11px] text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/30 rounded px-3 py-2">
+                  No mailbox connected — emails will send from the business default without a custom signature.{' '}
+                  <a href="/automation/settings/email" className="underline font-medium">Connect a mailbox</a>
+                </p>
+              )}
+
               {emailTemplates.length > 0 && (
                 <select
                   value=""
                   onChange={(e) => {
                     const t = emailTemplates.find((x) => String(x.id) === e.target.value);
-                    if (t) setDraft({ ...draft, subject: t.subject || draft.subject, body: t.body || draft.body });
+                    if (!t) return;
+                    const raw = t.body || '';
+                    // A template body may be plain text or HTML — normalise to
+                    // HTML so it renders correctly in the WYSIWYG editor.
+                    const html = /<[a-z][\s\S]*>/i.test(raw) ? raw : raw.replace(/\n/g, '<br>');
+                    setDraft({ ...draft, subject: t.subject || draft.subject, body: raw, bodyHtml: html });
+                    setBodyEditorKey((k) => k + 1);
                   }}
                   className="w-full px-3 py-2 rounded-lg border border-violet-300 dark:border-violet-700 bg-white dark:bg-slate-900 text-sm"
                 >
@@ -489,12 +607,10 @@ export default function BroadcastsPage() {
                 placeholder="Email subject — use {{name}} for personalization"
                 className="w-full px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm"
               />
-              <textarea
-                value={draft.body}
-                onChange={(e) => setDraft({ ...draft, body: e.target.value })}
-                placeholder={'Email body — supports {{name}}, {{email}}, {{phone}}\n\nBasic HTML works too: <b>, <a>, <br>'}
-                rows={6}
-                className="w-full px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm font-mono"
+              <RichEmailBodyEditor
+                key={bodyEditorKey}
+                value={draft.bodyHtml}
+                onChange={({ html, text }) => setDraft((d) => ({ ...d, bodyHtml: html, body: text }))}
               />
               <p className="text-[11px] text-slate-500 dark:text-slate-400">
                 An unsubscribe link is auto-added to every email footer for compliance.
@@ -564,8 +680,31 @@ export default function BroadcastsPage() {
               {samplePreview.email && (
                 <div className="rounded-lg bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-900 p-3">
                   <p className="text-[10px] uppercase font-semibold text-violet-700 dark:text-violet-300 mb-1">Email</p>
-                  <p className="text-xs font-semibold text-slate-900 dark:text-white mb-1">{samplePreview.email.subject || '(no subject)'}</p>
-                  <p className="text-xs text-slate-800 dark:text-slate-200 whitespace-pre-wrap">{samplePreview.email.body}</p>
+                  {/* A little inbox-style frame so the signature reads the way a
+                      recipient actually sees it — white card, left-aligned. */}
+                  <div className="rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-3">
+                    <p className="text-xs font-semibold text-slate-900 dark:text-white mb-2">{samplePreview.email.subject || '(no subject)'}</p>
+                    {samplePreview.email.bodyHtml ? (
+                      <div
+                        className="text-xs text-slate-800 dark:text-slate-200 [&_a]:text-violet-600 [&_img]:max-w-full [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5"
+                        dangerouslySetInnerHTML={{ __html: samplePreview.email.bodyHtml }}
+                      />
+                    ) : (
+                      <p className="text-xs text-slate-800 dark:text-slate-200 whitespace-pre-wrap">{samplePreview.email.body}</p>
+                    )}
+                    {samplePreview.email.signatureHtml && (
+                      <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800">
+                        <div
+                          className="text-xs text-slate-700 dark:text-slate-300 [&_a]:text-violet-600 [&_img]:inline-block"
+                          dangerouslySetInnerHTML={{ __html: samplePreview.email.signatureHtml }}
+                        />
+                      </div>
+                    )}
+                    <p className="mt-3 text-[10px] text-slate-400">Unsubscribe link is added automatically at the footer.</p>
+                  </div>
+                  {samplePreview.email.signatureHtml
+                    ? <p className="mt-1.5 text-[10px] text-emerald-600 dark:text-emerald-400">✓ Your signature will be attached to every email</p>
+                    : <p className="mt-1.5 text-[10px] text-slate-400">No signature selected — pick one above to attach it</p>}
                 </div>
               )}
             </div>
