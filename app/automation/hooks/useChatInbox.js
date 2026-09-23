@@ -14,7 +14,7 @@ import { showIncomingMessageToast } from '@/app/automation/components/chat/Incom
 
 const VIEW_STORAGE_KEY = 'lfg_ui_inbox_view';
 
-export function useChatInbox() {
+export function useChatInbox({ emailFolder = 'inbox', socialFilter = 'all' } = {}) {
   const searchParams = useSearchParams();
   const [conversations, setConversations] = useState([]);
   const [selectedChat, setSelectedChat] = useState(null);
@@ -73,9 +73,33 @@ export function useChatInbox() {
   const buildConvParams = useCallback((page) => {
     const params = new URLSearchParams();
     if (channelFilter !== 'all') params.set('channel', channelFilter);
+    // Email is triaged by folders (Inbox/Sent/Drafts/Trash), not the chat
+    // queues — so on the email tab we ignore the chat `filter` view and show
+    // the whole mailbox (the folder navigation lives in the sidebar instead).
+    const emailTab = channelFilter === 'email';
+    const socialTab = channelFilter === 'instagram' || channelFilter === 'facebook';
+    if (emailTab) {
+      // Folder navigation (Sent/Trash/Spam/Starred) filters the list server-side.
+      // "Needs reply" reuses the server queue (customer spoke last, longest wait
+      // first) so no email reply slips through. Inbox = default; Drafts is
+      // handled client-side (EmailDraft, not a conversation).
+      if (emailFolder === 'needs_reply') {
+        params.set('view', 'needs_reply');
+      } else if (emailFolder && emailFolder !== 'inbox' && emailFolder !== 'drafts') {
+        params.set('emailFolder', emailFolder);
+      }
+    } else if (socialTab) {
+      // Instagram / Facebook triage: Needs reply / Unassigned reuse the server
+      // queues; DMs / Comments filter by conversation type; All = everything.
+      if (socialFilter === 'needs_reply' || socialFilter === 'unassigned') {
+        params.set('view', socialFilter);
+      } else if (socialFilter === 'dm' || socialFilter === 'comment') {
+        params.set('convType', socialFilter);
+      }
+    }
     // Queues (needs_reply / mine / unassigned / taken_over) are decided by the server, with the same rules as the tab counts.
     // While searching, a queue must not hide matches: search looks across everything (like a mailbox search).
-    if (isServerView(filter)) { if (!search) params.set('view', filter); }
+    else if (isServerView(filter)) { if (!search) params.set('view', filter); }
     else if (filter === 'unread') params.set('inboxStatus', 'unread');
     else if (filter === 'pinned') params.set('pinned', 'true');
     else if (filter === 'archived') params.set('archived', 'true');
@@ -87,13 +111,14 @@ export function useChatInbox() {
     params.set('page', String(page));
     params.set('limit', String(CONV_PAGE_SIZE));
     return params;
-  }, [filter, channelFilter, search]);
+  }, [filter, channelFilter, search, emailFolder, socialFilter]);
 
   const fetchConversations = useCallback(async (silent = false) => {
     try {
       if (!silent) setLoading(true);
       // The tab numbers refresh with every list refresh (realtime events already trigger this), so they never drift.
-      authFetch('/api/automation/inbox/counts')
+      // Scope the counts to the active channel so a badge matches the channel-filtered list.
+      authFetch(`/api/automation/inbox/counts${channelFilter && channelFilter !== 'all' ? `?channel=${channelFilter}` : ''}`)
         .then((r) => r.json())
         .then((d) => { if (d.success) setViewCounts(d.data); })
         .catch(() => {});

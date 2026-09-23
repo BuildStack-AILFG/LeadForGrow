@@ -6,7 +6,6 @@ import { MessageSquare, FileText, Trash2 } from 'lucide-react';
 import { authFetch } from '@/lib/apiClient';
 import { useChatInbox } from '../hooks/useChatInbox';
 import ChatSidebar from '../components/chat/ChatSidebar';
-import EmailFolderBar from '../components/chat/EmailFolderBar';
 import ChatHeader from '../components/chat/ChatHeader';
 import MessageList from '../components/chat/MessageList';
 import ChatInput from '../components/chat/ChatInput';
@@ -17,11 +16,16 @@ import LostReasonModal from '../components/leads/LostReasonModal';
 import { makeNewChat, isNewChat } from '@/lib/omnichannel/newChat';
 import { toast } from 'react-hot-toast';
 import { useConfirm } from '@/app/components/ConfirmProvider';
+import PostContextCard from '../components/chat/PostContextCard';
 
 const PROFILE_COLLAPSED_KEY = 'lfg_ui_inbox_profile_collapsed';
 
 function ChatInboxContent() {
-  const inbox = useChatInbox();
+  // Email folder (Inbox/Sent/Drafts/Trash/Spam/Starred) — declared before the
+  // inbox hook so it can drive the conversation-list query for the email tab.
+  const [emailFolder, setEmailFolder] = useState('inbox');
+  const [socialFilter, setSocialFilter] = useState('all');
+  const inbox = useChatInbox({ emailFolder, socialFilter });
   const confirm = useConfirm();
   const [mobileView, setMobileView] = useState('list');
   // Customer profile panel. Below the xl breakpoint it is an overlay (profileOpen); from xl up it is a right column that is
@@ -46,7 +50,6 @@ function ChatInboxContent() {
   // is closed. With the panel open they float over the panel instead (which reserves its own space).
   const listGutter = profileCollapsed ? 'pr-[76px]' : 'pr-[76px] xl:pr-4';
   const composerGutter = profileCollapsed ? 'pr-[76px]' : 'pr-[76px] xl:pr-0';
-  const [emailFolder, setEmailFolder] = useState('inbox');
 
   const [aiReplyText, setAiReplyText] = useState(null);
 
@@ -174,38 +177,19 @@ function ChatInboxContent() {
     if (inbox.selectedChat?.channel !== 'email') {
       return { visibleMessages: inbox.messages, emptyLabel: null };
     }
-    switch (emailFolder) {
-      case 'sent':
-        return {
-          visibleMessages: inbox.messages.filter(
-            (m) => m.direction === 'outgoing' && !m.isDeleted
-          ),
-          emptyLabel: 'No sent messages in this conversation yet.',
-        };
-      case 'drafts':
-        // Drafts live in the EmailDraft collection — not the Message list.
-        // Wire it to /api/automation/inbox/email/folders?folder=drafts later.
-        return {
-          visibleMessages: [],
-          emptyLabel: 'Scheduled drafts appear here. Use "Save draft" in the composer to add one.',
-        };
-      case 'starred':
-        return {
-          visibleMessages: inbox.messages.filter((m) => m.starred && !m.isDeleted),
-          emptyLabel: 'No starred messages. Hover any message and click the ★ to star it.',
-        };
-      case 'trash':
-        return {
-          visibleMessages: inbox.messages.filter((m) => m.isDeleted),
-          emptyLabel: 'Trash is empty. Hover any message and click the 🗑 to move it here.',
-        };
-      case 'inbox':
-      default:
-        return {
-          visibleMessages: inbox.messages.filter((m) => !m.isDeleted),
-          emptyLabel: 'No messages yet in this conversation.',
-        };
+    // Drafts are a special right-pane view (EmailDraft, not thread messages).
+    if (emailFolder === 'drafts') {
+      return {
+        visibleMessages: [],
+        emptyLabel: 'Saved drafts appear here. Use "Save draft" in the composer to add one.',
+      };
     }
+    // Folders now filter the conversation LIST (in the sidebar), so an open
+    // thread always shows its full history — not a per-folder slice.
+    return {
+      visibleMessages: inbox.messages.filter((m) => !m.isDeleted),
+      emptyLabel: 'No messages yet in this conversation.',
+    };
   }, [inbox.messages, emailFolder, inbox.selectedChat?.channel]);
 
   const aiSuggestion = inbox.intelligence?.nextAction?.action
@@ -262,6 +246,10 @@ function ChatInboxContent() {
           onFilterChange={inbox.setFilter}
           channelFilter={inbox.channelFilter}
           onChannelFilterChange={inbox.setChannelFilter}
+          emailFolder={emailFolder}
+          onEmailFolderChange={setEmailFolder}
+          socialFilter={socialFilter}
+          onSocialFilterChange={setSocialFilter}
           search={inbox.search}
           onSearchChange={inbox.setSearch}
           searchResults={inbox.searchResults}
@@ -280,6 +268,7 @@ function ChatInboxContent() {
           hasMoreConversations={inbox.hasMoreConversations}
           loadingMoreConversations={inbox.loadingMoreConversations}
           onLoadMoreConversations={inbox.loadMoreConversations}
+          onRefresh={inbox.refresh}
           realtimeConnected={inbox.realtimeConnected}
         />
       </div>
@@ -310,9 +299,17 @@ function ChatInboxContent() {
 
         {inbox.selectedChat ? (
           <>
-            {inbox.selectedChat?.channel === 'email' && (
-              <EmailFolderBar active={emailFolder} onChange={setEmailFolder} />
-            )}
+            {/* Folder navigation now lives in the sidebar (it filters the list),
+                so the per-thread folder bar was removed to avoid duplication. */}
+            {/* Post context — for an Instagram/Facebook comment thread, show
+                which post the comment came from (thumbnail + caption + link). */}
+            {(() => {
+              const c = inbox.selectedChat;
+              const isComment = (c.channel === 'instagram' || c.channel === 'facebook')
+                && /^(ig|fb)_comment:/.test(String(c.participantId || ''));
+              const postId = c.metadata?.lastMediaId || c.metadata?.lastPostId;
+              return isComment && postId ? <PostContextCard channel={c.channel} postId={postId} /> : null;
+            })()}
             {/* Sticky email subject bar — frozen at the top of the pane so
                 agents don't lose thread context when scrolling through a
                 long conversation. Only shown for email channel where the
