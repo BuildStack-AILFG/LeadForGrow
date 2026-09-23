@@ -44,6 +44,12 @@ export async function GET(req) {
     // Verify the state nonce matches the httpOnly cookie set when the flow started
     const cookieNonce = req.cookies?.get?.('g_oauth_state')?.value;
     if (!stateNonce || !cookieNonce || stateNonce !== cookieNonce) {
+      console.error('[Google OAuth] state mismatch', {
+        state,
+        stateNonce,
+        cookieNonce,
+        allCookies: req.cookies?.getAll?.().map((c) => c.name),
+      });
       return failRedirect('google_failed');
     }
 
