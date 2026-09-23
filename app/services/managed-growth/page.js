@@ -157,8 +157,8 @@ export default function ManagedGrowthPage() {
         "@type": "Service",
         "serviceType": "Managed Sales Growth and Operations",
         "provider": {
-          "@type": "LocalBusiness",
-          "name": "LeadForGrow Growth Partners"
+          "@type": "Organization",
+          "name": "ScaleDesk Technology Private Limited"
         },
         "areaServed": "India",
         "description": "Full-service sales operation management, including funnel optimization, ad oversight, and fractional CRM management."

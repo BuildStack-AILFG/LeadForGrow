@@ -13,7 +13,7 @@ export default function CompliancePage() {
           <h1 className={`${MARKETING.h1} mt-3 mb-5 max-w-2xl`}>Built for businesses that take data seriously.</h1>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
             {[
-              { title: 'GDPR', href: '/gdpr', desc: 'EU data protection readiness' },
+              { title: 'GDPR', href: '/gdpr', desc: 'How we handle personal data' },
               { title: 'DPA', href: '/dpa', desc: 'Data processing agreement' },
               { title: 'Security', href: '/security', desc: 'Technical safeguards' },
               { title: 'Privacy', href: '/privacy', desc: 'Privacy policy' },

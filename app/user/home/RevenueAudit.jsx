@@ -531,7 +531,7 @@ export default function RevenueAudit() {
             <div className="flex items-center justify-center space-x-8 md:space-x-16 w-[85%] md:w-auto overflow-hidden">
               <img 
                 src="/scaledesk_technology_logo.jpg" 
-                alt="Scaledesk Technology" 
+                alt="ScaleDesk" 
                 className="h-8 md:h-10 object-contain mix-blend-multiply opacity-80 hover:opacity-100 transition-opacity duration-300" 
               />
               <img 

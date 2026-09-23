@@ -192,7 +192,7 @@ export default function BlogPage() {
                         Get growing insights in your inbox
                     </h2>
                     <p className="text-slate-400 text-lg mb-10 max-w-2xl mx-auto font-light">
-                        Join 2,000+ agency owners who stay ahead with our bi-weekly strategy newsletter. No spam, just pure signal.
+                        Stay ahead with our bi-weekly strategy newsletter. No spam, just pure signal.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
                         <input

@@ -12,7 +12,7 @@ const TABS = [
   { id: 'tags', label: 'By tag', icon: Tag, hint: 'Send to everyone with a given tag' },
 ];
 
-export default function AudiencePicker({ audience, onChange, campaignName = 'broadcast' }) {
+export default function AudiencePicker({ audience, onChange, campaignName = 'broadcast', channel = 'whatsapp' }) {
   const [tab, setTab] = useState(audience?.type || 'manual');
   useEffect(() => { onChange({ type: tab, ...normalize(tab, audience) }); /* eslint-disable-next-line */ }, [tab]);
 
@@ -32,7 +32,7 @@ export default function AudiencePicker({ audience, onChange, campaignName = 'bro
 
       <div className="p-4">
         {tab === 'manual' && <ManualPicker audience={audience} onChange={onChange} />}
-        {tab === 'csv' && <CsvImporter campaignName={campaignName} onChange={onChange} audience={audience} />}
+        {tab === 'csv' && <CsvImporter campaignName={campaignName} onChange={onChange} audience={audience} channel={channel} />}
         {tab === 'filter' && <FilterPicker audience={audience} onChange={onChange} />}
         {tab === 'tags' && <TagPicker audience={audience} onChange={onChange} />}
       </div>
@@ -117,12 +117,16 @@ function ManualPicker({ audience, onChange }) {
   );
 }
 
-function CsvImporter({ campaignName, onChange, audience }) {
+function CsvImporter({ campaignName, onChange, audience, channel = 'whatsapp' }) {
   const inputRef = useRef(null);
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState(null);
   const [result, setResult] = useState(null);
   const [fileToImport, setFileToImport] = useState(null);
+
+  // Email-only campaigns key on the email column; WhatsApp / both key on phone.
+  const emailOnly = channel === 'email';
+  const keyLabel = emailOnly ? 'email' : 'phone';
 
   const runUpload = async (dryRun) => {
     if (!fileToImport) return;
@@ -132,6 +136,7 @@ function CsvImporter({ campaignName, onChange, audience }) {
       const fd = new FormData();
       fd.append('file', fileToImport);
       fd.append('campaignName', campaignName);
+      fd.append('channel', channel);
       if (dryRun) fd.append('dryRun', '1');
       const res = await fetch('/api/automation/broadcasts/import-csv', {
         method: 'POST',
@@ -172,7 +177,11 @@ function CsvImporter({ campaignName, onChange, audience }) {
         <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
           {fileToImport?.name || 'Drop CSV or Excel file here, or click to browse'}
         </p>
-        <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Must have a column named phone / mobile / whatsapp / number</p>
+        <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+          {emailOnly
+            ? 'Must have a column named email / e-mail / mail (phone optional)'
+            : 'Must have a column named phone / mobile / whatsapp / number'}
+        </p>
         <input ref={inputRef} type="file" className="hidden" accept=".csv,.xlsx,.xlsm"
           onChange={(e) => handlePick(e.target.files?.[0])} />
       </div>
@@ -195,7 +204,7 @@ function CsvImporter({ campaignName, onChange, audience }) {
           <div className="flex flex-wrap gap-3">
             <Badge tone="emerald">✓ {preview.valid} valid</Badge>
             {preview.duplicates > 0 && <Badge tone="amber">⚠ {preview.duplicates} duplicates</Badge>}
-            {preview.invalid > 0 && <Badge tone="red">✗ {preview.invalid} invalid phone</Badge>}
+            {preview.invalid > 0 && <Badge tone="red">✗ {preview.invalid} invalid {keyLabel}</Badge>}
           </div>
           {preview.preview?.length > 0 && (
             <table className="w-full text-[11px] mt-2">

@@ -151,8 +151,8 @@ export default function LeadSetupPage() {
         "@type": "Service",
         "serviceType": "Lead Management System Implementation",
         "provider": {
-          "@type": "LocalBusiness",
-          "name": "LeadForGrow Tech Ops"
+          "@type": "Organization",
+          "name": "ScaleDesk Technology Private Limited"
         },
         "areaServed": "India",
         "description": "Professional setup and calibration of sales lead tracking and management systems for agencies and SMEs."

@@ -50,7 +50,7 @@ export default function CRMPage() {
     },
     {
       q: "Can I import my existing leads from Excel or Google Sheets?",
-      a: "Yes! You can easily import your CSV data into our dashboard. We also allow you to connect your existing sheets via our smart integration layer so you don't lose any historical data."
+      a: "Yes. Export your spreadsheet as a CSV file and import it into the dashboard so you keep your historical data."
     },
     {
       q: "Does this work for Indian businesses using WhatsApp?",
@@ -157,11 +157,6 @@ export default function CRMPage() {
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "INR"
-        },
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "ratingCount": "512"
         }
       })}} />
     </MarketingLayout>

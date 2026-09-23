@@ -3,10 +3,10 @@
 import { MARKETING } from '@/lib/marketing/designTokens';
 
 const STATS = [
-  { value: '89%', label: 'Higher Average CSAT' },
-  { value: '133%', label: 'Higher Agent Efficiency' },
-  { value: '60%', label: 'Faster Response Times' },
-  { value: '75%', label: 'Boost in Customer Engagement' },
+  { value: 'Instant', label: 'Automated first replies' },
+  { value: 'One inbox', label: 'WhatsApp, Instagram, Facebook & email' },
+  { value: 'Every lead', label: 'Tracked from enquiry to close' },
+  { value: 'Follow-ups', label: 'Automated reminders & sequences' },
 ];
 
 export default function StatsSection() {
@@ -16,7 +16,7 @@ export default function StatsSection() {
         <div className="mx-auto max-w-2xl text-center">
           <p className={MARKETING.overline}>What Sets Us Apart?</p>
           <h2 className={`${MARKETING.h2} mt-3`}>
-            Businesses Using Automation Like This See Measurable Impact
+            Built to Help You Respond Faster and Follow Up Better
           </h2>
         </div>
 
@@ -24,7 +24,7 @@ export default function StatsSection() {
           {STATS.map((stat) => (
             <div key={stat.label} className="text-center">
               <p
-                className="text-[2.25rem] font-extrabold tracking-[-0.03em] text-emerald-700 sm:text-[2.75rem]"
+                className="break-words text-[1.5rem] font-extrabold tracking-[-0.03em] text-emerald-700 md:text-[2rem] lg:text-[2.25rem]"
                 style={{ fontFamily: 'var(--font-plus-jakarta)' }}
               >
                 {stat.value}
@@ -35,11 +35,6 @@ export default function StatsSection() {
             </div>
           ))}
         </div>
-
-        <p className="mx-auto mt-8 max-w-2xl text-center text-[12px] leading-relaxed text-[#94A3B8]">
-          *Typical results reported by businesses running WhatsApp-first conversational automation —
-          shared here as an industry benchmark, not an audited LeadForGrow customer result.
-        </p>
 
         <p className={`${MARKETING.body} mx-auto mt-6 max-w-2xl text-center`}>
           A simple, transparent, and powerful platform, built to scale with your business!

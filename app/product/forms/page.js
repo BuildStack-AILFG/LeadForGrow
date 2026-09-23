@@ -104,7 +104,7 @@ export default function ProductFormsPage() {
         <div className="bg-slate-50 dark:bg-slate-900/40 rounded-[3rem] p-12 border border-slate-100 dark:border-slate-800">
           <h3>LeadForGrow Capture Engine vs Legacy Alternatives</h3>
           <p>
-            Why do 500+ businesses trust LeadForGrow for their lead capture? It comes down to reliability and performance.
+            Why do businesses choose LeadForGrow for their lead capture? It comes down to reliability and performance.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
             <div>

@@ -152,8 +152,8 @@ export default function SocialSetupPage() {
         "@type": "Service",
         "serviceType": "Social Media Profile Optimization",
         "provider": {
-          "@type": "LocalBusiness",
-          "name": "LeadForGrow Creative Lab"
+          "@type": "Organization",
+          "name": "ScaleDesk Technology Private Limited"
         },
         "areaServed": "India",
         "description": "Professional setup and optimization of LinkedIn, Instagram, and Meta profiles for lead generation and brand authority."

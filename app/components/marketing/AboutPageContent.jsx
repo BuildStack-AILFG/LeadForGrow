@@ -10,8 +10,8 @@ const TIMELINE = [
   { year: '2022', title: 'The problem became personal', body: 'Watching Indian SMBs lose leads in WhatsApp threads and spreadsheets — we started building a better way.' },
   { year: '2023', title: 'LeadForGrow launches', body: 'First CRM + WhatsApp automation platform for agencies and growth teams across India.' },
   { year: '2024', title: 'AI & unified inbox', body: 'Shipped AI reply assistant, Meta integrations, and a true multi-channel inbox.' },
-  { year: '2025', title: 'Platform maturity', body: 'Full automation engine, enterprise security, and 1,100+ businesses on the platform.' },
-  { year: '2026', title: 'Global expansion', body: 'Scaling infrastructure, compliance, and partnerships for teams worldwide.' },
+  { year: '2025', title: 'Platform maturity', body: 'Full automation engine, role-based access, and multi-tenant workspaces for teams.' },
+  { year: '2026', title: 'Growing the platform', body: 'Adding channels, integrations, and tooling for growing sales teams.' },
 ];
 
 const VALUES = [
@@ -22,10 +22,10 @@ const VALUES = [
 ];
 
 const TECH = [
-  { label: 'Cloud-native infrastructure', detail: 'Auto-scaling on modern cloud with 99.9% uptime target' },
-  { label: 'End-to-end encryption', detail: 'TLS in transit, encrypted at rest, role-based access' },
+  { label: 'Cloud infrastructure', detail: 'Hosted on managed cloud infrastructure' },
+  { label: 'Data protection', detail: 'TLS in transit, sensitive credentials encrypted at rest, role-based access' },
   { label: 'Real-time messaging', detail: 'WhatsApp, Instagram, email, and web chat in one pipeline' },
-  { label: 'AI inference layer', detail: 'Context-aware replies trained on your business knowledge' },
+  { label: 'AI assistance', detail: 'Context-aware replies grounded in your business knowledge base' },
 ];
 
 // Registered-company details shown in "About Our Company". Only facts the business has confirmed; do not add
@@ -66,10 +66,10 @@ export default function AboutPageContent() {
             <div className={`${MARKETING.glass} rounded-3xl p-8 lg:p-10`}>
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  { icon: Users, value: '1,100+', label: 'Businesses' },
-                  { icon: Globe, value: '1M+', label: 'Leads managed' },
-                  { icon: Zap, value: '<60s', label: 'Speed-to-lead' },
-                  { icon: Building2, value: 'India & beyond', label: 'Global reach' },
+                  { icon: Users, value: 'CRM', label: 'Leads, deals & tasks' },
+                  { icon: Globe, value: 'One inbox', label: 'WhatsApp, Instagram, email' },
+                  { icon: Zap, value: 'Automation', label: 'Follow-ups & workflows' },
+                  { icon: Building2, value: 'India', label: 'Built in India' },
                 ].map((stat) => (
                   <div key={stat.label} className="rounded-2xl bg-white/80 border border-emerald-100/60 p-5 text-center">
                     <stat.icon className="w-5 h-5 text-emerald-600 mx-auto mb-2" />
@@ -222,7 +222,7 @@ export default function AboutPageContent() {
       <section className={`${MARKETING.sectionTight} border-t border-emerald-100`}>
         <div className={`${MARKETING.containerNarrow} text-center`}>
           <h2 className={MARKETING.h2}>Ready to grow with us?</h2>
-          <p className={`${MARKETING.body} mt-4 mb-8`}>Join 1,100+ businesses using LeadForGrow to capture and convert more leads.</p>
+          <p className={`${MARKETING.body} mt-4 mb-8`}>Use LeadForGrow to capture, track, and follow up on every lead in one place.</p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link href="/register" className={MARKETING.btnGreen}>Start free trial</Link>
             <Link href="/contact" className={MARKETING.btnOutline}>Contact sales</Link>

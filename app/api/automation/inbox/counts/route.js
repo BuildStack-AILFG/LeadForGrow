@@ -12,7 +12,8 @@ async function handler(req) {
   try {
     const { user } = req;
     await dbConnect();
-    const counts = await countInboxQueues({ businessId: user.businessId, userId: user.userId });
+    const channel = new URL(req.url).searchParams.get('channel') || undefined;
+    const counts = await countInboxQueues({ businessId: user.businessId, userId: user.userId, channel });
     return NextResponse.json({ success: true, data: counts });
   } catch (error) {
     console.error('[Inbox API] counts:', error);

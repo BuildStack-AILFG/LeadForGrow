@@ -20,6 +20,8 @@ function matchColumn(headers, aliases) {
   return -1;
 }
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 function cleanPhone(raw) {
   const digits = String(raw || '').replace(/\D/g, '');
   if (!digits) return '';
@@ -71,6 +73,10 @@ export const POST = withPlanAccess('automation', async (req) => {
     const file = form.get('file');
     const dryRun = form.get('dryRun') === '1' || form.get('dryRun') === 'true';
     const campaignName = String(form.get('campaignName') || 'broadcast').trim();
+    // Which contact field is the key for THIS campaign. Email-only broadcasts
+    // are keyed by email (phone optional); WhatsApp / both stay keyed by phone.
+    const channel = String(form.get('channel') || 'whatsapp').trim().toLowerCase();
+    const keyField = channel === 'email' ? 'email' : 'phone';
 
     if (!file || typeof file === 'string') {
       return NextResponse.json({ success: false, error: 'No file uploaded' }, { status: 400 });
@@ -94,7 +100,18 @@ export const POST = withPlanAccess('automation', async (req) => {
     const phoneIdx = matchColumn(parsed.headers, HEADER_ALIASES.phone);
     const emailIdx = matchColumn(parsed.headers, HEADER_ALIASES.email);
 
-    if (phoneIdx === -1) {
+    // The key column must exist: email for email campaigns, phone otherwise.
+    if (keyField === 'email' && emailIdx === -1) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'No email column found. Expected one of: email, email address, e-mail, mail',
+          detectedHeaders: parsed.headers,
+        },
+        { status: 400 },
+      );
+    }
+    if (keyField === 'phone' && phoneIdx === -1) {
       return NextResponse.json(
         {
           success: false,
@@ -110,26 +127,37 @@ export const POST = withPlanAccess('automation', async (req) => {
 
     for (let i = 0; i < parsed.rows.length; i += 1) {
       const row = parsed.rows[i];
-      const phone = cleanPhone(row[phoneIdx]);
-      if (!phone || phone.length < 10) {
-        invalidRows.push({ row: i + 2, reason: 'Invalid phone', raw: row[phoneIdx] });
+      const phone = phoneIdx !== -1 ? cleanPhone(row[phoneIdx]) : '';
+      const email = emailIdx !== -1 ? String(row[emailIdx] || '').trim().toLowerCase() : '';
+
+      if (keyField === 'email') {
+        // Email campaign: a valid email is required; phone is optional.
+        if (!email || !EMAIL_RE.test(email)) {
+          invalidRows.push({ row: i + 2, reason: 'Invalid email', raw: emailIdx !== -1 ? row[emailIdx] : '' });
+          continue;
+        }
+      } else if (!phone || phone.length < 10) {
+        // WhatsApp / both: a valid phone is required.
+        invalidRows.push({ row: i + 2, reason: 'Invalid phone', raw: phoneIdx !== -1 ? row[phoneIdx] : '' });
         continue;
       }
-      const name = String(row[nameIdx] || '').trim() || `Lead ${phone.slice(-4)}`;
-      const email = emailIdx !== -1 ? String(row[emailIdx] || '').trim().toLowerCase() : '';
+
+      const fallbackTag = keyField === 'email' ? email.split('@')[0] : phone.slice(-4);
+      const name = String(row[nameIdx] || '').trim() || `Lead ${fallbackTag}`;
       validRows.push({ name, phone, email });
     }
 
-    // Duplicate detection inside the file
+    // Duplicate detection inside the file — on whichever field is the key.
     const seen = new Set();
     const dedupedRows = [];
     let intraFileDupes = 0;
     for (const r of validRows) {
-      if (seen.has(r.phone)) {
+      const key = r[keyField];
+      if (seen.has(key)) {
         intraFileDupes += 1;
         continue;
       }
-      seen.add(r.phone);
+      seen.add(key);
       dedupedRows.push(r);
     }
 
@@ -149,7 +177,8 @@ export const POST = withPlanAccess('automation', async (req) => {
       });
     }
 
-    // Real import — upsert leads by phone within this business, tag them.
+    // Real import — upsert leads by the key field (email for email campaigns,
+    // else phone) within this business, tag them.
     const slug = campaignName.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 24) || 'broadcast';
     const tag = `campaign_${slug}_${Date.now()}`;
 
@@ -158,11 +187,16 @@ export const POST = withPlanAccess('automation', async (req) => {
     let updated = 0;
 
     for (const r of dedupedRows) {
-      const existing = await Lead.findOne({ businessId, phone: r.phone });
+      const matchQuery = keyField === 'email'
+        ? { businessId, email: r.email }
+        : { businessId, phone: r.phone };
+      const existing = await Lead.findOne(matchQuery);
       if (existing) {
         const nextTags = Array.from(new Set([...(existing.tags || []), tag]));
         existing.tags = nextTags;
+        // Backfill the non-key field when we now have it.
         if (!existing.email && r.email) existing.email = r.email;
+        if (!existing.phone && r.phone) existing.phone = r.phone;
         await existing.save();
         leadIds.push(existing._id);
         updated += 1;
@@ -170,7 +204,7 @@ export const POST = withPlanAccess('automation', async (req) => {
         const doc = await Lead.create({
           businessId,
           name: r.name,
-          phone: r.phone,
+          phone: r.phone || undefined,
           email: r.email || undefined,
           source: 'bulk',
           sourceDetails: `CSV import · ${campaignName}`,

@@ -12,12 +12,12 @@ export default function TermsOfService() {
   {
     title: "1. Acceptance of Terms",
     content:
-      "By accessing or using the LeadForGrow platform, including its products and services such as FollowUpSure, you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree to these terms, you must not access or use the platform."
+      "By accessing or using the LeadForGrow platform, including its products and services, you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree to these terms, you must not access or use the platform."
   },
   {
     title: "2. Description of Service",
     content:
-      "LeadForGrow provides a follow-up and execution intelligence platform that includes lead capture, automation, task management, analytics, communication workflows, and related tools. Features may vary based on the subscription plan selected."
+      "LeadForGrow provides a CRM and business automation platform that includes lead capture, automation, task management, analytics, communication workflows, and related tools. Features may vary based on the subscription plan selected."
   },
   {
     title: "3. Account Registration & Responsibility",
@@ -107,7 +107,7 @@ export default function TermsOfService() {
     >
       <div className="bg-white dark:bg-slate-900/40 rounded-3xl p-8 md:p-12 border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none">
         <div className="prose prose-slate dark:prose-invert max-w-none">
-          <p className="text-slate-500 dark:text-slate-400 mb-12 italic">Last Updated: September 21, 2026</p>
+          <p className="text-slate-500 dark:text-slate-400 mb-12 italic">Last Updated: September 22, 2026</p>
 
           <div className="mb-12 rounded-2xl border border-slate-100 dark:border-slate-800 p-6 md:p-8 text-slate-600 dark:text-slate-300 leading-relaxed">
             <Heading level={2} className="text-2xl mb-4">Who These Terms Are With</Heading>

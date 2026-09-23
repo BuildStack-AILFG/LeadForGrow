@@ -47,6 +47,10 @@ async function handler(req) {
       // sender appends the specific signature the user chose. When absent,
       // sendChannelEmail falls back to the mailbox's default signature.
       signatureId,
+      // "Compose email" — a raw recipient address (+ optional name) when there
+      // is no existing lead/conversation yet. The lead is created on the fly.
+      toEmail,
+      toName,
     } = body;
 
     const hasMedia = !!mediaUrl;
@@ -66,9 +70,22 @@ async function handler(req) {
       : null;
 
     const resolvedLeadId = leadId || conversation?.leadId;
-    const lead = resolvedLeadId
+    let lead = resolvedLeadId
       ? await Lead.findOne({ _id: resolvedLeadId, businessId: user.businessId })
       : null;
+
+    // "Compose email": no existing lead/conversation, just a recipient address.
+    // Find or create the lead so every email recipient is a tracked CRM contact.
+    if (!lead && !isInternal && channel === 'email' && toEmail?.trim()) {
+      const { matchCustomer } = await import('@/lib/omnichannel/customerMatching');
+      const matched = await matchCustomer(user.businessId, {
+        email: toEmail.trim(),
+        name: (toName || '').trim() || undefined,
+        channel: 'email',
+        createIfMissing: true,
+      });
+      lead = matched.lead;
+    }
 
     if (!lead && !isInternal) {
       return NextResponse.json({ success: false, error: 'Lead not found' }, { status: 404 });

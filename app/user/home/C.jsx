@@ -25,7 +25,7 @@ const CONTACT_ITEMS = [
   {
     icon: Headphones,
     label: 'Support',
-    value: '24/7 live agent chat',
+    value: 'Mon–Fri, 9:00 AM – 6:00 PM IST',
     iconClass: 'bg-sky-50 text-sky-600 dark:bg-sky-950/40 dark:text-sky-400',
   },
 ];

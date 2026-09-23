@@ -120,7 +120,7 @@ export default function HostingPage() {
             </div>
             <div>
               <h4 className="font-bold text-indigo-600 dark:text-indigo-400">4. High-Availability Reliability</h4>
-              <p className="text-xl">Your business never sleeps, and neither does your website. We maintain 99.9% uptime across our global network to ensure your leads can always find you.</p>
+              <p className="text-xl">Your business never sleeps, and neither does your website. We host your site on managed cloud infrastructure so your leads can find you.</p>
             </div>
           </div>
         </div>
