@@ -23,7 +23,8 @@ describe('conversation list width', () => {
 
 describe('channel pills', () => {
   it('are icon-only with an accessible name and tooltip (five labelled pills do not fit a narrow list)', () => {
-    assert.match(sidebar, /title=\{f\.label\}/);
+    // Tooltip references the label (it may also append a live "N waiting" hint).
+    assert.match(sidebar, /title=\{[^}]*f\.label/);
     assert.match(sidebar, /aria-label=\{f\.label\}/);
     // Only the channel pills block: the view tabs (Needs reply, Mine, ...) below it keep their text labels.
     const pills = sidebar.slice(sidebar.indexOf('CHANNEL_FILTERS.map'), sidebar.indexOf('<InboxViewTabs'));

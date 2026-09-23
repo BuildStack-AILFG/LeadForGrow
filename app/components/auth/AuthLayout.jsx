@@ -22,7 +22,7 @@ const PANELS = {
   forgot: {
     headline: 'We\'ll get you back in.',
     sub: 'Secure password recovery with email verification.',
-    features: ['Encrypted reset links', 'Links expire in 1 hour', '24/7 account support'],
+    features: ['Encrypted reset links', 'Links expire in 1 hour', 'Support Mon–Fri, 9–6 IST'],
     gradient: 'from-slate-900 via-[#0d2620] to-slate-900',
     accent: 'text-[#8FC4AE]',
   },
@@ -36,7 +36,7 @@ const PANELS = {
   magic: {
     headline: 'Sign in without a password.',
     sub: 'Magic links are secure, single-use, and expire quickly.',
-    features: ['No password to remember', 'Works on any device', 'Enterprise-grade security'],
+    features: ['No password to remember', 'Works on any device', 'Encrypted in transit'],
     gradient: 'from-[#163c32] via-[#122e26] to-cyan-950',
     accent: 'text-cyan-300',
   },

@@ -144,7 +144,8 @@ describe('wiring', () => {
     const hook = read('app/automation/hooks/useChatInbox.js');
     assert.ok(hook.includes("if (isServerView(filter)) { if (!search) params.set('view', filter); }"));
     assert.ok(hook.includes('defaultInboxView(role)') && hook.includes("'lfg_ui_inbox_view'"));
-    assert.ok(hook.includes("authFetch('/api/automation/inbox/counts')"));
+    // Counts are channel-scoped (?channel=…) when a single channel tab is active, plain otherwise.
+    assert.ok(/authFetch\(`\/api\/automation\/inbox\/counts/.test(hook));
     assert.ok(hook.includes('requestId !== convRequestRef.current'), 'a stale list response must not overwrite a newer one');
     assert.ok(hook.includes("if (initialLeadId.current) { setFilterState('all'); return; }"), 'a deep link to a lead opens on All');
     assert.ok(!/filter === 'assigned'|filter === 'intervened'/.test(hook), 'the old client-side queue filters are gone');
