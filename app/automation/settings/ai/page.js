@@ -17,6 +17,9 @@ export default function AiSettingsPage() {
   const [settings, setSettings] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  // The saved BYOK key is never returned by the API; this holds a NEW key the
+  // user types. Left blank on save = keep the existing key.
+  const [apiKeyInput, setApiKeyInput] = useState('');
 
   const load = async () => {
     setLoading(true);
@@ -36,14 +39,19 @@ export default function AiSettingsPage() {
   const save = async () => {
     setSaving(true);
     try {
+      // Send the typed key only when the user entered one; blank keeps the
+      // existing saved key untouched.
+      const payload = { ...settings };
+      if (apiKeyInput.trim()) payload.apiKey = apiKeyInput.trim();
       const res = await authFetch('/api/ai/settings', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(settings),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
       if (!data.success) throw new Error(data.error);
-      setSettings(data.data);
+      setApiKeyInput('');
+      await load(); // refresh hasApiKey / configured from the server
       toast.success('AI settings saved');
     } catch (err) {
       toast.error(err.message || 'Save failed');
@@ -78,7 +86,11 @@ export default function AiSettingsPage() {
 
       <div className={`flex items-center gap-2 px-4 py-3 rounded-xl border ${settings?.configured ? 'bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200' : 'bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-200'}`}>
         {settings?.configured ? <CheckCircle2 className="w-4 h-4" /> : <AlertTriangle className="w-4 h-4" />}
-        <span className="text-sm">{settings?.configured ? 'AI provider configured' : 'Set GROQ_API_KEY for full AI features'}</span>
+        <span className="text-sm">
+          {settings?.configured
+            ? (settings?.provider === 'openai' && settings?.hasApiKey ? 'AI running on your own OpenAI key' : 'AI provider configured')
+            : 'No AI provider — use the platform default or add your own OpenAI key below'}
+        </span>
       </div>
 
       <section className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 space-y-4">
@@ -97,6 +109,69 @@ export default function AiSettingsPage() {
             (instead of only suggesting a reply). Skipped while a flow is running or a human has taken over.
           </p>
         </div>
+      </section>
+
+      <section className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 space-y-4">
+        <div>
+          <h2 className="font-semibold text-slate-900 dark:text-white">AI Provider</h2>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+            Run AI replies on the platform’s model, or bring your own OpenAI account — your key, your usage, your billing.
+          </p>
+        </div>
+
+        <Field label="Which AI powers your replies?">
+          <select
+            value={settings?.provider || 'platform'}
+            onChange={(e) => update('provider', e.target.value)}
+            className="w-full text-sm px-3 py-2 border rounded-lg bg-slate-50 dark:bg-slate-800"
+          >
+            <option value="platform">Platform AI (included)</option>
+            <option value="openai">My own OpenAI key (BYOK)</option>
+          </select>
+        </Field>
+
+        {settings?.provider === 'openai' && (
+          <div className="space-y-4 rounded-lg border border-violet-200 dark:border-violet-900 bg-violet-50/40 dark:bg-violet-950/20 p-4">
+            <Field label="OpenAI API key">
+              <input
+                type="password"
+                value={apiKeyInput}
+                onChange={(e) => setApiKeyInput(e.target.value)}
+                placeholder={settings?.hasApiKey ? '•••••••••••• (saved — leave blank to keep)' : 'sk-…'}
+                autoComplete="off"
+                className="w-full text-sm px-3 py-2 border rounded-lg bg-white dark:bg-slate-900 font-mono"
+              />
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                {settings?.hasApiKey
+                  ? '✓ A key is saved and encrypted. Enter a new one only to replace it.'
+                  : 'Stored encrypted; never shown again after saving. Get it from platform.openai.com → API keys.'}
+              </p>
+            </Field>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Field label="Model">
+                <input
+                  type="text"
+                  value={settings?.replyModel || ''}
+                  onChange={(e) => update('replyModel', e.target.value)}
+                  placeholder="gpt-4o-mini"
+                  className="w-full text-sm px-3 py-2 border rounded-lg bg-white dark:bg-slate-900 font-mono"
+                />
+              </Field>
+              <Field label="Endpoint (optional)">
+                <input
+                  type="text"
+                  value={settings?.baseUrl || ''}
+                  onChange={(e) => update('baseUrl', e.target.value)}
+                  placeholder="https://api.openai.com/v1"
+                  className="w-full text-sm px-3 py-2 border rounded-lg bg-white dark:bg-slate-900 font-mono"
+                />
+              </Field>
+            </div>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400">
+              Leave the endpoint blank for OpenAI. Any OpenAI-compatible gateway (Azure OpenAI, a proxy) works if it accepts the same API.
+            </p>
+          </div>
+        )}
       </section>
 
       <section className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 space-y-4">

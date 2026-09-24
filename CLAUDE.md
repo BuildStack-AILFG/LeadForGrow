@@ -14,6 +14,33 @@ Related decisions: <link to DECISIONS.md entry, if any>
 ---
 
 
+## 2026-09-24 — Email UX + AI reply: sent-sync, rich compose, collapse-on-open, AI feature-flag/context, BYOK
+Branch: main
+Files:
+- `lib/omnichannel/emailService.js` (new `ingestOutboundEmail` — records mail sent from webmail as an outgoing CRM message keyed on the recipient, deduped by Message-ID)
+- `lib/omnichannel/emailSync.js` (new `findSentMailbox` + `syncSentFolder` — after INBOX, syncs the Sent folder via special-use `\Sent`/common names so webmail-sent mail lands in the CRM; `since` lifted above the locks; `parseEmailAndAttachments` now drops embedded images — signature logos, social icons, tracking pixels — from attachment cards)
+- `app/automation/components/chat/ComposeEmailModal.jsx` (rich WYSIWYG body via RichEmailBodyEditor + file attachments via useMediaUpload/MediaAttachmentStrip; From + signature pickers kept)
+- `app/automation/broadcasts/RichEmailBodyEditor.jsx` (added `showVariables` prop so the 1:1 compose hides the personalization-variable menu)
+- `app/api/automation/inbox/send/route.js` (records email `attachments` on the sent message so they render in the thread)
+- `app/automation/components/chat/ChatInput.jsx` (email composer collapses on every conversation open — the auto-filled "Re:" subject no longer force-expands it; resets expand state + clears the editor on conversation change; new `onExpandedChange` callback)
+- `app/automation/chat/page.js` (AI-reply tone bar gated on `emailComposerOpen` so an opened email thread stays clean until Reply is clicked; new `aiReplyEnabled` from `/api/ai/settings` so the bar shows only when the feature is enabled AND a provider is configured)
+- `lib/ai/reply.js` (context window widened: RAG query last 3→5, conversation snippet last 8→15 with a per-turn cap; passes `providerConfig` for BYOK)
+- `lib/ai/providers/openai.js` + `lib/ai/providers/index.js` (chatCompletion accepts BYOK `apiKey`/`baseUrl`; index routes to the client's OpenAI when `providerConfig` is passed)
+- `lib/ai/settings.js` (encrypts the BYOK key on write; `getAiSettings` returns `hasApiKey` boolean, never the key; new `getBusinessAiProviderConfig` decrypts server-side for the reply path)
+- `app/api/ai/settings/route.js` (`configured` is now platform-provider OR the client's own key; PUT returns the client-safe view)
+- `models/Business.js` (`settings.ai`: added `provider` platform|openai, `apiKey` select:false, `replyModel`, `baseUrl`)
+- `app/automation/settings/ai/page.js` (new "AI Provider" section — Platform vs "My own OpenAI key (BYOK)" with key/model/endpoint; masked key input, "✓ saved" state)
+
+What changed: a run of email-inbox and AI-reply improvements the user asked for while testing.
+1. **Sent-folder sync** — mail a human sends directly from Hostinger/Gmail webmail (outside the CRM) now appears in the CRM as an outgoing message, threaded to the recipient's lead, deduped against CRM-sent copies by Message-ID.
+2. **Inline-image filter** — signature logos / social icons / tracking pixels no longer show up as junk "logo.jpg 2 KB" attachment cards; only real attached files are kept.
+3. **Rich Compose** — the "New Email" modal now has the WYSIWYG editor + file attachments, not a plain textarea.
+4. **Composer collapse-on-open** — opening an email thread shows a slim "Reply…" bar (and hides the AI tone bar) until the user clicks Reply; the pre-filled "Re:" subject used to spring the whole composer open on every thread.
+5. **AI reply feature-flag + context** — the AI tone bar renders only when `enabled` + `replyAssistEnabled` + a configured provider; the model now reads the last 15 turns + RAG + lead memory (not just the last line).
+6. **BYOK** — a client can run AI replies on their OWN OpenAI account: they pick "My own OpenAI key" in AI Settings and enter key/model/endpoint. The key is encrypted at rest, never returned to the client, decrypted server-side only in the reply path, and routed through the OpenAI provider (OpenAI-compatible endpoints supported). Falls back to the platform provider (Groq) when not set.
+Related decisions: BYOK key is `select:false` + encrypted like the Meta/email credentials; preview/other AI paths still use the platform provider unless a business config is resolved; sent-sync + inline-filter apply to all IMAP ingests (inbound and the new Sent pass).
+Verification: production build compiled; full suite 543/543 tests pass. NOT viewed in a browser by me (the user is testing in their running dev server).
+
 ## 2026-09-24 — Email broadcasts: real signature, rich WYSIWYG body, email-only CSV, honest email stats
 Branch: main
 Files:

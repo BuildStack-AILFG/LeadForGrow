@@ -52,6 +52,26 @@ function ChatInboxContent() {
   const composerGutter = profileCollapsed ? 'pr-[76px]' : 'pr-[76px] xl:pr-0';
 
   const [aiReplyText, setAiReplyText] = useState(null);
+  // Whether the email reply composer is open. Drives the AI-reply tone bar's
+  // visibility so an opened email thread stays clean until the user clicks Reply.
+  const [emailComposerOpen, setEmailComposerOpen] = useState(false);
+
+  // AI reply assist is a paid/important feature — the tone bar appears only when
+  // it's enabled AND a provider is configured. Fetched once per mount; defaults
+  // to hidden until confirmed so it never flashes for tenants without it.
+  const [aiReplyEnabled, setAiReplyEnabled] = useState(false);
+  useEffect(() => {
+    let alive = true;
+    authFetch('/api/ai/settings')
+      .then((r) => r.json())
+      .then((d) => {
+        if (!alive || !d?.success) return;
+        const s = d.data || {};
+        setAiReplyEnabled(!!s.configured && s.enabled !== false && s.replyAssistEnabled !== false);
+      })
+      .catch(() => {});
+    return () => { alive = false; };
+  }, []);
 
   // Drafts folder was a hardcoded-empty stub — this actually fetches from the
   // EmailDraft collection (the GET endpoint already existed and worked, it just had
@@ -382,7 +402,7 @@ function ChatInboxContent() {
                 conversation={inbox.selectedChat}
               />
             )}
-            {canReply && !showTemplateBar && (
+            {aiReplyEnabled && canReply && !showTemplateBar && (inbox.selectedChat?.channel !== 'email' || emailComposerOpen) && (
               <AiReplyBar
                 channel={inbox.selectedChat?.channel || 'whatsapp'}
                 customerName={inbox.selectedChat?.leadId?.name}
@@ -441,6 +461,7 @@ function ChatInboxContent() {
                 // ChatInput uses this to lock the From-picker so replies
                 // always send from the mailbox that started the thread.
                 pinnedEmailAccountId={inbox.selectedChat?.emailAccountId || null}
+                onExpandedChange={setEmailComposerOpen}
               />
             )}
           </>

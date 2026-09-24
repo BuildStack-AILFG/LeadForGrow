@@ -265,6 +265,9 @@ async function handler(req) {
         fileName,
         caption: message.trim() || undefined,
         participantId: conversation?.participantId,
+        // Email file attachments — persisted so the sent message renders its
+        // attachment cards in the thread, matching how inbound mail shows them.
+        attachments: activeChannel === 'email' && Array.isArray(attachments) && attachments.length ? attachments : undefined,
       },
       status: 'sent',
       performedBy: user.userId,

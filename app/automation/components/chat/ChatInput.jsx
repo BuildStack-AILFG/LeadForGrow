@@ -32,6 +32,9 @@ export default function ChatInput({
   // Set by the parent for email replies — pins the send to the conversation's
   // original mailbox. Read-only in that case; picker is hidden.
   pinnedEmailAccountId,
+  // Notifies the page whether the composer is open, so sibling reply chrome
+  // (the AI-reply tone bar) can stay hidden until the user clicks Reply.
+  onExpandedChange,
 }) {
   const confirm = useConfirm();
   const [text, setText] = useState('');
@@ -70,6 +73,12 @@ export default function ChatInput({
     setScheduleOpen(false);
     setScheduledAt('');
     setReplyTo(null);
+    // Every conversation opens with the email composer collapsed — it expands
+    // only when the user clicks Reply. Also clear the contentEditable so a body
+    // typed in the previous thread never bleeds into this one.
+    setEmailExpanded(false);
+    setEmailMinimized(false);
+    if (editorRef.current) editorRef.current.innerHTML = '';
   }, [conversationId]);
 
   // Insert a link into the contentEditable email body. The confirm modal blurs
@@ -103,9 +112,17 @@ export default function ChatInput({
   // when a draft exists. Without it, the content check below (which auto-opens
   // the composer when there's a subject/body to show) would defeat the click.
   const [emailMinimized, setEmailMinimized] = useState(false);
+  // Collapsed unless the user has expanded it (Reply click), typed something,
+  // or attached a file. The auto-filled "Re: …" subject deliberately does NOT
+  // count — otherwise every opened thread would spring the composer open.
   const collapsedEmail =
     isEmail &&
-    (emailMinimized || (!emailExpanded && !text && !emailSubject && readyUploads.length === 0));
+    (emailMinimized || (!emailExpanded && !text && readyUploads.length === 0));
+
+  // Report open/closed to the page. Non-email composers are always "open".
+  useEffect(() => {
+    onExpandedChange?.(!collapsedEmail);
+  }, [collapsedEmail, onExpandedChange]);
 
   // Cc is hidden behind a toggle (Gmail-style) so the compact composer stays
   // clean when it isn't needed. Auto-opens when a draft loads with existing Cc.

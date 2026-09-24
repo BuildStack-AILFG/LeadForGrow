@@ -1,28 +1,23 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { X, Mail, Send, Loader2, PenLine } from 'lucide-react';
+import { X, Mail, Send, Loader2, PenLine, Paperclip } from 'lucide-react';
 import { authFetch } from '@/lib/apiClient';
 import { toast } from 'react-hot-toast';
+import RichEmailBodyEditor from '@/app/automation/broadcasts/RichEmailBodyEditor';
+import MediaAttachmentStrip from './MediaAttachmentStrip';
+import { useMediaUpload } from '@/app/automation/hooks/useMediaUpload';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-/** Escape + turn newlines into <br> so plain text renders as HTML above the signature. */
-function toHtml(text) {
-  const esc = String(text || '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-  return esc.replace(/\n/g, '<br>');
-}
 
 const validList = (s) => String(s || '').split(',').map((e) => e.trim()).filter(Boolean);
 
 /**
  * Compose a brand-new email to any address — a real mail-client feel: From
- * picker, Cc/Bcc (Gmail-style toggles), subject, body, and a signature picker.
- * Finds/creates the lead server-side (every recipient becomes a tracked CRM
- * contact) and appends the chosen signature automatically.
+ * picker, Cc/Bcc (Gmail-style toggles), subject, a rich WYSIWYG body, file
+ * attachments, and a signature picker. Finds/creates the lead server-side
+ * (every recipient becomes a tracked CRM contact) and appends the chosen
+ * signature automatically.
  */
 export default function ComposeEmailModal({ open, onClose, onSent }) {
   const [accounts, setAccounts] = useState([]);
@@ -34,9 +29,16 @@ export default function ComposeEmailModal({ open, onClose, onSent }) {
   const [showCc, setShowCc] = useState(false);
   const [showBcc, setShowBcc] = useState(false);
   const [subject, setSubject] = useState('');
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState('');   // plain-text version (validation + text part)
+  const [bodyHtml, setBodyHtml] = useState(''); // rich HTML from the editor
   const [signatureId, setSignatureId] = useState('');
   const [sending, setSending] = useState(false);
+  // Remount the editor after a successful send so it clears back to empty.
+  const [editorKey, setEditorKey] = useState(0);
+
+  const { uploads, uploadFile, removeUpload, retryUpload, clearUploads } = useMediaUpload();
+  const readyUploads = uploads.filter((u) => u.status === 'done');
+  const anyUploading = uploads.some((u) => u.status === 'uploading');
 
   const account = accounts.find((a) => a._id === fromId) || null;
   const signatures = account?.signatures || [];
@@ -65,7 +67,17 @@ export default function ComposeEmailModal({ open, onClose, onSent }) {
 
   const reset = () => {
     setTo(''); setToName(''); setCc(''); setBcc('');
-    setShowCc(false); setShowBcc(false); setSubject(''); setMessage('');
+    setShowCc(false); setShowBcc(false); setSubject('');
+    setMessage(''); setBodyHtml('');
+    clearUploads();
+    setEditorKey((k) => k + 1);
+  };
+
+  const handleFiles = async (files) => {
+    for (const file of Array.from(files || [])) {
+      try { await uploadFile(file); }
+      catch (err) { toast.error(err.message || 'Upload failed'); }
+    }
   };
 
   const handleSend = async () => {
@@ -74,6 +86,7 @@ export default function ComposeEmailModal({ open, onClose, onSent }) {
     if (bcc && validList(bcc).some((e) => !EMAIL_RE.test(e))) { toast.error('One of the Bcc addresses is invalid'); return; }
     if (!subject.trim()) { toast.error('Subject is required'); return; }
     if (!message.trim()) { toast.error('Write a message'); return; }
+    if (anyUploading) { toast.error('Wait for attachments to finish uploading'); return; }
     setSending(true);
     try {
       const res = await authFetch('/api/automation/inbox/send', {
@@ -86,7 +99,13 @@ export default function ComposeEmailModal({ open, onClose, onSent }) {
           bcc: bcc.trim() || undefined,
           subject: subject.trim(),
           message: message.trim(),
-          bodyHtml: toHtml(message.trim()),
+          bodyHtml: bodyHtml || undefined,
+          attachments: readyUploads.map((u) => ({
+            url: u.url,
+            fileName: u.name,
+            mimeType: u.mimeType,
+            size: u.size,
+          })),
           emailAccountId: fromId || undefined,
           signatureId: signatureId || undefined,
         }),
@@ -114,7 +133,7 @@ export default function ComposeEmailModal({ open, onClose, onSent }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
       <div
-        className="w-full max-w-lg rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+        className="w-full max-w-xl rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center gap-2 px-5 py-3.5 border-b border-slate-100 dark:border-slate-800 shrink-0">
@@ -170,17 +189,37 @@ export default function ComposeEmailModal({ open, onClose, onSent }) {
             <input type="text" value={subject} onChange={(e) => setSubject(e.target.value)} placeholder="Subject" className={field} />
           </div>
 
+          {/* Rich message body */}
           <div>
             <label className="block text-[11px] font-medium text-slate-500 dark:text-slate-400 mb-1">Message <span className="text-red-500">*</span></label>
-            <textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={7} placeholder="Write your message…" className={`${field} resize-none`} />
+            <RichEmailBodyEditor
+              key={editorKey}
+              value={bodyHtml}
+              showVariables={false}
+              placeholder={'Write your message…'}
+              onChange={({ html, text }) => { setBodyHtml(html); setMessage(text); }}
+            />
           </div>
 
-          {/* Signature picker */}
-          <div className="flex items-center gap-2">
+          {/* Attachments */}
+          {uploads.length > 0 && (
+            <MediaAttachmentStrip uploads={uploads} onRemove={removeUpload} onRetry={retryUpload} />
+          )}
+
+          {/* Attach + signature row */}
+          <div className="flex items-center gap-3 flex-wrap">
+            <label className="inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-600 dark:text-slate-300 cursor-pointer hover:text-teal-600">
+              <Paperclip className="w-3.5 h-3.5" /> Attach files
+              <input type="file" multiple className="hidden" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.zip,.csv,.txt"
+                onChange={(e) => { handleFiles(e.target.files); e.target.value = ''; }} />
+            </label>
+
+            <span className="mx-1 h-4 w-px bg-slate-200 dark:bg-slate-700" />
+
             <PenLine className="w-3.5 h-3.5 text-slate-400 shrink-0" />
             <label className="text-[11px] font-medium text-slate-500 dark:text-slate-400">Signature</label>
             {signatures.length > 0 ? (
-              <select value={signatureId} onChange={(e) => setSignatureId(e.target.value)} className="flex-1 px-2 py-1.5 text-xs border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800 focus:outline-none">
+              <select value={signatureId} onChange={(e) => setSignatureId(e.target.value)} className="flex-1 min-w-[140px] px-2 py-1.5 text-xs border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800 focus:outline-none">
                 <option value="">No signature</option>
                 {signatures.map((s) => <option key={s.id} value={s.id}>{s.name || 'Signature'}{s.isDefault ? ' (default)' : ''}</option>)}
               </select>
@@ -194,9 +233,9 @@ export default function ComposeEmailModal({ open, onClose, onSent }) {
           <button type="button" onClick={onClose} className="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
             Cancel
           </button>
-          <button type="button" onClick={handleSend} disabled={sending} className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:opacity-50">
+          <button type="button" onClick={handleSend} disabled={sending || anyUploading} className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:opacity-50">
             {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-            {sending ? 'Sending…' : 'Send'}
+            {sending ? 'Sending…' : anyUploading ? 'Uploading…' : 'Send'}
           </button>
         </div>
       </div>

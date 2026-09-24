@@ -228,6 +228,14 @@ const BusinessSettingsSchema = new mongoose.Schema({
     model: { type: String, default: 'llama-3.1-8b-instant' },
     agentEnabled: { type: Boolean, default: false },
     replyAssistEnabled: { type: Boolean, default: true },
+    /** Bring-Your-Own-Key: a client can run AI features on their OWN LLM
+     *  account instead of the platform's shared provider. 'platform' uses our
+     *  keys; 'openai' uses the client's key/model/endpoint below. The key is
+     *  encrypted at rest (lib/encryption) and never returned to the client. */
+    provider: { type: String, enum: ['platform', 'openai'], default: 'platform' },
+    apiKey: { type: String, select: false },
+    replyModel: { type: String, default: '' },
+    baseUrl: { type: String, default: '' },
     /** When true, the AI auto-replies to incoming WhatsApp messages from the
      *  knowledge base instead of only suggesting a reply to the agent. */
     whatsappAutoReply: { type: Boolean, default: false },

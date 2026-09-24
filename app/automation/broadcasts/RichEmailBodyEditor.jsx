@@ -110,6 +110,9 @@ export default function RichEmailBodyEditor({
   onChange,
   disabled = false,
   placeholder = 'Hi {{name}},\n\nWrite your announcement here…',
+  // Per-recipient tokens only make sense for a broadcast (many recipients).
+  // A 1:1 compose passes showVariables={false} to hide the Insert menu.
+  showVariables = true,
 }) {
   const confirm = useConfirm();
   const [uploading, setUploading] = useState(false);
@@ -236,44 +239,48 @@ export default function RichEmailBodyEditor({
     <div className="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm">
       {/* Toolbar */}
       <div className="flex flex-wrap items-center gap-0.5 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 px-2 py-1.5">
-        {/* Insert variable */}
-        <div className="relative">
-          <button
-            type="button"
-            onClick={() => setVarMenuOpen((v) => !v)}
-            disabled={disabled}
-            className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-2.5 py-1 text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-40"
-            title="Insert a personalization variable"
-          >
-            <Braces className="h-3.5 w-3.5" />
-            Insert
-            <ChevronDown className="h-3 w-3 text-slate-400" />
-          </button>
-          {varMenuOpen && (
-            <>
-              <div className="fixed inset-0 z-10" onClick={() => setVarMenuOpen(false)} />
-              <div className="absolute left-0 top-full z-20 mt-1 w-56 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-1 shadow-lg">
-                <p className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-400">Personalization</p>
-                {VARIABLES.map((v) => (
-                  <button
-                    key={v.token}
-                    type="button"
-                    onClick={() => insertVariable(v.token)}
-                    className="flex w-full items-center justify-between rounded-md px-3 py-1.5 text-left hover:bg-slate-50 dark:hover:bg-slate-800"
-                  >
-                    <span className="text-xs font-medium text-slate-800 dark:text-slate-100">{v.label}</span>
-                    <code className="text-[10px] text-violet-600 dark:text-violet-400">{v.token}</code>
-                  </button>
-                ))}
-                <p className="mt-1 border-t border-slate-100 dark:border-slate-800 px-3 py-1.5 text-[10px] text-slate-400">
-                  Each token is replaced per recipient at send time.
-                </p>
-              </div>
-            </>
-          )}
-        </div>
+        {/* Insert variable — broadcasts only */}
+        {showVariables && (
+          <>
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setVarMenuOpen((v) => !v)}
+                disabled={disabled}
+                className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-2.5 py-1 text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-40"
+                title="Insert a personalization variable"
+              >
+                <Braces className="h-3.5 w-3.5" />
+                Insert
+                <ChevronDown className="h-3 w-3 text-slate-400" />
+              </button>
+              {varMenuOpen && (
+                <>
+                  <div className="fixed inset-0 z-10" onClick={() => setVarMenuOpen(false)} />
+                  <div className="absolute left-0 top-full z-20 mt-1 w-56 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-1 shadow-lg">
+                    <p className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-400">Personalization</p>
+                    {VARIABLES.map((v) => (
+                      <button
+                        key={v.token}
+                        type="button"
+                        onClick={() => insertVariable(v.token)}
+                        className="flex w-full items-center justify-between rounded-md px-3 py-1.5 text-left hover:bg-slate-50 dark:hover:bg-slate-800"
+                      >
+                        <span className="text-xs font-medium text-slate-800 dark:text-slate-100">{v.label}</span>
+                        <code className="text-[10px] text-violet-600 dark:text-violet-400">{v.token}</code>
+                      </button>
+                    ))}
+                    <p className="mt-1 border-t border-slate-100 dark:border-slate-800 px-3 py-1.5 text-[10px] text-slate-400">
+                      Each token is replaced per recipient at send time.
+                    </p>
+                  </div>
+                </>
+              )}
+            </div>
 
-        <Divider />
+            <Divider />
+          </>
+        )}
 
         <ToolbarButton title="Bold (⌘B)" active={editor.isActive('bold')} disabled={disabled} onClick={() => editor.chain().focus().toggleBold().run()}>
           <BoldIcon className="h-4 w-4" />
