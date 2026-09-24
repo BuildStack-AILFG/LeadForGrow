@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
-  ArrowLeft, Sparkles, Save, Loader2, CheckCircle2, AlertTriangle,
+  ArrowLeft, Save, Loader2, CheckCircle2, AlertTriangle,
 } from 'lucide-react';
 import { authFetch } from '@/lib/apiClient';
 import { toast } from 'react-hot-toast';
@@ -69,15 +69,13 @@ export default function AiSettingsPage() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-4 sm:p-6 space-y-6">
+    <div className="max-w-6xl mx-auto p-4 sm:p-6 space-y-6">
       <div className="flex items-center gap-3">
         <Link href="/automation/settings" className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
           <ArrowLeft className="w-4 h-4" />
         </Link>
         <div>
-          <h1 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-violet-500" /> AI Settings
-          </h1>
+          <h1 className="text-xl font-bold text-slate-900 dark:text-white">AI Settings</h1>
           <p className="text-sm text-slate-500 dark:text-slate-400">Configure Grovia — tone, handoff, languages, and agent behavior</p>
         </div>
       </div>
@@ -93,6 +91,7 @@ export default function AiSettingsPage() {
         </span>
       </div>
 
+      <div className="lg:columns-2 lg:gap-5 [&>section]:mb-5 [&>section]:break-inside-avoid">
       <section className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 space-y-4">
         <h2 className="font-semibold text-slate-900 dark:text-white">General</h2>
         <Toggle label="Enable AI" checked={settings?.enabled !== false} onChange={(v) => update('enabled', v)} />
@@ -131,7 +130,7 @@ export default function AiSettingsPage() {
         </Field>
 
         {settings?.provider === 'openai' && (
-          <div className="space-y-4 rounded-lg border border-violet-200 dark:border-violet-900 bg-violet-50/40 dark:bg-violet-950/20 p-4">
+          <div className="space-y-4 rounded-lg border border-emerald-200 dark:border-emerald-900 bg-emerald-50/40 dark:bg-emerald-950/20 p-4">
             <Field label="OpenAI API key">
               <input
                 type="password"
@@ -243,13 +242,14 @@ export default function AiSettingsPage() {
           Outside your configured business hours, messages wait for a human instead of getting an auto-reply.
         </p>
       </section>
+      </div>
 
       <div className="flex gap-3">
         <button
           type="button"
           onClick={save}
           disabled={saving}
-          className="inline-flex items-center gap-2 px-4 py-2.5 bg-violet-600 text-white rounded-lg text-sm font-medium hover:bg-violet-700 disabled:opacity-50"
+          className="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700 disabled:opacity-50"
         >
           {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           Save settings
@@ -271,7 +271,7 @@ function Toggle({ label, checked, onChange }) {
         role="switch"
         aria-checked={checked}
         onClick={() => onChange(!checked)}
-        className={`relative w-10 h-5 rounded-full transition-colors ${checked ? 'bg-violet-600' : 'bg-slate-300 dark:bg-slate-600'}`}
+        className={`relative w-10 h-5 rounded-full transition-colors ${checked ? 'bg-emerald-600' : 'bg-slate-300 dark:bg-slate-600'}`}
       >
         <span className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform ${checked ? 'translate-x-5' : ''}`} />
       </button>

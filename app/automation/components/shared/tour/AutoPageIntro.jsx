@@ -23,6 +23,7 @@ export default function AutoPageIntro() {
       id={intro.id}
       icon={Icon}
       iconImage={intro.iconImage}
+      iconFullBleed={intro.iconFullBleed}
       title={intro.title}
       body={intro.body}
       guideHref={intro.guideHref}

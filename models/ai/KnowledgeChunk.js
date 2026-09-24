@@ -8,6 +8,9 @@ const KnowledgeChunkSchema = new mongoose.Schema(
     chunkIndex: { type: Number, default: 0 },
     tokenEstimate: { type: Number, default: 0 },
     embedding: { type: [Number], select: false },
+    // Which model produced `embedding` — retrieval only compares vectors from
+    // the same model (different models have different dims / vector spaces).
+    embeddingModel: { type: String, index: true },
     metadata: {
       sourceName: String,
       sourceType: String,

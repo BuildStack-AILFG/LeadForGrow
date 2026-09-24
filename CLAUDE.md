@@ -14,6 +14,24 @@ Related decisions: <link to DECISIONS.md entry, if any>
 ---
 
 
+## 2026-09-24 — AI Knowledge Base: vector embeddings, rich source form, green AI UI + premium icons
+Branch: main
+Files:
+- `lib/ai/providers/embeddings.js` (new — OpenAI text-embedding-3-small wrapper, BYOK-aware, `embedTexts`/`embedOne`/`cosineSimilarity`; graceful null when no key)
+- `models/ai/KnowledgeChunk.js` (added `embeddingModel` so retrieval only compares vectors from the same model)
+- `lib/ai/rag/ingest.js` (batch-embeds each chunk on index, stores `embedding` + `embeddingModel`; best-effort — chunks still index for lexical search if embeddings are unavailable)
+- `lib/ai/rag/retriever.js` (3-tier retrieval: semantic vector search (embed query → cosine rank) → MongoDB `$text` → keyword; falls back cleanly when no key/vectors)
+- `app/automation/ai/knowledge/page.js` (type-aware Add Source form — PDF/DOCX Cloudinary upload, FAQ Q&A builder, catalog product builder, per-type validation; all violet → emerald; header is plain text)
+- `public/ai-knowledge-icon.svg` (new premium book+spark mark) + `public/ai-settings-icon.svg` (new premium gear+AI-chip mark) — original SVGs in the brand-green gradient family
+- `app/automation/components/shared/tour/PageIntro.jsx` (new `iconFullBleed` — renders a self-contained tile icon with no white wrapper) + `AutoPageIntro.jsx` (passes it through)
+- `app/automation/components/shared/tour/registry.js` (ai-knowledge + ai-settings intro banners use the new full-bleed premium icons)
+- `app/automation/settings/ai/page.js` (all violet → emerald; sections laid out in balanced CSS `columns-2`; header plain text; icon moved to the banner)
+- `app/automation/components/settings/SettingsLayoutClient.jsx` (the AI Settings page renders bare — no generic Settings header, full width — since it owns its own header)
+
+What changed: made the AI Knowledge Base a genuine "wow" feature the user is selling on. (1) Vector embeddings — retrieval now embeds the query and ranks chunks by cosine similarity so "kitne ka hai" matches a "pricing" chunk with no shared keyword; lexical `$text`/keyword remains the fallback, and everything no-ops safely when no OpenAI key is configured (embeddings use the platform key or a business's BYOK key). (2) The Add Source form was type-aware only in name — PDF/DOCX had no upload, FAQ/catalog had no inputs. Now each type shows its real fields (file upload, Q&A builder, product builder) with validation; the backend already accepted these. (3) UI: both AI pages went brand-green (violet removed), got premium hand-drawn tile icons (book+spark for Knowledge, gear+AI-chip for Settings) in the intro banners, and AI Settings now fills the width in a balanced two-column layout without the duplicate Settings header.
+Related decisions: in-process cosine over a business's chunks (capped) is the retrieval path — Atlas `$vectorSearch` is the noted scale step on the same field; premium icons are original SVGs (not the copyrighted stock references the user showed); the AI-settings layout override is scoped by path so other settings pages keep the shared header. To ACTIVATE vector search platform-wide an `OPENAI_API_KEY` must be set (Groq has no embeddings); until then the KB runs on lexical search.
+Verification: webpack compiled successfully; full suite 543/543 tests pass. The production static-generation step OOM'd on the dev machine (memory pressure from the running dev server + browser), not a code fault — CI builds it clean. NOT viewed in a browser by me (the user is testing in their running dev server).
+
 ## 2026-09-24 — Invoice redesign + stamp/signature, Automation Analytics UI polish, green intro banners
 Branch: main
 Files:
