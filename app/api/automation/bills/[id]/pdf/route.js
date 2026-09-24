@@ -28,8 +28,11 @@ export const GET = withPlanAccess('automation', async (req, ctx) => {
     ]);
     if (!bill) return NextResponse.json({ success: false, error: 'Bill not found' }, { status: 404 });
 
-    const logoDataUrl = await fetchLogoDataUrl(business?.logo);
-    const buffer = renderBillPdf({ bill, business, logoDataUrl });
+    const [logoDataUrl, stampDataUrl] = await Promise.all([
+      fetchLogoDataUrl(business?.logo),
+      fetchLogoDataUrl(business?.billStampUrl),
+    ]);
+    const buffer = renderBillPdf({ bill, business, logoDataUrl, stampDataUrl });
     return new NextResponse(buffer, {
       status: 200,
       headers: {

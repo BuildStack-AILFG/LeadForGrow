@@ -23,10 +23,12 @@ export default function BillHeaderSettingsPage() {
   const [form, setForm] = useState({
     businessName: '', phone: '', email: '', address: '', gstin: '', website: '',
     logo: '',
+    billStampUrl: '', billSignatoryName: '', billSignatoryTitle: '',
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [logoBusy, setLogoBusy] = useState(false);
+  const [stampBusy, setStampBusy] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -67,6 +69,34 @@ export default function BillHeaderSettingsPage() {
       if (data.success) { setForm((f) => ({ ...f, logo: data.data.logo })); toast.success('Logo updated'); }
       else toast.error(data.error || 'Upload failed');
     } finally { setLogoBusy(false); }
+  };
+
+  const handleStampFile = async (file) => {
+    if (!file) return;
+    if (!/^image\/(png|jpe?g|webp)$/i.test(file.type)) return toast.error('PNG, JPG or WebP only');
+    if (file.size > 2 * 1024 * 1024) return toast.error('Max 2 MB');
+    setStampBusy(true);
+    try {
+      // Signed Cloudinary upload — a transparent PNG reads best on the invoice.
+      const signRes = await authFetch('/api/cloudinary-sign', { method: 'POST' });
+      const sign = await signRes.json();
+      if (!sign.success) throw new Error(sign.error || 'Could not sign upload');
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('api_key', sign.apiKey);
+      fd.append('timestamp', sign.timestamp);
+      fd.append('signature', sign.signature);
+      if (sign.folder) fd.append('folder', sign.folder);
+      const cdn = await fetch(`https://api.cloudinary.com/v1_1/${sign.cloudName}/image/upload`, { method: 'POST', body: fd });
+      const cdnData = await cdn.json();
+      if (!cdnData.secure_url) throw new Error(cdnData.error?.message || 'Upload failed');
+      setForm((f) => ({ ...f, billStampUrl: cdnData.secure_url }));
+      toast.success('Stamp uploaded — click Save to keep it');
+    } catch (err) {
+      toast.error(err.message || 'Upload failed');
+    } finally {
+      setStampBusy(false);
+    }
   };
 
   const handleLogoRemove = async () => {
@@ -150,6 +180,43 @@ export default function BillHeaderSettingsPage() {
                 so it never gets mistaken for a real business's number. */}
             <Field icon={Hash} label="GSTIN (optional, prints on every bill)" value={form.gstin}
                    onChange={(v) => setForm({ ...form, gstin: v.toUpperCase() })} placeholder="22AAAAA0000A1Z5" />
+          </div>
+        </div>
+
+        {/* Signature & stamp card */}
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 mb-5">
+          <h2 className="text-sm font-semibold text-slate-900 dark:text-white mb-1">Signature &amp; stamp</h2>
+          <p className="text-[11px] text-slate-500 dark:text-slate-400 mb-3">
+            Your company stamp / seal and the signatory’s name print above the “Authorised Signatory” line on every bill.
+          </p>
+          <div className="flex items-start gap-4">
+            <div className="w-24 h-24 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 flex items-center justify-center overflow-hidden shrink-0">
+              {form.billStampUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={form.billStampUrl} alt="Company stamp" className="w-full h-full object-contain" />
+              ) : <ImageIcon className="w-7 h-7 text-slate-300" />}
+            </div>
+            <div className="flex-1 space-y-3">
+              <div className="flex items-center gap-2 flex-wrap">
+                <label className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800">
+                  {stampBusy ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ImagePlus className="w-3.5 h-3.5" />}
+                  {form.billStampUrl ? 'Change stamp' : 'Upload stamp / seal'}
+                  <input type="file" accept="image/png,image/jpeg,image/webp" className="hidden"
+                         onChange={(e) => handleStampFile(e.target.files?.[0])} disabled={stampBusy} />
+                </label>
+                {form.billStampUrl && (
+                  <button type="button" onClick={() => setForm((f) => ({ ...f, billStampUrl: '' }))} disabled={stampBusy}
+                          className="text-xs text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400">Remove</button>
+                )}
+                <span className="text-[11px] text-slate-400">Transparent PNG works best · max 2 MB</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <Field label="Signatory name" value={form.billSignatoryName}
+                       onChange={(v) => setForm({ ...form, billSignatoryName: v })} placeholder="e.g. Saurabh Singh" />
+                <Field label="Designation" value={form.billSignatoryTitle}
+                       onChange={(v) => setForm({ ...form, billSignatoryTitle: v })} placeholder="e.g. Founder / Manager" />
+              </div>
+            </div>
           </div>
         </div>
 

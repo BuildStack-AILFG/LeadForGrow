@@ -14,6 +14,24 @@ Related decisions: <link to DECISIONS.md entry, if any>
 ---
 
 
+## 2026-09-24 — Invoice redesign + stamp/signature, Automation Analytics UI polish, green intro banners
+Branch: main
+Files:
+- `lib/bills/pdfRenderer.js` (full redesign — teal-accent "INVOICE" wordmark, prominent "Total Due", numbered line items NO/ITEM/RATE/QTY/TOTAL, teal Grand Total band, thank-you + optional Razorpay pay-link + notes-as-terms, and a signature block that draws the company stamp/seal image above the signatory name + designation; new `stampDataUrl` param)
+- `models/Business.js` (added `billStampUrl`, `billSignatoryName`, `billSignatoryTitle` for the invoice signature block)
+- `app/api/business/bill-header/route.js` (GET/PUT expose the three new signature fields)
+- `app/automation/settings/bill-header/page.js` (new "Signature & stamp" card — Cloudinary stamp upload + signatory name/designation inputs)
+- `app/api/automation/bills/[id]/pdf/route.js` + `.../send/route.js` (fetch the stamp as a data URL and pass `stampDataUrl` to the renderer)
+- `app/automation/automation-analytics/page.js` (rebuilt to the app's design language — page bg #f8f9fc, KPI-style stat cards with icon-accent chips + tabular-nums, sectioned Workflows/Broadcasts with hover rows + badges + empty states; header now uses the brand-green title `text-brand-ink` plus the new `/automation-analytics-icon.webp`)
+- `public/automation-analytics-icon.webp` (new brand icon for the analytics header + its intro banner)
+- `app/automation/components/shared/tour/PageIntro.jsx` (new optional `iconImage` prop — renders a custom brand image on a light tile instead of the lucide chip)
+- `app/automation/components/shared/tour/AutoPageIntro.jsx` (passes `iconImage` through from the registry)
+- `app/automation/components/shared/tour/registry.js` (automation-analytics intro: tone violet→emerald + `iconImage`; all remaining `tone: 'violet'` entries — bills, sequences, journeys, chatbot, ai-knowledge, ai-settings — switched to `emerald` so every intro banner is brand-green)
+
+What changed: the customer-facing invoice PDF was redesigned into a modern teal "INVOICE" layout with a proper signature/stamp block — the business uploads a company stamp/seal + signatory name/designation once in Bill Header settings and it prints on every bill (with graceful fallbacks when a field is missing). The Automation Analytics page was reskinned to match the rest of the app (KPI cards, empty states, brand-green heading + a custom icon), and its intro banner — plus every other previously-violet intro banner — is now brand-green (emerald) at the user's request; the banner gained support for a custom image icon.
+Related decisions: invoice signature is a company stamp image (not an email-style typed signature) — the user's explicit choice; intro-banner colour is data-only in the registry so no component logic changed; the analytics data/API is unchanged (presentation-only reskin).
+Verification: production build compiled; full suite 543/543 tests pass; a sample invoice PDF was rendered from the renderer to check layout. NOT viewed in a browser by me (the user is testing in their running dev server).
+
 ## 2026-09-24 — Email UX + AI reply: sent-sync, rich compose, collapse-on-open, AI feature-flag/context, BYOK
 Branch: main
 Files:

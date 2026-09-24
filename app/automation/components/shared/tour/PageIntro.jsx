@@ -25,7 +25,7 @@ const TONE = {
  * server render / before the localStorage check resolves, so it never
  * causes a layout flash for returning users.
  */
-export default function PageIntro({ id, icon: Icon, title, body, guideHref, tone = 'blue', ctaLabel = 'Learn how this works' }) {
+export default function PageIntro({ id, icon: Icon, iconImage, title, body, guideHref, tone = 'blue', ctaLabel = 'Learn how this works' }) {
   const [visible, setVisible] = useState(false);
   const [checked, setChecked] = useState(false);
   const t = TONE[tone] || TONE.blue;
@@ -47,7 +47,14 @@ export default function PageIntro({ id, icon: Icon, title, body, guideHref, tone
       className={`lfg-tour-pop relative mb-4 rounded-2xl border ${t.border} bg-gradient-to-r ${t.bg} p-4 sm:p-5 flex items-start gap-3.5`}
       data-testid={`page-intro-${id}`}
     >
-      {Icon && (
+      {iconImage ? (
+        // A custom brand image icon — shown on a light tile so its own colours
+        // read (no coloured chip behind it).
+        <div className="w-9 h-9 rounded-xl bg-white dark:bg-slate-900 border border-black/5 dark:border-white/10 flex items-center justify-center shrink-0 shadow-sm p-1">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={iconImage} alt="" className="w-full h-full object-contain" />
+        </div>
+      ) : Icon && (
         <div className={`w-9 h-9 rounded-xl ${t.chip} flex items-center justify-center shrink-0 shadow-sm`}>
           <Icon className="w-4.5 h-4.5 text-white" strokeWidth={2} />
         </div>

@@ -428,6 +428,13 @@ const BusinessSchema = new mongoose.Schema({
   address: { type: String, trim: true },
   gstin: { type: String, trim: true, uppercase: true },
 
+  // Invoice signature block — a company stamp/seal image plus the signatory's
+  // name and designation. Rendered above the "Authorised Signatory" line on
+  // every bill PDF. Optional; the block falls back to the business name.
+  billStampUrl: { type: String, trim: true },
+  billSignatoryName: { type: String, trim: true },
+  billSignatoryTitle: { type: String, trim: true },
+
   // Per-year sequence counter for Bill numbers (e.g. billCounter.2026 = 3).
   // Must be declared here — an undeclared path is silently dropped by
   // Mongoose's strict mode, which would make every $inc a no-op and every
