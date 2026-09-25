@@ -140,7 +140,7 @@ export default function ShareLeadModal({ lead, shareMessage, onClose }) {
                   <button
                     type="button"
                     onClick={() => shareTo(c)}
-                    className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium rounded-md bg-emerald-600 text-white hover:bg-emerald-700"
+                    className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium rounded-md bg-teal-600 text-white hover:bg-teal-700"
                   >
                     <Send className="w-3.5 h-3.5" /> Share
                   </button>

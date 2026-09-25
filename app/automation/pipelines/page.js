@@ -171,7 +171,7 @@ function PipelinesContent() {
               type="button"
               onClick={saveStages}
               disabled={saving}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-lg disabled:opacity-50"
             >
               <Save className="w-3.5 h-3.5" /> {saving ? 'Saving…' : 'Save'}
             </button>

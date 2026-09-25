@@ -311,7 +311,7 @@ export default function BulkUploadPage() {
                   ) : status === 'completed' ? (
                     <button
                       onClick={() => router.push('/automation/leads')}
-                      className="flex-1 py-4 bg-emerald-600 text-white rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-100"
+                      className="flex-1 py-4 bg-teal-600 text-white rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-teal-700 transition-all shadow-lg shadow-emerald-100"
                     >
                       <CheckCircle2 className="w-5 h-5" />
                       Finish & Return

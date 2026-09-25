@@ -7,7 +7,7 @@ import { isIntroSeen, markIntroSeen } from './storage';
 
 const TONE = {
   blue:    { bg: 'from-teal-50 to-indigo-50 dark:from-teal-950/30 dark:to-indigo-950/20', border: 'border-teal-100 dark:border-teal-900/40', chip: 'bg-teal-600', link: 'text-teal-700 dark:text-teal-400 hover:text-teal-800 dark:hover:text-teal-200' },
-  emerald: { bg: 'from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/20', border: 'border-emerald-100 dark:border-emerald-900/40', chip: 'bg-emerald-600', link: 'text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-200' },
+  emerald: { bg: 'from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/20', border: 'border-emerald-100 dark:border-emerald-900/40', chip: 'bg-teal-600', link: 'text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-200' },
   violet:  { bg: 'from-violet-50 to-purple-50 dark:from-violet-950/30 dark:to-purple-950/20', border: 'border-violet-100 dark:border-violet-900/40', chip: 'bg-violet-600', link: 'text-violet-700 dark:text-violet-400 hover:text-violet-800 dark:hover:text-violet-200' },
   amber:   { bg: 'from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/20', border: 'border-amber-100 dark:border-amber-900/40', chip: 'bg-amber-600', link: 'text-amber-700 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-200' },
   slate:   { bg: 'from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800', border: 'border-slate-200 dark:border-slate-700', chip: 'bg-slate-700', link: 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50' },

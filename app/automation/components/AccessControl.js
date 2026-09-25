@@ -97,7 +97,7 @@ export default function AccessControl({ children }) {
                 href="https://wa.me/918810873052"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-semibold transition-all"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-2xl font-semibold transition-all"
               >
                 <WhatsAppIcon className="w-4 h-4" /> WhatsApp our team
               </a>

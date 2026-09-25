@@ -36,7 +36,7 @@ export default function DashboardQuickActions() {
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="w-14 h-14 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-600/30 flex items-center justify-center transition-transform hover:scale-105"
+        className="w-14 h-14 rounded-full bg-teal-600 hover:bg-teal-700 text-white shadow-lg shadow-emerald-600/30 flex items-center justify-center transition-transform hover:scale-105"
         aria-label={open ? 'Close quick actions' : 'Quick actions'}
       >
         {open ? <X className="w-6 h-6" /> : <Plus className="w-6 h-6" />}

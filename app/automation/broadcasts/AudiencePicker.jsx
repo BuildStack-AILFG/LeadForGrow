@@ -103,7 +103,7 @@ function ManualPicker({ audience, onChange }) {
         ) : leads.map((l) => (
           <label key={l._id} className="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer text-sm">
             <input type="checkbox" checked={selected.has(l._id)} onChange={() => toggle(l._id)}
-              className="rounded text-emerald-600 dark:text-emerald-400 focus:ring-emerald-500" />
+              className="rounded text-emerald-600 dark:text-emerald-400 focus:ring-teal-500" />
             <div className="flex-1 min-w-0">
               <p className="font-medium text-slate-900 dark:text-white truncate">{l.name}</p>
               <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">

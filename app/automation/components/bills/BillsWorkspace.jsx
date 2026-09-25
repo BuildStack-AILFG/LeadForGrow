@@ -345,7 +345,7 @@ function BillEditor({ existingBill, onCancel, onSaved }) {
                 {saving ? 'Saving…' : 'Save as draft'}
               </button>
               <button type="button" onClick={() => handleSave(true)} disabled={!canSave || saving || !form.customerPhone}
-                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold disabled:opacity-50">
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold disabled:opacity-50">
                 {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                 Save & send on WhatsApp
               </button>
@@ -447,7 +447,7 @@ function BillDetail({ billId, onBack }) {
           <div className="flex items-center gap-2">
             {bill.status === 'draft' && (
               <button type="button" onClick={handleSend} disabled={busy === 'send' || !bill.customerPhone}
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold disabled:opacity-50">
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold disabled:opacity-50">
                 {busy === 'send' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                 Send on WhatsApp
               </button>

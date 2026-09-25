@@ -212,11 +212,11 @@ export default function LeadDrawer({
                   {/* Someone who has never messaged on WhatsApp has no Inbox conversation to open, and WhatsApp only
                       allows an approved template as the first message: open the template picker for them. */}
                   {lead.phone && !hasWhatsAppHistory(lead) ? (
-                    <button type="button" onClick={() => setShowTemplate(true)} className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 text-xs font-medium rounded-lg bg-emerald-600 text-white hover:bg-emerald-700">
+                    <button type="button" onClick={() => setShowTemplate(true)} className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 text-xs font-medium rounded-lg bg-teal-600 text-white hover:bg-teal-700">
                       <WhatsAppIcon className="w-3.5 h-3.5" /> WhatsApp
                     </button>
                   ) : (
-                    <Link href={`/automation/chat?leadId=${leadId}`} className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 text-xs font-medium rounded-lg bg-emerald-600 text-white hover:bg-emerald-700">
+                    <Link href={`/automation/chat?leadId=${leadId}`} className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 text-xs font-medium rounded-lg bg-teal-600 text-white hover:bg-teal-700">
                       <WhatsAppIcon className="w-3.5 h-3.5" /> WhatsApp
                     </Link>
                   )}
@@ -230,7 +230,7 @@ export default function LeadDrawer({
                     onClick={() => setShowConvert(true)}
                     className={`w-full mt-2 inline-flex items-center justify-center gap-1.5 py-2.5 text-xs font-semibold rounded-lg border ${
                       normalizeLeadStatus(lead.status) === 'qualified'
-                        ? 'bg-emerald-600 text-white border-emerald-600 hover:bg-emerald-700 shadow-sm'
+                        ? 'bg-teal-600 text-white border-emerald-600 hover:bg-teal-700 shadow-sm'
                         : 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100 dark:hover:bg-emerald-900/30'
                     }`}
                   >

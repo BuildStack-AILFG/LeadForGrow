@@ -289,7 +289,7 @@ export default function OnboardingFlow({ onComplete }) {
               <button 
                 onClick={handleFinalComplete}
                 disabled={loading}
-                className="w-full py-4 bg-emerald-600 text-white rounded-2xl font-bold text-lg hover:bg-emerald-700 transition-all flex items-center justify-center gap-2"
+                className="w-full py-4 bg-teal-600 text-white rounded-2xl font-bold text-lg hover:bg-teal-700 transition-all flex items-center justify-center gap-2"
               >
                 {loading ? 'Finalizing...' : 'Go to Dashboard'}
                 <ArrowRight className="w-5 h-5" />

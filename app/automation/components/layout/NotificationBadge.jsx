@@ -16,7 +16,7 @@ export default function NotificationBadge({ count, urgent = false, dot = false, 
     return (
       <span
         className={`absolute right-1 top-1 h-2 w-2 rounded-full ${
-          urgent ? 'bg-emerald-600' : 'bg-slate-400'
+          urgent ? 'bg-teal-600' : 'bg-slate-400'
         }`}
       />
     );

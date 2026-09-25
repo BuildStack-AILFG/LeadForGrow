@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import { authFetch, getUserId } from '@/lib/apiClient';
 
-const inputCls = 'w-full px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500';
+const inputCls = 'w-full px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-500/40 focus:border-emerald-500';
 
 function ConvertForm({ lead, teamMembers, form, setForm, pipelines, stages }) {
   return (
@@ -198,7 +198,7 @@ export default function ConvertLeadDialog({
         type="button"
         disabled={saving || !form.dealTitle || !form.assignedTo}
         onClick={() => onConfirm(form)}
-        className="px-4 py-2 text-sm text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg disabled:opacity-50"
+        className="px-4 py-2 text-sm text-white bg-teal-600 hover:bg-teal-700 rounded-lg disabled:opacity-50"
       >
         {saving ? 'Converting…' : 'Convert to Deal'}
       </button>

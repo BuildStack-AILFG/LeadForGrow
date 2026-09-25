@@ -23,5 +23,8 @@ const KnowledgeChunkSchema = new mongoose.Schema(
 
 KnowledgeChunkSchema.index({ businessId: 1, sourceId: 1, chunkIndex: 1 });
 KnowledgeChunkSchema.index({ content: 'text' });
+// Serves the vector-retrieval candidate query (fetch a business's embedded
+// chunks for the current model) without scanning non-embedded rows.
+KnowledgeChunkSchema.index({ businessId: 1, embeddingModel: 1 });
 
 export default mongoose.models.KnowledgeChunk || mongoose.model('KnowledgeChunk', KnowledgeChunkSchema);

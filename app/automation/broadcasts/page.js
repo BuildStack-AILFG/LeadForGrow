@@ -372,7 +372,7 @@ export default function BroadcastsPage() {
                       ...draft,
                       audience: { ...draft.audience, engagementDays: e.target.checked ? 30 : 0 },
                     })}
-                    className="rounded text-emerald-600 dark:text-emerald-400 focus:ring-emerald-500"
+                    className="rounded text-emerald-600 dark:text-emerald-400 focus:ring-teal-500"
                   />
                   <span>Only include leads who messaged us recently</span>
                 </label>

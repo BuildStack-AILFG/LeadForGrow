@@ -77,7 +77,7 @@ export default function ApprovalQueue() {
                 type="button"
                 disabled={acting === ex._id}
                 onClick={() => act(ex._id, 'approve')}
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-medium disabled:opacity-50"
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-teal-600 text-white text-xs font-medium disabled:opacity-50"
               >
                 <Check className="w-3.5 h-3.5" /> Approve
               </button>

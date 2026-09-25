@@ -41,7 +41,7 @@ export default function WebhookUrlField({ path, label = 'Callback URL', origin: 
           value={url || path}
           onFocus={(e) => e.target.select()}
           aria-label={label}
-          className="flex-1 min-w-0 px-3 py-2 text-xs font-mono border border-slate-200 dark:border-slate-700 rounded bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/30"
+          className="flex-1 min-w-0 px-3 py-2 text-xs font-mono border border-slate-200 dark:border-slate-700 rounded bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-teal-500/30"
         />
         <button
           type="button"

@@ -72,7 +72,7 @@ export default function LeadDetailHeader({
             <button
               type="button"
               onClick={onWhatsApp}
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded"
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded"
             >
               <WhatsAppIcon className="w-4 h-4" /> WhatsApp
             </button>

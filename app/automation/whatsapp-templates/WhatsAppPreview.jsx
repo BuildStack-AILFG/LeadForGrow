@@ -24,7 +24,7 @@ export default function WhatsAppPreview({ template }) {
         <div className="rounded-[1.4rem] overflow-hidden bg-[#0b141a]">
           {/* Chat header */}
           <div className="bg-[#1f2c33] px-4 py-3 flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-emerald-600 flex items-center justify-center text-white text-sm font-semibold">B</div>
+            <div className="w-9 h-9 rounded-full bg-teal-600 flex items-center justify-center text-white text-sm font-semibold">B</div>
             <div className="flex-1 min-w-0">
               <p className="text-white text-sm font-medium truncate">Your Business</p>
               <p className="text-emerald-300/70 text-[10px]">online</p>

@@ -228,7 +228,7 @@ export default function LeadDetailProfile({
           </button>
         )}
         {showWhatsAppButton && (
-          <button type="button" onClick={onWhatsApp} className="w-full py-2.5 text-sm font-medium rounded bg-emerald-600 text-white hover:bg-emerald-700 flex items-center justify-center gap-2">
+          <button type="button" onClick={onWhatsApp} className="w-full py-2.5 text-sm font-medium rounded bg-teal-600 text-white hover:bg-teal-700 flex items-center justify-center gap-2">
             <WhatsAppIcon className="w-4 h-4" /> Open WhatsApp
           </button>
         )}

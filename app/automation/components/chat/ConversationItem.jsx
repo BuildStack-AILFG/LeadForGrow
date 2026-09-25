@@ -216,7 +216,7 @@ function ConversationItem({ chat, active, onClick, onDone, onAssignToMe, onAssig
               {formatTime(chat.lastMessageAt)}
             </span>
             {unread && (
-              <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-emerald-600 text-white text-[10px] font-semibold flex items-center justify-center tabular-nums">
+              <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-teal-600 text-white text-[10px] font-semibold flex items-center justify-center tabular-nums">
                 {chat.unreadCount || 1}
               </span>
             )}

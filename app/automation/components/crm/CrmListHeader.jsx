@@ -32,7 +32,7 @@ export default function CrmListHeader({
               value={search}
               onChange={(e) => onSearchChange(e.target.value)}
               placeholder="Search..."
-              className="pl-9 pr-4 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 w-48 sm:w-64 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="pl-9 pr-4 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 w-48 sm:w-64 focus:outline-none focus:ring-2 focus:ring-teal-500"
             />
           </div>
           <button
@@ -53,7 +53,7 @@ export default function CrmListHeader({
           {onCreate && (
             <button
               onClick={onCreate}
-              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg"
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-lg"
             >
               <Plus className="w-4 h-4" />
               {createLabel}

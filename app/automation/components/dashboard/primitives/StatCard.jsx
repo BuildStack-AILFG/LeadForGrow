@@ -57,14 +57,14 @@ export default function StatCard({
 
   if (href) {
     return (
-      <Link href={href} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-xl">
+      <Link href={href} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded-xl">
         {inner}
       </Link>
     );
   }
   if (onClick) {
     return (
-      <button type="button" onClick={onClick} className="block w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-xl">
+      <button type="button" onClick={onClick} className="block w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded-xl">
         {inner}
       </button>
     );

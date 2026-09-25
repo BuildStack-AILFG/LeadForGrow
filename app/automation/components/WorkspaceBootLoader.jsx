@@ -75,7 +75,7 @@ export default function WorkspaceBootLoader({ complete = false, onFinished }) {
               transition={{ delay: 0.2, duration: 0.4, ease }}
             >
               <motion.div
-                className="h-full rounded-full bg-emerald-600"
+                className="h-full rounded-full bg-teal-600"
                 style={{ width: `${progress}%` }}
                 transition={{ type: 'spring', stiffness: 80, damping: 24 }}
               />

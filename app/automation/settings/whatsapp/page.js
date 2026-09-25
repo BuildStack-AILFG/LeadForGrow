@@ -192,7 +192,7 @@ export default function WhatsAppSettingsPage() {
                       onChange={(e) => setForm((s) => ({ ...s, [f.key]: e.target.value }))}
                       placeholder={f.ph}
                       autoComplete="off"
-                      className="w-full px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500"
+                      className="w-full px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-emerald-500"
                     />
                     {f.hint && <p className="text-[11px] text-slate-400 mt-1">{f.hint}</p>}
                   </div>
@@ -201,7 +201,7 @@ export default function WhatsAppSettingsPage() {
                   type="button"
                   onClick={handleManualSave}
                   disabled={saving}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:opacity-50"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:opacity-50"
                 >
                   {saving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
                   {wa.enabled ? 'Update credentials' : 'Save & connect'}
