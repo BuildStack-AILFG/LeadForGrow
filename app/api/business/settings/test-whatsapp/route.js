@@ -78,7 +78,10 @@ export const POST = withPlanAccess('settings', async (req) => {
         templateName, // Use template if possible
         null, // No header media for simple test
         templateLanguage, // Pass the correct language code dynamically!
-        metaComponents // Pass the structure so we know if variables are needed
+        metaComponents, // Pass the structure so we know if variables are needed
+        null,
+        null,
+        { origin: 'system' }
       );
       
       if (testResult.success) {

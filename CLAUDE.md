@@ -14,6 +14,22 @@ Related decisions: <link to DECISIONS.md entry, if any>
 ---
 
 
+## 2026-09-25 — First-response tracking (Leak Guard Phase 0, step 1)
+Branch: main
+Files:
+- `lib/omnichannel/responseTracking.js` (new — pure rules: bulk-header pick/detect, customer-vs-machine inbound, `$min`/`$unset` ops, one-time first-reply stamp)
+- `lib/omnichannel/conversationService.js` (recordChannelMessage merges tracking ops into the existing Conversation write; one conditional `updateOne` per conversation lifetime for firstResponseAt / firstAutoResponseAt, `updatePipeline: true` for Mongoose 9)
+- `models/omnichannel/Conversation.js` (`firstInboundAt`, `firstResponseAt`, `firstResponseMs`, `firstAutoResponseAt`, `awaitingReplySince`, `responseConfidence`; partial index `{ businessId, awaitingReplySince }`)
+- `lib/integrations/whatsapp.js` (`sendAutoWhatsApp(..., sendOptions = { origin })`; recordOutgoingMessage stores origin, default `'automation'`)
+- `app/api/automation/{inbox/send,chat/send,whatsapp/send}/route.js` (`origin: 'user'`), `lib/broadcasts/engine.js` ('broadcast'), `lib/sequences/executor.js` ('sequence'), `lib/meetings/reminders.js` ('meeting'), `lib/automation/leadManager.js` team alert + `app/api/business/settings/test-whatsapp/route.js` ('system')
+- `lib/omnichannel/emailSync.js` (stores List-Unsubscribe / List-Id / Precedence / Auto-Submitted / Feedback-ID / X-Auto-Response-Suppress on inbound mail)
+- `lib/emailAutoReply.js` (new guardrail: never auto-reply to no-reply / bulk / Auto-Submitted mail)
+- `tests/response-tracking.test.js` (new)
+
+What changed: Conversations now record when the customer first wrote, when a human first answered, and who is still waiting — live, with no Messages scan. Fixed the root data bug found in the dry run: every WhatsApp send was stored as origin `'user'` (broadcasts, sequences, flows and AI replies looked like agent replies), which also made the inbox "Human replies" filter wrong for WhatsApp. No backfill run yet — dry run only (`frt-dryrun.mjs`, 82 conversations would be written).
+
+Related decisions: see DECISIONS.md 2026-09-25 first-response tracking entry.
+
 ## 2026-09-25 — Security: webhook signature enforcement + tenant-scoped diagnostics + webhook receivers
 Branch: main
 Files:

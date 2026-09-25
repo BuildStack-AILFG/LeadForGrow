@@ -159,6 +159,8 @@ async function handler(req) {
           templateLanguage || 'en',
           null,
           Array.isArray(templateVariables) ? templateVariables : null,
+          null,
+          { origin: 'user' }, // an agent typed this
         );
         if (!result.success) {
           return NextResponse.json({ success: false, error: result.error || 'Send failed' }, { status: 500 });

@@ -55,6 +55,16 @@ const ConversationSchema = new mongoose.Schema(
     // and agents can't tell who actually replied.
     lastInboundAt: { type: Date },
     lastInboundPreview: { type: String, trim: true },
+
+    // First-response tracking — maintained by recordChannelMessage, rules in
+    // lib/omnichannel/responseTracking.js. Machine mail never sets these.
+    firstInboundAt: { type: Date },        // first customer message
+    firstResponseAt: { type: Date },       // first human reply after it
+    firstResponseMs: { type: Number },     // firstResponseAt - firstInboundAt
+    firstAutoResponseAt: { type: Date },   // first automation/sequence reply after it
+    awaitingReplySince: { type: Date },    // oldest customer message no human has answered
+    // 'live' = recorded as it happened; backfilled rows are 'high' or 'heuristic'.
+    responseConfidence: { type: String, enum: ['live', 'high', 'heuristic'] },
     labels: [LabelRefSchema],
     isPinned: { type: Boolean, default: false },
     isFavorite: { type: Boolean, default: false },
@@ -97,5 +107,10 @@ ConversationSchema.index({ businessId: 1, channel: 1, lastMessageAt: -1 });
 ConversationSchema.index({ businessId: 1, inboxStatus: 1, lastMessageAt: -1 });
 ConversationSchema.index({ businessId: 1, participantId: 1, channel: 1 }, { unique: true, partialFilterExpression: { participantId: { $type: 'string' } } });
 ConversationSchema.index({ businessId: 1, isPinned: -1, lastMessageAt: -1 });
+// "Who is waiting for a human, oldest first" — only rows that are waiting are indexed.
+ConversationSchema.index(
+  { businessId: 1, awaitingReplySince: 1 },
+  { partialFilterExpression: { awaitingReplySince: { $type: 'date' } } }
+);
 
 export default mongoose.models.Conversation || mongoose.model('Conversation', ConversationSchema);

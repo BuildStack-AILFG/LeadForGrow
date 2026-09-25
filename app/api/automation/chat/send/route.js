@@ -47,6 +47,8 @@ async function handler(req) {
       templateLanguage || 'en',
       null,
       Array.isArray(variables) ? variables : null,
+      null,
+      { origin: 'user' }, // an agent typed this
     );
 
     if (!result.success) {

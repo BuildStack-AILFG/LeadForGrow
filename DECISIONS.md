@@ -13,6 +13,14 @@ Consequences: <what this commits future work to, if anything>
 
 ---
 
+## 2026-09-25 — First-response tracking: denormalized on Conversation, WhatsApp default origin flipped to 'automation'
+Context: Leak Guard needs "how long did the customer wait for a human" per conversation. The dry run showed WhatsApp origin was useless (every send stored as 'user') and inbound email had no headers to tell newsletters from customers.
+Decision: Store the timings on Conversation, maintained by recordChannelMessage: `$min` for first-inbound / waiting-since and `$unset` on a human reply ride on the write that already happens; the first human / automated reply is one conditional update per conversation lifetime, skipped when the doc in hand shows it's already set or the customer never wrote. `sendAutoWhatsApp` now defaults to origin 'automation' and only the three agent send routes pass 'user' — ~30 call sites are automated, 3 are human, so the safe default is the common case and a missed site under-counts humans rather than faking fast responses. Machine mail (existing isAutomatedSender rules + new bulk headers) never starts the clock and never gets an SLA auto-reply.
+Alternatives considered: Computing timings from Messages at query time — rejected: a Messages scan per report doesn't scale and can't power a live "waiting" list. AsyncLocalStorage to carry origin implicitly — rejected as invisible at call sites. Default 'user' with automated sites opting out — rejected: every forgotten site would inflate human response speed, the exact number Leak Guard sells on.
+Consequences: Any new WhatsApp send path that is human-initiated must pass `{ origin: 'user' }` as sendAutoWhatsApp's 10th argument. History before this change needs the backfill (heuristic confidence for unattributed WhatsApp sends).
+
+---
+
 ## 2026-09-25 — Webhooks fail closed; receivers opened by exact path, not prefix
 Context: Phase 0 inventory found Meta webhook branches processing unsigned events, public diagnostics leaking other tenants' ingress rows, and an Interakt webhook that was open when its env token was unset. Separately, middleware 401'd every external webhook under `/api/automation/` and `/api/integrations/`.
 Decision: Every inbound webhook rejects anything not positively verified (no header, no secret configured, or wrong signature). Enforcement shipped only after replaying 30 days of stored MetaWebhookIngress against DB secrets: WhatsApp 100% verified; Instagram 0% (signed by the Instagram app secret, which we did not store) — safe because no business has Instagram enabled today, and a per-channel encrypted `appSecret` field was added for reconnect. Interakt now takes the business from the URL and a per-business token instead of matching phones across all tenants. Middleware opens only regex-exact receiver paths so adjacent management routes (replay, flow CRUD) keep the JWT pre-filter.
