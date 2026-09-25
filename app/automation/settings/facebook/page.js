@@ -31,7 +31,7 @@ export default function FacebookSettingsPage() {
   const [loading, setLoading] = useState(true);
   const [manualOpen, setManualOpen] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [form, setForm] = useState({ pageId: '', accessToken: '', pageName: '' });
+  const [form, setForm] = useState({ pageId: '', accessToken: '', pageName: '', appSecret: '' });
 
   const load = async () => {
     setLoading(true);
@@ -63,7 +63,7 @@ export default function FacebookSettingsPage() {
       if (data.success) {
         toast.success('Facebook connected');
         setManualOpen(false);
-        setForm({ pageId: '', accessToken: '', pageName: '' });
+        setForm({ pageId: '', accessToken: '', pageName: '', appSecret: '' });
         load();
       } else {
         toast.error(data.error || 'Failed to save');
@@ -116,6 +116,11 @@ export default function FacebookSettingsPage() {
             </div>
             <StatusRow label="Authorization" value={fb.enabled ? 'Active' : 'Required'} ok={fb.enabled} />
             <StatusRow label="Webhook status" value={fb.webhookStatus || 'pending'} ok={fb.webhookStatus === 'active'} />
+            <StatusRow
+              label="Message verification"
+              value={fb.hasAppSecret || fb.platformAppSecret ? 'Secured' : 'App secret needed'}
+              ok={!!(fb.hasAppSecret || fb.platformAppSecret)}
+            />
             <StatusRow label="Last verified" value={fb.lastVerified ? new Date(fb.lastVerified).toLocaleString() : 'Never'} ok={!!fb.lastVerified} />
             <StatusRow label="Messenger receive" value={fb.enabled ? 'Enabled' : 'Disabled'} ok={fb.enabled} />
             <StatusRow label="Messenger send" value={fb.enabled ? 'Enabled' : 'Disabled'} ok={fb.enabled} />
@@ -179,6 +184,23 @@ export default function FacebookSettingsPage() {
                     placeholder="Your Page name"
                     className="w-full px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500"
                   />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Meta App Secret {!(fb.hasAppSecret || fb.platformAppSecret) && <span className="text-red-500">*</span>}
+                  </label>
+                  <input
+                    type="password"
+                    value={form.appSecret}
+                    onChange={(e) => setForm((f) => ({ ...f, appSecret: e.target.value }))}
+                    placeholder={fb.hasAppSecret ? 'Saved. Leave blank to keep it' : 'Paste the Meta app secret'}
+                    className="w-full px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500"
+                    autoComplete="off"
+                  />
+                  <p className="text-[11px] text-slate-400 mt-1">
+                    Meta → your app → App settings → Basic → <b>App secret</b>. We use it only to confirm incoming
+                    Messenger messages and comments really come from Meta. Without it, they are rejected.
+                  </p>
                 </div>
                 <button
                   type="button"

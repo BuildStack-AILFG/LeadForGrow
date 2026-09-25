@@ -24,6 +24,9 @@ export const GET = withPlanAccess('settings', async (req) => {
       username: ig.username || fb.pageName,
       profilePicture: ig.profilePicture,
       accessToken: ig.accessToken ? '••••' : undefined,
+      // Whether inbound webhooks can be verified. The secret itself is never sent.
+      hasAppSecret: Boolean(ig.appSecret),
+      platformAppSecret: Boolean(process.env.INSTAGRAM_APP_SECRET),
       webhookStatus: ig.webhookStatus || (enabled ? 'active' : 'pending'),
       aiReplyEnabled: !!ig.aiReplyEnabled,
       commentLeadMode: ig.commentLeadMode === 'all' ? 'all' : 'matched',
@@ -68,6 +71,9 @@ export const PUT = withPlanAccess('settings', async (req) => {
     const accessToken = (body.accessToken || '').trim();
     const username = (body.username || '').trim();
     const igUserId = (body.igUserId || '').trim();
+    // Optional here; blank keeps the stored one. Needed to verify inbound
+    // webhooks unless INSTAGRAM_APP_SECRET is set at platform level.
+    const appSecret = (body.appSecret || '').trim();
 
     if (!pageId || !accessToken) {
       return NextResponse.json(
@@ -85,6 +91,9 @@ export const PUT = withPlanAccess('settings', async (req) => {
       enabled: true,
       pageId,
       accessToken: encryptOnce(accessToken), // encrypted at rest
+      appSecret: appSecret
+        ? encryptOnce(appSecret)
+        : business.integrationCredentials.instagram?.appSecret || null,
       igUserId: igUserId || business.integrationCredentials.instagram?.igUserId || null,
       username: username || business.integrationCredentials.instagram?.username || null,
       webhookStatus: 'active',

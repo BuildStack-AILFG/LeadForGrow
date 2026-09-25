@@ -46,8 +46,9 @@ export const GET = withPlanAccess('integrations', async (req) => {
 
   const pageId = decrypted?.pageId ?? business.integrationCredentials?.facebookAds?.pageId ?? null;
 
-  const ingressAll = await getRecentWebhookIngress({ pageId, limit: 30 });
-  const ingressForBusiness = await getRecentWebhookIngress({ businessId, pageId, limit: 20 });
+  // Scoped to this business (plus unattributed rows for its Page); never other tenants' traffic.
+  const ingressAll = await getRecentWebhookIngress({ businessId, pageId, limit: 30 });
+  const ingressForBusiness = ingressAll.filter((row) => String(row.businessId) === String(businessId));
 
   const ingressSummary = {
     totalRecent: ingressAll.length,

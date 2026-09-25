@@ -107,7 +107,7 @@ export default function InstagramSettingsPage() {
   const [connecting, setConnecting] = useState(false);
   const [manualOpen, setManualOpen] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [form, setForm] = useState({ pageId: '', accessToken: '', username: '' });
+  const [form, setForm] = useState({ pageId: '', accessToken: '', username: '', appSecret: '' });
 
   const load = async () => {
     setLoading(true);
@@ -159,7 +159,7 @@ export default function InstagramSettingsPage() {
       if (data.success) {
         toast.success('Instagram connected');
         setManualOpen(false);
-        setForm({ pageId: '', accessToken: '', username: '' });
+        setForm({ pageId: '', accessToken: '', username: '', appSecret: '' });
         load();
       } else {
         toast.error(data.error || 'Failed to save');
@@ -226,6 +226,11 @@ export default function InstagramSettingsPage() {
             </div>
             <StatusRow label="Authorization" value={ig.enabled ? 'Active' : 'Required'} ok={ig.enabled} />
             <StatusRow label="Webhook status" value={ig.webhookStatus || 'pending'} ok={ig.webhookStatus === 'active'} />
+            <StatusRow
+              label="Message verification"
+              value={ig.hasAppSecret || ig.platformAppSecret ? 'Secured' : 'App secret needed'}
+              ok={!!(ig.hasAppSecret || ig.platformAppSecret)}
+            />
             <StatusRow label="Last sync" value={ig.lastSyncAt ? new Date(ig.lastSyncAt).toLocaleString() : 'Never'} ok={!!ig.lastSyncAt} />
             <StatusRow label="DM receive" value={ig.enabled ? 'Enabled' : 'Disabled'} ok={ig.enabled} />
             <StatusRow label="DM send" value={ig.enabled ? 'Enabled' : 'Disabled'} ok={ig.enabled} />
@@ -292,6 +297,23 @@ export default function InstagramSettingsPage() {
                     placeholder="your_ig_handle"
                     className="w-full px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-pink-500/30 focus:border-pink-500"
                   />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Instagram App Secret {!(ig.hasAppSecret || ig.platformAppSecret) && <span className="text-red-500">*</span>}
+                  </label>
+                  <input
+                    type="password"
+                    value={form.appSecret}
+                    onChange={(e) => setForm((f) => ({ ...f, appSecret: e.target.value }))}
+                    placeholder={ig.hasAppSecret ? 'Saved. Leave blank to keep it' : 'Paste the Instagram app secret'}
+                    className="w-full px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-pink-500/30 focus:border-pink-500"
+                    autoComplete="off"
+                  />
+                  <p className="text-[11px] text-slate-400 mt-1">
+                    Meta → your app → Instagram → API setup with Instagram login → <b>Instagram app secret</b> (not the Meta app secret).
+                    We use it only to confirm incoming messages really come from Meta. Without it, Instagram messages are rejected.
+                  </p>
                 </div>
                 <button
                   type="button"

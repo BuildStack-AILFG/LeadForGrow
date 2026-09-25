@@ -303,6 +303,10 @@ const IntegrationCredentialsSchema = new mongoose.Schema({
     igUserId: { type: String },
     username: { type: String },
     accessToken: { type: String },
+    // Instagram app secret (Instagram API with Instagram Login). Meta signs this
+    // app's webhooks with it; without it inbound Instagram events are rejected.
+    // ENCRYPTED at rest, never returned to the client.
+    appSecret: { type: String },
     profilePicture: { type: String },
     lastSyncAt: { type: Date },
     lastVerified: { type: Date },
@@ -356,6 +360,7 @@ const IntegrationCredentialsSchema = new mongoose.Schema({
     pageId: { type: String },                                   // FB Page id = webhook entry.id
     pageName: { type: String },
     accessToken: { type: String },                              // Page Access Token, ENCRYPTED at rest
+    appSecret: { type: String },                                // Meta app secret that signs this Page's webhooks, ENCRYPTED at rest
     lastVerified: { type: Date },
     webhookStatus: { type: String, enum: ['active', 'pending', 'error'], default: 'pending' },
     // Per-feature toggles so a client can turn on exactly what they want.

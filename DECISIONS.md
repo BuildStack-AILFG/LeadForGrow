@@ -13,6 +13,14 @@ Consequences: <what this commits future work to, if anything>
 
 ---
 
+## 2026-09-25 — Webhooks fail closed; receivers opened by exact path, not prefix
+Context: Phase 0 inventory found Meta webhook branches processing unsigned events, public diagnostics leaking other tenants' ingress rows, and an Interakt webhook that was open when its env token was unset. Separately, middleware 401'd every external webhook under `/api/automation/` and `/api/integrations/`.
+Decision: Every inbound webhook rejects anything not positively verified (no header, no secret configured, or wrong signature). Enforcement shipped only after replaying 30 days of stored MetaWebhookIngress against DB secrets: WhatsApp 100% verified; Instagram 0% (signed by the Instagram app secret, which we did not store) — safe because no business has Instagram enabled today, and a per-channel encrypted `appSecret` field was added for reconnect. Interakt now takes the business from the URL and a per-business token instead of matching phones across all tenants. Middleware opens only regex-exact receiver paths so adjacent management routes (replay, flow CRUD) keep the JWT pre-filter.
+Alternatives considered: Log-only "soft" verification first — rejected: template-status forgery could flip templates to APPROVED and delivery forgery falsifies broadcast analytics, and replay evidence showed no legitimate traffic would be dropped. Opening `/api/automation/webhooks/` as a prefix — rejected as it would drop the middleware layer for `replay`.
+Consequences: Instagram reconnect needs the Instagram app secret (or platform `INSTAGRAM_APP_SECRET`) or IG events are rejected. Interakt users must re-copy the webhook URL and append `&token=<Webhook Secret>`.
+
+---
+
 ## 2026-09-17 (round 4) — Verified footer social links with WebFetch instead of guessing; treated open-ended "improve the UI" rows as a brand-consistency pass
 Context: After two rounds of QA fixes, several rows were still open — some because they were genuinely vague ("improve ui of X"), one (row 76) because verifying real third-party URLs isn't something to guess at.
 Decision: For row 76, used WebFetch to actually check each of the 3 flagged social links rather than leaving the row untouched a second time. YouTube came back a clean HTTP 404 (unambiguous — YouTube's channel-not-found response is server-rendered, not a client SPA shell) — confirmed dead and removed from `FOOTER_SOCIAL`, rather than replaced with a guessed replacement URL, which the standing rule against fabricating links for the user still forbids. Facebook and X both returned HTTP 200 with no usable page content in the fetch — inconclusive, since both platforms serve their JS shell regardless of whether the vanity handle actually resolves to a real page — left those two alone rather than treat an ambiguous result as either confirmation or a bug.

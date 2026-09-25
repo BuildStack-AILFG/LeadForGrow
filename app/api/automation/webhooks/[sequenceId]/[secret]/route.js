@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
+import mongoose from 'mongoose';
 import { dbConnect } from '@/lib/mongodb';
 import AutomationSequence from '@/models/automation/AutomationSequence';
 import WebhookLog from '@/models/automation/WebhookLog';
@@ -18,6 +19,19 @@ function verifySignature(payload, signature, secret) {
   }
 }
 
+// Constant-time string compare (hashing first makes the lengths equal).
+function safeEqual(a, b) {
+  if (typeof a !== 'string' || typeof b !== 'string' || !a || !b) return false;
+  const h = (v) => crypto.createHash('sha256').update(v).digest();
+  return crypto.timingSafeEqual(h(a), h(b));
+}
+
+// Headers kept on the log row, minus anything that carries a credential.
+const SENSITIVE_HEADERS = new Set(['authorization', 'cookie', 'x-api-key', 'x-webhook-signature', 'x-hub-signature-256', 'proxy-authorization']);
+function loggableHeaders(headers) {
+  return Object.fromEntries([...headers.entries()].filter(([k]) => !SENSITIVE_HEADERS.has(k.toLowerCase())));
+}
+
 export async function POST(request, { params }) {
   const { sequenceId, secret } = await params;
   const rawBody = await request.text();
@@ -29,6 +43,9 @@ export async function POST(request, { params }) {
   }
 
   try {
+    if (!mongoose.isValidObjectId(sequenceId)) {
+      return NextResponse.json({ success: false, error: 'Workflow not found' }, { status: 404 });
+    }
     await dbConnect();
     const sequence = await AutomationSequence.findById(sequenceId).lean();
     if (!sequence || sequence.triggerType !== 'webhook') {
@@ -39,8 +56,8 @@ export async function POST(request, { params }) {
     const apiKey = request.headers.get('x-api-key');
     const signature = request.headers.get('x-webhook-signature') || request.headers.get('x-hub-signature-256');
 
-    const authed = (expectedSecret && secret === expectedSecret)
-      || (apiKey && apiKey === expectedSecret)
+    const authed = safeEqual(secret, expectedSecret)
+      || safeEqual(apiKey, expectedSecret)
       || (expectedSecret && verifySignature(rawBody, signature, expectedSecret));
 
     if (!authed) {
@@ -52,7 +69,7 @@ export async function POST(request, { params }) {
       webhookId: `wf_${sequenceId}_${Date.now()}`,
       payload: body,
       status: 'pending',
-      metadata: { sequenceId, headers: Object.fromEntries(request.headers.entries()) },
+      metadata: { sequenceId, headers: loggableHeaders(request.headers) },
     });
 
     let lead;

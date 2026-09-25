@@ -14,6 +14,30 @@ Related decisions: <link to DECISIONS.md entry, if any>
 ---
 
 
+## 2026-09-25 — Security: webhook signature enforcement + tenant-scoped diagnostics + webhook receivers
+Branch: main
+Files:
+- `lib/meta/webhookIngress.js` (IG/FB/env INSTAGRAM_APP_SECRET as signature candidates; new `verifyMetaSignatureForBusinesses`; `getRecentWebhookIngress` returns `[]` without businessId, page matches only unattributed rows)
+- `app/api/webhooks/meta/route.js` (Instagram, FB Page, template-status and WA delivery-status branches verify X-Hub-Signature-256 before processing; no signature diagnostics in responses)
+- `app/api/webhooks/meta/[businessId]/route.js` (fail closed: missing header / no secret / bad signature all rejected; no signatureResult echo)
+- `models/Business.js`, `app/api/business/settings/{instagram,facebook}-status/route.js`, `app/automation/settings/{instagram,facebook}/page.js` (encrypted `appSecret` per channel, exposed only as `hasAppSecret` boolean; settings input + "Message verification" status row)
+- `app/api/webhooks/meta/app-association/route.js`, `app/api/webhooks/meta/page-subscription/route.js` (were public: now `withPlanAccess('integrations')`, own business only, subscribe moved to POST, no raw ingress docs, no hard-coded Page fallback)
+- `app/api/debug/email-test/route.js` (auth + own business, no stack trace), `app/api/debug/webhook-check/route.js` + `app/api/integrations/meta-ads/webhook-debug/route.js` (no other tenants' ingress rows)
+- `app/api/integrations/webhooks/interakt-reply/route.js`, `lib/webhookSecurity.js`, `lib/integrations/catalog.js`, `app/automation/components/integrations/IntegrationDetailPanel.jsx` (Interakt: `?businessId=` in URL, per-business Webhook Secret or env token required — fail closed, constant-time; lead matching scoped to the business; short/empty phones rejected)
+- `app/api/automation/webhooks/[sequenceId]/[secret]/route.js` (constant-time secret compare, credential headers not logged, invalid id → 404)
+- `middleware.js` (`PUBLIC_API_PATTERNS`: exact inbound-webhook receiver paths under protected prefixes — Website webhook gateway, workflow webhook, WhatsApp Flow webhook, Interakt — were being 401'd before reaching their handlers)
+- `tests/webhook-signature.test.js`, `tests/security-routes.test.js` (new)
+
+What changed: closed the webhook-forgery and cross-tenant data gaps found in the Phase 0 inventory, and made the four external webhook receivers reachable for the first time. Verified by replaying 30 days of stored ingress (all WhatsApp deliveries verify with stored secrets) and live probes on localhost.
+
+Related decisions: see DECISIONS.md 2026-09-25 webhook fail-closed entry.
+
+## 2026-09-25 — Teal primary-button unification + KnowledgeChunk index
+Branch: main
+Files: `app/automation/**` (bg-emerald-600/700 → bg-teal-600/700, ring-emerald-500 → ring-teal-500, hover:bg-emerald-600 → hover:bg-teal-600; AI Settings + AI Knowledge pages fully teal), `models/ai/KnowledgeChunk.js` (index `{ businessId, embeddingModel }`)
+What changed: primary actions across the CRM now match the Add Lead teal-600; semantic emerald (success badges, dots, text) left as is. Added the index vector retrieval filters on.
+Related decisions: none.
+
 ## 2026-09-24 — AI Knowledge Base: vector embeddings, rich source form, green AI UI + premium icons
 Branch: main
 Files:

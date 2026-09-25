@@ -167,7 +167,9 @@ export default function IntegrationDetailPanel({
                   <p className="text-[10px] text-slate-400 mt-1">
                     {integration.id === 'meta-ads'
                       ? 'In Meta Developers → your App → Webhooks → Page: paste this URL, use your Webhook Verify Token, and subscribe to leadgen. Reconnect here to auto-subscribe the page.'
-                      : "Paste this URL in your provider's webhook settings."}
+                      : integration.id === 'interakt'
+                        ? "Add &token=<your Webhook Secret> to the end of this URL, then paste it in Interakt's webhook settings. Replies without the right token are rejected."
+                        : "Paste this URL in your provider's webhook settings."}
                   </p>
                 </div>
               )}

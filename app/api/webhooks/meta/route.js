@@ -13,8 +13,30 @@ import {
   finalizeMetaWebhookIngress,
   collectMetaAppSecretCandidates,
   verifyMetaWebhookSignature,
+  verifyMetaSignatureForBusinesses,
   parseLeadgenFields
 } from '@/lib/meta/webhookIngress';
+
+/**
+ * Record a signature failure on the ingress row and answer 200 so Meta does
+ * not retry a forged or misconfigured delivery forever. The raw body stays in
+ * MetaWebhookIngress (30-day TTL), so a genuine event rejected because a
+ * secret was missing can be replayed once the secret is configured.
+ */
+async function rejectUnsigned(ingressId, step, result) {
+  metaLog('Webhook Generic', `Signature rejected at ${step}`, { reason: result?.reason, matchedSource: result?.matchedSource });
+  await finalizeMetaWebhookIngress(ingressId, {
+    outcome: 'rejected',
+    processing: { step, error: result?.reason || 'invalid_signature' },
+    signature: {
+      received: result?.received,
+      expected: result?.expected,
+      verified: false,
+      candidates: result?.candidates,
+    },
+  });
+  return NextResponse.json({ status: 'unauthorized', step }, { status: 200 });
+}
 
 /**
  * Generic Meta webhook — /api/webhooks/meta
@@ -85,8 +107,12 @@ export async function POST(req) {
         } = await import('@/lib/facebook/handler');
 
         let totalProcessed = 0;
-        let businessesTouched = 0;
 
+        // Resolve every entry's business first, then verify the signature once
+        // against all of them BEFORE touching any data. Unsigned Messenger or
+        // comment events could otherwise create fake leads and fire comment
+        // auto-DMs from the business's own Page.
+        const matched = [];
         for (const entry of entries) {
           const pageId = entry?.id;
           const business = await Business.findOne({
@@ -95,20 +121,26 @@ export async function POST(req) {
               { 'integrationCredentials.facebookAds.pageId': pageId },
             ],
           });
-          if (!business) continue;
-          businessesTouched += 1;
+          if (business) matched.push({ entry, business });
+        }
 
-          for (const event of parseMessengerEvents(entry)) {
-            await processMessengerEvent(business._id, event);
-            totalProcessed += 1;
-          }
-          for (const event of parseFacebookComments(entry)) {
-            await processFacebookCommentEvent(business._id, event);
-            totalProcessed += 1;
+        if (matched.length) {
+          const sig = await verifyMetaSignatureForBusinesses(rawBody, signature, matched.map((m) => m.business));
+          if (!sig.valid) return rejectUnsigned(ingressId, 'facebook_signature_invalid', sig);
+
+          for (const { entry, business } of matched) {
+            for (const event of parseMessengerEvents(entry)) {
+              await processMessengerEvent(business._id, event);
+              totalProcessed += 1;
+            }
+            for (const event of parseFacebookComments(entry)) {
+              await processFacebookCommentEvent(business._id, event);
+              totalProcessed += 1;
+            }
           }
         }
 
-        if (businessesTouched) {
+        if (matched.length) {
           await finalizeMetaWebhookIngress(ingressId, {
             outcome: 'success',
             processing: { step: 'facebook_processed', count: totalProcessed },
@@ -170,8 +202,10 @@ export async function POST(req) {
               candidates: signatureResult.candidates
             }
           });
+          // No signature diagnostics in the response: they include the expected
+          // HMAC for this body, which would let a forger resend it signed.
           return NextResponse.json(
-            { success: false, error: reason, step: 'signature', signatureResult },
+            { success: false, error: reason, step: 'signature' },
             { status: 200 }
           );
         }
@@ -217,8 +251,9 @@ export async function POST(req) {
       } = await import('@/lib/instagram/handler');
 
       let totalProcessed = 0;
-      let businessesTouched = 0;
 
+      // Resolve businesses, verify once, then process — never the other way round.
+      const matched = [];
       for (const entry of payload.entry || []) {
         const pageId = entry?.id;
         const business = await Business.findOne({
@@ -227,23 +262,26 @@ export async function POST(req) {
             { 'integrationCredentials.facebookAds.pageId': pageId },
           ],
         });
-        if (!business) continue;
-        businessesTouched += 1;
+        if (business) matched.push({ entry, business });
+      }
 
-        const dmEvents = parseInstagramMessaging(entry);
-        for (const event of dmEvents) {
-          await processInstagramEvent(business._id, event);
-          totalProcessed += 1;
-        }
+      if (matched.length) {
+        const sig = await verifyMetaSignatureForBusinesses(rawBody, signature, matched.map((m) => m.business));
+        if (!sig.valid) return rejectUnsigned(ingressId, 'instagram_signature_invalid', sig);
 
-        const commentEvents = parseInstagramChanges(entry);
-        for (const event of commentEvents) {
-          await processInstagramCommentEvent(business._id, event);
-          totalProcessed += 1;
+        for (const { entry, business } of matched) {
+          for (const event of parseInstagramMessaging(entry)) {
+            await processInstagramEvent(business._id, event);
+            totalProcessed += 1;
+          }
+          for (const event of parseInstagramChanges(entry)) {
+            await processInstagramCommentEvent(business._id, event);
+            totalProcessed += 1;
+          }
         }
       }
 
-      if (!businessesTouched) {
+      if (!matched.length) {
         await finalizeMetaWebhookIngress(ingressId, {
           outcome: 'failed',
           processing: { step: 'instagram_business_not_found' },
@@ -265,6 +303,15 @@ export async function POST(req) {
       )
     );
     if (hasTemplateStatusEvent) {
+      // entry.id is the WhatsApp Business Account id. An unsigned request here
+      // could flip any template to APPROVED/REJECTED, so verify first.
+      const wabaIds = (payload.entry || []).map((e) => String(e?.id || '')).filter(Boolean);
+      const wabaBusinesses = wabaIds.length
+        ? await Business.find({ 'integrationCredentials.whatsapp.businessAccountId': { $in: wabaIds } })
+        : [];
+      const sig = await verifyMetaSignatureForBusinesses(rawBody, signature, wabaBusinesses);
+      if (!sig.valid) return rejectUnsigned(ingressId, 'template_status_signature_invalid', sig);
+
       const { processTemplateStatusPayload } = await import('@/lib/whatsapp/templateStatusWebhook');
       const templateResult = await processTemplateStatusPayload(payload);
       await finalizeMetaWebhookIngress(ingressId, {
@@ -282,6 +329,11 @@ export async function POST(req) {
         ? await Business.findOne({ 'integrationCredentials.whatsapp.phoneNumberId': phoneNumberId })
         : null;
       if (business) {
+        // Delivery/read/failed receipts feed broadcast analytics; forged ones
+        // would falsify them, so they need a valid signature like messages do.
+        const sig = await verifyMetaSignatureForBusinesses(rawBody, signature, [business]);
+        if (!sig.valid) return rejectUnsigned(ingressId, 'whatsapp_status_signature_invalid', sig);
+
         const { processWhatsAppStatuses } = await import('@/lib/omnichannel/messageStatus');
         const statusResults = await processWhatsAppStatuses(business._id, value.statuses);
         await finalizeMetaWebhookIngress(ingressId, {

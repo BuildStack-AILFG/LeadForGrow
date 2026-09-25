@@ -21,6 +21,9 @@ export const GET = withPlanAccess('settings', async (req) => {
       pageId: fb.pageId || ads.pageId,
       pageName: fb.pageName || ads.pageName,
       accessToken: fb.accessToken ? '••••' : undefined,
+      // Whether inbound webhooks can be verified. The secret itself is never sent.
+      hasAppSecret: Boolean(fb.appSecret || ads.appSecret),
+      platformAppSecret: Boolean(process.env.META_APP_SECRET),
       webhookStatus: fb.webhookStatus || (enabled ? 'active' : 'pending'),
       messengerAutoReply: !!fb.messengerAutoReply,
       aiReplyEnabled: !!fb.aiReplyEnabled,
@@ -45,6 +48,9 @@ export const PUT = withPlanAccess('settings', async (req) => {
     const pageId = (body.pageId || '').trim();
     const accessToken = (body.accessToken || '').trim();
     const pageName = (body.pageName || '').trim();
+    // Optional; blank keeps the stored one. The Meta app secret signs this
+    // Page's webhooks and is needed to verify them.
+    const appSecret = (body.appSecret || '').trim();
 
     if (!pageId || !accessToken) {
       return NextResponse.json(
@@ -63,6 +69,9 @@ export const PUT = withPlanAccess('settings', async (req) => {
       pageId,
       pageName: pageName || business.integrationCredentials.facebook?.pageName || null,
       accessToken: encryptOnce(accessToken), // encrypted at rest
+      appSecret: appSecret
+        ? encryptOnce(appSecret)
+        : business.integrationCredentials.facebook?.appSecret || null,
       webhookStatus: 'active',
       lastVerified: new Date(),
     };
