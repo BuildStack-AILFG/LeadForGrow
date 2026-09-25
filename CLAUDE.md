@@ -14,6 +14,22 @@ Related decisions: <link to DECISIONS.md entry, if any>
 ---
 
 
+## 2026-09-25 — Leak Audit page in /lfgadmin (Leak Guard Phase 0, concierge audit)
+Branch: main
+Files:
+- `lib/leak/rules.js` (new — pure R1–R5 rules, business-hours minutes in IST, `buildLeakReport` with owner/source breakdowns, false-positive rate, labelled "estimated at risk")
+- `lib/leak/csvSource.js` (new — pure: header auto-mapping for Zoho/HubSpot/LeadSquared/Pipedrive/Excel exports, DMY/MDY/YMD/text-month date parsing, status → open/won/lost/unqualified, rows → records, which rules a file supports)
+- `lib/leak/databaseSource.js` (new — read-only records for an existing business: leads + one Message aggregation with `$setWindowFields` bot-reply heuristic + Activity/Task aggregations + Conversation first-response fields; excludes bulk-imported lists and machine mail; capped at 5000 leads)
+- `app/api/admin/leak-audit/route.js` (new — LFG admin password; `businesses` and `run` actions; returns records, never writes)
+- `lib/admin/adminAuth.js` (new — shared constant-time admin password check), `app/api/admin/db/route.js` (uses it)
+- `app/lfgadmin/components/leak/LeakAudit.jsx`, `LeakReport.jsx` (new — source toggle, consent checkbox, CSV mapping table, targets/business hours/deal value, report with "Not a leak" marking, CSV export, print/PDF)
+- `app/lfgadmin/components/AdminSidebar.jsx`, `app/lfgadmin/hooks/useAdminPanel.js`, `app/lfgadmin/page.jsx` (Leak Audit nav + view; print styles)
+- `tests/leak-audit.test.js` (new)
+
+What changed: the platform owner can audit an existing client (with the owner's written consent) or a prospect's export from another CRM and walk them through which enquiries slipped and why. Prospect CSVs are parsed and evaluated in the browser only — never uploaded. Rules re-run client-side, so changing a target or marking a false positive costs no API call. Verified read-only on production data: Pistons Garage 48 of 51 enquiries slipped (22 never answered by a person), Scaledesk 18 of 20, LeadForGrow 5 of 12.
+
+Related decisions: see DECISIONS.md 2026-09-25 Leak Audit entry.
+
 ## 2026-09-25 — First-response tracking (Leak Guard Phase 0, step 1)
 Branch: main
 Files:

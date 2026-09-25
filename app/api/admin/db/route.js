@@ -1,5 +1,5 @@
-import crypto from 'crypto';
 import { NextResponse } from 'next/server';
+import { requireAdminPassword } from '@/lib/admin/adminAuth';
 import { dbConnect } from '@/lib/mongodb';
 import { applyPlanQuotas } from '@/lib/plans';
 
@@ -41,24 +41,8 @@ const models = {
   Event,
 };
 
-const ADMIN_PASSWORD = process.env.LFG_ADMIN_PASSWORD;
-
 function unauthorized() {
   return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-}
-
-function requireAdminPassword(password) {
-  if (!ADMIN_PASSWORD) {
-    if (process.env.NODE_ENV === 'production') {
-      throw new Error('[Admin] LFG_ADMIN_PASSWORD must be set in production');
-    }
-    return false;
-  }
-  if (typeof password !== 'string') return false;
-  // Constant-time comparison to prevent timing attacks
-  const a = crypto.createHash('sha256').update(password).digest();
-  const b = crypto.createHash('sha256').update(ADMIN_PASSWORD).digest();
-  return crypto.timingSafeEqual(a, b);
 }
 
 /** Strip MongoDB operators from a client-supplied filter object (defense against query injection). */

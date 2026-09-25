@@ -226,6 +226,12 @@ export function useAdminPanel() {
     await loadDashboard();
   };
 
+  const goToLeakAudit = () => {
+    setActiveView('leakAudit');
+    setSelectedModel('');
+    setSidebarOpen(false);
+  };
+
   const selectModel = (modelName) => {
     setSearch('');
     setSidebarOpen(false);
@@ -239,6 +245,6 @@ export function useAdminPanel() {
     isModalOpen, setIsModalOpen, editingDoc, viewMode, setViewMode,
     formData, jsonText, handleFieldChange, handleJsonChange,
     fetchData, handleSearch, handleDelete, handleToggleFreeze, openEditModal, openCreateModal, handleSave,
-    goToOverview, selectModel, loadDashboard,
+    goToOverview, goToLeakAudit, selectModel, loadDashboard,
   };
 }

@@ -13,6 +13,14 @@ Consequences: <what this commits future work to, if anything>
 
 ---
 
+## 2026-09-25 — Leak Audit: internal admin tool, browser-side CSV, enquiries only
+Context: Phase 0 needs a concierge Leak Audit for existing clients and for prospects still on another CRM, without shipping a customer-facing feature.
+Decision: Built it inside /lfgadmin (platform owner only, admin password + CRM login). One pure rules module serves both sources. Prospect CSVs are parsed and evaluated in the browser and never sent to the server; for existing clients the API returns normalized records and the page runs the rules, so settings changes and "Not a leak" marks recompute without requests. The audit counts enquiries only: bulk-imported lists and machine mail are excluded (with the count shown), because on Pistons Garage they turned 51 real enquiries into 114 and a 95.6% leak rate an owner would rightly reject. Old WhatsApp history labels bot replies as agent sends, so any "human" send within 60 s of the customer's message or of lead creation counts as automated; conversations with first-response tracking use their stored values instead.
+Alternatives considered: A tenant-facing report — rejected for Phase 0 (research rule: no user-facing feature before go/no-go). Uploading CSVs to the server — rejected: consent is easier and the risk lower when the prospect's file never leaves the browser. Counting bulk imports — rejected as inflating the headline number.
+Consequences: Phase 1's Leak Radar should reuse lib/leak/rules.js unchanged. The 60-second bot heuristic can misread a very fast human reply as automated (overstates R1 slightly); the first-response backfill removes the need for it on history.
+
+---
+
 ## 2026-09-25 — First-response tracking: denormalized on Conversation, WhatsApp default origin flipped to 'automation'
 Context: Leak Guard needs "how long did the customer wait for a human" per conversation. The dry run showed WhatsApp origin was useless (every send stored as 'user') and inbound email had no headers to tell newsletters from customers.
 Decision: Store the timings on Conversation, maintained by recordChannelMessage: `$min` for first-inbound / waiting-since and `$unset` on a human reply ride on the write that already happens; the first human / automated reply is one conditional update per conversation lifetime, skipped when the doc in hand shows it's already set or the customer never wrote. `sendAutoWhatsApp` now defaults to origin 'automation' and only the three agent send routes pass 'user' — ~30 call sites are automated, 3 are human, so the safe default is the common case and a missed site under-counts humans rather than faking fast responses. Machine mail (existing isAutomatedSender rules + new bulk headers) never starts the clock and never gets an SLA auto-reply.
