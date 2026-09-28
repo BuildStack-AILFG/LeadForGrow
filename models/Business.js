@@ -155,6 +155,38 @@ const BusinessSettingsSchema = new mongoose.Schema({
     totalSent: { type: Number, default: 0 },
   },
 
+  // Leak Radar (Leak Guard) — finds enquiries that are slipping and queues them
+  // for the team. Off until the owner turns it on. Rules: lib/leak/rules.js.
+  leakGuard: {
+    enabled: { type: Boolean, default: false },
+    enabledAt: { type: Date },
+    firstReplySlaMinutes: { type: Number, default: 60, min: 1, max: 10080 },
+    waitingSlaHours: { type: Number, default: 4, min: 0.25, max: 720 },
+    followUpGraceHours: { type: Number, default: 24, min: 0, max: 720 },
+    stallDays: { type: Number, default: 14, min: 1, max: 365 },
+    minAttemptsBeforeLost: { type: Number, default: 2, min: 1, max: 50 },
+    businessHours: {
+      enabled: { type: Boolean, default: true },
+      startHour: { type: Number, default: 9, min: 0, max: 23 },
+      endHour: { type: Number, default: 19, min: 1, max: 24 },
+      days: { type: [Number], default: [1, 2, 3, 4, 5, 6] },
+      tzOffsetMinutes: { type: Number, default: 330 },
+    },
+    // Owner's own numbers; only used for the clearly-labelled "estimated at risk".
+    avgDealValue: { type: Number, default: 0, min: 0 },
+    conversionPct: { type: Number, default: 0, min: 0, max: 100 },
+    // Share of leaks kept out of the queue as a comparison group, so the
+    // Recovery Ledger can show what Leak Radar changed. 0 shows everything.
+    holdoutPct: { type: Number, default: 20, min: 0, max: 50 },
+    digest: {
+      enabled: { type: Boolean, default: true },
+      recipients: { type: [String], default: [] }, // empty = the business owner
+      lastSentAt: { type: Date },
+    },
+    lastScanAt: { type: Date },
+    lastScanStats: { type: mongoose.Schema.Types.Mixed },
+  },
+
   // Website Chatbot Widget
   chatbot: {
     enabled: { type: Boolean, default: true },

@@ -1,5 +1,6 @@
 import {
   LayoutDashboard,
+  Radar,      // Leak Radar
   Users,
   UserCircle,
   Building2,
@@ -62,6 +63,7 @@ export const NAV_GROUPS = [
     items: [
       { id: 'dashboard', name: 'Dashboard', href: '/automation', icon: LayoutDashboard, exact: true },
       { id: 'tasks', name: 'Tasks', href: '/automation/tasks', icon: CheckSquare, badgeKey: 'overdueTasks', urgent: true },
+      { id: 'leak-radar', name: 'Leak Radar', href: '/automation/leak-radar', icon: Radar },
     ]
   },
   {

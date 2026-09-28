@@ -13,6 +13,7 @@ import ChatbotTranscript from '../../components/leads/detail/ChatbotTranscript';
 import ConvertLeadDialog from '../../components/leads/ConvertLeadDialog';
 import LostReasonModal from '../../components/leads/LostReasonModal';
 import QualifiedSummaryModal from '../../components/leads/QualifiedSummaryModal';
+import LeadLeakStrip from '../../components/leak/LeadLeakStrip';
 
 export default function LeadDetailPage({ params }) {
   return (
@@ -138,6 +139,7 @@ function LeadDetailPageContent({ params }) {
           />
 
           <div className="flex flex-col gap-6">
+            <LeadLeakStrip leadId={id} />
             {detail.lead.source === 'bot' && (
               <ChatbotTranscript lead={detail.lead} />
             )}
