@@ -52,7 +52,7 @@ async function handler(req) {
     );
 
     if (!result.success) {
-      return NextResponse.json({ success: false, error: result.error || 'Failed to send message' }, { status: 500 });
+      return NextResponse.json({ success: false, error: result.error || 'Failed to send message' }, { status: result.reason === 'opted_out' ? 403 : 500 });
     }
 
     await emitChatMessage(user.businessId, {

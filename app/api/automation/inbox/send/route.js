@@ -143,6 +143,7 @@ async function handler(req) {
           fileName,
           caption: message.trim() || undefined,
           messageType: resolvedType,
+          origin: 'user', // an agent attached this
         });
         if (!result.success) {
           return NextResponse.json({ success: false, error: result.error || 'Media send failed' }, { status: 500 });
@@ -163,7 +164,7 @@ async function handler(req) {
           { origin: 'user' }, // an agent typed this
         );
         if (!result.success) {
-          return NextResponse.json({ success: false, error: result.error || 'Send failed' }, { status: 500 });
+          return NextResponse.json({ success: false, error: result.error || 'Send failed' }, { status: result.reason === 'opted_out' ? 403 : 500 });
         }
         externalMessageId = result.messageId;
       }
@@ -295,7 +296,7 @@ async function handler(req) {
     return NextResponse.json({ success: true, data: result.message, messageId: externalMessageId });
   } catch (error) {
     console.error('[Inbox API] send:', error);
-    return NextResponse.json({ success: false, error: error.message || 'Send failed' }, { status: 500 });
+    return NextResponse.json({ success: false, error: error.message || 'Send failed' }, { status: error.code === 'OPTED_OUT' ? 403 : 500 });
   }
 }
 
