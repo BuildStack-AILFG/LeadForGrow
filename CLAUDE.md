@@ -14,6 +14,68 @@ Related decisions: <link to DECISIONS.md entry, if any>
 ---
 
 
+## 2026-09-29 — Responsive pass: CRM at phone width (all 55 /automation pages checked in-browser)
+Branch: main
+Files:
+- `app/automation/layout.js` (`main`: `min-w-0`, `pt-12 lg:pt-0`), `app/automation/components/layout/Sidebar.jsx` (floating ☰ replaced by a phone/tablet top bar: menu, logo, Help link, Grovia assistant button), `components/shared/tour/HelpLauncher.jsx` + `components/assistant/BusinessAssistantFab.jsx` (floating buttons lg-only — they covered "Create Lead"/send buttons on phones)
+- `components/shared/tour/TourProvider.jsx` (a tour closes when its page is left, not marked done — the Leads tour used to hover over Deals)
+- `app/globals.css` (headings without their own colour inside `text-white` sections inherit it — "Bulk Lead Upload" and similar titles were near-black on dark banners at every size)
+- Tables clipped with `overflow-hidden` → `overflow-x-auto` (columns were unreachable on phones): `components/bills/BillsWorkspace.jsx` (+ `min-w-[640px]`, nowrap bill #, stacked line-item rows on phones), `whatsapp-flows/page.js`, `broadcasts/BroadcastDetail.jsx`, `components/contacts/ContactDrawer.jsx`, `components/companies/CompanyDrawer.jsx`, `app/agency/{invoices,forms,clients}/page.js`, `app/agency/clients/[id]/page.js`, `app/user/clients/[id]/page.js`
+- `components/settings/SettingsCard.jsx` (toggle knob had no `left`, so it sat outside the track at all sizes)
+- `pipelines/page.js` (stage rows wrap on phones — stage name input was 18px wide), `components/meetings/CreateMeetingWizard.jsx` (booking-slug input `min-w-0`, stacked grid), `app/components/Chatbot.jsx` (site widget capped at `100vw-3rem`; settings preview wrapper spans its box so the panel can shrink)
+- Cramped headers stacked on phones: `call-integration/page.js`, `events/page.js`, `leads/bulk/page.js`, `settings/api-keys/page.js`; `components/leads/detail/LeadWhatsAppPanel.jsx` (long unbroken text wraps in bubbles)
+
+What changed: every CRM page was opened at 375px in the in-app browser, measured by script (content past the screen edge / clipped inside overflow-hidden) and screenshotted. Public pages: 55 of 94 scanned headless at 375px with no overflow found; the rest, laptop (1280) and desktop (1920) passes, and the agency/client portals (need their own logins) are still to do.
+Related decisions: none.
+
+## 2026-09-28 — Data fix: Scaledesk WhatsApp IDs (production)
+Branch: main
+Files: none (data only).
+What changed: Scaledesk's saved WhatsApp phone number ID had two digits swapped (`1347642875116486` → correct `1347462875116486`) and its Business Account ID was a different Meta ID (`945459344787254` → WABA `1873389177373558`), so every reply and "Import from Meta" failed with Meta's "Object … does not exist" while inbound kept working via the per-business webhook. Correct values taken from Meta's own webhook metadata and verified with read-only Graph GETs using the business's token (number +91 93353 90409 "Leadforgrow", quality GREEN; templates readable) before a conditional update. Old values saved in session scratchpad `scaledesk-wa-fix-undo.json`. All three WhatsApp businesses now match Meta. Root cause: settings save doesn't validate IDs with Meta (proposed fix pending the user's go-ahead).
+Related decisions: none.
+
+## 2026-09-28 — WhatsApp opt-out enforced on every send; START opts back in
+Branch: main
+Files:
+- `lib/whatsapp/optOutRules.js` (new, pure — STOP/START keywords, send decision), `lib/whatsapp/optOut.js` (new — `whatsappOptOutBlock` / `assertWhatsAppAllowed`; looks up the flag only when the caller's lead lacks it; checks for a customer message after `optedOutAt` only for agent free-text)
+- `lib/integrations/whatsapp.js` (`sendAutoWhatsApp` returns `{ success:false, reason:'opted_out' }`), `lib/integrations/whatsappMedia.js` (new `origin` option, default automation), `lib/integrations/whatsappInteractive.js` (buttons/lists)
+- `app/api/automation/inbox/send/route.js` (media sends marked `origin:'user'`; opted-out → 403 with the reason), `app/api/automation/whatsapp/send/route.js`, `app/api/automation/chat/send/route.js` (403)
+- `lib/automation/leadManager.js` (STOP uses shared keywords; new START/UNSTOP/subscribe/opt in/chalu karo → opt back in, message continues to the inbox; activity failures now logged)
+- `models/automation/Activity.js` (`whatsapp_opted_out`, `whatsapp_opted_in` — the STOP timeline entry had been failing enum validation silently since it was added)
+- `tests/whatsapp-opt-out.test.js` (new)
+
+What changed: only broadcasts honoured opt-out before; automations, sequences, flows, AI replies, the inbox, the lead page and the legacy chat could all message someone who replied STOP. Now: automated and template sends to opted-out leads are blocked everywhere; an agent's typed reply is allowed only after the customer writes again (their conversation, 24-hour window still applies); START re-subscribes.
+
+Leak Radar review fixes (same session, not yet committed with Leak Radar): unqualified reason sent as `unqualifiedReason` (was dropped); media-header templates excluded from one-tap send; conversations tracked live since 25 Sep now count as tracked (they had fallen back to the 60 s heuristic and their "waiting" key churned on every customer message); radar also scans older leads with a waiting customer (incl. an imported contact who replied to a broadcast) or an overdue task, with headline stats still limited to the 90-day window.
+
+Related decisions: see DECISIONS.md 2026-09-28 opt-out entry.
+
+## 2026-09-28 — Leak Radar (Leak Guard Phase 1 MVP)
+Branch: main
+Files:
+- `models/leak/LeakFlag.js`, `models/leak/LeakAction.js` (new — one flag per leak episode via unique dedupeKey; audit trail with unique idempotency key)
+- `models/Business.js` (`settings.leakGuard`: enabled=false by default, targets, business hours, deal value, holdoutPct=20, digest, last scan stats)
+- `lib/leak/flagging.js` (pure — actionable flags only, per-episode dedupe keys, deterministic FNV holdout bucket, team stats), `lib/leak/scanner.js` (upsert/clear/expire flags per business; cron runs least-recently-scanned first within a 45 s budget), `lib/leak/hooks.js` + `lib/omnichannel/conversationService.js` (a human reply resolves the lead's R1/R2 flags immediately)
+- `lib/leak/actionRules.js` (pure — who may act, input validation, flag transitions), `lib/leak/actions.js` (idempotent record + version-checked flag update; "worked outside CRM" adds a timeline note)
+- `lib/leak/ledgerMath.js` (pure) + `lib/leak/ledger.js` (flagged → actioned → recovered; observed vs attributed revenue from Bills/Deals, once per lead; shown vs holdout recovery rate with a 30-leak minimum)
+- `lib/leak/digestContent.js` (pure) + `lib/leak/digest.js` (five-line daily brief after 08:00 local; sends via legacy business SMTP or the owner's/any active mailbox)
+- `lib/leak/api.js` + `app/api/automation/leak/{flags,flags/[id]/actions,summary,ledger,settings,scan}/route.js` (session business only; salespeople see their own leaks; ledger/settings/scan for managers; queue grouped one item per lead)
+- `app/api/cron/leak-scan/route.js` (every 15 min), `app/api/cron/leak-digest/route.js` (hourly) — CRON_SECRET bearer
+- `app/automation/leak-radar/page.js`, `app/automation/hooks/useLeakRadar.js`, `app/automation/components/leak/{LeakQueue,LeakDialogs,LeakTeam,LeakLedger,LeakSettings,LeadLeakStrip}.jsx` (Radar / My leaks / Team / Recovery ledger / Settings; one-tap template send, reply, follow-up task, reassign, worked outside CRM, snooze, unqualified, not a leak; lead-page strip)
+- `app/automation/components/layout/constants.js` (sidebar: Overview → Leak Radar), `app/automation/components/shared/tour/registry.js` (page intro), `lib/leak/databaseSource.js` (records carry ownerId, latest conversation, WhatsApp opt-out)
+- `tests/leak-radar.test.js` (new)
+
+What changed: Leak Radar turns the audit rules into a live queue. Off for every business until an owner turns it on (first scan runs on enable). Side effects go through existing APIs (inbox send, lead PATCH, tasks) and are then recorded on the leak, so assignment notifications, stage automations and the 24-hour WhatsApp window all still apply; opted-out customers never get the template button. Nothing is sent automatically. Read-only preview on production data: Pistons Garage 102 leaks across 53 leads (82 shown, 20 in the comparison group), Scaledesk 56, LeadForGrow 9 — hence one queue card per lead.
+Ops: the external scheduler must call `/api/cron/leak-scan` every 15 minutes and `/api/cron/leak-digest` hourly with `Authorization: Bearer $CRON_SECRET`.
+
+Related decisions: see DECISIONS.md 2026-09-28 Leak Radar entry.
+
+## 2026-09-25 — First-response backfill run on production (Leak Guard Phase 0, step 2)
+Branch: main
+Files: `lib/leak/databaseSource.js` (audit note wording only). Data change, no schema change.
+What changed: One-time script (session scratchpad `frt-backfill.mjs`: dry run by default, `--apply`, `--undo <file>`) filled the first-response fields on 72 production conversations that had a customer message and no tracking yet: 25 with a human reply, 39 with an automated reply, 51 still waiting; confidence 48 `high` / 24 `heuristic`. Skipped: 17 machine-mail threads, 246 with no customer message, 0 already tracked. Each write re-checked `responseConfidence` absent. Undo file `frt-backfill-undo-2026-09-25T15-59-47-608Z.json` lists every conversation and value; undo clears only rows still marked high/heuristic. Leak Audit re-run afterwards: Pistons Garage 49 of 52 enquiries slipped, Scaledesk 18 of 20, LeadForGrow 5 of 12 — consistent with the pre-backfill heuristic.
+Related decisions: see DECISIONS.md 2026-09-25 first-response tracking entry.
+
 ## 2026-09-25 — Leak Audit page in /lfgadmin (Leak Guard Phase 0, concierge audit)
 Branch: main
 Files:

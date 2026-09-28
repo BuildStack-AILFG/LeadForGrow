@@ -144,7 +144,7 @@ export default function BusinessAssistantFab() {
       onTouchStart={onPointerDown}
       onClick={handleClick}
       style={{ ...(positionedStyle || {}), touchAction: 'none', cursor: dragging ? 'grabbing' : 'grab' }}
-      className={`fixed z-50 group w-11 h-11 rounded-full bg-[#0d9488] text-white shadow-xl shadow-black/30 hover:bg-[#0f766e] transition-[transform,background-color,box-shadow] duration-300 hover:scale-105 active:scale-95 select-none flex items-center justify-center ${
+      className={`fixed z-50 group w-11 h-11 rounded-full bg-[#0d9488] text-white shadow-xl shadow-black/30 hover:bg-[#0f766e] transition-[transform,background-color,box-shadow] duration-300 hover:scale-105 active:scale-95 select-none max-lg:hidden flex items-center justify-center ${
         position ? '' : 'bottom-6 right-6'
       }`}
       aria-label={`Open ${ASSISTANT_NAME} (drag to move)`}

@@ -79,7 +79,7 @@ function BillsList({ onNew, onOpen }) {
           <button
             type="button"
             onClick={onNew}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold shadow"
+            className="inline-flex shrink-0 whitespace-nowrap items-center gap-2 px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold shadow"
           >
             <Plus className="w-4 h-4" /> New bill
           </button>
@@ -128,8 +128,8 @@ function BillsList({ onNew, onOpen }) {
             </button>
           </div>
         ) : (
-          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
-            <table className="w-full text-sm">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-x-auto">
+            <table className="w-full min-w-[640px] text-sm">
               <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">
                 <tr>
                   <th className="text-left px-4 py-3">Bill #</th>
@@ -145,7 +145,7 @@ function BillsList({ onNew, onOpen }) {
                   <tr key={b._id}
                       onClick={() => onOpen(b._id)}
                       className="border-t border-slate-100 dark:border-slate-800 hover:bg-slate-50/60 dark:hover:bg-slate-800/30 cursor-pointer">
-                    <td className="px-4 py-3 font-mono text-xs text-slate-600 dark:text-slate-400">{b.billNumber}</td>
+                    <td className="px-4 py-3 font-mono text-xs text-slate-600 dark:text-slate-400 whitespace-nowrap">{b.billNumber}</td>
                     <td className="px-4 py-3 text-slate-900 dark:text-slate-100">{b.customerName}<div className="text-xs text-slate-400">{b.customerPhone}</div></td>
                     <td className="px-4 py-3 text-right tabular-nums font-semibold">₹{Number(b.total).toLocaleString('en-IN')}</td>
                     <td className="px-4 py-3"><StatusPill status={b.status} /></td>
@@ -259,7 +259,7 @@ function BillEditor({ existingBill, onCancel, onSaved }) {
                   value={it.description}
                   onChange={(e) => updateItem(i, { description: e.target.value })}
                   placeholder="Description (e.g. Sensor / Scanning / Labour)"
-                  className="col-span-6 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm"
+                  className="col-span-12 sm:col-span-5 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm"
                 />
                 <input
                   type="number"
@@ -267,7 +267,7 @@ function BillEditor({ existingBill, onCancel, onSaved }) {
                   value={it.quantity}
                   onChange={(e) => updateItem(i, { quantity: e.target.value })}
                   placeholder="Qty"
-                  className="col-span-2 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-right tabular-nums"
+                  className="col-span-3 sm:col-span-2 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-right tabular-nums"
                 />
                 <input
                   type="number"
@@ -276,16 +276,16 @@ function BillEditor({ existingBill, onCancel, onSaved }) {
                   value={it.rate}
                   onChange={(e) => updateItem(i, { rate: e.target.value })}
                   placeholder="Rate ₹"
-                  className="col-span-2 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-right tabular-nums"
+                  className="col-span-4 sm:col-span-2 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-right tabular-nums"
                 />
-                <div className="col-span-1 text-right text-sm tabular-nums font-medium">
+                <div className="col-span-3 sm:col-span-2 text-right text-sm tabular-nums font-medium truncate">
                   ₹{((Number(it.quantity) || 0) * (Number(it.rate) || 0)).toLocaleString('en-IN')}
                 </div>
                 <button
                   type="button"
                   onClick={() => removeItem(i)}
                   disabled={form.lineItems.length === 1}
-                  className="col-span-1 p-1 rounded text-slate-400 hover:text-red-600 dark:hover:text-red-400 disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="col-span-2 sm:col-span-1 justify-self-end p-1 rounded text-slate-400 hover:text-red-600 dark:hover:text-red-400 disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>

@@ -259,7 +259,7 @@ function DealsTab({ deals }) {
     );
   }
   return (
-    <div className="rounded-xl border border-[#E5E7EB] dark:border-slate-700 overflow-hidden">
+    <div className="rounded-xl border border-[#E5E7EB] dark:border-slate-700 overflow-x-auto">
       <table className="w-full text-left text-[12px]">
         <thead className="bg-[#F9FAFB] dark:bg-slate-900 border-b border-[#E5E7EB] dark:border-slate-700">
           <tr>

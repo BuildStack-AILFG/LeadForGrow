@@ -133,7 +133,7 @@ export default function HelpLauncher() {
         onClick={() => setOpen((v) => !v)}
         aria-label="Open help"
         aria-expanded={open}
-        className="fixed z-[9995] bottom-[80px] right-6 w-11 h-11 rounded-full glass-dark text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-transform"
+        className="fixed z-[9995] bottom-[80px] right-6 w-11 h-11 rounded-full glass-dark text-white hidden lg:flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-transform"
         title="Need help?"
       >
         <Compass className="w-[18px] h-[18px]" />

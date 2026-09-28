@@ -186,7 +186,7 @@ export default function BulkUploadPage() {
   const progress = data.length > 0 ? (currentIndex / data.length) * 100 : 0;
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-800/50 p-8">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-800/50 p-4 sm:p-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <button 
@@ -198,7 +198,7 @@ export default function BulkUploadPage() {
         </button>
 
         <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden mb-8">
-          <div className="bg-slate-900 p-8 text-white relative">
+          <div className="bg-slate-900 p-5 pt-8 sm:p-8 text-white relative">
             {/* Status Diagnostic */}
             <div className="absolute top-2 right-4 text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase">
               UI Status: {status} | Data: {data.length}
@@ -213,7 +213,7 @@ export default function BulkUploadPage() {
               onChange={handleFileUpload}
             />
 
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-white/10 dark:bg-slate-900/10 backdrop-blur-md rounded-2xl flex items-center justify-center">
                   <Upload className="w-6 h-6 text-white" />
@@ -227,7 +227,7 @@ export default function BulkUploadPage() {
               {(status === 'idle' || status === 'ready' || status === 'completed') && (
                 <label
                   htmlFor="csv-upload-input"
-                  className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all flex items-center gap-2 cursor-pointer"
+                  className="self-start sm:self-auto whitespace-nowrap px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all flex items-center gap-2 cursor-pointer"
                 >
                   <FileSpreadsheet className="w-5 h-5" />
                   {data.length > 0 ? 'Change CSV' : 'Select CSV'}
@@ -236,7 +236,7 @@ export default function BulkUploadPage() {
             </div>
           </div>
 
-          <div className="p-8">
+          <div className="p-4 sm:p-8">
             {status === 'idle' ? (
               <div className="text-center py-12 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-3xl">
                 <LayoutGrid className="w-16 h-16 text-slate-200 mx-auto mb-4" />

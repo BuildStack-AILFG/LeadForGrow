@@ -117,6 +117,13 @@
     font-family: var(--font-inter-tight);
   }
 
+  /* A heading with no colour of its own inside a light-text section (a dark banner: `text-white`)
+     takes that colour instead of the near-black above, which made such titles invisible. Zero
+     extra specificity, so an explicit text-* class on the heading still wins. */
+  :where(.text-white, .text-slate-50, .text-slate-100) :is(h1, h2) {
+    color: inherit;
+  }
+
   /* Base headings are hardcoded near-black. Inside the CRM app (.crm-app) follow the theme in dark mode.
      :where() keeps specificity at zero so any explicit text-* class on a heading still wins. */
   :where(.dark .crm-app) :is(h1, h2, h3, h4) {

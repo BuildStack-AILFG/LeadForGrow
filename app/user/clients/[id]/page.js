@@ -274,7 +274,7 @@ export default function ClientProfilePage() {
 
           {activeTab === "billing" && (
             <div className="space-y-8 animate-in fade-in duration-300">
-               <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-[32px] overflow-hidden">
+               <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-[32px] overflow-x-auto">
                   <table className="w-full text-left">
                      <thead className="bg-slate-50 dark:bg-slate-800/50">
                         <tr>

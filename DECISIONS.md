@@ -13,6 +13,22 @@ Consequences: <what this commits future work to, if anything>
 
 ---
 
+## 2026-09-28 — WhatsApp opt-out: block business-started sends, allow replies once the customer writes again
+Context: Opt-out (STOP) was stored but only broadcasts respected it; every other WhatsApp path ignored it, and nothing ever cleared it.
+Decision: One check inside the shared senders (text/template, media, interactive), so no route can bypass it. Automated sends and templates to an opted-out lead are blocked; an agent's typed (non-template) reply is allowed only if the customer has messaged after opting out — they started that conversation, and Meta's 24-hour window still gates free text. START/UNSTOP (and Hinglish variants) opt back in.
+Alternatives considered: Block everything for opted-out leads — rejected: a customer who says STOP to promotions and later asks "is my car ready?" would be unanswerable. Auto opt-in on any new customer message — rejected: a customer writing to complain shouldn't silently rejoin automations/broadcasts. Checks in each route — rejected: ~30 call sites, easy to miss one.
+Consequences: New WhatsApp send paths must go through lib/integrations/whatsapp*.js (or call lib/whatsapp/optOut.js). Human-initiated sends must pass `origin: 'user'` or they're treated as automated and blocked for opted-out leads.
+
+---
+
+## 2026-09-28 — Leak Radar built before Phase 0 validation finished; per-lead queue; side effects via existing APIs
+Context: The user asked to build Leak Radar (Phase 1) while Phase 0 (concierge audits, interviews, go/no-go) was still open.
+Decision: Built it, but off by default per business, so it reaches no tenant until the owner turns it on — the go/no-go can still decide who gets it. Flags are per leak episode (unique dedupeKey) for idempotent scans; the queue groups them per lead because real data showed ~2 flags per lead (102 flags on 53 Pistons Garage leads) and a customer is one problem. One-tap actions run the CRM's existing endpoints (inbox send, lead PATCH, tasks) and then record the action, instead of re-implementing sends/assignment inside Leak Radar. A 20% deterministic holdout keeps the Recovery Ledger honest; owners can set it to 0. No automatic sending (research: Phase 2, opt-in, capped).
+Alternatives considered: Waiting for go/no-go — the user's call to build now. One card per flag — rejected after the real-data preview (same customer up to three times). Server-side action executors that send/assign directly — rejected to avoid a second copy of the 24-hour-window, assignment-notification and stage-automation logic. Random holdout per scan — rejected; a leak would flip between shown and hidden.
+Consequences: The inbox send route itself doesn't check WhatsApp opt-out; Leak Radar hides the template button for opted-out leads, but other send paths are unchanged (flagged for a separate fix). Scans need the external scheduler configured. Availability/leave isn't modelled, so the Team view says so instead of implying blame.
+
+---
+
 ## 2026-09-25 — Leak Audit: internal admin tool, browser-side CSV, enquiries only
 Context: Phase 0 needs a concierge Leak Audit for existing clients and for prospects still on another CRM, without shipping a customer-facing feature.
 Decision: Built it inside /lfgadmin (platform owner only, admin password + CRM login). One pure rules module serves both sources. Prospect CSVs are parsed and evaluated in the browser and never sent to the server; for existing clients the API returns normalized records and the page runs the rules, so settings changes and "Not a leak" marks recompute without requests. The audit counts enquiries only: bulk-imported lists and machine mail are excluded (with the count shown), because on Pistons Garage they turned 51 real enquiries into 114 and a 95.6% leak rate an owner would rightly reject. Old WhatsApp history labels bot replies as agent sends, so any "human" send within 60 s of the customer's message or of lead creation counts as automated; conversations with first-response tracking use their stored values instead.

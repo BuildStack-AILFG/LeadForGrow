@@ -338,9 +338,9 @@ export default function CallIntegrationPage() {
   };
 
   return (
-    <div className="px-8 py-10 min-h-screen bg-[#FDFDFF] dark:bg-slate-900 font-sans selection:bg-indigo-100 dark:selection:bg-indigo-900/30 selection:text-indigo-900 dark:selection:text-indigo-200">
+    <div className="px-4 sm:px-8 py-6 sm:py-10 min-h-screen bg-[#FDFDFF] dark:bg-slate-900 font-sans selection:bg-indigo-100 dark:selection:bg-indigo-900/30 selection:text-indigo-900 dark:selection:text-indigo-200">
       {/* 1️⃣ Top Header Bar */}
-      <div className="flex items-center justify-between mb-12 animate-in fade-in slide-in-from-top-4 duration-700">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 sm:mb-12 animate-in fade-in slide-in-from-top-4 duration-700">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-red-50 dark:bg-red-950/30 flex items-center justify-center">
             <PhoneCall className="w-5 h-5 text-red-600 dark:text-red-400" strokeWidth={2.5} />
@@ -351,7 +351,7 @@ export default function CallIntegrationPage() {
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-4">
           <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 rounded-full border border-emerald-100/50 shadow-sm shadow-emerald-100/20">
             <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
             <span className="text-xs font-bold uppercase tracking-wider">System Active</span>
@@ -378,13 +378,13 @@ export default function CallIntegrationPage() {
 
       {wizardStep === 1 && (
         <div className="max-w-xl">
-          <div className="bg-white dark:bg-slate-900 rounded-[32px] p-12 shadow-sm border border-slate-100 dark:border-slate-800 relative overflow-hidden">
+          <div className="bg-white dark:bg-slate-900 rounded-[32px] p-6 sm:p-12 shadow-sm border border-slate-100 dark:border-slate-800 relative overflow-hidden">
             <div className="relative z-10 text-left mb-10">
               <div className="w-20 h-20 bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 rounded-[24px] flex items-center justify-center mb-8">
                 <Phone className="w-10 h-10" />
               </div>
-              <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-50 mb-4 tracking-tight">Connect Your Line</h2>
-              <p className="text-slate-500 dark:text-slate-400 text-lg leading-relaxed px-6 font-medium">
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-50 mb-4 tracking-tight">Connect Your Line</h2>
+              <p className="text-slate-500 dark:text-slate-400 text-base sm:text-lg leading-relaxed sm:px-6 font-medium">
                 Enter your business or personal number to start capturing missed calls.
               </p>
             </div>
@@ -395,7 +395,7 @@ export default function CallIntegrationPage() {
                 placeholder="+91 98765 43210"
                 value={phoneInput}
                 onChange={(e) => setPhoneInput(e.target.value)}
-                className="w-full px-8 py-5 bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-100 dark:border-slate-800 rounded-[20px] focus:border-indigo-600 focus:bg-white dark:focus:bg-slate-800 outline-none transition-all font-bold text-xl text-slate-900 dark:text-slate-50 placeholder:text-slate-300"
+                className="w-full px-5 sm:px-8 py-4 sm:py-5 bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-100 dark:border-slate-800 rounded-[20px] focus:border-indigo-600 focus:bg-white dark:focus:bg-slate-800 outline-none transition-all font-bold text-xl text-slate-900 dark:text-slate-50 placeholder:text-slate-300"
               />
               <button
                 onClick={handleConnect}

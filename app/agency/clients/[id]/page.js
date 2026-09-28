@@ -361,7 +361,7 @@ export default function ClientDetailPage({ params }) {
                <h2 className="text-[14px] font-medium text-slate-900 dark:text-slate-50">Lead Inventory</h2>
                <button onClick={exportLeads} className="text-[12px] font-bold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-50 underline">Export CSV</button>
             </div>
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden shadow-sm">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl overflow-x-auto shadow-sm">
                <table className="w-full text-left">
                   <thead className="bg-slate-50/50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700">
                      <tr>
@@ -405,7 +405,7 @@ export default function ClientDetailPage({ params }) {
                   <button className="px-4 py-1.5 bg-slate-900 text-white text-[12px] font-bold rounded-lg active:scale-95">Generate Manual Invoice</button>
                </div>
             </div>
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden shadow-sm">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl overflow-x-auto shadow-sm">
                <table className="w-full text-left">
                   <thead className="bg-slate-50/50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700">
                      <tr>

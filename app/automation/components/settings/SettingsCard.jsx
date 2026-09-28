@@ -75,7 +75,7 @@ export function SettingsToggle({ enabled, onChange, label, description }) {
         onClick={() => onChange(!enabled)}
         className={`relative w-10 h-5 rounded-full transition-colors flex-shrink-0 ${enabled ? 'bg-teal-600' : 'bg-slate-200 dark:bg-slate-700'}`}
       >
-        <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${enabled ? 'translate-x-5' : 'translate-x-0.5'}`} />
+        <span className={`absolute top-0.5 left-0 w-4 h-4 bg-white rounded-full shadow transition-transform ${enabled ? 'translate-x-5' : 'translate-x-0.5'}`} />
       </button>
     </div>
   );

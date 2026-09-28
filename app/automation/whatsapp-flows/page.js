@@ -343,8 +343,8 @@ export default function WhatsAppFlowsPage() {
         {analytics?.nodeAnalytics?.length > 0 && (
           <div className="mt-10">
             <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-3">Node analytics</h2>
-            <div className="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm">
-              <table className="w-full text-sm">
+            <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm">
+              <table className="w-full min-w-[560px] text-sm">
                 <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-left">
                   <tr>
                     <th className="px-4 py-3 font-medium text-xs uppercase tracking-wider">Node</th>

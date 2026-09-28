@@ -93,13 +93,13 @@ export default function LeadWhatsAppPanel({ lead, messages = [], onSend, sending
           visible.map((msg, idx) => (
             <div key={msg._id || idx} className={`flex ${msg.direction === 'outgoing' ? 'justify-end' : 'justify-start'}`}>
               <div
-                className={`max-w-[85%] px-3.5 py-2.5 rounded text-sm ${
+                className={`max-w-[85%] min-w-0 px-3.5 py-2.5 rounded text-sm ${
                   msg.direction === 'outgoing'
                     ? 'bg-teal-600 text-white rounded-tr-sm'
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 rounded-tl-sm border border-slate-200 dark:border-slate-700'
                 }`}
               >
-                <p className="whitespace-pre-wrap">{msg.content?.body || msg.text}</p>
+                <p className="whitespace-pre-wrap [overflow-wrap:anywhere]">{msg.content?.body || msg.text}</p>
                 <p className={`text-[10px] mt-1 flex items-center gap-1 ${msg.direction === 'outgoing' ? 'text-teal-100 justify-end' : 'text-slate-400'}`}>
                   {multi && <ChannelMark channel={msg.channel} className="w-3 h-3" />}
                   {msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}

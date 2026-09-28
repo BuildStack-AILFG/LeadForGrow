@@ -198,7 +198,7 @@ export default function BroadcastDetail({ broadcastId, onClose }) {
               {filtered.length === 0 ? (
                 <p className="text-center text-sm text-slate-500 dark:text-slate-400 py-16">No recipients match this view</p>
               ) : (
-                <div className="rounded border border-slate-200 dark:border-slate-800 overflow-hidden">
+                <div className="rounded border border-slate-200 dark:border-slate-800 overflow-x-auto">
                   <table className="w-full text-xs">
                     <thead className="bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400 uppercase tracking-wide">
                       <tr>

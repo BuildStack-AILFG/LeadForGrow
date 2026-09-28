@@ -2,7 +2,11 @@
 
 import { useMemo, useState } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { Menu } from 'lucide-react';
+import Link from 'next/link';
+import { Menu, Compass } from 'lucide-react';
+import { useBusinessAssistant } from '../../context/BusinessAssistantContext';
+import GroviaIcon from '../assistant/GroviaIcon';
+import { ASSISTANT_NAME } from '../assistant/constants';
 import { useSidebar } from '../../hooks/useSidebar';
 import { useAccess } from '../../context/AccessContext';
 import { NAV_GROUPS, SIDEBAR_WIDTH, filterNavGroups } from './constants';
@@ -22,6 +26,7 @@ export default function Sidebar() {
   const searchParams = useSearchParams();
   const sidebar = useSidebar();
   const { access, showUpgrade } = useAccess();
+  const assistant = useBusinessAssistant();
 
   // Hover-to-preview: while the sidebar is pinned to the narrow icon rail,
   // hovering it temporarily expands to full width as a floating overlay
@@ -132,16 +137,32 @@ export default function Sidebar() {
         </div>
       </aside>
 
-      {sidebar.isMobile && !sidebar.mobileOpen && (
+      {/* Phones and tablets: a slim top bar instead of a button floating over
+          page headers. <main> reserves its height with pt-12 below lg. */}
+      <div className="fixed top-0 inset-x-0 z-30 h-12 flex items-center gap-2.5 px-3 bg-white/95 dark:bg-slate-950/95 backdrop-blur border-b border-line lg:hidden">
         <button
           type="button"
           onClick={sidebar.toggleMobile}
-          className="fixed top-3.5 left-3.5 z-40 w-9 h-9 bg-white dark:bg-slate-900 border border-line rounded-lg flex items-center justify-center text-[#1A1D1F] dark:text-slate-100 shadow-md hover:bg-[#F8F9FA] dark:hover:bg-slate-800 transition-colors lg:hidden"
+          className="w-9 h-9 rounded-lg flex items-center justify-center text-[#1A1D1F] dark:text-slate-100 hover:bg-[#F8F9FA] dark:hover:bg-slate-800 transition-colors"
+          aria-label="Open navigation"
           title="Open navigation"
         >
-          <Menu className="w-4 h-4" />
+          <Menu className="w-5 h-5" />
         </button>
-      )}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/image.png" alt="" className="h-5 w-5 object-contain" />
+        <span className="text-sm font-semibold text-[#1A1D1F] dark:text-slate-100">LeadForGrow</span>
+        {/* Help and the assistant live here on small screens instead of floating
+            over page buttons (their floating versions are lg-only). */}
+        <div className="ml-auto flex items-center gap-1">
+          <Link href="/help" aria-label="Help" title="Help" className="w-9 h-9 rounded-lg flex items-center justify-center text-slate-500 dark:text-slate-300 hover:bg-[#F8F9FA] dark:hover:bg-slate-800">
+            <Compass className="w-[18px] h-[18px]" />
+          </Link>
+          <button type="button" onClick={assistant.toggle} aria-label={`Open ${ASSISTANT_NAME}`} title={ASSISTANT_NAME} className="w-9 h-9 rounded-lg flex items-center justify-center bg-[#0d9488] text-white hover:bg-[#0f766e]">
+            <GroviaIcon className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
     </>
   );
 }

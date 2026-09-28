@@ -178,7 +178,7 @@ function PipelinesContent() {
           </div>
         </div>
 
-        <div className="px-4 py-2 border-b border-slate-100 dark:border-slate-800 grid grid-cols-[auto_1fr_72px_56px_auto_auto] gap-3 text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+        <div className="px-4 py-2 border-b border-slate-100 dark:border-slate-800 hidden sm:grid grid-cols-[auto_1fr_72px_56px_auto_auto] gap-3 text-[10px] font-semibold uppercase tracking-wide text-slate-400">
           <span className="w-4" />
           <span>Stage name</span>
           <span className="text-center">Score %</span>
@@ -189,9 +189,10 @@ function PipelinesContent() {
 
         <div className="divide-y divide-slate-100 dark:divide-slate-800">
           {stages.map((s, i) => (
-            <div key={s.key || i} className="grid grid-cols-[auto_1fr_72px_56px_auto_auto] gap-3 items-center px-4 py-3">
+            <div key={s.key || i} className="flex flex-wrap sm:grid sm:grid-cols-[auto_1fr_72px_56px_auto_auto] gap-3 items-center px-4 py-3">
               <GripVertical className="w-4 h-4 text-slate-300 flex-shrink-0" />
-              <div className="min-w-0">
+              {/* Phones: the name gets its own line; the rest wraps below. */}
+              <div className="min-w-0 flex-1 basis-[calc(100%-2rem)] sm:basis-auto">
                 <input
                   value={s.label}
                   onChange={(e) => updateStage(i, { label: e.target.value })}
@@ -206,8 +207,9 @@ function PipelinesContent() {
                 max={100}
                 value={s.probability}
                 onChange={(e) => updateStage(i, { probability: Number(e.target.value) })}
-                className="w-full px-2 py-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded dark:bg-slate-800 text-center"
+                className="w-20 sm:w-full px-2 py-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded dark:bg-slate-800 text-center"
                 title="Win probability %"
+                aria-label="Win probability %"
               />
               <input
                 type="color"
@@ -215,7 +217,7 @@ function PipelinesContent() {
                 onChange={(e) => updateStage(i, { color: e.target.value })}
                 className="w-10 h-9 rounded border border-slate-200 dark:border-slate-700 cursor-pointer"
               />
-              <div className="flex flex-col gap-1 text-[10px]">
+              <div className="flex sm:flex-col gap-2 sm:gap-1 text-[10px]">
                 <label className="flex items-center gap-1 cursor-pointer">
                   <input
                     type="checkbox"
@@ -233,7 +235,7 @@ function PipelinesContent() {
                   Lost
                 </label>
               </div>
-              <div className="flex items-center gap-0.5">
+              <div className="flex items-center gap-0.5 ml-auto sm:ml-0">
                 <button type="button" onClick={() => moveStage(i, -1)} className="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300" title="Move up">
                   <ChevronUp className="w-4 h-4" />
                 </button>
