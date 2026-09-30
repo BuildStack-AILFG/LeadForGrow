@@ -61,6 +61,14 @@ const BroadcastSchema = new mongoose.Schema({
     // the engine sends this as the HTML part; `body` stays the plain-text
     // fallback (multipart text/plain). Absent → plain-text body only.
     bodyHtml: String,
+    // How the email body was authored: the WYSIWYG editor (rich), a designed
+    // template (design — re-editable from bodyDesign) or pasted/uploaded HTML.
+    // design/html bodies are sent as complete emails: no signature or wrapper.
+    bodyFormat: { type: String, enum: ['rich', 'design', 'html'], default: 'rich' },
+    bodyDesign: {
+      templateId: String,
+      values: mongoose.Schema.Types.Mixed,
+    },
     whatsappTemplate: String,
     whatsappTemplateName: String,
     whatsappTemplateLanguage: String,

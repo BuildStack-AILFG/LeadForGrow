@@ -14,6 +14,84 @@ Related decisions: <link to DECISIONS.md entry, if any>
 ---
 
 
+## 2026-09-30 — 13 more email designs (festivals + lifecycle) and "My templates"
+Branch: main
+Files:
+- `lib/emailDesigns/festivals.js` (new — one shared festival-offer layout driven by themes: Gandhi Jayanti, Diwali sale, Navratri, Christmas, New Year, Holi, Independence Day, Eid, Raksha Bandhan; plus Mega sale, Birthday wish, Review request (5 tappable stars → review URL), We miss you)
+- `lib/emailDesigns/templates.js` (exports `brandFields`/`footerFields`; Festive greeting moved to the Festivals category), `lib/emailDesigns/index.js` (21 templates total; `EMAIL_DESIGN_CATEGORIES` for the gallery filter)
+- `public/email-assets/` (12 new illustrations, 4–34 KB: gandhi-jayanti, diwali-offer.jpg, navratri, christmas, new-year, holi, independence-day (tricolour kites + 24-spoke chakra), eid, raksha-bandhan, birthday, feedback, win-back)
+- `models/automation/SavedEmailDesign.js` (new — per-business saved templates: format design (baseTemplateId + values, rendered on demand) or html (sanitised); index `{ businessId, updatedAt }`)
+- `app/api/automation/email-designs/route.js` (GET list without HTML, max 100; POST create, 100-per-business cap), `[id]/route.js` (GET one, PUT update/rename, DELETE — all scoped by businessId)
+- `lib/broadcasts/emailContent.js` (`normalizeSavedEmailDesign` — same validation as campaign bodies)
+- `app/automation/broadcasts/EmailDesignStudio.jsx` (category filter chips; "My templates" section with delete; Save as template / Update / Save as new in both Design and Custom HTML modes; saved HTML templates fetched by id only when opened)
+- `app/automation/broadcasts/page.js` (`draft.savedDesign`; loading a saved template sets format, design/HTML, and the subject if empty)
+- `tests/email-designs.test.js` (21-template coverage, saved-template validation, business scoping)
+What changed: the gallery grows from 8 to 21 designs, including Gandhi Jayanti and Diwali offers, and businesses can now build their own reusable templates — customise any design or paste/upload their own HTML, then save it to "My templates" for the whole team. All templates rendered headlessly at desktop and phone width and reviewed. 693/693 tests pass; SWC compile of the 9 changed files passes. The editor UI and the new API were not exercised in a browser (needs login; user asked not to open one).
+Related decisions: none.
+
+## 2026-09-30 — Broadcasts: designed email templates + custom HTML
+Branch: main
+Files:
+- `lib/emailDesigns/blocks.js` (new — email-safe building blocks: 600px table container that goes full-width on phones, inline styles + `bgcolor` fallbacks, bulletproof button, footer with `{{unsubscribe_url}}` token, `safeUrl`/`safeColor`/`esc`)
+- `lib/emailDesigns/templates.js` (new — 8 templates: Spotlight (dark, Uber-style), Announcement, Offer & discount, Newsletter, Event invite, Welcome, Festive greeting, Simple letter; each declares grouped fields + `render(values)`)
+- `lib/emailDesigns/index.js` (new — `renderEmailDesign`, `defaultDesignValues`, `emailHtmlToText`, `withUnsubscribeLink`, `applyHtmlVars`)
+- `public/email-assets/*.png|jpg` (new — 6 default illustrations, 4–23 KB each, generated from SVG with sharp)
+- `lib/broadcasts/emailContent.js` (new — `normalizeBroadcastEmailContent`: design → server re-renders from templateId + known field values (client HTML ignored); html → sanitised with the inbound sanitizer, 300 KB cap; plain-text part generated)
+- `models/automation/Broadcast.js` (`content.bodyFormat` rich|design|html, default rich; `content.bodyDesign { templateId, values }`)
+- `app/api/automation/broadcasts/route.js`, `[id]/route.js` (POST/PUT normalise content; 400 on invalid design/HTML)
+- `lib/broadcasts/engine.js` (design/html sent as complete emails — no wrapper div or signature — with the per-recipient unsubscribe link; HTML personalisation now HTML-escaped via `applyHtmlVars` for all HTML bodies; designed emails without a connected mailbox fail with a clear error instead of silently going out as plain text)
+- `app/automation/broadcasts/EmailDesignStudio.jsx` (new — gallery with live thumbnails, grouped field form with Cloudinary image upload + colour pickers, desktop/phone preview rendered at true width and scaled; Custom HTML tab with paste/upload .html + preview; all previews in script-less sandboxed iframes, rendered locally — no API calls while typing)
+- `app/automation/broadcasts/page.js` (Body mode switch Write / Design template / Custom HTML; signature hidden for designed emails; designed bodies not posted to preview-message on each keystroke; validation + mailbox requirement)
+- `lib/cloudinaryUpload.js` (new — the browser→Cloudinary signed upload helper, previously duplicated in `RichEmailBodyEditor.jsx` and `RichSignatureEditor.jsx`; both now import it)
+- `tests/email-designs.test.js` (new)
+What changed: users can now send colourful designed emails (like Uber/Meta marketing mail) from Broadcasts — pick one of 8 templates, edit text/images/colours/buttons with a live desktop/phone preview, or paste/upload HTML from Canva/Stripo/Beefree/Mailchimp. Every template was rendered headlessly at 680 px and 375 px and reviewed. The in-app editor itself wasn't opened in a browser (user asked not to open one); SWC compile of all 13 changed files passes; 678/678 tests pass.
+Related decisions: none.
+
+## 2026-09-30 — Inbox: designed emails render like the sender built them
+Branch: main
+Files:
+- `lib/omnichannel/emailHtml.js` (new — sanitizer moved out of emailSync; keeps `<style>`, `center`, `caption`/`col`, `id`/`dir`/`role`, `background`/`nowrap`; drops `<title>` text; markup repaired with `parse5` (HTML5 rules) before sanitizing)
+- `lib/omnichannel/emailFrame.js` (new — builds the iframe document: CSP `default-src 'none'` + images/fonts/styles only, `<base target="_blank">`, neutral base CSS)
+- `lib/omnichannel/emailSync.js` (imports the shared sanitizer)
+- `app/automation/components/chat/MessageBubble.jsx` (`EmailHtmlBody` renders a sandboxed `<iframe srcDoc>` — no `allow-scripts` — that grows to its content height; replaces `dangerouslySetInnerHTML`)
+- `app/globals.css` (removed the unused `.email-html-body` override block)
+- `package.json` / `package-lock.json` (added `parse5@^7.3.0`, MIT, pure JS — 2 packages)
+- `tests/email-rendering.test.js` (new)
+What changed: inbound designed emails (e.g. the Meta "WhatsApp receipt") rendered with one letter per line and a stray "Facebook" at the top. Three causes: (1) the sanitizer stripped `<style>` and kept `<title>` text; (2) sanitize-html's lenient parser repaired Meta's malformed tables (unclosed cells, rows closed early) differently from browsers, moving sections into side-by-side columns; (3) app CSS forced `max-width:100% !important` + `word-break` + cell padding on every element. Now each email renders in its own sandboxed document like webmail clients do. Verified headlessly (puppeteer, no browser pane) on the real receipt fetched read-only over IMAP (UID 727, BODY.PEEK): at 640 px and 340 px the CRM render matches the original, including the email's own mobile stacking. Already-stored emails keep their previously-damaged HTML (no `<style>`, restructured tables); they render better in the frame but not identically — a re-fetch backfill from IMAP would fix them (not run; needs approval, writes to prod). 659/659 tests pass.
+Related decisions: none.
+
+## 2026-09-29 — Self-hosted fonts, server-rendered homepage, test videos removed
+Branch: main
+Files:
+- `app/layout.js` (Google Fonts `<link>` + preconnects removed; Inter, Inter Tight, Plus Jakarta Sans, Barlow, Libre Baskerville loaded with `next/font/google` as CSS variables `--nf-*` on `<html>`; only Inter preloaded)
+- `app/globals.css` (`--font-sans`, `--font-inter-tight`, `--font-plus-jakarta`, `--font-barlow`, `--font-landing-serif` and the two literal `'Inter'` rules now read the `--nf-*` variables)
+- `app/user/home/page.js` (no longer `'use client'`; no handler props passed), `app/components/landing/homeActions.js` (new — default CTA handlers), `PremiumHero.jsx` / `AICapabilitiesSection.jsx` / `LandingCTA.jsx` (default `onGetStarted`/`onBookDemo` to those handlers), `TrustedCompanies`, `ProductHubsSection`, `CapabilitiesGridSection`, `StatsSection`, `IndustriesGridSection`, `SuccessStoriesSection` (dropped `'use client'` — static markup only, now server components)
+- `public/uploads/MM-1770233634948-224056526.mp4`, `MM-1770233668908-302454611.mp4` (deleted — 2 × 14.3 MB, committed in `ba43538` "RR"; no code references; read-only prod check of templates/broadcasts/flows/automation/sequence collections found 0 references; `/public/uploads/` was already git-ignored)
+- `tests/load-performance.test.js` (font + homepage cases)
+What changed: every page waited on a render-blocking stylesheet from fonts.googleapis.com (5 families, ~20 weights, two extra origins) before painting text; fonts are now served from our own domain with size-matched fallbacks. The homepage was entirely a client component, so every section's code was downloaded and hydrated; static sections now render on the server and only the navbar, hero, automation demo, AI tabs, pricing table, CTA and scroll button hydrate. Verified against the user's running dev server with plain HTTP requests (no browser): `/` and `/user/home` return 200 with full content, no Google Fonts link, `<html>` carries the five font variable classes, 62 `@font-face` rules served and `--nf-inter` resolves to "Inter". Email HTML (`lib/integrations/email.js`, `lib/broadcasts/engine.js`) keeps its own Google Fonts import — unaffected. 652/652 tests pass.
+Related decisions: none.
+
+## 2026-09-29 — Page-load speed + request volume: CRM boot delay, images, reminders, task auto-cancel bug
+Branch: main
+Files:
+- `app/automation/components/AccessControl.js`, `app/automation/components/WorkspaceBootLoader.jsx` (workspace mounts under the loader as soon as access is confirmed; loader finishes in ~250 ms instead of ~3.5 s; dropped the extra 0.65 s full-screen blur-in)
+- `app/api/automation/tasks/route.js` (new `?dueWithin=N` minutes filter, capped at 100; orphan auto-cancel now only for tasks with no lead AND no contact/deal/company)
+- `app/automation/components/ReminderMonitor.js` (polls `?dueWithin=5` instead of every pending task)
+- `lib/apiClient.js` (concurrent/back-to-back `GET /api/auth/me` calls within 5 s share one request; cleared on any write and on logout)
+- `app/automation/hooks/useSidebar.js`, `useDashboardData.js`, `app/automation/journeys/page.js`, `components/chat/ChatSidebar.jsx` (periodic refreshes skip hidden tabs; sidebar catches up on return)
+- `lib/mongodb.js` (`minPoolSize` 5 → 1 per serverless instance)
+- Images: new `public/logo-mark.webp` (4 KB, replaces the 172 KB 590×479 `/image.png` in sidebar, boot loader, auth, header, footer); WebP copies of `portal-integrations`, `calling-list`, `whatsapp-automation`, `images/hero/{builder,crm,forms}` (0.45–1.25 MB → 20–81 KB); `chatbot-builder.gif` → animated `chatbot-builder.webp` at 640 w (2.7 MB → 434 KB). References updated in `IndustryTemplate.jsx`, `user/home/S.js`, `product/{builder,crm,forms,hosting}/page.js`, `CapabilitiesGridSection.jsx`. Originals left in place.
+- `app/components/MarketingLayout.jsx` (above-the-fold hero image `fetchPriority="high"`), `landing/AICapabilitiesSection.jsx` (warms the other tab images when idle), `IndustryTemplate.jsx` (feature images lazy)
+- `tests/load-performance.test.js` (new)
+What changed: every full CRM load waited ~3.5–4.5 s of fixed loader animation after `/api/auth/me` returned, and the page's own data requests only started after that. Reminder polling downloaded every pending task (with two populates) every 30 s per tab. Found while there: the tasks GET auto-cancelled any task without a `leadId` — including valid tasks linked only to a contact, deal or company, which the POST allows — and ReminderMonitor hits that GET every 30 s, so such tasks would be cancelled within ~30 s. Read-only prod check: 0 affected (no such tasks exist yet), 74 legitimately auto-cancelled orphans. Full `next build` skipped (1 GB free RAM, user's dev server running); all 22 changed files compile with Next's SWC; 649/649 tests pass.
+Related decisions: none.
+
+## 2026-09-29 — Realtime polling: one shared poller per tab, token out of the URL
+Branch: main
+Files: `app/automation/hooks/useRealtime.js` (rewritten, same return shape), `tests/realtime-poll.test.js` (new)
+What changed: every component using `useRealtime` ran its own 5 s `setInterval` (the Leads page ran three: NotificationCenter, useAppNotifications, useLeadsWorkspace — ~36 `/api/realtime/poll` requests/min per open tab, each a function invocation + Mongo query), and the JWT was sent as `?token=` in the URL (ends up in access/proxy logs and history). Now one module-level poller per tab fans events out to all subscribers; 5 s while the user is active, 20 s after 2 min without input, paused while hidden, immediate catch-up on return; token sent as `Authorization: Bearer`. The route and middleware still accept `?token=` so tabs open across a deploy keep working — can be removed later. RealtimeEvent already has `{ businessId, ts }` index + 2-min TTL.
+Related decisions: none.
+
 ## 2026-09-29 — Responsive pass: CRM at phone width (all 55 /automation pages checked in-browser)
 Branch: main
 Files:

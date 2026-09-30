@@ -1,13 +1,14 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Loader2, Plus, Send, Mail, MessageCircle, RefreshCw, CheckCircle2, AlertCircle, Users } from 'lucide-react';
+import { Loader2, Plus, Send, Mail, MessageCircle, RefreshCw, CheckCircle2, AlertCircle, Users, PenLine, LayoutTemplate, Code2 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { authFetch } from '@/lib/apiClient';
 import AudiencePicker from './AudiencePicker';
 import VariableMapping from './VariableMapping';
 import BroadcastDetail from './BroadcastDetail';
 import RichEmailBodyEditor from './RichEmailBodyEditor';
+import EmailDesignStudio from './EmailDesignStudio';
 import QualityRatingBanner from './QualityRatingBanner';
 import AutoPageIntro from '../components/shared/tour/AutoPageIntro';
 import PageLoader from '../components/PageLoader';
@@ -31,6 +32,12 @@ const emptyDraft = {
   subject: '',
   body: '',
   bodyHtml: '',
+  // How the email body is authored: 'rich' (editor), 'design' (template) or 'html' (pasted/uploaded).
+  bodyFormat: 'rich',
+  bodyDesign: { templateId: '', values: {} },
+  customHtml: '',
+  // The "My templates" entry currently loaded/saved ({ id, name }), so Save can update it.
+  savedDesign: null,
   emailAccountId: '',
   signatureId: '',
   audience: { type: 'manual', leadIds: [], engagementDays: 0 },
@@ -111,6 +118,11 @@ export default function BroadcastsPage() {
   // When the email channel first turns on, default to the default mailbox.
   const selectedEmailAccount = emailAccounts.find((a) => a._id === draft.emailAccountId) || null;
   const emailSignatures = selectedEmailAccount?.signatures || [];
+  const isDesignedEmail = draft.bodyFormat === 'design' || draft.bodyFormat === 'html';
+  const designPreviewVars = useMemo(() => ({
+    name: samplePreview?.to?.name || '',
+    businessName: selectedEmailAccount?.displayName || '',
+  }), [samplePreview?.to?.name, selectedEmailAccount?.displayName]);
 
   useEffect(() => {
     const emailOn = draft.channel === 'email' || draft.channel === 'both';
@@ -175,8 +187,8 @@ export default function BroadcastsPage() {
             audience: draft.audience,
             channel: draft.channel,
             content: {
-              body: bodyText,
-              bodyHtml: draft.bodyHtml || undefined,
+              body: isDesignedEmail ? '' : bodyText,
+              bodyHtml: isDesignedEmail ? undefined : (draft.bodyHtml || undefined),
               subject: draft.subject,
               whatsappTemplate: bodyText,
               whatsappTemplateName: draft.templateName,
@@ -192,7 +204,7 @@ export default function BroadcastsPage() {
       } catch { /* silent */ }
     }, 500);
     return () => clearTimeout(t);
-  }, [showCreate, draft.audience, draft.channel, draft.body, draft.bodyHtml, draft.subject, draft.templateName, draft.templateLanguage, draft.variableMapping, draft.emailAccountId, draft.signatureId, selectedTemplate]);
+  }, [showCreate, isDesignedEmail, draft.audience, draft.channel, draft.body, draft.bodyHtml, draft.subject, draft.templateName, draft.templateLanguage, draft.variableMapping, draft.emailAccountId, draft.signatureId, selectedTemplate]);
 
   const isWhatsApp = draft.channel === 'whatsapp' || draft.channel === 'both';
   const isEmail = draft.channel === 'email' || draft.channel === 'both';
@@ -200,6 +212,8 @@ export default function BroadcastsPage() {
   const canSend = useMemo(() => {
     if (!draft.name.trim()) return false;
     if (isWhatsApp && !draft.templateName) return false;
+    if (isEmail && draft.bodyFormat === 'design' && !draft.bodyDesign?.templateId) return false;
+    if (isEmail && draft.bodyFormat === 'html' && !draft.customHtml.trim()) return false;
     if (audienceCount?.count === 0) return false;
     // If the selected template has a media header, require a URL for the send
     const header = selectedTemplate?.components?.find((c) => c.type === 'HEADER');
@@ -207,11 +221,14 @@ export default function BroadcastsPage() {
       return false;
     }
     return true;
-  }, [draft, isWhatsApp, audienceCount, selectedTemplate]);
+  }, [draft, isWhatsApp, isEmail, audienceCount, selectedTemplate]);
 
   const createBroadcast = async (testSend = false) => {
     if (!draft.name.trim()) return toast.error('Campaign name required');
     if (isWhatsApp && !draft.templateName) return toast.error('Select an approved WhatsApp template');
+    if (isEmail && isDesignedEmail && !draft.emailAccountId) return toast.error('Designed emails are sent from a connected mailbox. Connect one in Email settings.');
+    if (isEmail && draft.bodyFormat === 'design' && !draft.bodyDesign?.templateId) return toast.error('Pick an email design');
+    if (isEmail && draft.bodyFormat === 'html' && !draft.customHtml.trim()) return toast.error('Paste or upload your email HTML');
     if (!testSend && audienceCount?.count === 0) return toast.error('Audience is empty');
 
     // Fix the previously-broken test send: ask user for a real destination
@@ -243,7 +260,10 @@ export default function BroadcastsPage() {
           channel: draft.channel,
           content: {
             body: bodyText,
-            bodyHtml: draft.bodyHtml || undefined,
+            // design: the server renders the HTML from bodyDesign; html: pasted/uploaded HTML.
+            bodyFormat: draft.bodyFormat,
+            bodyDesign: draft.bodyFormat === 'design' ? draft.bodyDesign : undefined,
+            bodyHtml: draft.bodyFormat === 'html' ? draft.customHtml : draft.bodyFormat === 'rich' ? (draft.bodyHtml || undefined) : undefined,
             subject: draft.subject,
             whatsappTemplate: bodyText,
             whatsappTemplateName: draft.templateName || undefined,
@@ -553,7 +573,11 @@ export default function BroadcastsPage() {
                         </a>
                       )}
                     </div>
-                    {emailSignatures.length > 0 ? (
+                    {isDesignedEmail ? (
+                      <p className="px-3 py-2 text-[11px] text-slate-500 dark:text-slate-400 border border-dashed border-slate-200 dark:border-slate-700 rounded">
+                        Designed emails have their own footer, so no signature is added.
+                      </p>
+                    ) : emailSignatures.length > 0 ? (
                       <select
                         value={draft.signatureId}
                         onChange={(e) => setDraft({ ...draft, signatureId: e.target.value })}
@@ -579,7 +603,7 @@ export default function BroadcastsPage() {
                 </p>
               )}
 
-              {emailTemplates.length > 0 && (
+              {emailTemplates.length > 0 && draft.bodyFormat === 'rich' && (
                 <select
                   value=""
                   onChange={(e) => {
@@ -607,11 +631,59 @@ export default function BroadcastsPage() {
                 placeholder="Email subject — use {{name}} for personalization"
                 className="w-full px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm"
               />
-              <RichEmailBodyEditor
-                key={bodyEditorKey}
-                value={draft.bodyHtml}
-                onChange={({ html, text }) => setDraft((d) => ({ ...d, bodyHtml: html, body: text }))}
-              />
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-[10px] font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">Body</span>
+                <div className="inline-flex flex-wrap rounded-lg border border-violet-200 dark:border-violet-800 bg-white dark:bg-slate-900 p-0.5" role="group" aria-label="How to write this email">
+                  {[
+                    ['rich', PenLine, 'Write'],
+                    ['design', LayoutTemplate, 'Design template'],
+                    ['html', Code2, 'Custom HTML'],
+                  ].map(([id, Icon, label]) => (
+                    <button
+                      key={id}
+                      type="button"
+                      aria-pressed={draft.bodyFormat === id}
+                      onClick={() => setDraft((d) => ({ ...d, bodyFormat: id }))}
+                      className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors ${draft.bodyFormat === id ? 'bg-violet-600 text-white' : 'text-slate-600 dark:text-slate-300 hover:bg-violet-50 dark:hover:bg-violet-950/40'}`}
+                    >
+                      <Icon className="h-3.5 w-3.5" /> {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              {isDesignedEmail && !draft.emailAccountId && (
+                <p className="text-[11px] text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/30 rounded px-3 py-2">
+                  Designed emails are sent from a connected mailbox.{' '}
+                  <a href="/automation/settings/email" className="underline font-medium">Connect a mailbox</a>
+                </p>
+              )}
+              {draft.bodyFormat === 'rich' ? (
+                <RichEmailBodyEditor
+                  key={bodyEditorKey}
+                  value={draft.bodyHtml}
+                  onChange={({ html, text }) => setDraft((d) => ({ ...d, bodyHtml: html, body: text }))}
+                />
+              ) : (
+                <EmailDesignStudio
+                  mode={draft.bodyFormat}
+                  design={draft.bodyDesign}
+                  onDesignChange={(bodyDesign) => setDraft((d) => ({ ...d, bodyDesign }))}
+                  html={draft.customHtml}
+                  onHtmlChange={(customHtml) => setDraft((d) => ({ ...d, customHtml }))}
+                  previewVars={designPreviewVars}
+                  subject={draft.subject}
+                  saved={draft.savedDesign}
+                  onSavedChange={(savedDesign) => setDraft((d) => ({ ...d, savedDesign }))}
+                  onLoadSaved={(t) => setDraft((d) => ({
+                    ...d,
+                    bodyFormat: t.format,
+                    bodyDesign: t.format === 'design' ? { templateId: t.baseTemplateId, values: t.values || {} } : d.bodyDesign,
+                    customHtml: t.format === 'html' ? (t.html || '') : d.customHtml,
+                    subject: d.subject || t.subject || '',
+                    savedDesign: { id: t._id, name: t.name },
+                  }))}
+                />
+              )}
               <p className="text-[11px] text-slate-500 dark:text-slate-400">
                 An unsubscribe link is auto-added to every email footer for compliance.
               </p>
@@ -684,7 +756,11 @@ export default function BroadcastsPage() {
                       recipient actually sees it — white card, left-aligned. */}
                   <div className="rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-3">
                     <p className="text-xs font-semibold text-slate-900 dark:text-white mb-2">{samplePreview.email.subject || '(no subject)'}</p>
-                    {samplePreview.email.bodyHtml ? (
+                    {isDesignedEmail ? (
+                      <p className="text-xs text-slate-600 dark:text-slate-300">
+                        The full designed email is shown in the preview above, personalised for {samplePreview.to.name || 'this recipient'}.
+                      </p>
+                    ) : samplePreview.email.bodyHtml ? (
                       <div
                         className="text-xs text-slate-800 dark:text-slate-200 [&_a]:text-violet-600 [&_img]:max-w-full [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5"
                         dangerouslySetInnerHTML={{ __html: samplePreview.email.bodyHtml }}
@@ -692,7 +768,7 @@ export default function BroadcastsPage() {
                     ) : (
                       <p className="text-xs text-slate-800 dark:text-slate-200 whitespace-pre-wrap">{samplePreview.email.body}</p>
                     )}
-                    {samplePreview.email.signatureHtml && (
+                    {!isDesignedEmail && samplePreview.email.signatureHtml && (
                       <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800">
                         <div
                           className="text-xs text-slate-700 dark:text-slate-300 [&_a]:text-violet-600 [&_img]:inline-block"
@@ -702,7 +778,7 @@ export default function BroadcastsPage() {
                     )}
                     <p className="mt-3 text-[10px] text-slate-400">Unsubscribe link is added automatically at the footer.</p>
                   </div>
-                  {samplePreview.email.signatureHtml
+                  {isDesignedEmail ? null : samplePreview.email.signatureHtml
                     ? <p className="mt-1.5 text-[10px] text-emerald-600 dark:text-emerald-400">✓ Your signature will be attached to every email</p>
                     : <p className="mt-1.5 text-[10px] text-slate-400">No signature selected — pick one above to attach it</p>}
                 </div>
