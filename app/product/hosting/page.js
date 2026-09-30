@@ -70,7 +70,7 @@ export default function HostingPage() {
     <MarketingLayout 
       title="Professional Brands Belong on Professional Domains." 
       subtitle="Security and speed shouldn't be technical hurdles. Launch secure, fast, and branded websites without ever touching a server."
-      heroImage="/images/hero/builder.png"
+      heroImage="/images/hero/builder.webp"
       benefits={benefits}
       whoIsThisFor={whoIsThisFor}
       whyItMatters={whyItMatters}

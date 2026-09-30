@@ -89,7 +89,7 @@ export function AuthIllustrationPanel({ variant = 'login' }) {
       </div>
 
       <Link href="/" className="relative z-10 inline-flex items-center gap-3">
-        <img src="/image.png" alt="" className="w-11 h-11" />
+        <img src="/logo-mark.webp" alt="" className="w-11 h-11" />
         <span className="text-2xl font-bold text-white font-[family-name:var(--font-plus-jakarta)]">
           Lead<span className={panel.accent}>For</span>Grow
         </span>
@@ -121,7 +121,7 @@ export function AuthFormShell({ children, title, subtitle, backLink }) {
   return (
     <div className="flex flex-col items-center justify-center p-6 sm:p-10 lg:p-12 xl:p-16 min-h-screen lg:min-h-0">
       <div className="lg:hidden mb-10 flex items-center gap-3">
-        <img src="/image.png" alt="" className="w-10 h-10" />
+        <img src="/logo-mark.webp" alt="" className="w-10 h-10" />
         <span className="text-xl font-bold font-[family-name:var(--font-plus-jakarta)]">
           Lead<span className="text-[#163c32]">For</span>Grow
         </span>

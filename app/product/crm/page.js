@@ -70,7 +70,7 @@ export default function CRMPage() {
     <MarketingLayout 
       title="Manage Leads Without the CRM Headache." 
       subtitle="Excel and WhatsApp chats fail as you scale. One unified dashboard for all your enquiries, ownership, and statuses."
-      heroImage="/images/hero/crm.png"
+      heroImage="/images/hero/crm.webp"
       benefits={benefits}
       whoIsThisFor={whoIsThisFor}
       whyItMatters={whyItMatters}

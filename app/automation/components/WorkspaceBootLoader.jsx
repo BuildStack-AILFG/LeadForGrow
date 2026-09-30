@@ -18,7 +18,8 @@ export default function WorkspaceBootLoader({ complete = false, onFinished }) {
       last = now;
       setProgress((p) => {
         const cap = complete ? 100 : 92;
-        const speed = complete ? 0.35 : 0.04;
+        // Once the access check is back, finish the bar in ~250 ms instead of ~3.5 s.
+        const speed = complete ? 5 : 0.04;
         return Math.min(cap, p + delta * speed * 0.08);
       });
       raf = requestAnimationFrame(tick);
@@ -31,7 +32,7 @@ export default function WorkspaceBootLoader({ complete = false, onFinished }) {
     if (finishedRef.current) return;
     finishedRef.current = true;
     setExiting(true);
-    setTimeout(() => onFinished?.(), 400);
+    setTimeout(() => onFinished?.(), 300);
   }, [onFinished]);
 
   useEffect(() => {
@@ -46,7 +47,7 @@ export default function WorkspaceBootLoader({ complete = false, onFinished }) {
           className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-white dark:bg-slate-900"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.4, ease }}
+          transition={{ duration: 0.3, ease }}
         >
           <div className="flex flex-col items-center px-6">
             <motion.div
@@ -56,7 +57,7 @@ export default function WorkspaceBootLoader({ complete = false, onFinished }) {
               className="flex flex-col items-center"
             >
               <img
-                src="/image.png"
+                src="/logo-mark.webp"
                 alt="LeadForGrow"
                 className="h-10 w-10 object-contain"
               />

@@ -33,7 +33,7 @@ export default function ReminderMonitor() {
     const fetchDueTasks = async () => {
         if (snoozedRef.current) return; // user chose to silence for this session
         try {
-            const res = await authFetch('/api/automation/tasks?status=pending');
+            const res = await authFetch('/api/automation/tasks?dueWithin=5');
             const data = await res.json();
 
             if (data.success) {

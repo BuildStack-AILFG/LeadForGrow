@@ -11,7 +11,7 @@ export default function SidebarHeader({ collapsed, isMobile, onToggle, onMobileC
         size === 'sm' ? 'h-9 w-9' : 'h-8 w-8'
       }`}
     >
-      <img src="/image.png" alt="LeadForGrow" className={size === 'sm' ? 'h-5 w-5 object-contain' : 'h-[18px] w-[18px] object-contain'} />
+      <img src="/logo-mark.webp" alt="LeadForGrow" className={size === 'sm' ? 'h-5 w-5 object-contain' : 'h-[18px] w-[18px] object-contain'} />
     </div>
   );
 

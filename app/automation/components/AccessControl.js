@@ -3,7 +3,6 @@
 import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
 import { Lock, Sparkles, ArrowRight, ShieldAlert, Mail } from 'lucide-react';
 import { authFetch } from '@/lib/apiClient';
 import WorkspaceBootLoader from './WorkspaceBootLoader';
@@ -60,14 +59,15 @@ export default function AccessControl({ children }) {
     checkAccess();
   }, []);
 
-  if (checking || ((hasAccess || frozen) && !bootDone)) {
-    return (
-      <WorkspaceBootLoader
-        complete={!checking}
-        onFinished={() => setBootDone(true)}
-      />
-    );
-  }
+  const bootLoader = (
+    <WorkspaceBootLoader
+      complete={!checking}
+      onFinished={() => setBootDone(true)}
+    />
+  );
+
+  // Same slot as below so the loader keeps its progress when the workspace mounts.
+  if (checking || (frozen && !bootDone)) return <>{null}{bootLoader}</>;
 
   // Hard kill switch — takes priority over plan. A frozen account gets a
   // full-stop screen no matter what plan it's on; nothing under /automation
@@ -194,14 +194,12 @@ export default function AccessControl({ children }) {
     );
   }
 
+  // Mount the workspace as soon as access is confirmed so its data requests
+  // start right away; the loader stays on top only while it fades out.
   return (
-    <motion.div
-      initial={{ opacity: 0, filter: 'blur(10px)', scale: 0.985 }}
-      animate={{ opacity: 1, filter: 'blur(0px)', scale: 1 }}
-      transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-      className="h-screen w-full"
-    >
-      {children}
-    </motion.div>
+    <>
+      <div className="h-screen w-full">{children}</div>
+      {!bootDone && bootLoader}
+    </>
   );
 }

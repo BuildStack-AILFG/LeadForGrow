@@ -32,7 +32,7 @@ export default function AgencyOSLanding() {
                     </ul>
                  </div>
                  <div className="flex-1">
-                    <img src="/portal-integrations.png" alt="Portal Integrations" className="w-full h-auto rounded-3xl" />
+                    <img src="/portal-integrations.webp" alt="Portal Integrations" className="w-full h-auto rounded-3xl" />
                  </div>
               </div>
 
@@ -49,7 +49,7 @@ export default function AgencyOSLanding() {
                     </ul>
                  </div>
                  <div className="flex-1">
-                    <img src="/calling-list.png" alt="Calling List" className="w-full h-auto rounded-3xl" />
+                    <img src="/calling-list.webp" alt="Calling List" className="w-full h-auto rounded-3xl" />
                  </div>
               </div>
 
@@ -66,7 +66,7 @@ export default function AgencyOSLanding() {
                     </ul>
                  </div>
                  <div className="flex-1">
-                    <img src="/whatsapp-automation.png" alt="WhatsApp Automation" className="w-full h-auto rounded-3xl" />
+                    <img src="/whatsapp-automation.webp" alt="WhatsApp Automation" className="w-full h-auto rounded-3xl" />
                  </div>
               </div>
            </div>

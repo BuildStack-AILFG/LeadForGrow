@@ -327,7 +327,7 @@ const UserNavbar = () => {
               ) : (
                 <>
                   <img
-                    src="/image.png"
+                    src="/logo-mark.webp"
                     alt="LeadForGrow"
                     className="w-10 h-9 object-contain transition-transform duration-300 group-hover:scale-105"
                   />

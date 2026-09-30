@@ -155,7 +155,7 @@ export default function ChatSidebar({
       .then((d) => { if (alive && d.success) setChannelWaiting(d.data || {}); })
       .catch(() => {});
     load();
-    const id = setInterval(load, 60000);
+    const id = setInterval(() => { if (document.visibilityState === 'visible') load(); }, 60000);
     return () => { alive = false; clearInterval(id); };
   }, []);
 

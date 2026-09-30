@@ -70,7 +70,7 @@ export default function BuilderPage() {
     <MarketingLayout 
       title="Stop Building 'Just' Websites. Build Conversion Engines." 
       subtitle="Most websites look good but leak leads. LeadForGrow websites are engineered to capture, qualify, and close every visitor."
-      heroImage="/images/hero/builder.png"
+      heroImage="/images/hero/builder.webp"
       benefits={benefits}
       whoIsThisFor={whoIsThisFor}
       whyItMatters={whyItMatters}

@@ -150,7 +150,7 @@ export default function Sidebar() {
           <Menu className="w-5 h-5" />
         </button>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/image.png" alt="" className="h-5 w-5 object-contain" />
+        <img src="/logo-mark.webp" alt="" className="h-5 w-5 object-contain" />
         <span className="text-sm font-semibold text-[#1A1D1F] dark:text-slate-100">LeadForGrow</span>
         {/* Help and the assistant live here on small screens instead of floating
             over page buttons (their floating versions are lg-only). */}

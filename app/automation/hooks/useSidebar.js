@@ -98,8 +98,18 @@ export function useSidebar() {
   useEffect(() => {
     fetchUser();
     fetchStats();
-    const interval = setInterval(fetchStats, 30000);
-    return () => clearInterval(interval);
+    // Skip refreshes while the tab is in the background; catch up when it's back.
+    const interval = setInterval(() => {
+      if (document.visibilityState === 'visible') fetchStats();
+    }, 30000);
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') fetchStats();
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
   }, [fetchUser, fetchStats]);
 
   const toggleCollapsed = useCallback(() => {

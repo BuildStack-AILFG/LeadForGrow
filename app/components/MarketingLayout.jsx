@@ -50,6 +50,7 @@ export default function MarketingLayout({
                 <img
                   src={heroImage}
                   alt={title}
+                  fetchPriority="high"
                   className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
                 />
               </div>

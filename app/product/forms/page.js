@@ -70,7 +70,7 @@ export default function ProductFormsPage() {
     <MarketingLayout 
       title="Stop Losing Enquiries to 'Normal' Contact Forms." 
       subtitle="LeadForGrow forms connect directly to your team, ensuring no inquiry ever falls through the cracks again."
-      heroImage="/images/hero/forms.png"
+      heroImage="/images/hero/forms.webp"
       benefits={benefits}
       whoIsThisFor={whoIsThisFor}
       whyItMatters={whyItMatters}

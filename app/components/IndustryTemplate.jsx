@@ -76,7 +76,7 @@ const FeatureSection = ({ title, sub, desc, points, image, reverse, icon: Icon, 
         </button>
       </div>
       <div className="flex-1 w-full flex justify-center items-center">
-        <img src={image} alt={title} className="w-full max-w-2xl h-auto" />
+        <img src={image} alt={title} className="w-full max-w-2xl h-auto" loading="lazy" decoding="async" />
       </div>
     </div>
   </section>
@@ -233,7 +233,7 @@ export default function IndustryTemplate({ data }) {
             "Automatically assign leads to your agents.",
             "Connect with leads instantly with LeadForGrow's WhatsApp Chatbot."
           ]}
-          image="/portal-integrations.png"
+          image="/portal-integrations.webp"
         />
 
         <FeatureSection 
@@ -247,7 +247,7 @@ export default function IndustryTemplate({ data }) {
             "Use LeadForGrow's web application to make calls from your mobile in one click.",
             "Eliminate manual effort and automatically sync call feedback (call connected, disconnected, missed, etc.)"
           ]}
-          image="/calling-list.png"
+          image="/calling-list.webp"
         />
 
         <FeatureSection 
@@ -260,7 +260,7 @@ export default function IndustryTemplate({ data }) {
             "Seamless Routing: Sync leads to Sales or Support teams based on intent.",
             "Automated Follow-ups: Initiate onboarding sequences and document collection without manual work."
           ]}
-          image="/whatsapp-automation.png"
+          image="/whatsapp-automation.webp"
         />
 
         <FeatureSection 
