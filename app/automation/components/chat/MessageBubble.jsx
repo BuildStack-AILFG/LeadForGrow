@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useState, useMemo } from 'react';
+import { memo, useState, useMemo, useRef, useEffect } from 'react';
 import {
   Check, CheckCheck, Clock, StickyNote, Download, FileText, AlertCircle,
   Star, Trash2, RotateCcw, Image as ImageIcon, Film, Music, File as FileIcon,
@@ -10,6 +10,7 @@ import { formatFileSize } from '@/lib/omnichannel/mediaTypes';
 import { decodeMetaError, extractErrorCode } from '@/lib/whatsapp/metaErrors';
 import { ORIGIN_META } from './constants';
 import { splitQuotedBody } from '@/lib/omnichannel/emailThread';
+import { buildEmailDocument, EMAIL_FRAME_SANDBOX } from '@/lib/omnichannel/emailFrame';
 
 /**
  * Rewrite a Cloudinary URL so the file downloads instead of trying to
@@ -271,21 +272,66 @@ function EmailSenderHeader({ message, outgoing, conversation }) {
 }
 
 /**
- * Renders sanitized email HTML body inside a bubble. Isolates the HTML
- * from bleeding into the surrounding chat layout by wrapping in a
- * constrained container with reset styles. All external images inside
- * are given loading=lazy and max-width so a marketing email with 10 huge
- * hero images doesn't tank scroll performance.
+ * Renders sanitized email HTML in its own sandboxed document, the way webmail
+ * clients do: the email's own <style> and table layout apply exactly as
+ * designed, and neither the app's CSS nor the email's can affect the other.
+ * No scripts run inside (see lib/omnichannel/emailFrame.js). The frame grows
+ * to fit its content so it reads like part of the thread, not a scroll box.
  */
 export function EmailHtmlBody({ html }) {
+  const frameRef = useRef(null);
+  const [height, setHeight] = useState(80);
+  const srcDoc = useMemo(() => buildEmailDocument(html), [html]);
+
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame) return undefined;
+    const timers = [];
+    let widthObserver;
+
+    const measure = () => {
+      const doc = frame.contentDocument;
+      if (!doc?.body) return;
+      const next = Math.max(doc.documentElement.scrollHeight, doc.body.scrollHeight);
+      if (next > 0) setHeight((prev) => (Math.abs(prev - next) > 1 ? next : prev));
+    };
+    const onLoad = () => {
+      measure();
+      // Images and web fonts change the height after load.
+      frame.contentDocument?.querySelectorAll('img').forEach((img) => {
+        if (!img.complete) {
+          img.addEventListener('load', measure, { once: true });
+          img.addEventListener('error', measure, { once: true });
+        }
+      });
+      [300, 1000, 2500].forEach((ms) => timers.push(setTimeout(measure, ms)));
+    };
+
+    frame.addEventListener('load', onLoad);
+    // The document may already have loaded before this effect attached.
+    if (frame.contentDocument?.readyState === 'complete' && frame.contentDocument.body?.childNodes.length) onLoad();
+    // Re-flow when the thread panel is resized (sidebar toggle, window resize).
+    if (typeof ResizeObserver !== 'undefined') {
+      widthObserver = new ResizeObserver(measure);
+      widthObserver.observe(frame);
+    }
+    return () => {
+      frame.removeEventListener('load', onLoad);
+      widthObserver?.disconnect();
+      timers.forEach(clearTimeout);
+    };
+  }, [srcDoc]);
+
   return (
-    <div
-      className="email-html-body max-w-full overflow-hidden text-sm leading-relaxed"
-      // eslint-disable-next-line react/no-danger
-      dangerouslySetInnerHTML={{ __html: html }}
-      style={{
-        wordBreak: 'break-word',
-      }}
+    <iframe
+      ref={frameRef}
+      title="Email content"
+      srcDoc={srcDoc}
+      sandbox={EMAIL_FRAME_SANDBOX}
+      referrerPolicy="no-referrer"
+      loading="lazy"
+      className="block w-full border-0 bg-white"
+      style={{ height }}
     />
   );
 }
