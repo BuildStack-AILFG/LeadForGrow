@@ -27,10 +27,10 @@
   --text-secondary: #64748B;
   --text-muted: #94A3B8;
   --radius-card: 10px;
-  --font-inter-tight: 'Inter Tight', 'Inter', system-ui, sans-serif;
-  --font-plus-jakarta: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
-  --font-barlow: 'Barlow', 'Inter', system-ui, sans-serif;
-  --font-landing-serif: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
+  --font-inter-tight: var(--nf-inter-tight), var(--nf-inter), system-ui, sans-serif;
+  --font-plus-jakarta: var(--nf-plus-jakarta), var(--nf-inter), system-ui, sans-serif;
+  --font-barlow: var(--nf-barlow), var(--nf-inter), system-ui, sans-serif;
+  --font-landing-serif: var(--nf-libre-baskerville), Georgia, 'Times New Roman', serif;
   --font-whatsapp: -apple-system, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --hero-bg: #00211f;
   --hubspot-orange: #FF5C35;
@@ -54,7 +54,7 @@
 }
 
 @theme inline {
-  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-sans: var(--nf-inter), system-ui, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
@@ -421,7 +421,7 @@
 }
 
 .landing-subhead {
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--nf-inter), system-ui, sans-serif;
   font-weight: 400;
   margin-left: 5.5%;
   font-size: 15px;
@@ -440,7 +440,7 @@
 }
 
 .landing-stat-caption {
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--nf-inter), system-ui, sans-serif;
   font-size: 13px;
   line-height: 1.5;
   color: #7a8a7e;
@@ -601,71 +601,6 @@
   border-color: rgba(51, 65, 85, 0.8);
 }
 
-
-/* ============================================================
-   Email HTML body — scoped rules for rendering sanitized email
-   HTML in MessageBubble without letting inline styles blow up
-   the surrounding chat layout. Marketing emails ship with
-   very aggressive width/font/color rules that would otherwise
-   escape their container. Everything under .email-html-body is
-   clamped to safe defaults.
-   ============================================================ */
-.email-html-body {
-  color: inherit;
-  max-width: 100%;
-}
-.email-html-body * {
-  max-width: 100% !important;
-  box-sizing: border-box;
-}
-.email-html-body img {
-  max-width: 100% !important;
-  height: auto !important;
-  display: inline-block;
-  border-radius: 4px;
-}
-.email-html-body a {
-  color: #2563eb;
-  text-decoration: underline;
-  word-break: break-word;
-}
-.email-html-body table {
-  max-width: 100% !important;
-  border-collapse: collapse;
-}
-.email-html-body td,
-.email-html-body th {
-  padding: 4px 6px;
-  vertical-align: top;
-  max-width: 100% !important;
-}
-.email-html-body blockquote {
-  border-left: 3px solid #cbd5e1;
-  padding-left: 10px;
-  color: #64748b;
-  margin: 8px 0;
-}
-.email-html-body p {
-  margin: 0.4em 0;
-}
-.email-html-body h1,
-.email-html-body h2,
-.email-html-body h3 {
-  font-size: 1em;
-  font-weight: 700;
-  margin: 0.6em 0 0.3em;
-}
-.email-html-body hr {
-  border: none;
-  border-top: 1px solid #e2e8f0;
-  margin: 8px 0;
-}
-/* Kill any fixed pixel widths marketing templates set on the
-   outermost table — they force horizontal scroll otherwise. */
-.email-html-body > table,
-.email-html-body > div > table {
-  width: 100% !important;
-}
 
 /* Chat thread wallpaper (WhatsApp / Instagram / Messenger threads in the Unified Inbox; email threads stay flat): the flat
    #F1F6F3 base plus a very faint tile of brand-green line icons, so a short conversation in a wide pane doesn't look bare.

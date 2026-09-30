@@ -1,5 +1,3 @@
-'use client';
-
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { MARKETING } from '@/lib/marketing/designTokens';
@@ -32,7 +30,7 @@ const CAPABILITIES = [
     href: '/products/automation',
     bg: '#D1FAE5',
     tagColor: '#059669',
-    image: '/images/interakt-clone/chatbot-builder.gif',
+    image: '/images/interakt-clone/chatbot-builder.webp',
   },
   {
     tag: 'Marketing',

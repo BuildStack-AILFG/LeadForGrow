@@ -1,8 +1,9 @@
 'use client';
 
 import { ArrowRight } from 'lucide-react';
+import { goToGetStarted, openBookDemo } from './homeActions';
 
-export default function LandingCTA({ onGetStarted, onBookDemo }) {
+export default function LandingCTA({ onGetStarted = goToGetStarted, onBookDemo = openBookDemo } = {}) {
   return (
     <section className="bg-white-400 py-14 sm:py-16 lg:py-20">
       <div className="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">

@@ -5,6 +5,7 @@ import { Anton } from 'next/font/google';
 import { ArrowUpRight, MessageCircle, MousePointer2 } from 'lucide-react';
 import { WhatsAppIcon, InstagramIcon, GmailIcon } from '@/app/automation/components/chat/BrandIcons';
 import { MetaIcon, ZapierIcon, ShopifyIcon, SlackColorIcon } from '@/app/components/pricing/IntegrationBrandIcons';
+import { goToGetStarted, openBookDemo } from './homeActions';
 
 const anton = Anton({ subsets: ['latin'], weight: '400' });
 
@@ -353,7 +354,7 @@ function MobileHero({ onGetStarted, onBookDemo }) {
   );
 }
 
-export default function PremiumHero({ onGetStarted, onBookDemo }) {
+export default function PremiumHero({ onGetStarted = goToGetStarted, onBookDemo = openBookDemo } = {}) {
   return (
     <section className="bg-white px-3 pt-24 sm:px-4 sm:pt-28">
       <DesktopHero onGetStarted={onGetStarted} onBookDemo={onBookDemo} />

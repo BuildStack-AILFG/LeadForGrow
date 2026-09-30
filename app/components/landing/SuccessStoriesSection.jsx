@@ -1,5 +1,3 @@
-'use client';
-
 import Link from 'next/link';
 import { ArrowRight, Lightbulb } from 'lucide-react';
 import { MARKETING } from '@/lib/marketing/designTokens';

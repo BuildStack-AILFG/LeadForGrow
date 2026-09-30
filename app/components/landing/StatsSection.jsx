@@ -1,5 +1,3 @@
-'use client';
-
 import { MARKETING } from '@/lib/marketing/designTokens';
 
 const STATS = [

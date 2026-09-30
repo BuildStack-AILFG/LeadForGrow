@@ -1,5 +1,3 @@
-'use client';
-
 const TRUSTED_COMPANIES = [
   'ScaleDesk',
   'Homies4u',
