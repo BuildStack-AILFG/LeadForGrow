@@ -14,6 +14,12 @@ Related decisions: <link to DECISIONS.md entry, if any>
 ---
 
 
+## 2026-10-02 — Inbox: hide unused channel filters; person icon for "New lead"
+Branch: main
+Files: `app/api/automation/inbox/channel-waiting/route.js` (also returns `channels`: `Conversation.distinct('channel', { businessId })`, served by the existing `{ businessId, channel, lastMessageAt }` index; `data` unchanged), `app/automation/components/chat/ChatSidebar.jsx` (channel icons shown only for channels with at least one conversation — All always, all channels until the call returns, and the active filter is never hidden; "New lead" icon `MessageSquarePlus` → `UserPlus`), `tests/inbox-channel-filters.test.js` (new), `tests/inbox-layout.test.js` (anchor updated for the `.filter(...).map` change)
+What changed: the two optional tweaks from the inbox review (user kept the current layout otherwise). Facebook has 0 conversations across all businesses, so its icon disappears until the first Facebook conversation arrives; no extra request (piggybacks on the existing 60 s waiting-counts call). 727/727 tests pass.
+Related decisions: none.
+
 ## 2026-10-01 — "Weekly report" email design (market-wrap style)
 Branch: main
 Files: `lib/emailDesigns/reports.js` (new — hero card with logo/label/multi-line headline/date tag/button, "In 30 seconds" bullets (one per line), four number cards with auto red/green change (2 × 2 on phones), highlights box and "Next up" with bold "Label:" lines, CTA band, contact row (FAQ / phone / email), disclaimer, optional banner, social icons shown only for filled links; empty sections are omitted), `lib/emailDesigns/index.js` (registered under Updates), `public/email-assets/social-{facebook,x,instagram,youtube,linkedin,telegram}.png` + `contact-{faq,phone,mail}.png` (new, 0.6–1.8 KB; social glyphs from the bundled simple-icons package, LinkedIn drawn by hand), `tests/email-designs.test.js` (22 templates; colour, line and hidden-section cases)

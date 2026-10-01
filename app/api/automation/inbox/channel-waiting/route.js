@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import { withPermissions } from '@/lib/rbac';
 import { countNeedsReplyByChannel } from '@/lib/omnichannel/inboxViewQuery';
+import Conversation from '@/models/omnichannel/Conversation';
 
 /**
  * GET /api/automation/inbox/channel-waiting
@@ -13,8 +14,13 @@ async function handler(req) {
   try {
     const { user } = req;
     await dbConnect();
-    const byChannel = await countNeedsReplyByChannel({ businessId: user.businessId });
-    return NextResponse.json({ success: true, data: byChannel });
+    const [byChannel, channels] = await Promise.all([
+      countNeedsReplyByChannel({ businessId: user.businessId }),
+      // Channels this business has any conversation on — the inbox hides filter
+      // icons for channels that have never been used (e.g. Facebook not connected).
+      Conversation.distinct('channel', { businessId: user.businessId }),
+    ]);
+    return NextResponse.json({ success: true, data: byChannel, channels: channels.filter(Boolean) });
   } catch (error) {
     console.error('[Inbox API] channel-waiting:', error);
     return NextResponse.json({ success: false, error: 'Failed to load waiting counts' }, { status: 500 });

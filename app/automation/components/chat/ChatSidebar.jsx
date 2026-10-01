@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Search, Filter, MessageSquarePlus, Loader2, LayoutGrid, Volume2, VolumeX, PenSquare, FileText, Clock, CheckCircle2, Archive, X } from 'lucide-react';
+import { Search, Filter, UserPlus, Loader2, LayoutGrid, Volume2, VolumeX, PenSquare, FileText, Clock, CheckCircle2, Archive, X } from 'lucide-react';
 import Link from 'next/link';
 import ComposeEmailModal from './ComposeEmailModal';
 import { authFetch } from '@/lib/apiClient';
@@ -148,11 +148,17 @@ export default function ChatSidebar({
   // tabs. Polled on a light 60s cadence (one grouped query) — not tied to the
   // list refresh, so high-traffic inboxes don't pay for it on every fetch.
   const [channelWaiting, setChannelWaiting] = useState({});
+  // Channels with at least one conversation; null until loaded (show all meanwhile).
+  const [usedChannels, setUsedChannels] = useState(null);
   useEffect(() => {
     let alive = true;
     const load = () => authFetch('/api/automation/inbox/channel-waiting')
       .then((r) => r.json())
-      .then((d) => { if (alive && d.success) setChannelWaiting(d.data || {}); })
+      .then((d) => {
+        if (!alive || !d.success) return;
+        setChannelWaiting(d.data || {});
+        if (Array.isArray(d.channels)) setUsedChannels(d.channels);
+      })
       .catch(() => {});
     load();
     const id = setInterval(() => { if (document.visibilityState === 'visible') load(); }, 60000);
@@ -219,7 +225,7 @@ export default function ChatSidebar({
               className="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-brand-ink"
               title="New lead"
             >
-              <MessageSquarePlus className="w-4 h-4" />
+              <UserPlus className="w-4 h-4" />
             </Link>
           </div>
         </div>
@@ -261,7 +267,10 @@ export default function ChatSidebar({
           )}
         </div>
         <div className="flex gap-1.5 overflow-x-auto pt-1.5 pb-0.5 scrollbar-hide">
-          {CHANNEL_FILTERS.map((f) => {
+          {CHANNEL_FILTERS.filter((f) => (
+            // Hide a channel nobody has used yet; keep it if it's the active filter.
+            f.id === 'all' || !usedChannels || usedChannels.includes(f.id) || channelFilter === f.id
+          )).map((f) => {
             const active = channelFilter === f.id;
             const iconSet = CHANNEL_ICONS[f.id] || CHANNEL_ICONS.all;
             // Gmail's mark is multi-colour on white — a solid blue pill with a
