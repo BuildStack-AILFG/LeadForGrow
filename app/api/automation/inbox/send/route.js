@@ -10,6 +10,7 @@ import { sendAutoWhatsApp } from '@/lib/integrations/whatsapp';
 import { sendMetaMediaMessage } from '@/lib/integrations/whatsappMedia';
 import { recordChannelMessage } from '@/lib/omnichannel/conversationService';
 import { sendChannelEmail } from '@/lib/omnichannel/emailService';
+import { normalizeRecipients } from '@/lib/omnichannel/recipients';
 import { mimeToMessageType } from '@/lib/omnichannel/mediaTypes';
 
 async function handler(req) {
@@ -25,8 +26,8 @@ async function handler(req) {
       subject,
       replyToMessageId,
       replyAll = false,
-      cc,
-      bcc,
+      cc: rawCc,
+      bcc: rawBcc,
       mediaUrl,
       mimeType,
       fileName,
@@ -52,6 +53,10 @@ async function handler(req) {
       toEmail,
       toName,
     } = body;
+    // The New Email window sends Cc/Bcc as a comma-separated string, the
+    // thread composer as [{ email }]. Normalise once so every path gets an array.
+    const cc = normalizeRecipients(rawCc);
+    const bcc = normalizeRecipients(rawBcc);
 
     const hasMedia = !!mediaUrl;
     const hasTemplate = !!templateName;
@@ -134,6 +139,7 @@ async function handler(req) {
     }
 
     let externalMessageId;
+    let sentEmailHtml;
 
     if (activeChannel === 'whatsapp') {
       if (hasMedia) {
@@ -188,6 +194,7 @@ async function handler(req) {
         return NextResponse.json({ success: false, error: emailResult.error }, { status: 500 });
       }
       externalMessageId = emailResult.messageId;
+      sentEmailHtml = emailResult.sentHtml;
     } else if (activeChannel === 'instagram') {
       const { sendInstagramMessage, sendInstagramMedia, sendInstagramCommentReply } = await import('@/lib/instagram/send');
       const { IG_COMMENT_PARTICIPANT_PREFIX } = await import('@/lib/instagram/handler');
@@ -262,7 +269,7 @@ async function handler(req) {
       type: hasMedia ? resolvedType : (activeChannel === 'email' ? 'email' : 'text'),
       content: {
         body: message.trim() || fileName || '',
-        html: activeChannel === 'email' && bodyHtml ? bodyHtml : undefined,
+        html: activeChannel === 'email' ? (sentEmailHtml || bodyHtml || undefined) : undefined,
         mediaUrl,
         mimeType,
         fileName,

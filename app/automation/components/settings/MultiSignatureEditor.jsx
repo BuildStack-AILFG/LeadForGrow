@@ -39,14 +39,26 @@ function newId() {
   return `sig_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
 }
 
+const escapeHtml = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+// Build the "Default" entry from the old single-signature fields: the text
+// (plain text keeps its line breaks) plus the old logo, which used to be
+// added only at send time and would otherwise be lost here.
 function synthesizeFromLegacy(account) {
   const legacy = (account?.signature || '').trim();
-  if (!legacy) return [];
+  const logoUrl = /^https:\/\//i.test(account?.signatureLogoUrl || '') ? account.signatureLogoUrl : '';
+  if (!legacy && !logoUrl) return [];
+  const isHtml = /<[a-z][\s\S]*>/i.test(legacy);
+  const width = Number(account?.signatureLogoWidth) || 180;
+  const logo = logoUrl
+    ? `<p><img src="${escapeHtml(logoUrl)}" alt="" width="${width}" style="max-width:${width}px;height:auto;display:block;border:0;"></p>`
+    : '';
+  const text = !legacy ? '' : isHtml ? legacy : `<p>${escapeHtml(legacy).replace(/\n/g, '<br>')}</p>`;
   return [
     {
       id: newId(),
       name: 'Default',
-      html: legacy,
+      html: `${logo}${text}`,
       isDefault: true,
       createdAt: new Date().toISOString(),
     },

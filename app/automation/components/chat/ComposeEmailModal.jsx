@@ -6,6 +6,7 @@ import { authFetch } from '@/lib/apiClient';
 import { toast } from 'react-hot-toast';
 import RichEmailBodyEditor from '@/app/automation/broadcasts/RichEmailBodyEditor';
 import MediaAttachmentStrip from './MediaAttachmentStrip';
+import RecipientRow from './RecipientRow';
 import { useMediaUpload } from '@/app/automation/hooks/useMediaUpload';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -171,18 +172,9 @@ export default function ComposeEmailModal({ open, onClose, onSent }) {
             </div>
           </div>
 
-          {showCc && (
-            <div>
-              <label className="block text-[11px] font-medium text-slate-500 dark:text-slate-400 mb-1">Cc <span className="text-slate-400">(comma-separated)</span></label>
-              <input type="text" value={cc} onChange={(e) => setCc(e.target.value)} placeholder="a@x.com, b@y.com" className={field} />
-            </div>
-          )}
-          {showBcc && (
-            <div>
-              <label className="block text-[11px] font-medium text-slate-500 dark:text-slate-400 mb-1">Bcc <span className="text-slate-400">(comma-separated)</span></label>
-              <input type="text" value={bcc} onChange={(e) => setBcc(e.target.value)} placeholder="hidden@x.com" className={field} />
-            </div>
-          )}
+          {/* Each address becomes a removable chip (Enter, comma, Tab, paste or click away) — same as the reply box. */}
+          {showCc && <RecipientRow label="Cc" value={cc} onChange={setCc} autoFocus className="py-2" />}
+          {showBcc && <RecipientRow label="Bcc" value={bcc} onChange={setBcc} autoFocus className="py-2" />}
 
           <div>
             <label className="block text-[11px] font-medium text-slate-500 dark:text-slate-400 mb-1">Subject <span className="text-red-500">*</span></label>
