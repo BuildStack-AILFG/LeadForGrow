@@ -1,9 +1,9 @@
 'use client';
 
-import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Check, Mail, GitBranch, Kanban } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import { WIZARD_STEPS, MEETING_TYPE_OPTIONS, ASSIGNMENT_OPTIONS } from './constants';
+import MeetingAutomationStep from './MeetingAutomationStep';
 
 export default function CreateMeetingWizard({
   step,
@@ -14,12 +14,11 @@ export default function CreateMeetingWizard({
   onCancel,
   onPublish,
   saving,
+  editing = false,
 }) {
   const patch = (p) => onChange({ ...draft, ...p });
   const patchAvail = (p) =>
     onChange({ ...draft, availabilityRules: { ...draft.availabilityRules, ...p } });
-  const patchAuto = (p) =>
-    onChange({ ...draft, automationRules: { ...draft.automationRules, ...p } });
 
   return (
     <div className="max-w-3xl mx-auto p-4 sm:p-8">
@@ -197,71 +196,27 @@ export default function CreateMeetingWizard({
             </div>
           )}
 
-          {step === 3 && (
-            <div className="space-y-4">
-              <ToggleRow
-                icon={WhatsAppIcon}
-                label="WhatsApp confirmation"
-                description="Instant confirmation after booking"
-                checked={draft.automationRules?.whatsappConfirmation !== false}
-                onChange={(v) => patchAuto({ whatsappConfirmation: v })}
-              />
-              <ToggleRow
-                icon={WhatsAppIcon}
-                label="WhatsApp reminder"
-                description={`${draft.automationRules?.whatsappReminderMinutes ?? 30} min before meeting`}
-                checked={draft.automationRules?.whatsappReminder !== false}
-                onChange={(v) => patchAuto({ whatsappReminder: v })}
-              />
-              <ToggleRow
-                icon={Mail}
-                label="Email reminder"
-                checked={draft.automationRules?.emailReminder !== false}
-                onChange={(v) => patchAuto({ emailReminder: v })}
-              />
-              <ToggleRow
-                icon={GitBranch}
-                label="Trigger sequences on book"
-                checked={draft.automationRules?.triggerAutomationOnBook !== false}
-                onChange={(v) => patchAuto({ triggerAutomationOnBook: v })}
-              />
-              <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
-                <div className="flex items-center gap-2 text-sm font-medium text-slate-800 dark:text-slate-200 mb-2">
-                  <Kanban className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                  CRM pipeline sync
-                </div>
-                <input
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-600 text-sm mb-2"
-                  placeholder="Lead status on book (e.g. interested)"
-                  value={draft.automationRules?.leadStatusOnBook || ''}
-                  onChange={(e) => patchAuto({ leadStatusOnBook: e.target.value })}
-                />
-                <input
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-600 text-sm"
-                  placeholder="Pipeline stage label (optional)"
-                  value={draft.automationRules?.pipelineStageOnBook || ''}
-                  onChange={(e) => patchAuto({ pipelineStageOnBook: e.target.value })}
-                />
-              </div>
-            </div>
-          )}
+          {step === 3 && <MeetingAutomationStep draft={draft} onChange={onChange} />}
 
           {step === 4 && (
             <div className="text-center py-4">
               <div className="w-16 h-16 rounded-2xl bg-indigo-100 dark:bg-indigo-950/50 flex items-center justify-center mx-auto mb-4">
                 <Check className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
               </div>
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-2">Ready to publish</h3>
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-2">{editing ? 'Ready to save' : 'Ready to publish'}</h3>
               <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 max-w-md mx-auto">
                 Your revenue scheduling link will go live at{' '}
                 <strong className="text-indigo-600 dark:text-indigo-400">/book/{draft.bookingSlug || 'your-slug'}</strong>
-                with WhatsApp automations enabled.
+                with the automations you chose.
               </p>
               <ul className="text-left text-sm text-slate-600 dark:text-slate-400 space-y-2 max-w-sm mx-auto mb-8">
                 <li>✓ {draft.title || 'Meeting'} · {draft.durationMinutes} min</li>
-                <li>✓ Round-robin / team assignment</li>
-                <li>✓ WhatsApp confirmation + reminders</li>
-                <li>✓ CRM lead sync on every booking</li>
+                <li>✓ {draft.assignmentMode === 'round_robin' ? 'Round-robin host assignment' : 'Host assignment'}</li>
+                <li>{draft.automationRules?.whatsappConfirmation !== false || draft.automationRules?.whatsappReminder !== false
+                  ? `✓ WhatsApp ${draft.automationRules?.whatsappConfirmationTemplateName || draft.automationRules?.whatsappReminderTemplateName ? 'with approved templates' : '(add an approved template to reach new guests)'}`
+                  : '– WhatsApp messages off'}</li>
+                <li>{draft.automationRules?.emailReminder !== false ? '✓ Email confirmation & reminders' : '– Email reminders off'}</li>
+                <li>✓ CRM lead sync + “Update meeting outcome” task for the host</li>
               </ul>
             </div>
           )}
@@ -292,35 +247,10 @@ export default function CreateMeetingWizard({
             disabled={saving}
             className="inline-flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg disabled:opacity-50"
           >
-            {saving ? 'Publishing…' : 'Publish booking link'}
+            {saving ? (editing ? 'Saving…' : 'Publishing…') : (editing ? 'Save changes' : 'Publish booking link')}
           </button>
         )}
       </div>
-    </div>
-  );
-}
-
-function ToggleRow({ icon: Icon, label, description, checked, onChange }) {
-  return (
-    <div className="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-700">
-      <div className="flex items-start gap-3">
-        <Icon className="w-5 h-5 text-indigo-600 dark:text-indigo-400 mt-0.5" />
-        <div>
-          <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{label}</p>
-          {description && <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{description}</p>}
-        </div>
-      </div>
-      <button
-        type="button"
-        role="switch"
-        aria-checked={checked}
-        onClick={() => onChange(!checked)}
-        className={`w-11 h-6 rounded-full transition-colors relative ${checked ? 'bg-indigo-600' : 'bg-slate-300 dark:bg-slate-600'}`}
-      >
-        <span
-          className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${checked ? 'left-[22px]' : 'left-0.5'}`}
-        />
-      </button>
     </div>
   );
 }

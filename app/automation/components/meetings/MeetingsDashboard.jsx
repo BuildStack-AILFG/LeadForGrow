@@ -11,6 +11,8 @@ import {
   MessageCircle,
   Copy,
   ExternalLink,
+  Pencil,
+  ClipboardCheck,
 } from 'lucide-react';
 import MeetingsKpiRow from './MeetingsKpiRow';
 import DashboardCard from '../dashboard/primitives/DashboardCard';
@@ -29,7 +31,7 @@ function formatTime(d) {
   });
 }
 
-export default function MeetingsDashboard({ dashboard, onCreate, onNoShow, onComplete }) {
+export default function MeetingsDashboard({ dashboard, onCreate, onEdit, onNoShow, onComplete }) {
   const copyLink = (slug) => {
     const url = `${window.location.origin}/book/${slug}`;
     navigator.clipboard.writeText(url);
@@ -71,6 +73,43 @@ export default function MeetingsDashboard({ dashboard, onCreate, onNoShow, onCom
       <AutoPageIntro />
 
       <MeetingsKpiRow kpis={dashboard?.kpis} />
+
+      {(dashboard?.awaitingOutcome || []).length > 0 && (
+        <DashboardCard padding="p-0">
+          <div className="px-5 py-4 border-b border-amber-100 dark:border-amber-900/40 bg-amber-50/60 dark:bg-amber-950/20 flex items-center justify-between gap-3 rounded-t-xl">
+            <div>
+              <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-50 flex items-center gap-2">
+                <ClipboardCheck className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                Awaiting outcome ({dashboard.awaitingOutcome.length})
+              </h2>
+              <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">
+                These meetings have ended. Mark each one so follow-ups run — no-shows get a rebook message automatically.
+              </p>
+            </div>
+          </div>
+          <div className="divide-y divide-slate-100 dark:divide-slate-800">
+            {dashboard.awaitingOutcome.map((b) => (
+              <div key={b._id} className="px-5 py-3 flex flex-wrap items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">{b.guest?.name || 'Guest'}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    {b.meetingTypeId?.title || 'Meeting'} · ended {formatTime(b.endTime)}
+                    {b.assignedTo?.name ? ` · ${b.assignedTo.name}` : ''}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <button type="button" onClick={() => onComplete(String(b._id))} className="px-2.5 py-1 rounded-md text-xs font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/30 hover:bg-emerald-100">
+                    Completed
+                  </button>
+                  <button type="button" onClick={() => onNoShow(String(b._id))} className="px-2.5 py-1 rounded-md text-xs font-semibold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/30 hover:bg-amber-100">
+                    No-show
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </DashboardCard>
+      )}
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
         <DashboardCard className="xl:col-span-2" padding="p-0">
@@ -206,6 +245,11 @@ export default function MeetingsDashboard({ dashboard, onCreate, onNoShow, onCom
                   <p className="text-xs text-slate-500 dark:text-slate-400">/book/{m.bookingSlug}</p>
                 </div>
                 <div className="flex gap-1 opacity-80 group-hover:opacity-100">
+                  {onEdit && (
+                    <button type="button" onClick={() => onEdit(m)} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800" title="Edit settings & automations" aria-label={`Edit ${m.title}`}>
+                      <Pencil className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
+                    </button>
+                  )}
                   <button type="button" onClick={() => copyLink(m.bookingSlug)} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800" title="Copy link">
                     <Copy className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
                   </button>

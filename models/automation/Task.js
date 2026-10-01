@@ -23,6 +23,9 @@ const TaskSchema = new mongoose.Schema(
     contactId: { type: mongoose.Schema.Types.ObjectId, ref: 'Contact', index: true },
     companyId: { type: mongoose.Schema.Types.ObjectId, ref: 'Company', index: true },
     dealId: { type: mongoose.Schema.Types.ObjectId, ref: 'Deal', index: true },
+    // Set on the 'update meeting outcome' task created for each booking, so it
+    // can be closed automatically when the outcome is recorded.
+    meetingBookingId: { type: mongoose.Schema.Types.ObjectId, ref: 'MeetingBooking', index: { sparse: true } },
     type: {
       type: String,
       enum: ['call', 'whatsapp', 'email', 'meeting', 'follow_up', 'other'],

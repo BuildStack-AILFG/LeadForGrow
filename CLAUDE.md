@@ -14,6 +14,34 @@ Related decisions: <link to DECISIONS.md entry, if any>
 ---
 
 
+## 2026-10-01 — Meetings: every automation setting now does what it says
+Branch: main
+Files:
+- `app/automation/components/meetings/MeetingAutomationStep.jsx` (new — setup step 3: approved WhatsApp template pickers for confirmation / reminders / no-show (media-header templates excluded; variable order explained), reminder-time chips (1 day / 3 h / 1 h / 30 min / 15 min → `reminderSchedule`), email toggle, no-show recovery toggle, "Run automations when booked", lead-stage dropdown)
+- `CreateMeetingWizard.jsx` (uses it; `editing` labels; publish summary reflects real settings), `MeetingsWorkspace.jsx`, `hooks/useMeetingsWorkspace.js` (`startEdit` + PATCH save; new-type defaults: stage `qualified`, `noShowRecovery`), `app/automation/meetings/create/page.js` (defaults), `MeetingsDashboard.jsx` (Edit button per booking link; "Awaiting outcome" list with Completed / No-show)
+- `lib/meetings/leadStage.js` (new — `stageKeyFromRules`: key / label / legacy status → valid lead stage, junk ignored)
+- `lib/meetings/crmSync.js` (validated stage — an invalid free-text status used to break `Lead.create`; converted leads never moved; the "pipeline stage" task replaced by an "Update meeting outcome" task for the host due at meeting end (`Task.meetingBookingId`); `meeting_scheduled` dispatch now honours `triggerAutomationOnBook`)
+- `lib/meetings/reminders.js` (`processPendingReminders(limit, { bookingId })` — booking-time processing only touches that booking; atomic claim via new `processing` status + stale-claim retry after 10 min; pre-meeting reminders skipped once completed/no-show; no-show recovery sends immediately, supports `noShowRecoveryTemplate*`, respects `noShowRecovery`; {{5}} = rebook link for no-shows; `{{startsIn}}` var)
+- `lib/meetings/constants.js` (`formatStartsIn`, `REMINDER_TIME_OPTIONS`, `buildReminderSchedule`; default reminder texts use `{{startsIn}}`), `lib/meetings/email.js` (reminder timing from the step, not the unused `whatsappReminderMinutes`)
+- `app/api/automation/meetings/bookings/[id]/route.js` (completed → `meeting_completed` automations; no-show → `meeting_no_show`; both close the outcome task; cancelled cancels it; repeating the same outcome is a no-op)
+- `lib/automation/triggerHub.js`, `lib/sequences/constants.js`, `models/automation/AutomationSequence.js` (new "Meeting No-show" trigger)
+- `models/meetings/MeetingType.js` (`noShowRecovery*` fields), `models/meetings/MeetingReminder.js` (`processing` status, `claimedAt`), `models/automation/Task.js` (`meetingBookingId`)
+- `tests/meetings-automation.test.js` (new)
+What changed: read-only prod audit showed 13/13 WhatsApp meeting messages failed (no templates configurable; 10 "unconfigured"), the "Trigger automations" switch and "30 min" reminder setting were ignored, "Pipeline stage on book" only created a task, completed meetings never fired automations, no-show messages waited for a cron, and none of 36 bookings ever had an outcome recorded. All fixed above. Still required outside code: an external scheduler calling `/api/cron/meeting-reminders` every 5 min with `Authorization: Bearer $CRON_SECRET` (last scheduled reminder sent 2026-06-29). 713/713 tests pass; SWC compile of all 19 files passes; not exercised in a browser.
+Related decisions: none.
+
+## 2026-09-30 — New Email: Cc/Bcc chips; signatures keep their logo and show in the thread
+Branch: main
+Files: `app/automation/components/chat/RecipientRow.jsx` (new — the chip input moved out of `ChatInput.jsx`, plus an optional `className`), `ChatInput.jsx` (imports it), `ComposeEmailModal.jsx` (Cc/Bcc use it), `app/automation/components/settings/MultiSignatureEditor.jsx` (`synthesizeFromLegacy` now includes the old `signatureLogoUrl` and keeps plain-text line breaks), `lib/omnichannel/emailService.js` (returns `sentHtml` when a signature was added), `app/api/automation/inbox/send/route.js` (records `sentHtml` so the thread shows the signature), `tests/email-recipients.test.js`
+What changed: (1) Cc/Bcc in New Email are chips like the reply box. (2) Read-only check of contact@leadforgrow.com: its "Default" signature is 55 bytes of text only ("Best Regards Himanshu Singh Scaledesk Technology") — it was created from the legacy `signature` text when the multi-signature editor first opened, and the legacy `signatureLogoUrl` (Cloudinary) was dropped, because that logo used to be prepended only at send time for plain-text signatures. Fixed for future conversions; this account's saved Default still needs the logo added (settings) or a one-off DB repair (not run — needs approval). (3) The thread used to record only the typed body; it now records the sent HTML when a signature was attached. 700/700 tests pass.
+Related decisions: none.
+
+## 2026-09-30 — Fix "cc?.map is not a function" when sending from New Email
+Branch: main
+Files: `lib/omnichannel/recipients.js` (new — `normalizeRecipients`: string "a, b; c", `[{ email }]`, `[{ name, address }]`, "Name <a@b>" → `[{ email, name? }]`, invalid/duplicate dropped), `app/api/automation/inbox/send/route.js` (normalises Cc/Bcc once for every path, including scheduled drafts), `lib/omnichannel/emailService.js` (sender normalises too), `tests/email-recipients.test.js` (new)
+What changed: the New Email window (`ComposeEmailModal`) sends Cc/Bcc as a comma-separated string; `sendChannelEmail` called `cc?.map`, which crashes on a string, so any compose with a Cc failed. The thread composer sent `[{ email }]` and worked. A scheduled compose would also have stored the string and crashed later in `scheduledEmailSender`. 697/697 tests pass.
+Related decisions: none.
+
 ## 2026-09-30 — 13 more email designs (festivals + lifecycle) and "My templates"
 Branch: main
 Files:
