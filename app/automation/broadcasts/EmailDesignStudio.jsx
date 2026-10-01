@@ -345,6 +345,11 @@ function Field({ field, value, onChange }) {
       <label htmlFor={id} className="mb-1 block text-[11px] font-medium text-slate-600 dark:text-slate-300">{field.label}</label>
       {control}
       {field.help && <p className="mt-1 text-[10px] text-slate-400">{field.help}</p>}
+      {field.key === 'brandName' && /\{\{\s*(name|email|phone)\s*\}\}/i.test(value) && (
+        <p className="mt-1 text-[11px] font-medium text-amber-700 dark:text-amber-300">
+          This shows the <em>recipient&apos;s</em> details as the sender. Use {'{{business.name}}'} or type your business name.
+        </p>
+      )}
     </div>
   );
 }
@@ -374,7 +379,7 @@ function DesignForm({ template, values, onChange }) {
         </details>
       ))}
       <p className="px-1 text-[10px] text-slate-400">
-        Personalise any field with <code className="font-mono">{'{{name}}'}</code> or <code className="font-mono">{'{{business.name}}'}</code>. An unsubscribe link is always included in the footer.
+        Personalise any field: <code className="font-mono">{'{{name}}'}</code> = the recipient&apos;s name, <code className="font-mono">{'{{business.name}}'}</code> = your business name. An unsubscribe link is always included in the footer.
       </p>
     </div>
   );

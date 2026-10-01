@@ -168,3 +168,25 @@ describe('link fields', () => {
     assert.match(studio, /<base target="_blank">/);
   });
 });
+
+describe('sender name + sent copy', () => {
+  const read = (p) => readFileSync(new URL(`../${p}`, import.meta.url), 'utf8');
+
+  it('the brand field is labelled as the business name and warns about recipient placeholders', () => {
+    const brand = EMAIL_DESIGN_TEMPLATES[0].fields.find((f) => f.key === 'brandName');
+    assert.equal(brand.label, 'Your business name');
+    assert.equal(brand.default, '{{business.name}}');
+    const studio = read('app/automation/broadcasts/EmailDesignStudio.jsx');
+    assert.ok(studio.includes(String.raw`field.key === 'brandName' && /\{\{\s*(name|email|phone)\s*\}\}/i.test(value)`));
+  });
+
+  it('the preview fills {{business.name}} with the real business name', () => {
+    const route = read('app/api/automation/broadcasts/preview-message/route.js');
+    assert.ok(route.includes(String.raw`.replace(/\{\{business\.name\}\}/gi, businessName)`));
+    assert.match(route, /businessName,\n?\s*to: \{|businessName,\r?\n\s*to: \{/);
+  });
+
+  it('the inbox records the broadcast email exactly as sent', () => {
+    assert.match(read('lib/broadcasts/engine.js'), /content: \{ body, html, participantId: lead\.email/);
+  });
+});

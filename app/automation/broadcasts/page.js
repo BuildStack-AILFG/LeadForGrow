@@ -121,8 +121,8 @@ export default function BroadcastsPage() {
   const isDesignedEmail = draft.bodyFormat === 'design' || draft.bodyFormat === 'html';
   const designPreviewVars = useMemo(() => ({
     name: samplePreview?.to?.name || '',
-    businessName: selectedEmailAccount?.displayName || '',
-  }), [samplePreview?.to?.name, selectedEmailAccount?.displayName]);
+    businessName: samplePreview?.businessName || selectedEmailAccount?.displayName || '',
+  }), [samplePreview?.to?.name, samplePreview?.businessName, selectedEmailAccount?.displayName]);
 
   useEffect(() => {
     const emailOn = draft.channel === 'email' || draft.channel === 'both';

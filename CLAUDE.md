@@ -14,6 +14,12 @@ Related decisions: <link to DECISIONS.md entry, if any>
 ---
 
 
+## 2026-10-01 — Broadcast designs: thread shows the sent design; sender name clarified
+Branch: main
+Files: `lib/broadcasts/engine.js` (recordChannelMessage now stores `content.html` — the email as sent), `app/api/automation/broadcasts/preview-message/route.js` (looks up `business.businessName`, fills `{{business.name}}`, returns `businessName`), `app/automation/broadcasts/page.js` (preview uses it), `lib/emailDesigns/templates.js` (brand field → "Your business name" + help), `app/automation/broadcasts/EmailDesignStudio.jsx` (warning when the business-name field contains `{{name}}`/`{{email}}`/`{{phone}}`; placeholder hint explains recipient vs business), `tests/email-designs.test.js`
+What changed: the inbox thread showed broadcast emails as the plain-text part because only `body` was recorded. And a read-only check showed the 14:55 campaign's brand field was `{{name}}` (recipient), so the footer said "from Shashank Singh"; the field label/hint didn't explain the difference. Already-recorded broadcast messages keep their text-only copy. 719/719 tests pass.
+Related decisions: none.
+
 ## 2026-10-01 — Email designs: preview buttons open; link fields self-correct
 Branch: main
 Files: `lib/emailDesigns/blocks.js` (new `normalizeUrl`: "https://https://x" → "https://x", "www.x.com" → "https://www.x.com", bare "https://" → empty; `safeUrl` uses it and requires a host), `lib/emailDesigns/index.js` (exports it), `lib/emailDesigns/templates.js` + `festivals.js` (link defaults `''` instead of a prefilled `https://`), `app/automation/broadcasts/EmailDesignStudio.jsx` (preview iframe `allow-popups allow-popups-to-escape-sandbox` + `<base target="_blank">`; URL inputs get a placeholder and normalise on blur), `tests/email-designs.test.js`

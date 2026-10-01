@@ -3,6 +3,7 @@ import { dbConnect } from '@/lib/mongodb';
 import Lead from '@/models/automation/Lead';
 import WhatsAppTemplate from '@/models/automation/WhatsAppTemplate';
 import EmailAccount from '@/models/omnichannel/EmailAccount';
+import Business from '@/models/Business';
 import { withPlanAccess } from '@/lib/accessControl';
 import { resolveTemplateVariables } from '@/lib/broadcasts/engine';
 
@@ -46,9 +47,14 @@ export const POST = withPlanAccess('automation', async (req) => {
 
     const resolvedVars = resolveTemplateVariables(content.variableMapping, lead) || [];
 
+    // {{business.name}} is the sender's business — same value the send engine uses.
+    const business = await Business.findById(businessId).select('businessName').lean();
+    const businessName = business?.businessName || '';
+
     const applyLeadVars = (text) => {
       if (!text) return '';
       return String(text)
+        .replace(/\{\{business\.name\}\}/gi, businessName)
         .replace(/\{\{name\}\}/gi, lead.name || '')
         .replace(/\{\{email\}\}/gi, lead.email || '')
         .replace(/\{\{phone\}\}/gi, lead.phone || '')
@@ -63,6 +69,7 @@ export const POST = withPlanAccess('automation', async (req) => {
     };
 
     const rendered = {
+      businessName,
       to: {
         name: lead.name,
         phone: lead.phone,
