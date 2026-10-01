@@ -13,7 +13,7 @@ import { ArrowLeft, Monitor, Smartphone, Upload, Loader2, FileCode2, ChevronDown
 import toast from 'react-hot-toast';
 import {
   EMAIL_DESIGN_TEMPLATES, EMAIL_DESIGN_CATEGORIES, getEmailDesign, defaultDesignValues, renderEmailDesign,
-  applyHtmlVars, withUnsubscribeLink, EMAIL_ASSET_BASE,
+  applyHtmlVars, withUnsubscribeLink, EMAIL_ASSET_BASE, normalizeUrl,
 } from '@/lib/emailDesigns';
 import { uploadImageToCloudinary } from '@/lib/cloudinaryUpload';
 import { authFetch } from '@/lib/apiClient';
@@ -28,6 +28,9 @@ function toPreviewHtml(html, { name, businessName }) {
   // Default artwork lives on the production site; serve it from this origin
   // so the preview works on localhost and before a deploy.
   if (typeof window !== 'undefined') out = out.split(EMAIL_ASSET_BASE).join(`${window.location.origin}/email-assets`);
+  // Clicking a link in the preview opens it in a new tab (never inside the preview).
+  const base = '<base target="_blank">';
+  out = /<head[^>]*>/i.test(out) ? out.replace(/<head[^>]*>/i, (m) => `${m}${base}`) : `${base}${out}`;
   return out;
 }
 
@@ -80,8 +83,9 @@ const ScaledEmailFrame = memo(function ScaledEmailFrame({ html, width = 640, max
         ref={frameRef}
         title={title}
         srcDoc={html}
-        // No scripts, even for pasted HTML. Same-origin only so we can measure height.
-        sandbox="allow-same-origin"
+        // No scripts, even for pasted HTML. Same-origin so we can measure height;
+        // popups so buttons and links in the preview open in a new tab.
+        sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"
         className="block border-0 bg-white"
         style={{
           width,
@@ -332,7 +336,9 @@ function Field({ field, value, onChange }) {
       </div>
     );
   } else {
-    control = <input id={id} type={field.type === 'url' ? 'url' : 'text'} value={value} onChange={(e) => onChange(e.target.value)} className={inputClass} />;
+    control = field.type === 'url'
+      ? <input id={id} type="url" value={value} placeholder="https://your-website.com" onChange={(e) => onChange(e.target.value)} onBlur={(e) => { const fixed = normalizeUrl(e.target.value); if (fixed !== e.target.value) onChange(fixed); }} className={inputClass} />
+      : <input id={id} type="text" value={value} onChange={(e) => onChange(e.target.value)} className={inputClass} />;
   }
   return (
     <div className={field.type === 'color' ? '' : 'col-span-2'}>

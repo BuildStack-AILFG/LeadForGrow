@@ -14,6 +14,12 @@ Related decisions: <link to DECISIONS.md entry, if any>
 ---
 
 
+## 2026-10-01 — Email designs: preview buttons open; link fields self-correct
+Branch: main
+Files: `lib/emailDesigns/blocks.js` (new `normalizeUrl`: "https://https://x" → "https://x", "www.x.com" → "https://www.x.com", bare "https://" → empty; `safeUrl` uses it and requires a host), `lib/emailDesigns/index.js` (exports it), `lib/emailDesigns/templates.js` + `festivals.js` (link defaults `''` instead of a prefilled `https://`), `app/automation/broadcasts/EmailDesignStudio.jsx` (preview iframe `allow-popups allow-popups-to-escape-sandbox` + `<base target="_blank">`; URL inputs get a placeholder and normalise on blur), `tests/email-designs.test.js`
+What changed: clicking "Claim my discount" in the designer preview did nothing — the preview sandbox blocked popups. Separately, pasting a full URL into the prefilled "https://" field produced "https://https://…", a dead link in sent emails too. Both fixed; the server re-renders through `safeUrl`, so saved campaigns and templates with doubled schemes are corrected at send time. User also approved a one-off prod fix: the "Default" signature on contact@leadforgrow.com now includes the legacy Cloudinary logo (undo file in the session scratchpad). 716/716 tests pass.
+Related decisions: none.
+
 ## 2026-10-01 — Meetings: every automation setting now does what it says
 Branch: main
 Files:

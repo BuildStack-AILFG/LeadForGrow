@@ -146,3 +146,25 @@ describe('wiring', () => {
     assert.match(engine, /Designed emails need a connected mailbox/);
   });
 });
+
+describe('link fields', () => {
+  it('fixes pasted, doubled and scheme-less links', async () => {
+    const { normalizeUrl } = await import('../lib/emailDesigns/index.js');
+    assert.equal(normalizeUrl('https://https://www.scaledesktechnology.com/'), 'https://www.scaledesktechnology.com/');
+    assert.equal(normalizeUrl('http://https://x.com'), 'https://x.com');
+    assert.equal(normalizeUrl('www.site.com/offer?a=1'), 'https://www.site.com/offer?a=1');
+    assert.equal(normalizeUrl('https://'), '');
+    assert.equal(normalizeUrl('mailto:a@b.com'), 'mailto:a@b.com');
+  });
+
+  it('buttons render the fixed link, and empty links fall back safely', () => {
+    assert.match(renderEmailDesign('offer', { ctaUrl: 'https://https://shop.example.com/' }), /href="https:\/\/shop\.example\.com\/"/);
+    assert.match(renderEmailDesign('offer', { ctaUrl: 'https://' }), /href="#"/);
+  });
+
+  it('preview links open in a new tab', () => {
+    const studio = readFileSync(new URL('../app/automation/broadcasts/EmailDesignStudio.jsx', import.meta.url), 'utf8');
+    assert.match(studio, /sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"/);
+    assert.match(studio, /<base target="_blank">/);
+  });
+});
