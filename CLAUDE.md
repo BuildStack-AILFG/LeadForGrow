@@ -14,6 +14,12 @@ Related decisions: <link to DECISIONS.md entry, if any>
 ---
 
 
+## 2026-10-01 — Fix A/B variant weight 0 (and the flaky CI test it caused)
+Branch: main
+Files: `lib/automation/approvalGate.js` (`pickAbVariant`: missing weight = 1, explicit 0 = never picked; was `v.weight || 1`), `tests/automation.test.js` (0% variant checked over 2,000 picks; new weighted-split test)
+What changed: CI run 36861872627 failed on "A/B testing › picks a variant by weight" — unrelated to that push. `v.weight || 1` turned a 0 weight into 1, so a 0% variant still received ~1/101 of sequence enrolments, and the single-pick test failed ~1% of the time. Fixed the logic and made the test deterministic. 720/720 tests pass.
+Related decisions: none.
+
 ## 2026-10-01 — Broadcast designs: thread shows the sent design; sender name clarified
 Branch: main
 Files: `lib/broadcasts/engine.js` (recordChannelMessage now stores `content.html` — the email as sent), `app/api/automation/broadcasts/preview-message/route.js` (looks up `business.businessName`, fills `{{business.name}}`, returns `businessName`), `app/automation/broadcasts/page.js` (preview uses it), `lib/emailDesigns/templates.js` (brand field → "Your business name" + help), `app/automation/broadcasts/EmailDesignStudio.jsx` (warning when the business-name field contains `{{name}}`/`{{email}}`/`{{phone}}`; placeholder hint explains recipient vs business), `tests/email-designs.test.js`
