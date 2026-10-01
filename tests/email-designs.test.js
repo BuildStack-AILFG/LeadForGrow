@@ -13,9 +13,9 @@ import {
 import { normalizeBroadcastEmailContent, normalizeSavedEmailDesign, EmailContentError } from '../lib/broadcasts/emailContent.js';
 
 describe('design templates', () => {
-  it('ships 21 templates with unique ids and grouped fields', () => {
-    assert.equal(EMAIL_DESIGN_TEMPLATES.length, 21);
-    assert.equal(new Set(EMAIL_DESIGN_TEMPLATES.map((t) => t.id)).size, 21);
+  it('ships 22 templates with unique ids and grouped fields', () => {
+    assert.equal(EMAIL_DESIGN_TEMPLATES.length, 22);
+    assert.equal(new Set(EMAIL_DESIGN_TEMPLATES.map((t) => t.id)).size, 22);
     for (const id of ['gandhi-jayanti', 'diwali-offer', 'navratri', 'christmas', 'new-year', 'holi', 'independence-day', 'eid', 'raksha-bandhan', 'mega-sale', 'birthday', 'feedback', 'win-back']) {
       assert.ok(EMAIL_DESIGN_TEMPLATES.some((t) => t.id === id), id);
     }
@@ -188,5 +188,28 @@ describe('sender name + sent copy', () => {
 
   it('the inbox records the broadcast email exactly as sent', () => {
     assert.match(read('lib/broadcasts/engine.js'), /content: \{ body, html, participantId: lead\.email/);
+  });
+});
+
+describe('weekly report', () => {
+  it('colours changes red for a fall, green for a rise', () => {
+    const html = renderEmailDesign('weekly-report', { stat1Change: '-3.05%', stat2Change: '+1.12%', stat3Change: '0.40%', stat4Change: '' });
+    assert.match(html, /color:#dc2626;[^"]*">-3\.05%/);
+    assert.match(html, /color:#16a34a;[^"]*">\+1\.12%/);
+    assert.match(html, /color:#16a34a;[^"]*">0\.40%/);
+  });
+
+  it('bolds "Label:" lines and keeps one bullet per line', () => {
+    const html = renderEmailDesign('weekly-report', { highlights: 'Crude: rose\nplain line', summary: 'one\ntwo\n\nthree' });
+    assert.match(html, /<strong style="color:#0f2a20;">Crude:<\/strong> rose/);
+    assert.equal((html.match(/&bull;/g) || []).length, 3);
+  });
+
+  it('hides empty sections and only shows social icons that have links', () => {
+    const empty = renderEmailDesign('weekly-report', { summary: '', highlights: '', nextItems: '', faqLabel: '', disclaimer: '' });
+    assert.doesNotMatch(empty, /&bull;|contact-faq\.png|social-/);
+    const withX = renderEmailDesign('weekly-report', { xUrl: 'x.com/brand' });
+    assert.match(withX, /href="https:\/\/x\.com\/brand"[^>]*><img src="[^"]*social-x\.png"/);
+    assert.doesNotMatch(withX, /social-facebook\.png/);
   });
 });

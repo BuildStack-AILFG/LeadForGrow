@@ -14,6 +14,12 @@ Related decisions: <link to DECISIONS.md entry, if any>
 ---
 
 
+## 2026-10-01 — "Weekly report" email design (market-wrap style)
+Branch: main
+Files: `lib/emailDesigns/reports.js` (new — hero card with logo/label/multi-line headline/date tag/button, "In 30 seconds" bullets (one per line), four number cards with auto red/green change (2 × 2 on phones), highlights box and "Next up" with bold "Label:" lines, CTA band, contact row (FAQ / phone / email), disclaimer, optional banner, social icons shown only for filled links; empty sections are omitted), `lib/emailDesigns/index.js` (registered under Updates), `public/email-assets/social-{facebook,x,instagram,youtube,linkedin,telegram}.png` + `contact-{faq,phone,mail}.png` (new, 0.6–1.8 KB; social glyphs from the bundled simple-icons package, LinkedIn drawn by hand), `tests/email-designs.test.js` (22 templates; colour, line and hidden-section cases)
+What changed: user asked for emails like Shoonya's weekly market wrap without editing HTML. Rendered headlessly at 680 px and 375 px (full and empty-section variants) and reviewed. 724/724 tests pass.
+Related decisions: none.
+
 ## 2026-10-01 — Fix A/B variant weight 0 (and the flaky CI test it caused)
 Branch: main
 Files: `lib/automation/approvalGate.js` (`pickAbVariant`: missing weight = 1, explicit 0 = never picked; was `v.weight || 1`), `tests/automation.test.js` (0% variant checked over 2,000 picks; new weighted-split test)
