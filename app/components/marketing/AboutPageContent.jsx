@@ -3,8 +3,7 @@
 import Link from 'next/link';
 import { ArrowRight, Building2, Globe, Heart, Lightbulb, Rocket, Shield, Sparkles, Target, Users, Zap } from 'lucide-react';
 import MarketingShell from '@/app/components/marketing/MarketingShell';
-import FounderCard from '@/app/components/landing/FounderCard';
-import { FOUNDERS, COMPANY } from '@/lib/founders/data';
+import { COMPANY } from '@/lib/founders/data';
 import { MARKETING } from '@/lib/marketing/designTokens';
 
 const TIMELINE = [
@@ -133,29 +132,6 @@ export default function AboutPageContent() {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Leadership */}
-      <section className={`${MARKETING.sectionTight} bg-gradient-to-b from-white to-[#FAFDFA]`}>
-        <div className={MARKETING.container}>
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className={MARKETING.overline}>Leadership</p>
-            <h2 className={`${MARKETING.h2} mt-3`}>Meet the team behind LeadForGrow</h2>
-            <p className={`${MARKETING.body} mt-4`}>
-              Three co-founders united by one obsession — helping businesses never lose a lead again.
-            </p>
-          </div>
-          <div className="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            {FOUNDERS.map((founder) => (
-              <FounderCard key={founder.name} founder={founder} compact />
-            ))}
-          </div>
-          <div className="text-center mt-8">
-            <Link href="/founders" className={MARKETING.link}>
-              Full leadership profiles →
-            </Link>
           </div>
         </div>
       </section>
