@@ -13,6 +13,21 @@ Consequences: <what this commits future work to, if anything>
 
 ---
 
+## 2026-10-03 — App redesign (DESIGN_BRIEF.md): owner decisions + token deviations from the brief
+Context: Owner asked to execute `DESIGN_BRIEF.md` phase by phase. Its §11 lists decisions not to make alone; asked via AskUserQuestion after Phase 0/1.
+Decision:
+1. **Brand accent stays green** (`--accent #1E6B4E`); the purple logo mark will be recoloured green/neutral in-app (logo source file itself not redrawn).
+2. **Typeface: IBM Plex Sans** for the signed-in app only, loaded via `next/font` in `app/automation/layout.js` (`--font-plex-sans` → `font-app` token). Marketing site keeps its own fonts.
+3. **Nav IA from brief §7 approved in full**: drop Quick Links duplicates; Lead Pipeline → Board view inside Leads; Sales Pipeline → Board view inside Deals; WhatsApp Templates → tab inside Templates; Dashboard → "Home", Tasks top-level; groups Sales / Engage / Automate / Insights. No routes deleted — only nav entries; old URLs keep working.
+4. **Light theme first**; dark tokens defined (same names under `.dark`) but not a shipping goal yet.
+5. **Two token values deviate from the brief for accessibility**: `--text-tertiary` #808A85 → **#656F6A** (brief's value measured 3.56:1 on white, below WCAG AA 4.5; new value ≥4.5 on canvas/sidebar/subtle), `--warning` #A86A12 → **#8F5A0E** (3.96 → 5.16 on its subtle bg).
+6. **No 2px left indicator on the active nav item** — research (docs/design/research.md) showed nearly no admired product uses one; subtle bg + accent text is the majority pattern.
+7. **Tailwind v4 default radii kept** (sm 4 / md 6 / lg 8 / xl 12 already equal the brief's scale) instead of redefining them.
+Alternatives considered: Inter (most common in researched CRMs) — owner chose Plex. Keeping the brief's exact tertiary/warning hex — rejected, fails AA which is principle 7 of the same brief.
+Consequences: Token utility names are `bg-canvas/sidebar/subtle/muted`, `border-line(-strong)`, `text-fg(-secondary/-tertiary/-disabled)`, `bg-accent(-subtle)`, `text-accent-fg`, `text-meta/dense/body/title/page/hero`, `shadow-popover/modal/drag` — new app UI should use these instead of literal hex. Phase 1 screenshot pass was blocked on login (Claude must not use the owner's real credentials); waiting on the Chrome extension connection to reuse the owner's own session.
+
+---
+
 ## 2026-09-14 — 30-bug QA pass: four scoping decisions confirmed rather than guessed
 Context: A QA tracker screenshot listed 32 reported bugs (30 distinct after dedup) across the whole automation app. Four of them had no single defensible fix without information only the user could supply — asked via `AskUserQuestion` before implementing rather than picking an answer.
 Decision:

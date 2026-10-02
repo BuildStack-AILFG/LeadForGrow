@@ -50,6 +50,145 @@
   --color-border: var(--card-border);
 }
 
+/* ══════════════════════════════════════════════════════════════════════
+   App design tokens (DESIGN_BRIEF.md §6, refined in docs/design/research.md).
+   Signed-in app (/automation) only — marketing pages keep their own styles.
+
+   Naming → Tailwind utilities (via @theme below):
+     surfaces  bg-canvas · bg-sidebar · bg-subtle · bg-muted
+     borders   border-line · border-line-strong
+     text      text-fg · text-fg-secondary · text-fg-tertiary · text-fg-disabled
+     accent    bg-accent · hover:bg-accent-hover · bg-accent-subtle · text-accent-fg · text-accent
+     semantic  text-success / bg-success-subtle (same for warning, danger, info)
+     type      text-meta 12/16 · text-dense 13/18 · text-body 14/20 ·
+               text-title 16/24 · text-page 20/28 · text-hero 24/32
+     radius    Tailwind defaults already match: rounded-sm 4 · md 6 · lg 8 · xl 12
+     shadow    shadow-popover · shadow-modal · shadow-drag (floating layers only)
+
+   Contrast (WCAG, checked numerically): text-fg-tertiary #656F6A is ≥4.5:1
+   on canvas/sidebar/subtle/muted — the brief's #808A85 was 3.56:1 on white,
+   so it was darkened. warning #8F5A0E (was #A86A12, 3.96:1 on its subtle bg).
+   ══════════════════════════════════════════════════════════════════════ */
+:root {
+  --bg-app: #FFFFFF;
+  --bg-sidebar: #F7F8F7;
+  --bg-subtle: #F3F5F4;
+  --bg-muted: #ECEFED;
+  --border: #E3E7E5;
+  --border-strong: #CDD3D0;
+
+  --text-primary: #18201C;
+  --text-secondary: #4F5955;
+  --text-tertiary: #656F6A;
+  --text-disabled: #A9B1AD;
+
+  --accent: #1E6B4E;
+  --accent-hover: #185A41;
+  --accent-pressed: #134A35;
+  --accent-subtle: #E8F2EC;
+  --accent-text: #165A40;
+  --focus-ring: #1E6B4E66;
+
+  --success: #2F7A4F;  --success-subtle: #E7F3EC;
+  --warning: #8F5A0E;  --warning-subtle: #FBF1DF;
+  --danger:  #B4372F;  --danger-subtle:  #FBE9E7;
+  --info:    #2D5F8A;  --info-subtle:    #E6EEF6;
+
+  /* Pipeline stage chips — muted, ordered; small dots/chips only, never fills. */
+  --stage-1: #6B7A8F;  --stage-2: #4F7CA8;  --stage-3: #5C8F8A;  --stage-4: #7A8B4F;
+  --stage-5: #A08040;  --stage-6: #A0664F;  --stage-7: #8A5F86;  --stage-8: #6F6A9A;
+
+  --shadow-popover: 0 4px 16px rgba(16, 24, 20, 0.08), 0 0 0 1px var(--border);
+  --shadow-modal: 0 16px 48px rgba(16, 24, 20, 0.16), 0 0 0 1px var(--border);
+  --shadow-drag: 0 8px 24px rgba(16, 24, 20, 0.12);
+
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --duration-fast: 120ms;
+  --duration-base: 180ms;
+}
+
+@theme inline {
+  --font-app: var(--font-plex-sans), 'IBM Plex Sans', system-ui, sans-serif;
+
+  --color-canvas: var(--bg-app);
+  --color-sidebar: var(--bg-sidebar);
+  --color-subtle: var(--bg-subtle);
+  --color-muted: var(--bg-muted);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+
+  --color-fg: var(--text-primary);
+  --color-fg-secondary: var(--text-secondary);
+  --color-fg-tertiary: var(--text-tertiary);
+  --color-fg-disabled: var(--text-disabled);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-pressed: var(--accent-pressed);
+  --color-accent-subtle: var(--accent-subtle);
+  --color-accent-fg: var(--accent-text);
+  --color-focus: var(--focus-ring);
+
+  --color-success-subtle: var(--success-subtle);
+  --color-warning-subtle: var(--warning-subtle);
+  --color-danger-subtle: var(--danger-subtle);
+  --color-info: var(--info);
+  --color-info-subtle: var(--info-subtle);
+
+  --color-stage-1: var(--stage-1); --color-stage-2: var(--stage-2);
+  --color-stage-3: var(--stage-3); --color-stage-4: var(--stage-4);
+  --color-stage-5: var(--stage-5); --color-stage-6: var(--stage-6);
+  --color-stage-7: var(--stage-7); --color-stage-8: var(--stage-8);
+
+  --text-meta: 12px;   --text-meta--line-height: 16px;
+  --text-dense: 13px;  --text-dense--line-height: 18px;
+  --text-body: 14px;   --text-body--line-height: 20px;
+  --text-title: 16px;  --text-title--line-height: 24px;
+  --text-page: 20px;   --text-page--line-height: 28px;
+  --text-hero: 24px;   --text-hero--line-height: 32px;
+
+  --shadow-popover: var(--shadow-popover);
+  --shadow-modal: var(--shadow-modal);
+  --shadow-drag: var(--shadow-drag);
+
+  --ease-standard: var(--ease-standard);
+}
+
+/* Dark theme — same token names. Defined now so components can be built
+   against it; light ships first (owner decision 2026-10-03). */
+.dark {
+  --bg-app: #121614;
+  --bg-sidebar: #0E1110;
+  --bg-subtle: #171C19;
+  --bg-muted: #1F2522;
+  --border: #29302C;
+  --border-strong: #3A433E;
+
+  --text-primary: #E6EAE8;
+  --text-secondary: #AEB7B2;
+  --text-tertiary: #7D8883;
+  --text-disabled: #525B56;
+
+  --accent: #2A7D5A;
+  --accent-hover: #31906A;
+  --accent-pressed: #246B4D;
+  --accent-subtle: #173026;
+  --accent-text: #86D2AE;
+  --focus-ring: #5BBE9166;
+
+  --success: #6CC495;  --success-subtle: #16301F;
+  --warning: #E0A852;  --warning-subtle: #33270F;
+  --danger:  #F08A80;  --danger-subtle:  #3A1A17;
+  --info:    #7FB1DE;  --info-subtle:    #152535;
+
+  --shadow-popover: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--border);
+  --shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--border);
+  --shadow-drag: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+/* Tabular figures helper for money, counts, dates. */
+.tabular { font-variant-numeric: tabular-nums; }
+
 .dark {
   --background: #0f172a;
   --foreground: #f1f5f9;

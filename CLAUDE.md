@@ -13,6 +13,22 @@ Related decisions: <link to DECISIONS.md entry, if any>
 
 ---
 
+## 2026-10-03 — App redesign Phases 0–2 (research, audit, tokens) + /about build fix
+Branch: design/app-redesign
+Files: `docs/design/research.md` (new), `docs/design/audit.md` (new), `app/globals.css` (new token block + dark tokens + `.tabular`), `app/automation/layout.js` (IBM Plex Sans via `next/font`, variable only; removed unused `Toaster` import), `app/components/marketing/AboutPageContent.jsx` + `app/components/landing/DiscoverPlatformSection.jsx` (removed Founders section/card that imported the deleted `FounderCard.jsx` and linked the deleted `/founders` route — this was breaking `npm run build`)
+What changed: started executing `DESIGN_BRIEF.md`. Phase 0: researched ~50 products/design systems (21 fetched with usable content, rest from stable public knowledge — labelled per source; failed fetches listed) and wrote a "Common patterns" section. Phase 1: code-level audit with baseline counts (310 distinct hex in `app/`, 165 in `app/automation`; 20 arbitrary font sizes; 15 radius variants; 25+ shadow variants incl. coloured; 220 `font-bold`; 23 files with gradients) and root-caused the sidebar multi-active bug (`isNavItemActive` fallback + Quick Links re-rendering the same items). Screenshot pass blocked on login. Phase 2: tokens added as CSS vars + Tailwind v4 `@theme` mapping — purely additive, no page restyled yet, so nothing visible changed. Build verified passing after the /about fix.
+Related decisions: DECISIONS.md 2026-10-03 app-redesign entry.
+
+---
+
+## 2026-10-03 — Removed page-intro banners across the automation app
+Branch: main
+Files: `app/automation/components/shared/tour/AutoPageIntro.jsx`
+What changed: user asked to remove the dismissible "Nothing falls through the cracks…" intro banners shown on many pages. `AutoPageIntro` now returns `null`, so every page using it (~25) drops the banner without editing each one. `PageIntro.jsx`, the registry, spotlight tours, `DiscoveryLink`, and the Help launcher are untouched. Also diagnosed (not yet fixed) a build failure: `AboutPageContent.jsx` imports the uncommitted-deleted `FounderCard.jsx` and links to the deleted `/founders` route.
+Related decisions: none.
+
+---
+
 ## 2026-09-17 — Fixed Vercel production build failure (missing WhatsApp Flows constants exports)
 Branch: main
 Files: `lib/whatsappFlows/constants.js` (modified), `lib/whatsappFlows/constants-Life.js` (deleted)
