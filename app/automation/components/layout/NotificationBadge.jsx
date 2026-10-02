@@ -1,35 +1,18 @@
 'use client';
 
-export default function NotificationBadge({ count, urgent = false, dot = false, collapsed = false }) {
-  if (dot && !count) {
-    return (
-      <span
-        className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500"
-        title="Active"
-      />
-    );
-  }
-
+/**
+ * Nav count badge: 11px, tertiary on muted, right-aligned (DESIGN_BRIEF §7).
+ * Neutral by design — only the notification bell uses danger for unread.
+ * In the collapsed rail it becomes a small neutral dot on the icon.
+ */
+export default function NotificationBadge({ count, collapsed = false }) {
   if (!count || count <= 0) return null;
-
   if (collapsed) {
-    return (
-      <span
-        className={`absolute right-1 top-1 h-2 w-2 rounded-full ${
-          urgent ? 'bg-emerald-600' : 'bg-slate-400'
-        }`}
-      />
-    );
+    return <span aria-hidden className="absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full bg-fg-tertiary" />;
   }
-
   return (
-    <span
-      className={`inline-flex h-[18px] min-w-[18px] shrink-0 items-center justify-center rounded-md px-1 text-[10px] font-semibold tabular-nums ${
-        urgent
-          ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300'
-          : 'bg-[#F1F5F9] text-[#64748B] dark:bg-slate-800 dark:text-slate-400'
-      }`}
-    >
+    <span className="inline-flex h-[18px] min-w-[18px] shrink-0 items-center justify-center rounded-sm bg-muted px-1 text-[11px] font-medium leading-none text-fg-tertiary tabular">
+      <span className="sr-only">, </span>
       {count > 99 ? '99+' : count}
     </span>
   );

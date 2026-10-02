@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import LogoMark from './layout/LogoMark';
 
 const ease = [0.22, 1, 0.36, 1];
 
@@ -55,15 +56,8 @@ export default function WorkspaceBootLoader({ complete = false, onFinished }) {
               transition={{ duration: 0.5, ease }}
               className="flex flex-col items-center"
             >
-              <img
-                src="/image.png"
-                alt="LeadForGrow"
-                className="h-10 w-10 object-contain"
-              />
-              <p
-                className="mt-4 text-[13px] font-semibold tracking-wide text-slate-900"
-                style={{ fontFamily: 'var(--font-plus-jakarta)' }}
-              >
+              <LogoMark size={40} />
+              <p className="mt-4 text-dense font-semibold text-fg">
                 LeadForGrow
               </p>
             </motion.div>

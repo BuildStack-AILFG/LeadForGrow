@@ -11,6 +11,7 @@ import TemplateEditorDrawer from './TemplateEditorDrawer';
 import AutomatedFlowPanel from './AutomatedFlowPanel';
 import VariablePanel from './VariablePanel';
 import AutoPageIntro from '../shared/tour/AutoPageIntro';
+import TemplateChannelTabs from './TemplateChannelTabs';
 
 export default function TemplatesWorkspace() {
   const t = useTemplates();
@@ -21,6 +22,7 @@ export default function TemplatesWorkspace() {
 
   return (
     <div className="min-h-full bg-[#F8F9FA] dark:bg-slate-950">
+      <TemplateChannelTabs />
       <TemplatesHeader
         stats={t.stats}
         saving={t.saving}

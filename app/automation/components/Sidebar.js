@@ -5,7 +5,7 @@ import SidebarInner from './layout/Sidebar';
 
 function SidebarFallback() {
   return (
-    <aside className="w-[260px] h-screen flex-shrink-0 bg-[#FAFDFA] dark:bg-slate-950 border-r border-emerald-100/80 dark:border-slate-800 animate-pulse" />
+    <aside className="w-[240px] h-screen flex-shrink-0 bg-sidebar border-r border-line" />
   );
 }
 

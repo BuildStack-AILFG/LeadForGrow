@@ -30,7 +30,7 @@ export default function AutomationLayout({ children }) {
       <AccessProvider>
       <TourProvider>
       <BusinessAssistantRoot>
-        <div className={`${plexSans.variable} flex h-screen bg-white dark:bg-slate-950 relative overflow-hidden transition-colors duration-300`}>
+        <div className={`${plexSans.variable} font-app flex h-screen bg-white dark:bg-slate-950 relative overflow-hidden transition-colors duration-300`}>
           <style dangerouslySetInnerHTML={{
             __html: `body { overflow: hidden !important; height: 100vh !important; }`
           }} />

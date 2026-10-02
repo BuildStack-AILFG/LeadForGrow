@@ -1,132 +1,171 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Menu } from 'lucide-react';
 import { useSidebar } from '../../hooks/useSidebar';
 import { useAccess } from '../../context/AccessContext';
-import { NAV_GROUPS, SIDEBAR_WIDTH, filterNavGroups } from './constants';
+import { NAV_PRIMARY, NAV_GROUPS, NAV_FOOTER, SIDEBAR_WIDTH, filterNavGroups, filterNavItems, getActiveNavId } from './constants';
 import SidebarHeader from './SidebarHeader';
+import SidebarItem from './SidebarItem';
 import SidebarSection from './SidebarSection';
-import SidebarQuickLinks from './SidebarQuickLinks';
 import WorkspaceSwitcher from './WorkspaceSwitcher';
+import CommandPalette from './CommandPalette';
+import cx, { focusRing } from '@/app/components/ui/cx';
 
-// Shortcut items shown in the always-open "Quick Links" strip, in this
-// order — pulled from whatever `groups` already resolved to post-filter, so
-// a user without access to one (e.g. Inbox's permission gate) just won't
-// see it here either, same as everywhere else.
-const QUICK_LINK_ITEM_IDS = ['dashboard', 'leads', 'inbox'];
+const GROUPS_STORAGE_KEY = 'lfg.sidebar.groups';
+const DEFAULT_OPEN = { sales: true, engage: true, automate: true, insights: false };
 
+function readOpenGroups() {
+  try {
+    const raw = localStorage.getItem(GROUPS_STORAGE_KEY);
+    return raw ? { ...DEFAULT_OPEN, ...JSON.parse(raw) } : DEFAULT_OPEN;
+  } catch {
+    return DEFAULT_OPEN;
+  }
+}
+
+/**
+ * App sidebar — DESIGN_BRIEF §7.
+ * 240px, collapsible to a 56px icon rail (choice persisted by useSidebar);
+ * hovering the rail peeks the full sidebar as an overlay without reflowing
+ * the page. Exactly one active item, resolved by best match (navMatch.js).
+ * Groups remember their open/closed state; the group holding the active
+ * page is always shown open. On mobile it's an off-canvas drawer.
+ */
 export default function Sidebar() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const sidebar = useSidebar();
   const { access, showUpgrade } = useAccess();
 
-  // Hover-to-preview: while the sidebar is pinned to the narrow icon rail,
-  // hovering it temporarily expands to full width as a floating overlay
-  // (Interakt's exact behavior) — the persisted `collapsed` preference
-  // itself is untouched, this is purely a transient visual state.
   const [hoverExpanded, setHoverExpanded] = useState(false);
+  const [openGroups, setOpenGroups] = useState(DEFAULT_OPEN);
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [isMac, setIsMac] = useState(false);
 
-  // Accordion: at most one nav group open at a time, and none open on
-  // load/refresh — a group only opens once its chevron is clicked, and
-  // opening one automatically closes whichever other group was open.
-  const [openGroupId, setOpenGroupId] = useState(null);
+  useEffect(() => {
+    setOpenGroups(readOpenGroups());
+    setIsMac(/Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent));
+  }, []);
 
-  const groups = useMemo(
-    () =>
-      filterNavGroups(NAV_GROUPS, {
-        userRole: sidebar.userRole,
-        permissions: sidebar.userData.permissions,
-        navAccess: access?.navAccess,
-        isOwner: access?.isOwner,
-      }),
+  const toggleGroup = useCallback((id) => {
+    setOpenGroups((prev) => {
+      const next = { ...prev, [id]: !prev[id] };
+      try {
+        localStorage.setItem(GROUPS_STORAGE_KEY, JSON.stringify(next));
+      } catch {}
+      return next;
+    });
+  }, []);
+
+  // ⌘K / Ctrl K opens the command palette from anywhere in the app.
+  useEffect(() => {
+    const onKey = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setPaletteOpen((o) => !o);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
+  const ctx = useMemo(
+    () => ({ userRole: sidebar.userRole, permissions: sidebar.userData.permissions, navAccess: access?.navAccess, isOwner: access?.isOwner }),
     [sidebar.userRole, sidebar.userData.permissions, access?.navAccess, access?.isOwner]
   );
+  const primary = useMemo(() => filterNavItems(NAV_PRIMARY, ctx), [ctx]);
+  const groups = useMemo(() => filterNavGroups(NAV_GROUPS, ctx), [ctx]);
+  const footer = useMemo(() => filterNavItems(NAV_FOOTER, ctx), [ctx]);
 
-  const quickLinkItems = useMemo(() => {
-    const allItems = groups.flatMap((g) => g.items);
-    return QUICK_LINK_ITEM_IDS.map((id) => allItems.find((i) => i.id === id)).filter(Boolean);
-  }, [groups]);
+  const activeId = useMemo(() => getActiveNavId({ primary, groups, footer }, pathname, searchParams), [primary, groups, footer, pathname, searchParams]);
+  const activeGroupId = useMemo(() => groups.find((g) => g.items.some((i) => i.id === activeId))?.id, [groups, activeId]);
+
+  const paletteItems = useMemo(
+    () => [...primary, ...groups.flatMap((g) => g.items.map((i) => ({ ...i, group: g.label }))), ...footer],
+    [primary, groups, footer]
+  );
+
+  const getBadge = useCallback((item) => (item.badgeKey ? sidebar.stats?.[item.badgeKey] || 0 : 0), [sidebar.stats]);
 
   const railMode = !sidebar.isMobile && sidebar.collapsed;
-  const effectiveCollapsed = railMode && !hoverExpanded;
-  const width = sidebar.isMobile
-    ? SIDEBAR_WIDTH.expanded
-    : effectiveCollapsed
-      ? SIDEBAR_WIDTH.collapsed
-      : SIDEBAR_WIDTH.expanded;
+  const collapsed = railMode && !hoverExpanded;
+  const width = sidebar.isMobile ? SIDEBAR_WIDTH.expanded : collapsed ? SIDEBAR_WIDTH.collapsed : SIDEBAR_WIDTH.expanded;
+  const shortcutLabel = isMac ? '⌘K' : 'Ctrl K';
+
+  const itemProps = { collapsed, onNavigate: sidebar.closeMobile, onLockedClick: showUpgrade };
 
   return (
     <>
       {sidebar.isMobile && sidebar.mobileOpen && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-[1px] z-40 lg:hidden" onClick={sidebar.closeMobile} />
+        <div className="fixed inset-0 z-40 bg-[rgba(16,24,20,0.32)] lg:hidden" onClick={sidebar.closeMobile} aria-hidden />
       )}
 
-      {/* Layout spacer — reserves the rail's width in the flex row while the
-          real <aside> below is `fixed` (and therefore out of flow) in rail
-          mode, so hovering it into a wider overlay never reflows the page. */}
-      {railMode && <div style={{ width: SIDEBAR_WIDTH.collapsed }} className="h-screen flex-shrink-0" aria-hidden />}
+      {/* Reserves the rail's width while the <aside> is fixed in rail mode, so hover-peek never reflows the page. */}
+      {railMode && <div style={{ width: SIDEBAR_WIDTH.collapsed }} className="h-screen shrink-0" aria-hidden />}
 
       <aside
-        onMouseEnter={() => { if (railMode) setHoverExpanded(true); }}
-        onMouseLeave={() => { if (railMode) setHoverExpanded(false); }}
-        style={{ width: sidebar.isMobile ? SIDEBAR_WIDTH.expanded : width }}
-        className={`flex flex-col h-screen z-50 bg-white border-r border-[#E8EAED] transition-[width,transform] duration-200 ease-out ${
+        aria-label="Main"
+        onMouseEnter={() => railMode && setHoverExpanded(true)}
+        onMouseLeave={() => railMode && setHoverExpanded(false)}
+        style={{ width }}
+        className={cx(
+          'z-50 flex h-screen flex-col border-r border-line bg-sidebar font-app transition-[width,transform] duration-[var(--duration-base)] ease-standard motion-reduce:transition-none',
           sidebar.isMobile
-            ? `fixed top-0 left-0 flex-shrink-0 shadow-2xl ${sidebar.mobileOpen ? 'translate-x-0' : '-translate-x-full'}`
+            ? cx('fixed left-0 top-0 shadow-modal', sidebar.mobileOpen ? 'translate-x-0' : '-translate-x-full')
             : railMode
-              ? `fixed top-0 left-0 ${hoverExpanded ? 'shadow-2xl' : ''}`
-              : 'sticky top-0 flex-shrink-0'
-        }`}
+              ? cx('fixed left-0 top-0', hoverExpanded && 'shadow-modal')
+              : 'sticky top-0 shrink-0'
+        )}
       >
         <SidebarHeader
-          collapsed={effectiveCollapsed}
+          collapsed={collapsed}
           isMobile={sidebar.isMobile}
           onToggle={sidebar.toggleCollapsed}
           onMobileClose={sidebar.closeMobile}
+          onOpenSearch={() => setPaletteOpen(true)}
+          shortcutLabel={shortcutLabel}
         />
 
         <nav
-          className={`flex-1 overflow-y-auto overflow-x-hidden py-3 space-y-4 scrollbar-thin ${
-            effectiveCollapsed ? 'px-2' : 'px-0'
-          } [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-[#E8EAED] [&::-webkit-scrollbar-thumb]:rounded-full`}
-        >
-          {!effectiveCollapsed && (
-            <SidebarQuickLinks
-              items={quickLinkItems}
-              pathname={pathname}
-              searchParams={searchParams}
-              stats={sidebar.stats}
-              onNavigate={sidebar.closeMobile}
-              onLockedClick={showUpgrade}
-            />
+          className={cx(
+            'flex-1 overflow-y-auto overflow-x-hidden pb-3 pt-2 [scrollbar-width:thin]',
+            collapsed ? 'flex flex-col items-center gap-2 px-2' : 'px-2'
           )}
+        >
+          <div className={cx('flex flex-col gap-0.5', collapsed && 'items-center')}>
+            {primary.map((item) => (
+              <SidebarItem key={item.id} item={item} active={item.id === activeId} badgeCount={getBadge(item)} {...itemProps} />
+            ))}
+          </div>
+
           {groups.map((group) => (
             <SidebarSection
               key={group.id}
               group={group}
-              pathname={pathname}
-              searchParams={searchParams}
-              collapsed={effectiveCollapsed}
-              stats={sidebar.stats}
-              onNavigate={sidebar.closeMobile}
-              onLockedClick={showUpgrade}
-              open={openGroupId === group.id}
-              onToggle={() => setOpenGroupId((id) => (id === group.id ? null : group.id))}
+              activeId={activeId}
+              open={group.id === activeGroupId || !!openGroups[group.id]}
+              onToggle={() => toggleGroup(group.id)}
+              getBadge={getBadge}
+              {...itemProps}
             />
           ))}
         </nav>
 
-        <div className="flex-shrink-0 border-t border-[#E8EAED] bg-white">
+        <div className={cx('shrink-0 border-t border-line px-2 py-2', collapsed && 'flex flex-col items-center')}>
+          <div className={cx('mb-1 flex flex-col gap-0.5', collapsed && 'items-center')}>
+            {footer.map((item) => (
+              <SidebarItem key={item.id} item={item} active={item.id === activeId} badgeCount={0} {...itemProps} />
+            ))}
+          </div>
           <WorkspaceSwitcher
             workspace={sidebar.userData.workspace}
             plan={sidebar.userData.plan}
             displayName={sidebar.displayName}
             email={sidebar.userData.email}
             role={sidebar.userRole}
-            collapsed={effectiveCollapsed}
+            collapsed={collapsed}
             onLogout={sidebar.logout}
           />
         </div>
@@ -136,12 +175,17 @@ export default function Sidebar() {
         <button
           type="button"
           onClick={sidebar.toggleMobile}
-          className="fixed top-3.5 left-3.5 z-40 w-9 h-9 bg-white border border-[#E8EAED] rounded-lg flex items-center justify-center text-[#1A1D1F] shadow-md hover:bg-[#F8F9FA] transition-colors lg:hidden"
-          title="Open navigation"
+          aria-label="Open navigation"
+          className={cx(
+            'fixed left-3 top-3 z-40 inline-flex h-9 w-9 items-center justify-center rounded-md border border-line bg-canvas text-fg-secondary shadow-popover hover:text-fg lg:hidden',
+            focusRing
+          )}
         >
-          <Menu className="w-4 h-4" />
+          <Menu className="h-4 w-4" strokeWidth={1.5} />
         </button>
       )}
+
+      <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} items={paletteItems} />
     </>
   );
 }

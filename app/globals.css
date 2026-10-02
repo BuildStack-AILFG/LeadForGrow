@@ -2,6 +2,12 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Tailwind v4 gates `hover:` behind @media (hover: hover). The owner's
+   touchscreen laptop reports hover:none even with a mouse attached, which
+   silently disabled every hover: utility (see CLAUDE.md 2026-09-11). Plain
+   :hover works on that device and is harmless on pure-touch phones. */
+@custom-variant hover (&:hover);
+
 :root {
   /* App shell — light neutral canvas + white working surfaces, Interakt-style
      (subtle grey-blue background, not pure white everywhere). */
@@ -212,6 +218,12 @@
   h2 {
     @apply font-bold text-[#111827];
     font-family: var(--font-inter-tight);
+  }
+
+  /* Signed-in app uses the app typeface for headings too (marketing keeps Inter Tight). */
+  .font-app h1,
+  .font-app h2 {
+    font-family: inherit;
   }
 
   .metric-value {

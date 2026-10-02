@@ -1,199 +1,149 @@
 import {
-  LayoutDashboard,
+  Home,
+  Inbox,
+  CheckSquare,
   Users,
+  Handshake,
   UserCircle,
   Building2,
-  Handshake,
-  MessagesSquare,
-  Kanban,
-  CheckSquare,
-  SlidersHorizontal,
-  GitBranch,
-  Mail,
-  Bot,
-  FileText,
-  FileInput,
-  PhoneCall,
-  CalendarClock,
-  BarChart3,
-  CalendarDays,
-  UserCog,
-  Plug,
-  Settings,
-  Sparkles,
-  BookOpen,
-  Send,
-  Map,
-  Activity,
-  Workflow,
   Receipt,
-  Columns3,   // Deal Pipeline — visually different from Sequences' branch icon
-  Route,      // Sequences — journey/path implies multi-step drip
-  Brain,      // AI Knowledge — knowledge base ≠ Help Center's guidance
-  Compass,    // Guide — navigation/find-your-way, replaces old BookOpen dup
-  Inbox,      // Inbox — literal tray shape, cleaner than a cramped brand cluster
-  LayoutGrid, // Overview group header icon
-  TrendingUp, // Sales group header icon
-  Zap,        // Automation group header icon
-  Telescope,  // Insights & AI group header icon
-  Briefcase,  // Workspace group header icon
+  Send,
+  CalendarClock,
+  FileText,
+  PhoneCall,
+  SlidersHorizontal,
+  Route,
+  Workflow,
+  Map,
+  Bot,
+  FileInput,
+  BarChart3,
+  Activity,
+  CalendarDays,
+  Brain,
+  Sparkles,
+  Settings,
+  LifeBuoy,
 } from 'lucide-react';
-// Real brand mark — WhatsApp Templates uses the actual WhatsApp mark in
-// monochrome (via currentColor) so users recognise the shape without the
-// green fighting the rest of the nav.
-import { WhatsAppIcon } from '../chat/BrandIcons';
+import { resolveActiveNavId } from './navMatch.js';
 
 export const SIDEBAR_WIDTH = {
-  expanded: 260,
-  collapsed: 72
+  expanded: 240,
+  collapsed: 56,
 };
 
-// Regrouped per the "Overview -> Sell -> Communicate -> Automate -> Analyze
-// -> Manage Workspace" mental model — item `id`s are UNCHANGED from the old
-// grouping (only `name`/group membership/order moved) since `id` is the key
-// per-tenant `navAccess` overrides (locked/tier restrictions) are stored
-// under; renaming an id would silently break any business's existing
-// locked-nav config.
+/*
+ * Information architecture approved by the owner on 2026-10-03
+ * (DESIGN_BRIEF §7, DECISIONS.md). Rules:
+ *  - every destination appears exactly once;
+ *  - views of an object live inside its page (Leads/Deals have List | Board
+ *    switchers), not in the nav;
+ *  - item `id`s are the keys per-tenant `navAccess` locks are stored under —
+ *    never rename an id. Ids removed from the nav ('pipeline',
+ *    'deal-pipeline', 'whatsapp-templates', 'team', 'integrations') still
+ *    have working routes, reachable from inside their parent page/Settings;
+ *    `match` makes the parent item active on those routes.
+ */
+
+/** Top-level items, no section header. */
+export const NAV_PRIMARY = [
+  { id: 'dashboard', name: 'Home', href: '/automation', icon: Home, exact: true },
+  { id: 'inbox', name: 'Inbox', href: '/automation/chat', icon: Inbox, badgeKey: 'unreadChats', permission: ['dashboard_access', 'reports_access'] },
+  { id: 'tasks', name: 'Tasks', href: '/automation/tasks', icon: CheckSquare, badgeKey: 'overdueTasks' },
+];
+
 export const NAV_GROUPS = [
-  {
-    id: 'overview',
-    label: 'Overview',
-    icon: LayoutGrid,
-    items: [
-      { id: 'dashboard', name: 'Dashboard', href: '/automation', icon: LayoutDashboard, exact: true },
-      { id: 'tasks', name: 'Tasks', href: '/automation/tasks', icon: CheckSquare, badgeKey: 'overdueTasks', urgent: true },
-    ]
-  },
   {
     id: 'sales',
     label: 'Sales',
-    icon: TrendingUp,
     items: [
-      { id: 'leads', name: 'Leads', href: '/automation/leads', icon: Users, badgeKey: 'unreadLeads', urgent: true },
-      { id: 'pipeline', name: 'Lead Pipeline', href: '/automation/leads?view=kanban', icon: Kanban, matchPrefix: '/automation/leads' },
-      { id: 'deals', name: 'Deals', href: '/automation/deals', icon: Handshake, matchPrefix: '/automation/deals' },
-      { id: 'deal-pipeline', name: 'Sales Pipeline', href: '/automation/pipelines', icon: Columns3, matchPrefix: '/automation/pipelines' },
-      { id: 'companies', name: 'Companies', href: '/automation/companies', icon: Building2, matchPrefix: '/automation/companies' },
-      { id: 'contacts', name: 'Contacts', href: '/automation/contacts', icon: UserCircle, matchPrefix: '/automation/contacts' },
-      { id: 'bills', name: 'Bills', href: '/automation/bills', icon: Receipt, matchPrefix: '/automation/bills' },
-    ]
+      { id: 'leads', name: 'Leads', href: '/automation/leads', icon: Users, badgeKey: 'unreadLeads' },
+      { id: 'deals', name: 'Deals', href: '/automation/deals', icon: Handshake },
+      { id: 'contacts', name: 'Contacts', href: '/automation/contacts', icon: UserCircle },
+      { id: 'companies', name: 'Companies', href: '/automation/companies', icon: Building2 },
+      { id: 'bills', name: 'Bills', href: '/automation/bills', icon: Receipt },
+    ],
   },
   {
-    id: 'communication',
-    label: 'Communication',
-    icon: MessagesSquare,
+    id: 'engage',
+    label: 'Engage',
     items: [
-      {
-        id: 'inbox',
-        name: 'Inbox',
-        href: '/automation/chat',
-        icon: Inbox,
-        badgeKey: 'unreadChats',
-        permission: ['dashboard_access', 'reports_access']
-      },
       { id: 'broadcasts', name: 'Broadcasts', href: '/automation/broadcasts', icon: Send },
-      {
-        id: 'meetings',
-        name: 'Meetings',
-        href: '/automation/meetings',
-        icon: CalendarClock,
-        matchPrefix: '/automation/meetings'
-      },
-      { id: 'templates', name: 'Templates', href: '/automation/templates', icon: FileText },
-      { id: 'whatsapp-templates', name: 'WhatsApp Templates', href: '/automation/whatsapp-templates', icon: WhatsAppIcon, matchPrefix: '/automation/whatsapp-templates' },
-      { id: 'call-recovery', name: 'Call Recovery', href: '/automation/call-integration', icon: PhoneCall }
-    ]
+      { id: 'meetings', name: 'Meetings', href: '/automation/meetings', icon: CalendarClock },
+      { id: 'templates', name: 'Templates', href: '/automation/templates', icon: FileText, match: ['/automation/whatsapp-templates'] },
+      { id: 'call-recovery', name: 'Call recovery', href: '/automation/call-integration', icon: PhoneCall },
+    ],
   },
   {
-    id: 'automation',
-    label: 'Automation',
-    icon: Zap,
+    id: 'automate',
+    label: 'Automate',
     items: [
-      { id: 'rules', name: 'Automations', href: '/automation/automation-rules', icon: SlidersHorizontal, badgeKey: 'activeAutomations', dot: 'live' },
+      { id: 'rules', name: 'Automations', href: '/automation/automation-rules', icon: SlidersHorizontal, badgeKey: 'activeAutomations' },
       { id: 'sequences', name: 'Sequences', href: '/automation/sequences', icon: Route },
-      { id: 'whatsapp-flows', name: 'WhatsApp Flows', href: '/automation/whatsapp-flows', icon: Workflow, matchPrefix: '/automation/whatsapp-flows' },
-      { id: 'journeys', name: 'Customer Journeys', href: '/automation/journeys', icon: Map },
+      { id: 'whatsapp-flows', name: 'WhatsApp flows', href: '/automation/whatsapp-flows', icon: Workflow },
+      { id: 'journeys', name: 'Customer journeys', href: '/automation/journeys', icon: Map },
       { id: 'chatbot', name: 'Chatbot', href: '/automation/chatbot', icon: Bot },
       { id: 'forms', name: 'Forms', href: '/automation/forms', icon: FileInput, role: 'owner' },
-    ]
+    ],
   },
   {
     id: 'insights',
-    label: 'Insights & AI',
-    icon: Telescope,
+    label: 'Insights',
     role: 'owner',
     items: [
       { id: 'reports', name: 'Reports', href: '/automation/reports', icon: BarChart3 },
-      { id: 'automation-analytics', name: 'Automation Performance', href: '/automation/automation-analytics', icon: Activity },
-      { id: 'events', name: 'Activity & Events', href: '/automation/events', icon: CalendarDays, badgeKey: 'activeEvents', dot: 'live' },
-      { id: 'ai-knowledge', name: 'AI Knowledge', href: '/automation/ai/knowledge', icon: Brain, role: 'owner' },
-      { id: 'ai-settings', name: 'AI Settings', href: '/automation/settings/ai', icon: Sparkles, role: 'owner' },
-    ]
+      { id: 'automation-analytics', name: 'Automation performance', href: '/automation/automation-analytics', icon: Activity },
+      { id: 'events', name: 'Activity log', href: '/automation/events', icon: CalendarDays },
+      { id: 'ai-knowledge', name: 'AI knowledge', href: '/automation/ai/knowledge', icon: Brain, role: 'owner' },
+      { id: 'ai-settings', name: 'AI settings', href: '/automation/settings/ai', icon: Sparkles, role: 'owner' },
+    ],
   },
-  {
-    id: 'workspace',
-    label: 'Workspace',
-    icon: Briefcase,
-    items: [
-      { id: 'team', name: 'Team & Access', href: '/automation/settings/team-permissions', icon: UserCog, role: 'owner' },
-      { id: 'integrations', name: 'Integrations', href: '/automation/settings/integrations', icon: Plug, role: 'owner' },
-      { id: 'crm-settings', name: 'Settings', href: '/automation/settings', icon: Settings, role: 'owner', exact: true },
-      { id: 'help-center', name: 'Help Center', href: '/help', icon: Compass, matchPrefix: '/help' },
-    ]
-  }
 ];
 
-export function filterNavGroups(groups, { userRole, permissions, navAccess, isOwner }) {
-  const role = (userRole || 'member').toLowerCase();
-  const isAdmin = isOwner || role === 'owner' || role.includes('admin') || role.includes('super');
+/** Pinned to the bottom of the sidebar, above the workspace switcher. */
+export const NAV_FOOTER = [
+  {
+    id: 'crm-settings',
+    name: 'Settings',
+    href: '/automation/settings',
+    icon: Settings,
+    role: 'owner',
+    match: ['/automation/pipelines', '/automation/integrations', '/automation/team'],
+  },
+  { id: 'help-center', name: 'Help', href: '/help', icon: LifeBuoy },
+];
 
-  return groups
-    .filter((group) => {
-      if (!group.role) return true;
-      return isAdmin || group.role === role;
+function isAdminRole({ userRole, isOwner }) {
+  const role = (userRole || 'member').toLowerCase();
+  return { role, isAdmin: isOwner || role === 'owner' || role.includes('admin') || role.includes('super') };
+}
+
+/** Applies role / permission / per-tenant navAccess (denied, locked) to a flat item list. */
+export function filterNavItems(items, ctx) {
+  const { role, isAdmin } = isAdminRole(ctx);
+  const { permissions, navAccess } = ctx;
+  return items
+    .filter((item) => {
+      if (item.role && !isAdmin && item.role !== role) return false;
+      if (item.permission && !item.permission.every((p) => permissions?.includes(p))) return false;
+      if (navAccess?.[item.id]?.denied) return false;
+      return true;
     })
-    .map((group) => ({
-      ...group,
-      items: group.items
-        .filter((item) => {
-          if (item.role && !isAdmin && item.role !== role) return false;
-          if (item.permission && !item.permission.every((p) => permissions?.includes(p))) return false;
-          if (navAccess && item.id) {
-            const nav = navAccess[item.id];
-            if (nav?.denied) return false;
-          }
-          return true;
-        })
-        .map((item) => {
-          if (!navAccess || !item.id) return item;
-          const nav = navAccess[item.id];
-          if (nav?.locked) {
-            return {
-              ...item,
-              locked: true,
-              requiredTier: nav.requiredTier || 'growth',
-              href: item.href,
-            };
-          }
-          return item;
-        }),
-    }))
+    .map((item) => {
+      const nav = navAccess?.[item.id];
+      return nav?.locked ? { ...item, locked: true, requiredTier: nav.requiredTier || 'growth' } : item;
+    });
+}
+
+export function filterNavGroups(groups, ctx) {
+  const { role, isAdmin } = isAdminRole(ctx);
+  return groups
+    .filter((group) => !group.role || isAdmin || group.role === role)
+    .map((group) => ({ ...group, items: filterNavItems(group.items, ctx) }))
     .filter((group) => group.items.length > 0);
 }
 
-export function isNavItemActive(pathname, searchParams, item) {
-  const href = item.href.split('?')[0];
-  const query = item.href.includes('?') ? item.href.split('?')[1] : '';
-
-  if (item.exact) return pathname === href;
-  if (query && searchParams) {
-    const params = new URLSearchParams(query);
-    const view = params.get('view');
-    if (view && searchParams.get('view') === view && pathname === href) return true;
-    if (item.id === 'pipeline' && pathname === href && searchParams.get('view') === 'kanban') return true;
-  }
-  if (item.id === 'leads' && pathname === href && searchParams?.get('view') !== 'kanban') return true;
-  if (item.id === 'pipeline') return pathname === href && searchParams?.get('view') === 'kanban';
-  if (item.matchPrefix) return pathname === item.matchPrefix || pathname.startsWith(`${item.matchPrefix}/`);
-  return pathname === href || pathname.startsWith(`${href}/`);
+/** Single active item id across the whole (filtered) nav. */
+export function getActiveNavId({ primary, groups, footer }, pathname, searchParams) {
+  return resolveActiveNavId([...primary, ...groups.flatMap((g) => g.items), ...footer], pathname, searchParams);
 }
