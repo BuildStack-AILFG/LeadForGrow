@@ -20,7 +20,6 @@ import {
 import { authFetch } from '@/lib/apiClient';
 import { toast } from 'react-hot-toast';
 import PageLoader from '../../components/PageLoader';
-import RichSignatureEditor from '../../components/settings/RichSignatureEditor';
 import MultiSignatureEditor from '../../components/settings/MultiSignatureEditor';
 import AiBadgeIcon from '@/app/components/icons/AiBadgeIcon';
 import { useConfirm } from '@/app/components/ConfirmProvider';

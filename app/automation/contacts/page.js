@@ -11,7 +11,10 @@ import ContactsBulkBar from '../components/contacts/ContactsBulkBar';
 import ContactsPagination from '../components/contacts/ContactsPagination';
 import ContactCreateModal from '../components/contacts/ContactCreateModal';
 import ContactsImportModal from '../components/contacts/ContactsImportModal';
-import ContactDrawer from '../components/contacts/ContactDrawer';
+import { lazyPanel, useOpenedOnce } from '@/app/components/lazyPanel';
+
+// Loaded in the background after the page, so it doesn't weigh on the first paint.
+const ContactDrawer = lazyPanel(() => import('../components/contacts/ContactDrawer'));
 import ContactsSkeleton from '../components/contacts/ContactsSkeleton';
 import AutoPageIntro from '@/app/automation/components/shared/tour/AutoPageIntro';
 
@@ -38,6 +41,7 @@ function ContactsEmptyState({ onCreate }) {
 
 function ContactsContent() {
   const ws = useContactsWorkspace();
+  const drawerOpened = useOpenedOnce(ws.drawerId);
   const [showImport, setShowImport] = useState(false);
 
   if (ws.loading && !ws.contacts.length) return <ContactsSkeleton />;
@@ -120,11 +124,11 @@ function ContactsContent() {
         teamMembers={ws.teamMembers}
       />
 
-      <ContactDrawer
+      {drawerOpened && (<ContactDrawer
         contactId={ws.drawerId}
         onClose={() => ws.setDrawerId(null)}
         onUpdated={() => ws.fetchContacts(true)}
-      />
+      />)}
 
       <ContactsImportModal
         open={showImport}

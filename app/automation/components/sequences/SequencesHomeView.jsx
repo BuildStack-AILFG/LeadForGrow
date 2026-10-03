@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import {
   GitBranch, Plus, Play, Users, CheckCircle2, Zap, Trash2, ChevronRight, Search, Pause,
   Folder, FolderOpen, Star, Pencil, Copy, Archive
@@ -128,10 +127,8 @@ export default function SequencesHomeView({
               { label: 'Enrolled leads', value: stats.enrolled, icon: Users, iconClass: 'text-accent-fg' },
               { label: 'Running now', value: stats.running, icon: Zap, iconClass: 'text-warning' },
             ].map((s) => (
-              <motion.div
+              <div
                 key={s.label}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
                 className="p-4 rounded-lg bg-canvas/80 dark:bg-slate-900/80 border border-line/80 dark:border-slate-800"
               >
                 <div className="flex items-center justify-between">
@@ -139,7 +136,7 @@ export default function SequencesHomeView({
                   <s.icon className={`w-4 h-4 ${s.iconClass}`} />
                 </div>
                 <p className="text-2xl font-semibold text-fg dark:text-white mt-1">{s.value}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
 
@@ -159,11 +156,8 @@ export default function SequencesHomeView({
           ) : (
             <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
               {sequences.map((seq, i) => (
-                <motion.div
+                <div
                   key={seq._id}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.04 }}
                   className="group text-left p-5 rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 hover:border-line dark:hover:border-accent hover:shadow-popover transition-all"
                 >
                   <button type="button" onClick={() => onSelect(seq)} className="w-full text-left">
@@ -229,7 +223,7 @@ export default function SequencesHomeView({
                       </button>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
           )}

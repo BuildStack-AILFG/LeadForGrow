@@ -3,7 +3,10 @@
 import PageLoader from '../PageLoader';
 import { useMeetingsWorkspace } from '../../hooks/useMeetingsWorkspace';
 import MeetingsDashboard from './MeetingsDashboard';
-import CreateMeetingWizard from './CreateMeetingWizard';
+import { lazyPanel } from '@/app/components/lazyPanel';
+
+// Only needed after "New booking link" / "Edit" — fetched in the background, not with the page.
+const CreateMeetingWizard = lazyPanel(() => import('./CreateMeetingWizard'));
 
 export default function MeetingsWorkspace() {
   const ws = useMeetingsWorkspace();

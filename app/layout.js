@@ -1,6 +1,6 @@
 import Footer from "./components/Footer";
 import CookieConsentManager from "./components/consent/CookieConsentManager";
-import LeadForGrowWidget from "./Enquiry";
+import LeadForGrowWidget from "./EnquiryLazy";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { Inter, Inter_Tight, Plus_Jakarta_Sans, Barlow, Libre_Baskerville } from "next/font/google";

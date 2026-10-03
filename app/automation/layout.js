@@ -1,7 +1,7 @@
 import { IBM_Plex_Sans } from 'next/font/google';
 import AccessControl from './components/AccessControl';
 import { AccessProvider } from './context/AccessContext';
-import UpgradeGateModal from './components/access/UpgradeGateModal';
+import UpgradeGateModal from './components/access/UpgradeGateModalLazy';
 import Sidebar from './components/Sidebar';
 import GlobalDialer from './components/GlobalDialer';
 import ReminderMonitor from './components/ReminderMonitor';

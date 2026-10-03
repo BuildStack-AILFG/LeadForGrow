@@ -453,6 +453,12 @@
   @apply transition-transform duration-200;
 }
 
+/* Workspace boot loader (CSS only — keeps framer-motion out of the app shell) */
+@keyframes lfg-boot-in {
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
 /* ── Premium dashboard animations ───────────────────────────── */
 @keyframes lfg-fade-up {
   0% { opacity: 0; transform: translateY(10px); }

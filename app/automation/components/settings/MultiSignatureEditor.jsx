@@ -30,9 +30,11 @@
  * on first render so the user's existing content isn't lost.
  */
 
+import dynamic from 'next/dynamic';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Plus, Trash2, Star, ChevronDown, Check } from 'lucide-react';
-import RichSignatureEditor from './RichSignatureEditor';
+// The rich-text editor loads when a signature is being edited, not with the settings page.
+const RichSignatureEditor = dynamic(() => import('./RichSignatureEditor'), { ssr: false, loading: () => <div className="h-48 w-full animate-pulse rounded-md border border-line bg-subtle" aria-hidden /> });
 import { useConfirm } from '@/app/components/ConfirmProvider';
 
 function newId() {

@@ -1,20 +1,23 @@
 'use client';
 
+import { lazyPanel } from '@/app/components/lazyPanel';
 import { Loader2, ArrowLeft, Save, Play, Layers, BarChart3, Activity, FlaskConical, Copy, ClipboardPaste, Settings, ShieldCheck, ListChecks } from 'lucide-react';
 import PageLoader from '../PageLoader';
 import { useSequencesWorkspace } from '../../hooks/useSequencesWorkspace';
 import SequencesHomeView from './SequencesHomeView';
-import SequenceCreationWizard from './SequenceCreationWizard';
 import NodeSidebar from './NodeSidebar';
-import WorkflowCanvas from './WorkflowCanvas';
 import NodeSettingsPanel from './NodeSettingsPanel';
-import SequenceAnalytics from './SequenceAnalytics';
 import ExecutionLogs from './ExecutionLogs';
 import SequenceWorkflowSettings from './SequenceWorkflowSettings';
 import ApprovalQueue from './ApprovalQueue';
 import SimpleEditView from './SimpleEditView';
 import ConfirmDialog from '../shared/ConfirmDialog';
 import { nextNodePosition, defaultAnchorId } from '@/lib/sequences/canvasMath';
+
+// Builder, wizard and panels load on demand; the list view opens without them.
+const SequenceCreationWizard = lazyPanel(() => import('./SequenceCreationWizard'));
+const WorkflowCanvas = lazyPanel(() => import('./WorkflowCanvas'));
+const SequenceAnalytics = lazyPanel(() => import('./SequenceAnalytics'));
 
 // Simple edit is FIRST — most non-technical SMB customers want to edit 3
 // messages, not build a graph. Advanced users can still switch to Builder.

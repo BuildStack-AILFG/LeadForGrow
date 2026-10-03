@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
+import mongoose from 'mongoose';
 import Lead from '@/models/automation/Lead';
+import { leadStatsFromDb } from '@/lib/crm/leadStats';
 import Deal from '@/models/automation/Deal';
 import Task from '@/models/automation/Task';
 import Activity from '@/models/automation/Activity';
@@ -32,6 +34,9 @@ const AWAITING_FIRST_RESPONSE = ['new', 'new_lead'];
 const QUOTATION_WAIT_STAGES = ['demo_completed', 'negotiation', 'decision_pending'];
 const MEETING_ACTIVE = ['scheduled', 'confirmed'];
 
+/** Aggregation $match does not cast like find() does — pass a real ObjectId. */
+const toObjectId = (id) => (id instanceof mongoose.Types.ObjectId ? id : new mongoose.Types.ObjectId(String(id)));
+
 export const GET = withTenantAuth(async (request) => {
   try {
     const tenant = await resolveTenant(request);
@@ -59,7 +64,7 @@ export const GET = withTenantAuth(async (request) => {
       todayLeads,
       awaitingFirstResponse,
       deals,
-      allLeads,
+      leadStats,
       monthMeetings,
       tasksDueToday,
       tasksOverdue,
@@ -77,9 +82,8 @@ export const GET = withTenantAuth(async (request) => {
         .select('title amount currency stage probability updatedAt wonAt lostAt assignedTo leadId')
         .populate('assignedTo', 'firstName lastName')
         .lean(),
-      Lead.find({ businessId, archived: false })
-        .select('status source priority receivedAt convertedAt updatedAt location')
-        .lean(),
+      // Counted inside MongoDB — a few dozen numbers instead of every lead document.
+      leadStatsFromDb(Lead, { businessId: toObjectId(businessId), archived: false }),
       MeetingBooking.find({
         businessId,
         status: { $in: MEETING_ACTIVE },
@@ -160,10 +164,10 @@ export const GET = withTenantAuth(async (request) => {
     });
 
     const currency = deals[0]?.currency || 'INR';
-    const heroKpis = buildHeroKpis(allLeads, deals, revenue);
+    const heroKpis = buildHeroKpis(leadStats, deals, revenue);
     const revenueChart = buildRevenueSeries(deals, currency);
-    const leadsManagement = buildLeadsManagement(allLeads);
-    const retention = buildRetentionData(allLeads);
+    const leadsManagement = buildLeadsManagement(leadStats);
+    const retention = buildRetentionData(leadStats);
     const calendar = buildCalendarData(monthMeetings, calYear, calMonth);
 
     return NextResponse.json({

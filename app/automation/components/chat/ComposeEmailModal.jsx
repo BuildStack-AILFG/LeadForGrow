@@ -1,10 +1,12 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useState, useEffect } from 'react';
 import { X, Mail, Send, Loader2, PenLine, Paperclip } from 'lucide-react';
 import { authFetch } from '@/lib/apiClient';
 import { toast } from 'react-hot-toast';
-import RichEmailBodyEditor from '@/app/automation/broadcasts/RichEmailBodyEditor';
+// Loaded with the New Email window, not with the inbox.
+const RichEmailBodyEditor = dynamic(() => import('@/app/automation/broadcasts/RichEmailBodyEditor'), { ssr: false, loading: () => <div className="h-48 w-full animate-pulse rounded-md border border-line bg-subtle" aria-hidden /> });
 import MediaAttachmentStrip from './MediaAttachmentStrip';
 import RecipientRow from './RecipientRow';
 import { useMediaUpload } from '@/app/automation/hooks/useMediaUpload';

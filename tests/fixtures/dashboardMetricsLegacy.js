@@ -1,8 +1,4 @@
-import { WON_STAGES, LOST_STAGES, CLOSED_STAGES } from './stageKeys.js';
-import { leadStatsFromArray, RETENTION_MONTHS } from './leadStats.js';
-
-/** Builders accept either an array of leads (tests, small callers) or precomputed lead stats. */
-const toStats = (leadsOrStats) => (Array.isArray(leadsOrStats) ? leadStatsFromArray(leadsOrStats) : leadsOrStats);
+import { WON_STAGES, LOST_STAGES, CLOSED_STAGES } from '../../lib/crm/stageKeys.js';
 
 const OPEN_STATUSES = ['new', 'new_lead', 'contacted', 'first_contact'];
 const IN_PROGRESS_STATUSES = [
@@ -66,13 +62,35 @@ export function weekBounds(offsetWeeks = 0) {
 }
 
 export function buildHeroKpis(leads = [], deals = [], revenue = {}) {
-  const st = toStats(leads);
+  const now = new Date();
   const thisWeek = weekBounds(0);
   const lastWeek = weekBounds(-1);
 
-  const { leadsThisWeek, leadsLastWeek, convertedThisWeek, convertedLastWeek } = st;
-  const totalLeads = st.total;
-  const conversionRate = totalLeads ? Math.round((st.won / totalLeads) * 100) : 0;
+  const leadsThisWeek = leads.filter((l) => {
+    const at = new Date(l.receivedAt);
+    return at >= thisWeek.start && at < thisWeek.end;
+  }).length;
+
+  const leadsLastWeek = leads.filter((l) => {
+    const at = new Date(l.receivedAt);
+    return at >= lastWeek.start && at < lastWeek.end;
+  }).length;
+
+  const totalLeads = leads.length;
+  const converted = leads.filter((l) => WON_STATUSES.includes(l.status)).length;
+  const conversionRate = totalLeads ? Math.round((converted / totalLeads) * 100) : 0;
+
+  const convertedThisWeek = leads.filter((l) => {
+    if (!WON_STATUSES.includes(l.status)) return false;
+    const at = new Date(l.convertedAt || l.updatedAt);
+    return at >= thisWeek.start && at < thisWeek.end;
+  }).length;
+
+  const convertedLastWeek = leads.filter((l) => {
+    if (!WON_STATUSES.includes(l.status)) return false;
+    const at = new Date(l.convertedAt || l.updatedAt);
+    return at >= lastWeek.start && at < lastWeek.end;
+  }).length;
 
   const convThisWeek = leadsThisWeek
     ? Math.round((convertedThisWeek / leadsThisWeek) * 100)
@@ -81,10 +99,39 @@ export function buildHeroKpis(leads = [], deals = [], revenue = {}) {
     ? Math.round((convertedLastWeek / leadsLastWeek) * 100)
     : 0;
 
-  const avg = ({ sum, n }) => Math.round(sum / n);
-  const avgCycle = st.cycle.all.n ? avg(st.cycle.all) : 0;
-  const avgCycleThis = st.cycle.thisMonth.n ? avg(st.cycle.thisMonth) : avgCycle;
-  const avgCycleLast = st.cycle.lastMonth.n ? avg(st.cycle.lastMonth) : avgCycleThis;
+  const cycleDays = [];
+  for (const lead of leads) {
+    if (!WON_STATUSES.includes(lead.status)) continue;
+    const start = new Date(lead.receivedAt);
+    const end = new Date(lead.convertedAt || lead.updatedAt);
+    const days = Math.max(1, Math.round((end - start) / 86400000));
+    cycleDays.push(days);
+  }
+  const avgCycle = cycleDays.length
+    ? Math.round(cycleDays.reduce((a, b) => a + b, 0) / cycleDays.length)
+    : 0;
+
+  const cycleThisMonth = [];
+  const cycleLastMonth = [];
+  const thisMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+  const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 1);
+
+  for (const lead of leads) {
+    if (!WON_STATUSES.includes(lead.status)) continue;
+    const end = new Date(lead.convertedAt || lead.updatedAt);
+    const start = new Date(lead.receivedAt);
+    const days = Math.max(1, Math.round((end - start) / 86400000));
+    if (end >= thisMonthStart) cycleThisMonth.push(days);
+    else if (end >= lastMonthStart && end < lastMonthEnd) cycleLastMonth.push(days);
+  }
+
+  const avgCycleThis = cycleThisMonth.length
+    ? Math.round(cycleThisMonth.reduce((a, b) => a + b, 0) / cycleThisMonth.length)
+    : avgCycle;
+  const avgCycleLast = cycleLastMonth.length
+    ? Math.round(cycleLastMonth.reduce((a, b) => a + b, 0) / cycleLastMonth.length)
+    : avgCycleThis;
 
   const isOpenDeal = (d) => d && !CLOSED_STAGES.includes(d.stage);
   const openDeals = deals.filter(isOpenDeal);
@@ -277,8 +324,8 @@ export function buildRevenueSeries(deals = [], currency = 'INR') {
 }
 
 export function buildLeadsManagement(leads = []) {
-  const st = toStats(leads);
-  const countBy = (statuses) => statuses.reduce((n, key) => n + (st.byStatus[key] || 0), 0);
+  const countBy = (statuses) =>
+    leads.filter((l) => statuses.includes(l.status)).length;
 
   const statusItems = [
     { key: 'open', label: 'Open', count: countBy(OPEN_STATUSES) },
@@ -292,14 +339,18 @@ export function buildLeadsManagement(leads = []) {
     progress: Math.round((i.count / statusMax) * 100),
   }));
 
-  const sourceMap = st.bySource;
+  const sourceMap = {};
+  for (const lead of leads) {
+    const src = lead.source || 'other';
+    sourceMap[src] = (sourceMap[src] || 0) + 1;
+  }
   const sourceItems = Object.entries(sourceMap)
     .map(([key, count]) => ({
       key,
       label: SOURCE_LABELS[key] || key,
       count,
     }))
-    .sort((a, b) => b.count - a.count || a.key.localeCompare(b.key))
+    .sort((a, b) => b.count - a.count)
     .slice(0, 4);
   const sourceMax = Math.max(...sourceItems.map((i) => i.count), 1);
   const sources = sourceItems.map((i) => ({
@@ -308,9 +359,9 @@ export function buildLeadsManagement(leads = []) {
   }));
 
   const qualMap = { Hot: 0, Warm: 0, Cold: 0, Unscored: 0 };
-  for (const [priority, count] of Object.entries(st.byPriority)) {
-    const label = QUALIFICATION_MAP[priority] || 'Unscored';
-    qualMap[label] = (qualMap[label] || 0) + count;
+  for (const lead of leads) {
+    const label = QUALIFICATION_MAP[lead.priority] || 'Unscored';
+    qualMap[label] = (qualMap[label] || 0) + 1;
   }
   const qualItems = Object.entries(qualMap)
     .filter(([, count]) => count > 0)
@@ -325,12 +376,15 @@ export function buildLeadsManagement(leads = []) {
   return { status, sources, qualification };
 }
 
-export function buildRetentionData(leads = [], months = RETENTION_MONTHS) {
-  const st = toStats(leads);
+export function buildRetentionData(leads = [], months = 7) {
   const now = new Date();
-  const topSources = Object.entries(st.bySource)
-    .map(([src, count]) => ({ key: src, label: SOURCE_LABELS[src] || src, count }))
-    .sort((a, b) => b.count - a.count || a.key.localeCompare(b.key))
+  const topSources = [...new Set(leads.map((l) => l.source || 'other'))]
+    .map((src) => ({
+      key: src,
+      label: SOURCE_LABELS[src] || src,
+      count: leads.filter((l) => (l.source || 'other') === src).length,
+    }))
+    .sort((a, b) => b.count - a.count)
     .slice(0, 3);
 
   const segmentColors = ['#2463EB', '#60A5FA', '#1E3A8A'];
@@ -340,28 +394,58 @@ export function buildRetentionData(leads = [], months = RETENTION_MONTHS) {
     color: segmentColors[i] || '#94A3B8',
   }));
 
-  // Stats hold RETENTION_MONTHS months, oldest first; show the last `months` of them.
-  const offset = RETENTION_MONTHS - months;
   const monthly = [];
   for (let i = months - 1; i >= 0; i--) {
     const start = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    const k = offset + (months - 1 - i);
-    const row = { month: start.toLocaleString('en-US', { month: 'short' }), values: {} };
+    const end = new Date(now.getFullYear(), now.getMonth() - i + 1, 1);
+    const monthLabel = start.toLocaleString('en-US', { month: 'short' });
+    const row = { month: monthLabel, values: {} };
+
     for (const seg of segments) {
-      const m = st.monthly[seg.key];
-      const received = m?.received[k] || 0;
-      const retained = m?.retained[k] || 0;
-      row.values[seg.key] = received ? Math.round((retained / received) * 100) : 0;
+      const segLeads = leads.filter((l) => (l.source || 'other') === seg.key);
+      const received = segLeads.filter((l) => {
+        const at = new Date(l.receivedAt);
+        return at >= start && at < end;
+      }).length;
+      const retained = segLeads.filter((l) => {
+        if (!WON_STATUSES.includes(l.status)) return false;
+        const at = new Date(l.convertedAt || l.updatedAt);
+        return at >= start && at < end;
+      }).length;
+      row.values[seg.key] = received
+        ? Math.round((retained / received) * 100)
+        : 0;
     }
     monthly.push(row);
   }
 
-  const rate = st.total ? Math.round((st.won / st.total) * 100) : 0;
-  const thisRate = st.thisMonthReceived
-    ? Math.round((st.thisMonthRetained / st.thisMonthReceived) * 100)
+  const totalReceived = leads.length;
+  const totalRetained = leads.filter((l) => WON_STATUSES.includes(l.status)).length;
+  const rate = totalReceived ? Math.round((totalRetained / totalReceived) * 100) : 0;
+
+  const thisMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+  const thisMonthReceived = leads.filter((l) => new Date(l.receivedAt) >= thisMonthStart).length;
+  const lastMonthReceived = leads.filter((l) => {
+    const at = new Date(l.receivedAt);
+    return at >= lastMonthStart && at < thisMonthStart;
+  }).length;
+  const thisMonthRetained = leads.filter((l) => {
+    if (!WON_STATUSES.includes(l.status)) return false;
+    const at = new Date(l.convertedAt || l.updatedAt);
+    return at >= thisMonthStart;
+  }).length;
+  const lastMonthRetained = leads.filter((l) => {
+    if (!WON_STATUSES.includes(l.status)) return false;
+    const at = new Date(l.convertedAt || l.updatedAt);
+    return at >= lastMonthStart && at < thisMonthStart;
+  }).length;
+
+  const thisRate = thisMonthReceived
+    ? Math.round((thisMonthRetained / thisMonthReceived) * 100)
     : 0;
-  const lastRate = st.lastMonthReceived
-    ? Math.round((st.lastMonthRetained / st.lastMonthReceived) * 100)
+  const lastRate = lastMonthReceived
+    ? Math.round((lastMonthRetained / lastMonthReceived) * 100)
     : 0;
 
   return {

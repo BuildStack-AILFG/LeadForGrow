@@ -11,7 +11,10 @@ import CompaniesBulkBar from '../components/companies/CompaniesBulkBar';
 import CompaniesPagination from '../components/companies/CompaniesPagination';
 import CompanyCreateModal from '../components/companies/CompanyCreateModal';
 import CompaniesImportModal from '../components/companies/CompaniesImportModal';
-import CompanyDrawer from '../components/companies/CompanyDrawer';
+import { lazyPanel, useOpenedOnce } from '@/app/components/lazyPanel';
+
+// Loaded in the background after the page, so it doesn't weigh on the first paint.
+const CompanyDrawer = lazyPanel(() => import('../components/companies/CompanyDrawer'));
 import CompaniesSkeleton from '../components/companies/CompaniesSkeleton';
 import AutoPageIntro from '@/app/automation/components/shared/tour/AutoPageIntro';
 
@@ -38,6 +41,7 @@ function CompaniesEmptyState({ onCreate }) {
 
 function CompaniesContent() {
   const ws = useCompaniesWorkspace();
+  const drawerOpened = useOpenedOnce(ws.drawerId);
   const [showImport, setShowImport] = useState(false);
 
   if (ws.loading && !ws.companies.length) return <CompaniesSkeleton />;
@@ -127,11 +131,11 @@ function CompaniesContent() {
         teamMembers={ws.teamMembers}
       />
 
-      <CompanyDrawer
+      {drawerOpened && (<CompanyDrawer
         companyId={ws.drawerId}
         onClose={() => ws.setDrawerId(null)}
         onUpdated={() => ws.fetchCompanies(true)}
-      />
+      />)}
 
       <CompaniesImportModal
         open={showImport}

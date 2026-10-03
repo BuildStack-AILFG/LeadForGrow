@@ -4,6 +4,9 @@ import Lead from '@/models/automation/Lead';
 import { NextResponse } from 'next/server';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
 
+/** Pending tasks returned per request — enough for any screen, bounded for big teams. */
+const TASK_LIST_LIMIT = 500;
+
 export const GET = withTenantAuth(async (request) => {
   try {
     const tenant = await resolveTenant(request);
@@ -38,6 +41,21 @@ export const GET = withTenantAuth(async (request) => {
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
 
+    // Tab badges: four index-backed counts instead of downloading every task four times.
+    if (searchParams.get('counts') === '1') {
+      const { dueDate: _ignored, ...base } = query;
+      const [todayCount, overdueCount, upcomingCount, allCount] = await Promise.all([
+        Task.countDocuments({ ...base, dueDate: { $gte: today, $lt: tomorrow } }),
+        Task.countDocuments({ ...base, dueDate: { $lt: today } }),
+        Task.countDocuments({ ...base, dueDate: { $gte: tomorrow } }),
+        Task.countDocuments(base),
+      ]);
+      return NextResponse.json({
+        success: true,
+        data: { today: todayCount, overdue: overdueCount, upcoming: upcomingCount, all: allCount },
+      });
+    }
+
     if (filter === 'today') {
       query.dueDate = { $gte: today, $lt: tomorrow };
     } else if (filter === 'overdue') {
@@ -53,7 +71,7 @@ export const GET = withTenantAuth(async (request) => {
       .populate('leadId', 'name phone serviceInterest')
       .populate('assignedTo', 'email firstName lastName')
       .sort({ dueDate: 1 });
-    if (Number.isFinite(dueWithin)) tasksQuery = tasksQuery.limit(100);
+    tasksQuery = tasksQuery.limit(Number.isFinite(dueWithin) ? 100 : TASK_LIST_LIMIT);
     const tasks = await tasksQuery.lean();
 
     // A task whose lead was deleted (without going through a cascade-delete path,

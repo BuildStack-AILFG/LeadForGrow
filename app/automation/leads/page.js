@@ -8,7 +8,9 @@ import LeadsHeader from '../components/leads/LeadsHeader';
 import CRMFilterBar from '../components/leads/CRMFilterBar';
 import BulkActionsBar from '../components/leads/BulkActionsBar';
 import LeadTable from '../components/leads/LeadTable';
-import CRMKanban from '../components/leads/CRMKanban';
+import { lazyPanel } from '@/app/components/lazyPanel';
+// Board view (with its drag-and-drop library) loads when the board is opened; list is the default.
+const CRMKanban = lazyPanel(() => import('../components/leads/CRMKanban'));
 import LeadDrawer from '../components/leads/LeadDrawer';
 import ConvertLeadDialog from '../components/leads/ConvertLeadDialog';
 import QualifiedSummaryModal from '../components/leads/QualifiedSummaryModal';

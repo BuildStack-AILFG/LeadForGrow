@@ -9,10 +9,14 @@ import DealsHeader from '../components/deals/DealsHeader';
 import DealsKpiCards from '../components/deals/DealsKpiCards';
 import DealsFilterBar from '../components/deals/DealsFilterBar';
 import DealTable from '../components/deals/DealTable';
-import DealsKanban from '../components/deals/DealsKanban';
+// Board view (with its drag-and-drop library) loads when the board is opened; list is the default.
+const DealsKanban = lazyPanel(() => import('../components/deals/DealsKanban'));
 import DealCreateModal from '../components/deals/DealCreateModal';
 import DealsImportModal from '../components/deals/DealsImportModal';
-import DealDrawer from '../components/deals/DealDrawer';
+import { lazyPanel, useOpenedOnce } from '@/app/components/lazyPanel';
+
+// Loaded in the background after the page, so it doesn't weigh on the first paint.
+const DealDrawer = lazyPanel(() => import('../components/deals/DealDrawer'));
 import DealsSkeleton from '../components/deals/DealsSkeleton';
 import DemoScheduledModal from '../components/leads/DemoScheduledModal';
 import QuotationSentModal from '../components/leads/QuotationSentModal';
@@ -80,6 +84,7 @@ function filterAndSortDeals(deals, filters, stages) {
 
 function DealsContent() {
   const ws = useDealsWorkspace();
+  const drawerOpened = useOpenedOnce(ws.drawerId);
   const stages = useMemo(() => resolveStages(ws.stages), [ws.stages]);
   const [showImportModal, setShowImportModal] = useState(false);
 
@@ -184,13 +189,13 @@ function DealsContent() {
         onImported={() => { ws.fetchDeals(true); ws.fetchStats(); }}
       />
 
-      <DealDrawer
+      {drawerOpened && (<DealDrawer
         dealId={ws.drawerId}
         stages={stages}
         onClose={() => ws.setDrawerId(null)}
         onUpdated={() => ws.fetchDeals(true)}
         onStageChange={ws.updateDealStage}
-      />
+      />)}
 
       <DemoScheduledModal
         open={!!ws.demoPrompt}

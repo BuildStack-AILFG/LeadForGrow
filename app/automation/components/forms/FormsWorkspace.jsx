@@ -1,7 +1,7 @@
 'use client';
 
+import { lazyPanel } from '@/app/components/lazyPanel';
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft, Save, Eye, Loader2, Palette,
   Layers, BarChart3, Rocket, Monitor, Tablet, Smartphone, MoreHorizontal, Trash2, Copy
@@ -9,14 +9,16 @@ import {
 import { useFormsWorkspace } from '../../hooks/useFormsWorkspace';
 import PageLoader from '../PageLoader';
 import FormsHomeView from './FormsHomeView';
-import FormCreationWizard from './FormCreationWizard';
-import FormBuilder from './FormBuilder';
 import FormPreview from './FormPreview';
-import FormSettingsPanel from './FormSettingsPanel';
-import ThemeDrawer from './ThemeDrawer';
 import PublishPanel from './PublishPanel';
 import AnalyticsView from './AnalyticsView';
 import { useConfirm } from '@/app/components/ConfirmProvider';
+
+// Builder, wizard and panels load on demand; the list view opens without them.
+const FormCreationWizard = lazyPanel(() => import('./FormCreationWizard'));
+const FormBuilder = lazyPanel(() => import('./FormBuilder'));
+const FormSettingsPanel = lazyPanel(() => import('./FormSettingsPanel'));
+const ThemeDrawer = lazyPanel(() => import('./ThemeDrawer'));
 
 const TABS = [
   { id: 'builder', label: 'Builder', icon: Layers },
@@ -122,10 +124,8 @@ export default function FormsWorkspace() {
                   }`}
                 >
                   {active && (
-                    <motion.div
-                      layoutId="form-tab"
+                    <div
                       className="absolute inset-0 bg-canvas dark:bg-slate-900 rounded-lg"
-                      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                     />
                   )}
                   <span className="relative flex items-center gap-1.5">
@@ -223,13 +223,9 @@ export default function FormsWorkspace() {
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto">
-        <AnimatePresence mode="wait">
-          <motion.div
+        <>
+          <div
             key={ws.view}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.2 }}
             className="h-full"
           >
             {ws.view === 'builder' && (
@@ -284,11 +280,8 @@ export default function FormsWorkspace() {
                     </button>
                   ))}
                 </div>
-                <motion.div
+                <div
                   key={previewDevice}
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3 }}
                   className="w-full"
                 >
                   <FormPreview
@@ -298,7 +291,7 @@ export default function FormsWorkspace() {
                     device={previewDevice}
                     immersive
                   />
-                </motion.div>
+                </div>
               </div>
             )}
 
@@ -328,8 +321,8 @@ export default function FormsWorkspace() {
                 stats={ws.stats}
               />
             )}
-          </motion.div>
-        </AnimatePresence>
+          </div>
+        </>
       </div>
 
       <ThemeDrawer

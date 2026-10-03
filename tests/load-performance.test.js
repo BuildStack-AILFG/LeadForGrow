@@ -28,7 +28,13 @@ describe('CRM boot', () => {
   });
 
   it('finishes the progress bar quickly once access is confirmed', () => {
-    assert.match(loader, /const speed = complete \? 5 : 0\.04;/);
+    assert.match(loader, /complete \? `width 250ms/);
+    assert.match(loader, /setTimeout\(finish, 550\)/);
+  });
+
+  it('the loader is CSS-only: no framer-motion and no per-frame React updates in the app shell', () => {
+    assert.doesNotMatch(loader, /from 'framer-motion'/);
+    assert.doesNotMatch(loader, /setProgress/);
   });
 });
 
@@ -38,7 +44,10 @@ describe('tasks API', () => {
   it('supports a capped "due within N minutes" query for reminders', () => {
     assert.match(route, /searchParams\.get\('dueWithin'\)/);
     assert.match(route, /\$lte: new Date\(now\.getTime\(\) \+ Math\.min\(dueWithin, 1440\) \* 60000\)/);
-    assert.match(route, /tasksQuery\.limit\(100\)/);
+    assert.match(route, /tasksQuery\.limit\(Number\.isFinite\(dueWithin\) \? 100 : TASK_LIST_LIMIT\)/);
+    assert.match(route, /const TASK_LIST_LIMIT = 500;/);
+    assert.match(route, /searchParams\.get\('counts'\) === '1'/);
+    assert.match(read('app/automation/hooks/useTasksWorkspace.js'), /\/api\/automation\/tasks\?counts=1/);
     assert.match(read('app/automation/components/ReminderMonitor.js'), /\/api\/automation\/tasks\?dueWithin=5/);
   });
 

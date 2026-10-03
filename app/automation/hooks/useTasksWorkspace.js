@@ -56,14 +56,9 @@ export function useTasksWorkspace() {
 
   const fetchCounts = useCallback(async () => {
     try {
-      const [today, overdue, upcoming, all] = await Promise.all(
-        ['today', 'overdue', 'upcoming', 'all'].map(async (f) => {
-          const res = await authFetch(`/api/automation/tasks?filter=${f}`);
-          const data = await res.json();
-          return data.success ? (data.data?.length || 0) : 0;
-        })
-      );
-      setCounts({ today, overdue, upcoming, all });
+      const res = await authFetch('/api/automation/tasks?counts=1');
+      const data = await res.json();
+      if (data.success) setCounts(data.data);
     } catch {
       /* non-critical */
     }

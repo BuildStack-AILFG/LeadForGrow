@@ -15,7 +15,7 @@ export const GET = withPlanAccess('automation', async (req) => {
     const query = { businessId };
     if (status) query.status = status;
 
-    const broadcasts = await Broadcast.find(query).sort({ updatedAt: -1 }).lean();
+    const broadcasts = await Broadcast.find(query).sort({ updatedAt: -1 }).limit(500).lean();
     return NextResponse.json({ success: true, data: broadcasts });
   } catch (error) {
     return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });

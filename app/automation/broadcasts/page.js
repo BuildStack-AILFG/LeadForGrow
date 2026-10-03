@@ -1,5 +1,6 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Loader2, Plus, Send, Mail, MessageCircle, RefreshCw, CheckCircle2, AlertCircle, Users, PenLine, LayoutTemplate, Code2 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
@@ -7,8 +8,9 @@ import { authFetch } from '@/lib/apiClient';
 import AudiencePicker from './AudiencePicker';
 import VariableMapping from './VariableMapping';
 import BroadcastDetail from './BroadcastDetail';
-import RichEmailBodyEditor from './RichEmailBodyEditor';
-import EmailDesignStudio from './EmailDesignStudio';
+// The rich-text editor (~126 KB) and the design studio load only when the email body is edited.
+const RichEmailBodyEditor = dynamic(() => import('./RichEmailBodyEditor'), { ssr: false, loading: () => <div className="h-48 w-full animate-pulse rounded-md border border-line bg-subtle" aria-hidden /> });
+const EmailDesignStudio = dynamic(() => import('./EmailDesignStudio'), { ssr: false, loading: () => <div className="h-48 w-full animate-pulse rounded-md border border-line bg-subtle" aria-hidden /> });
 import QualityRatingBanner from './QualityRatingBanner';
 import AutoPageIntro from '../components/shared/tour/AutoPageIntro';
 import PageLoader from '../components/PageLoader';

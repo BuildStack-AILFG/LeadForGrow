@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { Plus, FileInput, TrendingUp, ArrowRight, MoreVertical, Trash2, Pencil } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { calcConversionRate } from './constants';
 import { FormPreviewThumbnail } from './FormPreview';
 import AutoPageIntro from '../shared/tour/AutoPageIntro';
@@ -75,11 +74,8 @@ export default function FormsHomeView({ forms, stats, maxForms, onCreate, onSele
             const rate = calcConversionRate(form);
             const menuOpen = menuId === form._id;
             return (
-              <motion.div
+              <div
                 key={form._id}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.05 }}
                 className="group relative bg-canvas dark:bg-slate-900 rounded-lg hover:shadow-popover transition-all duration-200 overflow-hidden"
               >
                 <button
@@ -139,7 +135,7 @@ export default function FormsHomeView({ forms, stats, maxForms, onCreate, onSele
                     </>
                   )}
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>

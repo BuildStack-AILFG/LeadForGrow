@@ -117,6 +117,7 @@ const BroadcastSchema = new mongoose.Schema({
 
 BroadcastSchema.index({ businessId: 1, status: 1 });
 BroadcastSchema.index({ businessId: 1, scheduledAt: 1 });
+BroadcastSchema.index({ businessId: 1, updatedAt: -1 }); // list page sort
 
 export default mongoose.models.Broadcast
   || mongoose.model('Broadcast', BroadcastSchema);
