@@ -30,9 +30,9 @@ export default function AutomationAnalyticsPage() {
   const o = data?.overview || {};
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
-      <h1 className="text-page font-semibold text-fg mb-2">Automation Analytics</h1>
-      <p className="text-sm text-fg-tertiary mb-8">Platform-wide workflow performance</p>
+    <div className="px-4 py-6 sm:px-6">
+      <h1 className="text-page font-semibold text-fg">Automation performance</h1>
+      <p className="mt-0.5 mb-6 text-body text-fg-secondary">How your automations and sequences are running.</p>
 
       <AutoPageIntro />
 

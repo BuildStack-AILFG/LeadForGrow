@@ -60,7 +60,11 @@ export default function LeadForGrowWidget({ onBookDemo }) {
   }, []);
 
   const scheduleFormOpen = useCallback(() => {
+    // Never auto-open inside the signed-in app (/automation) or embeds —
+    // `hidden` previously only hid the launcher, so the timed popup still
+    // covered CRM pages.
     if (
+      hidden ||
       readSessionFlag(DISMISS_STORAGE_KEY) ||
       readSessionFlag(SUBMITTED_STORAGE_KEY) ||
       isSubmitted ||
@@ -74,7 +78,7 @@ export default function LeadForGrowWidget({ onBookDemo }) {
     timerRef.current = setTimeout(() => {
       setFormOpen(true);
     }, INITIAL_DELAY_MS);
-  }, [clearTimer, formOpen, isSubmitted, menuOpen]);
+  }, [clearTimer, formOpen, isSubmitted, menuOpen, hidden]);
 
   const closeForm = useCallback(() => {
     setFormOpen(false);

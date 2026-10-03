@@ -340,29 +340,29 @@ export default function CallIntegrationPage() {
   return (
     <div className="px-8 py-10 min-h-screen bg-[#FDFDFF] font-sans selection:bg-accent-subtle selection:text-accent-fg">
       {/* 1️⃣ Top Header Bar */}
-      <div className="flex items-center justify-between mb-12 animate-in fade-in slide-in-from-top-4 duration-700">
+      <div className="flex items-center justify-between mb-6 ">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-danger-subtle flex items-center justify-center">
-            <PhoneCall className="w-5 h-5 text-danger" strokeWidth={2.5} />
+          <div className="w-9 h-9 rounded-md border border-line flex items-center justify-center">
+            <PhoneCall className="w-4 h-4 text-fg-secondary" strokeWidth={1.75} />
           </div>
           <div>
-            <h1 className="text-page font-semibold text-fg">Call Recovery</h1>
-            <p className="text-xs text-fg-tertiary font-medium">Automatically capture and recover unanswered calls</p>
+            <h1 className="text-page font-semibold text-fg">Call recovery</h1>
+            <p className="mt-0.5 text-body text-fg-secondary">Capture missed calls and follow up on WhatsApp automatically.</p>
           </div>
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 px-4 py-2 bg-accent-subtle text-accent-fg rounded-full border border-line/50">
-            <div className="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
-            <span className="text-xs font-semibold">System Active</span>
+          <div className="flex items-center gap-1.5 text-dense text-fg-secondary">
+            <div className="h-1.5 w-1.5 rounded-full bg-success"></div>
+            <span>Active</span>
           </div>
 
           <button
             onClick={handleTestBridge}
-            className="group relative flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-lg font-semibold text-sm hover:bg-accent-hover transition-all duration-300 active:scale-95"
+            className="inline-flex h-8 items-center gap-2 rounded-md bg-accent px-3 text-body font-medium text-white hover:bg-accent-hover"
           >
-            <Play className="w-4 h-4 fill-white group-hover:scale-110 transition-transform" />
-            Test Call Flow
+            <Play className="h-4 w-4" strokeWidth={1.75} />
+            Test call flow
           </button>
 
           <button
@@ -378,42 +378,43 @@ export default function CallIntegrationPage() {
 
       {wizardStep === 1 && (
         <div className="max-w-xl">
-          <div className="bg-canvas rounded-[32px] p-12 border border-line relative overflow-hidden">
-            <div className="relative z-10 text-left mb-10">
-              <div className="w-20 h-20 bg-accent-subtle text-accent-fg rounded-[24px] flex items-center justify-center mb-8">
-                <Phone className="w-10 h-10" />
-              </div>
-              <h2 className="text-title font-semibold text-fg mb-4">Connect Your Line</h2>
-              <p className="text-fg-tertiary text-lg leading-relaxed px-6 font-medium">
-                Enter your business or personal number to start capturing missed calls.
-              </p>
-            </div>
+          <div className="rounded-lg border border-line bg-canvas p-6">
+            <h2 className="text-title font-semibold text-fg">Connect your line</h2>
+            <p className="mt-1 text-body text-fg-secondary">Enter the business or personal number whose missed calls you want to capture.</p>
 
-            <div className="space-y-5">
+            <form
+              className="mt-5 flex flex-col gap-3"
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleConnect();
+              }}
+            >
+              <label htmlFor="call-recovery-number" className="text-dense font-medium text-fg">Phone number</label>
               <input
-                type="text"
+                id="call-recovery-number"
+                type="tel"
                 placeholder="+91 98765 43210"
                 value={phoneInput}
                 onChange={(e) => setPhoneInput(e.target.value)}
-                className="w-full px-8 py-5 bg-subtle border-2 border-line rounded-[20px] focus:border-accent focus:bg-canvas outline-none transition-all font-semibold text-xl text-fg placeholder:text-fg-disabled"
+                className="h-9 w-full rounded-md border border-line bg-canvas px-3 text-body text-fg placeholder:text-fg-tertiary hover:border-line-strong focus:outline-none focus-visible:ring-2 focus-visible:ring-focus"
               />
               <button
-                onClick={handleConnect}
+                type="submit"
                 disabled={connecting}
-                className="w-full py-5 bg-accent text-white rounded-[20px] font-semibold text-lg hover:bg-accent-hover transition-all disabled:opacity-50"
+                className="inline-flex h-9 items-center justify-center self-start rounded-md bg-accent px-4 text-body font-medium text-white hover:bg-accent-hover disabled:opacity-50"
               >
-                {connecting ? 'Connecting...' : 'Continue'}
+                {connecting ? 'Connecting…' : 'Continue'}
               </button>
-            </div>
+            </form>
           </div>
         </div>
       )}
 
       {wizardStep === 2 && (
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 lg:gap-12 items-start animate-in fade-in slide-in-from-bottom-8 duration-700">
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 lg:gap-12 items-start ">
           {/* Provider Settings (Left) */}
           <div className="xl:col-span-7">
-            <div className="bg-canvas rounded-[32px] p-8 lg:p-12 border border-line flex flex-col h-full">
+            <div className="bg-canvas rounded-lg p-8 lg:p-12 border border-line flex flex-col h-full">
               <div className="flex items-center gap-4 mb-10">
                 <div className="w-12 h-12 bg-canvas border border-line rounded-lg flex items-center justify-center">
                   <Settings className="w-6 h-6 text-fg-secondary" />
@@ -421,7 +422,7 @@ export default function CallIntegrationPage() {
                 <h2 className="text-title font-semibold text-fg flex-1 pr-12">Provider Settings</h2>
               </div>
 
-              <div className="flex gap-4 mb-10 p-1.5 bg-subtle rounded-[20px] border border-line">
+              <div className="flex gap-4 mb-10 p-1.5 bg-subtle rounded-lg border border-line">
                 {['vapi', 'twilio'].map(p => (
                   <button
                     key={p}
@@ -446,7 +447,7 @@ export default function CallIntegrationPage() {
                         placeholder="Paste Private API Key"
                         value={settings.telephony.apiKey}
                         onChange={(e) => setSettings(s => ({ ...s, telephony: { ...s.telephony, apiKey: e.target.value } }))}
-                        className="w-full px-7 py-4.5 bg-subtle border-2 border-line rounded-[18px] focus:border-accent outline-none transition-all text-fg font-semibold"
+                        className="w-full px-7 py-4.5 bg-subtle border-2 border-line rounded-lg focus:border-accent outline-none transition-all text-fg font-semibold"
                       />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -457,7 +458,7 @@ export default function CallIntegrationPage() {
                           placeholder="id_..."
                           value={settings.telephony.assistantId}
                           onChange={(e) => setSettings(s => ({ ...s, telephony: { ...s.telephony, assistantId: e.target.value } }))}
-                          className="w-full px-7 py-4.5 bg-subtle border-2 border-line rounded-[18px] focus:border-accent outline-none transition-all text-fg font-semibold"
+                          className="w-full px-7 py-4.5 bg-subtle border-2 border-line rounded-lg focus:border-accent outline-none transition-all text-fg font-semibold"
                         />
                       </div>
                       <div className="space-y-2">
@@ -467,7 +468,7 @@ export default function CallIntegrationPage() {
                           placeholder="+1..."
                           value={settings.telephony.phoneNumberId}
                           onChange={(e) => setSettings(s => ({ ...s, telephony: { ...s.telephony, phoneNumberId: e.target.value } }))}
-                          className="w-full px-7 py-4.5 bg-subtle border-2 border-line rounded-[18px] focus:border-accent outline-none transition-all text-fg font-semibold"
+                          className="w-full px-7 py-4.5 bg-subtle border-2 border-line rounded-lg focus:border-accent outline-none transition-all text-fg font-semibold"
                         />
                       </div>
                     </div>
@@ -481,7 +482,7 @@ export default function CallIntegrationPage() {
                         placeholder="AC..."
                         value={settings.telephony.assistantId}
                         onChange={(e) => setSettings(s => ({ ...s, telephony: { ...s.telephony, assistantId: e.target.value } }))}
-                        className="w-full px-7 py-4.5 bg-subtle border-2 border-line rounded-[18px] focus:border-accent outline-none transition-all text-fg font-semibold"
+                        className="w-full px-7 py-4.5 bg-subtle border-2 border-line rounded-lg focus:border-accent outline-none transition-all text-fg font-semibold"
                       />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -492,7 +493,7 @@ export default function CallIntegrationPage() {
                           placeholder="SK..."
                           value={settings.telephony.apiKey}
                           onChange={(e) => setSettings(s => ({ ...s, telephony: { ...s.telephony, apiKey: e.target.value } }))}
-                          className="w-full px-7 py-4.5 bg-subtle border-2 border-line rounded-[18px] focus:border-accent outline-none transition-all text-fg font-semibold"
+                          className="w-full px-7 py-4.5 bg-subtle border-2 border-line rounded-lg focus:border-accent outline-none transition-all text-fg font-semibold"
                         />
                       </div>
                       <div className="space-y-2">
@@ -502,7 +503,7 @@ export default function CallIntegrationPage() {
                           placeholder="Twilio Secret"
                           value={settings.telephony.apiSecret}
                           onChange={(e) => setSettings(s => ({ ...s, telephony: { ...s.telephony, apiSecret: e.target.value } }))}
-                          className="w-full px-7 py-4.5 bg-subtle border-2 border-line rounded-[18px] focus:border-accent outline-none transition-all text-fg font-semibold"
+                          className="w-full px-7 py-4.5 bg-subtle border-2 border-line rounded-lg focus:border-accent outline-none transition-all text-fg font-semibold"
                         />
                       </div>
                     </div>
@@ -514,7 +515,7 @@ export default function CallIntegrationPage() {
                           placeholder="AP..."
                           value={settings.telephony.twimlAppSid}
                           onChange={(e) => setSettings(s => ({ ...s, telephony: { ...s.telephony, twimlAppSid: e.target.value } }))}
-                          className="w-full px-7 py-4.5 bg-subtle border-2 border-line rounded-[18px] focus:border-accent outline-none transition-all text-fg font-semibold"
+                          className="w-full px-7 py-4.5 bg-subtle border-2 border-line rounded-lg focus:border-accent outline-none transition-all text-fg font-semibold"
                         />
                       </div>
                       <div className="space-y-2">
@@ -524,7 +525,7 @@ export default function CallIntegrationPage() {
                           placeholder="+1..."
                           value={settings.telephony.phoneNumberId}
                           onChange={(e) => setSettings(s => ({ ...s, telephony: { ...s.telephony, phoneNumberId: e.target.value } }))}
-                          className="w-full px-7 py-4.5 bg-subtle border-2 border-line rounded-[18px] focus:border-accent outline-none transition-all text-fg font-semibold"
+                          className="w-full px-7 py-4.5 bg-subtle border-2 border-line rounded-lg focus:border-accent outline-none transition-all text-fg font-semibold"
                         />
                       </div>
                     </div>
@@ -534,7 +535,7 @@ export default function CallIntegrationPage() {
                 <button
                   onClick={handleVerifyCredentials}
                   disabled={verifying}
-                  className="w-full py-5 bg-accent text-white rounded-[24px] font-semibold text-lg hover:bg-accent-hover transition-all mt-6 disabled:opacity-50 flex items-center justify-center gap-2 group"
+                  className="w-full py-5 bg-accent text-white rounded-lg font-semibold text-lg hover:bg-accent-hover transition-all mt-6 disabled:opacity-50 flex items-center justify-center gap-2 group"
                 >
                   {verifying ? <RefreshCcw className="w-5 h-5 animate-spin" /> : <><ShieldCheck className="w-5 h-5 group-hover:scale-110 transition-transform" /> Complete Setup</>}
                 </button>
@@ -544,7 +545,7 @@ export default function CallIntegrationPage() {
 
           {/* Setup Blueprint (Right) */}
           <div className="xl:col-span-5 h-full">
-            <div className="bg-slate-900 rounded-[32px] p-10 h-full text-white flex flex-col relative overflow-hidden">
+            <div className="bg-slate-900 rounded-lg p-6 h-full text-white flex flex-col relative overflow-hidden">
                <div className="absolute top-0 right-0 w-64 h-64 bg-accent/10 blur-[100px] -mr-32 -mt-32"></div>
                
                <div className="relative z-10 flex-1">
@@ -620,11 +621,11 @@ export default function CallIntegrationPage() {
       )}
 
       {wizardStep === 4 && (
-        <div className="grid grid-cols-12 gap-10 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+        <div className="grid grid-cols-12 gap-10 ">
 
           {/* 3️⃣ Metric Cards (Left Column) */}
           <div className="col-span-12 lg:col-span-3 space-y-8">
-            <div className="bg-canvas p-8 rounded-[32px] border border-line transition-shadow duration-500">
+            <div className="bg-canvas p-8 rounded-lg border border-line transition-shadow ">
               <p className="text-fg-tertiary text-xs font-semibold mb-4">Calls Today</p>
               <div className="flex items-baseline gap-2">
                 <p className="text-6xl font-semibold text-fg tracking-tighter">{missedCalls.length}</p>
@@ -633,13 +634,13 @@ export default function CallIntegrationPage() {
               <p className="text-meta font-semibold text-accent-fg mt-4 px-2.5 py-1 bg-accent-subtle rounded-full w-fit">Updated just now</p>
             </div>
 
-            <div className="bg-canvas p-8 rounded-[32px] border border-line">
+            <div className="bg-canvas p-8 rounded-lg border border-line">
               <p className="text-fg-tertiary text-xs font-semibold mb-4">Recovery Performance</p>
               <p className="text-hero font-semibold text-fg tracking-tighter">—</p>
               <p className="text-xs font-medium text-fg-tertiary mt-4">Waiting for first call</p>
             </div>
 
-            <div className="bg-canvas p-8 rounded-[32px] border border-line relative overflow-hidden group">
+            <div className="bg-canvas p-8 rounded-lg border border-line relative overflow-hidden group">
               <div className="flex items-center justify-between mb-6">
                 <p className="text-fg-tertiary text-xs font-semibold">Active Call Bridge</p>
                 <div className="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
@@ -671,7 +672,7 @@ export default function CallIntegrationPage() {
 
           {/* 4️⃣ Center Area (Recovery Stream) */}
           <div className="col-span-12 lg:col-span-5 flex flex-col">
-            <div className="bg-canvas rounded-[40px] border border-line overflow-hidden flex-1 flex flex-col relative min-h-[600px]">
+            <div className="bg-canvas rounded-lg border border-line overflow-hidden flex-1 flex flex-col relative min-h-[600px]">
               <div className="absolute inset-0 bg-canvas pointer-events-none"></div>
 
               <div className="flex items-center justify-between px-10 py-8 border-b border-slate-50 relative z-10">
@@ -684,12 +685,12 @@ export default function CallIntegrationPage() {
 
               <div className="flex-1 flex flex-col relative z-10">
                 {missedCalls.length === 0 ? (
-                  <div className="flex-1 flex flex-col items-center justify-center p-12 text-center animate-in fade-in zoom-in-95 duration-1000">
+                  <div className="flex-1 flex flex-col items-center justify-center p-12 text-center ">
                     <div className="relative mb-8">
-                      <div className="w-24 h-24 bg-accent-subtle rounded-[32px] flex items-center justify-center text-indigo-200">
+                      <div className="w-24 h-24 bg-accent-subtle rounded-lg flex items-center justify-center text-indigo-200">
                         <PhoneOff className="w-12 h-12" />
                       </div>
-                      <div className="absolute -inset-4 bg-accent-subtle/30 rounded-full blur-2xl animate-pulse -z-10"></div>
+                      <div className="absolute -inset-4 bg-accent-subtle/30 rounded-full blur-2xl animate-pulse -z-10 hidden"></div>
                     </div>
                     <h4 className="text-xl font-semibold text-fg mb-2">Waiting for incoming calls</h4>
                     <p className="text-sm font-medium text-fg-tertiary max-w-[280px] leading-relaxed">
@@ -699,7 +700,7 @@ export default function CallIntegrationPage() {
                 ) : (
                   <div className="space-y-4 p-6 overflow-y-auto max-h-[700px]">
                     {missedCalls.map(call => (
-                      <div key={call._id} className="group p-6 bg-canvas hover:bg-subtle rounded-[28px] border border-slate-50 hover:border-line transition-all duration-300 flex items-center justify-between hover:shadow-popover">
+                      <div key={call._id} className="group p-6 bg-canvas hover:bg-subtle rounded-lg border border-slate-50 hover:border-line transition-all duration-300 flex items-center justify-between hover:shadow-popover">
                         <div className="flex items-center gap-5">
                           <div className="w-14 h-14 bg-subtle group-hover:bg-canvas rounded-lg flex items-center justify-center text-fg-tertiary group-hover:text-accent-fg transition-colors">
                             <Phone className="w-6 h-6" />
@@ -745,9 +746,9 @@ export default function CallIntegrationPage() {
           </div>
 
           {/* 5️⃣ Right Panel — Guided Setup (Major Redesign) */}
-          <div className="col-span-12 lg:col-span-4 space-y-8 animate-in fade-in slide-in-from-right-8 duration-700">
-            <div className="bg-canvas p-10 rounded-[40px] border border-line relative group overflow-hidden">
-              <div className="absolute top-0 right-0 w-40 h-40 bg-accent-subtle rounded-full -mr-20 -mt-20 blur-3xl transition-transform duration-1000 group-hover:scale-150"></div>
+          <div className="col-span-12 lg:col-span-4 space-y-8 ">
+            <div className="bg-canvas p-6 rounded-lg border border-line relative group overflow-hidden">
+              <div className="absolute top-0 right-0 w-40 h-40 bg-accent-subtle rounded-full -mr-20 -mt-20 blur-3xl transition-transform group-hover:scale-150 hidden"></div>
 
               <div className="relative z-10">
                 <h3 className="text-2xl font-semibold text-fg tracking-tight mb-2">Call Recovery Setup</h3>
@@ -794,15 +795,15 @@ export default function CallIntegrationPage() {
                       <p className="text-fg-tertiary text-meta font-medium leading-relaxed mb-6">Verify incoming signals reach your recovery system successfully.</p>
                       <button
                         onClick={handleTestBridge}
-                        className="w-full py-4 bg-accent text-white rounded-[18px] font-semibold text-sm hover:scale-[1.02] active:scale-95 transition-all"
+                        className="w-full py-4 bg-accent text-white rounded-lg font-semibold text-sm hover:scale-[1.02] active:scale-95 transition-all"
                       >
-                        Test Call Flow
+                        Test call flow
                       </button>
                     </div>
                   </div>
                 </div>
 
-                <div className="p-5 bg-subtle rounded-[24px] border border-line flex items-center gap-4">
+                <div className="p-5 bg-subtle rounded-lg border border-line flex items-center gap-4">
                   <div className="w-10 h-10 bg-canvas rounded-lg flex items-center justify-center text-fg-tertiary">
                     <Settings className="w-5 h-5" />
                   </div>
@@ -815,7 +816,7 @@ export default function CallIntegrationPage() {
             </div>
 
             {/* Simulation Sandbox - Styled as a secondary card */}
-            <div className="bg-subtle p-8 rounded-[32px] border border-line">
+            <div className="bg-subtle p-8 rounded-lg border border-line">
               <div className="flex items-center justify-between mb-6">
                 <p className="text-fg-tertiary text-meta font-semibold">Automation Sandbox</p>
                 <button
@@ -831,7 +832,7 @@ export default function CallIntegrationPage() {
                   placeholder="Simulation Number (+91...)"
                   value={bridgeSimNumber}
                   onChange={(e) => setBridgeSimNumber(e.target.value)}
-                  className="w-full bg-canvas border border-line rounded-[16px] px-6 py-3.5 text-fg text-sm outline-none font-semibold placeholder:text-fg-disabled focus:border-line-strong transition-colors"
+                  className="w-full bg-canvas border border-line rounded-lg px-6 py-3.5 text-fg text-sm outline-none font-semibold placeholder:text-fg-disabled focus:border-line-strong transition-colors"
                 />
                 <button
                   onClick={handleBridgeSimulate}

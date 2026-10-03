@@ -19,7 +19,7 @@ export default function DashboardQuickActions() {
   return (
     <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-2">
       {open && (
-        <div className="bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg shadow-modal p-2 min-w-[180px] animate-in fade-in slide-in-from-bottom-2">
+        <div className="bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg shadow-modal p-2 min-w-[180px] ">
           {ACTIONS.map(({ label, href, icon: Icon }) => (
             <Link
               key={label}

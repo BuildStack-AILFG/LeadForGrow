@@ -70,7 +70,7 @@ export default function BusinessAssistantPanel() {
             {/* Header */}
             <div className="relative overflow-hidden shrink-0">
               <div className="absolute inset-0 bg-canvas" />
-              <div className="absolute top-0 right-0 w-40 h-40 bg-accent/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
+              <div className="absolute top-0 right-0 w-40 h-40 bg-accent/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 hidden" />
               <div className="relative px-5 pt-5 pb-4">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">

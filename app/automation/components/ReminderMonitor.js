@@ -148,7 +148,7 @@ export default function ReminderMonitor() {
             {visible.map((task) => (
                 <div
                     key={task._id}
-                    className="pointer-events-auto bg-canvas border-l-4 border-accent rounded-lg shadow-popover p-3 animate-in slide-in-from-right-10 duration-500 overflow-hidden"
+                    className="pointer-events-auto bg-canvas border-l-4 border-accent rounded-lg shadow-popover p-3 overflow-hidden"
                 >
                     <div className="flex justify-between items-start mb-1.5">
                         <div className="flex items-center gap-2">

@@ -67,10 +67,8 @@ export default function AiSettingsPage() {
           <ArrowLeft className="w-4 h-4" />
         </Link>
         <div>
-          <h1 className="text-page font-semibold text-fg flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-accent-fg" /> AI Settings
-          </h1>
-          <p className="text-sm text-fg-tertiary">Configure Grovia — tone, handoff, languages, and agent behavior</p>
+          <h1 className="text-page font-semibold text-fg">AI settings</h1>
+          <p className="mt-0.5 text-body text-fg-secondary">Grovia’s tone, handoff rules and languages.</p>
         </div>
       </div>
 

@@ -115,16 +115,16 @@ export function buildKPIs({ reports, metrics, whatsapp, followUp, teamPerformanc
       : 0;
 
   return [
-    { id: 'totalLeads', label: 'Total Leads', value: reports?.totalLeads || 0, trend, accent: 'blue', sparkKey: 'leads' },
-    { id: 'qualified', label: 'Qualified Leads', value: qualified, accent: 'green', sparkKey: 'leads' },
-    { id: 'conversion', label: 'Conversion Rate', value: `${reports?.conversionRate || 0}%`, accent: 'green', sparkKey: 'conversions' },
-    { id: 'pipeline', label: 'Revenue Pipeline', value: formatCurrency(metrics?.totalPipelineValue, metrics?.currency), accent: 'blue' },
-    { id: 'closed', label: 'Deals Won', value: sc.converted || reports?.converted || 0, accent: 'green', sparkKey: 'conversions' },
-    { id: 'response', label: 'Avg Response', value: formatHours(reports?.avgResponseTimeHours), accent: 'slate' },
-    { id: 'followup', label: 'Follow-up Success', value: `${followUp?.successRate || 0}%`, accent: 'amber' },
-    { id: 'whatsapp', label: 'WhatsApp Reply Rate', value: `${whatsapp?.replyRate || 0}%`, accent: 'green' },
-    { id: 'productivity', label: 'Team Productivity', value: `${teamAvg}%`, accent: 'blue' },
-    { id: 'lost', label: 'Lost Leads', value: sc.lost || reports?.lost || 0, accent: 'amber', invertTrend: true }
+    { id: 'totalLeads', label: 'Total leads', value: reports?.totalLeads || 0, trend, accent: 'blue', sparkKey: 'leads' },
+    { id: 'qualified', label: 'Qualified leads', value: qualified, accent: 'green', sparkKey: 'leads' },
+    { id: 'conversion', label: 'Conversion rate', value: `${reports?.conversionRate || 0}%`, accent: 'green', sparkKey: 'conversions' },
+    { id: 'pipeline', label: 'Pipeline value', value: formatCurrency(metrics?.totalPipelineValue, metrics?.currency), accent: 'blue' },
+    { id: 'closed', label: 'Deals won', value: sc.converted || reports?.converted || 0, accent: 'green', sparkKey: 'conversions' },
+    { id: 'response', label: 'Avg response', value: formatHours(reports?.avgResponseTimeHours), accent: 'slate' },
+    { id: 'followup', label: 'Follow-up success', value: `${followUp?.successRate || 0}%`, accent: 'amber' },
+    { id: 'whatsapp', label: 'WhatsApp reply rate', value: `${whatsapp?.replyRate || 0}%`, accent: 'green' },
+    { id: 'productivity', label: 'Team productivity', value: `${teamAvg}%`, accent: 'blue' },
+    { id: 'lost', label: 'Lost leads', value: sc.lost || reports?.lost || 0, accent: 'amber', invertTrend: true }
   ];
 }
 

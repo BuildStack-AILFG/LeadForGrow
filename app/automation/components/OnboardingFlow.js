@@ -95,7 +95,7 @@ export default function OnboardingFlow({ onComplete }) {
 
   return (
     <div className="fixed inset-0 bg-slate-900/50 z-50 flex items-center justify-center p-4">
-      <div className="bg-canvas rounded-[32px] w-full max-w-2xl overflow-hidden shadow-modal">
+      <div className="bg-canvas rounded-lg w-full max-w-2xl overflow-hidden shadow-modal">
         {/* Progress Bar */}
         <div className="h-1.5 w-full bg-muted flex">
           {[1, 2, 3, 4].map((s) => (
@@ -111,7 +111,7 @@ export default function OnboardingFlow({ onComplete }) {
         <div className="p-8 md:p-12">
           {step === 1 && (
             <div className="text-center">
-              <div className="w-20 h-20 bg-accent-subtle rounded-[24px] flex items-center justify-center mx-auto mb-8 animate-bounce">
+              <div className="w-20 h-20 bg-accent-subtle rounded-lg flex items-center justify-center mx-auto mb-8 animate-bounce">
                 <Globe className="w-10 h-10 text-accent-fg" />
               </div>
               <h2 className="text-title font-semibold text-fg mb-4">Connect Lead Sources</h2>
@@ -266,7 +266,7 @@ export default function OnboardingFlow({ onComplete }) {
               <h2 className="text-title font-semibold text-fg mb-4">You’re live</h2>
               <p className="text-xl text-fg-secondary font-semibold mb-8">Your lead automation is now active.</p>
               
-              <div className="bg-subtle rounded-[32px] p-8 text-left space-y-4 mb-10">
+              <div className="bg-subtle rounded-lg p-8 text-left space-y-4 mb-10">
                 <div className="flex gap-4">
                   <CheckCircle2 className="w-6 h-6 text-accent-fg flex-shrink-0" />
                   <p className="text-fg-secondary"><span className="font-semibold">Captured:</span> New enquiries are saved instantly.</p>

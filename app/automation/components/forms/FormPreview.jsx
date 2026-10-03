@@ -73,15 +73,15 @@ export default function FormPreview({ fields, styling, meta, device = 'desktop',
         </div>
       )}
       {device === 'tablet' && (
-        <div className="w-[480px] max-w-full bg-slate-800 rounded-[20px] p-3 shadow-modal">
+        <div className="w-[480px] max-w-full bg-slate-800 rounded-lg p-3 shadow-modal">
           <div className="bg-slate-900 rounded-lg overflow-hidden" style={{ minHeight: 400 }}>
             {renderForm(fields, styling, meta, bg, isDark, width, device)}
           </div>
         </div>
       )}
       {device === 'mobile' && (
-        <div className="w-[375px] max-w-full bg-slate-900 rounded-[32px] p-2.5 shadow-modal">
-          <div className="bg-slate-800 rounded-[26px] overflow-hidden" style={{ minHeight: 520 }}>
+        <div className="w-[375px] max-w-full bg-slate-900 rounded-lg p-2.5 shadow-modal">
+          <div className="bg-slate-800 rounded-lg overflow-hidden" style={{ minHeight: 520 }}>
             <div className="h-6 flex items-center justify-center">
               <div className="w-16 h-1 bg-slate-600 rounded-full" />
             </div>

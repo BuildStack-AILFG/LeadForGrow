@@ -121,12 +121,12 @@ export default function EventsPage() {
             {/* Header */}
             <div className="flex items-center justify-between mb-10">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-canvas border border-line flex items-center justify-center">
-                        <Calendar className="w-5 h-5 text-fg-secondary" strokeWidth={2.5} />
+                    <div className="w-9 h-9 rounded-md border border-line flex items-center justify-center">
+                        <Calendar className="w-4 h-4 text-fg-secondary" strokeWidth={1.75} />
                     </div>
                     <div>
-                        <h1 className="text-page font-semibold text-fg">Events & Sessions</h1>
-                        <p className="text-xs text-fg-tertiary font-medium">Monitor live customer interactions and session data</p>
+                        <h1 className="text-page font-semibold text-fg">Activity log</h1>
+                        <p className="mt-0.5 text-body text-fg-secondary">Live customer interactions and sessions.</p>
                     </div>
                 </div>
                 <button
@@ -183,7 +183,7 @@ export default function EventsPage() {
             {/* CREATE MODAL */}
             {isModalOpen && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/40">
-                    <div className="bg-canvas rounded-lg w-full max-w-lg overflow-hidden shadow-modal animate-in fade-in zoom-in duration-200">
+                    <div className="bg-canvas rounded-lg w-full max-w-lg overflow-hidden shadow-modal zoom-in duration-200">
                         <div className="flex items-center justify-between p-6 border-b border-line">
                             <h3 className="text-xl font-semibold text-fg">New Event Session</h3>
                             <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-muted rounded-full transition-colors">
@@ -373,7 +373,7 @@ export default function EventsPage() {
             {/* QR CODE MODAL */}
             {selectedEventForQr && (
                 <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-slate-900/60">
-                    <div className="bg-canvas rounded-[32px] w-full max-w-sm overflow-hidden shadow-modal animate-in fade-in zoom-in duration-200">
+                    <div className="bg-canvas rounded-lg w-full max-w-sm overflow-hidden shadow-modal zoom-in duration-200">
                         <div className="p-6 border-b border-line flex items-center justify-between">
                             <h3 className="font-semibold text-fg">Scan to Register</h3>
                             <button onClick={() => setSelectedEventForQr(null)} className="p-2 hover:bg-muted rounded-full transition-colors">

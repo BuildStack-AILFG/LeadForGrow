@@ -6,7 +6,7 @@ export default function ContactsBulkBar({ count, teamMembers, onAssign, onDelete
   if (!count) return null;
 
   return (
-    <div className="flex flex-wrap items-center gap-2 mb-4 px-4 py-3 bg-accent text-white rounded-lg shadow-popover animate-in fade-in slide-in-from-top-1 duration-200">
+    <div className="flex flex-wrap items-center gap-2 mb-4 px-4 py-3 bg-accent text-white rounded-lg shadow-popover duration-200">
       <span className="text-dense font-medium mr-2">{count} selected</span>
       <button type="button" onClick={onAssign} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-meta font-medium bg-canvas/10 hover:bg-canvas/15 rounded-lg transition-colors">
         <UserCog className="w-3.5 h-3.5" /> Assign Owner

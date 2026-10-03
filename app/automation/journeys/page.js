@@ -44,13 +44,10 @@ export default function JourneysPage() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
-      <div className="mb-8">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-subtle dark:bg-violet-950/40 text-accent-fg text-xs font-medium mb-3">
-          <Map className="w-3.5 h-3.5" /> Customer Journeys
-        </div>
-        <h1 className="text-page font-semibold text-fg">Live journey tracker</h1>
-        <p className="text-sm text-fg-tertiary mt-1">Real-time progress across all active workflow executions</p>
+    <div className="px-4 py-6 sm:px-6">
+      <div className="mb-6">
+        <h1 className="text-page font-semibold text-fg">Customer journeys</h1>
+        <p className="mt-0.5 text-body text-fg-secondary">Where each lead is in its running sequences.</p>
       </div>
 
       <AutoPageIntro />

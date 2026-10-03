@@ -1,6 +1,6 @@
 'use client';
 
-export default function SimpleBarChart({ data = [], maxBars = 6, color = '#2563eb' }) {
+export default function SimpleBarChart({ data = [], maxBars = 6, color = '#1D4B3E' }) {
   const items = data.slice(0, maxBars);
   const max = Math.max(...items.map((d) => d.value), 1);
 

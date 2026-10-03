@@ -126,10 +126,8 @@ export default function KnowledgeBasePage() {
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <div>
-            <h1 className="text-page font-semibold text-fg flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-accent-fg" /> AI Knowledge Base
-            </h1>
-            <p className="text-sm text-fg-tertiary">Train Grovia with your business knowledge — AI answers only from these sources</p>
+            <h1 className="text-page font-semibold text-fg">AI knowledge</h1>
+            <p className="mt-0.5 text-body text-fg-secondary">Sources Grovia answers from. It won’t answer outside them.</p>
           </div>
         </div>
         <button

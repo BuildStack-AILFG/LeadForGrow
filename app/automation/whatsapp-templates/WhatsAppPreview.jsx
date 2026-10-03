@@ -20,7 +20,7 @@ export default function WhatsAppPreview({ template }) {
 
   return (
     <div className="w-full max-w-[340px] mx-auto">
-      <div className="rounded-[2rem] bg-[#0b141a] p-3 shadow-modal">
+      <div className="rounded-lg bg-[#0b141a] p-3 shadow-modal">
         <div className="rounded-[1.4rem] overflow-hidden bg-[#0b141a]">
           {/* Chat header */}
           <div className="bg-[#1f2c33] px-4 py-3 flex items-center gap-3">

@@ -5,10 +5,10 @@ import Sparkline from './Sparkline';
 import { buildSparkline } from './utils';
 
 const ACCENTS = {
-  blue: { bg: 'bg-accent-subtle text-accent-fg dark:bg-teal-950/40 dark:text-accent-fg', spark: '#2563eb' },
-  green: { bg: 'bg-accent-subtle text-accent-fg dark:bg-emerald-950/40 dark:text-accent-fg', spark: '#059669' },
-  amber: { bg: 'bg-warning-subtle text-warning dark:bg-amber-950/40 dark:text-amber-400', spark: '#d97706' },
-  slate: { bg: 'bg-muted text-fg-secondary dark:bg-slate-800 dark:text-fg-tertiary', spark: '#64748b' }
+  blue: { bg: 'bg-accent-subtle text-accent-fg dark:bg-teal-950/40 dark:text-accent-fg', spark: '#1D4B3E' },
+  green: { bg: 'bg-accent-subtle text-accent-fg dark:bg-emerald-950/40 dark:text-accent-fg', spark: '#1D4B3E' },
+  amber: { bg: 'bg-warning-subtle text-warning dark:bg-amber-950/40 dark:text-amber-400', spark: '#8F5A0E' },
+  slate: { bg: 'bg-muted text-fg-secondary dark:bg-slate-800 dark:text-fg-tertiary', spark: '#656F6A' }
 };
 
 function KPICard({ kpi, dailyTrends, globalTrend }) {

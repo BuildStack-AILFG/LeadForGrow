@@ -1,6 +1,6 @@
 'use client';
 
-const COLORS = ['#2563eb', '#6366f1', '#8b5cf6', '#14b8a6', '#f59e0b', '#64748b'];
+const COLORS = ['#1D4B3E', '#4F7CA8', '#5C8F8A', '#A08040', '#8A5F86', '#6B7A8F', '#A0664F'];
 
 export default function SimpleDonutChart({ data = [], size = 120 }) {
   const total = data.reduce((s, d) => s + d.value, 0);

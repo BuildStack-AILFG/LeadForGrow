@@ -166,7 +166,7 @@ export default function LiveDialer({ callData, onHangup }) {
     }
 
     return (
-        <div className="fixed bottom-6 right-6 z-[100] w-96 bg-canvas rounded-[24px] border border-line overflow-hidden animate-in slide-in-from-bottom-10 duration-500">
+        <div className="fixed bottom-6 right-6 z-[100] w-96 bg-canvas rounded-lg border border-line overflow-hidden ">
             {/* Header */}
             <div className="bg-slate-900 px-5 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -218,7 +218,7 @@ export default function LiveDialer({ callData, onHangup }) {
                             Schedule Call-back
                         </button>
                     ) : (
-                        <div className="animate-in fade-in zoom-in duration-200">
+                        <div className=" zoom-in duration-200">
                             <div className="flex items-center justify-between mb-2">
                                 <span className="text-meta font-semibold text-fg-tertiary">Reschedule Call</span>
                                 <button onClick={() => setShowReschedule(false)} className="text-fg-tertiary hover:text-fg">
@@ -248,7 +248,7 @@ export default function LiveDialer({ callData, onHangup }) {
                     <button
                         onClick={handleEndCall}
                         disabled={savingNotes}
-                        className="flex-[1.5] flex items-center justify-center gap-2 py-4 bg-danger text-white rounded-[18px] hover:bg-rose-700 transition-all font-semibold text-xs disabled:opacity-50"
+                        className="flex-[1.5] flex items-center justify-center gap-2 py-4 bg-danger text-white rounded-lg hover:bg-rose-700 transition-all font-semibold text-xs disabled:opacity-50"
                     >
                         <PhoneOff className="w-4 h-4" />
                         {savingNotes ? 'Saving...' : 'End Call'}

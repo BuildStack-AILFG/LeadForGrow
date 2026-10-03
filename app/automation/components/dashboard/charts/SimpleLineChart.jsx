@@ -5,8 +5,8 @@ export default function SimpleLineChart({
   dataKey = 'leads',
   secondaryKey,
   height = 160,
-  stroke = '#2563eb',
-  secondaryStroke = '#10b981'
+  stroke = '#1D4B3E',
+  secondaryStroke = '#A9B1AD'
 }) {
   if (!data.length) {
     return (

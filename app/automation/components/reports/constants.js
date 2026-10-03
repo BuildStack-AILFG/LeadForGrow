@@ -25,11 +25,11 @@ export const STAGE_FILTER_OPTIONS = [
 ];
 
 export const FUNNEL_STAGES = [
-  { key: 'new', label: 'New Leads', color: '#2563eb' },
-  { key: 'contacted', label: 'Contacted', color: '#6366f1' },
-  { key: 'follow-up', label: 'Interested', color: '#8b5cf6' },
-  { key: 'converted', label: 'Won', color: '#059669' },
-  { key: 'lost', label: 'Lost', color: '#dc2626' }
+  { key: 'new', label: 'New leads', color: '#4F7CA8' },
+  { key: 'contacted', label: 'Contacted', color: '#5C8F8A' },
+  { key: 'follow-up', label: 'Interested', color: '#A08040' },
+  { key: 'converted', label: 'Won', color: '#1D4B3E' },
+  { key: 'lost', label: 'Lost', color: '#B4372F' }
 ];
 
 export const SOURCE_COLORS = {

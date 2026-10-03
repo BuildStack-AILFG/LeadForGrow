@@ -31,7 +31,7 @@ function SettingsLayoutInner({ children }) {
     <div className="flex min-h-full flex-col bg-canvas">
       <SettingsHeader section={section} />
       <div className="flex-1 overflow-y-auto relative">
-        <div className={`mx-auto px-4 sm:px-6 py-6 pb-10 ${wide ? 'max-w-6xl' : 'max-w-4xl'}`}>
+        <div className={`px-4 sm:px-6 py-6 pb-10 ${wide ? '' : 'max-w-4xl'}`}>
           {children}
         </div>
       </div>
