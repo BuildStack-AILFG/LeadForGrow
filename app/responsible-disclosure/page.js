@@ -1,97 +1,89 @@
-import MarketingShell from '@/app/components/marketing/MarketingShell';
-import { MARKETING } from '@/lib/marketing/designTokens';
 import Link from 'next/link';
-import { Shield, Mail, Clock, CheckCircle } from 'lucide-react';
+import MarketingShell from '@/app/components/marketing/MarketingShell';
+import { SITE } from '@/lib/marketing/designTokens';
 
 export const metadata = {
-  title: 'Responsible Disclosure | LeadForGrow Security',
-  description: 'Report security vulnerabilities to LeadForGrow. Our responsible disclosure policy and bug bounty guidelines.',
+  title: 'Responsible Disclosure',
+  description: 'How to report a security vulnerability in LeadForGrow: scope, what to include, how we respond, and our safe-harbour commitment.',
+  alternates: { canonical: 'https://www.leadforgrow.com/responsible-disclosure' },
 };
 
+const IN_SCOPE = ['www.leadforgrow.com and leadforgrow.com', 'The LeadForGrow app (/automation) and its API routes', 'Public forms, booking pages and the website chat widget'];
+const OUT_SCOPE = ['Social engineering or phishing of our team or customers', 'Physical attacks', 'Denial-of-service or load testing', 'Third-party services we use (report those to the vendor)'];
+
 const PROCESS = [
-  { step: '1', title: 'Report privately', body: 'Email security@leadforgrow.com with a detailed description, steps to reproduce, and impact assessment.' },
-  { step: '2', title: 'We acknowledge', body: 'Our security team responds within 48 hours with a ticket reference and initial triage.' },
-  { step: '3', title: 'We investigate', body: 'We validate the report, assess severity (CVSS), and work on a fix with regular status updates.' },
-  { step: '4', title: 'We resolve & credit', body: 'Once patched, we notify you and — with your permission — acknowledge your contribution.' },
+  ['Report privately', 'Email security@leadforgrow.com with a description, steps to reproduce and the impact you observed.'],
+  ['We acknowledge', 'We aim to respond within 72 hours to confirm we have it.'],
+  ['We investigate', 'We reproduce the issue, assess severity and work on a fix, keeping you updated.'],
+  ['We fix and credit', 'Once fixed we let you know and, with your permission, thank you publicly.'],
 ];
 
 export default function ResponsibleDisclosurePage() {
+  const H2 = `${SITE.serif} mt-16 text-[1.75rem]`;
   return (
     <MarketingShell>
-      <section className={`${MARKETING.section} ${MARKETING.gradientHero}`}>
-        <div className={`${MARKETING.containerNarrow} text-center`}>
-          <Shield className="w-10 h-10 text-emerald-600 mx-auto mb-4" />
-          <p className={MARKETING.overline}>Security</p>
-          <h1 className={`${MARKETING.h1} mt-3 mb-5`}>Responsible disclosure</h1>
-          <p className={MARKETING.bodyLarge}>
-            We take security seriously. If you discover a vulnerability, please report it responsibly so we can protect our customers.
-          </p>
+      <header className={`${SITE.top} border-b ${SITE.rule} pb-12`}>
+        <div className={SITE.wrap}>
+          <p className={SITE.label}>Security policy</p>
+          <h1 className={`${SITE.serifXL} mt-6`}>Responsible disclosure</h1>
+          {/* Policy memo header */}
+          <dl className={`mt-10 grid border-t-2 border-[#0B1712] sm:grid-cols-4`}>
+            {[
+              ['Report to', <a key="m" href="mailto:security@leadforgrow.com" className={SITE.link}>security@leadforgrow.com</a>],
+              ['First response', 'Aim: within 72 hours'],
+              ['Bug bounty', 'None at present'],
+              ['Applies to', 'LeadForGrow website and app'],
+            ].map(([k, v]) => (
+              <div key={k} className={`border-b ${SITE.rule} py-4 sm:border-b-0 sm:pr-6`}>
+                <dt className={SITE.label}>{k}</dt>
+                <dd className="mt-1.5 break-words text-[15px] text-[#0B1712]">{v}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
-      </section>
+      </header>
 
-      <section className={MARKETING.sectionTight}>
-        <div className={`${MARKETING.containerNarrow} space-y-12`}>
-          <div className={`${MARKETING.card} p-8 border-l-4 border-l-emerald-500`}>
-            <h2 className={MARKETING.h3}>Scope</h2>
-            <p className={`${MARKETING.body} mt-3`}>
-              Reports are in scope for leadforgrow.com, app.leadforgrow.com, and our public API endpoints.
-              Social engineering, physical attacks, and denial-of-service tests are out of scope.
-            </p>
-          </div>
+      <article className={`${SITE.narrow} pb-24 pt-4`}>
+        <p className={`${SITE.prose} mt-10 text-[18px]`}>
+          If you believe you’ve found a security vulnerability in LeadForGrow, please tell us privately first so we can protect our customers.
+          We welcome reports from researchers acting in good faith.
+        </p>
 
+        <h2 className={H2}>1. Scope</h2>
+        <div className="mt-6 grid gap-8 sm:grid-cols-2">
           <div>
-            <h2 className={`${MARKETING.h2} mb-8`}>How to report</h2>
-            <div className="space-y-6">
-              {PROCESS.map((item) => (
-                <div key={item.step} className="flex gap-5">
-                  <span className="w-10 h-10 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center shrink-0">{item.step}</span>
-                  <div>
-                    <h3 className="font-semibold text-[#111827]">{item.title}</h3>
-                    <p className={`${MARKETING.body} mt-1 text-sm`}>{item.body}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <p className={`${SITE.label} text-[#1D4B3E]`}>In scope</p>
+            <ul className={`${SITE.prose} mt-3 list-disc space-y-1.5 pl-5`}>{IN_SCOPE.map((s) => <li key={s}>{s}</li>)}</ul>
           </div>
-
-          <div className="grid sm:grid-cols-2 gap-6">
-            <div className={`${MARKETING.card} p-6`}>
-              <Mail className="w-6 h-6 text-emerald-600 mb-3" />
-              <h3 className="font-semibold text-[#111827]">Contact</h3>
-              <a href="mailto:security@leadforgrow.com" className={`${MARKETING.link} mt-2 inline-block`}>
-                security@leadforgrow.com
-              </a>
-            </div>
-            <div className={`${MARKETING.card} p-6`}>
-              <Clock className="w-6 h-6 text-emerald-600 mb-3" />
-              <h3 className="font-semibold text-[#111827]">Response SLA</h3>
-              <p className={`${MARKETING.body} mt-2 text-sm`}>Initial response within 48 hours. Critical issues prioritized immediately.</p>
-            </div>
+          <div>
+            <p className={`${SITE.label} text-rose-700`}>Out of scope</p>
+            <ul className={`${SITE.prose} mt-3 list-disc space-y-1.5 pl-5`}>{OUT_SCOPE.map((s) => <li key={s}>{s}</li>)}</ul>
           </div>
-
-          <div className={`${MARKETING.card} p-8 bg-[#FAFDFA]`}>
-            <h2 className={MARKETING.h3}>Safe harbor</h2>
-            <ul className="mt-4 space-y-3">
-              {[
-                'Act in good faith and avoid privacy violations or data destruction',
-                'Give us reasonable time to investigate and remediate before public disclosure',
-                'Do not access or modify data belonging to other customers',
-                'We will not pursue legal action against researchers who follow this policy',
-              ].map((item) => (
-                <li key={item} className="flex items-start gap-3 text-sm text-[#64748B]">
-                  <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <p className="text-center text-sm text-[#64748B]">
-            For general security information, visit our{' '}
-            <Link href="/security" className={MARKETING.link}>Security page</Link>.
-          </p>
         </div>
-      </section>
+
+        <h2 className={H2}>2. What happens after you report</h2>
+        <ol className="mt-6">
+          {PROCESS.map(([t, d], i) => (
+            <li key={t} className={`grid grid-cols-[48px_1fr] border-t ${SITE.rule} py-5`}>
+              <span className={`${SITE.serif} text-2xl text-[#1D4B3E]`}>{i + 1}</span>
+              <div><h3 className="font-semibold text-[#0B1712]">{t}</h3><p className={`${SITE.body} mt-1`}>{d}</p></div>
+            </li>
+          ))}
+        </ol>
+
+        <h2 className={H2}>3. Safe harbour</h2>
+        <p className={`${SITE.prose} mt-4`}>If you follow this policy, we will not pursue legal action against you for your research. In return, please:</p>
+        <ul className={`${SITE.prose} mt-3 list-disc space-y-2 pl-5`}>
+          <li>Act in good faith and avoid privacy violations, data destruction and service disruption.</li>
+          <li>Access only your own accounts and data, and stop as soon as you reach someone else’s.</li>
+          <li>Give us reasonable time to fix the issue before you disclose it publicly.</li>
+          <li>Don’t include customer data in your report beyond what is needed to show the issue.</li>
+        </ul>
+
+        <p className={`mt-16 border-t ${SITE.rule} pt-6 text-sm text-[#6B6B63]`}>
+          For a summary of our safeguards see the <Link href="/security" className={SITE.link}>Security overview</Link>.
+        </p>
+      </article>
     </MarketingShell>
   );
 }

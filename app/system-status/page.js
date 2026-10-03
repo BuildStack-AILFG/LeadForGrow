@@ -1,70 +1,51 @@
-'use client';
-
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { CheckCircle2, AlertCircle, Clock } from 'lucide-react';
+import { ExternalLink, Activity } from 'lucide-react';
 import MarketingShell from '@/app/components/marketing/MarketingShell';
-import { MARKETING } from '@/lib/marketing/designTokens';
+import { SITE } from '@/lib/marketing/designTokens';
+import StatusBoard from './StatusBoard';
 
-const SERVICES = [
-  { name: 'Web Application', status: 'operational' },
-  { name: 'API', status: 'operational' },
-  { name: 'WhatsApp Integration', status: 'operational' },
-  { name: 'Email Delivery', status: 'operational' },
-  { name: 'Automation Engine', status: 'operational' },
-  { name: 'AI Services', status: 'operational' },
+export const metadata = {
+  title: 'System Status',
+  description: 'Live status of the LeadForGrow app, database and background jobs, with links to the status pages of the messaging platforms we depend on.',
+  alternates: { canonical: 'https://www.leadforgrow.com/system-status' },
+};
+
+const UPSTREAM = [
+  ['Meta — WhatsApp, Instagram, Messenger', 'https://metastatus.com'],
+  ['Razorpay — payment links', 'https://status.razorpay.com'],
 ];
 
 export default function SystemStatusPage() {
-  const [health, setHealth] = useState(null);
-
-  useEffect(() => {
-    fetch('/api/health').then((r) => r.json()).then(setHealth).catch(() => null);
-  }, []);
-
   return (
     <MarketingShell>
-      <section className={`${MARKETING.sectionTight} border-b border-emerald-100`}>
-        <div className={`${MARKETING.container} flex flex-col sm:flex-row sm:items-center justify-between gap-4`}>
-          <div>
-            <h1 className={MARKETING.h1}>System Status</h1>
-            <p className={MARKETING.body}>Real-time service health for LeadForGrow platform</p>
-          </div>
-          <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 border border-emerald-200">
-            <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-            <span className="text-sm font-semibold text-emerald-800">All systems operational</span>
-          </div>
-        </div>
-      </section>
-
-      <section className={MARKETING.sectionTight}>
-        <div className={`${MARKETING.container} max-w-3xl`}>
-          <div className="space-y-3">
-            {SERVICES.map((s) => (
-              <div key={s.name} className={`${MARKETING.card} px-5 py-4 flex items-center justify-between`}>
-                <span className="font-medium text-[#111827]">{s.name}</span>
-                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700 uppercase">
-                  <CheckCircle2 className="w-4 h-4" /> Operational
-                </span>
-              </div>
-            ))}
-          </div>
-
-          {health && (
-            <p className="text-xs text-[#94A3B8] mt-6">Last checked: {new Date().toLocaleString()} · MongoDB: {health.mongodb || 'ok'}</p>
-          )}
-
-          <div className="mt-12">
-            <h2 className={MARKETING.h3}>Incident history</h2>
-            <div className="mt-4 p-6 rounded-2xl border border-dashed border-emerald-200 text-center text-[#64748B] text-sm">
-              <Clock className="w-8 h-8 mx-auto mb-2 text-emerald-400" />
-              No incidents in the past 90 days.
-            </div>
-          </div>
-
-          <p className="mt-8 text-sm text-[#64748B]">
-            Subscribe to updates: <Link href="/contact" className="text-emerald-700 font-medium">Contact us</Link> to receive status notifications.
+      <section className="pb-16 pt-32 sm:pt-36">
+        <div className={`${SITE.wrap} max-w-3xl`}>
+          <p className="flex items-center gap-2 text-sm font-medium text-[#6B7280]"><Activity className="h-4 w-4 text-[#1D4B3E]" /> status.leadforgrow</p>
+          <h1 className="mt-2 font-[family-name:var(--font-plus-jakarta)] text-4xl font-bold tracking-[-0.02em] text-[#0B1712]">System status</h1>
+          <p className={`${SITE.body} mt-3`}>
+            This page checks our servers live from your browser each time you open it. It reports what the check finds right now — it does not
+            show history.
           </p>
+
+          <div className="mt-10"><StatusBoard /></div>
+
+          <h2 className="mt-14 text-lg font-semibold text-[#0B1712]">Platforms we depend on</h2>
+          <p className={`${SITE.small} mt-1`}>If messages are delayed but everything above is operational, the cause is often upstream.</p>
+          <ul className="mt-4 space-y-2">
+            {UPSTREAM.map(([name, href]) => (
+              <li key={href}>
+                <a href={href} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between rounded-xl border border-[#E4E7E1] px-5 py-4 text-[15px] text-[#0B1712] hover:border-[#1D4B3E]/40 hover:bg-[#F0F9F5]">
+                  {name} <ExternalLink className="h-4 w-4 text-[#6B7280]" />
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-14 rounded-2xl bg-[#F5F6F2] p-6">
+            <h2 className="font-semibold text-[#0B1712]">Seeing a problem that isn’t shown here?</h2>
+            <p className={`${SITE.small} mt-1`}>Tell us what you see and when it started — the more detail, the faster we can fix it.</p>
+            <Link href="/help-center" className={`${SITE.link} mt-3 inline-block text-sm`}>Contact support</Link>
+          </div>
         </div>
       </section>
     </MarketingShell>

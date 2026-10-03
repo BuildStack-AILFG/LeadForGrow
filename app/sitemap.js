@@ -1,5 +1,5 @@
 import { getAllSlugs } from '@/lib/blog/posts';
-import { PRODUCT_PAGES, SOLUTION_PAGES } from '@/lib/marketing/pageContent/products';
+import { FOOTER_SECTIONS, FOOTER_LEGAL } from '@/lib/marketing/footerLinks';
 import { HELP_GUIDES } from '@/lib/help/guides';
 import { industries } from '@/app/industry/data';
 import { SITE_URL } from '@/lib/seo/metadata';
@@ -22,15 +22,12 @@ export default function sitemap() {
     lastModified: now,
   }));
 
-  const productEntries = Object.keys(PRODUCT_PAGES).map((slug) => ({
-    url: `${SITE_URL}/products/${slug}`,
-    lastModified: now,
-  }));
-
-  const solutionEntries = Object.keys(SOLUTION_PAGES).map((slug) => ({
-    url: `${SITE_URL}/solutions/${slug}`,
-    lastModified: now,
-  }));
+  // Every footer page is its own static page; list each internal one once.
+  const listed = new Set(STATIC_ROUTES);
+  const footerEntries = [...FOOTER_SECTIONS.flatMap((s) => s.links), ...FOOTER_LEGAL]
+    .map((l) => l.href)
+    .filter((href) => href.startsWith('/') && !listed.has(href) && listed.add(href))
+    .map((path) => ({ url: `${SITE_URL}${path}`, lastModified: now }));
 
   const helpEntries = HELP_GUIDES.map((guide) => ({
     url: `${SITE_URL}/help/${guide.slug}`,
@@ -45,8 +42,7 @@ export default function sitemap() {
   return [
     ...staticEntries,
     ...blogEntries,
-    ...productEntries,
-    ...solutionEntries,
+    ...footerEntries,
     ...helpEntries,
     ...industryEntries,
   ];

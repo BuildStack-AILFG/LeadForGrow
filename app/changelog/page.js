@@ -1,36 +1,50 @@
 import Link from 'next/link';
+import { Rss } from 'lucide-react';
 import MarketingShell from '@/app/components/marketing/MarketingShell';
-import { MARKETING } from '@/lib/marketing/designTokens';
+import { RELEASES } from '@/lib/marketing/releases';
+import { SITE } from '@/lib/marketing/designTokens';
 
-const ENTRIES = [
-  { version: '2.5.0', date: '2026-06-01', items: ['Automation platform Phase 5', 'Broadcast campaigns', 'Customer journey tracker', 'Test mode for workflows'] },
-  { version: '2.4.0', date: '2026-05-01', items: ['Unified inbox improvements', 'AI knowledge base', 'Deal pipeline kanban'] },
-  { version: '2.3.0', date: '2026-04-01', items: ['WhatsApp template sync', 'Meeting scheduling', 'Team permissions'] },
-];
+export const metadata = {
+  title: 'Changelog',
+  description: 'Every improvement shipped to LeadForGrow, newest first.',
+  alternates: { canonical: 'https://www.leadforgrow.com/changelog' },
+};
 
-export const metadata = { title: 'Changelog | LeadForGrow' };
+const fmt = (d) => new Date(`${d}T00:00:00`).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
 
 export default function ChangelogPage() {
   return (
     <MarketingShell>
-      <section className={MARKETING.section}>
-        <div className={`${MARKETING.containerNarrow}`}>
-          <h1 className={MARKETING.h1}>Changelog</h1>
-          <p className={`${MARKETING.body} mt-3 mb-12`}>Every release, documented.</p>
-          <div className="space-y-10">
-            {ENTRIES.map((e) => (
-              <article key={e.version} className="border-l-2 border-emerald-400 pl-6">
-                <div className="flex items-baseline gap-3 mb-3">
-                  <span className="font-bold text-emerald-700">v{e.version}</span>
-                  <span className="text-sm text-[#94A3B8]">{e.date}</span>
+      <section className="border-b border-[#E4E7E1] pb-16 pt-32 sm:pt-36">
+        <div className={`${SITE.narrow}`}>
+          <p className="font-mono text-sm text-[#1D4B3E]">$ leadforgrow --changelog</p>
+          <h1 className="mt-3 font-[family-name:var(--font-plus-jakarta)] text-4xl font-bold tracking-[-0.02em] text-[#0B1712] sm:text-5xl">Changelog</h1>
+          <p className={`${SITE.lead} mt-4`}>Everything we shipped, newest first. Updates reach every workspace automatically — there is nothing to install.</p>
+          <Link href="/product-updates" className={`${SITE.link} mt-4 inline-flex items-center gap-1.5 text-sm`}><Rss className="h-4 w-4" /> Read the highlights</Link>
+        </div>
+      </section>
+
+      <section className="py-14">
+        <div className={SITE.narrow}>
+          <ol className="space-y-0">
+            {RELEASES.map((r) => (
+              <li key={`${r.date}-${r.title}`} className="grid gap-3 border-b border-[#F1F2EF] py-10 first:pt-0 md:grid-cols-[150px_1fr] md:gap-8">
+                <div>
+                  <time dateTime={r.date} className="text-sm font-medium text-[#6B7280]">{fmt(r.date)}</time>
+                  <p className="mt-2"><span className="rounded-full bg-[#E8F3EE] px-2.5 py-0.5 text-xs font-semibold text-[#1D4B3E]">{r.tag}</span></p>
                 </div>
-                <ul className="space-y-1.5">
-                  {e.items.map((item) => <li key={item} className="text-sm text-[#64748B]">· {item}</li>)}
-                </ul>
-              </article>
+                <div>
+                  <h2 className="text-xl font-semibold text-[#0B1712]">{r.title}</h2>
+                  <ul className="mt-4 space-y-2">
+                    {r.items.map((it) => (
+                      <li key={it} className="relative pl-5 text-[15px] leading-relaxed text-[#374151] before:absolute before:left-0 before:top-[0.6em] before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#1D4B3E]">{it}</li>
+                    ))}
+                  </ul>
+                </div>
+              </li>
             ))}
-          </div>
-          <Link href="/product-updates" className={`${MARKETING.link} mt-10 inline-block`}>View product updates →</Link>
+          </ol>
+          <p className={`${SITE.small} mt-10`}>Earlier releases aren’t listed here. Questions about a change? <Link href="/contact" className={SITE.link}>Contact us</Link>.</p>
         </div>
       </section>
     </MarketingShell>

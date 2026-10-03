@@ -1,0 +1,315 @@
+- generic [active] [ref=f8e1]:
+  - generic [ref=f8e2]:
+    - banner [ref=f8e3]:
+      - generic [ref=f8e4]:
+        - link "LeadForGrow™" [ref=f8e5] [cursor=pointer]:
+          - /url: /
+        - navigation [ref=f8e7]:
+          - link "Home" [ref=f8e8] [cursor=pointer]:
+            - /url: /
+          - button "Platform" [ref=f8e10]
+          - button "Solutions" [ref=f8e14]
+          - link "Pricing" [ref=f8e17] [cursor=pointer]:
+            - /url: /pricing
+          - link "Resources" [ref=f8e18] [cursor=pointer]:
+            - /url: /blog
+          - link "Contact" [ref=f8e19] [cursor=pointer]:
+            - /url: /contact
+        - generic [ref=f8e20]:
+          - link "Login" [ref=f8e21] [cursor=pointer]:
+            - /url: /login
+          - link "Start free trial" [ref=f8e22] [cursor=pointer]:
+            - /url: /register
+    - main [ref=f8e23]:
+      - generic [ref=f8e25]:
+        - generic [ref=f8e26]:
+          - paragraph [ref=f8e27]: Compliance
+          - heading "Policies in one register. Messaging rules in the product." [level=1] [ref=f8e28]
+        - paragraph [ref=f8e29]: Everything that governs how LeadForGrow handles data, and the safeguards that help you message customers within the rules.
+      - generic [ref=f8e31]:
+        - heading "Document register" [level=2] [ref=f8e32]
+        - table [ref=f8e34]:
+          - rowgroup [ref=f8e35]:
+            - row [ref=f8e36]:
+              - columnheader "No." [ref=f8e37]
+              - columnheader "Document" [ref=f8e38]
+              - columnheader "Covers" [ref=f8e39]
+              - columnheader [ref=f8e40]
+          - rowgroup [ref=f8e41]:
+            - row [ref=f8e42]:
+              - cell "01" [ref=f8e43]
+              - cell [ref=f8e44]:
+                - link "Privacy Policy" [ref=f8e45] [cursor=pointer]:
+                  - /url: /privacy
+              - cell "What we collect, why, and your rights" [ref=f8e46]
+              - cell [ref=f8e47]:
+                - link "Open Privacy Policy" [ref=f8e48] [cursor=pointer]:
+                  - /url: /privacy
+                  - text: Open →
+            - row [ref=f8e49]:
+              - cell "02" [ref=f8e50]
+              - cell [ref=f8e51]:
+                - link "Terms of Service" [ref=f8e52] [cursor=pointer]:
+                  - /url: /terms
+              - cell "The agreement for using LeadForGrow" [ref=f8e53]
+              - cell [ref=f8e54]:
+                - link "Open Terms of Service" [ref=f8e55] [cursor=pointer]:
+                  - /url: /terms
+                  - text: Open →
+            - row [ref=f8e56]:
+              - cell "03" [ref=f8e57]
+              - cell [ref=f8e58]:
+                - link "Refund Policy" [ref=f8e59] [cursor=pointer]:
+                  - /url: /refund-policy
+              - cell "Trials, refunds and cancellation" [ref=f8e60]
+              - cell [ref=f8e61]:
+                - link "Open Refund Policy" [ref=f8e62] [cursor=pointer]:
+                  - /url: /refund-policy
+                  - text: Open →
+            - row [ref=f8e63]:
+              - cell "04" [ref=f8e64]
+              - cell [ref=f8e65]:
+                - link "Data Processing Agreement" [ref=f8e66] [cursor=pointer]:
+                  - /url: /dpa
+              - cell "Our obligations when we process data for you" [ref=f8e67]
+              - cell [ref=f8e68]:
+                - link "Open Data Processing Agreement" [ref=f8e69] [cursor=pointer]:
+                  - /url: /dpa
+                  - text: Open →
+            - row [ref=f8e70]:
+              - cell "05" [ref=f8e71]
+              - cell [ref=f8e72]:
+                - link "GDPR & Data Protection" [ref=f8e73] [cursor=pointer]:
+                  - /url: /gdpr
+              - cell "Controller and processor roles, your rights" [ref=f8e74]
+              - cell [ref=f8e75]:
+                - link "Open GDPR & Data Protection" [ref=f8e76] [cursor=pointer]:
+                  - /url: /gdpr
+                  - text: Open →
+            - row [ref=f8e77]:
+              - cell "06" [ref=f8e78]
+              - cell [ref=f8e79]:
+                - link "Cookie Policy" [ref=f8e80] [cursor=pointer]:
+                  - /url: /cookie-policy
+              - cell "Cookies and browser storage we use" [ref=f8e81]
+              - cell [ref=f8e82]:
+                - link "Open Cookie Policy" [ref=f8e83] [cursor=pointer]:
+                  - /url: /cookie-policy
+                  - text: Open →
+            - row [ref=f8e84]:
+              - cell "07" [ref=f8e85]
+              - cell [ref=f8e86]:
+                - link "Security overview" [ref=f8e87] [cursor=pointer]:
+                  - /url: /security
+              - cell "Technical and organisational safeguards" [ref=f8e88]
+              - cell [ref=f8e89]:
+                - link "Open Security overview" [ref=f8e90] [cursor=pointer]:
+                  - /url: /security
+                  - text: Open →
+            - row [ref=f8e91]:
+              - cell "08" [ref=f8e92]
+              - cell [ref=f8e93]:
+                - link "Responsible disclosure" [ref=f8e94] [cursor=pointer]:
+                  - /url: /responsible-disclosure
+              - cell "Reporting vulnerabilities" [ref=f8e95]
+              - cell [ref=f8e96]:
+                - link "Open Responsible disclosure" [ref=f8e97] [cursor=pointer]:
+                  - /url: /responsible-disclosure
+                  - text: Open →
+            - row [ref=f8e98]:
+              - cell "09" [ref=f8e99]
+              - cell [ref=f8e100]:
+                - link "Accessibility statement" [ref=f8e101] [cursor=pointer]:
+                  - /url: /accessibility
+              - cell "Our approach and known limitations" [ref=f8e102]
+              - cell [ref=f8e103]:
+                - link "Open Accessibility statement" [ref=f8e104] [cursor=pointer]:
+                  - /url: /accessibility
+                  - text: Open →
+      - generic [ref=f8e106]:
+        - heading "Messaging rules, and who does what" [level=2] [ref=f8e107]
+        - paragraph [ref=f8e108]: LeadForGrow enforces what it can. Some obligations stay with you as the business sending the messages.
+        - table [ref=f8e110]:
+          - rowgroup [ref=f8e111]:
+            - row [ref=f8e112]:
+              - columnheader "Rule" [ref=f8e113]
+              - columnheader "What LeadForGrow does" [ref=f8e114]
+              - columnheader "What stays with you" [ref=f8e115]
+          - rowgroup [ref=f8e116]:
+            - row [ref=f8e117]:
+              - rowheader "Opt-out" [ref=f8e118]
+              - cell "A customer who replies STOP is not messaged again by automations, sequences, flows or broadcasts. START opts them back in." [ref=f8e119]
+              - cell "Collect permission before you message people." [ref=f8e120]
+            - row [ref=f8e121]:
+              - rowheader "WhatsApp 24-hour window" [ref=f8e122]
+              - cell "Free-text replies are offered only within 24 hours of the customer’s last message; outside it, only approved templates." [ref=f8e123]
+              - cell "Choose templates that suit the conversation." [ref=f8e124]
+            - row [ref=f8e125]:
+              - rowheader "Template approval" [ref=f8e126]
+              - cell "Templates are submitted to Meta from inside LeadForGrow, and only approved ones can be sent." [ref=f8e127]
+              - cell "Write templates that follow Meta’s policies." [ref=f8e128]
+            - row [ref=f8e129]:
+              - rowheader "Email unsubscribe" [ref=f8e130]
+              - cell "Every broadcast email carries a per-recipient unsubscribe link." [ref=f8e131]
+              - cell "Send only to people who expect to hear from you." [ref=f8e132]
+            - row [ref=f8e133]:
+              - rowheader "Consent on forms" [ref=f8e134]
+              - cell "The visitor’s cookie-consent choice is stored with leads from LeadForGrow web forms." [ref=f8e135]
+              - cell "Explain on your own site how you use enquiries." [ref=f8e136]
+        - paragraph [ref=f8e137]: LeadForGrow’s safeguards help, but do not replace, your own obligations under WhatsApp and Meta policies and applicable law.
+  - button "Open help menu" [ref=f8e139]
+  - contentinfo [ref=f8e142]:
+    - generic [ref=f8e143]:
+      - generic [ref=f8e144]:
+        - generic [ref=f8e145]:
+          - link "LeadForGrow" [ref=f8e146] [cursor=pointer]:
+            - /url: /
+          - paragraph [ref=f8e148]: The revenue operating system for teams who refuse to let leads slip through the cracks.
+        - generic [ref=f8e149]:
+          - generic [ref=f8e150]:
+            - heading "Product" [level=3] [ref=f8e151]
+            - list [ref=f8e152]:
+              - listitem [ref=f8e153]:
+                - link "CRM & Pipeline" [ref=f8e154] [cursor=pointer]:
+                  - /url: /products/crm
+              - listitem [ref=f8e155]:
+                - link "Automation" [ref=f8e156] [cursor=pointer]:
+                  - /url: /products/automation
+              - listitem [ref=f8e157]:
+                - link "AI Assistant" [ref=f8e158] [cursor=pointer]:
+                  - /url: /products/ai
+              - listitem [ref=f8e159]:
+                - link "Unified Inbox" [ref=f8e160] [cursor=pointer]:
+                  - /url: /products/unified-inbox
+              - listitem [ref=f8e161]:
+                - link "Integrations" [ref=f8e162] [cursor=pointer]:
+                  - /url: /products/integrations
+              - listitem [ref=f8e163]:
+                - link "Pricing" [ref=f8e164] [cursor=pointer]:
+                  - /url: /pricing
+          - generic [ref=f8e165]:
+            - heading "Solutions" [level=3] [ref=f8e166]
+            - list [ref=f8e167]:
+              - listitem [ref=f8e168]:
+                - link "Startups" [ref=f8e169] [cursor=pointer]:
+                  - /url: /solutions/startups
+              - listitem [ref=f8e170]:
+                - link "Restaurants" [ref=f8e171] [cursor=pointer]:
+                  - /url: /solutions/restaurants
+              - listitem [ref=f8e172]:
+                - link "Real Estate" [ref=f8e173] [cursor=pointer]:
+                  - /url: /solutions/real-estate
+              - listitem [ref=f8e174]:
+                - link "Healthcare" [ref=f8e175] [cursor=pointer]:
+                  - /url: /solutions/healthcare
+              - listitem [ref=f8e176]:
+                - link "Education" [ref=f8e177] [cursor=pointer]:
+                  - /url: /solutions/education
+              - listitem [ref=f8e178]:
+                - link "Enterprise" [ref=f8e179] [cursor=pointer]:
+                  - /url: /solutions/enterprise
+          - generic [ref=f8e180]:
+            - heading "Resources" [level=3] [ref=f8e181]
+            - list [ref=f8e182]:
+              - listitem [ref=f8e183]:
+                - link "Blog" [ref=f8e184] [cursor=pointer]:
+                  - /url: /blog
+              - listitem [ref=f8e185]:
+                - link "Help Center" [ref=f8e186] [cursor=pointer]:
+                  - /url: /help-center
+              - listitem [ref=f8e187]:
+                - link "Documentation" [ref=f8e188] [cursor=pointer]:
+                  - /url: /documentation
+              - listitem [ref=f8e189]:
+                - link "API Docs" [ref=f8e190] [cursor=pointer]:
+                  - /url: /api-docs
+              - listitem [ref=f8e191]:
+                - link "Product Updates" [ref=f8e192] [cursor=pointer]:
+                  - /url: /product-updates
+              - listitem [ref=f8e193]:
+                - link "Changelog" [ref=f8e194] [cursor=pointer]:
+                  - /url: /changelog
+              - listitem [ref=f8e195]:
+                - link "Guides" [ref=f8e196] [cursor=pointer]:
+                  - /url: /guides
+              - listitem [ref=f8e197]:
+                - link "Tutorials" [ref=f8e198] [cursor=pointer]:
+                  - /url: /tutorials
+              - listitem [ref=f8e199]:
+                - link "Videos" [ref=f8e200] [cursor=pointer]:
+                  - /url: /videos
+              - listitem [ref=f8e201]:
+                - link "System Status" [ref=f8e202] [cursor=pointer]:
+                  - /url: /system-status
+          - generic [ref=f8e203]:
+            - heading "Company" [level=3] [ref=f8e204]
+            - list [ref=f8e205]:
+              - listitem [ref=f8e206]:
+                - link "About" [ref=f8e207] [cursor=pointer]:
+                  - /url: /about
+              - listitem [ref=f8e208]:
+                - link "Contact" [ref=f8e209] [cursor=pointer]:
+                  - /url: /contact
+              - listitem [ref=f8e210]:
+                - link "Careers" [ref=f8e211] [cursor=pointer]:
+                  - /url: /careers
+              - listitem [ref=f8e212]:
+                - link "Customers" [ref=f8e213] [cursor=pointer]:
+                  - /url: /customers
+              - listitem [ref=f8e214]:
+                - link "Case Studies" [ref=f8e215] [cursor=pointer]:
+                  - /url: /case-studies
+              - listitem [ref=f8e216]:
+                - link "Partners" [ref=f8e217] [cursor=pointer]:
+                  - /url: /partners
+              - listitem [ref=f8e218]:
+                - link "Press" [ref=f8e219] [cursor=pointer]:
+                  - /url: /press
+          - generic [ref=f8e220]:
+            - heading "Trust" [level=3] [ref=f8e221]
+            - list [ref=f8e222]:
+              - listitem [ref=f8e223]:
+                - link "Security" [ref=f8e224] [cursor=pointer]:
+                  - /url: /security
+              - listitem [ref=f8e225]:
+                - link "Compliance" [ref=f8e226] [cursor=pointer]:
+                  - /url: /compliance
+              - listitem [ref=f8e227]:
+                - link "Responsible Disclosure" [ref=f8e228] [cursor=pointer]:
+                  - /url: /responsible-disclosure
+              - listitem [ref=f8e229]:
+                - link "Privacy" [ref=f8e230] [cursor=pointer]:
+                  - /url: /privacy
+              - listitem [ref=f8e231]:
+                - link "Terms" [ref=f8e232] [cursor=pointer]:
+                  - /url: /terms
+              - listitem [ref=f8e233]:
+                - link "GDPR" [ref=f8e234] [cursor=pointer]:
+                  - /url: /gdpr
+              - listitem [ref=f8e235]:
+                - link "Accessibility" [ref=f8e236] [cursor=pointer]:
+                  - /url: /accessibility
+      - generic [ref=f8e237]:
+        - generic [ref=f8e238]:
+          - paragraph [ref=f8e239]: © 2026 LeadForGrow — a product of ScaleDesk Technology Private Limited. All rights reserved.
+          - generic [ref=f8e240]:
+            - link "Privacy Policy" [ref=f8e241] [cursor=pointer]:
+              - /url: /privacy
+            - link "Terms of Service" [ref=f8e242] [cursor=pointer]:
+              - /url: /terms
+            - link "Cookie Policy" [ref=f8e243] [cursor=pointer]:
+              - /url: /cookie-policy
+            - link "DPA" [ref=f8e244] [cursor=pointer]:
+              - /url: /dpa
+            - link "Refund Policy" [ref=f8e245] [cursor=pointer]:
+              - /url: /refund-policy
+        - generic [ref=f8e246]:
+          - link "WhatsApp" [ref=f8e247] [cursor=pointer]:
+            - /url: https://wa.me/918810873052
+          - link "LinkedIn" [ref=f8e250] [cursor=pointer]:
+            - /url: https://www.linkedin.com/showcase/leadforgrow
+          - link "X" [ref=f8e255] [cursor=pointer]:
+            - /url: https://x.com/leadforgrow
+          - link "Facebook" [ref=f8e258] [cursor=pointer]:
+            - /url: https://www.facebook.com/leadforgrow
+  - button "Open Next.js Dev Tools" [ref=f8e266] [cursor=pointer]

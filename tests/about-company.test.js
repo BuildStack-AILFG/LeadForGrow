@@ -81,13 +81,13 @@ describe('scope', () => {
     assert.equal((src.match(/about-company-heading"/g) || []).length, 2, 'aria-labelledby + the heading id, nowhere else');
     const mission = src.indexOf('Mission & Vision');
     const company = src.indexOf('About Our Company —');
-    const values = src.indexOf('Values — horizontal scroll');
+    const values = src.indexOf('Values that guide every decision');
     assert.ok(mission > 0 && mission < company && company < values);
   });
 
-  it('reuses the site tokens and adds no dependency', () => {
+  it('uses the site design tokens and adds no dependency', () => {
     const src = read('app/components/marketing/AboutPageContent.jsx');
-    assert.ok(src.includes('MARKETING.sectionTight') && src.includes('MARKETING.h2') && src.includes('MARKETING.card'));
+    assert.ok(src.includes("from '@/lib/marketing/designTokens'"), 'styled with the shared site tokens');
     const pkg = JSON.parse(read('package.json'));
     assert.ok(pkg.dependencies && pkg.dependencies['lucide-react'], 'the icon library is already a dependency');
   });

@@ -1,11 +1,20 @@
-'use client';
-
-import React from 'react';
-import MarketingLayout from '@/app/components/MarketingLayout';
 import Link from 'next/link';
-import Heading from '@/app/components/ui/Heading';
+import MarketingShell from '@/app/components/marketing/MarketingShell';
 import CompanyAddress from '@/app/components/marketing/CompanyAddress';
 import { LEGAL_NAME, PRODUCT_STATEMENT } from '@/lib/company';
+import { SITE } from '@/lib/marketing/designTokens';
+
+export const metadata = {
+  title: 'Terms of Service',
+  description: 'The terms that govern your use of LeadForGrow, operated by ScaleDesk Technology Private Limited.',
+  alternates: { canonical: 'https://www.leadforgrow.com/terms' },
+};
+
+/** "6. Payments…" -> ['6', 'Payments…'] so the number can hang in the margin. */
+const split = (title) => {
+  const m = /^(\d+)\.\s+(.*)$/.exec(title);
+  return m ? [m[1], m[2]] : ['', title];
+};
 
 export default function TermsOfService() {
  const terms = [
@@ -41,7 +50,7 @@ export default function TermsOfService() {
       Subscription fees, usage charges, and add-ons are billed in advance. You may cancel your subscription at any time from your
       billing settings; cancellation prevents future billing, and access continues until the end of the current billing period.
       Refunds, where available, are governed by our{' '}
-      <Link href="/refund-policy" className="font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">Refund Policy</Link>,
+      <Link href="/refund-policy" className="font-semibold text-[#1D4B3E] underline underline-offset-4">Refund Policy</Link>,
       which forms part of these Terms.
     </>
 },
@@ -100,40 +109,65 @@ export default function TermsOfService() {
 
 
   return (
-    <MarketingLayout 
-      title="Terms of Service" 
-      subtitle="Please read these terms carefully before using the LeadForGrow platform."
-      maxWidth="4xl"
-    >
-      <div className="bg-white dark:bg-slate-900/40 rounded-3xl p-8 md:p-12 border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none">
-        <div className="prose prose-slate dark:prose-invert max-w-none">
-          <p className="text-slate-500 dark:text-slate-400 mb-12 italic">Last Updated: September 22, 2026</p>
+    <MarketingShell>
+      <header className={`${SITE.top} ${SITE.paper} border-b ${SITE.rule} pb-14`}>
+        <div className={`${SITE.wrap} max-w-4xl`}>
+          <p className={SITE.label}>Legal · Terms of Service</p>
+          <h1 className={`${SITE.serifXL} mt-6`}>Terms of Service</h1>
+          <p className={`${SITE.prose} mt-5`}>Please read these terms carefully before using the LeadForGrow platform.</p>
+          <p className="mt-6 font-mono text-xs text-[#6B6B63]">Last Updated: September 22, 2026</p>
+        </div>
+      </header>
 
-          <div className="mb-12 rounded-2xl border border-slate-100 dark:border-slate-800 p-6 md:p-8 text-slate-600 dark:text-slate-300 leading-relaxed">
-            <Heading level={2} className="text-2xl mb-4">Who These Terms Are With</Heading>
-            <p className="mb-4">
+      <div className={`${SITE.wrap} max-w-4xl py-14`}>
+        {/* Contents */}
+        <nav aria-label="Contents" className="border-t-2 border-[#0B1712] pt-4">
+          <p className={SITE.label}>Contents</p>
+          <ol className="mt-4 gap-x-10 text-[15px] sm:columns-2 [&>li]:mb-2 [&>li]:break-inside-avoid">
+            {terms.map((t) => {
+              const [n, name] = split(t.title);
+              return (
+                <li key={t.title}>
+                  <a href={`#clause-${n}`} className="grid grid-cols-[32px_1fr] text-[#33352F] hover:text-[#1D4B3E]"><span className="font-mono text-[#A3A199]">{n}.</span>{name}</a>
+                </li>
+              );
+            })}
+          </ol>
+        </nav>
+
+        {/* Parties */}
+        <section className={`mt-14 grid gap-6 border-t ${SITE.rule} pt-10 sm:grid-cols-[48px_1fr]`}>
+          <span className={`${SITE.serif} text-2xl text-[#1D4B3E]`}>§</span>
+          <div>
+            <h2 className={`${SITE.serif} text-[1.6rem]`}>Who These Terms Are With</h2>
+            <p className={`${SITE.prose} mt-4`}>
               {PRODUCT_STATEMENT} These Terms of Service are an agreement between you and {LEGAL_NAME}. In these Terms, &ldquo;we&rdquo;, &ldquo;us&rdquo; and &ldquo;our&rdquo; mean {LEGAL_NAME}; &ldquo;LeadForGrow&rdquo; is the name of the platform and product we operate and is not a separate legal entity.
             </p>
-            <CompanyAddress variant="full" />
-          </div>
-          
-          {terms.map((term, idx) => (
-            <div key={idx} className="mb-12 last:mb-0">
-              <Heading level={2} className="text-2xl mb-4">{term.title}</Heading>
-              <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-lg">
-                {term.content}
-              </p>
+            <div className="mt-6 bg-[#FAF9F6] p-5 text-sm leading-relaxed text-[#4B4D46]">
+              <CompanyAddress variant="full" />
             </div>
-          ))}
-          
-          <div className="mt-16 pt-12 border-t border-slate-100 dark:border-slate-800 text-center">
-            <p className="text-slate-500 dark:text-slate-400 mb-4">Need clarification on our terms?</p>
-            <a href="mailto:legal@leadforgrow.com" className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline">
-              legal@leadforgrow.com
-            </a>
           </div>
-        </div>
+        </section>
+
+        {/* Clauses with hanging numbers */}
+        {terms.map((term) => {
+          const [n, name] = split(term.title);
+          return (
+            <section key={term.title} id={`clause-${n}`} className={`mt-10 grid scroll-mt-28 gap-3 border-t ${SITE.rule} pt-8 sm:grid-cols-[48px_1fr] sm:gap-6`}>
+              <h2 className="contents">
+                <span className={`${SITE.serif} text-2xl text-[#1D4B3E]`}>{n}.</span>{' '}
+                <span className={`${SITE.serif} text-[1.4rem] sm:col-start-2 sm:row-start-1`}>{name}</span>
+              </h2>
+              <p className={`${SITE.prose} sm:col-start-2`}>{term.content}</p>
+            </section>
+          );
+        })}
+
+        <footer className="mt-16 border-t-2 border-[#0B1712] pt-6 text-[15px] text-[#4B4D46]">
+          Need clarification on our terms? Write to{' '}
+          <a href="mailto:legal@leadforgrow.com" className="font-medium text-[#1D4B3E] underline underline-offset-4">legal@leadforgrow.com</a>.
+        </footer>
       </div>
-    </MarketingLayout>
+    </MarketingShell>
   );
 }

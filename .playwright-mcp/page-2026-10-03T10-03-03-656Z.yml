@@ -1,0 +1,255 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "LeadForGrow™" [ref=e5] [cursor=pointer]:
+          - /url: /
+        - navigation [ref=e7]:
+          - link "Home" [ref=e8] [cursor=pointer]:
+            - /url: /
+          - button "Platform" [ref=e10]
+          - button "Solutions" [ref=e14]
+          - link "Pricing" [ref=e17] [cursor=pointer]:
+            - /url: /pricing
+          - link "Resources" [ref=e18] [cursor=pointer]:
+            - /url: /blog
+          - link "Contact" [ref=e19] [cursor=pointer]:
+            - /url: /contact
+        - generic [ref=e20]:
+          - link "Login" [ref=e21] [cursor=pointer]:
+            - /url: /login
+          - link "Start free trial" [ref=e22] [cursor=pointer]:
+            - /url: /register
+    - main [ref=e23]:
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - paragraph [ref=e27]: Security
+          - heading "Your customers trust you with their messages. We take that seriously." [level=1] [ref=e28]
+          - paragraph [ref=e29]: Here is exactly how LeadForGrow protects your data — described plainly, without badges we haven’t earned.
+        - generic [aria-hidden] [ref=e30]:
+          - generic [ref=e31]:
+            - generic [ref=e32]: Data
+            - generic [ref=e33]: 2 controls
+          - generic [ref=e34]:
+            - generic [ref=e35]: Accounts
+            - generic [ref=e36]: 2 controls
+          - generic [ref=e37]:
+            - generic [ref=e38]: Platform
+            - generic [ref=e39]: 2 controls
+          - generic [ref=e40]:
+            - generic [ref=e41]: Oversight
+            - generic [ref=e42]: 2 controls
+      - generic [ref=e44]:
+        - generic [ref=e45]:
+          - heading "Data" [level=2] [ref=e46]
+          - generic [ref=e47]:
+            - generic [ref=e53]:
+              - heading "Encryption in transit" [level=3] [ref=e54]
+              - paragraph [ref=e55]: Data in transit is protected with TLS — the site and the app are served over HTTPS only.
+            - generic [ref=e61]:
+              - heading "Credentials encrypted at rest" [level=3] [ref=e62]
+              - paragraph [ref=e63]: Sensitive credentials — WhatsApp, Instagram and Facebook tokens, email passwords, your own AI key — are encrypted at rest with AES-256 and are never sent back to the browser.
+        - generic [ref=e64]:
+          - heading "Accounts" [level=2] [ref=e65]
+          - generic [ref=e66]:
+            - generic [ref=e78]:
+              - heading "Authentication" [level=3] [ref=e79]
+              - paragraph [ref=e80]: Passwords are hashed with bcrypt. Sessions use signed tokens that expire.
+            - generic [ref=e88]:
+              - heading "Role-based access" [level=3] [ref=e89]
+              - paragraph [ref=e90]: Six built-in roles and page-level locks decide who can see and change what.
+        - generic [ref=e91]:
+          - heading "Platform" [level=2] [ref=e92]
+          - generic [ref=e93]:
+            - generic [ref=e100]:
+              - heading "Tenant isolation" [level=3] [ref=e101]
+              - paragraph [ref=e102]: Data is stored and queried per workspace, so your team works only with your own business’s leads and conversations.
+            - generic [ref=e109]:
+              - heading "Verified webhooks" [level=3] [ref=e110]
+              - paragraph [ref=e111]: Messages from Meta are accepted only with a valid signature. Requests without one are refused, not processed.
+        - generic [ref=e112]:
+          - heading "Oversight" [level=2] [ref=e113]
+          - generic [ref=e114]:
+            - generic [ref=e120]:
+              - heading "Audit logging" [level=3] [ref=e121]
+              - paragraph [ref=e122]: Security and admin activity in your workspace is recorded with who did it and when.
+            - generic [ref=e134]:
+              - heading "Responsible disclosure" [level=3] [ref=e135]
+              - paragraph [ref=e136]: Report vulnerabilities to security@leadforgrow.com. We aim to respond within 72 hours.
+      - generic [ref=e138]:
+        - link [ref=e139] [cursor=pointer]:
+          - /url: /dpa
+          - heading "Data Processing Agreement" [level=2] [ref=e140]
+          - paragraph [ref=e141]: How we process personal data on your behalf.
+          - generic [ref=e142]: Read
+        - link [ref=e145] [cursor=pointer]:
+          - /url: /responsible-disclosure
+          - heading "Report a vulnerability" [level=2] [ref=e146]
+          - paragraph [ref=e147]: Scope, process and safe harbour for researchers.
+          - generic [ref=e148]: Read
+        - link [ref=e151] [cursor=pointer]:
+          - /url: /privacy
+          - heading "Privacy Policy" [level=2] [ref=e152]
+          - paragraph [ref=e153]: What we collect and why.
+          - generic [ref=e154]: Read
+      - generic [ref=e158]:
+        - heading "Security questions or a questionnaire?" [level=2] [ref=e159]
+        - paragraph [ref=e160]: Send it to us and we’ll answer it honestly — including what we don’t do yet.
+        - link "Contact us" [ref=e161] [cursor=pointer]:
+          - /url: /contact
+  - button "Open help menu" [ref=e163]
+  - contentinfo [ref=e166]:
+    - generic [ref=e167]:
+      - generic [ref=e168]:
+        - generic [ref=e169]:
+          - link "LeadForGrow" [ref=e170] [cursor=pointer]:
+            - /url: /
+          - paragraph [ref=e172]: The revenue operating system for teams who refuse to let leads slip through the cracks.
+        - generic [ref=e173]:
+          - generic [ref=e174]:
+            - heading "Product" [level=3] [ref=e175]
+            - list [ref=e176]:
+              - listitem [ref=e177]:
+                - link "CRM & Pipeline" [ref=e178] [cursor=pointer]:
+                  - /url: /products/crm
+              - listitem [ref=e179]:
+                - link "Automation" [ref=e180] [cursor=pointer]:
+                  - /url: /products/automation
+              - listitem [ref=e181]:
+                - link "AI Assistant" [ref=e182] [cursor=pointer]:
+                  - /url: /products/ai
+              - listitem [ref=e183]:
+                - link "Unified Inbox" [ref=e184] [cursor=pointer]:
+                  - /url: /products/unified-inbox
+              - listitem [ref=e185]:
+                - link "Integrations" [ref=e186] [cursor=pointer]:
+                  - /url: /products/integrations
+              - listitem [ref=e187]:
+                - link "Pricing" [ref=e188] [cursor=pointer]:
+                  - /url: /pricing
+          - generic [ref=e189]:
+            - heading "Solutions" [level=3] [ref=e190]
+            - list [ref=e191]:
+              - listitem [ref=e192]:
+                - link "Startups" [ref=e193] [cursor=pointer]:
+                  - /url: /solutions/startups
+              - listitem [ref=e194]:
+                - link "Restaurants" [ref=e195] [cursor=pointer]:
+                  - /url: /solutions/restaurants
+              - listitem [ref=e196]:
+                - link "Real Estate" [ref=e197] [cursor=pointer]:
+                  - /url: /solutions/real-estate
+              - listitem [ref=e198]:
+                - link "Healthcare" [ref=e199] [cursor=pointer]:
+                  - /url: /solutions/healthcare
+              - listitem [ref=e200]:
+                - link "Education" [ref=e201] [cursor=pointer]:
+                  - /url: /solutions/education
+              - listitem [ref=e202]:
+                - link "Enterprise" [ref=e203] [cursor=pointer]:
+                  - /url: /solutions/enterprise
+          - generic [ref=e204]:
+            - heading "Resources" [level=3] [ref=e205]
+            - list [ref=e206]:
+              - listitem [ref=e207]:
+                - link "Blog" [ref=e208] [cursor=pointer]:
+                  - /url: /blog
+              - listitem [ref=e209]:
+                - link "Help Center" [ref=e210] [cursor=pointer]:
+                  - /url: /help-center
+              - listitem [ref=e211]:
+                - link "Documentation" [ref=e212] [cursor=pointer]:
+                  - /url: /documentation
+              - listitem [ref=e213]:
+                - link "API Docs" [ref=e214] [cursor=pointer]:
+                  - /url: /api-docs
+              - listitem [ref=e215]:
+                - link "Product Updates" [ref=e216] [cursor=pointer]:
+                  - /url: /product-updates
+              - listitem [ref=e217]:
+                - link "Changelog" [ref=e218] [cursor=pointer]:
+                  - /url: /changelog
+              - listitem [ref=e219]:
+                - link "Guides" [ref=e220] [cursor=pointer]:
+                  - /url: /guides
+              - listitem [ref=e221]:
+                - link "Tutorials" [ref=e222] [cursor=pointer]:
+                  - /url: /tutorials
+              - listitem [ref=e223]:
+                - link "Videos" [ref=e224] [cursor=pointer]:
+                  - /url: /videos
+              - listitem [ref=e225]:
+                - link "System Status" [ref=e226] [cursor=pointer]:
+                  - /url: /system-status
+          - generic [ref=e227]:
+            - heading "Company" [level=3] [ref=e228]
+            - list [ref=e229]:
+              - listitem [ref=e230]:
+                - link "About" [ref=e231] [cursor=pointer]:
+                  - /url: /about
+              - listitem [ref=e232]:
+                - link "Contact" [ref=e233] [cursor=pointer]:
+                  - /url: /contact
+              - listitem [ref=e234]:
+                - link "Careers" [ref=e235] [cursor=pointer]:
+                  - /url: /careers
+              - listitem [ref=e236]:
+                - link "Customers" [ref=e237] [cursor=pointer]:
+                  - /url: /customers
+              - listitem [ref=e238]:
+                - link "Case Studies" [ref=e239] [cursor=pointer]:
+                  - /url: /case-studies
+              - listitem [ref=e240]:
+                - link "Partners" [ref=e241] [cursor=pointer]:
+                  - /url: /partners
+              - listitem [ref=e242]:
+                - link "Press" [ref=e243] [cursor=pointer]:
+                  - /url: /press
+          - generic [ref=e244]:
+            - heading "Trust" [level=3] [ref=e245]
+            - list [ref=e246]:
+              - listitem [ref=e247]:
+                - link "Security" [ref=e248] [cursor=pointer]:
+                  - /url: /security
+              - listitem [ref=e249]:
+                - link "Compliance" [ref=e250] [cursor=pointer]:
+                  - /url: /compliance
+              - listitem [ref=e251]:
+                - link "Responsible Disclosure" [ref=e252] [cursor=pointer]:
+                  - /url: /responsible-disclosure
+              - listitem [ref=e253]:
+                - link "Privacy" [ref=e254] [cursor=pointer]:
+                  - /url: /privacy
+              - listitem [ref=e255]:
+                - link "Terms" [ref=e256] [cursor=pointer]:
+                  - /url: /terms
+              - listitem [ref=e257]:
+                - link "GDPR" [ref=e258] [cursor=pointer]:
+                  - /url: /gdpr
+              - listitem [ref=e259]:
+                - link "Accessibility" [ref=e260] [cursor=pointer]:
+                  - /url: /accessibility
+      - generic [ref=e261]:
+        - generic [ref=e262]:
+          - paragraph [ref=e263]: © 2026 LeadForGrow — a product of ScaleDesk Technology Private Limited. All rights reserved.
+          - generic [ref=e264]:
+            - link "Privacy Policy" [ref=e265] [cursor=pointer]:
+              - /url: /privacy
+            - link "Terms of Service" [ref=e266] [cursor=pointer]:
+              - /url: /terms
+            - link "Cookie Policy" [ref=e267] [cursor=pointer]:
+              - /url: /cookie-policy
+            - link "DPA" [ref=e268] [cursor=pointer]:
+              - /url: /dpa
+            - link "Refund Policy" [ref=e269] [cursor=pointer]:
+              - /url: /refund-policy
+        - generic [ref=e270]:
+          - link "WhatsApp" [ref=e271] [cursor=pointer]:
+            - /url: https://wa.me/918810873052
+          - link "LinkedIn" [ref=e274] [cursor=pointer]:
+            - /url: https://www.linkedin.com/showcase/leadforgrow
+          - link "X" [ref=e279] [cursor=pointer]:
+            - /url: https://x.com/leadforgrow
+          - link "Facebook" [ref=e282] [cursor=pointer]:
+            - /url: https://www.facebook.com/leadforgrow
+  - button "Open Next.js Dev Tools" [ref=e290] [cursor=pointer]

@@ -1,0 +1,371 @@
+- generic [active] [ref=f7e1]:
+  - generic [ref=f7e2]:
+    - banner [ref=f7e3]:
+      - generic [ref=f7e4]:
+        - link "LeadForGrow™" [ref=f7e5] [cursor=pointer]:
+          - /url: /
+        - navigation [ref=f7e7]:
+          - link "Home" [ref=f7e8] [cursor=pointer]:
+            - /url: /
+          - button "Platform" [ref=f7e10]
+          - button "Solutions" [ref=f7e14]
+          - link "Pricing" [ref=f7e17] [cursor=pointer]:
+            - /url: /pricing
+          - link "Resources" [ref=f7e18] [cursor=pointer]:
+            - /url: /blog
+          - link "Contact" [ref=f7e19] [cursor=pointer]:
+            - /url: /contact
+        - generic [ref=f7e20]:
+          - link "Login" [ref=f7e21] [cursor=pointer]:
+            - /url: /login
+          - link "Start free trial" [ref=f7e22] [cursor=pointer]:
+            - /url: /register
+    - main [ref=f7e23]:
+      - generic [ref=f7e25]:
+        - paragraph [ref=f7e26]: Legal · Terms of Service
+        - heading "Terms of Service" [level=1] [ref=f7e27]
+        - paragraph [ref=f7e28]: Please read these terms carefully before using the LeadForGrow platform.
+        - paragraph [ref=f7e29]: "Last Updated: September 22, 2026"
+      - generic [ref=f7e30]:
+        - navigation "Contents" [ref=f7e31]:
+          - paragraph [ref=f7e32]: Contents
+          - list [ref=f7e33]:
+            - listitem [ref=f7e34]:
+              - link "1. Acceptance of Terms" [ref=f7e35] [cursor=pointer]:
+                - /url: "#clause-1"
+                - generic [ref=f7e36]: "1."
+                - text: Acceptance of Terms
+            - listitem [ref=f7e37]:
+              - link "2. Description of Service" [ref=f7e38] [cursor=pointer]:
+                - /url: "#clause-2"
+                - generic [ref=f7e39]: "2."
+                - text: Description of Service
+            - listitem [ref=f7e40]:
+              - link "3. Account Registration & Responsibility" [ref=f7e41] [cursor=pointer]:
+                - /url: "#clause-3"
+                - generic [ref=f7e42]: "3."
+                - text: Account Registration & Responsibility
+            - listitem [ref=f7e43]:
+              - link "4. Subscription Plans, Billing & Usage Limits" [ref=f7e44] [cursor=pointer]:
+                - /url: "#clause-4"
+                - generic [ref=f7e45]: "4."
+                - text: Subscription Plans, Billing & Usage Limits
+            - listitem [ref=f7e46]:
+              - link "5. Free Trials" [ref=f7e47] [cursor=pointer]:
+                - /url: "#clause-5"
+                - generic [ref=f7e48]: "5."
+                - text: Free Trials
+            - listitem [ref=f7e49]:
+              - link "6. Payments, Cancellation & Refunds" [ref=f7e50] [cursor=pointer]:
+                - /url: "#clause-6"
+                - generic [ref=f7e51]: "6."
+                - text: Payments, Cancellation & Refunds
+            - listitem [ref=f7e52]:
+              - link "7. Acceptable Use Policy" [ref=f7e53] [cursor=pointer]:
+                - /url: "#clause-7"
+                - generic [ref=f7e54]: "7."
+                - text: Acceptable Use Policy
+            - listitem [ref=f7e55]:
+              - link "8. Customer Data & Ownership" [ref=f7e56] [cursor=pointer]:
+                - /url: "#clause-8"
+                - generic [ref=f7e57]: "8."
+                - text: Customer Data & Ownership
+            - listitem [ref=f7e58]:
+              - link "9. Service Availability & Modifications" [ref=f7e59] [cursor=pointer]:
+                - /url: "#clause-9"
+                - generic [ref=f7e60]: "9."
+                - text: Service Availability & Modifications
+            - listitem [ref=f7e61]:
+              - link "10. Third-Party Integrations" [ref=f7e62] [cursor=pointer]:
+                - /url: "#clause-10"
+                - generic [ref=f7e63]: "10."
+                - text: Third-Party Integrations
+            - listitem [ref=f7e64]:
+              - link "11. Intellectual Property" [ref=f7e65] [cursor=pointer]:
+                - /url: "#clause-11"
+                - generic [ref=f7e66]: "11."
+                - text: Intellectual Property
+            - listitem [ref=f7e67]:
+              - link "12. Limitation of Liability" [ref=f7e68] [cursor=pointer]:
+                - /url: "#clause-12"
+                - generic [ref=f7e69]: "12."
+                - text: Limitation of Liability
+            - listitem [ref=f7e70]:
+              - link "13. Indemnification" [ref=f7e71] [cursor=pointer]:
+                - /url: "#clause-13"
+                - generic [ref=f7e72]: "13."
+                - text: Indemnification
+            - listitem [ref=f7e73]:
+              - link "14. Termination" [ref=f7e74] [cursor=pointer]:
+                - /url: "#clause-14"
+                - generic [ref=f7e75]: "14."
+                - text: Termination
+            - listitem [ref=f7e76]:
+              - link "15. Governing Law" [ref=f7e77] [cursor=pointer]:
+                - /url: "#clause-15"
+                - generic [ref=f7e78]: "15."
+                - text: Governing Law
+            - listitem [ref=f7e79]:
+              - link "16. Changes to Terms" [ref=f7e80] [cursor=pointer]:
+                - /url: "#clause-16"
+                - generic [ref=f7e81]: "16."
+                - text: Changes to Terms
+        - generic [ref=f7e82]:
+          - generic [ref=f7e83]: §
+          - generic [ref=f7e84]:
+            - heading "Who These Terms Are With" [level=2] [ref=f7e85]
+            - paragraph [ref=f7e86]: LeadForGrow is a product operated by ScaleDesk Technology Private Limited. These Terms of Service are an agreement between you and ScaleDesk Technology Private Limited. In these Terms, “we”, “us” and “our” mean ScaleDesk Technology Private Limited; “LeadForGrow” is the name of the platform and product we operate and is not a separate legal entity.
+            - generic [ref=f7e88]:
+              - paragraph [ref=f7e89]: ScaleDesk Technology Private Limited
+              - paragraph [ref=f7e90]: "Registered Office:"
+              - paragraph [ref=f7e91]:
+                - generic [ref=f7e92]: C/O Ramp Pravesh Singh,
+                - generic [ref=f7e93]: Mill Road, Pardaha,
+                - generic [ref=f7e94]: Mau, Sadar,
+                - generic [ref=f7e95]: Mau – 275101,
+                - text: Uttar Pradesh, India
+        - generic [ref=f7e96]:
+          - heading "1. Acceptance of Terms" [level=2] [ref=f7e97]:
+            - generic [ref=f7e98]: "1."
+            - generic [ref=f7e99]: Acceptance of Terms
+          - paragraph [ref=f7e100]: By accessing or using the LeadForGrow platform, including its products and services, you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree to these terms, you must not access or use the platform.
+        - generic [ref=f7e101]:
+          - heading "2. Description of Service" [level=2] [ref=f7e102]:
+            - generic [ref=f7e103]: "2."
+            - generic [ref=f7e104]: Description of Service
+          - paragraph [ref=f7e105]: LeadForGrow provides a CRM and business automation platform that includes lead capture, automation, task management, analytics, communication workflows, and related tools. Features may vary based on the subscription plan selected.
+        - generic [ref=f7e106]:
+          - heading "3. Account Registration & Responsibility" [level=2] [ref=f7e107]:
+            - generic [ref=f7e108]: "3."
+            - generic [ref=f7e109]: Account Registration & Responsibility
+          - paragraph [ref=f7e110]: To use the service, you must create an account and provide accurate, complete, and current information. You are solely responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account.
+        - generic [ref=f7e111]:
+          - heading "4. Subscription Plans, Billing & Usage Limits" [level=2] [ref=f7e112]:
+            - generic [ref=f7e113]: "4."
+            - generic [ref=f7e114]: Subscription Plans, Billing & Usage Limits
+          - paragraph [ref=f7e115]: Certain features are subject to usage limits such as number of leads, users, clients, automations, or integrations, depending on your subscription plan. Fees are billed in advance on a monthly or annual basis. We reserve the right to modify pricing or plan limits with reasonable prior notice.
+        - generic [ref=f7e116]:
+          - heading "5. Free Trials" [level=2] [ref=f7e117]:
+            - generic [ref=f7e118]: "5."
+            - generic [ref=f7e119]: Free Trials
+          - paragraph [ref=f7e120]: Free trial access may be offered at our discretion. At the end of the trial period, continued use of the service requires an active paid subscription. We reserve the right to limit or revoke trial access in cases of abuse.
+        - generic [ref=f7e121]:
+          - heading "6. Payments, Cancellation & Refunds" [level=2] [ref=f7e122]:
+            - generic [ref=f7e123]: "6."
+            - generic [ref=f7e124]: Payments, Cancellation & Refunds
+          - paragraph [ref=f7e125]:
+            - text: Subscription fees, usage charges, and add-ons are billed in advance. You may cancel your subscription at any time from your billing settings; cancellation prevents future billing, and access continues until the end of the current billing period. Refunds, where available, are governed by our
+            - link "Refund Policy" [ref=f7e126] [cursor=pointer]:
+              - /url: /refund-policy
+            - text: ", which forms part of these Terms."
+        - generic [ref=f7e127]:
+          - heading "7. Acceptable Use Policy" [level=2] [ref=f7e128]:
+            - generic [ref=f7e129]: "7."
+            - generic [ref=f7e130]: Acceptable Use Policy
+          - paragraph [ref=f7e131]: You agree not to use the platform for unlawful activities, spamming, unsolicited messaging, data scraping, or any activity that violates applicable laws or third-party rights. We reserve the right to suspend or terminate accounts that violate this policy.
+        - generic [ref=f7e132]:
+          - heading "8. Customer Data & Ownership" [level=2] [ref=f7e133]:
+            - generic [ref=f7e134]: "8."
+            - generic [ref=f7e135]: Customer Data & Ownership
+          - paragraph [ref=f7e136]: You retain full ownership of all data, leads, and content you submit to the platform. LeadForGrow acts solely as a data processor to provide the service and does not sell or claim ownership over your data.
+        - generic [ref=f7e137]:
+          - heading "9. Service Availability & Modifications" [level=2] [ref=f7e138]:
+            - generic [ref=f7e139]: "9."
+            - generic [ref=f7e140]: Service Availability & Modifications
+          - paragraph [ref=f7e141]: We strive to maintain high availability but do not guarantee uninterrupted access. We may update, modify, or discontinue features at any time to improve performance, security, or compliance.
+        - generic [ref=f7e142]:
+          - heading "10. Third-Party Integrations" [level=2] [ref=f7e143]:
+            - generic [ref=f7e144]: "10."
+            - generic [ref=f7e145]: Third-Party Integrations
+          - paragraph [ref=f7e146]: The platform may integrate with third-party services such as WhatsApp, email providers, payment gateways, or analytics tools. LeadForGrow is not responsible for outages, data loss, or policy changes caused by third-party providers.
+        - generic [ref=f7e147]:
+          - heading "11. Intellectual Property" [level=2] [ref=f7e148]:
+            - generic [ref=f7e149]: "11."
+            - generic [ref=f7e150]: Intellectual Property
+          - paragraph [ref=f7e151]: All software, branding, trademarks, designs, and platform components are the exclusive property of LeadForGrow. You may not copy, reverse engineer, or resell any part of the service without written permission.
+        - generic [ref=f7e152]:
+          - heading "12. Limitation of Liability" [level=2] [ref=f7e153]:
+            - generic [ref=f7e154]: "12."
+            - generic [ref=f7e155]: Limitation of Liability
+          - paragraph [ref=f7e156]: To the maximum extent permitted by law, LeadForGrow shall not be liable for any indirect, incidental, special, or consequential damages, including loss of revenue, data, or business opportunities arising from your use of the service.
+        - generic [ref=f7e157]:
+          - heading "13. Indemnification" [level=2] [ref=f7e158]:
+            - generic [ref=f7e159]: "13."
+            - generic [ref=f7e160]: Indemnification
+          - paragraph [ref=f7e161]: You agree to indemnify and hold harmless LeadForGrow from any claims, damages, or expenses arising from your use of the platform, violation of these terms, or misuse of customer data.
+        - generic [ref=f7e162]:
+          - heading "14. Termination" [level=2] [ref=f7e163]:
+            - generic [ref=f7e164]: "14."
+            - generic [ref=f7e165]: Termination
+          - paragraph [ref=f7e166]: We reserve the right to suspend or terminate your account if you violate these terms, misuse the platform, or engage in prohibited activities. Upon termination, access to the service will be revoked.
+        - generic [ref=f7e167]:
+          - heading "15. Governing Law" [level=2] [ref=f7e168]:
+            - generic [ref=f7e169]: "15."
+            - generic [ref=f7e170]: Governing Law
+          - paragraph [ref=f7e171]: These Terms of Service shall be governed by and interpreted in accordance with the laws of India, without regard to conflict of law principles.
+        - generic [ref=f7e172]:
+          - heading "16. Changes to Terms" [level=2] [ref=f7e173]:
+            - generic [ref=f7e174]: "16."
+            - generic [ref=f7e175]: Changes to Terms
+          - paragraph [ref=f7e176]: We may update these terms from time to time. Continued use of the platform after changes constitutes acceptance of the updated terms.
+        - generic [ref=f7e177]:
+          - text: Need clarification on our terms? Write to
+          - link "legal@leadforgrow.com" [ref=f7e178] [cursor=pointer]:
+            - /url: mailto:legal@leadforgrow.com
+          - text: .
+  - button "Open help menu" [ref=f7e180]
+  - contentinfo [ref=f7e183]:
+    - generic [ref=f7e184]:
+      - generic [ref=f7e185]:
+        - generic [ref=f7e186]:
+          - link "LeadForGrow" [ref=f7e187] [cursor=pointer]:
+            - /url: /
+          - paragraph [ref=f7e189]: The revenue operating system for teams who refuse to let leads slip through the cracks.
+        - generic [ref=f7e190]:
+          - generic [ref=f7e191]:
+            - heading "Product" [level=3] [ref=f7e192]
+            - list [ref=f7e193]:
+              - listitem [ref=f7e194]:
+                - link "CRM & Pipeline" [ref=f7e195] [cursor=pointer]:
+                  - /url: /products/crm
+              - listitem [ref=f7e196]:
+                - link "Automation" [ref=f7e197] [cursor=pointer]:
+                  - /url: /products/automation
+              - listitem [ref=f7e198]:
+                - link "AI Assistant" [ref=f7e199] [cursor=pointer]:
+                  - /url: /products/ai
+              - listitem [ref=f7e200]:
+                - link "Unified Inbox" [ref=f7e201] [cursor=pointer]:
+                  - /url: /products/unified-inbox
+              - listitem [ref=f7e202]:
+                - link "Integrations" [ref=f7e203] [cursor=pointer]:
+                  - /url: /products/integrations
+              - listitem [ref=f7e204]:
+                - link "Pricing" [ref=f7e205] [cursor=pointer]:
+                  - /url: /pricing
+          - generic [ref=f7e206]:
+            - heading "Solutions" [level=3] [ref=f7e207]
+            - list [ref=f7e208]:
+              - listitem [ref=f7e209]:
+                - link "Startups" [ref=f7e210] [cursor=pointer]:
+                  - /url: /solutions/startups
+              - listitem [ref=f7e211]:
+                - link "Restaurants" [ref=f7e212] [cursor=pointer]:
+                  - /url: /solutions/restaurants
+              - listitem [ref=f7e213]:
+                - link "Real Estate" [ref=f7e214] [cursor=pointer]:
+                  - /url: /solutions/real-estate
+              - listitem [ref=f7e215]:
+                - link "Healthcare" [ref=f7e216] [cursor=pointer]:
+                  - /url: /solutions/healthcare
+              - listitem [ref=f7e217]:
+                - link "Education" [ref=f7e218] [cursor=pointer]:
+                  - /url: /solutions/education
+              - listitem [ref=f7e219]:
+                - link "Enterprise" [ref=f7e220] [cursor=pointer]:
+                  - /url: /solutions/enterprise
+          - generic [ref=f7e221]:
+            - heading "Resources" [level=3] [ref=f7e222]
+            - list [ref=f7e223]:
+              - listitem [ref=f7e224]:
+                - link "Blog" [ref=f7e225] [cursor=pointer]:
+                  - /url: /blog
+              - listitem [ref=f7e226]:
+                - link "Help Center" [ref=f7e227] [cursor=pointer]:
+                  - /url: /help-center
+              - listitem [ref=f7e228]:
+                - link "Documentation" [ref=f7e229] [cursor=pointer]:
+                  - /url: /documentation
+              - listitem [ref=f7e230]:
+                - link "API Docs" [ref=f7e231] [cursor=pointer]:
+                  - /url: /api-docs
+              - listitem [ref=f7e232]:
+                - link "Product Updates" [ref=f7e233] [cursor=pointer]:
+                  - /url: /product-updates
+              - listitem [ref=f7e234]:
+                - link "Changelog" [ref=f7e235] [cursor=pointer]:
+                  - /url: /changelog
+              - listitem [ref=f7e236]:
+                - link "Guides" [ref=f7e237] [cursor=pointer]:
+                  - /url: /guides
+              - listitem [ref=f7e238]:
+                - link "Tutorials" [ref=f7e239] [cursor=pointer]:
+                  - /url: /tutorials
+              - listitem [ref=f7e240]:
+                - link "Videos" [ref=f7e241] [cursor=pointer]:
+                  - /url: /videos
+              - listitem [ref=f7e242]:
+                - link "System Status" [ref=f7e243] [cursor=pointer]:
+                  - /url: /system-status
+          - generic [ref=f7e244]:
+            - heading "Company" [level=3] [ref=f7e245]
+            - list [ref=f7e246]:
+              - listitem [ref=f7e247]:
+                - link "About" [ref=f7e248] [cursor=pointer]:
+                  - /url: /about
+              - listitem [ref=f7e249]:
+                - link "Contact" [ref=f7e250] [cursor=pointer]:
+                  - /url: /contact
+              - listitem [ref=f7e251]:
+                - link "Careers" [ref=f7e252] [cursor=pointer]:
+                  - /url: /careers
+              - listitem [ref=f7e253]:
+                - link "Customers" [ref=f7e254] [cursor=pointer]:
+                  - /url: /customers
+              - listitem [ref=f7e255]:
+                - link "Case Studies" [ref=f7e256] [cursor=pointer]:
+                  - /url: /case-studies
+              - listitem [ref=f7e257]:
+                - link "Partners" [ref=f7e258] [cursor=pointer]:
+                  - /url: /partners
+              - listitem [ref=f7e259]:
+                - link "Press" [ref=f7e260] [cursor=pointer]:
+                  - /url: /press
+          - generic [ref=f7e261]:
+            - heading "Trust" [level=3] [ref=f7e262]
+            - list [ref=f7e263]:
+              - listitem [ref=f7e264]:
+                - link "Security" [ref=f7e265] [cursor=pointer]:
+                  - /url: /security
+              - listitem [ref=f7e266]:
+                - link "Compliance" [ref=f7e267] [cursor=pointer]:
+                  - /url: /compliance
+              - listitem [ref=f7e268]:
+                - link "Responsible Disclosure" [ref=f7e269] [cursor=pointer]:
+                  - /url: /responsible-disclosure
+              - listitem [ref=f7e270]:
+                - link "Privacy" [ref=f7e271] [cursor=pointer]:
+                  - /url: /privacy
+              - listitem [ref=f7e272]:
+                - link "Terms" [ref=f7e273] [cursor=pointer]:
+                  - /url: /terms
+              - listitem [ref=f7e274]:
+                - link "GDPR" [ref=f7e275] [cursor=pointer]:
+                  - /url: /gdpr
+              - listitem [ref=f7e276]:
+                - link "Accessibility" [ref=f7e277] [cursor=pointer]:
+                  - /url: /accessibility
+      - generic [ref=f7e278]:
+        - generic [ref=f7e279]:
+          - paragraph [ref=f7e280]: © 2026 LeadForGrow — a product of ScaleDesk Technology Private Limited. All rights reserved.
+          - generic [ref=f7e281]:
+            - link "Privacy Policy" [ref=f7e282] [cursor=pointer]:
+              - /url: /privacy
+            - link "Terms of Service" [ref=f7e283] [cursor=pointer]:
+              - /url: /terms
+            - link "Cookie Policy" [ref=f7e284] [cursor=pointer]:
+              - /url: /cookie-policy
+            - link "DPA" [ref=f7e285] [cursor=pointer]:
+              - /url: /dpa
+            - link "Refund Policy" [ref=f7e286] [cursor=pointer]:
+              - /url: /refund-policy
+        - generic [ref=f7e287]:
+          - link "WhatsApp" [ref=f7e288] [cursor=pointer]:
+            - /url: https://wa.me/918810873052
+          - link "LinkedIn" [ref=f7e291] [cursor=pointer]:
+            - /url: https://www.linkedin.com/showcase/leadforgrow
+          - link "X" [ref=f7e296] [cursor=pointer]:
+            - /url: https://x.com/leadforgrow
+          - link "Facebook" [ref=f7e299] [cursor=pointer]:
+            - /url: https://www.facebook.com/leadforgrow
+  - button "Open Next.js Dev Tools" [ref=f7e307] [cursor=pointer]

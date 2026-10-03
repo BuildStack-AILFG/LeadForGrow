@@ -1,10 +1,16 @@
-'use client';
-
-import React from 'react';
-import MarketingLayout from '@/app/components/MarketingLayout';
-import Heading from '@/app/components/ui/Heading';
+import Link from 'next/link';
+import MarketingShell from '@/app/components/marketing/MarketingShell';
 import CompanyAddress from '@/app/components/marketing/CompanyAddress';
 import { LEGAL_NAME, PRODUCT_STATEMENT } from '@/lib/company';
+import { SITE } from '@/lib/marketing/designTokens';
+
+export const metadata = {
+  title: 'Privacy Policy',
+  description: 'How ScaleDesk Technology Private Limited collects, uses and protects personal data on the LeadForGrow platform.',
+  alternates: { canonical: 'https://www.leadforgrow.com/privacy' },
+};
+
+const anchor = (title) => title.replace(/^\d+\.\s*/, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
 export default function PrivacyPolicy() {
  const sections = [
@@ -76,40 +82,58 @@ export default function PrivacyPolicy() {
 ];
 
   return (
-    <MarketingLayout 
-      title="Privacy Policy" 
-      subtitle="Your data security and privacy are our top priorities. Learn how we handle your information."
-      maxWidth="4xl"
-    >
-      <div className="bg-white dark:bg-slate-900/40 rounded-3xl p-8 md:p-12 border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none">
-        <div className="prose prose-slate dark:prose-invert max-w-none">
-          <p className="text-slate-500 dark:text-slate-400 mb-12 italic">Last Updated: September 21, 2026</p>
+    <MarketingShell>
+      <header className={`${SITE.top} border-b-2 border-[#0B1712] pb-12`}>
+        <div className={`${SITE.wrap} grid gap-8 lg:grid-cols-[1.4fr_0.6fr] lg:items-end`}>
+          <div>
+            <p className={SITE.label}>Legal</p>
+            <h1 className={`${SITE.serifXL} mt-6`}>Privacy Policy</h1>
+            <p className={`${SITE.prose} mt-5 max-w-2xl`}>Your data security and privacy are our top priorities. Learn how we handle your information.</p>
+          </div>
+          <dl className="text-sm">
+            <div className={`flex justify-between border-b ${SITE.rule} py-2`}><dt className="text-[#6B6B63]">Last updated</dt><dd className="text-[#0B1712]">September 21, 2026</dd></div>
+            <div className={`flex justify-between border-b ${SITE.rule} py-2`}><dt className="text-[#6B6B63]">Contact</dt><dd><a href="mailto:privacy@leadforgrow.com" className={SITE.link}>privacy@leadforgrow.com</a></dd></div>
+          </dl>
+        </div>
+      </header>
 
-          <div className="mb-12 rounded-2xl border border-slate-100 dark:border-slate-800 p-6 md:p-8 text-slate-600 dark:text-slate-300 leading-relaxed">
-            <Heading level={2} className="text-2xl mb-4">Who We Are</Heading>
-            <p className="mb-4">
+      <div className={`${SITE.wrap} grid gap-14 py-14 lg:grid-cols-[240px_1fr]`}>
+        <nav aria-label="Contents" className="lg:sticky lg:top-28 lg:self-start">
+          <p className={SITE.label}>On this page</p>
+          <ol className="mt-4 space-y-1.5 text-sm">
+            <li><a href="#who-we-are" className="text-[#4B4D46] hover:text-[#1D4B3E]">Who We Are</a></li>
+            {sections.map((sec) => (
+              <li key={sec.title}><a href={`#${anchor(sec.title)}`} className="text-[#4B4D46] hover:text-[#1D4B3E]">{sec.title}</a></li>
+            ))}
+          </ol>
+        </nav>
+
+        <article className="min-w-0 max-w-[720px]">
+          <section id="who-we-are" className="scroll-mt-28 bg-[#FAF9F6] p-6 sm:p-8">
+            <h2 className={`${SITE.serif} text-[1.6rem]`}>Who We Are</h2>
+            <p className={`${SITE.prose} mt-4`}>
               {PRODUCT_STATEMENT} In this Privacy Policy, &ldquo;we&rdquo;, &ldquo;us&rdquo; and &ldquo;our&rdquo; mean {LEGAL_NAME}. We are the data controller for account and platform data; for customer data you process through LeadForGrow, we act as a data processor.
             </p>
-            <CompanyAddress variant="full" />
-          </div>
-          
-          {sections.map((section, idx) => (
-            <div key={idx} className="mb-12 last:mb-0">
-              <Heading level={2} className="text-2xl mb-4">{section.title}</Heading>
-              <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-lg">
-                {section.content}
-              </p>
+            <div className={`mt-6 border-t ${SITE.rule} pt-5 text-sm leading-relaxed text-[#4B4D46]`}>
+              <CompanyAddress variant="full" />
             </div>
+          </section>
+
+          {sections.map((section) => (
+            <section key={section.title} id={anchor(section.title)} className={`mt-12 scroll-mt-28 border-t ${SITE.rule} pt-8`}>
+              <h2 className={`${SITE.serif} text-[1.45rem]`}>{section.title}</h2>
+              <p className={`${SITE.prose} mt-4`}>{section.content}</p>
+            </section>
           ))}
-          
-          <div className="mt-16 pt-12 border-t border-slate-100 dark:border-slate-800 text-center">
-            <p className="text-slate-500 dark:text-slate-400 mb-4">Questions about our privacy policy?</p>
-            <a href="mailto:privacy@leadforgrow.com" className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline">
-              privacy@leadforgrow.com
-            </a>
-          </div>
-        </div>
+
+          <footer className="mt-16 border-t-2 border-[#0B1712] pt-6 text-[15px] text-[#4B4D46]">
+            Questions about our privacy policy? Write to{' '}
+            <a href="mailto:privacy@leadforgrow.com" className="font-medium text-[#1D4B3E] underline underline-offset-4">privacy@leadforgrow.com</a>.
+            {' '}See also our <Link href="/cookie-policy" className="font-medium text-[#1D4B3E] underline underline-offset-4">Cookie Policy</Link> and{' '}
+            <Link href="/gdpr" className="font-medium text-[#1D4B3E] underline underline-offset-4">GDPR &amp; Data Protection</Link>.
+          </footer>
+        </article>
       </div>
-    </MarketingLayout>
+    </MarketingShell>
   );
 }

@@ -1,0 +1,78 @@
+[    2349ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[    2672ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[    6055ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/app_not-found_d678002a.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/security:0
+[    8450ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[    9484ms] [LOG] [Fast Refresh] done in 1146ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[   11767ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/app_not-found_d678002a.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/security:0
+[   76938ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[   80363ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/app_not-found_d678002a.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/security:0
+[   81528ms] [LOG] [Fast Refresh] done in 3817ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[   81676ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[   83575ms] [LOG] [Fast Refresh] done in 2009ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[   83711ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[   83867ms] [LOG] [Fast Refresh] done in 260ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[   83991ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[   84000ms] [LOG] [Fast Refresh] done in 111ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[   84138ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[   84150ms] [LOG] [Fast Refresh] done in 114ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[   84320ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[   84488ms] [LOG] [Fast Refresh] done in 277ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[   85398ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[   85468ms] [LOG] [Fast Refresh] done in 173ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[   89291ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/app_not-found_d678002a.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/security:0
+[  104919ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  104966ms] [LOG] [Fast Refresh] done in 149ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  105252ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  108552ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/app_not-found_d678002a.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/security:0
+[  109332ms] [WARNING] [HMR] Invalid message: {"isTrusted":true}
+TypeError: Cannot convert undefined or null to object
+    at Object.keys (<anonymous>)
+    at extractModulesFromTurbopackMessage (http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_17643121._.js:11210:39)
+    at TurbopackHmr.onTurbopackMessage (http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_17643121._.js:11157:32)
+    at processMessage (http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_17643121._.js:11589:30)
+    at WebSocket.handleMessage (http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_17643121._.js:10914:52) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  109333ms] [LOG] [Fast Refresh] done in 4189ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  112665ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/app_not-found_d678002a.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/security:0
+[  115956ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  118063ms] [LOG] [Fast Refresh] done in 2212ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  119289ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/app_not-found_d678002a.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/security:0
+[  145428ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  148777ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/app_not-found_d678002a.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/security:0
+[  149501ms] [LOG] [Fast Refresh] done in 4175ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  152665ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/app_not-found_d678002a.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/security:0
+[  163862ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  163936ms] [LOG] [Fast Refresh] done in 176ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  164045ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  166179ms] [LOG] [Fast Refresh] done in 2178ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  169233ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/app_not-found_d678002a.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/security:0
+[  178463ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  181782ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/app_not-found_d678002a.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/security:0
+[  183819ms] [LOG] [Fast Refresh] done in 5391ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  186829ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/app_not-found_d678002a.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/security:0
+[  190846ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  194183ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/app_not-found_d678002a.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/security:0
+[  194605ms] [LOG] [Fast Refresh] done in 3822ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  197692ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/app_not-found_d678002a.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/security:0
+[  202254ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  205567ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/app_not-found_d678002a.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/security:0
+[  213332ms] [LOG] [Fast Refresh] done in 11154ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  213754ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  216033ms] [LOG] [Fast Refresh] done in 2329ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  218892ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  219043ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/app_not-found_d678002a.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/security:0
+[  220842ms] [LOG] [Fast Refresh] done in 2054ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  222212ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/app_not-found_d678002a.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/security:0
+[  237848ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  240287ms] [LOG] [Fast Refresh] done in 2506ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  241467ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  243026ms] [LOG] [Fast Refresh] done in 1659ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  244775ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/app_not-found_d678002a.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/security:0
+[  267370ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  270817ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/app_not-found_d678002a.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/security:0
+[  272265ms] [LOG] [Fast Refresh] done in 4997ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  272422ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  273860ms] [LOG] [Fast Refresh] done in 1545ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  274276ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  275250ms] [LOG] [Fast Refresh] done in 1086ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  276882ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  276938ms] [LOG] [Fast Refresh] done in 164ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
