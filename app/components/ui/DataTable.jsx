@@ -36,7 +36,7 @@ export function THead({ children }) {
 export function Th({ align = 'left', sticky = false, sort, onSort, width, className, children }) {
   const SortIcon = sort === 'asc' ? ArrowUp : ArrowDown;
   const content = onSort ? (
-    <button type="button" onClick={onSort} className={cx('group/sort inline-flex items-center gap-1 rounded-sm hover:text-fg', align === 'right' && 'flex-row-reverse', focusRing)}>
+    <button type="button" onClick={onSort} className={cx('group/sort inline-flex items-center gap-1 rounded-sm hover:text-fg', align === 'right' ? 'flex-row-reverse text-right' : align === 'center' ? 'text-center' : 'text-left', focusRing)}>
       {children}
       <SortIcon className={cx('h-3.5 w-3.5', sort ? 'opacity-100' : 'opacity-0 group-hover/sort:opacity-60')} strokeWidth={1.5} aria-hidden />
     </button>
