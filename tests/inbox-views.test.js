@@ -7,6 +7,7 @@ import { describe, it, before } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { register } from 'node:module';
+import { lightOnlyClasses } from './helpers/darkSafe.js';
 
 register(new URL('../scripts/test-alias-hooks.mjs', import.meta.url));
 register(new URL('../scripts/test-jsx-hooks.mjs', import.meta.url));
@@ -126,7 +127,7 @@ describe('InboxViewTabs render', () => {
   it('marks the active tab and is dark-mode paired', () => {
     const out = html({ filter: 'mine' });
     assert.ok(/aria-pressed="true"[^>]*class="[^"]*bg-brand text-white/.test(out) || /class="[^"]*bg-brand text-white[^"]*"[^>]*>Mine/.test(out) || out.includes('bg-brand text-white'));
-    assert.ok(out.includes('bg-slate-100 dark:bg-slate-800'));
+    assert.deepEqual(lightOnlyClasses(out), []);
   });
 });
 

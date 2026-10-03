@@ -4,6 +4,7 @@ import Business from '@/models/Business';
 import { withPlanAccess } from '@/lib/accessControl';
 import { listInstagramMedia } from '@/lib/instagram/send';
 import { listFacebookPosts } from '@/lib/facebook/send';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 // Meta error codes meaning "token/permission problem" rather than a transient failure.
 const RECONNECT_CODES = new Set([3, 10, 190, 200]);
@@ -32,6 +33,6 @@ export const GET = withPlanAccess('settings', async (req) => {
     }
     return NextResponse.json({ success: true, data: { posts: result.posts } });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

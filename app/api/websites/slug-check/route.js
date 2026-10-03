@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import {dbConnect }from "@/lib/mongodb";
 import Website from "@/models/Website";
+import { withRateLimit } from '@/lib/rateLimit';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
-export async function GET(req) {
+async function getHandler(req) {
   try {
     await dbConnect();
     const { searchParams } = new URL(req.url);
@@ -25,6 +27,8 @@ export async function GET(req) {
     });
   } catch (error) {
     console.error("Slug check error:", error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 }
+
+export const GET = withRateLimit(30, 60, getHandler);

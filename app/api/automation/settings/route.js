@@ -3,6 +3,7 @@ import { dbConnect } from '@/lib/mongodb';
 import Business from '@/models/Business';
 import { withPlanAccess } from '@/lib/accessControl';
 import { getAutomationSettings } from '@/lib/automation/businessHours';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withPlanAccess('automation', async (req) => {
   try {
@@ -32,7 +33,7 @@ export const GET = withPlanAccess('automation', async (req) => {
       },
     });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -57,6 +58,6 @@ export const PUT = withPlanAccess('automation', async (req) => {
     await business.save();
     return NextResponse.json({ success: true, data: business.settings.automation });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

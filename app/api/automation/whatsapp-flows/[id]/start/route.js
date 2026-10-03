@@ -5,6 +5,7 @@ import Business from '@/models/Business';
 import Lead from '@/models/automation/Lead';
 import WhatsAppFlow from '@/models/automation/WhatsAppFlow';
 import { startFlowExecution } from '@/lib/whatsappFlows/engine';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 /** Manually start a published flow for a lead */
 export const POST = withPlanAccess('automation', async (req, { params }) => {
@@ -35,6 +36,6 @@ export const POST = withPlanAccess('automation', async (req, { params }) => {
       data: { executionId: execution?._id, status: execution?.status },
     });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

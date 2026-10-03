@@ -6,6 +6,7 @@ import { describe, it, before } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { register } from 'node:module';
+import { lightOnlyClasses } from './helpers/darkSafe.js';
 
 register(new URL('../scripts/test-alias-hooks.mjs', import.meta.url));
 register(new URL('../scripts/test-jsx-hooks.mjs', import.meta.url));
@@ -108,7 +109,7 @@ describe('row actions (rendered)', () => {
 
   it('is dark-mode paired and always visible (no hover-only reveal)', () => {
     const out = html({ chat: chat(), onDone() {}, onAssignToMe() {}, showAssignToMe: true });
-    assert.ok(out.includes('bg-white dark:bg-slate-900') && out.includes('border-slate-200 dark:border-slate-700'));
+    assert.deepEqual(lightOnlyClasses(out), []);
     assert.ok(!/opacity-0[^"]*group-hover/.test(out));
   });
 });

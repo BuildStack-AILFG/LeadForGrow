@@ -47,8 +47,6 @@ const UserNavbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [businessPlan, setBusinessPlan] = useState(null);
-  const [hasAgency, setHasAgency] = useState(false);
-  const [context, setContext] = useState("business");
 
   const productDropdown = [
     { label: "Website & Funnel Builder", href: "/product/builder" },
@@ -66,14 +64,6 @@ const UserNavbar = () => {
     { label: "Social Profile Setup", href: "/services/social-setup", description: "Branded social presence setup", icon: Share2 },
     { label: "SEO Setup", href: "/services/seo-setup", description: "Rank higher on Google", icon: Search },
     { label: "Managed Growth Service", href: "/services/managed-growth", description: "Full-service growth management", icon: TrendingUp },
-  ];
-
-  const agenciesDropdown = [
-    { label: "Agency Platform Overview", href: "/agencies/overview" },
-    { label: "Manage Multiple Clients", href: "/agencies/clients" },
-    { label: "White-Label Solution", href: "/agencies/white-label" },
-    { label: "Agency Pricing", href: "/pricing" },
-    { label: "Become a Partner", href: "/agencies/partner" },
   ];
 
   const industryDropdown = [
@@ -120,9 +110,7 @@ const UserNavbar = () => {
         const data = await response.json();
         const plan = (data.businessPlan || "free").toLowerCase();
         setBusinessPlan(plan);
-        setHasAgency(data.hasAgency);
         localStorage.setItem("businessPlan", plan);
-        localStorage.setItem("hasAgency", data.hasAgency);
       }
     } catch (error) {
       console.error("Failed to fetch session:", error);
@@ -130,11 +118,6 @@ const UserNavbar = () => {
   };
 
   useEffect(() => {
-    const path = window.location.pathname;
-    if (path.includes("/agency/clients/")) setContext("client");
-    else if (path.startsWith("/agency")) setContext("agency");
-    else setContext("business");
-
     const handleScroll = () => setIsScrolled(window.scrollY > 24);
     window.addEventListener("scroll", handleScroll);
     handleScroll();
@@ -143,9 +126,7 @@ const UserNavbar = () => {
     if (userid) {
       setIsLoggedIn(true);
       const storedPlan = localStorage.getItem("businessPlan");
-      const storedHasAgency = localStorage.getItem("hasAgency") === "true";
       if (storedPlan) setBusinessPlan(storedPlan);
-      setHasAgency(storedHasAgency);
       fetchSession(userid);
     }
 
@@ -153,35 +134,19 @@ const UserNavbar = () => {
   }, []);
 
   let activePaidItems = [];
-  if (context === "client") {
-    activePaidItems = [
-      { label: "Business Home", icon: "Home", href: "/", special: true },
-      { label: "Leads", href: "#leads" },
-      { label: "Financials", href: "#invoices" },
-      { label: "Overview", href: "#overview" },
-    ];
-  } else if (isPaid) {
+  if (isPaid) {
     activePaidItems = [
       { label: "Websites", href: "/websites" },
       { label: "Leads", href: "/automation/leads" },
       { label: "Dashboard", href: "/automation" },
       { label: "Report", href: "/automation/reports" },
     ];
-    if (hasAgency) {
-      activePaidItems.push({ label: "Clients / Agency", href: "/agency", highlighted: true });
-    }
   }
 
-  const activeCreateItems =
-    hasAgency && isPaid
-      ? [
-          { label: "Create Website", href: "/website-funnel" },
-          { label: "Add New Client", href: "/agency/clients" },
-        ]
-      : [
-          { label: "Create Website", href: "/website-funnel" },
-          { label: "Create Form", href: "/automation/forms" },
-        ];
+  const activeCreateItems = [
+    { label: "Create Website", href: "/website-funnel" },
+    { label: "Create Form", href: "/automation/forms" },
+  ];
 
   const DropdownMenu = ({ items, isOpen }) => {
     if (!isOpen) return null;
@@ -277,7 +242,7 @@ const UserNavbar = () => {
       )}
 
       {/* Utility row — hidden on premium landing */}
-      {isLanding && !isLandingGuest && !(isLoggedIn && (isPaid || context === "client")) && (
+      {isLanding && !isLandingGuest && !(isLoggedIn && isPaid) && (
         <div className="hidden md:block border-b border-[#E2E8F0] bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-9 flex items-center justify-end gap-5 lg:gap-6">
             <a
@@ -341,7 +306,7 @@ const UserNavbar = () => {
 
           {/* Desktop nav */}
           <div className="hidden xl:flex flex-1 justify-center px-6">
-            {isLoggedIn && (isPaid || context === "client") ? (
+            {isLoggedIn && isPaid ? (
               <div className="flex items-center gap-7">
                 {activePaidItems.map((item) =>
                   item.special ? (
@@ -394,7 +359,7 @@ const UserNavbar = () => {
                     isOpen={openDropdown === "automation"}
                   />
                 </div>
-                <NavLink href="/agencies/overview">Enterprise</NavLink>
+                <NavLink href="/contact">Enterprise</NavLink>
                 <NavLink href="/contact">Contact us</NavLink>
               </div>
             ) : (
@@ -537,7 +502,7 @@ const UserNavbar = () => {
         }`}
       >
         <div className="px-4 pt-3 pb-6 space-y-1">
-          {isLoggedIn && (isPaid || context === "client") ? (
+          {isLoggedIn && isPaid ? (
             <>
               {activePaidItems.map((item, idx) => (
                 <a
@@ -573,7 +538,7 @@ const UserNavbar = () => {
                 ))}
               </div>
               <a href="/product/automation" className="block px-3 py-2.5 text-sm font-medium text-slate-700 rounded-lg hover:bg-slate-50 transition-colors" onClick={() => setIsMenuOpen(false)}>Automation</a>
-              <a href="/agencies/overview" className="block px-3 py-2.5 text-sm font-medium text-slate-700 rounded-lg hover:bg-slate-50 transition-colors" onClick={() => setIsMenuOpen(false)}>Enterprise</a>
+              <a href="/contact" className="block px-3 py-2.5 text-sm font-medium text-slate-700 rounded-lg hover:bg-slate-50 transition-colors" onClick={() => setIsMenuOpen(false)}>Enterprise</a>
               <a href="/contact" className="block px-3 py-2.5 text-sm font-medium text-slate-700 rounded-lg hover:bg-slate-50 transition-colors" onClick={() => setIsMenuOpen(false)}>Contact us</a>
               <div className="space-y-2 pt-4 border-t border-slate-100">
                 <a href="/user/login" className="block px-3 py-2.5 text-center text-sm font-semibold text-slate-700 border border-slate-200 rounded-full hover:bg-slate-50 transition-colors" onClick={() => setIsMenuOpen(false)}>Login</a>

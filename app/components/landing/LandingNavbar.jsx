@@ -28,7 +28,6 @@ const platformDropdown = [
 
 const solutionsDropdown = [
   { label: 'Startups', href: '/solutions/startups' },
-  { label: 'Agencies', href: '/solutions/agencies' },
   { label: 'Real Estate', href: '/solutions/real-estate' },
   { label: 'Healthcare', href: '/solutions/healthcare' },
   { label: 'Education', href: '/solutions/education' },

@@ -52,7 +52,8 @@ describe('inbox UI wiring', () => {
   });
 
   it('email threads stay on the flat colour; chat threads get the wallpaper (all three states)', () => {
-    assert.match(list, /conversation\?\.channel === 'email' \? 'bg-\[#F1F6F3\] dark:bg-\[#0b141a\]' : 'chat-wallpaper'/);
+    assert.match(list, /conversation\?\.channel === 'email' \? '[^']*\bdark:bg-[^']*' : 'chat-wallpaper'/);
+    assert.doesNotMatch(list, /channel === 'email' \? '[^']*chat-wallpaper/);
     assert.equal((list.match(/\$\{surface\}/g) || []).length, 3);
   });
 

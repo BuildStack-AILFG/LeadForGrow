@@ -6,6 +6,7 @@ import EmailAccount from '@/models/omnichannel/EmailAccount';
 import Business from '@/models/Business';
 import { withPlanAccess } from '@/lib/accessControl';
 import { resolveTemplateVariables } from '@/lib/broadcasts/engine';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 /**
  * Pick one real lead from an audience and render the message they'll receive,
@@ -138,6 +139,6 @@ export const POST = withPlanAccess('automation', async (req) => {
 
     return NextResponse.json({ success: true, sample: rendered });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

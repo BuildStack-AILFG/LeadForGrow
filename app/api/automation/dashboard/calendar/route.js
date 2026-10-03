@@ -3,6 +3,7 @@ import { dbConnect } from '@/lib/mongodb';
 import MeetingBooking from '@/models/meetings/MeetingBooking';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
 import { buildCalendarData } from '@/lib/crm/dashboardMetrics';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 const MEETING_ACTIVE = ['scheduled', 'confirmed'];
 
@@ -43,6 +44,6 @@ export const GET = withTenantAuth(async (request) => {
 
     return NextResponse.json({ success: true, data: calendar });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

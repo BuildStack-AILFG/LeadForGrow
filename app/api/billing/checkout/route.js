@@ -4,6 +4,7 @@ import { getBillingPlan, getStripePriceId } from '@/lib/billing/plans';
 import { createCheckoutSession } from '@/lib/billing/stripe';
 import { createRazorpaySubscription } from '@/lib/billing/razorpay';
 import { getEnv } from '@/lib/env';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const POST = withTenantAuth(async (req) => {
   try {
@@ -60,6 +61,6 @@ export const POST = withTenantAuth(async (req) => {
     return NextResponse.json({ success: false, error: 'Unsupported payment provider' }, { status: 400 });
   } catch (error) {
     console.error('[Billing Checkout]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

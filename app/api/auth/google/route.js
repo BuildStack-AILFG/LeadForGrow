@@ -4,14 +4,13 @@ import { getGoogleAuthUrl, getGoogleClientId, getGoogleClientSecret } from '@/li
 export const dynamic = 'force-dynamic';
 
 /**
- * GET /api/auth/google?mode=login|register&isAgency=0|1
+ * GET /api/auth/google?mode=login|register
  * Redirects to Google OAuth consent screen.
  */
 export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url);
     const mode = searchParams.get('mode') === 'register' ? 'register' : 'login';
-    const isAgency = searchParams.get('isAgency') === '1' ? '1' : '0';
 
     if (!getGoogleClientId() || !getGoogleClientSecret()) {
       const base = (process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000').replace(/\/$/, '');
@@ -21,7 +20,7 @@ export async function GET(req) {
 
     // Random nonce bound to the browser via httpOnly cookie (login CSRF protection)
     const nonce = globalThis.crypto.randomUUID();
-    const state = `${mode}:${isAgency}:${nonce}`;
+    const state = `${mode}:0:${nonce}`; // middle part kept so the callback's state format is unchanged
 
     const url = getGoogleAuthUrl(state);
     const res = NextResponse.redirect(url);

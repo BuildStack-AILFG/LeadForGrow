@@ -8,6 +8,7 @@ import { parseListParams, buildSearchOr, paginationMeta } from '@/lib/crm/queryB
 import { logTimelineEvent } from '@/lib/crm/timeline';
 import { enrichCompaniesWithStats } from '@/lib/crm/companyService';
 import { CLOSED_STAGES } from '@/lib/crm/stageKeys';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const dynamic = 'force-dynamic';
 
@@ -70,7 +71,7 @@ export const GET = withTenantAuth(async (request) => {
     return NextResponse.json({ success: true, data: enriched, pagination: paginationMeta(total, page, limit) });
   } catch (error) {
     console.error('[Companies API GET]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -104,6 +105,6 @@ export const POST = withTenantAuth(async (request) => {
     return NextResponse.json({ success: true, data: company }, { status: 201 });
   } catch (error) {
     console.error('[Companies API POST]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

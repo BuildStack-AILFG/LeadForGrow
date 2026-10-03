@@ -1,5 +1,6 @@
 import { processDueTasks } from "@/lib/automation/processDueTasks";
 import { NextResponse } from "next/server";
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 /**
  * CRON Job Handler for Automated Task Follow-ups
@@ -28,6 +29,6 @@ export async function GET(request) {
     });
   } catch (error) {
     console.error('[Cron:Tasks] Global error:', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 }

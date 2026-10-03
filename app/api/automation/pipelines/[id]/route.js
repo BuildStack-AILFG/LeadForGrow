@@ -4,6 +4,7 @@ import Pipeline from '@/models/automation/Pipeline';
 import Deal from '@/models/automation/Deal';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
 import { normalizePipelineStages } from '@/lib/crm/pipelineUtils';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const dynamic = 'force-dynamic';
 
@@ -33,7 +34,7 @@ export const GET = withTenantAuth(async (request, { params }) => {
     return NextResponse.json({ success: true, data: { ...pipeline, analytics } });
   } catch (error) {
     console.error('[Pipeline GET]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -72,7 +73,7 @@ export const PUT = withTenantAuth(async (request, { params }) => {
     return NextResponse.json({ success: true, data: pipeline });
   } catch (error) {
     console.error('[Pipeline PUT]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -95,6 +96,6 @@ export const DELETE = withTenantAuth(async (request, { params }) => {
     return NextResponse.json({ success: true, message: 'Pipeline archived' });
   } catch (error) {
     console.error('[Pipeline DELETE]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

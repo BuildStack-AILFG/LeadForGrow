@@ -5,6 +5,7 @@ import Subscription from '@/models/billing/Subscription';
 import BillingInvoice from '@/models/billing/Invoice';
 import { verifyStripeWebhook } from '@/lib/billing/stripe';
 import { applyPlanQuotas } from '@/lib/plans';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export async function POST(req) {
   try {
@@ -95,6 +96,6 @@ export async function POST(req) {
     return NextResponse.json({ received: true });
   } catch (error) {
     console.error('[Stripe Webhook]', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: serverErrorMessage(error) }, { status: 500 });
   }
 }

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import { withPlanAccess } from '@/lib/accessControl';
 import { listIntegrations, connectIntegration } from '@/lib/integrations/service';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 function getBaseUrl(req) {
   const host = req.headers.get('x-forwarded-host') || req.headers.get('host');
@@ -17,7 +18,7 @@ export const GET = withPlanAccess('integrations', async (req) => {
     return NextResponse.json({ success: true, data });
   } catch (err) {
     console.error('[Integrations GET]', err);
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(err) }, { status: 500 });
   }
 });
 

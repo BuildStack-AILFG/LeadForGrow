@@ -6,6 +6,7 @@ import { NextResponse } from "next/server";
 import { withRateLimit } from "@/lib/rateLimit";
 import { logAuthEvent } from "@/lib/auditLog";
 import { evaluatePassword } from "@/lib/security/passwordPolicy";
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 async function loginHandler(req) {
   try {
@@ -108,7 +109,7 @@ async function loginHandler(req) {
     });
   } catch (error) {
     console.error('Login error:', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 }
 

@@ -3,6 +3,7 @@ import { dbConnect } from '@/lib/mongodb';
 import { withAuth } from '@/lib/auth';
 import { getAiSettings, updateAiSettings } from '@/lib/ai/settings';
 import { isAiConfigured } from '@/lib/ai/providers';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withAuth()(async (req) => {
   try {
@@ -16,7 +17,7 @@ export const GET = withAuth()(async (req) => {
       data: { ...settings, configured },
     });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -30,6 +31,6 @@ export const PUT = withAuth()(async (req) => {
     const configured = isAiConfigured() || (settings.provider === 'openai' && settings.hasApiKey);
     return NextResponse.json({ success: true, data: { ...settings, configured } });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

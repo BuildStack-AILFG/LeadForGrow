@@ -6,6 +6,7 @@ import { withPlanAccess } from '@/lib/accessControl';
 import { encryptOnce } from '@/lib/encryption';
 import { serializeCommentRule, sanitizeCommentRules } from '@/lib/automation/commentRules';
 import { getSafetySummary } from '@/lib/social/sendSafety';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withPlanAccess('settings', async (req) => {
   try {
@@ -38,7 +39,7 @@ export const GET = withPlanAccess('settings', async (req) => {
 
     return NextResponse.json({ success: true, data: { instagram } });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -56,7 +57,7 @@ export const POST = withPlanAccess('settings', async (req) => {
     const authUrl = `https://www.facebook.com/v21.0/dialog/oauth?client_id=${appId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scopes}&response_type=code&state=instagram`;
     return NextResponse.json({ success: true, data: { authUrl } });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -105,7 +106,7 @@ export const PUT = withPlanAccess('settings', async (req) => {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -152,7 +153,7 @@ export const PATCH = withPlanAccess('settings', async (req) => {
       },
     });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -168,6 +169,6 @@ export const DELETE = withPlanAccess('settings', async (req) => {
     await business.save();
     return NextResponse.json({ success: true, webhook: result.webhook, keptRules: result.keptRules });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

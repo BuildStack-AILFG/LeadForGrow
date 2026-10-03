@@ -6,6 +6,7 @@ import Business from '@/models/Business';
 import { withPlanAccess } from '@/lib/accessControl';
 import { getRazorpayClient } from '@/lib/payments/razorpay';
 import { decrypt } from '@/lib/encryption';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 /**
  * POST /api/automation/bills/[id]/payment-link
@@ -107,7 +108,7 @@ export const POST = withPlanAccess('automation', async (req, ctx) => {
     });
   } catch (err) {
     console.error('[Bills] payment-link:', err);
-    return NextResponse.json({ success: false, error: err.message || 'Failed to create payment link' }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(err) || 'Failed to create payment link' }, { status: 500 });
   }
 });
 

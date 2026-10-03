@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { scanAllBusinessesNoReply } from '@/lib/automation/noReplyScanner';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 function authorize(request) {
   const authHeader = request.headers.get('authorization');
@@ -20,6 +21,6 @@ export async function GET(request) {
     return NextResponse.json({ success: true, businesses: results.length, triggered, results });
   } catch (error) {
     console.error('[Cron:NoReply]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 }

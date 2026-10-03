@@ -4,6 +4,7 @@ import Website from '@/models/Website';
 import User from '@/models/User';
 import { defaultContent } from '@/app/components/templates/content/defaultContent';
 import { withAuth } from '@/lib/auth';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const POST = withAuth()(async (req) => {
   try {
@@ -48,7 +49,7 @@ export const POST = withAuth()(async (req) => {
     return NextResponse.json({ success: true, websiteId: website._id, website });
   } catch (error) {
     console.error('Error in website funnel:', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -74,6 +75,6 @@ export const PATCH = withAuth()(async (req) => {
     return NextResponse.json({ success: true, website });
   } catch (error) {
     console.error('Error updating website funnel:', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

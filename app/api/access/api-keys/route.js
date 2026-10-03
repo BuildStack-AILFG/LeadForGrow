@@ -4,6 +4,7 @@ import { withTenantAuth, resolveTenant } from '@/lib/auth';
 import ApiKey from '@/models/access/ApiKey';
 import { resolveUserAccess } from '@/lib/access/resolver';
 import { logAccessEvent } from '@/lib/access/audit';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withTenantAuth(async (req) => {
   try {
@@ -85,6 +86,6 @@ export const POST = withTenantAuth(async (req) => {
       message: 'Copy this key now — it will not be shown again.',
     });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

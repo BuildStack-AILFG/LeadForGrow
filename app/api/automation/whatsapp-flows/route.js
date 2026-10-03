@@ -6,6 +6,7 @@ import WhatsAppFlow from '@/models/automation/WhatsAppFlow';
 import FlowExecution from '@/models/automation/FlowExecution';
 import { ensureDefaultVariables } from '@/lib/whatsappFlows/service';
 import { getDefaultNodeData } from '@/lib/whatsappFlows/constants';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withPlanAccess('automation', async (req) => {
   try {
@@ -27,7 +28,7 @@ export const GET = withPlanAccess('automation', async (req) => {
     const flows = await WhatsAppFlow.find(query).sort({ updatedAt: -1 }).lean();
     return NextResponse.json({ success: true, data: flows });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -94,6 +95,6 @@ export const POST = withPlanAccess('automation', async (req) => {
 
     return NextResponse.json({ success: true, data: flow }, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

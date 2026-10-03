@@ -68,7 +68,6 @@ export default function LeadForGrowWidget({ onBookDemo }) {
   // auto-open timer and the modal too, not just the floating launcher button.
   const hidden =
     pathname.startsWith('/automation') ||
-    pathname.startsWith('/agency') ||
     pathname.startsWith('/lfgadmin') ||
     pathname.startsWith('/editor') ||
     AUTH_PATHS.some((path) => pathname.startsWith(path)) ||

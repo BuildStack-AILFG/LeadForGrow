@@ -6,6 +6,7 @@ import { ensureDefaultPipeline, getStageByKey } from '@/lib/crm/pipelines';
 import { getDefaultStageKey } from '@/lib/crm/pipelineUtils';
 import Pipeline from '@/models/automation/Pipeline';
 import { logTimelineEvent } from '@/lib/crm/timeline';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withTenantAuth(async (req) => {
   try {
@@ -56,7 +57,7 @@ export const GET = withTenantAuth(async (req) => {
     });
   } catch (error) {
     console.error('[Deals API]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -130,6 +131,6 @@ export const POST = withTenantAuth(async (req) => {
     return NextResponse.json({ success: true, data: deal }, { status: 201 });
   } catch (error) {
     console.error('[Deals API POST]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

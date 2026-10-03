@@ -3,6 +3,7 @@ import { dbConnect } from '@/lib/mongodb';
 import Event from '@/models/automation/Event';
 import Lead from '@/models/automation/Lead';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withTenantAuth(async (req) => {
   try {
@@ -31,7 +32,7 @@ export const GET = withTenantAuth(async (req) => {
 
     return NextResponse.json({ success: true, data: enrichedEvents });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -63,6 +64,6 @@ export const POST = withTenantAuth(async (req) => {
 
     return NextResponse.json({ success: true, data: newEvent });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

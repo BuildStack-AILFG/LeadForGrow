@@ -4,6 +4,7 @@ import { dbConnect } from '@/lib/mongodb';
 import SavedEmailDesign from '@/models/automation/SavedEmailDesign';
 import { withPlanAccess } from '@/lib/accessControl';
 import { normalizeSavedEmailDesign, EmailContentError } from '@/lib/broadcasts/emailContent';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 const notFound = () => NextResponse.json({ success: false, error: 'Template not found' }, { status: 404 });
 
@@ -16,7 +17,7 @@ export const GET = withPlanAccess('automation', async (req, { params }) => {
     if (!design) return notFound();
     return NextResponse.json({ success: true, data: design });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -43,7 +44,7 @@ export const PUT = withPlanAccess('automation', async (req, { params }) => {
     const { html, ...rest } = existing.toObject();
     return NextResponse.json({ success: true, data: rest });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -56,6 +57,6 @@ export const DELETE = withPlanAccess('automation', async (req, { params }) => {
     if (!res.deletedCount) return notFound();
     return NextResponse.json({ success: true });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

@@ -5,6 +5,7 @@ import Business from '@/models/Business';
 import { withPlanAccess } from '@/lib/accessControl';
 import { deleteMetaTemplate } from '@/lib/whatsapp/templates';
 import { decrypt } from '@/lib/encryption';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withPlanAccess('automation', async (req, { params }) => {
   try {
@@ -14,7 +15,7 @@ export const GET = withPlanAccess('automation', async (req, { params }) => {
     if (!template) return NextResponse.json({ success: false, error: 'Not found' }, { status: 404 });
     return NextResponse.json({ success: true, data: template });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -52,7 +53,7 @@ export const PUT = withPlanAccess('automation', async (req, { params }) => {
 
     return NextResponse.json({ success: true, data: template });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -87,6 +88,6 @@ export const DELETE = withPlanAccess('automation', async (req, { params }) => {
     await template.save();
     return NextResponse.json({ success: true });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

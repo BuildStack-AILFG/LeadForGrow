@@ -3,6 +3,7 @@ import { dbConnect } from '@/lib/mongodb';
 import { withAuth } from '@/lib/auth';
 import { ingestSource } from '@/lib/ai/rag/ingest';
 import KnowledgeSource from '@/models/ai/KnowledgeSource';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const POST = withAuth()(async (req, { params }) => {
   try {
@@ -12,6 +13,6 @@ export const POST = withAuth()(async (req, { params }) => {
     const source = await KnowledgeSource.findById(id).lean();
     return NextResponse.json({ success: true, data: { ...result, source } });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

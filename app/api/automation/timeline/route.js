@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
 import { getEntityTimeline, getBusinessTimeline } from '@/lib/crm/timeline';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const dynamic = 'force-dynamic';
 
@@ -30,6 +31,6 @@ export const GET = withTenantAuth(async (request) => {
     });
   } catch (error) {
     console.error('[Timeline GET]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

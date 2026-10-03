@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
 import { findDuplicateLeads } from '@/lib/crm/duplicateDetection';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withTenantAuth(async (request) => {
   try {
@@ -16,6 +17,6 @@ export const GET = withTenantAuth(async (request) => {
     return NextResponse.json({ success: true, data: duplicates });
   } catch (error) {
     console.error('[Leads Duplicates]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

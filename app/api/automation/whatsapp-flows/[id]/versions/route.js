@@ -5,6 +5,7 @@ import WhatsAppFlow from '@/models/automation/WhatsAppFlow';
 import FlowVersion from '@/models/automation/FlowVersion';
 import FlowNode from '@/models/automation/FlowNode';
 import { loadFlowGraph } from '@/lib/whatsappFlows/service';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withPlanAccess('automation', async (req, { params }) => {
   try {
@@ -14,7 +15,7 @@ export const GET = withPlanAccess('automation', async (req, { params }) => {
     const versions = await FlowVersion.find({ flowId: id, businessId }).sort({ version: -1 }).lean();
     return NextResponse.json({ success: true, data: versions });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -59,6 +60,6 @@ export const POST = withPlanAccess('automation', async (req, { params }) => {
     const loaded = await loadFlowGraph(id, businessId);
     return NextResponse.json({ success: true, data: { ...flow.toObject(), nodes: loaded, edges } });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

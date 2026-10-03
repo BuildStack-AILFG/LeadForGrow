@@ -3,6 +3,7 @@ import { dbConnect } from '@/lib/mongodb';
 import Business from '@/models/Business';
 import { withPlanAccess } from '@/lib/accessControl';
 import { getCrmSettings, mergeCrmSettingsPayload, PAYMENT_ON_CONFIRM_MODES, LOST_REASONS } from '@/lib/crm/crmSettings';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withPlanAccess('automation', async (req) => {
   try {
@@ -23,7 +24,7 @@ export const GET = withPlanAccess('automation', async (req) => {
       },
     });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -52,6 +53,6 @@ export const PUT = withPlanAccess('automation', async (req) => {
       },
     });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

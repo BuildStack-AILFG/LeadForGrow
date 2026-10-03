@@ -50,21 +50,7 @@ const ARTICLES = [
 
   },
 
-  {
 
-    title: 'Agency mode: manage 50+ clients from one dashboard',
-
-    description:
-
-      'White-label CRM, per-client pipelines, and consolidated reporting — built for agencies scaling lead management across portfolios.',
-
-    href: '/agencies/overview',
-
-    linkText: 'Explore agency mode',
-
-    image: LANDING_IMAGES.article3,
-
-  },
 
 ];
 

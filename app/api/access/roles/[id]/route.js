@@ -4,6 +4,7 @@ import { withTenantAuth, resolveTenant } from '@/lib/auth';
 import WorkspaceRole from '@/models/access/WorkspaceRole';
 import { logAccessEvent } from '@/lib/access/audit';
 import { resolveUserAccess } from '@/lib/access/resolver';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const PATCH = withTenantAuth(async (req, { params }) => {
   try {
@@ -56,7 +57,7 @@ export const PATCH = withTenantAuth(async (req, { params }) => {
 
     return NextResponse.json({ success: true, data: role });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -105,6 +106,6 @@ export const DELETE = withTenantAuth(async (req, { params }) => {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

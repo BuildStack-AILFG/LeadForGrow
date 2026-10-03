@@ -3,6 +3,7 @@ import { dbConnect } from '@/lib/mongodb';
 import EmailAccount from '@/models/omnichannel/EmailAccount';
 import { withPermissions } from '@/lib/rbac';
 import { syncEmailAccount } from '@/lib/omnichannel/emailSync';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,7 +22,7 @@ async function handler(req) {
     return NextResponse.json({ success: true, data: results });
   } catch (error) {
     console.error('[Email sync]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 }
 

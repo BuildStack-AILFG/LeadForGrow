@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import SavedView from '@/models/automation/SavedView';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const dynamic = 'force-dynamic';
 
@@ -25,7 +26,7 @@ export const GET = withTenantAuth(async (request) => {
     return NextResponse.json({ success: true, data: views });
   } catch (error) {
     console.error('[SavedViews GET]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -57,6 +58,6 @@ export const POST = withTenantAuth(async (request) => {
     return NextResponse.json({ success: true, data: view }, { status: 201 });
   } catch (error) {
     console.error('[SavedViews POST]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

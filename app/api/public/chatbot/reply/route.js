@@ -3,6 +3,7 @@ import { dbConnect } from '@/lib/mongodb';
 import Business from '@/models/Business';
 import { mergeChatbotConfig } from '@/lib/chatbot/defaults';
 import { runSalesAgent } from '@/lib/ai/agent';
+import { withRateLimit } from '@/lib/rateLimit';
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -10,7 +11,7 @@ const CORS = {
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
-export async function POST(request) {
+async function postHandler(request) {
   try {
     await dbConnect();
     const body = await request.json();
@@ -56,3 +57,5 @@ export async function POST(request) {
 export async function OPTIONS() {
   return new NextResponse(null, { status: 204, headers: CORS });
 }
+
+export const POST = withRateLimit(20, 60, postHandler);

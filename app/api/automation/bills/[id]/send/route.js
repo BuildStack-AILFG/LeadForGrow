@@ -7,6 +7,7 @@ import { withPlanAccess } from '@/lib/accessControl';
 import { renderBillPdf } from '@/lib/bills/pdfRenderer';
 import { fetchLogoDataUrl } from '@/lib/bills/fetchLogoDataUrl';
 import { decrypt } from '@/lib/encryption';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 /**
  * POST /api/automation/bills/[id]/send
@@ -182,7 +183,7 @@ export const POST = withPlanAccess('automation', async (req, ctx) => {
     });
   } catch (err) {
     console.error('[Bills] send:', err);
-    return NextResponse.json({ success: false, error: err.message || 'Send failed' }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(err) || 'Send failed' }, { status: 500 });
   }
 });
 

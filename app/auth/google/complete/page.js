@@ -51,9 +51,8 @@ function CompleteInner() {
         document.cookie = `token=${token}; path=/; max-age=604800; samesite=lax${secure}`;
 
         const roleLower = (role || 'owner').toLowerCase();
-        const planLower = (plan || 'free').toLowerCase();
         if (roleLower.includes('owner') || roleLower.includes('admin')) {
-          router.replace(planLower.includes('agency') ? '/agency' : '/automation');
+          router.replace('/automation');
         } else {
           router.replace('/automation/leads');
         }

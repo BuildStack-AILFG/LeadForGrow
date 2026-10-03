@@ -16,6 +16,8 @@ import { runLeadStagePipelineActions } from '@/lib/crm/pipelineAutomation';
 import { formatTimelineItems } from '@/lib/crm/timelinePresentation';
 import { buildContactUpdates, phoneClashFilter } from '@/lib/crm/leadContactUpdate';
 
+const DETAIL_HISTORY_LIMIT = 500;
+
 // GET - Fetch single lead with details
 export const GET = withPlanAccess('leads', async (req, { params }) => {
   try {
@@ -39,9 +41,11 @@ export const GET = withPlanAccess('leads', async (req, { params }) => {
       return NextResponse.json({ success: false, error: 'Lead not found' }, { status: 404 });
     }
 
+    // Long-lived leads can have thousands of entries: send the newest ones only.
     const activities = await Activity.find({ leadId: id })
       .populate('performedBy', 'email')
       .sort({ performedAt: -1 })
+      .limit(DETAIL_HISTORY_LIMIT)
       .lean();
 
     const timeline = formatTimelineItems(activities);
@@ -73,9 +77,10 @@ export const GET = withPlanAccess('leads', async (req, { params }) => {
       messageQuery.timestamp = { $gte: lead.historyVisibleFrom };
     }
 
-    const messages = await Message.find(messageQuery)
-      .sort({ timestamp: 1 })
-      .lean();
+    const messages = (await Message.find(messageQuery)
+      .sort({ timestamp: -1 })
+      .limit(DETAIL_HISTORY_LIMIT)
+      .lean()).reverse();
 
     const [enrichedLead] = await enrichLeadsWithNextFollowUp([lead], businessId);
 

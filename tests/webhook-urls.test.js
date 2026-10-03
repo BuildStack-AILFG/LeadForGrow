@@ -6,6 +6,7 @@ import { describe, it, before } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { register } from 'node:module';
+import { lightOnlyClasses } from './helpers/darkSafe.js';
 
 register(new URL('../scripts/test-alias-hooks.mjs', import.meta.url));
 register(new URL('../scripts/test-jsx-hooks.mjs', import.meta.url));
@@ -64,9 +65,7 @@ describe('WebhookUrlField', () => {
 
   it('is dark-mode safe: every light surface has a dark counterpart', () => {
     const out = html({ path: '/api/webhooks/meta', origin: 'https://www.leadforgrow.com' });
-    assert.ok(out.includes('bg-slate-50 dark:bg-slate-800'));
-    assert.ok(out.includes('border-slate-200 dark:border-slate-700'));
-    assert.ok(out.includes('bg-white dark:bg-slate-900'));
+    assert.deepEqual(lightOnlyClasses(out), []);
   });
 
   it('renders extra hint text passed as children', () => {

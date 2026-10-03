@@ -6,6 +6,7 @@ import { ensureWorkspaceRoles } from '@/lib/access/seed';
 import { getDefaultPermissionsForRole } from '@/lib/access/catalog';
 import { logAccessEvent } from '@/lib/access/audit';
 import { resolveUserAccess } from '@/lib/access/resolver';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withTenantAuth(async (req) => {
   try {
@@ -81,6 +82,6 @@ export const POST = withTenantAuth(async (req) => {
 
     return NextResponse.json({ success: true, data: role });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

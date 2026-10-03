@@ -3,6 +3,7 @@ import { dbConnect } from '@/lib/mongodb';
 import WorkflowFolder from '@/models/automation/WorkflowFolder';
 import AutomationSequence from '@/models/automation/AutomationSequence';
 import { withPlanAccess } from '@/lib/accessControl';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const PUT = withPlanAccess('automation', async (req, { params }) => {
   try {
@@ -23,7 +24,7 @@ export const PUT = withPlanAccess('automation', async (req, { params }) => {
     await folder.save();
     return NextResponse.json({ success: true, data: folder });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -43,6 +44,6 @@ export const DELETE = withPlanAccess('automation', async (req, { params }) => {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

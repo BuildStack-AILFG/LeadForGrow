@@ -12,10 +12,7 @@ const DEFAULT_WORKSPACE = {
 
 export function useWorkspace() {
   const [workspace, setWorkspace] = useState(DEFAULT_WORKSPACE);
-  const [workspaces] = useState([
-    DEFAULT_WORKSPACE,
-    { id: 'ws_2', name: 'Agency Clients', plan: 'Agency', members: 12, createdAt: 'Mar 2025' }
-  ]);
+  const [workspaces] = useState([DEFAULT_WORKSPACE]);
 
   const switchWorkspace = useCallback((id) => {
     const ws = workspaces.find((w) => w.id === id);

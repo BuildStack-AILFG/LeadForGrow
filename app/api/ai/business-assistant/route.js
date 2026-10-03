@@ -5,6 +5,7 @@ import { buildBusinessAssistantContext, generateLocalAnswer } from '@/lib/server
 import { detectCopilotIntent, executeCopilotTool } from '@/lib/ai/copilotTools';
 import { chatCompletion } from '@/lib/ai/providers';
 import { getAiSettings } from '@/lib/ai/settings';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 const AI_BACKEND = process.env.AI_BACKEND_URL || 'https://lfg-v2.onrender.com';
 
@@ -160,6 +161,6 @@ export const GET = withAuth()(async (req) => {
       },
     });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

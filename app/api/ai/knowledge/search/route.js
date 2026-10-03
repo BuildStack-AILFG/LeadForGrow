@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import { withAuth } from '@/lib/auth';
 import { retrieveKnowledge } from '@/lib/ai/rag/retriever';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const POST = withAuth()(async (req) => {
   try {
@@ -21,6 +22,6 @@ export const POST = withAuth()(async (req) => {
       })),
     });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

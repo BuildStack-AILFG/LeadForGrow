@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import SavedView from '@/models/automation/SavedView';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const DELETE = withTenantAuth(async (request, { params }) => {
   try {
@@ -18,6 +19,6 @@ export const DELETE = withTenantAuth(async (request, { params }) => {
     return NextResponse.json({ success: true, message: 'View deleted' });
   } catch (error) {
     console.error('[SavedView DELETE]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

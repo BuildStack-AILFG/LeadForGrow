@@ -4,6 +4,7 @@ import AutomationSequence from '@/models/automation/AutomationSequence';
 import Lead from '@/models/automation/Lead';
 import { withPlanAccess } from '@/lib/accessControl';
 import { sequenceEngine } from '@/lib/sequences/engine';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const POST = withPlanAccess('automation', async (req, { params }) => {
   try {
@@ -42,6 +43,6 @@ export const POST = withPlanAccess('automation', async (req, { params }) => {
       },
     });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

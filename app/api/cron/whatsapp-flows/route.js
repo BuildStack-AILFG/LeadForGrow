@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import { resumeDueFlowDelays } from '@/lib/whatsappFlows/engine';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 /**
  * Cron endpoint to resume delayed WhatsApp flow nodes.
@@ -20,7 +21,7 @@ export async function POST(req) {
     const count = await resumeDueFlowDelays(100);
     return NextResponse.json({ success: true, resumed: count });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 }
 

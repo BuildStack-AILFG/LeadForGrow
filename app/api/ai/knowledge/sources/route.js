@@ -3,6 +3,7 @@ import { dbConnect } from '@/lib/mongodb';
 import { withAuth } from '@/lib/auth';
 import KnowledgeSource from '@/models/ai/KnowledgeSource';
 import { ingestSource } from '@/lib/ai/rag/ingest';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withAuth()(async (req) => {
   try {
@@ -17,7 +18,7 @@ export const GET = withAuth()(async (req) => {
     const sources = await KnowledgeSource.find(filter).sort({ updatedAt: -1 }).lean();
     return NextResponse.json({ success: true, data: sources });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -62,6 +63,6 @@ export const POST = withAuth()(async (req) => {
     const updated = await KnowledgeSource.findById(source._id).lean();
     return NextResponse.json({ success: true, data: updated }, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

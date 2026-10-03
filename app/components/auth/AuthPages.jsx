@@ -3,7 +3,7 @@
 import { useMemo, useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { Mail, Lock, Building2, ArrowRight, Eye, Briefcase, ChevronLeft, Check, X } from 'lucide-react';
+import { Mail, Lock, Building2, ArrowRight, Eye, ChevronLeft, Check, X } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { AuthIllustrationPanel, AuthFormShell, AUTH } from './AuthLayout';
 import { evaluatePassword, PASSWORD_POLICY } from '@/lib/security/passwordPolicy';
@@ -28,8 +28,8 @@ function GoogleIcon() {
   );
 }
 
-function GoogleButton({ mode = 'login', isAgency = false, label = 'Continue with Google' }) {
-  const href = `/api/auth/google?mode=${mode}${isAgency ? '&isAgency=1' : ''}`;
+function GoogleButton({ mode = 'login', label = 'Continue with Google' }) {
+  const href = `/api/auth/google?mode=${mode}`;
   return (
     <a
       href={href}
@@ -64,9 +64,8 @@ function redirectAfterAuth(router, data) {
     return;
   }
   const role = (data.role || 'member').toLowerCase();
-  const plan = data.business.plan.toLowerCase();
   if (role.includes('owner') || role.includes('admin')) {
-    router.push(plan.includes('agency') ? '/agency' : '/automation');
+    router.push('/automation');
   } else {
     router.push('/automation/leads');
   }
@@ -145,7 +144,6 @@ export function RegisterPage() {
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [accountType, setAccountType] = useState('business');
   const [form, setForm] = useState({ companyName: '', email: '', password: '', confirmPassword: '' });
 
   if (searchParams.get('mode') === 'login') {
@@ -175,7 +173,6 @@ export function RegisterPage() {
           companyName: form.companyName,
           email: form.email,
           password: form.password,
-          isAgency: accountType === 'agency',
         }),
       });
       const data = await res.json();
@@ -197,16 +194,8 @@ export function RegisterPage() {
     <div className={AUTH.panel}>
       <AuthIllustrationPanel variant="register" />
       <AuthFormShell title="Create your account" subtitle="Start your 14-day free trial. No credit card required.">
-        <div className="flex p-1 bg-[#F0F9F5] rounded-xl mb-6 border border-[#BAE0CF]">
-          {[{ id: 'business', icon: Briefcase, label: 'Business' }, { id: 'agency', icon: Building2, label: 'Agency' }].map((t) => (
-            <button key={t.id} type="button" onClick={() => setAccountType(t.id)}
-              className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-all ${accountType === t.id ? 'bg-white text-[#163c32] shadow-sm' : 'text-[#64748B]'}`}>
-              <t.icon className="w-4 h-4" />{t.label}
-            </button>
-          ))}
-        </div>
         <form onSubmit={handleSubmit} className="space-y-5">
-          <Field icon={Building2} label={accountType === 'agency' ? 'Agency name' : 'Business name'} value={form.companyName} onChange={(v) => setForm({ ...form, companyName: v })} />
+          <Field icon={Building2} label="Business name" value={form.companyName} onChange={(v) => setForm({ ...form, companyName: v })} />
           <Field icon={Mail} label="Work email" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} />
           <Field icon={Lock} label="Password" type={showPassword ? 'text' : 'password'} value={form.password} onChange={(v) => setForm({ ...form, password: v })} togglePassword={() => setShowPassword(!showPassword)} showToggle />
           {form.password && <PasswordStrengthPanel result={pwCheck} />}

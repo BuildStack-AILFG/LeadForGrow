@@ -4,6 +4,7 @@ import Pipeline from '@/models/automation/Pipeline';
 import Deal from '@/models/automation/Deal';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
 import { ensureDefaultPipeline } from '@/lib/crm/pipelines';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,7 +29,7 @@ export const GET = withTenantAuth(async (request) => {
     return NextResponse.json({ success: true, data: pipelines });
   } catch (error) {
     console.error('[Pipelines GET]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -62,6 +63,6 @@ export const POST = withTenantAuth(async (request) => {
     return NextResponse.json({ success: true, data: pipeline }, { status: 201 });
   } catch (error) {
     console.error('[Pipelines POST]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

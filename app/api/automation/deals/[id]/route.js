@@ -12,6 +12,7 @@ import { runDealStageCustomerMessages } from '@/lib/crm/dealCustomerMessages';
 import { normalizeStageKey } from '@/lib/crm/stageKeys';
 import { isStageClosed, isStageWon, getStageLabel } from '@/lib/crm/pipelineUtils';
 import { normalizeLeadStatus } from '@/lib/crm/leadStages';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const dynamic = 'force-dynamic';
 
@@ -43,7 +44,7 @@ export const GET = withTenantAuth(async (request, { params }) => {
     return NextResponse.json({ success: true, data: { ...deal, timeline: timeline.items, tasks, notes, attachments } });
   } catch (error) {
     console.error('[Deal GET]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -175,7 +176,7 @@ export const PUT = withTenantAuth(async (request, { params }) => {
     return NextResponse.json({ success: true, data: populated });
   } catch (error) {
     console.error('[Deal PUT]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -194,6 +195,6 @@ export const DELETE = withTenantAuth(async (request, { params }) => {
     return NextResponse.json({ success: true, message: 'Deal deleted' });
   } catch (error) {
     console.error('[Deal DELETE]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

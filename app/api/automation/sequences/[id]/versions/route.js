@@ -3,6 +3,7 @@ import { dbConnect } from '@/lib/mongodb';
 import AutomationSequence from '@/models/automation/AutomationSequence';
 import WorkflowVersion from '@/models/automation/WorkflowVersion';
 import { withPlanAccess } from '@/lib/accessControl';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withPlanAccess('automation', async (req, { params }) => {
   try {
@@ -15,7 +16,7 @@ export const GET = withPlanAccess('automation', async (req, { params }) => {
 
     return NextResponse.json({ success: true, data: versions });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -52,6 +53,6 @@ export const POST = withPlanAccess('automation', async (req, { params }) => {
 
     return NextResponse.json({ success: true, data: version }, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

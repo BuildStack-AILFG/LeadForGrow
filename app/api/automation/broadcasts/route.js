@@ -4,6 +4,7 @@ import Broadcast from '@/models/automation/Broadcast';
 import { withPlanAccess } from '@/lib/accessControl';
 import { sendBroadcast } from '@/lib/broadcasts/engine';
 import { normalizeBroadcastEmailContent, EmailContentError } from '@/lib/broadcasts/emailContent';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withPlanAccess('automation', async (req) => {
   try {
@@ -17,7 +18,7 @@ export const GET = withPlanAccess('automation', async (req) => {
     const broadcasts = await Broadcast.find(query).sort({ updatedAt: -1 }).lean();
     return NextResponse.json({ success: true, data: broadcasts });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -78,6 +79,6 @@ export const POST = withPlanAccess('automation', async (req) => {
     return NextResponse.json({ success: true, data: broadcast }, { status: 201 });
   } catch (error) {
     console.error('[Broadcast POST] failed:', error);
-    return NextResponse.json({ success: false, error: error.message || 'Server error' }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) || 'Server error' }, { status: 500 });
   }
 });

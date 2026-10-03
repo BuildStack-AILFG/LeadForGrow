@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import { withPermissions } from '@/lib/rbac';
 import { assignConversation } from '@/lib/omnichannel/conversationService';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 async function handler(req, { params }) {
   try {
@@ -28,7 +29,7 @@ async function handler(req, { params }) {
     return NextResponse.json({ success: true, data: populated });
   } catch (error) {
     console.error('[Inbox API] assign:', error);
-    return NextResponse.json({ success: false, error: error.message || 'Failed' }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) || 'Failed' }, { status: 500 });
   }
 }
 

@@ -1,18 +1,16 @@
 import { dbConnect } from "@/lib/mongodb";
 import User from "@/models/User";
 import Business from "@/models/Business";
-import Agency from "@/models/Agency";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
-import { getDefaultLimitsForTier } from "@/lib/agency/planResolver";
 import { withRateLimit } from "@/lib/rateLimit";
 import { evaluatePassword } from "@/lib/security/passwordPolicy";
 
 async function registerHandler(req) {
   try {
     await dbConnect();
-    const { companyName, email, password, isAgency } = await req.json();
+    const { companyName, email, password } = await req.json();
 
     if (!email || !password) {
       return NextResponse.json({ success: false, error: "Email and password are required" }, { status: 400 });
@@ -70,24 +68,6 @@ async function registerHandler(req) {
         type: 'business'
       };
 
-      // 3. IF Agency Plan, Create Agency Account (Capability)
-      if (isAgency) {
-        const agency = await Agency.create([{
-          agencyName: companyName,
-          ownerId: user[0]._id,
-          businessId: business[0]._id, // Link to business
-          planName: 'Agency Starter',
-          limits: getDefaultLimitsForTier('starter'),
-          status: 'active'
-        }], { session });
-
-        user[0].agencyId = agency[0]._id;
-        
-        // Even for agency users, we prioritize business context in the response
-        workspace.agencyId = agency[0]._id;
-        workspace.hasAgency = true;
-      }
-
       await user[0].save({ session });
 
       // Commit the transaction
@@ -107,7 +87,7 @@ async function registerHandler(req) {
         await sendResendEmail({
           to: email,
           from: 'LeadForGrow <info@leadforgrow.com>',
-          subject: `Welcome to LeadForGrow ${isAgency ? 'Agency' : ''}! 🚀`,
+          subject: 'Welcome to LeadForGrow! 🚀',
           html: welcomeTemplate
         });
       } catch (emailError) {

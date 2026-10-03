@@ -9,6 +9,7 @@ import { withTenantAuth, resolveTenant } from '@/lib/auth';
 import { logTimelineEvent } from '@/lib/crm/timeline';
 import { getEntityTimeline } from '@/lib/crm/timeline';
 import { findDuplicateContacts } from '@/lib/crm/duplicateDetection';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const dynamic = 'force-dynamic';
 
@@ -41,7 +42,7 @@ export const GET = withTenantAuth(async (request, { params }) => {
     });
   } catch (error) {
     console.error('[Contact GET]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -77,7 +78,7 @@ export const PUT = withTenantAuth(async (request, { params }) => {
     return NextResponse.json({ success: true, data: contact });
   } catch (error) {
     console.error('[Contact PUT]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -96,6 +97,6 @@ export const DELETE = withTenantAuth(async (request, { params }) => {
     return NextResponse.json({ success: true, message: 'Contact deleted' });
   } catch (error) {
     console.error('[Contact DELETE]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

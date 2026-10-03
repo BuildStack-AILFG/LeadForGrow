@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import { withPlanAccess } from '@/lib/accessControl';
 import ShareContact from '@/models/automation/ShareContact';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withPlanAccess('automation', async (req) => {
   try {
@@ -10,7 +11,7 @@ export const GET = withPlanAccess('automation', async (req) => {
     const contacts = await ShareContact.find({ businessId }).sort({ createdAt: -1 }).lean();
     return NextResponse.json({ success: true, data: contacts });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -37,6 +38,6 @@ export const POST = withPlanAccess('automation', async (req) => {
     const contact = await ShareContact.create({ businessId, name, whatsapp, createdBy: userId });
     return NextResponse.json({ success: true, data: contact }, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

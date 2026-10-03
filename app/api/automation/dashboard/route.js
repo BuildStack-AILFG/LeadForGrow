@@ -4,8 +4,6 @@ import Lead from '@/models/automation/Lead';
 import Deal from '@/models/automation/Deal';
 import Task from '@/models/automation/Task';
 import Activity from '@/models/automation/Activity';
-import Contact from '@/models/automation/Contact';
-import Company from '@/models/automation/Company';
 import MeetingBooking from '@/models/meetings/MeetingBooking';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
 import { CLOSED_STAGES } from '@/lib/crm/stageKeys';
@@ -21,11 +19,11 @@ import {
   buildRevenueSeries,
   buildLeadsManagement,
   buildRetentionData,
-  buildLocationData,
   buildCalendarData,
   startOfDay,
   endOfDay,
 } from '@/lib/crm/dashboardMetrics';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const dynamic = 'force-dynamic';
 
@@ -62,8 +60,6 @@ export const GET = withTenantAuth(async (request) => {
       awaitingFirstResponse,
       deals,
       allLeads,
-      contacts,
-      companies,
       monthMeetings,
       tasksDueToday,
       tasksOverdue,
@@ -83,12 +79,6 @@ export const GET = withTenantAuth(async (request) => {
         .lean(),
       Lead.find({ businessId, archived: false })
         .select('status source priority receivedAt convertedAt updatedAt location')
-        .lean(),
-      Contact.find({ businessId, archived: { $ne: true } })
-        .select('addresses')
-        .lean(),
-      Company.find({ businessId, archived: { $ne: true } })
-        .select('address')
         .lean(),
       MeetingBooking.find({
         businessId,
@@ -174,7 +164,6 @@ export const GET = withTenantAuth(async (request) => {
     const revenueChart = buildRevenueSeries(deals, currency);
     const leadsManagement = buildLeadsManagement(allLeads);
     const retention = buildRetentionData(allLeads);
-    const locations = buildLocationData(contacts, companies, allLeads);
     const calendar = buildCalendarData(monthMeetings, calYear, calMonth);
 
     return NextResponse.json({
@@ -192,7 +181,6 @@ export const GET = withTenantAuth(async (request) => {
         },
         leadsManagement,
         retention,
-        locations,
         calendar,
         kpis: {
           newLeadsToday: todayLeads,
@@ -225,6 +213,6 @@ export const GET = withTenantAuth(async (request) => {
     });
   } catch (error) {
     console.error('[CRM Dashboard]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

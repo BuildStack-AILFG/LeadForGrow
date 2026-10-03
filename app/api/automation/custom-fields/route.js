@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import CrmCustomField from '@/models/automation/CrmCustomField';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,7 +22,7 @@ export const GET = withTenantAuth(async (request) => {
     return NextResponse.json({ success: true, data: fields });
   } catch (error) {
     console.error('[CustomFields GET]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -47,6 +48,6 @@ export const POST = withTenantAuth(async (request) => {
     return NextResponse.json({ success: true, data: field }, { status: 201 });
   } catch (error) {
     console.error('[CustomFields POST]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

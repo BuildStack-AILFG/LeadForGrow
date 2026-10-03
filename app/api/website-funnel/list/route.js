@@ -5,6 +5,7 @@ import Website from '@/models/Website';
 import Lead from '@/models/automation/Lead';
 import Form from '@/models/Form';
 import { withAuth } from '@/lib/auth';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withAuth()(async (req) => {
   try {
@@ -44,6 +45,6 @@ export const GET = withAuth()(async (req) => {
     return NextResponse.json({ success: true, websites: websitesWithLeads });
   } catch (error) {
     console.error('Error fetching websites:', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

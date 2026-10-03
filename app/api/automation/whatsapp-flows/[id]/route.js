@@ -11,6 +11,7 @@ import {
   saveFlowGraph,
   createVersionSnapshot,
 } from '@/lib/whatsappFlows/service';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withPlanAccess('automation', async (req, { params }) => {
   try {
@@ -29,7 +30,7 @@ export const GET = withPlanAccess('automation', async (req, { params }) => {
       data: { ...flow, nodes, edges: flow.edges || [], variables, versions },
     });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -82,7 +83,7 @@ export const PUT = withPlanAccess('automation', async (req, { params }) => {
       data: { ...flow.toObject(), nodes, edges: flow.edges },
     });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -103,6 +104,6 @@ export const DELETE = withPlanAccess('automation', async (req, { params }) => {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

@@ -7,6 +7,7 @@ import { withPermissions } from '@/lib/rbac';
 import { assignConversation, markConversationRead } from '@/lib/omnichannel/conversationService';
 import { notifyConversationAssigned } from '@/lib/omnichannel/notifications';
 import { emitDashboardMetrics } from '@/lib/realtime/publish';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 async function handler(req, { params }) {
   try {
@@ -123,7 +124,7 @@ async function handler(req, { params }) {
     return NextResponse.json({ success: true, data: result });
   } catch (error) {
     console.error('[Inbox API] actions:', error);
-    return NextResponse.json({ success: false, error: error.message || 'Failed' }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) || 'Failed' }, { status: 500 });
   }
 }
 

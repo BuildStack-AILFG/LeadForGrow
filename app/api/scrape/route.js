@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import dns from 'node:dns/promises';
 import { scrapeWebsite } from '@/lib/scraper';
 import { withAuth } from '@/lib/auth';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 function isPrivateOrReservedIp(ip) {
   // IPv4
@@ -73,6 +74,6 @@ export const POST = withAuth()(async (req) => {
       return NextResponse.json({ error: result.error }, { status: 500 });
     }
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: serverErrorMessage(error) }, { status: 500 });
   }
 });

@@ -3,6 +3,7 @@ import { dbConnect } from '@/lib/mongodb';
 import Business from '@/models/Business';
 import { withPlanAccess } from '@/lib/accessControl';
 import { getSubscribedFields, enableSubscriptions, REQUIRED_FIELDS } from '@/lib/instagram/subscriptions';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 // GET — which webhook fields Meta will deliver for this account.
 export const GET = withPlanAccess('settings', async (req) => {
@@ -13,7 +14,7 @@ export const GET = withPlanAccess('settings', async (req) => {
     const result = await getSubscribedFields(business);
     return NextResponse.json({ success: true, data: { ...result, required: REQUIRED_FIELDS } });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -26,6 +27,6 @@ export const POST = withPlanAccess('settings', async (req) => {
     const result = await enableSubscriptions(business);
     return NextResponse.json({ success: result.success, error: result.error, data: { fields: result.fields, required: REQUIRED_FIELDS } });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

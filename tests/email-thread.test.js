@@ -168,7 +168,8 @@ describe('rendering', () => {
   it('rich HTML bodies sit on a white paper panel in dark mode (their own dark text would vanish on the dark card)', () => {
     const out = html([mail({ content: { html: '<p style="color:#222">Rich hello</p>' } })]);
     assert.match(out, /Rich hello/);
-    assert.match(out, /dark:bg-white/);
+    // the email renders in its own document with a white page, so its dark text stays readable in dark mode
+    assert.match(out, /body\{[^}]*background:#ffffff/);
   });
 
   it('internal notes keep their own compact row and are not drawn as cards', () => {

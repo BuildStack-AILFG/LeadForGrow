@@ -5,6 +5,7 @@ import UserAccess from '@/models/access/UserAccess';
 import TeamMember from '@/models/automation/TeamMember';
 import { logAccessEvent } from '@/lib/access/audit';
 import { resolveUserAccess } from '@/lib/access/resolver';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const PATCH = withTenantAuth(async (req, { params }) => {
   try {
@@ -71,6 +72,6 @@ export const PATCH = withTenantAuth(async (req, { params }) => {
 
     return NextResponse.json({ success: true, data: record });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

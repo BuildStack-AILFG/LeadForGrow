@@ -4,6 +4,7 @@ import { dbConnect } from '@/lib/mongodb';
 import CrmNote from '@/models/automation/CrmNote';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
 import { logTimelineEvent } from '@/lib/crm/timeline';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const dynamic = 'force-dynamic';
 
@@ -33,7 +34,7 @@ export const GET = withTenantAuth(async (request) => {
     return NextResponse.json({ success: true, data: notes });
   } catch (error) {
     console.error('[Notes GET]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -75,6 +76,6 @@ export const POST = withTenantAuth(async (request) => {
     return NextResponse.json({ success: true, data: note }, { status: 201 });
   } catch (error) {
     console.error('[Notes POST]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

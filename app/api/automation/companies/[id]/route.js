@@ -11,6 +11,7 @@ import MeetingBooking from '@/models/meetings/MeetingBooking';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
 import { logTimelineEvent, getEntityTimeline } from '@/lib/crm/timeline';
 import { buildCompanySummary } from '@/lib/crm/companyService';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const dynamic = 'force-dynamic';
 
@@ -90,7 +91,7 @@ export const GET = withTenantAuth(async (request, { params }) => {
     });
   } catch (error) {
     console.error('[Company GET]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -129,7 +130,7 @@ export const PUT = withTenantAuth(async (request, { params }) => {
     return NextResponse.json({ success: true, data: company });
   } catch (error) {
     console.error('[Company PUT]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -148,6 +149,6 @@ export const DELETE = withTenantAuth(async (request, { params }) => {
     return NextResponse.json({ success: true, message: 'Company deleted' });
   } catch (error) {
     console.error('[Company DELETE]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

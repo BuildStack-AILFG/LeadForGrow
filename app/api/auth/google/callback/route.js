@@ -5,10 +5,8 @@ import mongoose from 'mongoose';
 import { dbConnect } from '@/lib/mongodb';
 import User from '@/models/User';
 import Business from '@/models/Business';
-import Agency from '@/models/Agency';
 import { exchangeGoogleCode } from '@/lib/auth/googleOAuth';
 import { generateTokenPair } from '@/lib/security/refreshToken';
-import { getDefaultLimitsForTier } from '@/lib/agency/planResolver';
 import { logAuthEvent } from '@/lib/auditLog';
 
 export const dynamic = 'force-dynamic';
@@ -38,8 +36,7 @@ export async function GET(req) {
     }
     if (!code) return failRedirect('google_missing_code');
 
-    const [mode, agencyFlag, stateNonce] = state.split(':');
-    const isAgency = agencyFlag === '1';
+    const [mode, , stateNonce] = state.split(':'); // middle part was the old agency flag
 
     // Verify the state nonce matches the httpOnly cookie set when the flow started
     const cookieNonce = req.cookies?.get?.('g_oauth_state')?.value;
@@ -104,23 +101,6 @@ export async function GET(req) {
         );
 
         createdUser.businessId = business._id;
-
-        if (isAgency) {
-          const [agency] = await Agency.create(
-            [
-              {
-                agencyName: `${companyName}'s Agency`,
-                ownerId: createdUser._id,
-                businessId: business._id,
-                planName: 'Agency Starter',
-                limits: getDefaultLimitsForTier('starter'),
-                status: 'active',
-              },
-            ],
-            { session }
-          );
-          createdUser.agencyId = agency._id;
-        }
 
         await createdUser.save({ session });
         await session.commitTransaction();

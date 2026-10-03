@@ -3,6 +3,7 @@ import { dbConnect } from '@/lib/mongodb';
 import CrmAttachment from '@/models/automation/CrmAttachment';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
 import { logTimelineEvent } from '@/lib/crm/timeline';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const dynamic = 'force-dynamic';
 
@@ -30,7 +31,7 @@ export const GET = withTenantAuth(async (request) => {
     return NextResponse.json({ success: true, data: attachments });
   } catch (error) {
     console.error('[Attachments GET]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -72,6 +73,6 @@ export const POST = withTenantAuth(async (request) => {
     return NextResponse.json({ success: true, data: attachment }, { status: 201 });
   } catch (error) {
     console.error('[Attachments POST]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

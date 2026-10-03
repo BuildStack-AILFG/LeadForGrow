@@ -30,7 +30,7 @@ export const GET = withAuth()(async (req) => {
     }
 
     // Fetch all true active leads for accurate total Pipeline and Revenue calculations
-    const leads = await Lead.find(query).sort({ createdAt: -1 });
+    const leads = await Lead.find(query).select('status source createdAt lastContactedAt').sort({ createdAt: -1 }).lean();
 
     console.log(`[RevenueMetric] Business: "${business.name}" | Total Leads (30d): ${leads.length}`);
 

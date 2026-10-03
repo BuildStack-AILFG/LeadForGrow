@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import { dbConnect } from '@/lib/mongodb';
 import Bill from '@/models/automation/Bill';
 import { withPlanAccess } from '@/lib/accessControl';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 function validId(id) {
   return mongoose.Types.ObjectId.isValid(id);
@@ -57,7 +58,7 @@ export const PUT = withPlanAccess('automation', async (req, ctx) => {
     return NextResponse.json({ success: true, data: bill });
   } catch (err) {
     console.error('[Bills] update:', err);
-    return NextResponse.json({ success: false, error: err.message || 'Failed to update bill' }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(err) || 'Failed to update bill' }, { status: 500 });
   }
 });
 

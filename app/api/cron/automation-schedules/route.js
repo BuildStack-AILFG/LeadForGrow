@@ -5,6 +5,7 @@ import Lead from '@/models/automation/Lead';
 import Business from '@/models/Business';
 import { shouldRunSchedule, isWithinBusinessHoursWindow } from '@/lib/automation/scheduleEvaluator';
 import { sequenceEngine } from '@/lib/sequences/engine';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 function authorize(request) {
   const authHeader = request.headers.get('authorization');
@@ -62,6 +63,6 @@ export async function GET(request) {
     return NextResponse.json({ success: true, processed: sequences.length, results });
   } catch (error) {
     console.error('[Cron:Schedules]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 }

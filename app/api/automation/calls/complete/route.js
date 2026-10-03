@@ -3,6 +3,7 @@ import Activity from '@/models/automation/Activity';
 import Lead from '@/models/automation/Lead';
 import Task from '@/models/automation/Task';
 import { withAuth } from '@/lib/auth';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const POST = withAuth()(async (req) => {
     try {
@@ -57,6 +58,6 @@ export const POST = withAuth()(async (req) => {
 
     } catch (error) {
         console.error('[API Complete Call] Error:', error);
-        return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+        return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
     }
 });

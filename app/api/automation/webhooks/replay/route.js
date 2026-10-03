@@ -6,6 +6,7 @@ import Lead from '@/models/automation/Lead';
 import { withPlanAccess } from '@/lib/accessControl';
 import { dispatchAutomationEvent } from '@/lib/automation/triggerHub';
 import { sequenceEngine } from '@/lib/sequences/engine';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const POST = withPlanAccess('automation', async (req) => {
   try {
@@ -53,6 +54,6 @@ export const POST = withPlanAccess('automation', async (req) => {
 
     return NextResponse.json({ success: true, leadId: lead._id, replayed: true });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

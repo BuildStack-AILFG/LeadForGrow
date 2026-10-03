@@ -4,6 +4,7 @@ import Business from '@/models/Business';
 import { verifyBusinessSMTP } from '@/lib/businessMailer';
 import { decrypt } from '@/lib/encryption';
 import { withPlanAccess } from '@/lib/accessControl';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 /**
  * GET /api/debug/email-test
@@ -51,7 +52,7 @@ export const GET = withPlanAccess('settings', async (req) => {
       }
       return NextResponse.json({ status: 'Unhealthy', error: result.error, report }, { status: 500 });
     } catch (error) {
-      return NextResponse.json({ status: 'Crash', error: error.message, report }, { status: 500 });
+      return NextResponse.json({ status: 'Crash', error: serverErrorMessage(error), report }, { status: 500 });
     }
   } catch (error) {
     console.error('[debug/email-test]', error);

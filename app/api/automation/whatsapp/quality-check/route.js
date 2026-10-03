@@ -6,6 +6,7 @@ import { withPlanAccess } from '@/lib/accessControl';
 import { getPhoneNumberQuality } from '@/lib/whatsapp/templates';
 import { decryptCredentials } from '@/lib/integrations/credentials';
 import { decrypt } from '@/lib/encryption';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 // Simple in-memory cache — keyed by businessId, 5 min TTL
 const cache = new Map();
@@ -49,6 +50,6 @@ export const GET = withPlanAccess('automation', async (req) => {
     cache.set(businessId, { at: Date.now(), data });
     return NextResponse.json({ success: true, cached: false, ...data });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

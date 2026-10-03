@@ -4,6 +4,7 @@ import AutomationSequence from '@/models/automation/AutomationSequence';
 import SequenceExecution from '@/models/sequences/SequenceExecution';
 import Lead from '@/models/automation/Lead';
 import { withPlanAccess } from '@/lib/accessControl';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withPlanAccess('automation', async (req, { params }) => {
   try {
@@ -34,6 +35,6 @@ export const GET = withPlanAccess('automation', async (req, { params }) => {
 
     return NextResponse.json({ success: true, data });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

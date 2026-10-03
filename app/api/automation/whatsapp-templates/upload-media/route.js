@@ -6,6 +6,7 @@ import { withPlanAccess } from '@/lib/accessControl';
 import { uploadMediaToMeta } from '@/lib/whatsapp/templates';
 import { decryptCredentials } from '@/lib/integrations/credentials';
 import { decrypt } from '@/lib/encryption';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 // Meta's documented sample-media limits for template review
 const LIMITS = {
@@ -115,7 +116,7 @@ export const POST = withPlanAccess('automation', async (req) => {
     });
   } catch (error) {
     console.error('[TemplateMediaUpload] failed:', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 

@@ -4,6 +4,7 @@ import Broadcast from '@/models/automation/Broadcast';
 import { withPlanAccess } from '@/lib/accessControl';
 import { sendBroadcast, retryFailedRecipients } from '@/lib/broadcasts/engine';
 import { normalizeBroadcastEmailContent, EmailContentError } from '@/lib/broadcasts/emailContent';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withPlanAccess('automation', async (req, { params }) => {
   try {
@@ -13,7 +14,7 @@ export const GET = withPlanAccess('automation', async (req, { params }) => {
     if (!broadcast) return NextResponse.json({ success: false, error: 'Not found' }, { status: 404 });
     return NextResponse.json({ success: true, data: broadcast });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -40,7 +41,7 @@ export const PUT = withPlanAccess('automation', async (req, { params }) => {
     await broadcast.save();
     return NextResponse.json({ success: true, data: broadcast });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -51,7 +52,7 @@ export const DELETE = withPlanAccess('automation', async (req, { params }) => {
     await Broadcast.deleteOne({ _id: id, businessId: req.user.businessId });
     return NextResponse.json({ success: true });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -75,6 +76,6 @@ export const PATCH = withPlanAccess('automation', async (req, { params }) => {
     const updated = await Broadcast.findById(id).lean();
     return NextResponse.json({ success: true, data: updated });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

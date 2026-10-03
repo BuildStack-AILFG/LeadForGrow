@@ -7,6 +7,7 @@ import { getUsageSummary } from '@/models/billing/UsageRecord';
 import { BILLING_PLANS } from '@/lib/billing/plans';
 import { createBillingPortalSession } from '@/lib/billing/stripe';
 import { getEnv } from '@/lib/env';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withTenantAuth(async (req) => {
   try {
@@ -37,7 +38,7 @@ export const GET = withTenantAuth(async (req) => {
     });
   } catch (error) {
     console.error('[Billing Status]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -64,6 +65,6 @@ export const POST = withTenantAuth(async (req) => {
     return NextResponse.json({ success: true, url: portal.url });
   } catch (error) {
     console.error('[Billing Portal]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

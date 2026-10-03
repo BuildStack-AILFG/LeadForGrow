@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import Lead from '@/models/automation/Lead';
 import { withPlanAccess } from '@/lib/accessControl';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 /**
  * Count how many leads an audience payload will resolve to, without sending.
@@ -78,6 +79,6 @@ export const POST = withPlanAccess('automation', async (req) => {
       truncated: count > limit,
     });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

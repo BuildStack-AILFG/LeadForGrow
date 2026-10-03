@@ -5,6 +5,7 @@ import WhatsAppFlow from '@/models/automation/WhatsAppFlow';
 import FlowVariable from '@/models/automation/FlowVariable';
 import FlowNode from '@/models/automation/FlowNode';
 import { loadFlowGraph, serializeFlowExport, ensureDefaultVariables } from '@/lib/whatsappFlows/service';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withPlanAccess('automation', async (req, { params }) => {
   try {
@@ -19,6 +20,6 @@ export const GET = withPlanAccess('automation', async (req, { params }) => {
     const payload = serializeFlowExport(flow, nodes, flow.edges || [], variables);
     return NextResponse.json({ success: true, data: payload });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

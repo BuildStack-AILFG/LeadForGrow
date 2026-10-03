@@ -7,7 +7,7 @@ import { FOOTER_SECTIONS, FOOTER_SOCIAL, FOOTER_LEGAL } from '@/lib/marketing/fo
 import { MARKETING } from '@/lib/marketing/designTokens';
 import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 
-const HIDE_PREFIXES = ['/automation', '/agency', '/s/', '/chatbot-iframe', '/login', '/register', '/forgot-password', '/reset-password', '/verify-email', '/magic-link', '/invite', '/two-factor', '/session-expired', '/account-locked', '/user/login', '/user/register'];
+const HIDE_PREFIXES = ['/automation', '/s/', '/chatbot-iframe', '/login', '/register', '/forgot-password', '/reset-password', '/verify-email', '/magic-link', '/invite', '/two-factor', '/session-expired', '/account-locked', '/user/login', '/user/register'];
 
 // Simple Icons "X" mark — lucide only ships the legacy bird glyph, so this is
 // drawn by hand to match the real brand mark shown in the reference footer.

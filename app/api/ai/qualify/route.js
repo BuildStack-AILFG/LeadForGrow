@@ -4,6 +4,7 @@ import { withAuth } from '@/lib/auth';
 import Lead from '@/models/automation/Lead';
 import Message from '@/models/automation/Message';
 import { qualifyLead } from '@/lib/ai/qualify';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const POST = withAuth()(async (req) => {
   try {
@@ -19,6 +20,6 @@ export const POST = withAuth()(async (req) => {
 
     return NextResponse.json({ success: true, data: result });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

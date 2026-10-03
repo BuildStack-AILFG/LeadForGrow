@@ -58,12 +58,6 @@ const INDUSTRIES = [
     href: '/contact',
   },
   {
-    title: 'Marketing Agencies',
-    description: 'Help your clients stand out and manage every account from one platform.',
-    image: '/images/interakt-clone/industries/marketing-agencies.webp',
-    href: '/solutions/agencies',
-  },
-  {
     title: 'Automotive Industry',
     description: 'From promotions to service bookings, make customer communication simple and seamless.',
     image: '/images/interakt-clone/industries/automotive.webp',

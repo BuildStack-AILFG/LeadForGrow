@@ -4,6 +4,7 @@ import { withPlanAccess } from '@/lib/accessControl';
 import WhatsAppFlow from '@/models/automation/WhatsAppFlow';
 import FlowNode from '@/models/automation/FlowNode';
 import { loadFlowGraph, ensureDefaultVariables } from '@/lib/whatsappFlows/service';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const POST = withPlanAccess('automation', async (req, { params }) => {
   try {
@@ -45,6 +46,6 @@ export const POST = withPlanAccess('automation', async (req, { params }) => {
     await ensureDefaultVariables(businessId, clone._id);
     return NextResponse.json({ success: true, data: clone }, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

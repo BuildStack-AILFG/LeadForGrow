@@ -3,6 +3,7 @@ import { dbConnect } from '@/lib/mongodb';
 import { withPlanAccess } from '@/lib/accessControl';
 import FlowExecution from '@/models/automation/FlowExecution';
 import Lead from '@/models/automation/Lead';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withPlanAccess('automation', async (req, { params }) => {
   try {
@@ -24,17 +25,20 @@ export const GET = withPlanAccess('automation', async (req, { params }) => {
 
     const total = await FlowExecution.countDocuments(query);
 
-    // Enrich with lead names
-    const enriched = await Promise.all(
-      execs.map(async (exec) => {
-        const lead = exec.leadId ? await Lead.findById(exec.leadId).select('name phone').lean() : null;
-        return {
-          ...exec.toObject(),
-          leadName: lead?.name,
-          leadPhone: lead?.phone,
-        };
-      })
-    );
+    // Enrich with lead names — one query for the whole page, scoped to this business.
+    const leadIds = [...new Set(execs.map((e) => e.leadId).filter(Boolean).map(String))];
+    const leads = leadIds.length
+      ? await Lead.find({ _id: { $in: leadIds }, businessId }).select('name phone').lean()
+      : [];
+    const leadById = new Map(leads.map((l) => [String(l._id), l]));
+    const enriched = execs.map((exec) => {
+      const lead = exec.leadId ? leadById.get(String(exec.leadId)) : null;
+      return {
+        ...exec.toObject(),
+        leadName: lead?.name,
+        leadPhone: lead?.phone,
+      };
+    });
 
     return NextResponse.json({
       success: true,
@@ -47,6 +51,6 @@ export const GET = withPlanAccess('automation', async (req, { params }) => {
       },
     });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

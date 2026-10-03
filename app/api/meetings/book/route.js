@@ -2,8 +2,9 @@ import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import { createBooking } from '@/lib/meetings/bookingEngine';
 import { processPendingReminders } from '@/lib/meetings/reminders';
+import { withRateLimit } from '@/lib/rateLimit';
 
-export async function POST(req) {
+async function postHandler(req) {
   try {
     await dbConnect();
     const body = await req.json();
@@ -51,3 +52,5 @@ export async function POST(req) {
     );
   }
 }
+
+export const POST = withRateLimit(5, 60, postHandler);

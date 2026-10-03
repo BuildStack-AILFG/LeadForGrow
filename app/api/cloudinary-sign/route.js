@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { v2 as cloudinary } from 'cloudinary';
 import { withAuth } from '@/lib/auth';
 import { requireEnv } from '@/lib/env';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 function getCloudinaryConfig() {
   return {
@@ -33,7 +34,7 @@ export const POST = withAuth()(async (req) => {
   } catch (error) {
     console.error('Cloudinary signature generation failed:', error);
     return NextResponse.json(
-      { success: false, error: error.message || 'Signature generation failed' },
+      { success: false, error: serverErrorMessage(error) || 'Signature generation failed' },
       { status: 500 }
     );
   }

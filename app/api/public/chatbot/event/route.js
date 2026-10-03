@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import Business from '@/models/Business';
+import { withRateLimit } from '@/lib/rateLimit';
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -12,7 +13,7 @@ const EVENT_FIELDS = {
   conversation_started: 'settings.chatbot.stats.conversationsStarted',
 };
 
-export async function POST(request) {
+async function postHandler(request) {
   try {
     const { businessId, event } = await request.json();
     if (!businessId || !event || !EVENT_FIELDS[event]) {
@@ -33,3 +34,5 @@ export async function POST(request) {
 export async function OPTIONS() {
   return new NextResponse(null, { status: 204, headers: CORS });
 }
+
+export const POST = withRateLimit(60, 60, postHandler);

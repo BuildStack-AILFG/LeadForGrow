@@ -3,6 +3,7 @@ import { dbConnect } from '@/lib/mongodb';
 import Bill from '@/models/automation/Bill';
 import Business from '@/models/Business';
 import { withPlanAccess } from '@/lib/accessControl';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 /**
  * GET /api/automation/bills
@@ -89,7 +90,7 @@ export const POST = withPlanAccess('automation', async (req) => {
     return NextResponse.json({ success: true, data: bill });
   } catch (err) {
     console.error('[Bills] create:', err);
-    return NextResponse.json({ success: false, error: err.message || 'Failed to create bill' }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(err) || 'Failed to create bill' }, { status: 500 });
   }
 });
 

@@ -3,6 +3,7 @@ import { dbConnect } from '@/lib/mongodb';
 import EmailAccount from '@/models/omnichannel/EmailAccount';
 import { syncEmailAccount } from '@/lib/omnichannel/emailSync';
 import { runScheduledEmailSends } from '@/lib/omnichannel/scheduledEmailSender';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 /**
  * GET /api/cron/email-sync
@@ -93,7 +94,7 @@ export async function GET(req) {
   } catch (error) {
     console.error('[Cron:email-sync]', error);
     return NextResponse.json(
-      { success: false, error: error.message },
+      { success: false, error: serverErrorMessage(error) },
       { status: 500 }
     );
   }

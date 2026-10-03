@@ -7,6 +7,7 @@ import { describe, it, before } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { register } from 'node:module';
+import { lightOnlyClasses } from './helpers/darkSafe.js';
 
 register(new URL('../scripts/test-alias-hooks.mjs', import.meta.url));
 register(new URL('../scripts/test-jsx-hooks.mjs', import.meta.url));
@@ -115,7 +116,7 @@ describe('Assign to: any team member from a row', () => {
   });
 
   it('is dark-mode paired', () => {
-    assert.ok(html().includes('bg-white dark:bg-slate-900'));
+    assert.deepEqual(lightOnlyClasses(html()), []);
   });
 
   it('shows on Unassigned rows only, next to Done, and is wired through the list to the hook', () => {

@@ -4,6 +4,7 @@ import Business from '@/models/Business';
 import AutomationRule from '@/models/automation/AutomationRule';
 import { fetchMetaTemplates } from '@/lib/whatsapp/templates';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const POST = withTenantAuth(async (req) => {
   try {
@@ -66,6 +67,6 @@ export const POST = withTenantAuth(async (req) => {
     });
   } catch (error) {
     console.error('[TemplateSync] Error:', error);
-    return NextResponse.json({ success: false, error: error.message || 'Failed to sync templates' }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) || 'Failed to sync templates' }, { status: 500 });
   }
 });

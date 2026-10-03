@@ -34,7 +34,6 @@ const PUBLIC_API_PATTERNS = [
 /** Protected API prefixes — JWT required */
 const PROTECTED_API_PREFIXES = [
   '/api/automation/',
-  '/api/agency/',
   '/api/integrations/',
   '/api/business/',
   '/api/billing/',
@@ -42,7 +41,6 @@ const PROTECTED_API_PREFIXES = [
   '/api/onboarding/',
   '/api/forms',
   '/api/ai/',
-  '/api/clients/',
   '/api/websites',
   '/api/upload',
   '/api/cloudinary-sign',
@@ -54,7 +52,7 @@ const PROTECTED_API_PREFIXES = [
   '/api/website-funnel/',
 ];
 
-const PROTECTED_PAGE_PREFIXES = ['/automation', '/agency', '/lfgadmin'];
+const PROTECTED_PAGE_PREFIXES = ['/automation', '/lfgadmin'];
 
 function isPublicApi(pathname) {
   return PUBLIC_API_PREFIXES.some((p) => pathname.startsWith(p))
@@ -161,5 +159,5 @@ export async function middleware(request) {
 }
 
 export const config = {
-  matcher: ['/api/:path*', '/automation/:path*', '/agency/:path*', '/lfgadmin/:path*'],
+  matcher: ['/api/:path*', '/automation/:path*', '/lfgadmin/:path*'],
 };

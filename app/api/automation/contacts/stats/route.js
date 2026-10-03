@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
 import { buildContactsDashboardStats } from '@/lib/crm/contactService';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,6 +14,6 @@ export const GET = withTenantAuth(async (request) => {
     const stats = await buildContactsDashboardStats(tenant.business._id);
     return NextResponse.json({ success: true, data: stats });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

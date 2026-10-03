@@ -5,6 +5,7 @@ import Business from '@/models/Business';
 import Message from '@/models/automation/Message';
 import { runSalesAgent } from '@/lib/ai/agent';
 import { getAiSettings } from '@/lib/ai/settings';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const POST = withAuth()(async (req) => {
   try {
@@ -39,6 +40,6 @@ export const POST = withAuth()(async (req) => {
 
     return NextResponse.json({ success: true, data: result });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

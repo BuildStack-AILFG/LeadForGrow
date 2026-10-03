@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import Business from '@/models/Business';
 import { withPlanAccess } from '@/lib/accessControl';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 /**
  * GET / PUT the "bill header" — the fields that print on every bill PDF:
@@ -66,6 +67,6 @@ export const PUT = withPlanAccess('automation', async (req) => {
     return NextResponse.json({ success: true, data: business });
   } catch (err) {
     console.error('[BillHeader] save:', err);
-    return NextResponse.json({ success: false, error: err.message || 'Failed to save' }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(err) || 'Failed to save' }, { status: 500 });
   }
 });

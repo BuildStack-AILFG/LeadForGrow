@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import { leadManager } from '@/lib/automation/leadManager';
 import { extractToken, verifyToken } from '@/lib/auth';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 /**
  * Direct test lead injection — bypasses Meta entirely.
@@ -53,7 +54,7 @@ export async function GET(request) {
         console.error('[Inject Test Lead] Stack:', error.stack);
         return NextResponse.json({ 
             success: false, 
-            error: error.message 
+            error: serverErrorMessage(error) 
         }, { status: 500 });
     }
 }

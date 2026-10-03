@@ -4,6 +4,7 @@ import ExcelJS from 'exceljs';
 import { dbConnect } from '@/lib/mongodb';
 import Lead from '@/models/automation/Lead';
 import { withPlanAccess } from '@/lib/accessControl';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 const HEADER_ALIASES = {
   name: ['name', 'full name', 'fullname', 'contact name', 'lead name', 'customer name'],
@@ -229,7 +230,7 @@ export const POST = withPlanAccess('automation', async (req) => {
     });
   } catch (error) {
     console.error('[csv-import] failed:', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 

@@ -7,6 +7,7 @@ import WebhookLog from '@/models/automation/WebhookLog';
 import { ingestLead } from '@/lib/leadProcessor';
 import { dispatchAutomationEvent } from '@/lib/automation/triggerHub';
 import { sequenceEngine } from '@/lib/sequences/engine';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 function verifySignature(payload, signature, secret) {
   if (!signature || !secret) return false;
@@ -110,7 +111,7 @@ export async function POST(request, { params }) {
     });
   } catch (error) {
     console.error('[Webhook Trigger]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 }
 

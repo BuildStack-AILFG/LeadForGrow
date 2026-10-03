@@ -87,7 +87,7 @@ describe('emoji picker', () => {
   it('has its own width (regression: it collapsed to the 36px smile-button wrapper and the emojis overlapped)', () => {
     const popup = input.match(/className="(absolute bottom-full left-0 mb-2 [^"]*)"/)?.[1] || '';
     assert.match(popup, /\bw-\[288px\]/, 'the popup needs an explicit width');
-    assert.match(popup, /border-slate-200 dark:border-slate-700/, 'explicit border colours for light and dark');
+    assert.match(popup, /\bborder-line\b|border-slate-200 dark:border-slate-700/, 'explicit border colours for light and dark');
     assert.match(popup, /max-h-64 overflow-y-auto/, 'long lists must scroll, not grow off screen');
   });
 
@@ -129,7 +129,7 @@ describe('dark mode: waiting badge + WhatsApp marks', () => {
 
   it('the lead page WhatsApp buttons use the real WhatsApp mark, not a generic chat bubble', () => {
     for (const src of [leadHeader, leadProfile]) {
-      assert.match(src, /<WhatsAppIcon className="w-4 h-4" \/>/);
+      assert.match(src, /<WhatsAppIcon className="(?:w-4 h-4|h-4 w-4)" \/>/);
       assert.doesNotMatch(src, /<MessageSquare\b/);
     }
   });

@@ -5,6 +5,7 @@ import Business from '@/models/Business';
 import { withPlanAccess } from '@/lib/accessControl';
 import { createMetaTemplate } from '@/lib/whatsapp/templates';
 import { decrypt } from '@/lib/encryption';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 function validateTemplate(t) {
   const errors = [];
@@ -96,6 +97,6 @@ export const POST = withPlanAccess('automation', async (req, { params }) => {
 
     return NextResponse.json({ success: true, data: template });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

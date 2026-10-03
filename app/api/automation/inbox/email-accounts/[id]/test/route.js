@@ -5,6 +5,7 @@ import EmailAccount from '@/models/omnichannel/EmailAccount';
 import { withPermissions } from '@/lib/rbac';
 import { decrypt, isEncrypted } from '@/lib/encryption';
 import { createTransporterForAccount } from '@/lib/omnichannel/mailerFromAccount';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 /**
  * POST /api/automation/inbox/email-accounts/:id/test
@@ -118,7 +119,7 @@ async function handler(req, ctx) {
   } catch (error) {
     console.error('[EmailAccounts test]', error);
     return NextResponse.json(
-      { success: false, error: error.message || 'Test failed' },
+      { success: false, error: serverErrorMessage(error) || 'Test failed' },
       { status: 500 }
     );
   }

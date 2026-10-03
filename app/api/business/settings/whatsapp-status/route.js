@@ -4,6 +4,7 @@ import Business from '@/models/Business';
 import AutomationRule from '@/models/automation/AutomationRule';
 import { withPlanAccess } from '@/lib/accessControl';
 import { encryptOnce } from '@/lib/encryption';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withPlanAccess('settings', async (req) => {
   try {
@@ -45,7 +46,7 @@ export const GET = withPlanAccess('settings', async (req) => {
       },
     });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -102,6 +103,6 @@ export const PUT = withPlanAccess('settings', async (req) => {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

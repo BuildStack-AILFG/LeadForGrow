@@ -3,6 +3,7 @@ import { dbConnect } from '@/lib/mongodb';
 import SavedEmailDesign from '@/models/automation/SavedEmailDesign';
 import { withPlanAccess } from '@/lib/accessControl';
 import { normalizeSavedEmailDesign, EmailContentError } from '@/lib/broadcasts/emailContent';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 const MAX_SAVED_DESIGNS = 100;
 
@@ -18,7 +19,7 @@ export const GET = withPlanAccess('automation', async (req) => {
       .lean();
     return NextResponse.json({ success: true, data: designs });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -41,6 +42,6 @@ export const POST = withPlanAccess('automation', async (req) => {
     const { html, ...rest } = saved.toObject();
     return NextResponse.json({ success: true, data: rest }, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

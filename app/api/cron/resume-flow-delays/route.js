@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import { resumeDueFlowDelays } from '@/lib/whatsappFlows/engine';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const POST = async (request) => {
   const secret = request.headers.get('authorization')?.replace('Bearer ', '');
@@ -15,6 +16,6 @@ export const POST = async (request) => {
     return NextResponse.json({ success: true, resumed: resumedCount });
   } catch (error) {
     console.error('[Cron] Resume flow delays error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: serverErrorMessage(error) }, { status: 500 });
   }
 };

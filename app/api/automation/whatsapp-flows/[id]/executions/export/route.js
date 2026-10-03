@@ -4,6 +4,7 @@ import { withPlanAccess } from '@/lib/accessControl';
 import WhatsAppFlow from '@/models/automation/WhatsAppFlow';
 import FlowExecution from '@/models/automation/FlowExecution';
 import Lead from '@/models/automation/Lead';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 function csvEscape(value) {
   const str = value == null ? '' : String(value);
@@ -61,6 +62,6 @@ export const GET = withPlanAccess('automation', async (req, { params }) => {
       },
     });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

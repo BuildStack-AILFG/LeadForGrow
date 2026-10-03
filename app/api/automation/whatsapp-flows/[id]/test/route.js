@@ -6,6 +6,7 @@ import Business from '@/models/Business';
 import Lead from '@/models/automation/Lead';
 import { startFlowExecution } from '@/lib/whatsappFlows/engine';
 import { loadFlowGraph } from '@/lib/whatsappFlows/service';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 /**
  * Test Flow — simulates conversation without requiring publish.
@@ -69,6 +70,6 @@ export const POST = withPlanAccess('automation', async (req, { params }) => {
       },
     });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

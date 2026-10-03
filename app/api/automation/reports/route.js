@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import Lead from '@/models/automation/Lead';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withTenantAuth(async (request) => {
   try {
@@ -206,7 +207,7 @@ export const GET = withTenantAuth(async (request) => {
   } catch (error) {
     console.error('CRITICAL REPORTS ERROR:', error);
     return NextResponse.json(
-      { success: false, error: error.message || 'Failed to fetch reports' },
+      { success: false, error: serverErrorMessage(error) || 'Failed to fetch reports' },
       { status: 500 }
     );
   }

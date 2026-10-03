@@ -4,6 +4,7 @@ import { withPlanAccess } from '@/lib/accessControl';
 import MeetingType from '@/models/meetings/MeetingType';
 import { getDashboardData } from '@/lib/meetings/bookingEngine';
 import { DEFAULT_FORM_FIELDS } from '@/lib/meetings/constants';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withPlanAccess('automation', async (req) => {
   try {
@@ -69,6 +70,6 @@ export const POST = withPlanAccess('automation', async (req) => {
     return NextResponse.json({ success: true, data: meetingType });
   } catch (error) {
     console.error('[Meetings POST]', error);
-    return NextResponse.json({ success: false, error: error.message || 'Failed to create meeting' }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) || 'Failed to create meeting' }, { status: 500 });
   }
 });

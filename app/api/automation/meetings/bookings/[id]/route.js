@@ -8,6 +8,7 @@ import Task from '@/models/automation/Task';
 import { triggerNoShowRecovery } from '@/lib/meetings/reminders';
 import MeetingType from '@/models/meetings/MeetingType';
 import Business from '@/models/Business';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 const OUTCOME_STATUSES = ['completed', 'no_show', 'cancelled'];
 
@@ -103,6 +104,6 @@ export const PATCH = withPlanAccess('automation', async (req, { params }) => {
 
     return NextResponse.json({ success: true, data: updated });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

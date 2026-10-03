@@ -5,6 +5,7 @@ import WhatsAppFlow from '@/models/automation/WhatsAppFlow';
 import Business from '@/models/Business';
 import Lead from '@/models/automation/Lead';
 import { startFlowExecution } from '@/lib/whatsappFlows/engine';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 /**
  * Public webhook trigger for a published flow.
@@ -66,7 +67,7 @@ export async function POST(req, { params }) {
       status: execution?.status,
     });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 }
 

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import { withPlanAccess } from '@/lib/accessControl';
 import { getIntegrationLogs } from '@/lib/integrations/service';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withPlanAccess('integrations', async (req, { params }) => {
   try {
@@ -14,6 +15,6 @@ export const GET = withPlanAccess('integrations', async (req, { params }) => {
     const data = await getIntegrationLogs(req.user.businessId, id, { limit, offset });
     return NextResponse.json({ success: true, data });
   } catch (err) {
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(err) }, { status: 500 });
   }
 });

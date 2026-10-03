@@ -3,6 +3,7 @@ import { dbConnect } from '@/lib/mongodb';
 import Business from '@/models/Business';
 import { withPlanAccess } from '@/lib/accessControl';
 import { encrypt } from '@/lib/encryption';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 /**
  * Razorpay credential endpoints — Bring-Your-Own-Razorpay pattern.
@@ -95,7 +96,7 @@ export const POST = withPlanAccess('automation', async (req) => {
     });
   } catch (err) {
     console.error('[Razorpay creds] save:', err);
-    return NextResponse.json({ success: false, error: err.message || 'Failed to save credentials' }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(err) || 'Failed to save credentials' }, { status: 500 });
   }
 });
 

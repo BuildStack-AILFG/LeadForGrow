@@ -99,7 +99,7 @@ export default function GeneralSettingsPage() {
                 <SettingsInput value={branding.primaryColor} onChange={(e) => setBranding({ ...branding, primaryColor: e.target.value })} />
               </div>
             </SettingsField>
-            <SettingsField label="Custom domain" hint="Available on Agency plan">
+            <SettingsField label="Custom domain">
               <SettingsInput value={branding.customDomain} onChange={(e) => setBranding({ ...branding, customDomain: e.target.value })} placeholder="crm.yourcompany.com" />
             </SettingsField>
             <SettingsField label="Email footer" className="sm:col-span-2">

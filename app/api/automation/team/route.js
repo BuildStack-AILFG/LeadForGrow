@@ -5,6 +5,7 @@ import User from '@/models/User';
 import UserAccess from '@/models/access/UserAccess';
 import bcrypt from 'bcryptjs';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withTenantAuth(async (request) => {
   try {
@@ -118,7 +119,7 @@ export const POST = withTenantAuth(async (request) => {
     return NextResponse.json({ success: true, data: populatedMember }, { status: 201 });
   } catch (error) {
     console.error('Error adding team member:', error);
-    return NextResponse.json({ success: false, error: error.message || 'Failed to add member' }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) || 'Failed to add member' }, { status: 500 });
   }
 });
 

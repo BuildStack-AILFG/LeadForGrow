@@ -3,13 +3,14 @@ import { dbConnect } from '@/lib/mongodb';
 import Lead from '@/models/automation/Lead';
 import Activity from '@/models/automation/Activity';
 import { verifyUnsubscribeToken } from '@/lib/unsubscribeToken';
+import { withRateLimit } from '@/lib/rateLimit';
 
 /**
  * GET /api/unsubscribe/[token]
  * Public endpoint (no auth) — one click from an email footer.
  * Flips optedOutOfEmail = true for the lead+business encoded in the token.
  */
-export async function GET(req, { params }) {
+async function getHandler(req, { params }) {
   const { token } = await params;
   const parsed = verifyUnsubscribeToken(token);
 
@@ -60,7 +61,6 @@ export async function GET(req, { params }) {
  * Gmail and other mail clients POST here directly when the user hits the
  * native "Unsubscribe" link in the message header.
  */
-export const POST = GET;
 
 function htmlResponse(status, title, message) {
   const html = `<!doctype html>
@@ -96,3 +96,6 @@ function escapeHtml(s) {
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
   })[c]);
 }
+
+export const GET = withRateLimit(20, 60, getHandler);
+export const POST = GET;

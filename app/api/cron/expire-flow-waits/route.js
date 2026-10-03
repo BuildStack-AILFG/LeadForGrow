@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import FlowExecution from '@/models/automation/FlowExecution';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const POST = async (request) => {
   const secret = request.headers.get('authorization')?.replace('Bearer ', '');
@@ -37,6 +38,6 @@ export const POST = async (request) => {
     });
   } catch (error) {
     console.error('[Cron] Expire flow waits error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: serverErrorMessage(error) }, { status: 500 });
   }
 };

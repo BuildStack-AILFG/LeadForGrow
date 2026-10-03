@@ -2,6 +2,7 @@ import { dbConnect } from '@/lib/mongodb';
 import Website from '@/models/Website';
 import { NextResponse } from 'next/server';
 import { withAuth } from '@/lib/auth';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const POST = withAuth()(async (req) => {
   try {
@@ -25,7 +26,7 @@ export const POST = withAuth()(async (req) => {
     return NextResponse.json({ success: true, data: website });
   } catch (error) {
     console.error('Error creating website:', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -55,6 +56,6 @@ export const GET = withAuth()(async (req) => {
       pagination: { total, page, limit, pages: Math.ceil(total / limit) || 1 },
     });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

@@ -6,8 +6,10 @@ import LeadSource from "@/models/automation/LeadSource";
 import Activity from "@/models/automation/Activity";
 import Business from "@/models/Business";
 import { automationEngine } from "@/lib/automationEngine";
+import { withRateLimit } from '@/lib/rateLimit';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
-export async function POST(request) {
+async function postHandler(request) {
   try {
     await dbConnect();
     const data = await request.json();
@@ -77,6 +79,8 @@ export async function POST(request) {
     return NextResponse.json({ success: true, leadId: lead._id });
   } catch (error) {
     console.error('Error submitting lead from website:', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 }
+
+export const POST = withRateLimit(5, 60, postHandler);

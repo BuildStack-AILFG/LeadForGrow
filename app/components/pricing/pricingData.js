@@ -205,7 +205,7 @@ export const PRICING_FAQ = [
   { q: 'Can I upgrade or downgrade later?', a: 'Upgrade instantly, any time — your new limits apply immediately. Downgrades take effect at the start of your next billing cycle.' },
   { q: 'Do I need my own Meta / WhatsApp Business API access?', a: 'You need a Meta Business Manager account with WhatsApp Business API access. Our onboarding walks you through connecting it — most teams are live the same day.' },
   { q: 'Is there a setup fee?', a: 'No. Self-serve setup is included on every plan. Scale and Enterprise also get a guided onboarding call at no extra cost.' },
-  { q: 'What does Enterprise include that Scale doesn\'t?', a: 'Unlimited everything (leads, automations, seats), a dedicated account manager, and custom terms for compliance, security review, or multi-workspace / agency needs.' },
+  { q: 'What does Enterprise include that Scale doesn\'t?', a: 'Unlimited everything (leads, automations, seats), a dedicated account manager, and custom terms for compliance, security review, or multi-workspace needs.' },
 ];
 
 export function formatINR(amount) {

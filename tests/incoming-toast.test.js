@@ -6,6 +6,7 @@ import { describe, it, before } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { register } from 'node:module';
+import { lightOnlyClasses } from './helpers/darkSafe.js';
 
 register(new URL('../scripts/test-alias-hooks.mjs', import.meta.url));
 register(new URL('../scripts/test-jsx-hooks.mjs', import.meta.url));
@@ -50,7 +51,7 @@ describe('IncomingMessageCard', () => {
 
   it('is dark-mode paired and truncates a long preview', () => {
     const out = html({ channel: 'whatsapp', senderName: 'A', preview: 'x'.repeat(300) });
-    assert.ok(out.includes('bg-white dark:bg-slate-900') && out.includes('border-slate-200 dark:border-slate-700'));
+    assert.deepEqual(lightOnlyClasses(out), []);
     assert.ok(out.includes('truncate'));
   });
 });

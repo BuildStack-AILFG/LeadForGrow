@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import Business from '@/models/Business';
 import { callTelephonyProvider } from '@/lib/call-automation/providers/call_telephony.provider';
 import { withAuth } from '@/lib/auth';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const POST = withAuth()(async (req) => {
     try {
@@ -65,6 +66,6 @@ export const POST = withAuth()(async (req) => {
 
     } catch (error) {
         console.error('[API Initiate Call] Error:', error);
-        return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+        return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
     }
 });

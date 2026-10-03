@@ -5,6 +5,7 @@ import { dbConnect } from '@/lib/mongodb';
 import AutomationSequence from '@/models/automation/AutomationSequence';
 import { withPlanAccess } from '@/lib/accessControl';
 import { syncSequenceRule } from '@/lib/sequences/ruleSync';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withPlanAccess('automation', async (req) => {
   try {
@@ -31,7 +32,7 @@ export const GET = withPlanAccess('automation', async (req) => {
       .lean();
     return NextResponse.json({ success: true, data: sequences });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
 
@@ -87,6 +88,6 @@ export const POST = withPlanAccess('automation', async (req) => {
     return NextResponse.json({ success: true, data: populated }, { status: 201 });
   } catch (error) {
     console.error('[Sequences API] POST error:', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });

@@ -5,6 +5,7 @@ import SequenceExecution from '@/models/sequences/SequenceExecution';
 import { withPlanAccess } from '@/lib/accessControl';
 import { getRevenueMetrics } from '@/lib/automation/revenueAttribution';
 import { compareAbVariants } from '@/lib/automation/approvalGate';
+import { serverErrorMessage } from '@/lib/api/serverError';
 
 export const GET = withPlanAccess('automation', async (req, { params }) => {
   try {
@@ -111,6 +112,6 @@ export const GET = withPlanAccess('automation', async (req, { params }) => {
       },
     });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }
 });
