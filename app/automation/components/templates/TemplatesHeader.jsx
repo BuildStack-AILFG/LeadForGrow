@@ -9,7 +9,7 @@ export default function TemplatesHeader({ stats, saving, syncing, onSave, onSync
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-lg sm:text-xl font-semibold text-fg dark:text-slate-50">Message templates</h1>
+            <h1 className="text-page font-semibold text-fg">Message templates</h1>
             <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-0.5">
               {stats.total} templates · {stats.autoActive} auto flows active · quick replies & email
             </p>
@@ -31,7 +31,7 @@ export default function TemplatesHeader({ stats, saving, syncing, onSave, onSync
             <button
               type="button"
               onClick={onCreate}
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-fg-secondary dark:text-slate-200 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 hover:bg-subtle dark:hover:bg-slate-800 rounded transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-fg-secondary dark:text-slate-200 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 hover:bg-subtle dark:hover:bg-slate-800 rounded-md transition-colors"
             >
               <Plus className="w-3.5 h-3.5" /> New template
             </button>
@@ -39,7 +39,7 @@ export default function TemplatesHeader({ stats, saving, syncing, onSave, onSync
               type="button"
               onClick={onSave}
               disabled={saving}
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-accent hover:bg-accent-hover rounded shadow-popover shadow-[#1D4B3E]/20 disabled:opacity-50 transition-all"
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-white bg-accent hover:bg-accent-hover rounded-md shadow-popover shadow-[#1D4B3E]/20 disabled:opacity-50 transition-all"
             >
               {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
               Save changes

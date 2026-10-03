@@ -286,14 +286,14 @@ function GmailConnectModal({ open, onClose, onConnected }) {
             <button
               type="button"
               onClick={() => !saving && !testing && onClose()}
-              className="rounded-lg border border-line px-3 py-2 text-sm font-medium text-fg-secondary hover:bg-subtle"
+              className="rounded-md border border-line px-3 py-2 text-sm font-medium text-fg-secondary hover:bg-subtle"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={saving || testing}
-              className="ml-auto inline-flex items-center gap-1.5 rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white hover:bg-accent-hover disabled:opacity-60"
+              className="ml-auto inline-flex items-center gap-1.5 rounded-md bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-hover disabled:opacity-60"
             >
               {saving
                 ? 'Saving…'
@@ -413,7 +413,7 @@ function SignatureEditor({ account, busy, onSave, onSavePatch }) {
                   className="max-h-16 max-w-[180px] border border-line rounded bg-canvas p-1"
                 />
                 <div className="flex flex-col gap-1">
-                  <label className="cursor-pointer inline-flex items-center gap-1 rounded-lg border border-line px-2 py-1 text-meta font-medium text-fg-secondary hover:bg-subtle">
+                  <label className="cursor-pointer inline-flex items-center gap-1 rounded-md border border-line px-2 py-1 text-meta font-medium text-fg-secondary hover:bg-subtle">
                     {uploading ? 'Uploading…' : 'Replace'}
                     <input
                       type="file"
@@ -435,7 +435,7 @@ function SignatureEditor({ account, busy, onSave, onSavePatch }) {
               </div>
             ) : (
               <div className="space-y-2">
-                <label className="cursor-pointer inline-flex items-center gap-1.5 rounded-lg border border-dashed border-line-strong px-3 py-2 text-meta font-medium text-fg-secondary hover:bg-subtle hover:border-line-strong">
+                <label className="cursor-pointer inline-flex items-center gap-1.5 rounded-md border border-dashed border-line-strong px-3 py-2 text-meta font-medium text-fg-secondary hover:bg-subtle hover:border-line-strong">
                   {uploading ? 'Uploading…' : '+ Upload logo (PNG/JPG, ≤2 MB)'}
                   <input
                     type="file"
@@ -479,7 +479,7 @@ function SignatureEditor({ account, busy, onSave, onSavePatch }) {
                         setShowUrlInput(false);
                       }}
                       disabled={!urlInput.trim() || busy}
-                      className="rounded-lg bg-slate-800 px-3 py-1.5 text-meta font-medium text-white hover:bg-black disabled:opacity-40"
+                      className="rounded-md bg-accent px-3 py-1.5 text-meta font-medium text-white hover:bg-accent-hover disabled:opacity-40"
                     >
                       Set
                     </button>
@@ -711,7 +711,7 @@ function AutoReplyConfig({ cfg, onSave, saving }) {
           type="button"
           onClick={() => onSave(draft)}
           disabled={!dirty || saving}
-          className="rounded-lg bg-accent px-4 py-1.5 text-xs font-semibold text-white hover:bg-accent-hover disabled:opacity-40"
+          className="rounded-md bg-accent px-4 py-1.5 text-xs font-medium text-white hover:bg-accent-hover disabled:opacity-40"
         >
           {saving ? 'Saving…' : 'Save changes'}
         </button>
@@ -870,7 +870,7 @@ export default function EmailSettingsPage() {
           <ArrowLeft className="h-4 w-4" />
         </Link>
         <div>
-          <h1 className="text-lg font-semibold">Email Accounts</h1>
+          <h1 className="text-page font-semibold text-fg">Email Accounts</h1>
           <p className="text-xs text-fg-tertiary">
             Send and receive from your own mailbox. Connect Gmail in one click, or use SMTP/IMAP for anything else.
           </p>
@@ -883,7 +883,7 @@ export default function EmailSettingsPage() {
         <button
           type="button"
           onClick={() => setShowGmail(true)}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-canvas px-3 py-2 text-sm font-medium text-fg hover:bg-subtle"
+          className="inline-flex items-center gap-1.5 rounded-md border border-line bg-canvas px-3 py-2 text-sm font-medium text-fg hover:bg-subtle"
         >
           <GmailBrandMark className="h-4 w-4" />
           Connect Gmail
@@ -891,14 +891,14 @@ export default function EmailSettingsPage() {
         <button
           type="button"
           onClick={() => setShowGenericForm((v) => !v)}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-line px-3 py-2 text-sm font-medium text-fg-secondary hover:bg-subtle"
+          className="inline-flex items-center gap-1.5 rounded-md border border-line px-3 py-2 text-sm font-medium text-fg-secondary hover:bg-subtle"
         >
           <Plus className="h-4 w-4" /> Add SMTP/IMAP
         </button>
         <button
           type="button"
           onClick={handleSync}
-          className="ml-auto inline-flex items-center gap-1.5 rounded-lg border border-line px-3 py-2 text-sm text-fg-secondary hover:bg-subtle"
+          className="ml-auto inline-flex items-center gap-1.5 rounded-md border border-line px-3 py-2 text-sm text-fg-secondary hover:bg-subtle"
         >
           <RefreshCw className="h-4 w-4" /> Sync now
         </button>
@@ -974,7 +974,7 @@ export default function EmailSettingsPage() {
           </div>
           <button
             type="submit"
-            className="rounded-lg bg-slate-800 px-4 py-2 text-sm font-medium text-white hover:bg-black"
+            className="rounded-md bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-hover"
           >
             Save account
           </button>

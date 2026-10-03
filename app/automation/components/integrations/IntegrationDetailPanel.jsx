@@ -111,7 +111,7 @@ export default function IntegrationDetailPanel({
               type="button"
               onClick={() => onConnect?.(integration.id)}
               disabled={connecting}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-lg disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-md disabled:opacity-50"
             >
               <Plug className="w-4 h-4" /> Connect with {integration.oauthProvider || 'OAuth'}
             </button>
@@ -217,7 +217,7 @@ export default function IntegrationDetailPanel({
                   type="button"
                   onClick={() => onTest?.(integration.id)}
                   disabled={connecting}
-                  className="flex items-center justify-center gap-2 px-3 py-2.5 text-xs font-medium text-fg-secondary dark:text-fg-disabled bg-muted dark:bg-slate-800 rounded-lg hover:bg-muted disabled:opacity-50"
+                  className="flex items-center justify-center gap-2 px-3 py-2.5 text-xs font-medium text-fg-secondary dark:text-fg-disabled bg-muted dark:bg-slate-800 rounded-md hover:bg-muted disabled:opacity-50"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 ${connecting ? 'animate-spin' : ''}`} /> Test
                 </button>
@@ -225,7 +225,7 @@ export default function IntegrationDetailPanel({
                   type="button"
                   onClick={() => onSync?.(integration.id)}
                   disabled={connecting}
-                  className="flex items-center justify-center gap-2 px-3 py-2.5 text-xs font-medium text-fg-secondary dark:text-fg-disabled bg-muted dark:bg-slate-800 rounded-lg hover:bg-muted disabled:opacity-50"
+                  className="flex items-center justify-center gap-2 px-3 py-2.5 text-xs font-medium text-fg-secondary dark:text-fg-disabled bg-muted dark:bg-slate-800 rounded-md hover:bg-muted disabled:opacity-50"
                 >
                   <RotateCcw className={`w-3.5 h-3.5 ${connecting ? 'animate-spin' : ''}`} /> Sync now
                 </button>

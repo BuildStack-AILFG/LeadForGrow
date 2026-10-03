@@ -332,7 +332,7 @@ export default function NewLeadPage() {
               <UserPlus className="h-6 w-6" strokeWidth={1.75} />
             </div>
             <div>
-              <h1 className="text-page font-semibold text-fg tracking-tight">Add New Lead</h1>
+              <h1 className="text-page font-semibold text-fg">Add New Lead</h1>
               <p className="text-dense text-fg-tertiary mt-1 max-w-lg">
                 Register a new enquiry manually. It will sync to your pipeline, inbox, and dashboard instantly.
               </p>
@@ -552,7 +552,7 @@ export default function NewLeadPage() {
             <button
               type="button"
               onClick={() => router.push('/automation/leads')}
-              className="flex-1 md:flex-none h-10 px-5 text-dense font-medium text-fg-secondary border border-line rounded-lg hover:bg-subtle transition-colors"
+              className="flex-1 md:flex-none h-10 px-5 text-dense font-medium text-fg-secondary border border-line rounded-md hover:bg-subtle transition-colors"
             >
               Cancel
             </button>

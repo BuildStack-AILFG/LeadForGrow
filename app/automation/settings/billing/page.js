@@ -100,7 +100,7 @@ export default function BillingSettingsPage() {
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-8">
       <div>
-        <h1 className="text-2xl font-semibold text-fg">Billing & Subscription</h1>
+        <h1 className="text-page font-semibold text-fg">Billing & Subscription</h1>
         <p className="text-fg-tertiary mt-1">Manage your plan, usage, and invoices</p>
       </div>
 
@@ -117,7 +117,7 @@ export default function BillingSettingsPage() {
             <button
               type="button"
               onClick={openPortal}
-              className="px-4 py-2 text-sm font-medium border border-line rounded-lg hover:bg-subtle"
+              className="px-4 py-2 text-sm font-medium border border-line rounded-md hover:bg-subtle"
             >
               Manage subscription
             </button>

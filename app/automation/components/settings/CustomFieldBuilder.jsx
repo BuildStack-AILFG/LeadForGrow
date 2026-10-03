@@ -63,7 +63,7 @@ export default function CustomFieldBuilder({ fields: initialFields, onChange }) 
             </SettingsField>
           </div>
           <div className="flex gap-2">
-            <button type="button" onClick={addField} className="px-3 py-1.5 text-xs font-medium text-white bg-accent rounded-lg">Add field</button>
+            <button type="button" onClick={addField} className="px-3 py-1.5 text-xs font-medium text-white bg-accent rounded-md">Add field</button>
             <button type="button" onClick={() => setShowAdd(false)} className="px-3 py-1.5 text-xs font-medium text-fg-secondary">Cancel</button>
           </div>
         </div>

@@ -19,7 +19,7 @@ function CodeBlock({ label, code, onCopy }) {
         <button
           type="button"
           onClick={handleCopy}
-          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-fg-secondary hover:bg-muted dark:hover:bg-slate-800 rounded-lg transition-colors"
+          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-fg-secondary hover:bg-muted dark:hover:bg-slate-800 rounded-md transition-colors"
         >
           {copied ? <Check className="w-3.5 h-3.5 text-accent-fg" /> : <Copy className="w-3.5 h-3.5" />}
           {copied ? 'Copied' : 'Copy'}

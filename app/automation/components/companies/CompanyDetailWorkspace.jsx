@@ -117,7 +117,7 @@ export default function CompanyDetailWorkspace({ companyId }) {
                 <Building2 className="w-6 h-6 text-fg-secondary" />
               </div>
               <div>
-                <h1 className="text-2xl font-semibold text-fg dark:text-white">{c.name}</h1>
+                <h1 className="text-page font-semibold text-fg">{c.name}</h1>
                 <p className="text-sm text-fg-tertiary">{c.industry || 'No industry'} · Owner: {ownerLabel(c.ownerId)}</p>
               </div>
             </div>
@@ -130,7 +130,7 @@ export default function CompanyDetailWorkspace({ companyId }) {
             <button onClick={() => ws.setShowAddDeal(true)} className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium border border-line dark:border-slate-700 rounded-lg hover:bg-canvas dark:hover:bg-slate-800">
               <Plus className="w-4 h-4" /> Add Deal
             </button>
-            <button onClick={() => ws.setShowEdit(true)} className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-lg">
+            <button onClick={() => ws.setShowEdit(true)} className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-md">
               <Pencil className="w-4 h-4" /> Edit
             </button>
             <div className="relative">
@@ -320,7 +320,7 @@ export default function CompanyDetailWorkspace({ companyId }) {
                   rows={2}
                   className={`${inputCls} flex-1 resize-none`}
                 />
-                <button onClick={ws.addNote} disabled={ws.saving || !ws.noteText.trim()} className="self-end px-3 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-lg disabled:opacity-50">
+                <button onClick={ws.addNote} disabled={ws.saving || !ws.noteText.trim()} className="self-end px-3 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-md disabled:opacity-50">
                   Add
                 </button>
               </div>
@@ -359,7 +359,7 @@ export default function CompanyDetailWorkspace({ companyId }) {
         footer={
           <>
             <button onClick={() => ws.setShowEdit(false)} className="px-4 py-2 text-sm border rounded-lg">Cancel</button>
-            <button onClick={ws.saveEdit} disabled={ws.saving} className="px-4 py-2 text-sm text-white bg-accent rounded-lg disabled:opacity-50">Save</button>
+            <button onClick={ws.saveEdit} disabled={ws.saving} className="px-4 py-2 text-sm text-white bg-accent rounded-md disabled:opacity-50">Save</button>
           </>
         }
       >
@@ -382,7 +382,7 @@ export default function CompanyDetailWorkspace({ companyId }) {
         footer={
           <>
             <button onClick={() => ws.setShowAddContact(false)} className="px-4 py-2 text-sm border rounded-lg">Cancel</button>
-            <button onClick={ws.addContact} disabled={ws.saving} className="px-4 py-2 text-sm text-white bg-accent rounded-lg">Add Contact</button>
+            <button onClick={ws.addContact} disabled={ws.saving} className="px-4 py-2 text-sm text-white bg-accent rounded-md">Add Contact</button>
           </>
         }
       >
@@ -398,7 +398,7 @@ export default function CompanyDetailWorkspace({ companyId }) {
         footer={
           <>
             <button onClick={() => ws.setShowAddDeal(false)} className="px-4 py-2 text-sm border rounded-lg">Cancel</button>
-            <button onClick={ws.addDeal} disabled={ws.saving} className="px-4 py-2 text-sm text-white bg-accent rounded-lg">Create Deal</button>
+            <button onClick={ws.addDeal} disabled={ws.saving} className="px-4 py-2 text-sm text-white bg-accent rounded-md">Create Deal</button>
           </>
         }
       >

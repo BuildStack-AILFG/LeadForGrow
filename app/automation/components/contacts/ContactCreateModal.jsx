@@ -53,8 +53,8 @@ export default function ContactCreateModal({ open, form, onChange, onClose, onSu
         </div>
 
         <div className="px-5 py-4 border-t border-line flex justify-end gap-2">
-          <button type="button" onClick={onClose} className="px-4 py-2 text-dense font-medium border border-line rounded-lg hover:bg-subtle">Cancel</button>
-          <button type="button" onClick={onSubmit} disabled={saving} className="px-4 py-2 text-dense font-semibold text-white bg-accent hover:bg-[#1F2937] rounded-lg disabled:opacity-50">
+          <button type="button" onClick={onClose} className="px-4 py-2 text-dense font-medium border border-line rounded-md hover:bg-subtle">Cancel</button>
+          <button type="button" onClick={onSubmit} disabled={saving} className="px-4 py-2 text-dense font-medium text-white bg-accent hover:bg-[#1F2937] rounded-md disabled:opacity-50">
             {saving ? 'Creating…' : 'Create Contact'}
           </button>
         </div>

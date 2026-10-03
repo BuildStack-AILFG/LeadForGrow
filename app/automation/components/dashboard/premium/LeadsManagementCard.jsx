@@ -94,7 +94,7 @@ export default function LeadsManagementCard({ leadsManagement, onRefresh }) {
             </Link>
             <Link
               href="/automation/leads/new"
-              className="px-3 py-1.5 text-meta font-semibold text-white bg-accent rounded-md hover:bg-accent-hover transition-colors"
+              className="px-3 py-1.5 text-meta font-medium text-white bg-accent rounded-md hover:bg-accent-hover transition-colors"
             >
               Add Lead
             </Link>

@@ -43,7 +43,7 @@ export default function MeetingsDashboard({ dashboard, onCreate, onNoShow, onCom
           <p className="text-meta font-semibold text-accent-fg dark:text-accent-fg mb-1">
             Revenue Scheduling
           </p>
-          <h1 className="text-2xl font-semibold text-fg dark:text-slate-50 tracking-tight">
+          <h1 className="text-page font-semibold text-fg">
             Smart Meeting Automation
           </h1>
           <p className="text-sm text-fg-tertiary dark:text-fg-tertiary mt-1 max-w-xl">
@@ -53,14 +53,14 @@ export default function MeetingsDashboard({ dashboard, onCreate, onNoShow, onCom
         <div className="flex flex-wrap gap-2">
           <Link
             href="/automation/meetings/analytics"
-            className="px-4 py-2 text-sm font-medium text-fg-secondary dark:text-slate-200 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg hover:bg-subtle transition-colors"
+            className="px-4 py-2 text-sm font-medium text-fg-secondary dark:text-slate-200 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-md hover:bg-subtle transition-colors"
           >
             Analytics
           </Link>
           <button
             type="button"
             onClick={onCreate}
-            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-lg transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-md transition-colors"
           >
             <Plus className="w-4 h-4" />
             New booking link

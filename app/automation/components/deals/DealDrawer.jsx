@@ -195,7 +195,7 @@ export default function DealDrawer({ dealId, stages: pipelineStages = [], onClos
                   <button
                     type="button"
                     onClick={loadDeal}
-                    className="px-3 py-1.5 text-meta font-semibold text-white bg-accent hover:bg-accent-hover rounded"
+                    className="px-3 py-1.5 text-meta font-medium text-white bg-accent hover:bg-accent-hover rounded-md"
                   >
                     Retry
                   </button>

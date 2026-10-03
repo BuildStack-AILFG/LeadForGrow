@@ -11,7 +11,7 @@ export default function CreateFormModal({ onClose, onCreate }) {
     <>
       <div className="fixed inset-0 bg-black/40 z-50" onClick={onClose} />
       <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-canvas dark:bg-slate-900 rounded-lg shadow-modal z-50 p-6 border border-line dark:border-slate-800">
-        <h2 className="text-lg font-semibold text-fg dark:text-slate-50 mb-4">Create lead capture form</h2>
+        <h2 className="text-title font-semibold text-fg dark:text-slate-50 mb-4">Create lead capture form</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-xs font-semibold text-fg-tertiary mb-1">Form name</label>

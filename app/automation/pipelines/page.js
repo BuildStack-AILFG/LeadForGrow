@@ -139,7 +139,7 @@ function PipelinesContent() {
 
   return (
     <div className="min-h-full bg-subtle dark:bg-slate-950 px-4 sm:px-6 py-6 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-semibold text-fg dark:text-white">Deal Pipeline</h1>
+      <h1 className="text-page font-semibold text-fg">Deal Pipeline</h1>
       <p className="text-sm text-fg-tertiary mt-1 mb-6">
         Customize stage names, win probability scores, and colors. Changes appear instantly across Kanban, deals table, and deal detail.
       </p>
@@ -171,7 +171,7 @@ function PipelinesContent() {
               type="button"
               onClick={saveStages}
               disabled={saving}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-lg disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-md disabled:opacity-50"
             >
               <Save className="w-3.5 h-3.5" /> {saving ? 'Saving…' : 'Save'}
             </button>

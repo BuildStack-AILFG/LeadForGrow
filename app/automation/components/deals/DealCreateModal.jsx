@@ -95,7 +95,7 @@ export default function DealCreateModal({ open, editing, form, onChange, onClose
             type="button"
             onClick={onSubmit}
             disabled={saving}
-            className="px-4 py-2 text-dense font-semibold text-white bg-accent hover:bg-[#1F2937] rounded-lg disabled:opacity-50"
+            className="px-4 py-2 text-dense font-medium text-white bg-accent hover:bg-[#1F2937] rounded-md disabled:opacity-50"
           >
             {saving ? 'Saving…' : editing ? 'Save changes' : 'Create deal'}
           </button>

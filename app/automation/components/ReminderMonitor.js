@@ -194,7 +194,7 @@ export default function ReminderMonitor() {
                                 router.push(`/automation/leads/${task.leadId?._id || task.leadId}`);
                                 dismissReminder(task._id);
                             }}
-                            className="px-3 py-1.5 border border-line text-fg-secondary rounded text-meta font-medium hover:bg-subtle transition-all"
+                            className="px-3 py-1.5 border border-line text-fg-secondary rounded-md text-meta font-medium hover:bg-subtle transition-all"
                         >
                             View Lead
                         </button>

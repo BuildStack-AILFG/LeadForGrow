@@ -18,7 +18,7 @@ export default function AutomationList({ rules, selectedId, onSelect, onToggle, 
               <button
                 type="button"
                 onClick={onCreate}
-                className="inline-flex items-center gap-1.5 mt-4 px-4 py-2 text-xs font-semibold text-white bg-accent hover:bg-accent-hover rounded-lg"
+                className="inline-flex items-center gap-1.5 mt-4 px-4 py-2 text-xs font-medium text-white bg-accent hover:bg-accent-hover rounded-md"
               >
                 <Plus className="w-3.5 h-3.5" /> Create your first automation
               </button>

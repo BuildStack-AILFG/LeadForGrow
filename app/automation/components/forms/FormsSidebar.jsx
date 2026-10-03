@@ -12,7 +12,7 @@ export default function FormsSidebar({ forms, selectedId, onSelect, onCreate, ma
           type="button"
           onClick={onCreate}
           disabled={forms.length >= maxForms}
-          className="w-full flex items-center justify-center gap-2 px-3 py-2.5 text-xs font-semibold text-white bg-accent hover:bg-accent-hover rounded-lg disabled:opacity-50"
+          className="w-full flex items-center justify-center gap-2 px-3 py-2.5 text-xs font-medium text-white bg-accent hover:bg-accent-hover rounded-md disabled:opacity-50"
         >
           <Plus className="w-4 h-4" /> New form
         </button>

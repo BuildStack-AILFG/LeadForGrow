@@ -177,7 +177,7 @@ export default function ShareLeadModal({ lead, shareMessage, onClose }) {
                 className="w-full text-sm px-2.5 py-2 border border-line dark:border-slate-700 rounded-md bg-canvas dark:bg-slate-900"
               />
               <div className="flex gap-2">
-                <button type="button" onClick={addContact} disabled={saving} className="flex-1 py-2 text-xs font-medium rounded-md bg-slate-900 text-white hover:bg-slate-800 disabled:opacity-60">
+                <button type="button" onClick={addContact} disabled={saving} className="flex-1 py-2 text-xs font-medium rounded-md bg-accent text-white hover:bg-accent-hover disabled:opacity-60">
                   {saving ? 'Saving…' : 'Save contact'}
                 </button>
                 {!!contacts.length && (

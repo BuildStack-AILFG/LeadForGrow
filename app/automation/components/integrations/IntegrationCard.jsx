@@ -38,7 +38,7 @@ function IntegrationCard({ integration, onConnect, onSettings, onOpen }) {
             <button
               type="button"
               onClick={() => onOpen?.(integration.id)}
-              className="flex-1 px-3 py-1.5 text-xs font-medium text-fg-secondary dark:text-fg-disabled bg-muted dark:bg-slate-800 rounded-lg hover:bg-muted dark:hover:bg-slate-700 inline-flex items-center justify-center gap-1"
+              className="flex-1 px-3 py-1.5 text-xs font-medium text-fg-secondary dark:text-fg-disabled bg-muted dark:bg-slate-800 rounded-md hover:bg-muted dark:hover:bg-slate-700 inline-flex items-center justify-center gap-1"
             >
               <Settings className="w-3 h-3" /> Manage
             </button>
@@ -54,7 +54,7 @@ function IntegrationCard({ integration, onConnect, onSettings, onOpen }) {
           <button
             type="button"
             onClick={() => onConnect?.(integration.id)}
-            className="flex-1 px-3 py-1.5 text-xs font-medium text-white bg-accent hover:bg-accent-hover rounded-lg inline-flex items-center justify-center gap-1"
+            className="flex-1 px-3 py-1.5 text-xs font-medium text-white bg-accent hover:bg-accent-hover rounded-md inline-flex items-center justify-center gap-1"
           >
             <Plug className="w-3 h-3" /> Connect
           </button>

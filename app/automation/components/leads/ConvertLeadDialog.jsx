@@ -198,7 +198,7 @@ export default function ConvertLeadDialog({
         type="button"
         disabled={saving || !form.dealTitle || !form.assignedTo}
         onClick={() => onConfirm(form)}
-        className="px-4 py-2 text-sm text-white bg-accent hover:bg-accent-hover rounded-lg disabled:opacity-50"
+        className="px-4 py-2 text-sm text-white bg-accent hover:bg-accent-hover rounded-md disabled:opacity-50"
       >
         {saving ? 'Converting…' : 'Convert to Deal'}
       </button>

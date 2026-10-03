@@ -58,7 +58,7 @@ export default function AutomationSettingsPage() {
   return (
     <div className="space-y-5">
       <div className="flex justify-end">
-        <button type="button" onClick={save} disabled={saving} className="px-4 py-2 rounded-lg bg-accent text-white text-sm font-medium disabled:opacity-50">
+        <button type="button" onClick={save} disabled={saving} className="px-4 py-2 rounded-md bg-accent text-white text-sm font-medium disabled:opacity-50">
           {saving ? 'Saving…' : 'Save settings'}
         </button>
       </div>

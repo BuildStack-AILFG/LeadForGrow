@@ -41,7 +41,7 @@ function LeadDetailPageContent({ params }) {
     return (
       <div className="min-h-full bg-subtle dark:bg-slate-950 flex items-center justify-center p-8">
         <div className="text-center">
-          <h2 className="text-lg font-semibold text-fg dark:text-slate-50">Lead not found</h2>
+          <h2 className="text-title font-semibold text-fg dark:text-slate-50">Lead not found</h2>
           <Link href="/automation/leads" className="inline-flex items-center gap-1 mt-4 text-sm text-accent-fg hover:underline">
             <ChevronLeft className="w-4 h-4" /> Back to leads
           </Link>

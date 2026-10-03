@@ -103,7 +103,7 @@ export default function SequencesWorkspace() {
               type="button"
               onClick={() => ws.saveSequence(false)}
               disabled={ws.saving}
-              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-line dark:border-slate-700 text-sm font-medium text-fg-secondary dark:text-fg-disabled hover:bg-subtle dark:hover:bg-slate-800 disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md border border-line dark:border-slate-700 text-sm font-medium text-fg-secondary dark:text-fg-disabled hover:bg-subtle dark:hover:bg-slate-800 disabled:opacity-50"
             >
               {ws.saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
               Save draft
@@ -124,7 +124,7 @@ export default function SequencesWorkspace() {
               type="button"
               onClick={() => ws.saveSequence(true)}
               disabled={ws.saving}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-accent text-white text-sm font-semibold disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md bg-accent text-white text-sm font-medium disabled:opacity-50"
             >
               <Play className="w-4 h-4" /> Activate
             </button>

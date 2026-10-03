@@ -91,7 +91,7 @@ export default function BillHeaderSettingsPage() {
         </Link>
 
         <div className="mb-5">
-          <h1 className="text-2xl font-semibold text-fg dark:text-white flex items-center gap-2">
+          <h1 className="text-page font-semibold text-fg flex items-center gap-2">
             <Receipt className="w-6 h-6 text-fg-tertiary" /> Bill header settings
           </h1>
           <p className="text-sm text-fg-tertiary mt-1">Set your business info once — it appears on every bill PDF you send.</p>
@@ -109,7 +109,7 @@ export default function BillHeaderSettingsPage() {
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-2 flex-wrap">
-                <label className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-line dark:border-slate-700 text-xs font-semibold cursor-pointer hover:bg-subtle dark:hover:bg-slate-800">
+                <label className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md border border-line dark:border-slate-700 text-xs font-medium cursor-pointer hover:bg-subtle dark:hover:bg-slate-800">
                   {logoBusy ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ImagePlus className="w-3.5 h-3.5" />}
                   {form.logo ? 'Change logo' : 'Upload logo'}
                   <input type="file" accept="image/png,image/jpeg,image/webp" className="hidden"
@@ -155,7 +155,7 @@ export default function BillHeaderSettingsPage() {
 
         <div className="flex items-center justify-end gap-2">
           <button type="button" onClick={handleSave} disabled={saving}
-                  className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg bg-accent hover:bg-accent-hover text-white text-sm font-semibold disabled:opacity-50">
+                  className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-md bg-accent hover:bg-accent-hover text-white text-sm font-medium disabled:opacity-50">
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             Save bill header
           </button>

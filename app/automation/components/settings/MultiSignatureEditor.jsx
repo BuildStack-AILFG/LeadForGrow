@@ -171,7 +171,7 @@ export default function MultiSignatureEditor({
         <button
           type="button"
           onClick={createNew}
-          className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-slate-800 px-4 py-2 text-sm font-medium text-white hover:bg-black"
+          className="mt-3 inline-flex items-center gap-1.5 rounded-md bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-hover"
         >
           <Plus className="h-4 w-4" />
           Create your first signature
@@ -234,7 +234,7 @@ export default function MultiSignatureEditor({
         <button
           type="button"
           onClick={createNew}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-canvas px-3 py-2 text-xs font-medium text-fg-secondary hover:bg-subtle"
+          className="inline-flex items-center gap-1.5 rounded-md border border-line bg-canvas px-3 py-2 text-xs font-medium text-fg-secondary hover:bg-subtle"
         >
           <Plus className="h-3.5 w-3.5" />
           Create new
@@ -287,7 +287,7 @@ export default function MultiSignatureEditor({
                 type="button"
                 onClick={makeDefault}
                 disabled={busy}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-canvas px-3 py-1.5 text-xs font-medium text-fg-secondary hover:bg-subtle disabled:opacity-40"
+                className="inline-flex items-center gap-1.5 rounded-md border border-line bg-canvas px-3 py-1.5 text-xs font-medium text-fg-secondary hover:bg-subtle disabled:opacity-40"
               >
                 <Star className="h-3.5 w-3.5" />
                 Make default
@@ -298,7 +298,7 @@ export default function MultiSignatureEditor({
                 type="button"
                 onClick={save}
                 disabled={!dirty || busy}
-                className="inline-flex items-center gap-1.5 rounded-lg bg-slate-800 px-3 py-1.5 text-xs font-medium text-white hover:bg-black disabled:opacity-40"
+                className="inline-flex items-center gap-1.5 rounded-md bg-accent px-3 py-1.5 text-xs font-medium text-white hover:bg-accent-hover disabled:opacity-40"
               >
                 {busy ? 'Saving…' : 'Save'}
               </button>

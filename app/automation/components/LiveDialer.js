@@ -189,7 +189,7 @@ export default function LiveDialer({ callData, onHangup }) {
                     <div className="w-14 h-14 bg-accent-subtle text-accent-fg rounded-lg flex items-center justify-center">
                         <Phone className={`w-6 h-6 ${status === 'connecting' ? 'animate-bounce' : ''}`} />
                     </div>
-                    <div className="bg-slate-900 text-white px-4 py-1.5 rounded-full font-mono text-lg font-semibold tracking-tighter shadow-popover">
+                    <div className="bg-accent text-white px-4 py-1.5 rounded-full font-mono text-lg font-medium tracking-tighter shadow-popover">
                         {formatTime(duration)}
                     </div>
                 </div>

@@ -126,7 +126,7 @@ export default function KnowledgeBasePage() {
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <div>
-            <h1 className="text-xl font-semibold text-fg dark:text-white flex items-center gap-2">
+            <h1 className="text-page font-semibold text-fg flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-accent-fg" /> AI Knowledge Base
             </h1>
             <p className="text-sm text-fg-tertiary">Train Grovia with your business knowledge — AI answers only from these sources</p>
@@ -135,7 +135,7 @@ export default function KnowledgeBasePage() {
         <button
           type="button"
           onClick={() => setShowForm(!showForm)}
-          className="inline-flex items-center gap-1.5 px-3 py-2 bg-accent text-white rounded-lg text-sm font-medium hover:bg-accent-hover"
+          className="inline-flex items-center gap-1.5 px-3 py-2 bg-accent text-white rounded-md text-sm font-medium hover:bg-accent-hover"
         >
           <Plus className="w-4 h-4" /> Add source
         </button>
@@ -152,7 +152,7 @@ export default function KnowledgeBasePage() {
           className="flex-1 text-sm px-3 py-2 border rounded-lg bg-canvas dark:bg-slate-900"
           onKeyDown={(e) => e.key === 'Enter' && testSearch()}
         />
-        <button type="button" onClick={testSearch} className="px-3 py-2 border rounded-lg text-sm hover:bg-subtle">
+        <button type="button" onClick={testSearch} className="px-3 py-2 border rounded-md text-sm hover:bg-subtle">
           <Search className="w-4 h-4" />
         </button>
       </div>
@@ -192,7 +192,7 @@ export default function KnowledgeBasePage() {
             />
           )}
           <div className="flex gap-2">
-            <button type="submit" disabled={submitting} className="px-4 py-2 bg-accent text-white rounded-lg text-sm disabled:opacity-50">
+            <button type="submit" disabled={submitting} className="px-4 py-2 bg-accent text-white rounded-md text-sm disabled:opacity-50">
               {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Add & Index'}
             </button>
             <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 border rounded-lg text-sm">Cancel</button>
@@ -210,7 +210,7 @@ export default function KnowledgeBasePage() {
           <button
             type="button"
             onClick={() => setShowForm(true)}
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-accent text-white rounded-lg text-sm font-medium hover:bg-accent-hover"
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-accent text-white rounded-md text-sm font-medium hover:bg-accent-hover"
           >
             <Plus className="w-4 h-4" /> Add your first source
           </button>

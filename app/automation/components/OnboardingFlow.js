@@ -114,7 +114,7 @@ export default function OnboardingFlow({ onComplete }) {
               <div className="w-20 h-20 bg-accent-subtle rounded-[24px] flex items-center justify-center mx-auto mb-8 animate-bounce">
                 <Globe className="w-10 h-10 text-accent-fg" />
               </div>
-              <h2 className="text-hero font-semibold text-fg mb-4">Connect Lead Sources</h2>
+              <h2 className="text-title font-semibold text-fg mb-4">Connect Lead Sources</h2>
               <p className="text-fg-secondary mb-8 text-lg">
                 You’re almost ready. Connect where leads come from so the system can start working for you.
               </p>
@@ -147,7 +147,7 @@ export default function OnboardingFlow({ onComplete }) {
                 <div className="w-16 h-16 bg-warning-subtle rounded-lg flex items-center justify-center mx-auto mb-6">
                   <Sparkles className="w-8 h-8 text-warning" />
                 </div>
-                <h2 className="text-hero font-semibold text-fg mb-2">Automation Quick Setup</h2>
+                <h2 className="text-title font-semibold text-fg mb-2">Automation Quick Setup</h2>
                 <p className="text-fg-secondary">Enable recommended rules for instant results</p>
               </div>
 
@@ -213,7 +213,7 @@ export default function OnboardingFlow({ onComplete }) {
               <div className="w-16 h-16 bg-accent-subtle rounded-lg flex items-center justify-center mx-auto mb-6">
                 <Users className="w-8 h-8 text-accent-fg" />
               </div>
-              <h2 className="text-hero font-semibold text-fg mb-2">Who handles new leads?</h2>
+              <h2 className="text-title font-semibold text-fg mb-2">Who handles new leads?</h2>
               <p className="text-fg-secondary mb-8">Choose how enquiries are distributed</p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
@@ -263,7 +263,7 @@ export default function OnboardingFlow({ onComplete }) {
               <div className="w-24 h-24 bg-accent-subtle rounded-full flex items-center justify-center mx-auto mb-8">
                 <Rocket className="w-12 h-12 text-accent-fg" />
               </div>
-              <h2 className="text-hero font-semibold text-fg mb-4">You’re live</h2>
+              <h2 className="text-title font-semibold text-fg mb-4">You’re live</h2>
               <p className="text-xl text-fg-secondary font-semibold mb-8">Your lead automation is now active.</p>
               
               <div className="bg-subtle rounded-[32px] p-8 text-left space-y-4 mb-10">

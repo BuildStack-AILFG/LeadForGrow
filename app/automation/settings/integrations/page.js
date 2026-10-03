@@ -35,7 +35,7 @@ export default function IntegrationsSettingsPage() {
   return (
     <div className="space-y-5">
       <div>
-        <h1 className="text-xl font-semibold text-fg dark:text-slate-50">Integrations</h1>
+        <h1 className="text-page font-semibold text-fg">Integrations</h1>
         <p className="text-sm text-fg-tertiary mt-0.5">Connect the outside tools LeadForGrow talks to — WhatsApp, email, payments, and calendars.</p>
       </div>
 

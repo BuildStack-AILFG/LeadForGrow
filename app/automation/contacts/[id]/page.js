@@ -38,7 +38,7 @@ export default function ContactDetailPage() {
         <button
           type="button"
           onClick={() => setReloadKey((k) => k + 1)}
-          className="px-4 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-lg"
+          className="px-4 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-md"
         >
           Retry
         </button>
@@ -55,7 +55,7 @@ export default function ContactDetailPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-1 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 rounded-lg p-6">
-          <h1 className="text-xl font-semibold">{contact.fullName}</h1>
+          <h1 className="text-page font-semibold text-fg">{contact.fullName}</h1>
           {contact.jobTitle && <p className="text-sm text-fg-tertiary mt-1">{contact.jobTitle}</p>}
           <div className="mt-4 space-y-2 text-sm">
             {contact.emails?.map((e) => (

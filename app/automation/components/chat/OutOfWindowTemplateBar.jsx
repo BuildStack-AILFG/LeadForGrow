@@ -245,7 +245,7 @@ export default function OutOfWindowTemplateBar({ leadName, lead, onSend }) {
           + Build a new template
         </a>
         <button type="button" onClick={handleSend} disabled={!canSend || sending}
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded text-xs font-semibold text-white bg-accent hover:bg-accent-hover disabled:opacity-40 disabled:cursor-not-allowed">
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-medium text-white bg-accent hover:bg-accent-hover disabled:opacity-40 disabled:cursor-not-allowed">
           {sending ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
           Send template
         </button>

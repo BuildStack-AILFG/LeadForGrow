@@ -67,7 +67,7 @@ export default function AiSettingsPage() {
           <ArrowLeft className="w-4 h-4" />
         </Link>
         <div>
-          <h1 className="text-xl font-semibold text-fg dark:text-white flex items-center gap-2">
+          <h1 className="text-page font-semibold text-fg flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-accent-fg" /> AI Settings
           </h1>
           <p className="text-sm text-fg-tertiary">Configure Grovia — tone, handoff, languages, and agent behavior</p>
@@ -174,12 +174,12 @@ export default function AiSettingsPage() {
           type="button"
           onClick={save}
           disabled={saving}
-          className="inline-flex items-center gap-2 px-4 py-2.5 bg-accent text-white rounded-lg text-sm font-medium hover:bg-accent-hover disabled:opacity-50"
+          className="inline-flex items-center gap-2 px-4 py-2.5 bg-accent text-white rounded-md text-sm font-medium hover:bg-accent-hover disabled:opacity-50"
         >
           {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           Save settings
         </button>
-        <Link href="/automation/ai/knowledge" className="inline-flex items-center gap-2 px-4 py-2.5 border rounded-lg text-sm font-medium text-fg-secondary hover:bg-subtle">
+        <Link href="/automation/ai/knowledge" className="inline-flex items-center gap-2 px-4 py-2.5 border rounded-md text-sm font-medium text-fg-secondary hover:bg-subtle">
           Manage Knowledge Base
         </Link>
       </div>

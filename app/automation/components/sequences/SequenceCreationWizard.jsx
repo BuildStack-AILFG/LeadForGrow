@@ -86,7 +86,7 @@ export default function SequenceCreationWizard({
         {step === 1 && (
           <motion.div key="s1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-5">
             <div>
-              <h2 className="text-xl font-semibold text-fg dark:text-white">Name your sequence</h2>
+              <h2 className="text-title font-semibold text-fg dark:text-white">Name your sequence</h2>
               <p className="text-sm text-fg-tertiary mt-1">Start with basics — you can refine the workflow in the builder.</p>
             </div>
             <div className="p-6 rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 space-y-4">
@@ -141,7 +141,7 @@ export default function SequenceCreationWizard({
                 type="button"
                 onClick={onNext}
                 disabled={!draft.name?.trim()}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent text-white text-sm font-semibold disabled:opacity-50"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-accent text-white text-sm font-medium disabled:opacity-50"
               >
                 Continue <ArrowRight className="w-4 h-4" />
               </button>
@@ -152,7 +152,7 @@ export default function SequenceCreationWizard({
         {step === 2 && (
           <motion.div key="s2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
             <div className="mb-4">
-              <h2 className="text-xl font-semibold text-fg dark:text-white">Choose a template</h2>
+              <h2 className="text-title font-semibold text-fg dark:text-white">Choose a template</h2>
               <p className="text-sm text-fg-tertiary mt-1">Pick an industry to see flows written for that business type.</p>
             </div>
 
@@ -376,7 +376,7 @@ function TemplatePreviewModal({ tpl, onClose, onUse }) {
           <button
             type="button"
             onClick={onUse}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-accent text-white text-sm font-semibold hover:bg-accent-hover"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-accent text-white text-sm font-medium hover:bg-accent-hover"
           >
             Use this template <ArrowRight className="w-4 h-4" />
           </button>

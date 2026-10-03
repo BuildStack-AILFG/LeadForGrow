@@ -14,7 +14,7 @@ export default function TasksHeader({
     <header className="sticky top-0 z-30 bg-canvas/95 dark:bg-slate-950/95 border-b border-line/80 dark:border-slate-800 -mx-4 sm:-mx-6 px-4 sm:px-6 py-4">
       <div className="flex flex-col lg:flex-row lg:items-center gap-4">
         <div className="flex-1 min-w-0">
-          <h1 className="text-lg sm:text-xl font-semibold text-fg dark:text-slate-50">Tasks & Follow-ups</h1>
+          <h1 className="text-page font-semibold text-fg">Tasks & Follow-ups</h1>
           <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-0.5">
             {total.toLocaleString()} tasks · Daily sales actions
           </p>
@@ -45,7 +45,7 @@ export default function TasksHeader({
             <button
               type="button"
               onClick={onCreate}
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded"
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-md"
             >
               <Plus className="w-4 h-4" />
               <span className="hidden sm:inline">Create Task</span>

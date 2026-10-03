@@ -134,7 +134,7 @@ export default function IntegrationConfigForm({ integration, onSubmit, submittin
         <button
           type="submit"
           disabled={submitting}
-          className="w-full mt-2 px-4 py-2.5 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-lg disabled:opacity-50"
+          className="w-full mt-2 px-4 py-2.5 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-md disabled:opacity-50"
         >
           {submitting ? 'Connecting…' : submitLabel}
         </button>

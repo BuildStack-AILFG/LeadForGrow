@@ -25,14 +25,14 @@ export default function FormsHomeView({ forms, stats, maxForms, onCreate, onSele
     <div className="max-w-5xl mx-auto px-6 py-10">
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
         <div>
-          <h1 className="text-2xl font-semibold text-fg dark:text-slate-50 tracking-tight">Lead capture forms</h1>
+          <h1 className="text-page font-semibold text-fg">Lead capture forms</h1>
           <p className="text-sm text-fg-tertiary mt-1">Build, publish, and track forms that feed your CRM.</p>
         </div>
         <button
           type="button"
           onClick={onCreate}
           disabled={forms.length >= maxForms}
-          className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-accent hover:bg-accent-hover rounded-lg shadow-popover disabled:opacity-50 transition-all"
+          className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-md shadow-popover disabled:opacity-50 transition-all"
         >
           <Plus className="w-4 h-4" /> Create form
         </button>
@@ -63,9 +63,9 @@ export default function FormsHomeView({ forms, stats, maxForms, onCreate, onSele
           <div className="w-16 h-16 rounded-lg bg-accent-subtle dark:bg-teal-950/50 flex items-center justify-center mx-auto mb-4">
             <FileInput className="w-8 h-8 text-accent-fg" />
           </div>
-          <h2 className="text-lg font-semibold text-fg dark:text-slate-50">No forms yet</h2>
+          <h2 className="text-title font-semibold text-fg dark:text-slate-50">No forms yet</h2>
           <p className="text-sm text-fg-tertiary mt-2 max-w-xs mx-auto">Create your first lead capture form in under 2 minutes.</p>
-          <button type="button" onClick={onCreate} className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-accent rounded-lg">
+          <button type="button" onClick={onCreate} className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-white bg-accent rounded-md">
             <Plus className="w-4 h-4" /> Get started
           </button>
         </div>

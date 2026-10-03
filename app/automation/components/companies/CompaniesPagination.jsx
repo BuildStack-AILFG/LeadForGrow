@@ -34,7 +34,7 @@ export default function CompaniesPagination({ pagination, onPageChange, onLimitC
           type="button"
           disabled={page <= 1}
           onClick={() => onPageChange(page - 1)}
-          className="inline-flex items-center gap-1 px-3 py-1.5 text-meta font-medium border border-line rounded-lg disabled:opacity-40 hover:bg-subtle text-fg-secondary transition-colors"
+          className="inline-flex items-center gap-1 px-3 py-1.5 text-meta font-medium border border-line rounded-md disabled:opacity-40 hover:bg-subtle text-fg-secondary transition-colors"
         >
           <ChevronLeft className="w-4 h-4" /> Previous
         </button>
@@ -45,7 +45,7 @@ export default function CompaniesPagination({ pagination, onPageChange, onLimitC
           type="button"
           disabled={page >= pages}
           onClick={() => onPageChange(page + 1)}
-          className="inline-flex items-center gap-1 px-3 py-1.5 text-meta font-medium border border-line rounded-lg disabled:opacity-40 hover:bg-subtle text-fg-secondary transition-colors"
+          className="inline-flex items-center gap-1 px-3 py-1.5 text-meta font-medium border border-line rounded-md disabled:opacity-40 hover:bg-subtle text-fg-secondary transition-colors"
         >
           Next <ChevronRight className="w-4 h-4" />
         </button>

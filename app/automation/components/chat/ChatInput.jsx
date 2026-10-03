@@ -349,7 +349,7 @@ export default function ChatInput({
     return composerShell(
       <>
         <div className="px-3 pt-2">
-          <span className="inline-flex items-center gap-1 px-2.5 py-1 text-meta font-medium rounded bg-accent text-white">
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 text-meta font-medium rounded-md bg-accent text-white">
             <StickyNote className="w-3 h-3" /> Note only
           </span>
         </div>
@@ -371,7 +371,7 @@ export default function ChatInput({
         <button
           type="button"
           onClick={() => { setEmailMinimized(false); setEmailExpanded(true); }}
-          className="flex-1 text-left text-sm px-3 py-2 rounded bg-subtle hover:bg-muted dark:bg-slate-800 dark:hover:bg-slate-700 border border-line dark:border-slate-700 text-fg-tertiary transition-colors"
+          className="flex-1 text-left text-sm px-3 py-2 rounded-md bg-subtle hover:bg-muted dark:bg-slate-800 dark:hover:bg-slate-700 border border-line dark:border-slate-700 text-fg-tertiary transition-colors"
         >
           Reply…
         </button>
@@ -386,7 +386,7 @@ export default function ChatInput({
         <button
           type="button"
           onClick={() => { setEmailMinimized(false); setEmailExpanded(true); }}
-          className="inline-flex items-center gap-1 px-3 py-2 text-xs font-semibold text-white bg-accent hover:bg-accent-hover rounded"
+          className="inline-flex items-center gap-1 px-3 py-2 text-xs font-medium text-white bg-accent hover:bg-accent-hover rounded-md"
         >
           Compose
         </button>
@@ -397,17 +397,17 @@ export default function ChatInput({
   return composerShell(
     <>
       <div className="flex items-center gap-1 px-3 pt-2">
-        <button type="button" onClick={() => setMode('message')} className={`inline-flex items-center gap-1 px-2.5 py-1 text-meta font-medium rounded ${!isNote ? 'bg-accent text-white' : 'text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800'}`}>
+        <button type="button" onClick={() => setMode('message')} className={`inline-flex items-center gap-1 px-2.5 py-1 text-meta font-medium rounded-md ${!isNote ? 'bg-accent text-white' : 'text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800'}`}>
           <MessageSquare className="w-3 h-3" /> Reply
         </button>
-        <button type="button" onClick={() => setMode('note')} className={`inline-flex items-center gap-1 px-2.5 py-1 text-meta font-medium rounded ${isNote ? 'bg-accent text-white' : 'text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800'}`}>
+        <button type="button" onClick={() => setMode('note')} className={`inline-flex items-center gap-1 px-2.5 py-1 text-meta font-medium rounded-md ${isNote ? 'bg-accent text-white' : 'text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800'}`}>
           <StickyNote className="w-3 h-3" /> Note
         </button>
         {isEmail && (
           <button
             type="button"
             onClick={() => { setEmailExpanded(false); setEmailMinimized(true); }}
-            className="ml-auto inline-flex items-center gap-1 px-2 py-1 text-meta text-fg-tertiary hover:text-fg-secondary hover:bg-muted rounded"
+            className="ml-auto inline-flex items-center gap-1 px-2 py-1 text-meta text-fg-tertiary hover:text-fg-secondary hover:bg-muted rounded-md"
             title="Minimize composer"
           >
             <ChevronDown className="w-3.5 h-3.5" />

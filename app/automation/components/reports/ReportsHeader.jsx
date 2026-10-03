@@ -22,7 +22,7 @@ export default function ReportsHeader({
     <header className="sticky top-0 z-30 bg-subtle/95 dark:bg-slate-950/95 border-b border-line/80 dark:border-slate-800 -mx-4 sm:-mx-6 px-4 sm:px-6 py-4">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
-          <h1 className="text-lg sm:text-xl font-semibold text-fg dark:text-slate-50">Reports & Analytics</h1>
+          <h1 className="text-page font-semibold text-fg">Reports & Analytics</h1>
           <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-0.5">
             Sales intelligence · Pipeline performance · Team insights
           </p>

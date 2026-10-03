@@ -28,7 +28,7 @@ export default function MeetingsAnalyticsView() {
         <ArrowLeft className="w-4 h-4" /> Revenue Scheduling
       </Link>
       <header>
-        <h1 className="text-2xl font-semibold text-fg dark:text-slate-50">Meeting analytics</h1>
+        <h1 className="text-page font-semibold text-fg">Meeting analytics</h1>
         <p className="text-sm text-fg-tertiary mt-1">Bookings, no-shows, conversion, and rep performance — last 30 days.</p>
       </header>
 

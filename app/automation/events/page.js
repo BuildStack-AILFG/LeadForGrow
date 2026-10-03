@@ -125,13 +125,13 @@ export default function EventsPage() {
                         <Calendar className="w-5 h-5 text-fg-secondary" strokeWidth={2.5} />
                     </div>
                     <div>
-                        <h1 className="text-xl md:text-2xl font-semibold text-fg tracking-tight leading-tight">Events & Sessions</h1>
+                        <h1 className="text-page font-semibold text-fg">Events & Sessions</h1>
                         <p className="text-xs text-fg-tertiary font-medium">Monitor live customer interactions and session data</p>
                     </div>
                 </div>
                 <button
                     onClick={() => setIsModalOpen(true)}
-                    className="flex items-center gap-2 bg-accent hover:bg-accent-hover text-white px-4 py-2.5 rounded-lg font-medium transition-all"
+                    className="flex items-center gap-2 bg-accent hover:bg-accent-hover text-white px-4 py-2.5 rounded-md font-medium transition-all"
                 >
                     <Plus className="w-5 h-5" />
                     Create New Event

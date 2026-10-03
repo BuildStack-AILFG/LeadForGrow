@@ -79,7 +79,7 @@ export default function InstagramSettingsPage() {
           <ArrowLeft className="w-4 h-4" />
         </Link>
         <div>
-          <h1 className="text-lg font-semibold text-fg dark:text-slate-50">Instagram Direct</h1>
+          <h1 className="text-page font-semibold text-fg">Instagram Direct</h1>
           <p className="text-xs text-fg-tertiary">Meta Instagram Messaging API</p>
         </div>
       </div>
@@ -123,12 +123,12 @@ export default function InstagramSettingsPage() {
 
           <div className="flex flex-wrap gap-2">
             {!ig.enabled ? (
-              <button type="button" onClick={handleConnect} disabled={connecting} className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium bg-accent text-white rounded-lg hover:opacity-90 disabled:opacity-50">
+              <button type="button" onClick={handleConnect} disabled={connecting} className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium bg-accent text-white rounded-md hover:opacity-90 disabled:opacity-50">
                 <Instagram className="w-4 h-4" /> Connect with Meta
               </button>
             ) : (
               <>
-                <button type="button" onClick={handleConnect} disabled={connecting} className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium border border-line rounded-lg hover:bg-subtle">
+                <button type="button" onClick={handleConnect} disabled={connecting} className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium border border-line rounded-md hover:bg-subtle">
                   <RefreshCw className={`w-4 h-4 ${connecting ? 'animate-spin' : ''}`} /> Reconnect
                 </button>
                 <button type="button" onClick={handleDisconnect} className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-danger border border-danger/30 rounded-lg hover:bg-danger-subtle">
@@ -136,7 +136,7 @@ export default function InstagramSettingsPage() {
                 </button>
               </>
             )}
-            <a href="https://developers.facebook.com/docs/messenger-platform/instagram" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-4 py-2 text-sm text-fg-secondary border border-line rounded-lg hover:bg-subtle">
+            <a href="https://developers.facebook.com/docs/messenger-platform/instagram" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-4 py-2 text-sm text-fg-secondary border border-line rounded-md hover:bg-subtle">
               <ExternalLink className="w-4 h-4" /> Meta docs
             </a>
           </div>

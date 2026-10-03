@@ -45,7 +45,7 @@ export default function RescheduleTaskModal({ open, task, dueDate, onDueDateChan
             </button>
             <button
               type="submit"
-              className="flex-1 px-3 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded"
+              className="flex-1 px-3 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-md"
             >
               Save
             </button>

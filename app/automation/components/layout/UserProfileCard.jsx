@@ -34,7 +34,7 @@ export default function UserProfileCard({
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800/60 transition-colors"
+        className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-md hover:bg-muted dark:hover:bg-slate-800/60 transition-colors"
       >
         <div className="relative flex-shrink-0">
           <div className="w-8 h-8 rounded-full bg-muted dark:bg-slate-700 flex items-center justify-center text-sm font-semibold text-fg-secondary dark:text-slate-200">

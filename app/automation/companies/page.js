@@ -28,7 +28,7 @@ function CompaniesEmptyState({ onCreate }) {
       <button
         type="button"
         onClick={onCreate}
-        className="px-5 py-2.5 text-dense font-semibold text-white bg-accent hover:bg-[#1F2937] rounded-lg transition-colors"
+        className="px-5 py-2.5 text-dense font-medium text-white bg-accent hover:bg-[#1F2937] rounded-md transition-colors"
       >
         Add First Company
       </button>

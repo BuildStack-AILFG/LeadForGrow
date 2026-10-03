@@ -219,7 +219,7 @@ export default function BulkUploadPage() {
                   <Upload className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-semibold">Bulk Lead Upload</h1>
+                  <h1 className="text-page font-semibold text-fg">Bulk Lead Upload</h1>
                   <p className="text-fg-tertiary">Import leads via CSV with automated staggering</p>
                 </div>
               </div>

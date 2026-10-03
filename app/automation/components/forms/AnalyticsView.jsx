@@ -10,7 +10,7 @@ export default function AnalyticsView({ form, submissions, submissionsLoading, s
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="mb-8">
-        <h2 className="text-xl font-semibold text-fg dark:text-slate-50">Analytics</h2>
+        <h2 className="text-title font-semibold text-fg dark:text-slate-50">Analytics</h2>
         <p className="text-sm text-fg-tertiary mt-1">Track performance for {form?.name}</p>
       </div>
 

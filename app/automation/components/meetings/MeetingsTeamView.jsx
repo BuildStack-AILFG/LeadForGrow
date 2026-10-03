@@ -21,7 +21,7 @@ export default function MeetingsTeamView() {
         <ArrowLeft className="w-4 h-4" /> Revenue Scheduling
       </Link>
       <header>
-        <h1 className="text-2xl font-semibold text-fg dark:text-slate-50">Team scheduling</h1>
+        <h1 className="text-page font-semibold text-fg">Team scheduling</h1>
         <p className="text-sm text-fg-tertiary mt-1">Availability, meeting load, and performance by rep.</p>
       </header>
 

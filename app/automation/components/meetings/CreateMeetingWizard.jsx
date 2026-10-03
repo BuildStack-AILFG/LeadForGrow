@@ -34,7 +34,7 @@ export default function CreateMeetingWizard({
         <p className="text-meta font-semibold text-accent-fg mb-1">
           Revenue Scheduling Setup
         </p>
-        <h1 className="text-2xl font-semibold text-fg dark:text-slate-50">Create booking link</h1>
+        <h1 className="text-page font-semibold text-fg">Create booking link</h1>
       </div>
 
       <nav className="flex gap-2 mb-8 overflow-x-auto pb-2">
@@ -280,7 +280,7 @@ export default function CreateMeetingWizard({
             type="button"
             onClick={onNext}
             disabled={step === 1 && !draft.title}
-            className="inline-flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-lg disabled:opacity-50"
+            className="inline-flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-md disabled:opacity-50"
           >
             Continue <ArrowRight className="w-4 h-4" />
           </button>
@@ -289,7 +289,7 @@ export default function CreateMeetingWizard({
             type="button"
             onClick={onPublish}
             disabled={saving}
-            className="inline-flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-lg disabled:opacity-50"
+            className="inline-flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-md disabled:opacity-50"
           >
             {saving ? 'Publishing…' : 'Publish booking link'}
           </button>

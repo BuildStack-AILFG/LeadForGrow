@@ -68,7 +68,7 @@ function TemplateCard({ template, onExpand }) {
         <button
           type="button"
           onClick={onExpand}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-canvas text-fg text-xs font-semibold hover:bg-muted"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-canvas text-fg text-xs font-medium hover:bg-muted"
         >
           <Maximize2 className="w-3 h-3" /> Expand
         </button>
@@ -207,7 +207,7 @@ export default function WhatsAppTemplatesPage() {
             <LayoutGrid className="w-[18px] h-[18px] text-fg-secondary" />
           </div>
           <div>
-            <h1 className="text-xl font-semibold text-fg dark:text-white">Templates</h1>
+            <h1 className="text-page font-semibold text-fg">Templates</h1>
             <p className="text-xs text-fg-tertiary mt-0.5">Managing WhatsApp Templates</p>
           </div>
         </div>
@@ -217,7 +217,7 @@ export default function WhatsAppTemplatesPage() {
             <RefreshCw className={`w-3.5 h-3.5 ${syncing ? 'animate-spin' : ''}`} /> Sync from Meta
           </button>
           <button type="button" onClick={() => setCreating(true)}
-            className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-accent hover:bg-accent-hover rounded">
+            className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-white bg-accent hover:bg-accent-hover rounded-md">
             <Plus className="w-3.5 h-3.5" /> New Template
           </button>
         </div>
@@ -274,7 +274,7 @@ export default function WhatsAppTemplatesPage() {
             <p className="text-xs text-fg-tertiary mt-1 mb-4">Build one from scratch or pull existing templates from Meta.</p>
             <div className="flex justify-center gap-2">
               <button type="button" onClick={() => setCreating(true)}
-                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-accent rounded">
+                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-white bg-accent rounded-md">
                 <Plus className="w-3.5 h-3.5" /> Build new template
               </button>
               <button type="button" onClick={syncFromMeta} disabled={syncing}

@@ -168,7 +168,7 @@ export default function DealsImportModal({ open, onClose, stages = [], pipelineI
                 >
                   Start Import
                 </button>
-                <button type="button" onClick={reset} className="px-4 py-2.5 text-dense font-medium text-fg-secondary border border-line rounded hover:bg-subtle">
+                <button type="button" onClick={reset} className="px-4 py-2.5 text-dense font-medium text-fg-secondary border border-line rounded-md hover:bg-subtle">
                   Choose different file
                 </button>
               </div>

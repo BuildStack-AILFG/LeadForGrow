@@ -69,7 +69,7 @@ export default function WhatsAppSettingsPage() {
           <ArrowLeft className="w-4 h-4" />
         </Link>
         <div>
-          <h1 className="text-lg font-semibold text-fg dark:text-slate-50">WhatsApp Business</h1>
+          <h1 className="text-page font-semibold text-fg">WhatsApp Business</h1>
           <p className="text-xs text-fg-tertiary">Meta Cloud API connection & health</p>
         </div>
       </div>
@@ -101,10 +101,10 @@ export default function WhatsAppSettingsPage() {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <Link href="/automation/settings/integrations" className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium bg-accent text-white rounded-lg hover:bg-accent-hover">
+            <Link href="/automation/settings/integrations" className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium bg-accent text-white rounded-md hover:bg-accent-hover">
               {wa.enabled ? 'Edit credentials' : 'Connect WhatsApp'}
             </Link>
-            <button type="button" onClick={handleSync} disabled={syncing} className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium border border-line dark:border-slate-700 rounded-lg hover:bg-subtle disabled:opacity-50">
+            <button type="button" onClick={handleSync} disabled={syncing} className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium border border-line dark:border-slate-700 rounded-md hover:bg-subtle disabled:opacity-50">
               <RefreshCw className={`w-4 h-4 ${syncing ? 'animate-spin' : ''}`} /> Sync status
             </button>
           </div>

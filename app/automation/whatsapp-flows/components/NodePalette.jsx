@@ -88,7 +88,7 @@ export default function NodePalette({ onAdd, hasTrigger }) {
           <button
             type="button"
             onClick={() => setMessagesOpen((v) => !v)}
-            className="w-full flex items-center gap-1.5 px-2 py-1.5 rounded hover:bg-subtle text-left"
+            className="w-full flex items-center gap-1.5 px-2 py-1.5 rounded-md hover:bg-subtle text-left"
           >
             {messagesOpen ? (
               <ChevronDown className="w-3.5 h-3.5 text-fg-tertiary" />

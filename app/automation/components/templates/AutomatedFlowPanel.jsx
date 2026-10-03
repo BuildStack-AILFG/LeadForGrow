@@ -13,7 +13,7 @@ export default function AutomatedFlowPanel({ type, template, onChange, onCopyVar
       <div className="px-6 py-5 border-b border-line dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <p className="text-meta font-semibold text-accent-fg mb-1">Automated flow</p>
-          <h2 className="text-lg font-semibold text-fg dark:text-slate-50">
+          <h2 className="text-title font-semibold text-fg dark:text-slate-50">
             {isWelcome ? 'Welcome message' : 'Follow-up message'}
           </h2>
           <p className="text-sm text-fg-tertiary mt-1 max-w-lg">

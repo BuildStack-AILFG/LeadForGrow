@@ -49,7 +49,7 @@ export default function JourneysPage() {
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-subtle dark:bg-violet-950/40 text-accent-fg text-xs font-medium mb-3">
           <Map className="w-3.5 h-3.5" /> Customer Journeys
         </div>
-        <h1 className="text-2xl font-semibold text-fg dark:text-white">Live journey tracker</h1>
+        <h1 className="text-page font-semibold text-fg">Live journey tracker</h1>
         <p className="text-sm text-fg-tertiary mt-1">Real-time progress across all active workflow executions</p>
       </div>
 
@@ -64,7 +64,7 @@ export default function JourneysPage() {
           </p>
           <Link
             href="/automation/sequences"
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-accent hover:bg-accent-hover text-white text-sm font-semibold"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md bg-accent hover:bg-accent-hover text-white text-sm font-medium"
           >
             Go to Sequences
           </Link>

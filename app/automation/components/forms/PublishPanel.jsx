@@ -26,7 +26,7 @@ export default function PublishPanel({ form, styling, onStylingChange, onPublish
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
       <div className="mb-8">
-        <h2 className="text-xl font-semibold text-fg dark:text-slate-50">Publish your form</h2>
+        <h2 className="text-title font-semibold text-fg dark:text-slate-50">Publish your form</h2>
         <p className="text-sm text-fg-tertiary mt-1">Share, embed, or connect via API. Existing tokens stay the same.</p>
       </div>
 

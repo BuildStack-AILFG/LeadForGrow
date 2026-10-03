@@ -612,7 +612,7 @@ function FlowBuilderInner({ flowId }) {
           <button
             type="button"
             onClick={() => persist()}
-            className="inline-flex items-center px-4 py-2 rounded bg-accent text-white text-sm font-semibold hover:bg-accent-hover transition-colors"
+            className="inline-flex items-center px-4 py-2 rounded-md bg-accent text-white text-sm font-medium hover:bg-accent-hover transition-colors"
           >
             Save Workflow
           </button>

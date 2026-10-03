@@ -85,3 +85,28 @@ The full per-page table with screenshots is completed in the screenshot pass.
 - Tailwind v4 means the tokens go in `@theme inline` as `--color-*`, `--radius-*`, `--text-*`, `--shadow-*`, giving us utilities like `bg-bg-subtle`, `text-text-secondary`, `rounded-md` (6), `shadow-popover`.
 - Because Button/Input/Badge already exist but are unused, Phase 3 rewrites them in place and then adopts them page by page.
 - Loading 5 Google font families costs performance; switching the app to one `next/font` family (Plex) removes four network requests from the app shell (marketing pages keep theirs).
+
+---
+
+## 8. After Phases 2–6 (re-measured 2026-10-03)
+
+| Metric (`app/automation/**`) | Before | After |
+|---|---|---|
+| Distinct hex colours | 165 | 127 (52 of them still as classes — WhatsApp-chat dark palette, channel brand colours, chart series; the rest are chart/stage data in JS) |
+| Distinct arbitrary `text-[Npx]` sizes | 20 (990 uses) | 7 (42 uses) |
+| `font-bold` / `font-black` | 229 | 5 |
+| Radius variants in heavy use | 8 (lg 701, xl 397, 4px 359, full 234, 2xl 152, md 102, none 50, 3xl 9) | 4 by rule: lg (panels) 1073, md (buttons/inputs) 307, sm/4px 306, full (avatars/dots) 227; xl 20, 2xl 9 |
+| Shadow variants | 25+ incl. coloured | 2 tokens in real use (`shadow-popover` 85, `shadow-modal` 59) + 29 stragglers |
+| Files with gradients | 23 | 2 |
+| `uppercase` eyebrow labels | 223 | 8 |
+| Files with `backdrop-blur` | 47 | 0 |
+| Sparkle icon for AI | 30 files | 0 (aliased to a neutral `Bot` icon) |
+| Coloured icon tiles | ~36 | 0 accent tiles (semantic red/amber alert tiles kept) |
+| Page `h1` styles | 25+ variants (18–30px) | 1 (`text-page font-semibold`, 20/600) |
+
+Remaining colour-family utilities are almost entirely `dark:` overrides (dark mode is not the shipping target yet) plus modal scrims (`bg-slate-900/40`).
+
+### Not done / not verified
+- **Visual before/after screenshots**: owner declined the bulk screenshot step; most later visual checks were done through the DOM because the Chrome window was in the background (screenshot capture times out on a hidden tab).
+- **390px mobile pass**: the drawer/table code paths are unchanged or built responsive, but not checked at phone width (window would not resize).
+- **Structural rebuilds** were done for the shell, Leads, Deals, Contacts/Companies headers + metrics + tables, Settings hub and the dashboard surfaces. Inbox, record pages, builders (sequences/flows/chatbot/forms), Broadcasts, Meetings, Bills, Tasks, Reports were restyled through tokens/codemods only — their layouts are unchanged.

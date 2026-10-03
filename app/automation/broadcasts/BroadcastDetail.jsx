@@ -88,7 +88,7 @@ export default function BroadcastDetail({ broadcastId, onClose }) {
           <div className="min-w-0">
             <div className="flex items-center gap-2">
               {broadcast?.channel === 'email' ? <Mail className="w-4 h-4 text-accent-fg" /> : <MessageCircle className="w-4 h-4 text-accent-fg" />}
-              <h2 className="text-lg font-semibold text-fg dark:text-white truncate">
+              <h2 className="text-title font-semibold text-fg dark:text-white truncate">
                 {broadcast?.name || (loading ? 'Loading…' : 'Broadcast')}
               </h2>
             </div>

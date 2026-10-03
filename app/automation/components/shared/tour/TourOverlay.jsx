@@ -190,7 +190,7 @@ export default function TourOverlay({ tour, onNext, onBack, onSkip }) {
               <button
                 type="button"
                 onClick={onBack}
-                className="inline-flex items-center gap-1 text-xs font-medium text-fg-tertiary hover:text-fg px-2.5 py-1.5 rounded-lg hover:bg-muted transition-colors"
+                className="inline-flex items-center gap-1 text-xs font-medium text-fg-tertiary hover:text-fg px-2.5 py-1.5 rounded-md hover:bg-muted transition-colors"
               >
                 <ArrowLeft className="w-3.5 h-3.5" /> Back
               </button>
@@ -207,7 +207,7 @@ export default function TourOverlay({ tour, onNext, onBack, onSkip }) {
             <button
               type="button"
               onClick={onNext}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold bg-accent hover:bg-accent-hover text-white px-3.5 py-1.5 rounded-lg transition-colors shadow-popover"
+              className="inline-flex items-center gap-1.5 text-xs font-medium bg-accent hover:bg-accent-hover text-white px-3.5 py-1.5 rounded-md transition-colors shadow-popover"
             >
               {isLast ? "You're ready" : 'Next'}
               {!isLast && <ArrowRight className="w-3.5 h-3.5" />}

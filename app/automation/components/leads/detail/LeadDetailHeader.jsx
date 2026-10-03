@@ -40,7 +40,7 @@ export default function LeadDetailHeader({
           </Link>
           <span className="text-fg-disabled hidden sm:inline">/</span>
           <div className="min-w-0 flex-1">
-            <h1 className="text-lg font-semibold text-fg dark:text-slate-50 truncate">{lead.name}</h1>
+            <h1 className="text-page font-semibold text-fg truncate">{lead.name}</h1>
             <div className="flex items-center gap-2 mt-0.5 flex-wrap">
               <StatusBadge status={lead.status} size="xs" />
               <WhatsAppIndicator lead={lead} />
@@ -54,14 +54,14 @@ export default function LeadDetailHeader({
             type="button"
             onClick={onCall}
             disabled={updating}
-            className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-fg-secondary dark:text-slate-200 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg hover:bg-subtle"
+            className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-fg-secondary dark:text-slate-200 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-md hover:bg-subtle"
           >
             <Phone className="w-4 h-4" /> Call
           </button>
           <button
             type="button"
             onClick={onWhatsApp}
-            className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-lg"
+            className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-md"
           >
             <MessageSquare className="w-4 h-4" /> WhatsApp
           </button>

@@ -101,7 +101,7 @@ export default function HelpLauncher() {
               <button
                 type="button"
                 onClick={handleRestart}
-                className="w-full flex items-center gap-2.5 text-left text-sm text-fg-secondary dark:text-fg-disabled hover:bg-subtle dark:hover:bg-slate-800 px-2.5 py-2 rounded-lg transition-colors"
+                className="w-full flex items-center gap-2.5 text-left text-sm text-fg-secondary dark:text-fg-disabled hover:bg-subtle dark:hover:bg-slate-800 px-2.5 py-2 rounded-md transition-colors"
               >
                 <RotateCcw className="w-4 h-4 text-accent-fg shrink-0" />
                 Restart tour for this page
@@ -110,7 +110,7 @@ export default function HelpLauncher() {
             <Link
               href="/help"
               onClick={() => setOpen(false)}
-              className="w-full flex items-center gap-2.5 text-left text-sm text-fg-secondary dark:text-fg-disabled hover:bg-subtle dark:hover:bg-slate-800 px-2.5 py-2 rounded-lg transition-colors"
+              className="w-full flex items-center gap-2.5 text-left text-sm text-fg-secondary dark:text-fg-disabled hover:bg-subtle dark:hover:bg-slate-800 px-2.5 py-2 rounded-md transition-colors"
             >
               <ExternalLink className="w-4 h-4 text-accent-fg shrink-0" />
               Browse all guides
@@ -119,7 +119,7 @@ export default function HelpLauncher() {
               href="https://wa.me/918810873052"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full flex items-center gap-2.5 text-left text-sm text-fg-secondary dark:text-fg-disabled hover:bg-subtle dark:hover:bg-slate-800 px-2.5 py-2 rounded-lg transition-colors"
+              className="w-full flex items-center gap-2.5 text-left text-sm text-fg-secondary dark:text-fg-disabled hover:bg-subtle dark:hover:bg-slate-800 px-2.5 py-2 rounded-md transition-colors"
             >
               <MessageCircle className="w-4 h-4 text-accent-fg shrink-0" />
               Contact support

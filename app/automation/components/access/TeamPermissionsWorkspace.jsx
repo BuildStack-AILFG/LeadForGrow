@@ -62,7 +62,7 @@ export default function TeamPermissionsWorkspace() {
     <div className="flex flex-col lg:flex-row min-h-[calc(100vh-80px)] bg-subtle dark:bg-slate-950">
       <aside className="lg:w-56 flex-shrink-0 border-b lg:border-b-0 lg:border-r border-line dark:border-slate-800 bg-canvas dark:bg-slate-900 p-4">
         <p className="text-meta font-semibold text-accent-fg mb-1">Admin Control</p>
-        <h1 className="text-lg font-semibold text-fg dark:text-slate-50 mb-4">Team & Permissions</h1>
+        <h1 className="text-page font-semibold text-fg mb-4">Team & Permissions</h1>
         <nav className="space-y-0.5">
           {SECTIONS.map((s) => {
             const Icon = s.icon;
@@ -105,14 +105,14 @@ export default function TeamPermissionsWorkspace() {
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <div>
-                <h2 className="text-lg font-semibold text-fg dark:text-slate-50">Team members</h2>
+                <h2 className="text-title font-semibold text-fg dark:text-slate-50">Team members</h2>
                 <p className="text-sm text-fg-tertiary">Invite, assign roles, suspend access</p>
               </div>
               {canManage && (
                 <button
                   type="button"
                   onClick={() => team.setShowAddModal(true)}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-accent text-white text-sm font-medium rounded-lg"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-accent text-white text-sm font-medium rounded-md"
                 >
                   <Plus className="w-4 h-4" /> Invite
                 </button>
@@ -163,7 +163,7 @@ export default function TeamPermissionsWorkspace() {
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <div>
-                <h2 className="text-lg font-semibold text-fg dark:text-slate-50">Roles</h2>
+                <h2 className="text-title font-semibold text-fg dark:text-slate-50">Roles</h2>
                 <p className="text-sm text-fg-tertiary">Built-in and custom workspace roles</p>
               </div>
               {canManage && ac.access?.tierFeatures?.custom_roles && (
@@ -202,7 +202,7 @@ export default function TeamPermissionsWorkspace() {
         {(section === 'features' || section === 'policies') && (
           <div className="space-y-4">
             <div>
-              <h2 className="text-lg font-semibold text-fg dark:text-slate-50">
+              <h2 className="text-title font-semibold text-fg dark:text-slate-50">
                 {section === 'features' ? 'Feature access matrix' : 'Access policies'}
               </h2>
               <p className="text-sm text-fg-tertiary mb-4">
@@ -222,7 +222,7 @@ export default function TeamPermissionsWorkspace() {
 
         {section === 'usage' && (
           <div className="space-y-4">
-            <h2 className="text-lg font-semibold text-fg dark:text-slate-50">Usage limits</h2>
+            <h2 className="text-title font-semibold text-fg dark:text-slate-50">Usage limits</h2>
             <p className="text-sm text-fg-tertiary">Real-time usage vs plan quotas</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {ac.usageLimits.map((u) => {
@@ -257,7 +257,7 @@ export default function TeamPermissionsWorkspace() {
 
         {section === 'audit' && (
           <div className="space-y-4">
-            <h2 className="text-lg font-semibold text-fg dark:text-slate-50">Audit logs</h2>
+            <h2 className="text-title font-semibold text-fg dark:text-slate-50">Audit logs</h2>
             <div className="bg-canvas dark:bg-slate-900 rounded-lg border border-line dark:border-slate-800">
               {ac.auditLogs.length === 0 ? (
                 <p className="p-8 text-sm text-fg-tertiary text-center">No audit events yet.</p>

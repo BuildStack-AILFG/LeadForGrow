@@ -158,7 +158,7 @@ export default function FormsWorkspace() {
               type="button"
               onClick={ws.saveForm}
               disabled={ws.saving}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-fg-secondary dark:text-slate-200 bg-muted dark:bg-slate-800 hover:bg-muted dark:hover:bg-slate-700 rounded-lg disabled:opacity-50 transition-colors"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium text-fg-secondary dark:text-slate-200 bg-muted dark:bg-slate-800 hover:bg-muted dark:hover:bg-slate-700 rounded-md disabled:opacity-50 transition-colors"
             >
               {ws.saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
               Save
@@ -166,7 +166,7 @@ export default function FormsWorkspace() {
             <button
               type="button"
               onClick={() => ws.setView('publish')}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white bg-accent hover:bg-accent-hover rounded-lg shadow-popover transition-all"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium text-white bg-accent hover:bg-accent-hover rounded-md shadow-popover transition-all"
             >
               Publish
             </button>

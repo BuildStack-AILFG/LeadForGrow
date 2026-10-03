@@ -76,7 +76,7 @@ export default function ContactsFilterBar({
           <button
             type="button"
             onClick={() => onFilterChange({ dir: filters.dir === 'asc' ? 'desc' : 'asc' })}
-            className="px-2.5 py-1.5 text-meta rounded-lg border border-line text-fg-secondary hover:bg-subtle"
+            className="px-2.5 py-1.5 text-meta rounded-md border border-line text-fg-secondary hover:bg-subtle"
           >
             {filters.dir === 'asc' ? 'Ascending ↑' : 'Descending ↓'}
           </button>

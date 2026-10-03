@@ -77,9 +77,9 @@ export const FONT = {
 // Shared class recipes so every widget shares one language.
 export const UI = {
   btnPrimary:
-    'inline-flex items-center justify-center gap-2 h-10 px-4 text-dense font-semibold text-white bg-accent rounded-md transition-all duration-200 hover:bg-accent-hover hover:shadow-popover active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-focus',
+    'inline-flex items-center justify-center gap-2 h-10 px-4 text-dense font-medium text-white bg-accent rounded-md transition-all duration-200 hover:bg-accent-hover hover:shadow-popover active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-focus',
   btnDark:
-    'inline-flex items-center justify-center gap-2 h-10 px-4 text-dense font-semibold text-white bg-accent rounded-md transition-all duration-200 hover:bg-accent-hover hover:shadow-popover active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#101828]/30',
+    'inline-flex items-center justify-center gap-2 h-10 px-4 text-dense font-medium text-white bg-accent rounded-md transition-all duration-200 hover:bg-accent-hover hover:shadow-popover active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#101828]/30',
   btnGhost:
     'inline-flex items-center justify-center gap-2 h-10 px-3.5 text-dense font-medium text-fg-secondary bg-canvas border border-line rounded-md transition-all duration-200 hover:bg-subtle hover:border-line active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-focus',
   iconBtn:

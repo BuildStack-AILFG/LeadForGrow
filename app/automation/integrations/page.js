@@ -179,7 +179,7 @@ export default function IntegrationsPage() {
             <Globe className="w-5 h-5 text-fg-secondary" strokeWidth={2.5} />
           </div>
           <div>
-            <h1 className="text-xl md:text-2xl font-semibold text-fg tracking-tight leading-tight">Lead Integrations</h1>
+            <h1 className="text-page font-semibold text-fg">Lead Integrations</h1>
             <p className="text-xs text-fg-tertiary font-medium whitespace-nowrap">Connect external platforms and tracking scripts</p>
           </div>
         </div>
@@ -265,7 +265,7 @@ export default function IntegrationsPage() {
 
                         <button
                           onClick={source.action}
-                          className="px-4 py-2 bg-accent text-white rounded-lg text-sm font-semibold hover:bg-accent-hover transition-colors flex items-center gap-2"
+                          className="px-4 py-2 bg-accent text-white rounded-md text-sm font-medium hover:bg-accent-hover transition-colors flex items-center gap-2"
                         >
                           Manage
                           <ChevronRight className="w-4 h-4" />
@@ -385,7 +385,7 @@ export default function IntegrationsPage() {
               navigator.clipboard.writeText(scriptTag);
               toast.success('Script copied to clipboard!');
             }}
-            className="px-5 py-2.5 bg-accent text-white rounded-lg font-semibold text-sm hover:bg-accent-hover transition-colors flex items-center gap-2"
+            className="px-5 py-2.5 bg-accent text-white rounded-md font-medium text-sm hover:bg-accent-hover transition-colors flex items-center gap-2"
           >
             Copy Script
             <ExternalLink className="w-4 h-4" />

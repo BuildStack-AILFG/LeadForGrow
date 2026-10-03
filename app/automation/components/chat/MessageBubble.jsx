@@ -514,7 +514,7 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
             <button
               type="button"
               onClick={() => setQuoteExpanded((v) => !v)}
-              className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-fg-tertiary hover:text-fg hover:bg-muted/60 dark:hover:bg-slate-800/60 transition-colors leading-none"
+              className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-fg-tertiary hover:text-fg hover:bg-muted/60 dark:hover:bg-slate-800/60 transition-colors leading-none"
               title={quoteExpanded ? 'Hide quoted history' : 'Show quoted history'}
               aria-expanded={quoteExpanded}
             >

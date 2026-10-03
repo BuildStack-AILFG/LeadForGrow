@@ -606,7 +606,7 @@ export default function RichSignatureEditor({
             onClick={() => resizeSelectedImage(60)}
             disabled={disabled || !imageSelected}
             title="Small logo (60px)"
-            className="inline-flex h-8 items-center rounded-md px-1.5 text-meta font-semibold text-fg-secondary transition-colors hover:bg-muted disabled:opacity-30 disabled:hover:bg-transparent"
+            className="inline-flex h-8 items-center rounded-md px-1.5 text-meta font-medium text-fg-secondary transition-colors hover:bg-muted disabled:opacity-30 disabled:hover:bg-transparent"
           >
             S
           </button>
@@ -616,7 +616,7 @@ export default function RichSignatureEditor({
             onClick={() => resizeSelectedImage(100)}
             disabled={disabled || !imageSelected}
             title="Medium logo (100px)"
-            className="inline-flex h-8 items-center rounded-md px-1.5 text-meta font-semibold text-fg-secondary transition-colors hover:bg-muted disabled:opacity-30 disabled:hover:bg-transparent"
+            className="inline-flex h-8 items-center rounded-md px-1.5 text-meta font-medium text-fg-secondary transition-colors hover:bg-muted disabled:opacity-30 disabled:hover:bg-transparent"
           >
             M
           </button>
@@ -626,7 +626,7 @@ export default function RichSignatureEditor({
             onClick={() => resizeSelectedImage(150)}
             disabled={disabled || !imageSelected}
             title="Large logo (150px)"
-            className="inline-flex h-8 items-center rounded-md px-1.5 text-meta font-semibold text-fg-secondary transition-colors hover:bg-muted disabled:opacity-30 disabled:hover:bg-transparent"
+            className="inline-flex h-8 items-center rounded-md px-1.5 text-meta font-medium text-fg-secondary transition-colors hover:bg-muted disabled:opacity-30 disabled:hover:bg-transparent"
           >
             L
           </button>

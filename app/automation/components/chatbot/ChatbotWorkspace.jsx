@@ -34,7 +34,7 @@ export default function ChatbotWorkspace() {
               <Bot className="w-5 h-5 text-fg-secondary" strokeWidth={2} />
             </div>
             <div className="min-w-0">
-              <h1 className="text-lg font-semibold text-fg dark:text-slate-50 truncate">Website Chatbot</h1>
+              <h1 className="text-page font-semibold text-fg truncate">Website Chatbot</h1>
               <p className="text-xs text-fg-tertiary truncate">Capture & qualify leads from your website — source tagged as Bot</p>
             </div>
           </div>
@@ -45,7 +45,7 @@ export default function ChatbotWorkspace() {
                 type="button"
                 onClick={() => ws.save()}
                 disabled={ws.saving}
-                className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg border border-line dark:border-slate-700 hover:bg-subtle dark:hover:bg-slate-900 transition-colors disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-md border border-line dark:border-slate-700 hover:bg-subtle dark:hover:bg-slate-900 transition-colors disabled:opacity-50"
               >
                 {ws.saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
                 Save
@@ -65,7 +65,7 @@ export default function ChatbotWorkspace() {
                 type="button"
                 onClick={ws.publish}
                 disabled={ws.saving}
-                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-lg bg-accent text-white shadow-popover hover:bg-accent-hover transition-colors disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-md bg-accent text-white shadow-popover hover:bg-accent-hover transition-colors disabled:opacity-50"
               >
                 <Rocket className="w-3.5 h-3.5" /> Publish chatbot
               </button>
@@ -110,14 +110,14 @@ export default function ChatbotWorkspace() {
 
         {tab === 'leads' ? (
           <div className="bg-canvas dark:bg-slate-900 rounded-lg border border-line dark:border-slate-800 p-8">
-            <h2 className="text-lg font-semibold text-fg dark:text-slate-50">Leads from your chatbot</h2>
+            <h2 className="text-title font-semibold text-fg dark:text-slate-50">Leads from your chatbot</h2>
             <p className="text-sm text-fg-tertiary mt-1 mb-6">
               Every submission is saved with source <span className="font-medium text-fg-secondary dark:text-fg-disabled">Bot</span> and includes the full conversation transcript.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/automation/leads?source=bot"
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white text-sm font-semibold rounded-lg hover:bg-accent-hover transition-colors"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white text-sm font-medium rounded-md hover:bg-accent-hover transition-colors"
               >
                 View bot leads <ArrowUpRight className="w-4 h-4" />
               </Link>

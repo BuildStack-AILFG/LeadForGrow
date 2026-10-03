@@ -44,7 +44,7 @@ export default function SimpleEditView({
           <button
             type="button"
             onClick={onSwitchToBuilder}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-accent text-white text-sm font-semibold hover:bg-accent-hover"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md bg-accent text-white text-sm font-medium hover:bg-accent-hover"
           >
             <Layers className="w-4 h-4" /> Open Builder
           </button>

@@ -148,7 +148,7 @@ export default function LeadDetailProfile({
             <button
               type="button"
               onClick={() => setTemplatesOpen(!templatesOpen)}
-              className="w-full py-2.5 text-sm font-medium rounded-lg bg-slate-900 dark:bg-slate-800 text-white hover:bg-slate-800 flex items-center justify-center gap-2"
+              className="w-full py-2.5 text-sm font-medium rounded-md bg-accent dark:bg-slate-800 text-white hover:bg-accent-hover flex items-center justify-center gap-2"
             >
               Quick template <ChevronDown className={`w-4 h-4 transition-transform ${templatesOpen ? 'rotate-180' : ''}`} />
             </button>

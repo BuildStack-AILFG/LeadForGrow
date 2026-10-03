@@ -38,7 +38,7 @@ export default function SettingsHeader({ section }) {
             </div>
           )}
           <div className="min-w-0">
-            <h1 className="text-lg font-semibold text-fg dark:text-slate-50 tracking-tight">{meta.title}</h1>
+            <h1 className="text-page font-semibold text-fg">{meta.title}</h1>
             <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-0.5 truncate">{meta.description}</p>
           </div>
         </div>

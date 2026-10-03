@@ -377,7 +377,7 @@ function ChatInboxContent() {
             <div className="w-16 h-16 rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 flex items-center justify-center mb-4">
               <MessageSquare className="w-8 h-8 text-fg-disabled" />
             </div>
-            <h2 className="text-lg font-semibold text-fg dark:text-slate-200">Unified Inbox</h2>
+            <h2 className="text-title font-semibold text-fg dark:text-slate-200">Unified Inbox</h2>
             <p className="text-sm text-fg-tertiary mt-1 max-w-sm">WhatsApp, Instagram & Email — select a conversation to reply.</p>
           </div>
         )}

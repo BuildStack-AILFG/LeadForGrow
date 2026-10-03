@@ -21,7 +21,7 @@ export default function TemplateLibrary({ templates, searchQuery, onSearchChange
         <div className="text-center py-16 bg-canvas dark:bg-slate-900 rounded">
           <p className="text-sm font-medium text-fg-secondary dark:text-fg-tertiary">No templates found</p>
           <p className="text-xs text-fg-tertiary mt-1 mb-4">Create a template or sync from Meta</p>
-          <button type="button" onClick={onCreate} className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-accent rounded">
+          <button type="button" onClick={onCreate} className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-white bg-accent rounded-md">
             <Plus className="w-3.5 h-3.5" /> Create template
           </button>
         </div>

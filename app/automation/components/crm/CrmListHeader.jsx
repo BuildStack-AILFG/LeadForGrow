@@ -18,7 +18,7 @@ export default function CrmListHeader({
     <div className="pt-6 pb-2">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold text-fg dark:text-white">{title}</h1>
+          <h1 className="text-page font-semibold text-fg">{title}</h1>
           {subtitle && <p className="text-sm text-fg-tertiary mt-1">{subtitle}</p>}
           {total !== undefined && (
             <p className="text-xs text-fg-tertiary mt-1">{total.toLocaleString()} records</p>
@@ -53,7 +53,7 @@ export default function CrmListHeader({
           {onCreate && (
             <button
               onClick={onCreate}
-              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-lg"
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-md"
             >
               <Plus className="w-4 h-4" />
               {createLabel}

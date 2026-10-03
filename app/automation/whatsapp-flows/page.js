@@ -167,7 +167,7 @@ export default function WhatsAppFlowsPage() {
               <MessageCircle className="w-3.5 h-3.5" />
               WhatsApp Automation
             </div>
-            <h1 className="text-2xl sm:text-hero font-semibold text-fg tracking-tight">
+            <h1 className="text-page font-semibold text-fg">
               WhatsApp Flows
             </h1>
             <p className="text-fg-tertiary mt-1 text-sm max-w-lg">
@@ -175,7 +175,7 @@ export default function WhatsAppFlowsPage() {
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <label className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-line bg-canvas text-sm font-medium text-fg-secondary hover:bg-subtle cursor-pointer transition-colors">
+            <label className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md border border-line bg-canvas text-sm font-medium text-fg-secondary hover:bg-subtle cursor-pointer transition-colors">
               <Upload className="w-4 h-4 text-fg-tertiary" />
               Import
               <input
@@ -189,7 +189,7 @@ export default function WhatsAppFlowsPage() {
               type="button"
               onClick={openCreateModal}
               disabled={creating}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent text-white text-sm font-semibold hover:shadow-popover transition-all hover:scale-[1.02] disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-accent text-white text-sm font-medium hover:shadow-popover transition-all hover:scale-[1.02] disabled:opacity-50"
             >
               <Plus className="w-4 h-4" />
               Create flow
@@ -245,7 +245,7 @@ export default function WhatsAppFlowsPage() {
             <button
               type="button"
               onClick={openCreateModal}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent text-white text-sm font-semibold"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-accent text-white text-sm font-medium"
             >
               <Plus className="w-4 h-4" /> Create flow
             </button>

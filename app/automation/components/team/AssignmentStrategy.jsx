@@ -54,7 +54,7 @@ export default function AssignmentStrategy({ value, onChange, onSave, saving }) 
           type="button"
           onClick={onSave}
           disabled={saving}
-          className="px-4 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-lg disabled:opacity-50"
+          className="px-4 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-md disabled:opacity-50"
         >
           {saving ? 'Saving…' : 'Save strategy'}
         </button>

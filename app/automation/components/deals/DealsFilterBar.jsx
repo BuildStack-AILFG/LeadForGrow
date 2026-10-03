@@ -106,7 +106,7 @@ export default function DealsFilterBar({
               type="button"
               onClick={() => onFilterChange({ dir: filters.dir === 'asc' ? 'desc' : 'asc' })}
               title={`Currently sorting by ${activeSort.label}`}
-              className="px-2.5 py-1.5 text-meta rounded-lg border border-line text-fg-secondary hover:bg-subtle"
+              className="px-2.5 py-1.5 text-meta rounded-md border border-line text-fg-secondary hover:bg-subtle"
             >
               {activeSort.label} {filters.dir === 'asc' ? '↑ Ascending' : '↓ Descending'}
             </button>

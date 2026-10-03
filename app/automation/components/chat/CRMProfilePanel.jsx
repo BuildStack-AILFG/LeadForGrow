@@ -121,7 +121,7 @@ function FollowUpActionRow({ date, onUpdate }) {
                 type="button"
                 onClick={() => customDate && run(new Date(`${customDate}T09:00`).toISOString())}
                 disabled={!customDate || busy}
-                className="text-meta font-medium px-2 py-1 rounded bg-accent text-white hover:bg-accent-hover disabled:opacity-50"
+                className="text-meta font-medium px-2 py-1 rounded-md bg-accent text-white hover:bg-accent-hover disabled:opacity-50"
               >
                 Set
               </button>
@@ -260,7 +260,7 @@ export default function CRMProfilePanel({
                 leadId: lead._id || '',
               },
             }}
-            className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-accent text-white text-xs font-semibold hover:bg-accent-hover"
+            className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-accent text-white text-xs font-medium hover:bg-accent-hover"
           >
             <Receipt className="w-3.5 h-3.5" /> Create bill for this customer
           </Link>
@@ -411,7 +411,7 @@ export default function CRMProfilePanel({
             <button
               type="button"
               onClick={() => { onAddNote(note); setNote(''); }}
-              className="px-2.5 py-2 text-xs font-medium bg-accent text-white rounded hover:bg-accent-hover"
+              className="px-2.5 py-2 text-xs font-medium bg-accent text-white rounded-md hover:bg-accent-hover"
             >
               Add
             </button>

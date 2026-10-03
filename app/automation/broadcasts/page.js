@@ -247,13 +247,13 @@ export default function BroadcastsPage() {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-semibold text-fg dark:text-white">Broadcasts</h1>
+          <h1 className="text-page font-semibold text-fg">Broadcasts</h1>
           <p className="text-sm text-fg-tertiary mt-1">Send WhatsApp and email campaigns to your audience</p>
         </div>
         <button
           type="button"
           onClick={() => setShowCreate(true)}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-accent text-white text-sm font-semibold"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-accent text-white text-sm font-medium"
         >
           <Plus className="w-4 h-4" /> New broadcast
         </button>
@@ -578,7 +578,7 @@ export default function BroadcastsPage() {
               Test send
             </button>
             <button type="button" onClick={() => createBroadcast(false)} disabled={saving || !canSend}
-              className="px-4 py-2 rounded-lg bg-accent hover:bg-accent-hover text-white text-sm font-semibold disabled:opacity-50">
+              className="px-4 py-2 rounded-md bg-accent hover:bg-accent-hover text-white text-sm font-medium disabled:opacity-50">
               {saving
                 ? 'Sending…'
                 : audienceCount?.count > 0
@@ -599,7 +599,7 @@ export default function BroadcastsPage() {
           <button
             type="button"
             onClick={() => setShowCreate(true)}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-accent text-white text-sm font-semibold"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-accent text-white text-sm font-medium"
           >
             <Plus className="w-4 h-4" /> New broadcast
           </button>

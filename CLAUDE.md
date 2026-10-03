@@ -13,6 +13,14 @@ Related decisions: <link to DECISIONS.md entry, if any>
 
 ---
 
+## 2026-10-03 — App redesign Phases 5–6 (pages, accessibility) + owner follow-ups
+Branch: design/app-redesign
+Files: ~330 files under `app/automation/**` (codemods), plus hand rebuilds in `components/leads/{LeadsHeader,CRMFilterBar,LeadTable,LeadRow,StatusBadge,LeadScoreBadge,KanbanColumn,KanbanCard,CRMKanban,constants}`, `leads/page.js`, `components/crm/CrmPageHeader.jsx`, `components/deals/{DealsHeader,DealTable,DealRow,DealStageBadge,DealKanbanColumn,DealKanbanCard,DealsKanban,constants}`, `components/{deals/DealsKpiCards,contacts/ContactsKpiCards,companies/CompaniesKpiCards}`, `components/{contacts/ContactTable,companies/CompanyTable}`, `components/settings/{SettingsHub,SettingsLayoutClient,constants}`, `components/dashboard/premium/{PremiumCard,CountUp,tokens}`, `components/AccessControl.js`, `components/WorkspaceBootLoader.jsx`, `components/layout/{Sidebar,constants}`; new `app/components/ui/MetricStrip.jsx`; `app/globals.css` (accent → previous teal `#1D4B3E`, glass utilities flattened, app focus-visible fallback, reduced-motion rule).
+What changed: owner asked to "continue and don't stop until all done", to keep the sidebar in the previous teal, and to let the active page's group be collapsible again. (1) Accent token switched to `#1D4B3E` app-wide (contrast re-checked: 9.87:1 white-on-accent). (2) Sidebar: active group auto-opens on navigation but the chevron can close it. (3) Codemods (scratchpad scripts, not committed): ~10.7k Tailwind classes mapped to tokens; 36 coloured icon tiles neutralised; 164 hand-rolled buttons given 6px radius/500 weight; 9 black primary buttons → accent; 48 page `h1`s and 27 large `h2`s normalised; `Sparkles` AI icon aliased to `Bot` in 21 files; UI-chrome emoji removed (content emoji — share text, emoji picker, flags — kept). (4) Hand rebuilds listed above (Leads list/board, Deals list/board, shared CRM header, MetricStrip replacing KPI card rows, Settings hub as a plain list). (5) Removed: whole-app blur+scale entrance in `AccessControl` (also fixed a transform-on-ancestor issue), chart draw-in/count-up animations, dashboard card shadows/lift. (6) Bug fixed: the workspace boot loader never finished in a background tab (its progress bar runs on rAF, which browsers pause) — now skips the animation when hidden or reduced-motion. Verified: `npm run build` passes; nav tests pass; Leads/Deals/Home/Settings checked via DOM in Chrome with no console errors. Not verified: visual screenshots (Chrome window in background → capture timed out) and 390px mobile. Kept on purpose: Inbox outbound bubble stays solid teal (owner rejected pale bubbles twice in an earlier session, even though the brief asks for accent-subtle).
+Related decisions: DECISIONS.md 2026-10-03 app-redesign entry (extended).
+
+---
+
 ## 2026-10-03 — App redesign Phases 3–4 (UI primitives, new sidebar/shell)
 Branch: design/app-redesign
 Files:

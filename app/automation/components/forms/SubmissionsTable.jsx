@@ -54,7 +54,7 @@ export default function SubmissionsTable({ submissions, loading, formName }) {
         <button
           type="button"
           onClick={exportCsv}
-          className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium border border-line dark:border-slate-700 rounded-lg hover:bg-subtle dark:hover:bg-slate-800"
+          className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium border border-line dark:border-slate-700 rounded-md hover:bg-subtle dark:hover:bg-slate-800"
         >
           <Download className="w-3.5 h-3.5" /> Export CSV
         </button>

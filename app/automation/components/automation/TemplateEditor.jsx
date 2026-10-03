@@ -197,7 +197,7 @@ export default function TemplateEditor({
                 placeholder="https://..."
                 className="flex-1 px-3 py-2 text-sm bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-focus"
               />
-              <label className="cursor-pointer px-3 py-2 text-xs font-medium text-fg-secondary bg-muted dark:bg-slate-800 border border-line dark:border-slate-700 rounded-lg hover:bg-muted dark:hover:bg-slate-700">
+              <label className="cursor-pointer px-3 py-2 text-xs font-medium text-fg-secondary bg-muted dark:bg-slate-800 border border-line dark:border-slate-700 rounded-md hover:bg-muted dark:hover:bg-slate-700">
                 Upload
                 <input
                   type="file"

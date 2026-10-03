@@ -57,7 +57,7 @@ export default function DealDetailWorkspace() {
         <button
           type="button"
           onClick={fetchDeal}
-          className="px-3 py-1.5 text-meta font-semibold text-white bg-accent hover:bg-accent-hover rounded"
+          className="px-3 py-1.5 text-meta font-medium text-white bg-accent hover:bg-accent-hover rounded-md"
         >
           Retry
         </button>
@@ -106,7 +106,7 @@ export default function DealDetailWorkspace() {
               <Briefcase className="w-6 h-6 text-fg-secondary" />
             </div>
             <div>
-              <h1 className="text-2xl font-semibold text-fg dark:text-white">{deal.title}</h1>
+              <h1 className="text-page font-semibold text-fg">{deal.title}</h1>
               <p className="text-xl font-semibold text-accent-fg dark:text-accent-fg mt-1">{formatCurrency(deal.amount, currency)}</p>
               <p className="text-sm text-fg-tertiary mt-1">{stageLabel} · {deal.probability}% probability</p>
             </div>

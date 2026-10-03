@@ -36,7 +36,7 @@ export default function FormCreationWizard({ step, draft, onChange, onNext, onBa
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-accent-subtle dark:bg-teal-950/50 mb-4">
                   <Sparkles className="w-6 h-6 text-accent-fg" />
                 </div>
-                <h1 className="text-2xl font-semibold text-fg dark:text-slate-50 tracking-tight">Form basics</h1>
+                <h1 className="text-page font-semibold text-fg">Form basics</h1>
                 <p className="text-sm text-fg-tertiary mt-2 max-w-sm mx-auto">Tell us about your form. You can change everything later.</p>
               </div>
 
@@ -98,7 +98,7 @@ export default function FormCreationWizard({ step, draft, onChange, onNext, onBa
           {step === 2 && (
             <motion.div key="step2" {...slide}>
               <div className="text-center mb-8">
-                <h1 className="text-2xl font-semibold text-fg dark:text-slate-50 tracking-tight">Choose a template</h1>
+                <h1 className="text-page font-semibold text-fg">Choose a template</h1>
                 <p className="text-sm text-fg-tertiary mt-2">Start with a proven layout — customize every field after.</p>
               </div>
 
@@ -151,7 +151,7 @@ function WizardActions({ onCancel, onBack, onNext, nextLabel, nextDisabled }) {
         type="button"
         onClick={onNext}
         disabled={nextDisabled}
-        className="inline-flex items-center gap-1.5 px-5 py-2.5 text-sm font-semibold text-white bg-accent hover:bg-accent-hover rounded-lg disabled:opacity-40 disabled:shadow-none transition-all"
+        className="inline-flex items-center gap-1.5 px-5 py-2.5 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-md disabled:opacity-40 disabled:shadow-none transition-all"
       >
         {nextLabel} <ArrowRight className="w-4 h-4" />
       </button>

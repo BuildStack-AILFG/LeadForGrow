@@ -34,7 +34,7 @@ export default function SequencesHomeView({
             <GitBranch className="w-3.5 h-3.5" />
             Workflow Automation
           </div>
-          <h1 className="text-2xl sm:text-hero font-semibold text-fg dark:text-white tracking-tight">Sequences</h1>
+          <h1 className="text-page font-semibold text-fg">Sequences</h1>
           <p className="text-fg-tertiary dark:text-fg-tertiary mt-1 text-sm max-w-lg">
             WhatsApp-first sales automation — nurture leads, recover missed calls, and qualify with AI.
           </p>
@@ -42,7 +42,7 @@ export default function SequencesHomeView({
         <button
           type="button"
           onClick={onCreate}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent text-white text-sm font-semibold hover:shadow-popover transition-all hover:scale-[1.02]"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-accent text-white text-sm font-medium hover:shadow-popover transition-all hover:scale-[1.02]"
         >
           <Plus className="w-4 h-4" />
           Create sequence
@@ -156,7 +156,7 @@ export default function SequencesHomeView({
               <p className="text-sm text-fg-tertiary mt-1 max-w-md mx-auto">
                 Create your first workflow — guided templates for WhatsApp nurture, missed call recovery, and more.
               </p>
-              <button type="button" onClick={onCreate} className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent text-white text-sm font-medium">
+              <button type="button" onClick={onCreate} className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-accent text-white text-sm font-medium">
                 <Plus className="w-4 h-4" /> Get started
               </button>
             </div>

@@ -346,7 +346,7 @@ export default function CallIntegrationPage() {
             <PhoneCall className="w-5 h-5 text-danger" strokeWidth={2.5} />
           </div>
           <div>
-            <h1 className="text-xl md:text-2xl font-semibold text-fg tracking-tight leading-tight">Call Recovery</h1>
+            <h1 className="text-page font-semibold text-fg">Call Recovery</h1>
             <p className="text-xs text-fg-tertiary font-medium">Automatically capture and recover unanswered calls</p>
           </div>
         </div>
@@ -383,7 +383,7 @@ export default function CallIntegrationPage() {
               <div className="w-20 h-20 bg-accent-subtle text-accent-fg rounded-[24px] flex items-center justify-center mb-8">
                 <Phone className="w-10 h-10" />
               </div>
-              <h2 className="text-hero font-semibold text-fg mb-4 tracking-tight">Connect Your Line</h2>
+              <h2 className="text-title font-semibold text-fg mb-4">Connect Your Line</h2>
               <p className="text-fg-tertiary text-lg leading-relaxed px-6 font-medium">
                 Enter your business or personal number to start capturing missed calls.
               </p>
@@ -418,7 +418,7 @@ export default function CallIntegrationPage() {
                 <div className="w-12 h-12 bg-canvas border border-line rounded-lg flex items-center justify-center">
                   <Settings className="w-6 h-6 text-fg-secondary" />
                 </div>
-                <h2 className="text-hero font-semibold text-fg tracking-tight flex-1 pr-12">Provider Settings</h2>
+                <h2 className="text-title font-semibold text-fg flex-1 pr-12">Provider Settings</h2>
               </div>
 
               <div className="flex gap-4 mb-10 p-1.5 bg-subtle rounded-[20px] border border-line">
@@ -835,7 +835,7 @@ export default function CallIntegrationPage() {
                 />
                 <button
                   onClick={handleBridgeSimulate}
-                  className="w-full bg-slate-900 text-white py-3.5 rounded-[16px] font-semibold text-xs hover:bg-black transition-all active:scale-[0.98]"
+                  className="w-full bg-accent text-white py-3.5 rounded-md font-medium text-xs hover:bg-accent-hover transition-all"
                 >
                   Run Signal Test
                 </button>

@@ -58,7 +58,7 @@ export function LeadNotesTab({ notes = [], onAdd, updating }) {
         <button
           type="submit"
           disabled={updating || !text.trim()}
-          className="px-3 py-2 text-sm font-medium bg-accent text-white rounded-lg disabled:opacity-50"
+          className="px-3 py-2 text-sm font-medium bg-accent text-white rounded-md disabled:opacity-50"
         >
           <Send className="w-4 h-4" />
         </button>

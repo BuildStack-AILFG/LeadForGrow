@@ -184,7 +184,7 @@ function CsvImporter({ campaignName, onChange, audience }) {
             {uploading ? 'Checking…' : 'Preview'}
           </button>
           <button type="button" disabled={uploading} onClick={() => runUpload(false)}
-            className="px-3 py-2 rounded-lg text-xs font-semibold text-white bg-accent hover:bg-accent-hover">
+            className="px-3 py-2 rounded-md text-xs font-medium text-white bg-accent hover:bg-accent-hover">
             {uploading ? 'Importing…' : 'Import & use as audience'}
           </button>
         </div>

@@ -340,7 +340,7 @@ export default function LeadDrawer({
                         type="button"
                         onClick={saveLocation}
                         disabled={savingLocation}
-                        className="w-full py-2 text-xs font-medium rounded-md bg-slate-900 text-white hover:bg-slate-800 disabled:opacity-60"
+                        className="w-full py-2 text-xs font-medium rounded-md bg-accent text-white hover:bg-accent-hover disabled:opacity-60"
                       >
                         {savingLocation ? 'Saving…' : 'Save location'}
                       </button>
@@ -411,7 +411,7 @@ export default function LeadDrawer({
                         className="flex-1 text-sm px-3 py-2 border border-line dark:border-slate-700 rounded-lg bg-canvas dark:bg-slate-900"
                         onKeyDown={(e) => e.key === 'Enter' && addNote()}
                       />
-                      <button type="button" onClick={addNote} className="px-3 py-2 text-xs font-medium bg-accent text-white rounded-lg">
+                      <button type="button" onClick={addNote} className="px-3 py-2 text-xs font-medium bg-accent text-white rounded-md">
                         Add
                       </button>
                     </div>

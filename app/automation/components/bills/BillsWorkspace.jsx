@@ -73,13 +73,13 @@ function BillsList({ onNew, onOpen }) {
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-5">
           <div>
-            <h1 className="text-2xl font-semibold text-fg dark:text-white">Bills</h1>
+            <h1 className="text-page font-semibold text-fg">Bills</h1>
             <p className="text-sm text-fg-tertiary mt-1">Send professional-looking bills to customers via WhatsApp.</p>
           </div>
           <button
             type="button"
             onClick={onNew}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-accent hover:bg-accent-hover text-white text-sm font-semibold"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-accent hover:bg-accent-hover text-white text-sm font-medium"
           >
             <Plus className="w-4 h-4" /> New bill
           </button>
@@ -123,7 +123,7 @@ function BillsList({ onNew, onOpen }) {
             <Receipt className="w-12 h-12 text-fg-disabled mx-auto mb-3" />
             <p className="text-sm font-semibold text-fg-secondary dark:text-fg-disabled">No bills yet</p>
             <p className="text-xs text-fg-tertiary mt-1 mb-4">Create your first bill and send it directly to the customer on WhatsApp.</p>
-            <button type="button" onClick={onNew} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-accent text-white text-sm font-semibold">
+            <button type="button" onClick={onNew} className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-accent text-white text-sm font-medium">
               <Plus className="w-4 h-4" /> Create bill
             </button>
           </div>
@@ -240,7 +240,7 @@ function BillEditor({ existingBill, onCancel, onSaved }) {
         </button>
 
         <div className="bg-canvas dark:bg-slate-900 rounded-lg border border-line dark:border-slate-800 p-6">
-          <h2 className="text-xl font-semibold text-fg dark:text-white mb-1">New bill</h2>
+          <h2 className="text-title font-semibold text-fg dark:text-white mb-1">New bill</h2>
           <p className="text-xs text-fg-tertiary mb-5">The bill number is generated automatically when you save.</p>
 
           <BillHeaderPreview />
@@ -345,7 +345,7 @@ function BillEditor({ existingBill, onCancel, onSaved }) {
                 {saving ? 'Saving…' : 'Save as draft'}
               </button>
               <button type="button" onClick={() => handleSave(true)} disabled={!canSave || saving || !form.customerPhone}
-                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-accent hover:bg-accent-hover text-white text-sm font-semibold disabled:opacity-50">
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md bg-accent hover:bg-accent-hover text-white text-sm font-medium disabled:opacity-50">
                 {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                 Save & send on WhatsApp
               </button>
@@ -438,7 +438,7 @@ function BillDetail({ billId, onBack }) {
         <div className="flex items-center justify-between mb-4">
           <div>
             <div className="text-xs text-fg-tertiary">Bill</div>
-            <h1 className="text-2xl font-semibold text-fg dark:text-white font-mono">{bill.billNumber}</h1>
+            <h1 className="text-page font-semibold text-fg">{bill.billNumber}</h1>
           </div>
           <StatusPill status={bill.status} big />
         </div>
@@ -447,7 +447,7 @@ function BillDetail({ billId, onBack }) {
           <div className="flex items-center gap-2">
             {bill.status === 'draft' && (
               <button type="button" onClick={handleSend} disabled={busy === 'send' || !bill.customerPhone}
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-accent hover:bg-accent-hover text-white text-sm font-semibold disabled:opacity-50">
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-accent hover:bg-accent-hover text-white text-sm font-medium disabled:opacity-50">
                 {busy === 'send' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                 Send on WhatsApp
               </button>
@@ -704,7 +704,7 @@ function PaymentLinkButton({ bill, onUpdated }) {
   }
   return (
     <button type="button" onClick={handleSendLink} disabled={loading}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-accent hover:bg-accent-hover text-white text-sm font-semibold disabled:opacity-50">
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-accent hover:bg-accent-hover text-white text-sm font-medium disabled:opacity-50">
       {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Link2 className="w-4 h-4" />}
       Send payment link on WhatsApp
     </button>
@@ -780,7 +780,7 @@ function ConnectRazorpayModal({ onClose, onConnected }) {
         <div className="flex items-center justify-between mt-5">
           <button type="button" onClick={onClose} className="text-sm text-fg-tertiary hover:text-fg-secondary">Cancel</button>
           <button type="button" onClick={handleSave} disabled={saving}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-accent hover:bg-accent-hover text-white text-sm font-semibold disabled:opacity-50">
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md bg-accent hover:bg-accent-hover text-white text-sm font-medium disabled:opacity-50">
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
             Connect Razorpay
           </button>
@@ -846,7 +846,7 @@ function BillHeaderPreview() {
           </div>
         </div>
         <Link href="/automation/settings/bill-header"
-              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 hover:bg-muted text-fg-secondary dark:text-fg-disabled shrink-0">
+              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 hover:bg-muted text-fg-secondary dark:text-fg-disabled shrink-0">
           {missing.length > 0 ? 'Complete setup' : 'Edit'}
         </Link>
       </div>

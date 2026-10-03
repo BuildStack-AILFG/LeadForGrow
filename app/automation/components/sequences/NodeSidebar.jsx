@@ -34,7 +34,7 @@ export default function NodeSidebar({ onAddNode }) {
             <button
               type="button"
               onClick={() => setOpen((o) => ({ ...o, [sec.id]: !o[sec.id] }))}
-              className="w-full flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-subtle dark:hover:bg-slate-800/50 text-left"
+              className="w-full flex items-center gap-2 px-2 py-2 rounded-md hover:bg-subtle dark:hover:bg-slate-800/50 text-left"
             >
               {open[sec.id] ? <ChevronDown className="w-3.5 h-3.5 text-fg-tertiary" /> : <ChevronRight className="w-3.5 h-3.5 text-fg-tertiary" />}
               <sec.icon className={`w-3.5 h-3.5 ${sec.iconClass}`} />

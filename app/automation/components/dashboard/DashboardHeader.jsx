@@ -19,7 +19,7 @@ export default function DashboardHeader({
       <div className="flex flex-col lg:flex-row lg:items-center gap-4">
         <div className="flex-1 min-w-0">
           <p className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary mb-0.5">Dashboard</p>
-          <h1 className="text-lg sm:text-xl font-semibold text-fg dark:text-slate-50 truncate">
+          <h1 className="text-page font-semibold text-fg truncate">
             {businessName || 'Sales Overview'}
           </h1>
         </div>
@@ -54,7 +54,7 @@ export default function DashboardHeader({
 
             <Link
               href="/automation/leads/new"
-              className="inline-flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-lg transition-colors"
+              className="inline-flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-md transition-colors"
             >
               <Plus className="w-4 h-4" />
               <span className="hidden sm:inline">Create Lead</span>

@@ -24,7 +24,7 @@ export default function AutomationHeader({
       <div className="flex flex-col gap-4">
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
           <div className="flex-1 min-w-0">
-            <h1 className="text-lg sm:text-xl font-semibold text-fg dark:text-slate-50">Automation Rules</h1>
+            <h1 className="text-page font-semibold text-fg">Automation Rules</h1>
             <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-0.5">
               Automatically handle repetitive sales and communication tasks — {total} automations · {activeCount} active.
             </p>
@@ -59,7 +59,7 @@ export default function AutomationHeader({
               <button
                 type="button"
                 onClick={() => setFilterOpen(!filterOpen)}
-                className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-fg-secondary dark:text-slate-200 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg hover:bg-subtle"
+                className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-fg-secondary dark:text-slate-200 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-md hover:bg-subtle"
               >
                 {activeFilter?.label || 'Filter'}
                 <ChevronDown className="w-3.5 h-3.5 text-fg-tertiary" />
@@ -101,7 +101,7 @@ export default function AutomationHeader({
               type="button"
               data-tour="automation-create-btn"
               onClick={onCreate}
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-lg transition-colors hover:shadow-popover"
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-md transition-colors hover:shadow-popover"
             >
               <Plus className="w-4 h-4" />
               <span className="hidden sm:inline">Create Automation</span>

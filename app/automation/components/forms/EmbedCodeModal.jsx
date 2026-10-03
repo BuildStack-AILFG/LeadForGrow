@@ -35,7 +35,7 @@ export default function EmbedCodeModal({ form, onClose }) {
       <div className="fixed inset-4 sm:inset-auto sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:w-full sm:max-w-3xl sm:max-h-[90vh] bg-canvas dark:bg-slate-900 rounded-lg shadow-modal z-50 flex flex-col border border-line dark:border-slate-800">
         <div className="flex items-center justify-between p-5 border-b border-line dark:border-slate-800">
           <div>
-            <h2 className="text-lg font-semibold text-fg dark:text-slate-50">Publish & embed</h2>
+            <h2 className="text-title font-semibold text-fg dark:text-slate-50">Publish & embed</h2>
             <p className="text-xs text-fg-tertiary">{form.name}</p>
           </div>
           <button type="button" onClick={onClose} className="p-1.5 text-fg-tertiary hover:text-fg-secondary"><X className="w-5 h-5" /></button>

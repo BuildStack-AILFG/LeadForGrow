@@ -197,6 +197,26 @@
 /* Tabular figures helper for money, counts, dates. */
 .tabular { font-variant-numeric: tabular-nums; }
 
+/* App-wide keyboard focus (DESIGN_BRIEF §5.7). Components built on the ui
+   primitives draw their own ring; this catches every hand-rolled control so
+   focus is never invisible. Mouse clicks don't trigger it (:focus-visible). */
+:where(.font-app :is(a, button, input, select, textarea, summary, [tabindex]):focus-visible) {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+/* Reduced motion: no animation or transition beyond an instant state change. */
+@media (prefers-reduced-motion: reduce) {
+  .font-app *,
+  .font-app *::before,
+  .font-app *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 .dark {
   --background: #0f172a;
   --foreground: #f1f5f9;

@@ -46,7 +46,7 @@ export default function MeetingsTemplatesView() {
         <ArrowLeft className="w-4 h-4" /> Revenue Scheduling
       </Link>
       <header>
-        <h1 className="text-2xl font-semibold text-fg dark:text-slate-50">Meeting templates</h1>
+        <h1 className="text-page font-semibold text-fg">Meeting templates</h1>
         <p className="text-sm text-fg-tertiary mt-1">Pre-configured revenue scheduling types — start from a template in Create flow.</p>
       </header>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
