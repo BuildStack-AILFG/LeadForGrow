@@ -7,18 +7,27 @@ import { resolveTenant } from '@/lib/auth';
 
 export const GET = withAuth()(async (req) => {
   try {
-    const tenant = await resolveTenant(req);
+    const RolePermission =
+      mongoose.models.RolePermission || (await import('@/models/RolePermission')).default;
+    const findRolePerm = (role) => RolePermission.findOne({
+      role: { $regex: new RegExp(`^${String(role || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
+    }).lean();
+
+    // The role in the token is almost always current, so its permissions are
+    // read alongside the user/business instead of after them.
+    const [tenant, guessedPerm] = await Promise.all([
+      resolveTenant(req),
+      findRolePerm(req.user.role),
+    ]);
     if (tenant.error) {
       return NextResponse.json({ success: false, error: tenant.error }, { status: tenant.status });
     }
 
     const { user, business } = tenant;
 
-    const RolePermission =
-      mongoose.models.RolePermission || (await import('@/models/RolePermission')).default;
-    const rolePerm = await RolePermission.findOne({
-      role: { $regex: new RegExp(`^${user.role}$`, 'i') },
-    });
+    const rolePerm = String(user.role).toLowerCase() === String(req.user.role).toLowerCase()
+      ? guessedPerm
+      : await findRolePerm(user.role);
 
     const permissions = rolePerm ? [...rolePerm.permissions] : [];
     if (['owner', 'super', 'agency_owner'].includes(user.role?.toLowerCase())) {

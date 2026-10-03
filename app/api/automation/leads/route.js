@@ -135,18 +135,29 @@ export const GET = withTenantAuth(async (request) => {
     let enrichedLeads = leads;
     if (leads.length > 0) {
       const Deal = (await import('@/models/automation/Deal')).default;
+      const Conversation = (await import('@/models/omnichannel/Conversation')).default;
       const leadIds = leads.map((l) => l._id);
-      const dealAmounts = await Deal.aggregate([
-        { $match: { businessId: business._id, leadId: { $in: leadIds }, deletedAt: null } },
-        { $sort: { updatedAt: -1 } },
-        {
-          $group: {
-            _id: '$leadId',
-            amount: { $first: '$amount' },
-            currency: { $first: '$currency' },
-            stage: { $first: '$stage' },
+      // Deal amounts, next follow-ups and last messages are independent — one
+      // parallel batch instead of three round trips in a row.
+      const [dealAmounts, withFollowUps, convs] = await Promise.all([
+        Deal.aggregate([
+          { $match: { businessId: business._id, leadId: { $in: leadIds }, deletedAt: null } },
+          { $sort: { updatedAt: -1 } },
+          {
+            $group: {
+              _id: '$leadId',
+              amount: { $first: '$amount' },
+              currency: { $first: '$currency' },
+              stage: { $first: '$stage' },
+            },
           },
-        },
+        ]),
+        enrichLeadsWithNextFollowUp(leads, business._id),
+        // Each lead's most recent conversation message, for the Message column.
+        Conversation.find({ businessId: business._id, leadId: { $in: leadIds } })
+          .select('leadId lastMessagePreview lastMessageAt lastMessageDirection')
+          .sort({ lastMessageAt: -1 })
+          .lean(),
       ]);
       const dealByLead = Object.fromEntries(
         dealAmounts.map((d) => [
@@ -154,7 +165,7 @@ export const GET = withTenantAuth(async (request) => {
           { amount: d.amount, currency: d.currency, stage: d.stage },
         ])
       );
-      enrichedLeads = leads.map((l) => {
+      enrichedLeads = withFollowUps.map((l) => {
         const deal = dealByLead[l._id.toString()];
         if (deal?.amount || deal?.stage) {
           return {
@@ -174,14 +185,6 @@ export const GET = withTenantAuth(async (request) => {
         }
         return l;
       });
-      enrichedLeads = await enrichLeadsWithNextFollowUp(enrichedLeads, business._id);
-
-      // Attach each lead's most recent conversation message for the Message column.
-      const Conversation = (await import('@/models/omnichannel/Conversation')).default;
-      const convs = await Conversation.find({ businessId: business._id, leadId: { $in: leadIds } })
-        .select('leadId lastMessagePreview lastMessageAt lastMessageDirection')
-        .sort({ lastMessageAt: -1 })
-        .lean();
       const msgByLead = {};
       for (const c of convs) {
         const k = String(c.leadId);

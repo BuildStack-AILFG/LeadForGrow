@@ -57,10 +57,11 @@ export const GET = withTenantAuth(async (request) => {
     const monthStart = new Date(calYear, calMonth, 1);
     const monthEnd = new Date(calYear, calMonth + 1, 1);
 
-    const pipeline = await ensureDefaultPipeline(businessId);
-    const stages = pipeline.stages?.length ? pipeline.stages : [];
-
+    // Everything below is independent, so it is read in one parallel batch
+    // (the pipeline and today's meeting count used to be separate round trips).
     const [
+      pipeline,
+      meetingsTodayCount,
       todayLeads,
       awaitingFirstResponse,
       deals,
@@ -76,11 +77,16 @@ export const GET = withTenantAuth(async (request) => {
       meetingsTomorrow,
       meetingsNext24h,
     ] = await Promise.all([
+      ensureDefaultPipeline(businessId),
+      MeetingBooking.countDocuments({
+        businessId,
+        status: { $in: MEETING_ACTIVE },
+        startTime: { $gte: today, $lt: tomorrow },
+      }),
       Lead.countDocuments({ businessId, archived: false, receivedAt: { $gte: today, $lt: tomorrow } }),
       Lead.countDocuments({ businessId, archived: false, status: { $in: AWAITING_FIRST_RESPONSE } }),
       Deal.find({ businessId, archived: false })
-        .select('title amount currency stage probability updatedAt wonAt lostAt assignedTo leadId')
-        .populate('assignedTo', 'firstName lastName')
+        .select('title amount currency stage probability updatedAt wonAt')
         .lean(),
       // Counted inside MongoDB — a few dozen numbers instead of every lead document.
       leadStatsFromDb(Lead, { businessId: toObjectId(businessId), archived: false }),
@@ -131,6 +137,7 @@ export const GET = withTenantAuth(async (request) => {
       }).sort({ startTime: 1 }).limit(10).lean(),
     ]);
 
+    const stages = pipeline?.stages?.length ? pipeline.stages : [];
     const revenue = computeDealRevenue(deals);
     const stageBreakdown = buildStageBreakdown(deals, stages);
 
@@ -156,12 +163,6 @@ export const GET = withTenantAuth(async (request) => {
     const monthChange = wonLastMonth
       ? Math.round(((wonThisMonth - wonLastMonth) / wonLastMonth) * 100)
       : wonThisMonth > 0 ? 100 : 0;
-
-    const meetingsTodayCount = await MeetingBooking.countDocuments({
-      businessId,
-      status: { $in: MEETING_ACTIVE },
-      startTime: { $gte: today, $lt: tomorrow },
-    });
 
     const currency = deals[0]?.currency || 'INR';
     const heroKpis = buildHeroKpis(leadStats, deals, revenue);

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import Business from '@/models/Business';
-import { withTenantAuth, resolveTenant } from '@/lib/auth';
+import { withTenantAuth, resolveTenant, invalidateBusinessPlanCache } from '@/lib/auth';
 
 export const POST = withTenantAuth(async (req) => {
   try {
@@ -21,6 +21,7 @@ export const POST = withTenantAuth(async (req) => {
 
     business.plan = 'trial';
     await business.save();
+    invalidateBusinessPlanCache(business._id);
 
     return NextResponse.json({ success: true, message: 'Trial activated successfully', plan: 'trial' });
   } catch (error) {

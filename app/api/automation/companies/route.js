@@ -57,16 +57,17 @@ export const GET = withTenantAuth(async (request) => {
       query._id = hasOpenDeals === 'yes' ? { $in: openCompanyIds } : { $nin: openCompanyIds };
     }
 
-    const companies = await Company.find(query)
-      .populate('ownerId', 'firstName lastName email')
-      .sort({ [sortField]: sortDir })
-      .skip(skip)
-      .limit(limit)
-      .lean();
+    const [companies, total] = await Promise.all([
+      Company.find(query)
+        .populate('ownerId', 'firstName lastName email')
+        .sort({ [sortField]: sortDir })
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+      Company.countDocuments(query),
+    ]);
 
     const enriched = await enrichCompaniesWithStats(tenant.business._id, companies);
-
-    const total = await Company.countDocuments(query);
 
     return NextResponse.json({ success: true, data: enriched, pagination: paginationMeta(total, page, limit) });
   } catch (error) {

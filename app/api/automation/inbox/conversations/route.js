@@ -121,7 +121,7 @@ async function handler(req) {
           { phone: { $regex: search, $options: 'i' } },
           { email: { $regex: search, $options: 'i' } },
         ],
-      }).select('_id');
+      }).select('_id').limit(1000).lean();
       const leadIds = leads.map((l) => l._id);
       andClauses.push({
         $or: [

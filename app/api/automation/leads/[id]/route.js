@@ -41,48 +41,53 @@ export const GET = withPlanAccess('leads', async (req, { params }) => {
       return NextResponse.json({ success: false, error: 'Lead not found' }, { status: 404 });
     }
 
-    // Long-lived leads can have thousands of entries: send the newest ones only.
-    const activities = await Activity.find({ leadId: id })
-      .populate('performedBy', 'email')
-      .sort({ performedAt: -1 })
-      .limit(DETAIL_HISTORY_LIMIT)
-      .lean();
-
-    const timeline = formatTimelineItems(activities);
-
-    let dealAmount;
-    let dealCurrency = 'INR';
     const meta = lead.metadata;
     const metaAmount = meta?.amount ?? meta?.dealAmount ?? (typeof meta?.get === 'function' ? meta.get('amount') || meta.get('dealAmount') : null);
-    if (metaAmount) {
-      dealAmount = Number(metaAmount);
-      dealCurrency = meta?.currency || (typeof meta?.get === 'function' ? meta.get('currency') : null) || 'INR';
-    } else {
-      const Deal = (await import('@/models/automation/Deal')).default;
-      const deal = await Deal.findOne({ businessId, leadId: id, deletedAt: null })
-        .sort({ updatedAt: -1 })
-        .select('amount currency')
-        .lean();
-      if (deal?.amount) {
-        dealAmount = deal.amount;
-        dealCurrency = deal.currency || 'INR';
-      }
-    }
 
     const messageQuery = { leadId: id, businessId };
-    
+
     // Role-based history filtering
     const isRestrictedRole = ['member', 'TEAM_MEMBER'].includes(user.role);
     if (isRestrictedRole && lead.historyVisibleFrom) {
       messageQuery.timestamp = { $gte: lead.historyVisibleFrom };
     }
 
-    const messages = (await Message.find(messageQuery)
-      .sort({ timestamp: -1 })
-      .limit(DETAIL_HISTORY_LIMIT)
-      .lean()).reverse();
+    const Deal = metaAmount ? null : (await import('@/models/automation/Deal')).default;
 
-    const [enrichedLead] = await enrichLeadsWithNextFollowUp([lead], businessId);
+    // Everything below only needs the lead, so it is read in one parallel
+    // batch (it used to be four round trips in a row).
+    // Long-lived leads can have thousands of entries: send the newest ones only.
+    const [activities, deal, newestMessages, [enrichedLead]] = await Promise.all([
+      Activity.find({ leadId: id })
+        .populate('performedBy', 'email')
+        .sort({ performedAt: -1 })
+        .limit(DETAIL_HISTORY_LIMIT)
+        .lean(),
+      Deal
+        ? Deal.findOne({ businessId, leadId: id, deletedAt: null })
+          .sort({ updatedAt: -1 })
+          .select('amount currency')
+          .lean()
+        : null,
+      Message.find(messageQuery)
+        .sort({ timestamp: -1 })
+        .limit(DETAIL_HISTORY_LIMIT)
+        .lean(),
+      enrichLeadsWithNextFollowUp([lead], businessId),
+    ]);
+
+    const timeline = formatTimelineItems(activities);
+    const messages = newestMessages.reverse();
+
+    let dealAmount;
+    let dealCurrency = 'INR';
+    if (metaAmount) {
+      dealAmount = Number(metaAmount);
+      dealCurrency = meta?.currency || (typeof meta?.get === 'function' ? meta.get('currency') : null) || 'INR';
+    } else if (deal?.amount) {
+      dealAmount = deal.amount;
+      dealCurrency = deal.currency || 'INR';
+    }
 
     return NextResponse.json({
       success: true,
