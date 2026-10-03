@@ -109,4 +109,4 @@ Remaining colour-family utilities are almost entirely `dark:` overrides (dark mo
 ### Not done / not verified
 - **Visual before/after screenshots**: owner declined the bulk screenshot step; most later visual checks were done through the DOM because the Chrome window was in the background (screenshot capture times out on a hidden tab).
 - **390px mobile pass**: the drawer/table code paths are unchanged or built responsive, but not checked at phone width (window would not resize).
-- **Structural rebuilds** were done for the shell, Leads, Deals, Contacts/Companies headers + metrics + tables, Settings hub and the dashboard surfaces. Inbox, record pages, builders (sequences/flows/chatbot/forms), Broadcasts, Meetings, Bills, Tasks, Reports were restyled through tokens/codemods only — their layouts are unchanged.
+- **Structural rebuilds** were done for the shell, Leads, Deals, Contacts/Companies headers + metrics + tables, the lead record header, Settings hub and the dashboard surfaces. Inbox, record pages, builders (sequences/flows/chatbot/forms), Broadcasts, Meetings, Bills, Tasks, Reports were restyled through tokens/codemods only — their layouts are unchanged.

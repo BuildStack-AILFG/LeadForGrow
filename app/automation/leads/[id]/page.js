@@ -69,7 +69,7 @@ function LeadDetailPageContent({ params }) {
   };
 
   return (
-    <div className="min-h-full bg-subtle dark:bg-slate-950">
+    <div className="min-h-full bg-canvas">
       <div className="px-4 sm:px-6 pb-8">
         <LeadDetailHeader
           lead={detail.lead}

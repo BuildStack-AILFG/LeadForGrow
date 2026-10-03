@@ -25,7 +25,7 @@ export default function LeadDetailProfile({
   return (
     <div className="bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 rounded-lg overflow-hidden">
       <div className="p-5 border-b border-line dark:border-slate-800">
-        <div className="w-12 h-12 rounded-lg bg-accent-subtle dark:bg-teal-950/40 text-accent-fg dark:text-accent-fg flex items-center justify-center text-lg font-semibold mb-3">
+        <div className="w-10 h-10 rounded-full bg-muted text-fg-secondary flex items-center justify-center text-body font-medium mb-3">
           {lead.name?.charAt(0)?.toUpperCase() || '?'}
         </div>
         <h2 className="text-base font-semibold text-fg dark:text-slate-50">{lead.name}</h2>
