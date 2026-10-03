@@ -129,17 +129,17 @@ export default function ReminderMonitor() {
                 <button
                     onClick={dismissAll}
                     title="Silence all follow-up popups until you refresh the page"
-                    className="inline-flex items-center gap-1 bg-slate-900/90 hover:bg-slate-900 text-white text-[10px] font-medium px-2 py-1 rounded-full backdrop-blur shadow-md"
+                    className="inline-flex items-center gap-1 bg-slate-900/90 hover:bg-slate-900 text-white text-meta font-medium px-2 py-1 rounded-full shadow-popover"
                 >
                     <X className="w-3 h-3" /> Dismiss all
                 </button>
             </div>
             {overflowCount > 0 && (
-                <div className="pointer-events-auto bg-[#1D4B3E] text-white rounded-lg shadow-lg p-3 flex items-center justify-between gap-3">
+                <div className="pointer-events-auto bg-accent text-white rounded-lg shadow-popover p-3 flex items-center justify-between gap-3">
                     <span className="text-xs font-semibold">+{overflowCount} more follow-up{overflowCount === 1 ? '' : 's'} need attention</span>
                     <button
                         onClick={() => router.push('/automation/tasks')}
-                        className="shrink-0 bg-white/15 hover:bg-white/25 px-2.5 py-1 rounded text-[11px] font-medium transition-all"
+                        className="shrink-0 bg-canvas/15 hover:bg-canvas/25 px-2.5 py-1 rounded text-meta font-medium transition-all"
                     >
                         View all
                     </button>
@@ -148,41 +148,41 @@ export default function ReminderMonitor() {
             {visible.map((task) => (
                 <div
                     key={task._id}
-                    className="pointer-events-auto bg-white border-l-4 border-[#1D4B3E] rounded-lg shadow-lg p-3 animate-in slide-in-from-right-10 duration-500 overflow-hidden"
+                    className="pointer-events-auto bg-canvas border-l-4 border-accent rounded-lg shadow-popover p-3 animate-in slide-in-from-right-10 duration-500 overflow-hidden"
                 >
                     <div className="flex justify-between items-start mb-1.5">
                         <div className="flex items-center gap-2">
-                            <div className="bg-[#F0F9F5] p-1.5 rounded-md text-[#1D4B3E]">
+                            <div className="bg-accent-subtle p-1.5 rounded-md text-accent-fg">
                                 {task.type === 'call' && <Phone className="w-4 h-4" />}
                                 {task.type === 'whatsapp' && <MessageCircle className="w-4 h-4" />}
                                 {task.type === 'email' && <Mail className="w-4 h-4" />}
                                 {task.type !== 'call' && task.type !== 'whatsapp' && task.type !== 'email' && <Bell className="w-4 h-4" />}
                             </div>
                             <div>
-                                <h4 className="text-[13px] font-semibold text-slate-900 leading-tight">
+                                <h4 className="text-dense font-semibold text-fg leading-tight">
                                     {task.type === 'call' ? 'Call Due' :
                                         task.type === 'whatsapp' ? 'WhatsApp Due' :
                                             task.type === 'email' ? 'Email Due' : 'Follow-up Due'}
                                 </h4>
-                                <p className="text-[11px] font-medium text-slate-500">
+                                <p className="text-meta font-medium text-fg-tertiary">
                                     {task.leadId?.name || 'Scheduled Lead'}
                                 </p>
                             </div>
                         </div>
-                        <button onClick={() => dismissReminder(task._id)} className="p-1 hover:bg-slate-50 rounded-md transition-colors">
-                            <X className="w-3.5 h-3.5 text-slate-400" />
+                        <button onClick={() => dismissReminder(task._id)} className="p-1 hover:bg-subtle rounded-md transition-colors">
+                            <X className="w-3.5 h-3.5 text-fg-tertiary" />
                         </button>
                     </div>
 
-                    <div className="flex items-center gap-1.5 mb-3 text-[11px] font-medium text-slate-600">
-                        <Calendar className="w-3 h-3 text-slate-400" />
+                    <div className="flex items-center gap-1.5 mb-3 text-meta font-medium text-fg-secondary">
+                        <Calendar className="w-3 h-3 text-fg-tertiary" />
                         <span>Today, {new Date(task.dueDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                     </div>
 
                     <div className="flex gap-1.5">
                         <button
                             onClick={() => handleAction(task)}
-                            className="flex-1 bg-[#1D4B3E] text-white py-1.5 rounded text-[11px] font-semibold flex items-center justify-center gap-1.5 hover:bg-[#163c32] transition-all"
+                            className="flex-1 bg-accent text-white py-1.5 rounded text-meta font-semibold flex items-center justify-center gap-1.5 hover:bg-accent-hover transition-all"
                         >
                             {task.type === 'call' && <><Phone className="w-3 h-3" /> Call Now</>}
                             {task.type === 'whatsapp' && <><MessageCircle className="w-3 h-3" /> Send Message</>}
@@ -194,7 +194,7 @@ export default function ReminderMonitor() {
                                 router.push(`/automation/leads/${task.leadId?._id || task.leadId}`);
                                 dismissReminder(task._id);
                             }}
-                            className="px-3 py-1.5 border border-slate-200 text-slate-600 rounded text-[11px] font-medium hover:bg-slate-50 transition-all"
+                            className="px-3 py-1.5 border border-line text-fg-secondary rounded text-meta font-medium hover:bg-subtle transition-all"
                         >
                             View Lead
                         </button>

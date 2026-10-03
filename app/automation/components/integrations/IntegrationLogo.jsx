@@ -16,7 +16,7 @@ const LUCIDE_ICONS = {
 function Chip({ size, children }) {
   return (
     <div
-      className="rounded-xl flex items-center justify-center flex-shrink-0 bg-white border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden"
+      className="rounded-lg flex items-center justify-center flex-shrink-0 bg-canvas border border-line dark:border-slate-700 overflow-hidden"
       style={{ width: size, height: size }}
     >
       {children}
@@ -28,7 +28,7 @@ function InitialsTile({ integration, size }) {
   const colorClass = COLOR_MAP[integration.color] || COLOR_MAP.blue;
   return (
     <div
-      className={`rounded-xl flex items-center justify-center text-xs font-bold flex-shrink-0 ${colorClass}`}
+      className={`rounded-lg flex items-center justify-center text-xs font-semibold flex-shrink-0 ${colorClass}`}
       style={{ width: size, height: size }}
     >
       {integration.initials}

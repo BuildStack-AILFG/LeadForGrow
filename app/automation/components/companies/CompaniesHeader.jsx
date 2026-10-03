@@ -7,10 +7,10 @@ export default function CompaniesHeader({ onCreate, showGroup, onToggleGroup, ..
   return (
     <CrmPageHeader
       title="Companies"
-      subtitle="Accounts, ownership, and revenue in one workspace."
-      searchPlaceholder="Search company, domain, industry…"
-      primaryLabel="Add Company"
-      totalLabel="companies total"
+      subtitle="Accounts and their revenue."
+      searchPlaceholder="Search company, domain, industry"
+      primaryLabel="Add company"
+      totalLabel="companies"
       onPrimaryClick={onCreate}
       toolbarEnd={
         onToggleGroup ? (

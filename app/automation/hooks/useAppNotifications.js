@@ -148,7 +148,7 @@ export function useAppNotifications() {
         const from = event.data?.customerName ? ` from ${event.data.customerName}` : '';
         startTitleFlash(`₹${amount} received · LeadForGrow`);
         maybeShowBrowserNotification({
-          title: `💰 Payment received: ₹${amount}`,
+          title: `Payment received: ₹${amount}`,
           body: `Bill ${event.data?.billNumber || ''}${from} — paid.`,
           url: event.data?.billId
             ? `/automation/bills?view=detail&id=${event.data.billId}`

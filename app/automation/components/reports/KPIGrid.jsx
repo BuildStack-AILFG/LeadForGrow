@@ -5,10 +5,10 @@ import Sparkline from './Sparkline';
 import { buildSparkline } from './utils';
 
 const ACCENTS = {
-  blue: { bg: 'bg-teal-50 text-teal-600 dark:bg-teal-950/40 dark:text-teal-400', spark: '#2563eb' },
-  green: { bg: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400', spark: '#059669' },
-  amber: { bg: 'bg-amber-50 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400', spark: '#d97706' },
-  slate: { bg: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400', spark: '#64748b' }
+  blue: { bg: 'bg-accent-subtle text-accent-fg dark:bg-teal-950/40 dark:text-accent-fg', spark: '#2563eb' },
+  green: { bg: 'bg-accent-subtle text-accent-fg dark:bg-emerald-950/40 dark:text-accent-fg', spark: '#059669' },
+  amber: { bg: 'bg-warning-subtle text-warning dark:bg-amber-950/40 dark:text-amber-400', spark: '#d97706' },
+  slate: { bg: 'bg-muted text-fg-secondary dark:bg-slate-800 dark:text-fg-tertiary', spark: '#64748b' }
 };
 
 function KPICard({ kpi, dailyTrends, globalTrend }) {
@@ -18,15 +18,15 @@ function KPICard({ kpi, dailyTrends, globalTrend }) {
   const trendUp = showTrend ? globalTrend >= 0 : !kpi.invertTrend;
 
   return (
-    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
+    <div className="bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 rounded-lg p-4 hover:shadow-popover transition-shadow">
       <div className="flex items-start justify-between gap-2 mb-2">
-        <p className="text-[11px] font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">{kpi.label}</p>
+        <p className="text-meta font-medium text-fg-tertiary dark:text-fg-tertiary">{kpi.label}</p>
         {showTrend && (
           <span
             className={`inline-flex items-center gap-0.5 text-[10px] font-semibold px-1.5 py-0.5 rounded-md ${
               trendUp
-                ? 'text-emerald-700 bg-emerald-50 dark:bg-emerald-950/30 dark:text-emerald-400'
-                : 'text-red-700 bg-red-50 dark:bg-red-950/30 dark:text-red-400'
+                ? 'text-accent-fg bg-accent-subtle dark:bg-emerald-950/30 dark:text-accent-fg'
+                : 'text-danger bg-danger-subtle dark:bg-red-950/30 dark:text-red-400'
             }`}
           >
             {trendUp ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
@@ -34,7 +34,7 @@ function KPICard({ kpi, dailyTrends, globalTrend }) {
           </span>
         )}
       </div>
-      <p className="text-xl font-semibold text-slate-900 dark:text-slate-50 tabular-nums tracking-tight mb-2">{kpi.value}</p>
+      <p className="text-xl font-semibold text-fg dark:text-slate-50 tabular-nums tracking-tight mb-2">{kpi.value}</p>
       {sparkData.length > 0 && <Sparkline data={sparkData} color={accent.spark} />}
     </div>
   );

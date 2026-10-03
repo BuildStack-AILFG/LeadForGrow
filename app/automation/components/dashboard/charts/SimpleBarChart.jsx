@@ -6,7 +6,7 @@ export default function SimpleBarChart({ data = [], maxBars = 6, color = '#2563e
 
   if (items.length === 0) {
     return (
-      <div className="h-40 flex items-center justify-center text-sm text-slate-500 dark:text-slate-400">
+      <div className="h-40 flex items-center justify-center text-sm text-fg-tertiary dark:text-fg-tertiary">
         No data yet
       </div>
     );
@@ -17,14 +17,14 @@ export default function SimpleBarChart({ data = [], maxBars = 6, color = '#2563e
       {items.map((item) => (
         <div key={item.label} className="group">
           <div className="flex items-center justify-between text-xs mb-1.5">
-            <span className="font-medium text-slate-600 dark:text-slate-400 truncate max-w-[60%]">
+            <span className="font-medium text-fg-secondary dark:text-fg-tertiary truncate max-w-[60%]">
               {item.label || 'Unknown'}
             </span>
-            <span className="tabular-nums text-slate-900 dark:text-slate-100 font-semibold">
+            <span className="tabular-nums text-fg dark:text-slate-100 font-semibold">
               {item.value}
             </span>
           </div>
-          <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+          <div className="h-2 rounded-full bg-muted dark:bg-slate-800 overflow-hidden">
             <div
               className="h-full rounded-full transition-all duration-500 ease-out"
               style={{

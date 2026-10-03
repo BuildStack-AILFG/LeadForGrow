@@ -13,7 +13,7 @@ export default function TeamLeaderboard({ team = [] }) {
       label: '#',
       render: (row) => (
         <span className={`inline-flex w-6 h-6 items-center justify-center rounded-full text-xs font-bold ${
-          row.rank === 1 ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-600'
+          row.rank === 1 ? 'bg-warning-subtle text-warning' : 'bg-muted text-fg-secondary'
         }`}>
           {row.rank === 1 ? <Trophy className="w-3 h-3" /> : row.rank}
         </span>
@@ -21,14 +21,14 @@ export default function TeamLeaderboard({ team = [] }) {
     },
     { key: 'name', label: 'Agent' },
     { key: 'total', label: 'Assigned', render: (r) => <span className="tabular-nums">{r.total}</span> },
-    { key: 'converted', label: 'Closed', render: (r) => <span className="tabular-nums text-emerald-600">{r.converted}</span> },
+    { key: 'converted', label: 'Closed', render: (r) => <span className="tabular-nums text-accent-fg">{r.converted}</span> },
     {
       key: 'rate',
       label: 'Conversion',
       render: (r) => (
         <div className="flex items-center gap-2 min-w-[100px]">
-          <div className="flex-1 h-1.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-            <div className="h-full bg-teal-600 rounded-full" style={{ width: `${Math.min(r.rate, 100)}%` }} />
+          <div className="flex-1 h-1.5 rounded-full bg-muted dark:bg-slate-800 overflow-hidden">
+            <div className="h-full bg-accent rounded-full" style={{ width: `${Math.min(r.rate, 100)}%` }} />
           </div>
           <span className="text-xs font-semibold tabular-nums">{r.rate}%</span>
         </div>
@@ -37,7 +37,7 @@ export default function TeamLeaderboard({ team = [] }) {
     {
       key: 'response',
       label: 'Avg response',
-      render: (r) => <span className="text-xs text-slate-500">{r.response}</span>
+      render: (r) => <span className="text-xs text-fg-tertiary">{r.response}</span>
     }
   ];
 

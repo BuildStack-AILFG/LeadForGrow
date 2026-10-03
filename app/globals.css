@@ -88,12 +88,14 @@
   --text-tertiary: #656F6A;
   --text-disabled: #A9B1AD;
 
-  --accent: #1E6B4E;
-  --accent-hover: #185A41;
-  --accent-pressed: #134A35;
-  --accent-subtle: #E8F2EC;
-  --accent-text: #165A40;
-  --focus-ring: #1E6B4E66;
+  /* Brand teal-green — owner asked (2026-10-03) to keep the app's previous
+     teal #1D4B3E rather than the brief's #1E6B4E. */
+  --accent: #1D4B3E;
+  --accent-hover: #163C32;
+  --accent-pressed: #112F27;
+  --accent-subtle: #E6F4EE;
+  --accent-text: #1D4B3E;
+  --focus-ring: #1D4B3E66;
 
   --success: #2F7A4F;  --success-subtle: #E7F3EC;
   --warning: #8F5A0E;  --warning-subtle: #FBF1DF;
@@ -175,12 +177,12 @@
   --text-tertiary: #7D8883;
   --text-disabled: #525B56;
 
-  --accent: #2A7D5A;
-  --accent-hover: #31906A;
-  --accent-pressed: #246B4D;
-  --accent-subtle: #173026;
-  --accent-text: #86D2AE;
-  --focus-ring: #5BBE9166;
+  --accent: #2A7D66;
+  --accent-hover: #318F76;
+  --accent-pressed: #246B58;
+  --accent-subtle: #16302A;
+  --accent-text: #8FD5BC;
+  --focus-ring: #5BBEA066;
 
   --success: #6CC495;  --success-subtle: #16301F;
   --warning: #E0A852;  --warning-subtle: #33270F;
@@ -224,6 +226,9 @@
   .font-app h1,
   .font-app h2 {
     font-family: inherit;
+    font-weight: 600;
+    letter-spacing: normal;
+    color: inherit;
   }
 
   .metric-value {
@@ -638,27 +643,21 @@
 /* Glass surface — floating panels, coach marks, onboarding modals.
    Kept translucent-but-legible: no surface here drops below the contrast
    a body-text-on-white pairing gives you. */
+/* Flattened 2026-10-03 (DESIGN_BRIEF §4: no glassmorphism) — now the same
+   solid floating surface as every other popover. Class name kept for callers. */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.86);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: 0 8px 32px -8px rgba(15, 23, 42, 0.18), 0 2px 8px -2px rgba(15, 23, 42, 0.08);
-}
-.dark .glass-panel {
-  background: rgba(15, 23, 42, 0.82);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.45);
+  background: var(--bg-app);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-popover);
 }
 
 /* Dark glass — used for coach-mark tooltips over highlighted elements,
    where the tooltip must read clearly against any page background. */
 .glass-dark {
-  background: rgba(15, 23, 42, 0.94);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 12px 40px -8px rgba(0, 0, 0, 0.4);
+  background: var(--text-primary);
+  color: var(--bg-app);
+  border: 1px solid transparent;
+  box-shadow: var(--shadow-popover);
 }
 
 .glass-card {

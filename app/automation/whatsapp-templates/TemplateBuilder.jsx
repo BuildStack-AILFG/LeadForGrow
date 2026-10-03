@@ -324,14 +324,14 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
       {/* Header bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <div className="flex items-center gap-2 min-w-0">
-          <button type="button" onClick={onBack} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
+          <button type="button" onClick={onBack} className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800">
             <ChevronLeft className="w-4 h-4" />
           </button>
           <div className="min-w-0">
-            <h1 className="text-lg font-semibold text-slate-900 dark:text-white truncate">
+            <h1 className="text-lg font-semibold text-fg dark:text-white truncate">
               {isNew ? 'New WhatsApp template' : template.name}
             </h1>
-            <div className="flex items-center gap-2 text-xs text-slate-500">
+            <div className="flex items-center gap-2 text-xs text-fg-tertiary">
               <StatusBadge status={template.status} />
               {template.metaLastCheckedAt && (
                 <span>Last checked {new Date(template.metaLastCheckedAt).toLocaleString()}</span>
@@ -342,13 +342,13 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
         <div className="flex items-center gap-2">
           {template.metaTemplateId && (
             <button type="button" onClick={refreshStatus} disabled={refreshing}
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-lg border border-line dark:border-slate-700 hover:bg-subtle dark:hover:bg-slate-800">
               <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? 'animate-spin' : ''}`} /> Refresh status
             </button>
           )}
           {!readOnly && (
             <button type="button" onClick={saveDraft} disabled={saving}
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-lg border border-line dark:border-slate-700 hover:bg-subtle dark:hover:bg-slate-800">
               {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : null} Save draft
             </button>
           )}
@@ -367,12 +367,12 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
                     }`
                   : 'Send to Meta for approval'
               }
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-md shadow-emerald-600/20 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-accent hover:bg-accent-hover rounded-lg shadow-popover disabled:opacity-40 disabled:cursor-not-allowed"
             >
               {submitting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
               Submit for approval
               {!validation.valid && (
-                <span className="ml-1 px-1.5 py-0.5 rounded bg-white/20 text-[10px] font-bold">
+                <span className="ml-1 px-1.5 py-0.5 rounded bg-canvas/20 text-meta font-semibold">
                   {validation.totalCount}
                 </span>
               )}
@@ -382,19 +382,19 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
       </div>
 
       {template.status === 'REJECTED' && template.metaRejectionReason && (
-        <div className="mb-4 p-4 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 flex gap-3">
-          <AlertCircle className="w-5 h-5 text-red-600 shrink-0" />
+        <div className="mb-4 p-4 rounded-lg bg-danger-subtle dark:bg-red-950/30 border border-danger/30 dark:border-red-900 flex gap-3">
+          <AlertCircle className="w-5 h-5 text-danger shrink-0" />
           <div>
             <p className="text-sm font-semibold text-red-800 dark:text-red-200">Meta rejected this template</p>
-            <p className="text-xs text-red-700 dark:text-red-300 mt-1">{template.metaRejectionReason}</p>
-            <p className="text-xs text-red-600 dark:text-red-400 mt-2">Edit and resubmit — status will reset to Draft.</p>
+            <p className="text-xs text-danger dark:text-red-300 mt-1">{template.metaRejectionReason}</p>
+            <p className="text-xs text-danger dark:text-red-400 mt-2">Edit and resubmit — status will reset to Draft.</p>
           </div>
         </div>
       )}
       {readOnly && (
-        <div className="mb-4 p-3 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900 flex gap-2">
-          <Info className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
-          <p className="text-xs text-amber-800 dark:text-amber-200">
+        <div className="mb-4 p-3 rounded-lg bg-warning-subtle dark:bg-amber-950/30 border border-warning/30 dark:border-amber-900 flex gap-2">
+          <Info className="w-4 h-4 text-warning shrink-0 mt-0.5" />
+          <p className="text-xs text-warning dark:text-amber-200">
             This template is {template.status.toLowerCase()} — edits are locked. Duplicate it to make changes.
           </p>
         </div>
@@ -402,21 +402,21 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
       {!readOnly && !isNew && (
         <div className={`mb-4 p-3 rounded-xl border flex items-center gap-2 ${
           validation.valid
-            ? 'bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-900'
-            : 'bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-800'
+            ? 'bg-accent-subtle dark:bg-emerald-950/30 border-line dark:border-emerald-900'
+            : 'bg-subtle dark:bg-slate-900/50 border-line dark:border-slate-800'
         }`}>
           {validation.valid ? (
             <>
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-              <p className="text-xs font-medium text-emerald-800 dark:text-emerald-300">
+              <CheckCircle2 className="w-4 h-4 text-accent-fg shrink-0" />
+              <p className="text-xs font-medium text-accent-fg dark:text-accent-fg">
                 Ready to submit for Meta approval
               </p>
             </>
           ) : (
             <>
-              <AlertCircle className="w-4 h-4 text-slate-500 shrink-0" />
-              <p className="text-xs text-slate-600 dark:text-slate-400">
-                Fix <span className="font-semibold text-slate-900 dark:text-white">{validation.totalCount}</span> issue{validation.totalCount === 1 ? '' : 's'} in the sections below before submitting to Meta
+              <AlertCircle className="w-4 h-4 text-fg-tertiary shrink-0" />
+              <p className="text-xs text-fg-secondary dark:text-fg-tertiary">
+                Fix <span className="font-semibold text-fg dark:text-white">{validation.totalCount}</span> issue{validation.totalCount === 1 ? '' : 's'} in the sections below before submitting to Meta
               </p>
             </>
           )}
@@ -434,14 +434,14 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
                   value={template.name}
                   onChange={(e) => setTemplate({ ...template, name: e.target.value })}
                   placeholder="order_confirmation"
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm disabled:opacity-60"
+                  className="w-full px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm disabled:opacity-60"
                 />
               </Field>
               <Field label="Language">
                 <select disabled={readOnly}
                   value={template.language}
                   onChange={(e) => setTemplate({ ...template, language: e.target.value })}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm disabled:opacity-60">
+                  className="w-full px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm disabled:opacity-60">
                   {LANGUAGES.map((l) => <option key={l.code} value={l.code}>{l.label}</option>)}
                 </select>
               </Field>
@@ -452,11 +452,11 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
                       onClick={() => setTemplate({ ...template, category: c.id })}
                       className={`text-left p-3 rounded-lg border text-xs ${
                         template.category === c.id
-                          ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/20'
-                          : 'border-slate-200 dark:border-slate-700 hover:border-slate-300'
+                          ? 'border-accent bg-accent-subtle dark:bg-emerald-950/20'
+                          : 'border-line dark:border-slate-700 hover:border-line-strong'
                       }`}>
                       <p className="font-semibold">{c.label}</p>
-                      <p className="text-slate-500 mt-0.5 leading-tight">{c.desc}</p>
+                      <p className="text-fg-tertiary mt-0.5 leading-tight">{c.desc}</p>
                     </button>
                   ))}
                 </div>
@@ -472,8 +472,8 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
                     onClick={() => updateComponent('HEADER', { format: f })}
                     className={`px-3 py-1.5 rounded-lg text-xs font-medium border ${
                       header?.format === f
-                        ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/20'
-                        : 'border-slate-200 dark:border-slate-700'
+                        ? 'border-accent bg-accent-subtle dark:bg-emerald-950/20'
+                        : 'border-line dark:border-slate-700'
                     }`}>{f === 'NONE' ? 'None' : f.charAt(0) + f.slice(1).toLowerCase()}</button>
                 ))}
               </div>
@@ -486,7 +486,7 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
                     value={header.text || ''}
                     onChange={(e) => updateComponent('HEADER', { text: e.target.value })}
                     placeholder="e.g. Your order is confirmed"
-                    className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm" />
+                    className="w-full px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm" />
                 </Field>
                 {headerVarCount > 0 && (
                   <SampleValueEditor
@@ -525,9 +525,9 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
                 value={body?.text || ''}
                 onChange={(e) => updateComponent('BODY', { text: e.target.value })}
                 placeholder="Hi {{1}}, your order #{{2}} has been confirmed."
-                className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm font-mono" />
+                className="w-full px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm font-mono" />
               <button type="button" disabled={readOnly} onClick={insertBodyVar}
-                className="mt-2 inline-flex items-center gap-1 text-xs text-emerald-700 hover:underline">
+                className="mt-2 inline-flex items-center gap-1 text-xs text-accent-fg hover:underline">
                 <Plus className="w-3 h-3" /> Add variable
               </button>
             </Field>
@@ -549,29 +549,29 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
                 value={footer?.text || ''}
                 onChange={(e) => updateComponent('FOOTER', { text: e.target.value })}
                 placeholder="e.g. Reply STOP to unsubscribe"
-                className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm" />
+                className="w-full px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm" />
             </Field>
           </Section>
 
           <Section title="Buttons" optional issues={validation.issues.buttons}>
             <div className="flex flex-wrap gap-2 mb-3">
               <button type="button" disabled={readOnly} onClick={() => addButton('QUICK_REPLY')}
-                className="px-3 py-1.5 rounded-lg text-xs font-medium border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">
+                className="px-3 py-1.5 rounded-lg text-xs font-medium border border-line dark:border-slate-700 hover:bg-subtle dark:hover:bg-slate-800">
                 + Quick reply
               </button>
               <button type="button" disabled={readOnly} onClick={() => addButton('URL')}
-                className="px-3 py-1.5 rounded-lg text-xs font-medium border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">
+                className="px-3 py-1.5 rounded-lg text-xs font-medium border border-line dark:border-slate-700 hover:bg-subtle dark:hover:bg-slate-800">
                 + URL
               </button>
               <button type="button" disabled={readOnly} onClick={() => addButton('PHONE_NUMBER')}
-                className="px-3 py-1.5 rounded-lg text-xs font-medium border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">
+                className="px-3 py-1.5 rounded-lg text-xs font-medium border border-line dark:border-slate-700 hover:bg-subtle dark:hover:bg-slate-800">
                 + Call
               </button>
             </div>
             <div className="space-y-2">
               {(buttons?.buttons || []).map((b, i) => (
-                <div key={i} className="grid grid-cols-[80px_1fr_auto] gap-2 items-center p-2 rounded-lg bg-slate-50 dark:bg-slate-900/50">
-                  <span className="text-[10px] font-semibold uppercase text-slate-500 px-2">{b.type.replace('_', ' ')}</span>
+                <div key={i} className="grid grid-cols-[80px_1fr_auto] gap-2 items-center p-2 rounded-lg bg-subtle dark:bg-slate-900/50">
+                  <span className="text-meta font-semibold text-fg-tertiary px-2">{b.type.replace('_', ' ')}</span>
                   <div className="flex gap-2">
                     <input disabled={readOnly}
                       maxLength={25}
@@ -582,7 +582,7 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
                         updateComponent('BUTTONS', { buttons: next });
                       }}
                       placeholder="Button text (max 25)"
-                      className="flex-1 px-2 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs" />
+                      className="flex-1 px-2 py-1.5 rounded border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-xs" />
                     {b.type === 'URL' && (
                       <input disabled={readOnly}
                         value={b.url || ''}
@@ -592,7 +592,7 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
                           updateComponent('BUTTONS', { buttons: next });
                         }}
                         placeholder="https://…"
-                        className="flex-1 px-2 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs" />
+                        className="flex-1 px-2 py-1.5 rounded border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-xs" />
                     )}
                     {b.type === 'PHONE_NUMBER' && (
                       <input disabled={readOnly}
@@ -603,12 +603,12 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
                           updateComponent('BUTTONS', { buttons: next });
                         }}
                         placeholder="+911234567890"
-                        className="flex-1 px-2 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs" />
+                        className="flex-1 px-2 py-1.5 rounded border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-xs" />
                     )}
                   </div>
                   <button type="button" disabled={readOnly}
                     onClick={() => updateComponent('BUTTONS', { buttons: buttons.buttons.filter((_, x) => x !== i) })}
-                    className="p-1.5 rounded hover:bg-red-100 text-red-600">
+                    className="p-1.5 rounded hover:bg-danger-subtle text-danger">
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -630,23 +630,23 @@ function Section({ title, optional, required, children, issues }) {
   const hasIssues = issues?.length > 0;
   return (
     <div className={`p-5 rounded-2xl bg-white dark:bg-slate-900 border shadow-sm space-y-4 ${
-      hasIssues ? 'border-amber-300 dark:border-amber-800' : 'border-slate-200 dark:border-slate-800'
+      hasIssues ? 'border-warning/30 dark:border-amber-800' : 'border-line dark:border-slate-800'
     }`}>
       <div className="flex items-center gap-2">
-        <h3 className="text-sm font-semibold text-slate-900 dark:text-white">{title}</h3>
-        {required && <span className="text-[10px] font-medium text-red-600">Required</span>}
-        {optional && <span className="text-[10px] font-medium text-slate-400">Optional</span>}
+        <h3 className="text-sm font-semibold text-fg dark:text-white">{title}</h3>
+        {required && <span className="text-meta font-medium text-danger">Required</span>}
+        {optional && <span className="text-meta font-medium text-fg-tertiary">Optional</span>}
         {hasIssues && (
-          <span className="text-[10px] font-semibold text-amber-700 dark:text-amber-400 flex items-center gap-1">
+          <span className="text-meta font-semibold text-warning dark:text-amber-400 flex items-center gap-1">
             <AlertCircle className="w-3 h-3" /> {issues.length} to fix
           </span>
         )}
       </div>
       {hasIssues && (
-        <ul className="rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900 p-3 space-y-1">
+        <ul className="rounded-lg bg-warning-subtle dark:bg-amber-950/30 border border-warning/30 dark:border-amber-900 p-3 space-y-1">
           {issues.map((msg, i) => (
-            <li key={i} className="text-[11px] text-amber-800 dark:text-amber-300 flex items-start gap-1.5">
-              <span className="text-amber-500 mt-0.5">•</span>
+            <li key={i} className="text-meta text-warning dark:text-amber-300 flex items-start gap-1.5">
+              <span className="text-warning mt-0.5">•</span>
               <span>{msg}</span>
             </li>
           ))}
@@ -660,9 +660,9 @@ function Section({ title, optional, required, children, issues }) {
 function Field({ label, hint, children, full }) {
   return (
     <div className={full ? 'sm:col-span-2' : ''}>
-      <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">{label}</label>
+      <label className="block text-xs font-medium text-fg-secondary dark:text-fg-disabled mb-1.5">{label}</label>
       {children}
-      {hint && <p className="text-[11px] text-slate-500 mt-1">{hint}</p>}
+      {hint && <p className="text-meta text-fg-tertiary mt-1">{hint}</p>}
     </div>
   );
 }
@@ -670,11 +670,11 @@ function Field({ label, hint, children, full }) {
 function SampleValueEditor({ label, count, values, onChange, disabled }) {
   return (
     <div>
-      <p className="text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1.5">{label}</p>
+      <p className="text-meta font-medium text-fg-secondary dark:text-fg-tertiary mb-1.5">{label}</p>
       <div className="grid gap-2 sm:grid-cols-2">
         {Array.from({ length: count }, (_, i) => (
           <div key={i} className="flex items-center gap-2">
-            <span className="text-[11px] font-mono text-slate-500 shrink-0">{`{{${i + 1}}}`}</span>
+            <span className="text-meta font-mono text-fg-tertiary shrink-0">{`{{${i + 1}}}`}</span>
             <input disabled={disabled}
               value={values[i] || ''}
               onChange={(e) => {
@@ -683,7 +683,7 @@ function SampleValueEditor({ label, count, values, onChange, disabled }) {
                 onChange(next);
               }}
               placeholder={i === 0 ? 'e.g. John' : 'sample'}
-              className="w-full px-2 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs" />
+              className="w-full px-2 py-1.5 rounded border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-xs" />
           </div>
         ))}
       </div>
@@ -748,7 +748,7 @@ function MediaSampleField({ format, handle, filename, onChange, disabled }) {
             type="button"
             disabled={disabled || uploading}
             onClick={() => inputRef.current?.click()}
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium bg-emerald-600 text-white hover:bg-emerald-700 disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium bg-accent text-white hover:bg-accent-hover disabled:opacity-50"
           >
             {uploading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Upload className="w-3.5 h-3.5" />}
             {uploading ? 'Uploading to Meta…' : (handle ? `Replace ${format.toLowerCase()}` : `Upload ${format.toLowerCase()}`)}
@@ -758,7 +758,7 @@ function MediaSampleField({ format, handle, filename, onChange, disabled }) {
               type="button"
               disabled={disabled}
               onClick={() => onChange({ handle: '', filename: '', publicUrl: '' })}
-              className="inline-flex items-center gap-1 px-2 py-2 rounded-lg text-xs text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="inline-flex items-center gap-1 px-2 py-2 rounded-lg text-xs text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800"
             >
               <X className="w-3.5 h-3.5" /> Clear
             </button>
@@ -773,16 +773,16 @@ function MediaSampleField({ format, handle, filename, onChange, disabled }) {
         </div>
 
         {handle ? (
-          <div className="text-[11px] text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5 bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900 rounded-md px-2 py-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+          <div className="text-meta text-accent-fg dark:text-accent-fg flex items-center gap-1.5 bg-accent-subtle dark:bg-emerald-950/30 border border-line dark:border-emerald-900 rounded-md px-2 py-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent" />
             <span className="font-medium">Sample uploaded to Meta</span>
-            {filename && <span className="text-slate-500">· {filename}</span>}
-            <span className="text-slate-400 font-mono truncate" title={handle}>
+            {filename && <span className="text-fg-tertiary">· {filename}</span>}
+            <span className="text-fg-tertiary font-mono truncate" title={handle}>
               · {isHandle ? `${String(handle).slice(0, 14)}…` : handle}
             </span>
           </div>
         ) : (
-          <p className="text-[11px] text-slate-500">
+          <p className="text-meta text-fg-tertiary">
             Meta accepts {format === 'IMAGE' ? 'JPEG/PNG up to 5MB' : format === 'VIDEO' ? 'MP4/3GP up to 16MB' : 'PDF up to 100MB'}.
             The file is used only during Meta's review; real messages can attach any compliant file.
           </p>
@@ -794,15 +794,15 @@ function MediaSampleField({ format, handle, filename, onChange, disabled }) {
 
 function StatusBadge({ status }) {
   const styles = {
-    DRAFT: 'bg-slate-100 text-slate-700',
-    PENDING: 'bg-amber-100 text-amber-800',
-    APPROVED: 'bg-emerald-100 text-emerald-800',
-    REJECTED: 'bg-red-100 text-red-800',
-    DISABLED: 'bg-slate-100 text-slate-500',
-    PAUSED: 'bg-teal-100 text-teal-700',
+    DRAFT: 'bg-muted text-fg-secondary',
+    PENDING: 'bg-warning-subtle text-warning',
+    APPROVED: 'bg-accent-subtle text-accent-fg',
+    REJECTED: 'bg-danger-subtle text-red-800',
+    DISABLED: 'bg-muted text-fg-tertiary',
+    PAUSED: 'bg-accent-subtle text-accent-fg',
   };
   return (
-    <span className={`text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full ${styles[status] || styles.DRAFT}`}>
+    <span className={`text-meta font-semibold px-2 py-0.5 rounded-full ${styles[status] || styles.DRAFT}`}>
       {status || 'DRAFT'}
     </span>
   );

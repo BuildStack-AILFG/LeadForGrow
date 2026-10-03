@@ -36,17 +36,17 @@ function toDownloadUrl(url) {
  */
 function iconForMime(mimeType = '') {
   const t = mimeType.toLowerCase();
-  if (t.startsWith('image/')) return { Icon: ImageIcon, color: 'text-emerald-600' };
-  if (t.startsWith('video/')) return { Icon: Film, color: 'text-violet-600' };
-  if (t.startsWith('audio/')) return { Icon: Music, color: 'text-amber-600' };
-  if (t.includes('pdf')) return { Icon: FileText, color: 'text-rose-600' };
+  if (t.startsWith('image/')) return { Icon: ImageIcon, color: 'text-accent-fg' };
+  if (t.startsWith('video/')) return { Icon: Film, color: 'text-accent-fg' };
+  if (t.startsWith('audio/')) return { Icon: Music, color: 'text-warning' };
+  if (t.includes('pdf')) return { Icon: FileText, color: 'text-danger' };
   if (t.includes('word') || t.includes('officedocument.word')) {
-    return { Icon: FileText, color: 'text-blue-600' };
+    return { Icon: FileText, color: 'text-info' };
   }
   if (t.includes('sheet') || t.includes('excel') || t.includes('officedocument.spreadsheet')) {
-    return { Icon: FileText, color: 'text-green-700' };
+    return { Icon: FileText, color: 'text-accent-fg' };
   }
-  return { Icon: FileIcon, color: 'text-slate-500' };
+  return { Icon: FileIcon, color: 'text-fg-tertiary' };
 }
 
 /**
@@ -74,7 +74,7 @@ function AttachmentCards({ attachments }) {
               key={att.url || i}
               href={href}
               download={att.fileName}
-              className="block rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 max-w-[280px] hover:border-slate-300 dark:hover:border-slate-600 transition-colors"
+              className="block rounded-lg overflow-hidden border border-line dark:border-slate-700 max-w-[280px] hover:border-line-strong dark:hover:border-slate-600 transition-colors"
               title={`Download ${att.fileName}`}
             >
               {/* Preview thumbnail uses the ORIGINAL URL (not fl_attachment)
@@ -86,7 +86,7 @@ function AttachmentCards({ attachments }) {
                 className="w-full max-h-64 object-cover"
                 loading="lazy"
               />
-              <div className="flex items-center justify-between gap-2 px-2 py-1 bg-slate-50 dark:bg-slate-900/60 text-[10px] text-slate-600 dark:text-slate-400">
+              <div className="flex items-center justify-between gap-2 px-2 py-1 bg-subtle dark:bg-slate-900/60 text-meta text-fg-secondary dark:text-fg-tertiary">
                 <span className="truncate flex-1">{att.fileName}</span>
                 <span className="flex items-center gap-1 flex-shrink-0">
                   {att.size ? <span>{formatFileSize(att.size)}</span> : null}
@@ -102,17 +102,17 @@ function AttachmentCards({ attachments }) {
             key={att.url || i}
             href={href}
             download={att.fileName}
-            className="flex items-center gap-2 p-2.5 rounded-lg bg-slate-100/80 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 hover:bg-slate-200/80 transition-colors max-w-[320px]"
+            className="flex items-center gap-2 p-2.5 rounded-lg bg-muted/80 dark:bg-slate-900/50 border border-line dark:border-slate-700 hover:bg-muted/80 transition-colors max-w-[320px]"
             title={`Download ${att.fileName}`}
           >
             <Icon className={`w-5 h-5 flex-shrink-0 ${color}`} />
             <div className="min-w-0 flex-1">
               <p className="text-xs font-medium truncate">{att.fileName}</p>
               {att.size ? (
-                <p className="text-[10px] text-slate-500">{formatFileSize(att.size)}</p>
+                <p className="text-meta text-fg-tertiary">{formatFileSize(att.size)}</p>
               ) : null}
             </div>
-            <Download className="w-4 h-4 text-slate-400 flex-shrink-0" />
+            <Download className="w-4 h-4 text-fg-tertiary flex-shrink-0" />
           </a>
         );
       })}
@@ -157,14 +157,14 @@ function MediaContent({ message }) {
         download={fileName}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-2 p-2.5 mb-1 rounded-lg bg-slate-100/80 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 hover:bg-slate-200/80 transition-colors"
+        className="flex items-center gap-2 p-2.5 mb-1 rounded-lg bg-muted/80 dark:bg-slate-900/50 border border-line dark:border-slate-700 hover:bg-muted/80 transition-colors"
       >
-        <FileText className="w-5 h-5 text-teal-600 flex-shrink-0" />
+        <FileText className="w-5 h-5 text-accent-fg flex-shrink-0" />
         <div className="min-w-0 flex-1">
           <p className="text-xs font-medium truncate">{fileName}</p>
-          {content?.fileSize && <p className="text-[10px] text-slate-500">{formatFileSize(content.fileSize)}</p>}
+          {content?.fileSize && <p className="text-meta text-fg-tertiary">{formatFileSize(content.fileSize)}</p>}
         </div>
-        <Download className="w-4 h-4 text-slate-400 flex-shrink-0" />
+        <Download className="w-4 h-4 text-fg-tertiary flex-shrink-0" />
       </a>
     );
   }
@@ -185,17 +185,17 @@ function InitialAvatar({ name = '?', size = 'sm' }) {
   // sender = same tile color forever," which agents rely on for quick
   // visual scan of a thread.
   const palette = [
-    'bg-emerald-100 text-emerald-800',
-    'bg-blue-100 text-blue-800',
-    'bg-violet-100 text-violet-800',
-    'bg-rose-100 text-rose-800',
-    'bg-amber-100 text-amber-800',
-    'bg-cyan-100 text-cyan-800',
+    'bg-accent-subtle text-accent-fg',
+    'bg-info-subtle text-blue-800',
+    'bg-accent-subtle text-accent-fg',
+    'bg-danger-subtle text-rose-800',
+    'bg-warning-subtle text-warning',
+    'bg-accent-subtle text-accent-fg',
     'bg-fuchsia-100 text-fuchsia-800',
-    'bg-teal-100 text-teal-800',
+    'bg-accent-subtle text-accent-fg',
   ];
   const color = palette[ch.charCodeAt(0) % palette.length];
-  const dim = size === 'sm' ? 'w-6 h-6 text-[10px]' : 'w-8 h-8 text-xs';
+  const dim = size === 'sm' ? 'w-6 h-6 text-meta' : 'w-8 h-8 text-xs';
   return (
     <span className={`inline-flex items-center justify-center rounded-full font-semibold flex-shrink-0 ${dim} ${color}`}>
       {ch}
@@ -251,17 +251,17 @@ function EmailSenderHeader({ message, outgoing, conversation }) {
       <div className={`flex items-center gap-2 ${outgoing ? 'flex-row-reverse' : ''}`}>
         <InitialAvatar name={senderName} />
         <div className={`flex items-baseline gap-1.5 ${outgoing ? 'text-right' : 'text-left'}`}>
-          <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">{senderName}</span>
+          <span className="text-xs font-semibold text-fg dark:text-slate-200">{senderName}</span>
           {senderEmail && (
-            <span className="text-[10px] text-slate-500 dark:text-slate-400 truncate max-w-[200px]">
+            <span className="text-meta text-fg-tertiary dark:text-fg-tertiary truncate max-w-[200px]">
               &lt;{senderEmail}&gt;
             </span>
           )}
-          <span className="text-[10px] text-slate-400 dark:text-slate-500">·&nbsp;{time}</span>
+          <span className="text-meta text-fg-tertiary dark:text-fg-tertiary">·&nbsp;{time}</span>
         </div>
       </div>
       {ccPreview && (
-        <div className={`text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 ${outgoing ? 'mr-8' : 'ml-8'}`}>
+        <div className={`text-meta text-fg-tertiary dark:text-fg-tertiary mt-0.5 ${outgoing ? 'mr-8' : 'ml-8'}`}>
           cc: {ccPreview}
         </div>
       )}
@@ -298,8 +298,8 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
   if (message.isInternal) {
     return (
       <div className="flex justify-center my-2">
-        <div className="max-w-[85%] px-3 py-2 rounded-xl bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-900/50 text-xs text-green-900 dark:text-green-200">
-          <span className="flex items-center gap-1 font-medium text-[10px] uppercase tracking-wide text-green-600 dark:text-green-400 mb-1">
+        <div className="max-w-[85%] px-3 py-2 rounded-lg bg-accent-subtle dark:bg-green-950/30 border border-line dark:border-green-900/50 text-xs text-accent-fg dark:text-green-200">
+          <span className="flex items-center gap-1 font-medium text-meta text-accent-fg dark:text-accent-fg mb-1">
             <StickyNote className="w-3 h-3" /> Internal note
           </span>
           <p className="whitespace-pre-wrap break-words">{message.content?.body}</p>
@@ -311,7 +311,7 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
   if (message.direction === 'system') {
     return (
       <div className="flex justify-center my-3">
-        <span className="px-3 py-1 text-[11px] text-slate-500 bg-white/80 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700 rounded-full shadow-sm">
+        <span className="px-3 py-1 text-meta text-fg-tertiary bg-canvas/80 dark:bg-slate-800/80 border border-line/60 dark:border-slate-700 rounded-full">
           {message.content?.body}
         </span>
       </div>
@@ -324,14 +324,14 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
     const deletedOutgoing = message.direction === 'outgoing';
     return (
       <div className={`flex mb-1.5 ${deletedOutgoing ? 'justify-end' : 'justify-start'}`}>
-        <div className="group flex items-center gap-2 max-w-[70%] px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800/60 border border-dashed border-slate-300 dark:border-slate-700">
-          <Trash2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-          <p className="text-xs italic text-slate-500 dark:text-slate-400">This message was deleted</p>
+        <div className="group flex items-center gap-2 max-w-[70%] px-3 py-1.5 rounded-lg bg-muted dark:bg-slate-800/60 border border-dashed border-line-strong dark:border-slate-700">
+          <Trash2 className="w-3.5 h-3.5 text-fg-tertiary shrink-0" />
+          <p className="text-xs italic text-fg-tertiary dark:text-fg-tertiary">This message was deleted</p>
           <button
             type="button"
             onClick={() => onAction(message._id, 'restore')}
             title="Restore message"
-            className="ml-1 p-0.5 rounded text-slate-400 hover:text-teal-600 hover:bg-white dark:hover:bg-slate-700 opacity-0 group-hover:opacity-100 transition-opacity"
+            className="ml-1 p-0.5 rounded text-fg-tertiary hover:text-accent-fg hover:bg-canvas dark:hover:bg-slate-700 opacity-0 group-hover:opacity-100 transition-opacity"
           >
             <RotateCcw className="w-3.5 h-3.5" />
           </button>
@@ -400,14 +400,14 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
   let bubbleClass;
   let tailClass;
   if (failed) {
-    bubbleClass = 'bg-red-50 dark:bg-red-950/40 text-red-950 dark:text-red-100 border border-red-200 dark:border-red-900/60 rounded-lg rounded-tr-none';
-    tailClass = 'right-1 bg-red-50 dark:bg-red-950/40';
+    bubbleClass = 'bg-danger-subtle dark:bg-red-950/40 text-red-950 dark:text-red-100 border border-danger/30 dark:border-red-900/60 rounded-lg rounded-tr-none';
+    tailClass = 'right-1 bg-danger-subtle dark:bg-red-950/40';
   } else if (outgoing) {
-    bubbleClass = 'bg-[#1F8A5E] dark:bg-[#005c4b] text-white rounded-lg rounded-tr-none';
-    tailClass = 'right-1 bg-[#1F8A5E] dark:bg-[#005c4b]';
+    bubbleClass = 'bg-accent dark:bg-[#005c4b] text-white rounded-lg rounded-tr-none';
+    tailClass = 'right-1 bg-accent dark:bg-[#005c4b]';
   } else {
-    bubbleClass = 'bg-white dark:bg-[#202c33] text-[#111b21] dark:text-[#e9edef] border border-slate-200/70 dark:border-transparent rounded-lg rounded-tl-none';
-    tailClass = 'left-1 bg-white dark:bg-[#202c33]';
+    bubbleClass = 'bg-canvas dark:bg-[#202c33] text-[#111b21] dark:text-[#e9edef] border border-line/70 dark:border-transparent rounded-lg rounded-tl-none';
+    tailClass = 'left-1 bg-canvas dark:bg-[#202c33]';
   }
 
   // Wrapper spacing shrinks when this bubble is grouped with the previous
@@ -436,7 +436,7 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
             <button
               type="button"
               onClick={() => onAction(message._id, 'reply')}
-              className="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-blue-600"
+              className="p-1 rounded hover:bg-muted dark:hover:bg-slate-800 text-fg-tertiary hover:text-info"
               title="Reply to this message"
             >
               <CornerUpLeft className="w-3.5 h-3.5" />
@@ -445,7 +445,7 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
           <button
             type="button"
             onClick={() => onAction(message._id, message.starred ? 'unstar' : 'star')}
-            className={`p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 ${message.starred ? 'text-green-600' : 'text-slate-400'}`}
+            className={`p-1 rounded hover:bg-muted dark:hover:bg-slate-800 ${message.starred ? 'text-accent-fg' : 'text-fg-tertiary'}`}
             title={message.starred ? 'Remove star' : 'Star message'}
           >
             <Star className="w-3.5 h-3.5" fill={message.starred ? 'currentColor' : 'none'} />
@@ -453,7 +453,7 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
           <button
             type="button"
             onClick={() => onAction(message._id, 'trash')}
-            className="p-1 rounded text-slate-400 hover:text-rose-600 hover:bg-slate-100 dark:hover:bg-slate-800"
+            className="p-1 rounded text-fg-tertiary hover:text-danger hover:bg-muted dark:hover:bg-slate-800"
             title="Delete message"
             aria-label="Delete message"
           >
@@ -461,7 +461,7 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
           </button>
         </div>
       )}
-      <div className={`relative max-w-[75%] pl-2.5 pr-2 py-1.5 text-sm shadow-[0_1px_0.5px_rgba(11,20,26,0.13)] ${bubbleClass}`}>
+      <div className={`relative max-w-[75%] pl-2.5 pr-2 py-1.5 text-sm ${bubbleClass}`}>
         {/* WhatsApp bubble tail */}
         <span
           className={`absolute top-0 w-2 h-3 overflow-hidden ${outgoing ? '-right-1.5' : '-left-1.5'}`}
@@ -471,9 +471,9 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
         </span>
 
         {failed && (
-          <div className="flex items-center gap-1.5 mb-1 pb-1 border-b border-red-200/70 dark:border-red-900/40">
-            <AlertCircle className="w-3.5 h-3.5 text-red-600 dark:text-red-400 flex-shrink-0" />
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-red-700 dark:text-red-300">
+          <div className="flex items-center gap-1.5 mb-1 pb-1 border-b border-danger/30 dark:border-red-900/40">
+            <AlertCircle className="w-3.5 h-3.5 text-danger dark:text-red-400 flex-shrink-0" />
+            <span className="text-meta font-semibold text-danger dark:text-red-300">
               Not delivered
             </span>
           </div>
@@ -485,7 +485,7 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
           if (!meta) return null;
           return (
             <span
-              className={`inline-block text-[9px] font-semibold uppercase tracking-wider border rounded px-1.5 py-[1px] mb-1 mr-1 ${meta.bg}`}
+              className={`inline-block text-meta font-semibold border rounded px-1.5 py-[1px] mb-1 mr-1 ${meta.bg}`}
             >
               {meta.label}
             </span>
@@ -514,14 +514,14 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
             <button
               type="button"
               onClick={() => setQuoteExpanded((v) => !v)}
-              className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-slate-500 hover:text-slate-800 hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition-colors leading-none"
+              className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-fg-tertiary hover:text-fg hover:bg-muted/60 dark:hover:bg-slate-800/60 transition-colors leading-none"
               title={quoteExpanded ? 'Hide quoted history' : 'Show quoted history'}
               aria-expanded={quoteExpanded}
             >
-              <span className="text-[13px] tracking-wide font-bold">…</span>
+              <span className="text-dense font-semibold">…</span>
             </button>
             {quoteExpanded && (
-              <div className="mt-1 pl-3 border-l-2 border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400 text-[12px] leading-[1.4] whitespace-pre-wrap break-words">
+              <div className="mt-1 pl-3 border-l-2 border-line-strong dark:border-slate-600 text-fg-tertiary dark:text-fg-tertiary text-meta leading-[1.4] whitespace-pre-wrap break-words">
                 {quotedBody}
               </div>
             )}
@@ -534,19 +534,19 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
           <button
             type="button"
             onClick={() => setShowRawText((v) => !v)}
-            className="text-[10px] text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 mt-1 underline underline-offset-2"
+            className="text-meta text-fg-tertiary hover:text-fg-secondary dark:hover:text-slate-200 mt-1 underline underline-offset-2"
           >
             {showRawText ? 'Show rich view' : 'Show plain text'}
           </button>
         )}
         <div className={`flex items-center justify-end gap-1 -mt-1 float-right ${
           failed
-            ? 'text-red-600/80 dark:text-red-400/80'
+            ? 'text-danger/80 dark:text-red-400/80'
             : outgoing
               ? 'text-white/75'
               : 'text-[#667781] dark:text-[#8696a0]'
         }`}>
-          <span className="text-[10px] leading-none tabular-nums">{time}</span>
+          <span className="text-meta leading-none tabular-nums">{time}</span>
           {outgoing && (
             message.status === 'sending' ? (
               <Clock className="w-3.5 h-3.5" />
@@ -575,7 +575,7 @@ function FailedIndicator({ message }) {
   const decoded = code ? decodeMetaError(code, raw) : null;
 
   if (!raw && !decoded) {
-    return <span className="text-[9px] text-red-500">Failed</span>;
+    return <span className="text-meta text-danger">Failed</span>;
   }
 
   return (
@@ -583,43 +583,43 @@ function FailedIndicator({ message }) {
       <button
         type="button"
         onClick={(e) => { e.stopPropagation(); setOpen((v) => !v); }}
-        className="inline-flex items-center gap-1 text-[9px] font-semibold text-red-500 hover:text-red-700 cursor-pointer"
+        className="inline-flex items-center gap-1 text-meta font-semibold text-danger hover:text-danger cursor-pointer"
         title="Click to see why it failed"
       >
         <AlertCircle className="w-3 h-3" /> Failed
       </button>
       {open && (
         <div
-          className="absolute right-0 bottom-full mb-2 z-20 w-64 rounded-lg border border-red-200 bg-white dark:bg-slate-900 dark:border-red-900 shadow-xl p-3 text-left"
+          className="absolute right-0 bottom-full mb-2 z-20 w-64 rounded-lg border border-danger/30 bg-canvas dark:bg-slate-900 dark:border-red-900 shadow-modal p-3 text-left"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex items-start gap-2 mb-1.5">
             {decoded?.code && (
-              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-red-50 border border-red-200 text-red-700 shrink-0">
+              <span className="text-meta font-mono px-1.5 py-0.5 rounded bg-danger-subtle border border-danger/30 text-danger shrink-0">
                 {decoded.code}
               </span>
             )}
-            <p className="text-xs font-semibold text-slate-900 dark:text-slate-100">
+            <p className="text-xs font-semibold text-fg dark:text-slate-100">
               {decoded?.title || 'Delivery failed'}
             </p>
           </div>
           {decoded?.explanation && (
-            <p className="text-[11px] text-slate-600 dark:text-slate-400 mb-1.5">
+            <p className="text-meta text-fg-secondary dark:text-fg-tertiary mb-1.5">
               <span className="font-semibold">Why:</span> {decoded.explanation}
             </p>
           )}
           {decoded?.actionable && (
-            <p className="text-[11px] text-slate-600 dark:text-slate-400 mb-1.5">
+            <p className="text-meta text-fg-secondary dark:text-fg-tertiary mb-1.5">
               <span className="font-semibold">Fix:</span> {decoded.actionable}
             </p>
           )}
           {raw && !decoded?.isKnown && (
-            <p className="text-[10px] text-slate-500 font-mono break-words">{String(raw).slice(0, 240)}</p>
+            <p className="text-meta text-fg-tertiary font-mono break-words">{String(raw).slice(0, 240)}</p>
           )}
           <button
             type="button"
             onClick={() => setOpen(false)}
-            className="mt-2 text-[10px] text-slate-500 hover:underline"
+            className="mt-2 text-meta text-fg-tertiary hover:underline"
           >
             Close
           </button>

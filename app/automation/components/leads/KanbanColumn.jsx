@@ -1,25 +1,33 @@
 'use client';
 
 import { useDroppable } from '@dnd-kit/core';
+import Badge from '@/app/components/ui/Badge';
+import cx from '@/app/components/ui/cx';
 
-export default function KanbanColumn({ id, title, count, children, color = '#94a3b8' }) {
+/**
+ * Board column (DESIGN_BRIEF §8): 288px, header = stage dot + name + count,
+ * cards sit on a subtle track; drop target gets an accent dashed outline.
+ */
+export default function KanbanColumn({ id, title, count, children, color = 'var(--stage-1)', total }) {
   const { setNodeRef, isOver } = useDroppable({ id });
 
   return (
-    <div
-      ref={setNodeRef}
-      className={`flex-shrink-0 w-72 flex flex-col rounded-xl border ${
-        isOver ? 'border-teal-400 bg-teal-50/30 dark:bg-teal-950/20' : 'border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50'
-      }`}
-    >
-      <div className="px-3 py-3 border-b border-slate-200 dark:border-slate-800 flex items-center gap-2">
-        <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: color }} />
-        <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-200">{title}</h3>
-        <span className="ml-auto text-xs font-medium text-slate-500 tabular-nums">{count}</span>
-      </div>
-      <div className="p-2 flex-1 overflow-y-auto max-h-[calc(100vh-280px)] min-h-[200px]">
+    <section aria-label={title} className="flex w-[288px] shrink-0 flex-col">
+      <header className="flex h-9 items-center gap-2 px-1">
+        <span aria-hidden className="h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: color }} />
+        <h3 className="truncate text-dense font-medium text-fg">{title}</h3>
+        <Badge count>{count}</Badge>
+        {total != null && <span className="ml-auto text-meta text-fg-tertiary tabular">{total}</span>}
+      </header>
+      <div
+        ref={setNodeRef}
+        className={cx(
+          'flex min-h-[200px] max-h-[calc(100vh-260px)] flex-1 flex-col gap-2 overflow-y-auto rounded-lg p-1 transition-colors duration-[var(--duration-fast)]',
+          isOver ? 'bg-accent-subtle outline-1 outline-dashed outline-accent' : 'bg-subtle'
+        )}
+      >
         {children}
       </div>
-    </div>
+    </section>
   );
 }

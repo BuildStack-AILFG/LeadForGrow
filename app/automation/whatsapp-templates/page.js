@@ -12,12 +12,12 @@ import TemplateChannelTabs from '../components/templates/TemplateChannelTabs';
 import { useConfirm } from '@/app/components/ConfirmProvider';
 
 const STATUS_STYLES = {
-  DRAFT: 'bg-slate-100 text-slate-700',
-  PENDING: 'bg-amber-100 text-amber-800',
-  APPROVED: 'bg-emerald-100 text-emerald-800',
-  REJECTED: 'bg-red-100 text-red-800',
-  DISABLED: 'bg-slate-100 text-slate-500',
-  PAUSED: 'bg-teal-100 text-teal-700',
+  DRAFT: 'bg-muted text-fg-secondary',
+  PENDING: 'bg-warning-subtle text-warning',
+  APPROVED: 'bg-accent-subtle text-accent-fg',
+  REJECTED: 'bg-danger-subtle text-red-800',
+  DISABLED: 'bg-muted text-fg-tertiary',
+  PAUSED: 'bg-accent-subtle text-accent-fg',
 };
 
 const FILTERS = ['ALL', 'DRAFT', 'PENDING', 'APPROVED', 'REJECTED'];
@@ -46,8 +46,8 @@ function TemplateCardBody({ template, badge, minHeight = 'min-h-[110px]' }) {
   return (
     <div className={`relative bg-[#DCF3E7] p-3 ${minHeight}`}>
       {badge && <div className="absolute top-2 right-2">{badge}</div>}
-      <p className="font-semibold text-[13px] text-[#0B2B1E] mb-1 pr-14 line-clamp-1">{template.name}</p>
-      <p className="text-[11px] text-[#0B2B1E]/80 leading-snug line-clamp-4 whitespace-pre-wrap">
+      <p className="font-semibold text-dense text-[#0B2B1E] mb-1 pr-14 line-clamp-1">{template.name}</p>
+      <p className="text-meta text-[#0B2B1E]/80 leading-snug line-clamp-4 whitespace-pre-wrap">
         {body?.text || <span className="italic text-[#0B2B1E]/50">No body text yet</span>}
       </p>
     </div>
@@ -56,9 +56,9 @@ function TemplateCardBody({ template, badge, minHeight = 'min-h-[110px]' }) {
 
 function TemplateCard({ template, onExpand }) {
   return (
-    <div className="group relative rounded-lg overflow-hidden border border-[#bfe3cf] shadow-sm">
+    <div className="group relative rounded-lg overflow-hidden border border-line">
       <TemplateCardBody template={template} minHeight="min-h-[132px]" />
-      <div className="bg-white px-3 py-2 text-[11px] text-slate-500 truncate border-t border-[#bfe3cf]">
+      <div className="bg-canvas px-3 py-2 text-meta text-fg-tertiary truncate border-t border-line">
         {template.name}
       </div>
 
@@ -68,7 +68,7 @@ function TemplateCard({ template, onExpand }) {
         <button
           type="button"
           onClick={onExpand}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-white text-slate-900 text-xs font-semibold hover:bg-slate-100"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-canvas text-fg text-xs font-semibold hover:bg-muted"
         >
           <Maximize2 className="w-3 h-3" /> Expand
         </button>
@@ -203,21 +203,21 @@ export default function WhatsAppTemplatesPage() {
     <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-6">
       <div className="flex flex-wrap items-start justify-between gap-3 mb-5">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded bg-[#1D4B3E] flex items-center justify-center flex-shrink-0">
-            <LayoutGrid className="w-[18px] h-[18px] text-white" />
+          <div className="w-9 h-9 rounded bg-canvas border border-line flex items-center justify-center flex-shrink-0">
+            <LayoutGrid className="w-[18px] h-[18px] text-fg-secondary" />
           </div>
           <div>
-            <h1 className="text-xl font-semibold text-slate-900 dark:text-white">Templates</h1>
-            <p className="text-xs text-slate-500 mt-0.5">Managing WhatsApp Templates</p>
+            <h1 className="text-xl font-semibold text-fg dark:text-white">Templates</h1>
+            <p className="text-xs text-fg-tertiary mt-0.5">Managing WhatsApp Templates</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <button type="button" onClick={syncFromMeta} disabled={syncing}
-            className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-[#1D4B3E] bg-[#F0F9F5] hover:bg-[#dcefe6] rounded disabled:opacity-50">
+            className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-accent-fg bg-accent-subtle hover:bg-accent-subtle rounded disabled:opacity-50">
             <RefreshCw className={`w-3.5 h-3.5 ${syncing ? 'animate-spin' : ''}`} /> Sync from Meta
           </button>
           <button type="button" onClick={() => setCreating(true)}
-            className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-[#1D4B3E] hover:bg-[#163c32] rounded shadow-sm">
+            className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-accent hover:bg-accent-hover rounded">
             <Plus className="w-3.5 h-3.5" /> New Template
           </button>
         </div>
@@ -226,7 +226,7 @@ export default function WhatsAppTemplatesPage() {
       <AutoPageIntro />
 
       {/* Tabs */}
-      <div className="flex items-center gap-6 border-b border-slate-200 dark:border-slate-800 mb-6">
+      <div className="flex items-center gap-6 border-b border-line dark:border-slate-800 mb-6">
         {TABS.map((t) => (
           <button
             key={t.id}
@@ -234,8 +234,8 @@ export default function WhatsAppTemplatesPage() {
             onClick={() => setActiveTab(t.id)}
             className={`pb-3 text-sm font-medium border-b-2 -mb-px transition-colors ${
               activeTab === t.id
-                ? 'border-[#1D4B3E] text-[#1D4B3E]'
-                : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+                ? 'border-accent text-accent-fg'
+                : 'border-transparent text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled'
             }`}
           >
             {t.label}
@@ -246,21 +246,21 @@ export default function WhatsAppTemplatesPage() {
       {/* Search + status filter — shared across all 3 tabs so Library (the default landing
           view) and Deleted aren't stuck with no way to find a specific template. */}
       <div className="flex flex-wrap items-center gap-3 mb-5">
-        <div className="flex gap-1 p-1 bg-white dark:bg-slate-900 rounded shadow-sm">
+        <div className="flex gap-1 p-1 bg-canvas dark:bg-slate-900 rounded">
           {FILTERS.map((f) => (
             <button key={f} type="button" onClick={() => setFilter(f)}
               className={`px-3 py-1.5 text-xs font-medium rounded ${
-                filter === f ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white' : 'text-slate-500 hover:text-slate-700'
+                filter === f ? 'bg-muted dark:bg-slate-800 text-fg dark:text-white' : 'text-fg-tertiary hover:text-fg-secondary'
               }`}>
               {f.charAt(0) + f.slice(1).toLowerCase()}
-              {f !== 'ALL' && counts[f] ? <span className="ml-1 text-slate-400">({counts[f]})</span> : null}
+              {f !== 'ALL' && counts[f] ? <span className="ml-1 text-fg-tertiary">({counts[f]})</span> : null}
             </button>
           ))}
         </div>
         <div className="relative flex-1 min-w-[220px]">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-fg-tertiary" />
           <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search by name…"
-            className="w-full pl-10 pr-4 py-2 rounded bg-white dark:bg-slate-900 border-0 shadow-sm text-sm" />
+            className="w-full pl-10 pr-4 py-2 rounded bg-canvas dark:bg-slate-900 border-0 text-sm" />
         </div>
       </div>
 
@@ -268,33 +268,33 @@ export default function WhatsAppTemplatesPage() {
         loading ? (
           <PageLoader label="Loading templates…" height="40vh" />
         ) : templates.length === 0 ? (
-          <div className="text-center py-16 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-            <MessageCircle className="w-10 h-10 text-slate-300 mx-auto mb-3" />
-            <p className="text-sm font-medium text-slate-700 dark:text-slate-300">No templates yet</p>
-            <p className="text-xs text-slate-500 mt-1 mb-4">Build one from scratch or pull existing templates from Meta.</p>
+          <div className="text-center py-16 rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800">
+            <MessageCircle className="w-10 h-10 text-fg-disabled mx-auto mb-3" />
+            <p className="text-sm font-medium text-fg-secondary dark:text-fg-disabled">No templates yet</p>
+            <p className="text-xs text-fg-tertiary mt-1 mb-4">Build one from scratch or pull existing templates from Meta.</p>
             <div className="flex justify-center gap-2">
               <button type="button" onClick={() => setCreating(true)}
-                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-[#1D4B3E] rounded">
+                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-accent rounded">
                 <Plus className="w-3.5 h-3.5" /> Build new template
               </button>
               <button type="button" onClick={syncFromMeta} disabled={syncing}
-                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-[#1D4B3E] bg-[#F0F9F5] rounded">
+                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-accent-fg bg-accent-subtle rounded">
                 <RefreshCw className={`w-3.5 h-3.5 ${syncing ? 'animate-spin' : ''}`} /> Import from Meta
               </button>
             </div>
           </div>
         ) : byCategory.length === 0 ? (
-          <div className="text-center py-16 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-            <MessageCircle className="w-10 h-10 text-slate-300 mx-auto mb-3" />
-            <p className="text-sm font-medium text-slate-700 dark:text-slate-300">No templates match this filter</p>
+          <div className="text-center py-16 rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800">
+            <MessageCircle className="w-10 h-10 text-fg-disabled mx-auto mb-3" />
+            <p className="text-sm font-medium text-fg-secondary dark:text-fg-disabled">No templates match this filter</p>
           </div>
         ) : (
           <div className="flex gap-5 overflow-x-auto pb-4">
             {byCategory.map((col) => (
               <div key={col.id} className="flex-shrink-0 w-[240px]">
-                <div className="flex items-baseline justify-between mb-3 pb-2 border-b border-slate-200 dark:border-slate-800">
-                  <h3 className="text-[11px] font-bold uppercase tracking-wide text-slate-500">{col.label}</h3>
-                  <span className="text-[11px] text-slate-400">{col.templates.length} template{col.templates.length === 1 ? '' : 's'}</span>
+                <div className="flex items-baseline justify-between mb-3 pb-2 border-b border-line dark:border-slate-800">
+                  <h3 className="text-meta font-semibold text-fg-tertiary">{col.label}</h3>
+                  <span className="text-meta text-fg-tertiary">{col.templates.length} template{col.templates.length === 1 ? '' : 's'}</span>
                 </div>
                 <div className="space-y-3">
                   {col.templates.map((t) => (
@@ -312,35 +312,35 @@ export default function WhatsAppTemplatesPage() {
           {loading ? (
             <PageLoader label="Loading templates…" height="40vh" />
           ) : filtered.length === 0 ? (
-            <div className="text-center py-16 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-              <MessageCircle className="w-10 h-10 text-slate-300 mx-auto mb-3" />
-              <p className="text-sm font-medium text-slate-700 dark:text-slate-300">No templates match this filter</p>
+            <div className="text-center py-16 rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800">
+              <MessageCircle className="w-10 h-10 text-fg-disabled mx-auto mb-3" />
+              <p className="text-sm font-medium text-fg-secondary dark:text-fg-disabled">No templates match this filter</p>
             </div>
           ) : (
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {filtered.map((t) => (
                 <div key={t._id}
-                  className="group relative rounded-lg overflow-hidden border border-[#bfe3cf] shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                  className="group relative rounded-lg overflow-hidden border border-line hover:shadow-popover transition-shadow cursor-pointer"
                   onClick={() => setEditingId(t._id)}>
                   <TemplateCardBody
                     template={t}
                     badge={
-                      <span className={`text-[9px] font-bold uppercase px-1.5 py-0.5 rounded-full shrink-0 ${STATUS_STYLES[t.status] || STATUS_STYLES.DRAFT}`}>
+                      <span className={`text-meta font-semibold px-1.5 py-0.5 rounded-full shrink-0 ${STATUS_STYLES[t.status] || STATUS_STYLES.DRAFT}`}>
                         {t.status}
                       </span>
                     }
                   />
-                  <div className="bg-white px-3 py-2 border-t border-[#bfe3cf]">
-                    <div className="flex items-center justify-between gap-2 text-[10px] text-slate-500">
+                  <div className="bg-canvas px-3 py-2 border-t border-line">
+                    <div className="flex items-center justify-between gap-2 text-meta text-fg-tertiary">
                       <span className="truncate">{t.category} · {t.language} · {t.source === 'imported' ? 'From Meta' : 'Built here'}</span>
                       <button type="button"
                         onClick={(e) => { e.stopPropagation(); deleteTemplate(t); }}
-                        className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-red-50 text-red-500 flex-shrink-0">
+                        className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-danger-subtle text-danger flex-shrink-0">
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
                     </div>
                     {t.status === 'REJECTED' && t.metaRejectionReason && (
-                      <p className="mt-1 text-[10px] text-red-600 line-clamp-2">Rejected: {t.metaRejectionReason}</p>
+                      <p className="mt-1 text-meta text-danger line-clamp-2">Rejected: {t.metaRejectionReason}</p>
                     )}
                   </div>
                 </div>
@@ -354,25 +354,25 @@ export default function WhatsAppTemplatesPage() {
         deletedLoading ? (
           <PageLoader label="Loading deleted templates…" height="40vh" />
         ) : deletedTemplates.length === 0 ? (
-          <div className="text-center py-16 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-            <Trash2 className="w-10 h-10 text-slate-300 mx-auto mb-3" />
-            <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Nothing deleted</p>
-            <p className="text-xs text-slate-500 mt-1">Templates you delete show up here and can be restored.</p>
+          <div className="text-center py-16 rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800">
+            <Trash2 className="w-10 h-10 text-fg-disabled mx-auto mb-3" />
+            <p className="text-sm font-medium text-fg-secondary dark:text-fg-disabled">Nothing deleted</p>
+            <p className="text-xs text-fg-tertiary mt-1">Templates you delete show up here and can be restored.</p>
           </div>
         ) : filteredDeleted.length === 0 ? (
-          <div className="text-center py-16 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-            <Trash2 className="w-10 h-10 text-slate-300 mx-auto mb-3" />
-            <p className="text-sm font-medium text-slate-700 dark:text-slate-300">No deleted templates match this filter</p>
+          <div className="text-center py-16 rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800">
+            <Trash2 className="w-10 h-10 text-fg-disabled mx-auto mb-3" />
+            <p className="text-sm font-medium text-fg-secondary dark:text-fg-disabled">No deleted templates match this filter</p>
           </div>
         ) : (
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filteredDeleted.map((t) => (
-              <div key={t._id} className="rounded-lg overflow-hidden border border-[#bfe3cf] shadow-sm opacity-90">
+              <div key={t._id} className="rounded-lg overflow-hidden border border-line opacity-90">
                 <TemplateCardBody template={t} />
-                <div className="bg-white px-3 py-2 border-t border-[#bfe3cf] flex items-center justify-between gap-2">
-                  <p className="text-[10px] text-slate-400 truncate">Deleted {formatRelative(t.deletedAt)}</p>
+                <div className="bg-canvas px-3 py-2 border-t border-line flex items-center justify-between gap-2">
+                  <p className="text-meta text-fg-tertiary truncate">Deleted {formatRelative(t.deletedAt)}</p>
                   <button type="button" onClick={() => restoreTemplate(t)}
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-semibold text-[#1D4B3E] bg-[#F0F9F5] hover:bg-[#dcefe6] rounded flex-shrink-0">
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 text-meta font-semibold text-accent-fg bg-accent-subtle hover:bg-accent-subtle rounded flex-shrink-0">
                     <RotateCcw className="w-3 h-3" /> Restore
                   </button>
                 </div>

@@ -13,7 +13,7 @@ import AutoPageIntro from '@/app/automation/components/shared/tour/AutoPageIntro
 import DiscoveryLink from '@/app/automation/components/shared/tour/DiscoveryLink';
 
 const RevenueChart = dynamic(() => import('../components/reports/RevenueChart'), {
-  loading: () => <div className="h-64 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl animate-pulse" />,
+  loading: () => <div className="h-64 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 rounded-lg animate-pulse" />,
   ssr: false
 });
 const FunnelChart = dynamic(() => import('../components/reports/FunnelChart'), { ssr: false });
@@ -33,7 +33,7 @@ function ReportsContent() {
   const statusCounts = ws.reports?.statusCounts || {};
 
   return (
-    <div className="min-h-full bg-[#f8f9fc] dark:bg-slate-950">
+    <div className="min-h-full bg-subtle dark:bg-slate-950">
       <div className="px-4 sm:px-6 pb-8 max-w-[1600px] mx-auto">
         <ReportsHeader
           period={ws.period}
@@ -50,7 +50,7 @@ function ReportsContent() {
         <AutoPageIntro />
 
         {ws.error && (
-          <div className="mt-4 px-4 py-3 text-sm text-red-700 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 rounded-lg">
+          <div className="mt-4 px-4 py-3 text-sm text-danger bg-danger-subtle dark:bg-red-950/30 border border-danger/30 dark:border-red-900 rounded-lg">
             {ws.error}
           </div>
         )}

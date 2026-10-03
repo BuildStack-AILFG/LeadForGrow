@@ -16,26 +16,26 @@ import { formatCurrency } from '@/lib/crm/formatCurrency';
 
 function FocusItem({ icon: Icon, title, subtitle, href, actionLabel, accent = 'slate' }) {
   const accents = {
-    slate: 'text-slate-500 bg-slate-100 dark:bg-slate-800',
-    amber: 'text-amber-600 bg-amber-50 dark:bg-amber-950/30',
-    emerald: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30',
-    red: 'text-red-600 bg-red-50 dark:bg-red-950/30',
-    violet: 'text-violet-600 bg-violet-50 dark:bg-violet-950/30',
+    slate: 'text-fg-tertiary bg-muted dark:bg-slate-800',
+    amber: 'text-warning bg-warning-subtle dark:bg-amber-950/30',
+    emerald: 'text-accent-fg bg-accent-subtle dark:bg-emerald-950/30',
+    red: 'text-danger bg-danger-subtle dark:bg-red-950/30',
+    violet: 'text-accent-fg bg-accent-subtle dark:bg-violet-950/30',
   };
 
   return (
-    <div className="flex items-center gap-3 p-3 rounded-lg border border-slate-100 dark:border-slate-800 hover:border-emerald-200 dark:hover:border-emerald-900/50 transition-colors">
+    <div className="flex items-center gap-3 p-3 rounded-lg border border-line dark:border-slate-800 hover:border-line dark:hover:border-emerald-900/50 transition-colors">
       <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${accents[accent]}`}>
         <Icon className="w-4 h-4" />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">{title}</p>
-        {subtitle && <p className="text-xs text-slate-500 truncate">{subtitle}</p>}
+        <p className="text-sm font-medium text-fg dark:text-slate-100 truncate">{title}</p>
+        {subtitle && <p className="text-xs text-fg-tertiary truncate">{subtitle}</p>}
       </div>
       {href && (
         <Link
           href={href}
-          className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 dark:bg-emerald-950/30 rounded-md hover:bg-emerald-100"
+          className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-accent-fg bg-accent-subtle dark:bg-emerald-950/30 rounded-md hover:bg-accent-subtle"
         >
           {actionLabel || 'Open'} <ArrowRight className="w-3 h-3" />
         </Link>
@@ -137,15 +137,15 @@ export default function TodaysFocus({ focus, currency = 'INR' }) {
     <DashboardCard padding="p-5">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h2 className="text-base font-semibold text-slate-900 dark:text-white">Today&apos;s Focus</h2>
-          <p className="text-xs text-slate-500 mt-0.5">What needs your attention right now</p>
+          <h2 className="text-base font-semibold text-fg dark:text-white">Today&apos;s Focus</h2>
+          <p className="text-xs text-fg-tertiary mt-0.5">What needs your attention right now</p>
         </div>
-        <span className="text-xs font-medium px-2 py-1 rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400">
+        <span className="text-xs font-medium px-2 py-1 rounded-full bg-accent-subtle text-accent-fg dark:bg-emerald-950/30 dark:text-accent-fg">
           {items.length} items
         </span>
       </div>
       {items.length === 0 ? (
-        <p className="text-sm text-slate-500 py-8 text-center">You&apos;re all caught up — great work!</p>
+        <p className="text-sm text-fg-tertiary py-8 text-center">You&apos;re all caught up — great work!</p>
       ) : (
         <div className="space-y-2 max-h-[420px] overflow-y-auto pr-1">
           {items.slice(0, 12).map((item) => (

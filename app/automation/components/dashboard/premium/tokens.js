@@ -56,32 +56,32 @@ export const DASHBOARD_THEME = {
 export const CHART = {
   line: '#1D4B3E',
   lineSoft: '#1D4B3E',
-  gradTop: 'rgba(29,75,62,0.20)',
-  gradBottom: 'rgba(29,75,62,0)',
+  gradTop: 'rgba(29,75,62,0.06)',
+  gradBottom: 'rgba(29,75,62,0.06)',
   grid: '#EEF1F0',
   segments: ['#1D4B3E', '#2F6B58', '#8FC4AE'],
 };
 
 // Typography — premium SaaS: Inter, regular/medium only, no bold.
 export const FONT = {
-  pageTitle: 'text-[28px] sm:text-[32px] font-medium tracking-[-0.02em] text-[#1A1D1F] leading-tight',
-  sectionTitle: 'text-[15px] font-medium tracking-[-0.01em] text-[#1A1D1F]',
-  cardTitle: 'text-[13px] font-medium text-[#1A1D1F]',
-  cardLabel: 'text-[13px] font-normal text-[#475569]',
-  metric: 'text-[22px] font-medium text-[#1A1D1F] leading-none tracking-[-0.02em] tabular-nums',
-  metricSm: 'text-[18px] font-medium text-[#1A1D1F] leading-none tracking-[-0.02em] tabular-nums',
-  sub: 'text-[13px] font-normal text-[#94A3B8]',
-  muted: 'text-[13px] font-normal text-[#475569]',
+  pageTitle: 'text-hero sm:text-hero font-medium tracking-[-0.02em] text-fg leading-tight',
+  sectionTitle: 'text-body font-medium tracking-[-0.01em] text-fg',
+  cardTitle: 'text-dense font-medium text-fg',
+  cardLabel: 'text-dense font-normal text-fg-secondary',
+  metric: 'text-page font-medium text-fg leading-none tracking-[-0.02em] tabular-nums',
+  metricSm: 'text-title font-medium text-fg leading-none tracking-[-0.02em] tabular-nums',
+  sub: 'text-dense font-normal text-fg-tertiary',
+  muted: 'text-dense font-normal text-fg-secondary',
 };
 
 // Shared class recipes so every widget shares one language.
 export const UI = {
   btnPrimary:
-    'inline-flex items-center justify-center gap-2 h-10 px-4 text-[13px] font-semibold text-white bg-[#1D4B3E] rounded-none shadow-sm transition-all duration-200 hover:bg-[#163c32] hover:shadow-md active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1D4B3E]/40',
+    'inline-flex items-center justify-center gap-2 h-10 px-4 text-dense font-semibold text-white bg-accent rounded-md transition-all duration-200 hover:bg-accent-hover hover:shadow-popover active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-focus',
   btnDark:
-    'inline-flex items-center justify-center gap-2 h-10 px-4 text-[13px] font-semibold text-white bg-[#101828] rounded-none shadow-sm transition-all duration-200 hover:bg-[#1D2939] hover:shadow-md active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#101828]/30',
+    'inline-flex items-center justify-center gap-2 h-10 px-4 text-dense font-semibold text-white bg-accent rounded-md transition-all duration-200 hover:bg-accent-hover hover:shadow-popover active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#101828]/30',
   btnGhost:
-    'inline-flex items-center justify-center gap-2 h-10 px-3.5 text-[13px] font-medium text-[#344054] bg-white border border-[#E8ECEF] rounded-none transition-all duration-200 hover:bg-[#F6F8F7] hover:border-[#D8DEE2] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1D4B3E]/20',
+    'inline-flex items-center justify-center gap-2 h-10 px-3.5 text-dense font-medium text-fg-secondary bg-canvas border border-line rounded-md transition-all duration-200 hover:bg-subtle hover:border-line active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-focus',
   iconBtn:
-    'inline-flex items-center justify-center w-10 h-10 text-[#667085] bg-white border border-[#E8ECEF] rounded-none transition-all duration-200 hover:bg-[#F6F8F7] hover:text-[#101828] hover:border-[#D8DEE2] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1D4B3E]/20',
+    'inline-flex items-center justify-center w-10 h-10 text-fg-tertiary bg-canvas border border-line rounded-md transition-all duration-200 hover:bg-subtle hover:text-fg hover:border-line active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-focus',
 };

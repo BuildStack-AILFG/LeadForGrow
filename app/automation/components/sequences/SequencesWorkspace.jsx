@@ -35,7 +35,7 @@ export default function SequencesWorkspace() {
 
   if (ws.workspaceMode === 'home') {
     return (
-      <div className="min-h-full bg-[#f4f6fa] dark:bg-slate-950">
+      <div className="min-h-full bg-subtle dark:bg-slate-950">
         <SequencesHomeView
           sequences={ws.sequences}
           stats={ws.stats}
@@ -62,7 +62,7 @@ export default function SequencesWorkspace() {
 
   if (ws.workspaceMode === 'wizard') {
     return (
-      <div className="min-h-full bg-[#f4f6fa] dark:bg-slate-950">
+      <div className="min-h-full bg-subtle dark:bg-slate-950">
         <SequenceCreationWizard
           step={ws.wizardStep}
           draft={ws.wizardDraft}
@@ -78,32 +78,32 @@ export default function SequencesWorkspace() {
   }
 
   return (
-    <div className="min-h-full bg-[#f4f6fa] dark:bg-slate-950 flex flex-col">
+    <div className="min-h-full bg-subtle dark:bg-slate-950 flex flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-white/80 dark:bg-slate-950/80 backdrop-blur border-b border-slate-200 dark:border-slate-800">
+      <header className="sticky top-0 z-40 bg-canvas/80 dark:bg-slate-950/80 border-b border-line dark:border-slate-800">
         <div className="px-4 py-3 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3 min-w-0">
-            <button type="button" onClick={() => ws.setWorkspaceMode('home')} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500">
+            <button type="button" onClick={() => ws.setWorkspaceMode('home')} className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800 text-fg-tertiary">
               <ArrowLeft className="w-4 h-4" />
             </button>
             <div className="min-w-0">
               <input
                 value={ws.draftMeta.name}
                 onChange={(e) => ws.setDraftMeta((m) => ({ ...m, name: e.target.value }))}
-                className="text-lg font-bold bg-transparent border-none outline-none text-slate-900 dark:text-white w-full truncate"
+                className="text-lg font-semibold bg-transparent border-none outline-none text-fg dark:text-white w-full truncate"
               />
-              <p className="text-xs text-slate-500 truncate">{ws.draftMeta.description || 'Workflow sequence'}</p>
+              <p className="text-xs text-fg-tertiary truncate">{ws.draftMeta.description || 'Workflow sequence'}</p>
             </div>
           </div>
           <div className="flex items-center gap-2 shrink-0">
             <span className={`hidden sm:inline text-[10px] font-semibold uppercase px-2 py-1 rounded-full ${
-              ws.draftMeta.status === 'active' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'
+              ws.draftMeta.status === 'active' ? 'bg-accent-subtle text-accent-fg' : 'bg-warning-subtle text-warning'
             }`}>{ws.draftMeta.status}</span>
             <button
               type="button"
               onClick={() => ws.saveSequence(false)}
               disabled={ws.saving}
-              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-line dark:border-slate-700 text-sm font-medium text-fg-secondary dark:text-fg-disabled hover:bg-subtle dark:hover:bg-slate-800 disabled:opacity-50"
             >
               {ws.saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
               Save draft
@@ -113,24 +113,24 @@ export default function SequencesWorkspace() {
                 type="button"
                 onClick={ws.openTestMode}
                 disabled={ws.saving}
-                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-amber-200 text-amber-700 text-sm font-medium hover:bg-amber-50 disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-warning/30 text-warning text-sm font-medium hover:bg-warning-subtle disabled:opacity-50"
               >
                 <FlaskConical className="w-4 h-4" /> Test
               </button>
             )}
-            <button type="button" onClick={ws.copySelection} className="p-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-500" title="Copy"><Copy className="w-4 h-4" /></button>
-            <button type="button" onClick={ws.pasteSelection} className="p-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-500" title="Paste"><ClipboardPaste className="w-4 h-4" /></button>
+            <button type="button" onClick={ws.copySelection} className="p-2 rounded-lg border border-line dark:border-slate-700 text-fg-tertiary" title="Copy"><Copy className="w-4 h-4" /></button>
+            <button type="button" onClick={ws.pasteSelection} className="p-2 rounded-lg border border-line dark:border-slate-700 text-fg-tertiary" title="Paste"><ClipboardPaste className="w-4 h-4" /></button>
             <button
               type="button"
               onClick={() => ws.saveSequence(true)}
               disabled={ws.saving}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-teal-700 text-white text-sm font-semibold shadow-sm disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-accent text-white text-sm font-semibold disabled:opacity-50"
             >
               <Play className="w-4 h-4" /> Activate
             </button>
           </div>
         </div>
-        <div className="px-4 flex gap-1 border-t border-slate-100 dark:border-slate-800">
+        <div className="px-4 flex gap-1 border-t border-line dark:border-slate-800">
           {TABS.map((tab) => (
             <button
               key={tab.id}
@@ -141,8 +141,8 @@ export default function SequencesWorkspace() {
               }}
               className={`inline-flex items-center gap-1.5 px-4 py-2.5 text-xs font-medium border-b-2 transition-colors ${
                 ws.builderTab === tab.id
-                  ? 'border-teal-600 text-teal-600'
-                  : 'border-transparent text-slate-500 hover:text-slate-700'
+                  ? 'border-accent text-accent-fg'
+                  : 'border-transparent text-fg-tertiary hover:text-fg-secondary'
               }`}
             >
               <tab.icon className="w-3.5 h-3.5" /> {tab.label}

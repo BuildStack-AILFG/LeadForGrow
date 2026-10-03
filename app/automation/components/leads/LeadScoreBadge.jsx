@@ -8,7 +8,7 @@ export default function LeadScoreBadge({ intelligence }) {
   const config = SCORE_CONFIG[level] || SCORE_CONFIG.Low;
 
   return (
-    <span className={`inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-md tabular-nums ${config.badge}`}>
+    <span className={`inline-flex items-center h-5 min-w-7 justify-center text-meta font-medium px-1.5 rounded-sm tabular ${config.badge}`}>
       {Math.round(score)}
     </span>
   );

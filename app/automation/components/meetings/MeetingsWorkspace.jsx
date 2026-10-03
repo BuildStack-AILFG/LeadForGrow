@@ -14,7 +14,7 @@ export default function MeetingsWorkspace() {
 
   if (ws.mode === 'create') {
     return (
-      <div className="min-h-full bg-[#f8f9fc] dark:bg-slate-950">
+      <div className="min-h-full bg-subtle dark:bg-slate-950">
         <CreateMeetingWizard
           step={ws.wizardStep}
           draft={ws.draft}
@@ -30,7 +30,7 @@ export default function MeetingsWorkspace() {
   }
 
   return (
-    <div className="min-h-full bg-[#f8f9fc] dark:bg-slate-950">
+    <div className="min-h-full bg-subtle dark:bg-slate-950">
       <MeetingsDashboard
         dashboard={ws.dashboard}
         onCreate={ws.startCreate}

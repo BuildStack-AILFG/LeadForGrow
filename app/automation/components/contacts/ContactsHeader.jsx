@@ -6,10 +6,10 @@ export default function ContactsHeader({ onCreate, ...props }) {
   return (
     <CrmPageHeader
       title="Contacts"
-      subtitle="Manage people, relationships, and communication in one place."
-      searchPlaceholder="Search name, email, phone, company…"
-      primaryLabel="Add Contact"
-      totalLabel="contacts total"
+      subtitle="People you work with."
+      searchPlaceholder="Search name, email, phone, company"
+      primaryLabel="Add contact"
+      totalLabel="contacts"
       onPrimaryClick={onCreate}
       {...props}
     />

@@ -31,7 +31,8 @@ function readOpenGroups() {
  * hovering the rail peeks the full sidebar as an overlay without reflowing
  * the page. Exactly one active item, resolved by best match (navMatch.js).
  * Groups remember their open/closed state; the group holding the active
- * page is always shown open. On mobile it's an off-canvas drawer.
+ * page opens when you navigate to it but can still be collapsed.
+ * On mobile it's an off-canvas drawer.
  */
 export default function Sidebar() {
   const pathname = usePathname();
@@ -81,6 +82,12 @@ export default function Sidebar() {
 
   const activeId = useMemo(() => getActiveNavId({ primary, groups, footer }, pathname, searchParams), [primary, groups, footer, pathname, searchParams]);
   const activeGroupId = useMemo(() => groups.find((g) => g.items.some((i) => i.id === activeId))?.id, [groups, activeId]);
+
+  // Auto-open the group of the page you navigate to (once per navigation),
+  // but don't pin it open — the user can still collapse it, as before.
+  useEffect(() => {
+    if (activeGroupId) setOpenGroups((prev) => (prev[activeGroupId] ? prev : { ...prev, [activeGroupId]: true }));
+  }, [activeGroupId, pathname]);
 
   const paletteItems = useMemo(
     () => [...primary, ...groups.flatMap((g) => g.items.map((i) => ({ ...i, group: g.label }))), ...footer],
@@ -145,7 +152,7 @@ export default function Sidebar() {
               key={group.id}
               group={group}
               activeId={activeId}
-              open={group.id === activeGroupId || !!openGroups[group.id]}
+              open={!!openGroups[group.id]}
               onToggle={() => toggleGroup(group.id)}
               getBadge={getBadge}
               {...itemProps}

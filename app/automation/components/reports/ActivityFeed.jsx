@@ -11,7 +11,7 @@ export default function ActivityFeed({ activities = [], recentLeads = [] }) {
       <ChartCard title="Live Activity" subtitle="Recent CRM events">
         <div className="max-h-72 overflow-y-auto">
           {activities.length === 0 ? (
-            <p className="text-sm text-slate-500 py-4">No recent activity.</p>
+            <p className="text-sm text-fg-tertiary py-4">No recent activity.</p>
           ) : (
             activities.slice(0, 10).map((a, i) => (
               <ActivityItem key={a._id || i} activity={a} showConnector={i < Math.min(activities.length, 10) - 1} />
@@ -24,24 +24,24 @@ export default function ActivityFeed({ activities = [], recentLeads = [] }) {
         title="Recent Conversions"
         subtitle="Latest won and contacted leads"
         action={
-          <Link href="/automation/leads" className="text-xs font-medium text-teal-600 hover:text-teal-700">
+          <Link href="/automation/leads" className="text-xs font-medium text-accent-fg hover:text-accent-fg">
             All leads
           </Link>
         }
       >
         <div className="space-y-1 max-h-72 overflow-y-auto">
           {recentLeads?.length === 0 ? (
-            <p className="text-sm text-slate-500 py-4">No recent conversions.</p>
+            <p className="text-sm text-fg-tertiary py-4">No recent conversions.</p>
           ) : (
             recentLeads.map((lead) => (
               <Link
                 key={lead._id}
                 href={`/automation/leads/${lead._id}`}
-                className="flex items-center justify-between gap-3 p-2.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors"
+                className="flex items-center justify-between gap-3 p-2.5 rounded-lg hover:bg-subtle dark:hover:bg-slate-800/40 transition-colors"
               >
                 <div className="min-w-0">
-                  <p className="text-sm font-medium text-slate-800 dark:text-slate-200 truncate">{lead.name}</p>
-                  <p className="text-[11px] text-slate-500 truncate">{lead.serviceInterest || 'General inquiry'}</p>
+                  <p className="text-sm font-medium text-fg dark:text-slate-200 truncate">{lead.name}</p>
+                  <p className="text-meta text-fg-tertiary truncate">{lead.serviceInterest || 'General inquiry'}</p>
                 </div>
                 <StatusBadge status={lead.status} size="xs" />
               </Link>

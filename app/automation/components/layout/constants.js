@@ -21,7 +21,7 @@ import {
   Activity,
   CalendarDays,
   Brain,
-  Sparkles,
+  Cpu,
   Settings,
   LifeBuoy,
 } from 'lucide-react';
@@ -95,7 +95,7 @@ export const NAV_GROUPS = [
       { id: 'automation-analytics', name: 'Automation performance', href: '/automation/automation-analytics', icon: Activity },
       { id: 'events', name: 'Activity log', href: '/automation/events', icon: CalendarDays },
       { id: 'ai-knowledge', name: 'AI knowledge', href: '/automation/ai/knowledge', icon: Brain, role: 'owner' },
-      { id: 'ai-settings', name: 'AI settings', href: '/automation/settings/ai', icon: Sparkles, role: 'owner' },
+      { id: 'ai-settings', name: 'AI settings', href: '/automation/settings/ai', icon: Cpu, role: 'owner' },
     ],
   },
 ];

@@ -114,13 +114,13 @@ export function getWhatsAppStatus(lead) {
   if (!isWa) return { key: 'none', label: '—', dot: 'bg-slate-300' };
 
   if (!lead.isRead) {
-    return { key: 'unread', label: 'Unread', dot: 'bg-teal-500' };
+    return { key: 'unread', label: 'Unread', dot: 'bg-accent' };
   }
   if (lead.status === 'contacted' || lead.status === 'interested' || lead.status === 'converted' || lead.status === 'first_contact' || lead.status === 'won') {
-    return { key: 'replied', label: 'Replied', dot: 'bg-emerald-500' };
+    return { key: 'replied', label: 'Replied', dot: 'bg-accent' };
   }
   if (lead.status === 'new' || lead.status === 'new_lead' || lead.status === 'follow-up' || lead.status === 'follow_up') {
-    return { key: 'pending', label: 'Pending', dot: 'bg-orange-400' };
+    return { key: 'pending', label: 'Pending', dot: 'bg-warning' };
   }
   return { key: 'no-response', label: 'No reply', dot: 'bg-slate-400' };
 }

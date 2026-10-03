@@ -49,14 +49,14 @@ export default function ApiKeysSettingsPage() {
 
   if (!access?.tierFeatures?.api_access) {
     return (
-      <div className="p-8 text-center rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
-        <Key className="w-10 h-10 text-slate-400 mx-auto mb-4" />
-        <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-2">API access locked</h2>
-        <p className="text-sm text-slate-500 mb-4">Upgrade to Scale to generate API keys and webhooks.</p>
+      <div className="p-8 text-center rounded-lg border border-line dark:border-slate-800 bg-canvas dark:bg-slate-900">
+        <Key className="w-10 h-10 text-fg-tertiary mx-auto mb-4" />
+        <h2 className="text-lg font-semibold text-fg dark:text-slate-50 mb-2">API access locked</h2>
+        <p className="text-sm text-fg-tertiary mb-4">Upgrade to Scale to generate API keys and webhooks.</p>
         <button
           type="button"
           onClick={() => showUpgrade('API Keys', 'scale')}
-          className="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg"
+          className="px-4 py-2 bg-accent text-white text-sm font-medium rounded-lg"
         >
           Upgrade to Scale
         </button>
@@ -68,13 +68,13 @@ export default function ApiKeysSettingsPage() {
     <div className="space-y-4">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">API keys</h2>
-          <p className="text-sm text-slate-500">Manage scopes and track API usage</p>
+          <h2 className="text-lg font-semibold text-fg dark:text-slate-50">API keys</h2>
+          <p className="text-sm text-fg-tertiary">Manage scopes and track API usage</p>
         </div>
         <button
           type="button"
           onClick={createKey}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-accent text-white text-sm font-medium rounded-lg"
         >
           <Plus className="w-4 h-4" /> Generate key
         </button>
@@ -83,16 +83,16 @@ export default function ApiKeysSettingsPage() {
         {keys.map((k) => (
           <div
             key={k._id}
-            className="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900"
+            className="flex items-center justify-between p-4 rounded-lg border border-line dark:border-slate-800 bg-canvas dark:bg-slate-900"
           >
             <div>
-              <p className="font-medium text-slate-900 dark:text-slate-100">{k.name}</p>
-              <p className="text-xs text-slate-500 font-mono">{k.keyPrefix}••••••••</p>
+              <p className="font-medium text-fg dark:text-slate-100">{k.name}</p>
+              <p className="text-xs text-fg-tertiary font-mono">{k.keyPrefix}••••••••</p>
             </div>
-            <span className="text-[10px] text-slate-400">{k.usageCount || 0} requests</span>
+            <span className="text-meta text-fg-tertiary">{k.usageCount || 0} requests</span>
           </div>
         ))}
-        {!keys.length && <p className="text-sm text-slate-500 py-8 text-center">No API keys yet.</p>}
+        {!keys.length && <p className="text-sm text-fg-tertiary py-8 text-center">No API keys yet.</p>}
       </div>
     </div>
   );

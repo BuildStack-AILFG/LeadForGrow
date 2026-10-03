@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Lock, Sparkles, X } from 'lucide-react';
+import { Lock, Bot as Sparkles, X } from 'lucide-react';
 import Link from 'next/link';
 import { useAccess } from '../../context/AccessContext';
 
@@ -23,37 +23,37 @@ export default function UpgradeGateModal() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm"
+            className="absolute inset-0 bg-slate-900/50"
             onClick={closeUpgrade}
           />
           <motion.div
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
-            className="relative bg-white dark:bg-slate-900 rounded-2xl shadow-2xl max-w-md w-full p-8 border border-slate-200 dark:border-slate-800"
+            className="relative bg-canvas dark:bg-slate-900 rounded-lg shadow-modal max-w-md w-full p-8 border border-line dark:border-slate-800"
           >
             <button
               type="button"
               onClick={closeUpgrade}
-              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 rounded-lg"
+              className="absolute top-4 right-4 p-2 text-fg-tertiary hover:text-fg-secondary rounded-lg"
             >
               <X className="w-4 h-4" />
             </button>
-            <div className="w-14 h-14 rounded-2xl bg-indigo-100 dark:bg-indigo-950/50 flex items-center justify-center mb-5">
-              <Lock className="w-7 h-7 text-indigo-600" />
+            <div className="w-14 h-14 rounded-lg bg-accent-subtle dark:bg-indigo-950/50 flex items-center justify-center mb-5">
+              <Lock className="w-7 h-7 text-accent-fg" />
             </div>
-            <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-50 mb-2">
+            <h2 className="text-xl font-semibold text-fg dark:text-slate-50 mb-2">
               Upgrade to {tier.name}
             </h2>
-            <p className="text-sm text-slate-500 mb-6">
+            <p className="text-sm text-fg-tertiary mb-6">
               {upgradeModal.feature
                 ? `"${upgradeModal.feature}" requires a higher plan.`
                 : 'This feature is not included in your current plan.'}
             </p>
             <ul className="space-y-2 mb-8">
               {tier.perks.map((p) => (
-                <li key={p} className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
-                  <Sparkles className="w-4 h-4 text-indigo-500 flex-shrink-0" />
+                <li key={p} className="flex items-center gap-2 text-sm text-fg-secondary dark:text-fg-disabled">
+                  <Sparkles className="w-4 h-4 text-accent-fg flex-shrink-0" />
                   {p}
                 </li>
               ))}
@@ -61,7 +61,7 @@ export default function UpgradeGateModal() {
             <Link
               href="/automation/settings/billing"
               onClick={closeUpgrade}
-              className="block w-full text-center py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm"
+              className="block w-full text-center py-3 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-sm"
             >
               View plans & upgrade
             </Link>

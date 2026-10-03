@@ -13,7 +13,7 @@ export default function ThemeDrawer({ open, styling, onChange, onClose }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50"
+        className="fixed inset-0 bg-black/30 z-50"
         onClick={onClose}
       />
       <motion.aside
@@ -21,19 +21,19 @@ export default function ThemeDrawer({ open, styling, onChange, onClose }) {
         animate={{ x: 0 }}
         exit={{ x: '100%' }}
         transition={{ type: 'spring', damping: 28, stiffness: 320 }}
-        className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-white dark:bg-slate-900 z-50 shadow-2xl flex flex-col"
+        className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-canvas dark:bg-slate-900 z-50 shadow-modal flex flex-col"
       >
         <div className="flex items-center justify-between px-6 py-5">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-teal-50 dark:bg-teal-950/50 flex items-center justify-center">
-              <Palette className="w-4 h-4 text-teal-600" />
+            <div className="w-9 h-9 rounded-lg bg-canvas border border-line dark:bg-teal-950/50 flex items-center justify-center">
+              <Palette className="w-4 h-4 text-fg-secondary" />
             </div>
             <div>
-              <h2 className="text-base font-semibold text-slate-900 dark:text-slate-50">Theme & design</h2>
-              <p className="text-xs text-slate-500">Customize how your form looks</p>
+              <h2 className="text-base font-semibold text-fg dark:text-slate-50">Theme & design</h2>
+              <p className="text-xs text-fg-tertiary">Customize how your form looks</p>
             </div>
           </div>
-          <button type="button" onClick={onClose} className="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
+          <button type="button" onClick={onClose} className="p-2 text-fg-tertiary hover:text-fg-secondary rounded-lg hover:bg-muted dark:hover:bg-slate-800">
             <X className="w-5 h-5" />
           </button>
         </div>

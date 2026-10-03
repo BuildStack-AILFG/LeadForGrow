@@ -18,7 +18,7 @@ export default function QuickActionsBar() {
         <Link
           key={label}
           href={href}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg hover:border-teal-300 dark:hover:border-teal-800 hover:text-teal-700 dark:hover:text-teal-400 transition-colors whitespace-nowrap flex-shrink-0"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-fg-secondary dark:text-fg-disabled bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg hover:border-line dark:hover:border-teal-800 hover:text-accent-fg dark:hover:text-accent-fg transition-colors whitespace-nowrap flex-shrink-0"
         >
           <Icon className="w-3.5 h-3.5" />
           {label}

@@ -21,3 +21,4 @@ export { Sheet, Dialog } from './Overlay';
 export { TableFrame, Table, THead, Th, Tr, Td, RowActions } from './DataTable';
 export { KanbanColumn, KanbanCard } from './Kanban';
 export { TOAST_OPTIONS } from './toast';
+export { default as MetricStrip } from './MetricStrip';

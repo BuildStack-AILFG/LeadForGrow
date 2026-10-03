@@ -23,7 +23,7 @@ const CHANNEL_ICONS = {
 // of flattening every tab to the same brand teal. "All channels" has no
 // single identity, so it uses the app's own brand teal.
 const CHANNEL_ACTIVE_BG = {
-  all: 'bg-[#1D4B3E]',
+  all: 'bg-accent',
   whatsapp: 'bg-[#25D366]',
   instagram: 'bg-[#E1306C]',
   email: 'bg-[#4285F4]',
@@ -80,11 +80,11 @@ export default function ChatSidebar({
   }, [hasMoreConversations, loadingMoreConversations, onLoadMoreConversations, conversations.length]);
 
   return (
-    <aside className="flex flex-col h-full w-full bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800">
-      <div className="flex-shrink-0 p-3 border-b border-slate-100 dark:border-slate-800 space-y-3">
+    <aside className="flex flex-col h-full w-full bg-canvas dark:bg-slate-900 border-r border-line dark:border-slate-800">
+      <div className="flex-shrink-0 p-3 border-b border-line dark:border-slate-800 space-y-3">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <h1 className="text-sm font-semibold text-slate-900 dark:text-slate-50">Unified Inbox</h1>
+            <h1 className="text-sm font-semibold text-fg dark:text-slate-50">Unified Inbox</h1>
             {/* Live indicator: pulsing green dot when SSE is connected,
                 grey static dot when disconnected. Silent — users don't need
                 to know the mechanism, just whether it's live. */}
@@ -92,9 +92,9 @@ export default function ChatSidebar({
               title={realtimeConnected ? 'Live — receiving new messages in real time' : 'Reconnecting…'}
               className="inline-flex items-center"
             >
-              <span className={`relative inline-flex w-2 h-2 rounded-full ${realtimeConnected ? 'bg-emerald-500' : 'bg-slate-300'}`}>
+              <span className={`relative inline-flex w-2 h-2 rounded-full ${realtimeConnected ? 'bg-accent' : 'bg-slate-300'}`}>
                 {realtimeConnected && (
-                  <span className="absolute inline-flex w-full h-full rounded-full bg-emerald-500 opacity-60 animate-ping" />
+                  <span className="absolute inline-flex w-full h-full rounded-full bg-accent opacity-60 animate-ping" />
                 )}
               </span>
             </span>
@@ -103,14 +103,14 @@ export default function ChatSidebar({
             <button
               type="button"
               onClick={toggleSound}
-              className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="p-2 rounded-lg text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800"
               title={soundOn ? 'Mute new-message sound' : 'Play sound on new messages'}
             >
               {soundOn ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
             </button>
             <Link
               href="/automation/leads/new"
-              className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-[#1D4B3E]"
+              className="p-2 rounded-lg text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800 hover:text-accent-fg"
               title="New lead"
             >
               <MessageSquarePlus className="w-4 h-4" />
@@ -118,22 +118,22 @@ export default function ChatSidebar({
           </div>
         </div>
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-fg-tertiary" />
           <input
             type="search"
             placeholder="Search messages, leads, deals..."
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#1D4B3E]/20"
+            className="w-full pl-9 pr-3 py-2 text-sm bg-subtle dark:bg-slate-800 border border-line dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-focus"
           />
           {searchResults && search.length >= 2 && (
-            <div className="absolute left-0 right-0 top-full mt-1 z-20 max-h-64 overflow-y-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded shadow-lg p-1.5 space-y-0.5">
+            <div className="absolute left-0 right-0 top-full mt-1 z-20 max-h-64 overflow-y-auto bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded shadow-popover p-1.5 space-y-0.5">
               {[
                 ...(searchResults.conversations || []).map((c) => ({ type: 'conversation', item: c, label: c.participantName || c.lastMessagePreview })),
                 ...(searchResults.leads || []).map((l) => ({ type: 'lead', item: l, label: l.name })),
                 ...(searchResults.messages || []).slice(0, 5).map((m) => ({ type: 'message', item: m, label: m.content?.body?.slice(0, 60) })),
               ].length === 0 ? (
-                <p className="p-3 text-xs text-slate-500">No results</p>
+                <p className="p-3 text-xs text-fg-tertiary">No results</p>
               ) : (
                 [
                   ...(searchResults.conversations || []).map((c) => ({ type: 'conversation', item: c, label: c.participantName || c.lastMessagePreview })),
@@ -144,10 +144,10 @@ export default function ChatSidebar({
                     key={`${r.type}-${r.item._id || i}`}
                     type="button"
                     onClick={() => onSelectSearchResult?.(r)}
-                    className="w-full text-left px-3 py-2 text-xs rounded hover:bg-[#F0F9F5] dark:hover:bg-slate-800"
+                    className="w-full text-left px-3 py-2 text-xs rounded hover:bg-accent-subtle dark:hover:bg-slate-800"
                   >
-                    <span className="text-[10px] uppercase text-slate-400">{r.type}</span>
-                    <p className="truncate text-slate-700 dark:text-slate-300">{r.label}</p>
+                    <span className="text-meta text-fg-tertiary">{r.type}</span>
+                    <p className="truncate text-fg-secondary dark:text-fg-disabled">{r.label}</p>
                   </button>
                 ))
               )}
@@ -166,11 +166,11 @@ export default function ChatSidebar({
                 className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded whitespace-nowrap transition-colors ${
                   active
                     ? `${CHANNEL_ACTIVE_BG[f.id] || CHANNEL_ACTIVE_BG.all} text-white`
-                    : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
+                    : 'bg-muted dark:bg-slate-800 text-fg-secondary dark:text-fg-tertiary hover:bg-muted dark:hover:bg-slate-700'
                 }`}
               >
                 <Icon
-                  className={active ? 'text-white' : 'text-slate-500 dark:text-slate-400'}
+                  className={active ? 'text-white' : 'text-fg-tertiary dark:text-fg-tertiary'}
                   size={12}
                 />
                 {f.label}
@@ -186,8 +186,8 @@ export default function ChatSidebar({
               onClick={() => onFilterChange(f.id)}
               className={`px-2.5 py-1 text-[11px] font-medium rounded whitespace-nowrap transition-colors ${
                 filter === f.id
-                  ? 'bg-[#1D4B3E] text-white'
-                  : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
+                  ? 'bg-accent text-white'
+                  : 'bg-muted dark:bg-slate-800 text-fg-secondary dark:text-fg-tertiary hover:bg-muted dark:hover:bg-slate-700'
               }`}
             >
               {f.label}
@@ -199,23 +199,23 @@ export default function ChatSidebar({
       <div className="flex-1 overflow-y-auto">
         {loading ? (
           <div className="p-6 space-y-3">
-            <div className="flex items-center justify-center gap-2 py-3 text-xs font-medium text-slate-500">
-              <Loader2 className="w-4 h-4 animate-spin text-emerald-600" />
+            <div className="flex items-center justify-center gap-2 py-3 text-xs font-medium text-fg-tertiary">
+              <Loader2 className="w-4 h-4 animate-spin text-accent-fg" />
               <span>Loading conversations…</span>
             </div>
             {[1, 2, 3, 4, 5].map((i) => (
               <div
                 key={i}
-                className="h-16 bg-gradient-to-r from-slate-100 via-slate-50 to-slate-100 dark:from-slate-800 dark:via-slate-800/60 dark:to-slate-800 rounded-lg animate-pulse"
+                className="h-16 bg-canvas rounded-lg animate-pulse"
                 style={{ animationDelay: `${i * 80}ms` }}
               />
             ))}
           </div>
         ) : conversations.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full p-8 text-center">
-            <Filter className="w-10 h-10 text-slate-300 mb-2" />
-            <p className="text-sm font-medium text-slate-600 dark:text-slate-400">No conversations</p>
-            <p className="text-xs text-slate-400 mt-1">Try a different filter or search term.</p>
+            <Filter className="w-10 h-10 text-fg-disabled mb-2" />
+            <p className="text-sm font-medium text-fg-secondary dark:text-fg-tertiary">No conversations</p>
+            <p className="text-xs text-fg-tertiary mt-1">Try a different filter or search term.</p>
           </div>
         ) : (
           <>
@@ -229,19 +229,19 @@ export default function ChatSidebar({
             ))}
             {/* Sentinel — IntersectionObserver above triggers loadMore when this scrolls into view */}
             {hasMoreConversations && (
-              <div ref={sentinelRef} className="flex items-center justify-center gap-2 py-4 text-xs text-slate-500">
+              <div ref={sentinelRef} className="flex items-center justify-center gap-2 py-4 text-xs text-fg-tertiary">
                 {loadingMoreConversations ? (
                   <>
-                    <Loader2 className="w-3.5 h-3.5 animate-spin text-emerald-600" />
+                    <Loader2 className="w-3.5 h-3.5 animate-spin text-accent-fg" />
                     <span>Loading older conversations…</span>
                   </>
                 ) : (
-                  <span className="text-slate-400">Scroll for more</span>
+                  <span className="text-fg-tertiary">Scroll for more</span>
                 )}
               </div>
             )}
             {!hasMoreConversations && conversations.length > 20 && (
-              <div className="text-center py-4 text-[10px] text-slate-400 uppercase tracking-wider">
+              <div className="text-center py-4 text-meta text-fg-tertiary">
                 End of list · {conversations.length} conversations
               </div>
             )}

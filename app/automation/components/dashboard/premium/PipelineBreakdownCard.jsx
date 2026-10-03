@@ -21,35 +21,35 @@ export default function PipelineBreakdownCard({ pipeline, currency = 'INR', onRe
       onRefresh={onRefresh}
       collapsible
       action={
-        <Link href="/automation/deals" className="text-[12.5px] font-normal text-[#1D4B3E] hover:text-[#163c32] transition-colors">
+        <Link href="/automation/deals" className="text-meta font-normal text-accent-fg hover:text-accent-fg transition-colors">
           View all
         </Link>
       }
     >
       {stages.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-8 text-center px-4">
-          <p className="text-[13px] font-medium text-[#475569]">No deals in the pipeline yet</p>
-          <p className="text-[12px] text-[#98A2B3] mt-1">Convert a lead into a deal to see the breakdown here.</p>
+          <p className="text-dense font-medium text-fg-secondary">No deals in the pipeline yet</p>
+          <p className="text-meta text-fg-tertiary mt-1">Convert a lead into a deal to see the breakdown here.</p>
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {stages.map((stage) => {
             const heightPct = Math.max(6, ((stage.count || 0) / maxCount) * 100);
             return (
-              <div key={stage.key} className="flex flex-col rounded-none border border-[#E8ECEF] bg-[#FAFBFB] p-3">
-                <p className="text-[11px] font-normal text-[#475569] truncate mb-2" title={stage.label}>
+              <div key={stage.key} className="flex flex-col rounded-md border border-line bg-subtle p-3">
+                <p className="text-meta font-normal text-fg-secondary truncate mb-2" title={stage.label}>
                   {stage.label}
                 </p>
                 <div className="h-16 flex items-end mb-2">
                   <div
-                    className="w-full rounded-none transition-[height] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                    className="w-full rounded-md transition-[height] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
                     style={{ height: `${heightPct}%`, backgroundColor: stage.color || '#1D4B3E' }}
                   />
                 </div>
-                <p className="text-[18px] font-medium text-[#1A1D1F] tabular-nums leading-none tracking-[-0.02em]">
+                <p className="text-title font-medium text-fg tabular-nums leading-none tracking-[-0.02em]">
                   {stage.count}
                 </p>
-                <p className="text-[11px] font-normal text-[#94A3B8] tabular-nums mt-1 truncate">
+                <p className="text-meta font-normal text-fg-tertiary tabular-nums mt-1 truncate">
                   {formatCurrency(stage.totalValue, currency)}
                 </p>
               </div>

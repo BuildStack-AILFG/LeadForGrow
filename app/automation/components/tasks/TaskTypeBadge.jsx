@@ -14,7 +14,7 @@ export default function TaskTypeBadge({ type, showLabel = true, size = 'sm' }) {
         {Icon && <Icon className={iconSize} />}
       </span>
       {showLabel && (
-        <span className="text-xs font-medium text-slate-600 dark:text-slate-400">{config.label}</span>
+        <span className="text-xs font-medium text-fg-secondary dark:text-fg-tertiary">{config.label}</span>
       )}
     </span>
   );

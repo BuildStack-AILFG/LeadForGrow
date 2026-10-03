@@ -24,13 +24,13 @@ export default function FormField({ field, index, isSelected, onSelect, onRemove
       onClick={() => onSelect(index)}
       className={`group relative flex items-start gap-3 p-4 rounded-2xl cursor-pointer transition-shadow duration-200 ${
         isSelected
-          ? 'bg-white dark:bg-slate-900 shadow-lg shadow-teal-500/10 ring-2 ring-teal-500/40'
-          : 'bg-white/80 dark:bg-slate-900/80 shadow-sm hover:shadow-md hover:bg-white dark:hover:bg-slate-900'
+          ? 'bg-canvas dark:bg-slate-900 shadow-popover ring-2 ring-focus'
+          : 'bg-canvas/80 dark:bg-slate-900/80 hover:shadow-popover hover:bg-canvas dark:hover:bg-slate-900'
       }`}
     >
       <button
         type="button"
-        className="mt-0.5 p-1 text-slate-300 hover:text-slate-500 cursor-grab active:cursor-grabbing rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+        className="mt-0.5 p-1 text-fg-disabled hover:text-fg-tertiary cursor-grab active:cursor-grabbing rounded-md hover:bg-muted dark:hover:bg-slate-800 transition-colors"
         {...attributes}
         {...listeners}
       >
@@ -39,16 +39,16 @@ export default function FormField({ field, index, isSelected, onSelect, onRemove
 
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
-          <p className="text-sm font-medium text-slate-900 dark:text-slate-100">
+          <p className="text-sm font-medium text-fg dark:text-slate-100">
             {field.label}
           </p>
           {field.required && (
-            <span className="text-[10px] font-semibold text-red-500 bg-red-50 dark:bg-red-950/30 px-1.5 py-0.5 rounded">Required</span>
+            <span className="text-meta font-semibold text-danger bg-danger-subtle dark:bg-red-950/30 px-1.5 py-0.5 rounded">Required</span>
           )}
         </div>
-        <p className="text-xs text-slate-400 mt-0.5 capitalize">{field.type}</p>
+        <p className="text-xs text-fg-tertiary mt-0.5 capitalize">{field.type}</p>
         {field.placeholder && (
-          <p className="text-[11px] text-slate-400 mt-1.5 italic truncate">"{field.placeholder}"</p>
+          <p className="text-meta text-fg-tertiary mt-1.5 italic truncate">"{field.placeholder}"</p>
         )}
       </div>
 
@@ -58,7 +58,7 @@ export default function FormField({ field, index, isSelected, onSelect, onRemove
           type="button"
           title={field.required ? 'Make optional' : 'Make required'}
           onClick={(e) => { e.stopPropagation(); onToggleRequired(index); }}
-          className={`p-1.5 rounded-lg transition-colors ${field.required ? 'text-red-500 bg-red-50 dark:bg-red-950/30' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800'}`}
+          className={`p-1.5 rounded-lg transition-colors ${field.required ? 'text-danger bg-danger-subtle dark:bg-red-950/30' : 'text-fg-tertiary hover:text-fg-secondary hover:bg-muted dark:hover:bg-slate-800'}`}
         >
           <Asterisk className="w-3.5 h-3.5" />
         </button>
@@ -66,7 +66,7 @@ export default function FormField({ field, index, isSelected, onSelect, onRemove
           type="button"
           title="Duplicate"
           onClick={(e) => { e.stopPropagation(); onDuplicate(index); }}
-          className="p-1.5 text-slate-400 hover:text-teal-600 hover:bg-teal-50 dark:hover:bg-teal-950/30 rounded-lg transition-colors"
+          className="p-1.5 text-fg-tertiary hover:text-accent-fg hover:bg-accent-subtle dark:hover:bg-teal-950/30 rounded-lg transition-colors"
         >
           <Copy className="w-3.5 h-3.5" />
         </button>
@@ -74,7 +74,7 @@ export default function FormField({ field, index, isSelected, onSelect, onRemove
           type="button"
           title="Delete"
           onClick={(e) => { e.stopPropagation(); onRemove(index); }}
-          className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-lg transition-colors"
+          className="p-1.5 text-fg-tertiary hover:text-danger hover:bg-danger-subtle dark:hover:bg-red-950/30 rounded-lg transition-colors"
         >
           <Trash2 className="w-3.5 h-3.5" />
         </button>

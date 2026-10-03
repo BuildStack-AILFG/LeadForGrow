@@ -1,9 +1,9 @@
 export const COMPANY_STATUSES = [
-  { key: 'prospect', label: 'Prospect', badge: 'bg-slate-100 text-slate-700 border-slate-200' },
-  { key: 'customer', label: 'Customer', badge: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
-  { key: 'inactive', label: 'Inactive', badge: 'bg-gray-100 text-gray-600 border-gray-200' },
-  { key: 'partner', label: 'Partner', badge: 'bg-teal-50 text-teal-700 border-teal-200' },
-  { key: 'lost', label: 'Lost', badge: 'bg-red-50 text-red-700 border-red-200' },
+  { key: 'prospect', label: 'Prospect', badge: 'bg-muted text-fg-secondary border-line' },
+  { key: 'customer', label: 'Customer', badge: 'bg-accent-subtle text-accent-fg border-line' },
+  { key: 'inactive', label: 'Inactive', badge: 'bg-muted text-fg-secondary border-line' },
+  { key: 'partner', label: 'Partner', badge: 'bg-accent-subtle text-accent-fg border-line' },
+  { key: 'lost', label: 'Lost', badge: 'bg-danger-subtle text-danger border-danger/30' },
 ];
 
 export const INDUSTRIES = [

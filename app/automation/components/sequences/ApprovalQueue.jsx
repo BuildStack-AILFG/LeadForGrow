@@ -55,29 +55,29 @@ export default function ApprovalQueue() {
   }
 
   if (!items.length) {
-    return <p className="text-sm text-slate-500 text-center py-12">No pending approvals.</p>;
+    return <p className="text-sm text-fg-tertiary text-center py-12">No pending approvals.</p>;
   }
 
   return (
     <div className="p-4 space-y-3 max-w-3xl">
       {items.map((ex) => (
-        <div key={ex._id} className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+        <div key={ex._id} className="p-4 rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-sm font-semibold text-slate-900 dark:text-white">
+              <p className="text-sm font-semibold text-fg dark:text-white">
                 {ex.sequenceId?.name || 'Workflow'}
               </p>
-              <p className="text-xs text-slate-500 mt-0.5">
+              <p className="text-xs text-fg-tertiary mt-0.5">
                 Lead: {ex.leadId?.name || ex.leadId?.phone || ex.leadId?._id}
               </p>
-              <p className="text-xs text-slate-400 mt-1">{ex.pendingApproval?.reason || 'Approval required'}</p>
+              <p className="text-xs text-fg-tertiary mt-1">{ex.pendingApproval?.reason || 'Approval required'}</p>
             </div>
             <div className="flex gap-2 shrink-0">
               <button
                 type="button"
                 disabled={acting === ex._id}
                 onClick={() => act(ex._id, 'approve')}
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-medium disabled:opacity-50"
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-accent text-white text-xs font-medium disabled:opacity-50"
               >
                 <Check className="w-3.5 h-3.5" /> Approve
               </button>
@@ -85,7 +85,7 @@ export default function ApprovalQueue() {
                 type="button"
                 disabled={acting === ex._id}
                 onClick={() => setRejectTarget(ex._id)}
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-red-200 text-red-600 text-xs font-medium disabled:opacity-50"
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-danger/30 text-danger text-xs font-medium disabled:opacity-50"
               >
                 <X className="w-3.5 h-3.5" /> Reject
               </button>

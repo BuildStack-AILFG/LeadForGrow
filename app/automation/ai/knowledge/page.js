@@ -24,10 +24,10 @@ const TYPE_META = {
 };
 
 const STATUS_COLORS = {
-  ready: 'text-emerald-600 bg-emerald-50',
-  indexing: 'text-teal-600 bg-teal-50',
-  pending: 'text-amber-600 bg-amber-50',
-  error: 'text-red-600 bg-red-50',
+  ready: 'text-accent-fg bg-accent-subtle',
+  indexing: 'text-accent-fg bg-accent-subtle',
+  pending: 'text-warning bg-warning-subtle',
+  error: 'text-danger bg-danger-subtle',
 };
 
 export default function KnowledgeBasePage() {
@@ -122,20 +122,20 @@ export default function KnowledgeBasePage() {
     <div className="max-w-4xl mx-auto p-4 sm:p-6 space-y-6">
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div className="flex items-center gap-3">
-          <Link href="/automation/settings/ai" className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
+          <Link href="/automation/settings/ai" className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800">
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <div>
-            <h1 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-violet-500" /> AI Knowledge Base
+            <h1 className="text-xl font-semibold text-fg dark:text-white flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-accent-fg" /> AI Knowledge Base
             </h1>
-            <p className="text-sm text-slate-500">Train Grovia with your business knowledge — AI answers only from these sources</p>
+            <p className="text-sm text-fg-tertiary">Train Grovia with your business knowledge — AI answers only from these sources</p>
           </div>
         </div>
         <button
           type="button"
           onClick={() => setShowForm(!showForm)}
-          className="inline-flex items-center gap-1.5 px-3 py-2 bg-violet-600 text-white rounded-lg text-sm font-medium hover:bg-violet-700"
+          className="inline-flex items-center gap-1.5 px-3 py-2 bg-accent text-white rounded-lg text-sm font-medium hover:bg-accent-hover"
         >
           <Plus className="w-4 h-4" /> Add source
         </button>
@@ -149,20 +149,20 @@ export default function KnowledgeBasePage() {
           value={searchQ}
           onChange={(e) => setSearchQ(e.target.value)}
           placeholder="Test knowledge search..."
-          className="flex-1 text-sm px-3 py-2 border rounded-lg bg-white dark:bg-slate-900"
+          className="flex-1 text-sm px-3 py-2 border rounded-lg bg-canvas dark:bg-slate-900"
           onKeyDown={(e) => e.key === 'Enter' && testSearch()}
         />
-        <button type="button" onClick={testSearch} className="px-3 py-2 border rounded-lg text-sm hover:bg-slate-50">
+        <button type="button" onClick={testSearch} className="px-3 py-2 border rounded-lg text-sm hover:bg-subtle">
           <Search className="w-4 h-4" />
         </button>
       </div>
 
       {searchResults && (
-        <div className="p-4 rounded-xl bg-violet-50 dark:bg-violet-950/20 border border-violet-200 space-y-2">
-          <p className="text-xs font-semibold text-violet-700">{searchResults.length} results</p>
+        <div className="p-4 rounded-lg bg-accent-subtle dark:bg-violet-950/20 border border-line space-y-2">
+          <p className="text-xs font-semibold text-accent-fg">{searchResults.length} results</p>
           {searchResults.map((r, i) => (
-            <div key={i} className="text-xs text-slate-600 dark:text-slate-400 p-2 bg-white/60 dark:bg-slate-900/60 rounded-lg">
-              <span className="font-medium text-violet-600">{r.sourceName}</span>
+            <div key={i} className="text-xs text-fg-secondary dark:text-fg-tertiary p-2 bg-canvas/60 dark:bg-slate-900/60 rounded-lg">
+              <span className="font-medium text-accent-fg">{r.sourceName}</span>
               <p className="mt-1 line-clamp-3">{r.content}</p>
             </div>
           ))}
@@ -170,7 +170,7 @@ export default function KnowledgeBasePage() {
       )}
 
       {showForm && (
-        <form onSubmit={createSource} className="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-3">
+        <form onSubmit={createSource} className="p-5 rounded-lg border border-line dark:border-slate-800 bg-canvas dark:bg-slate-900 space-y-3">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <input required placeholder="Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="text-sm px-3 py-2 border rounded-lg" />
             <select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })} className="text-sm px-3 py-2 border rounded-lg">
@@ -192,7 +192,7 @@ export default function KnowledgeBasePage() {
             />
           )}
           <div className="flex gap-2">
-            <button type="submit" disabled={submitting} className="px-4 py-2 bg-violet-600 text-white rounded-lg text-sm disabled:opacity-50">
+            <button type="submit" disabled={submitting} className="px-4 py-2 bg-accent text-white rounded-lg text-sm disabled:opacity-50">
               {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Add & Index'}
             </button>
             <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 border rounded-lg text-sm">Cancel</button>
@@ -203,14 +203,14 @@ export default function KnowledgeBasePage() {
       {loading ? (
         <PageLoader label="Loading knowledge sources…" height="12rem" />
       ) : sources.length === 0 ? (
-        <div className="text-center py-12 text-slate-500">
+        <div className="text-center py-12 text-fg-tertiary">
           <BookOpen className="w-10 h-10 mx-auto mb-3 opacity-40" />
-          <p className="text-slate-700 dark:text-slate-300 font-medium">No knowledge sources yet</p>
+          <p className="text-fg-secondary dark:text-fg-disabled font-medium">No knowledge sources yet</p>
           <p className="text-sm mt-1 mb-4">Add company info, FAQs, or crawl your website — your AI can only answer from what's here.</p>
           <button
             type="button"
             onClick={() => setShowForm(true)}
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-violet-600 text-white rounded-lg text-sm font-medium hover:bg-violet-700"
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-accent text-white rounded-lg text-sm font-medium hover:bg-accent-hover"
           >
             <Plus className="w-4 h-4" /> Add your first source
           </button>
@@ -221,29 +221,29 @@ export default function KnowledgeBasePage() {
             const meta = TYPE_META[s.type] || TYPE_META.custom;
             const Icon = meta.icon;
             return (
-              <div key={s._id} className="flex items-center gap-3 p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
-                <div className="w-10 h-10 rounded-lg bg-violet-50 dark:bg-violet-950/30 flex items-center justify-center shrink-0">
-                  <Icon className="w-5 h-5 text-violet-600" />
+              <div key={s._id} className="flex items-center gap-3 p-4 rounded-lg border border-line dark:border-slate-800 bg-canvas dark:bg-slate-900">
+                <div className="w-10 h-10 rounded-lg bg-canvas border border-line dark:bg-violet-950/30 flex items-center justify-center shrink-0">
+                  <Icon className="w-5 h-5 text-fg-secondary" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <p className="font-medium text-slate-900 dark:text-white">{s.name}</p>
-                    <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${STATUS_COLORS[s.status] || STATUS_COLORS.pending}`}>
+                    <p className="font-medium text-fg dark:text-white">{s.name}</p>
+                    <span className={`text-meta px-1.5 py-0.5 rounded font-medium ${STATUS_COLORS[s.status] || STATUS_COLORS.pending}`}>
                       {s.status}
                     </span>
-                    {s.category && <span className="text-[10px] text-slate-400">{s.category}</span>}
+                    {s.category && <span className="text-meta text-fg-tertiary">{s.category}</span>}
                   </div>
-                  <p className="text-xs text-slate-500 mt-0.5">
+                  <p className="text-xs text-fg-tertiary mt-0.5">
                     {meta.label} · v{s.version || 1} · {s.chunkCount || 0} chunks
                     {s.lastIndexedAt && ` · indexed ${new Date(s.lastIndexedAt).toLocaleDateString()}`}
                   </p>
-                  {s.lastError && <p className="text-xs text-red-500 mt-0.5">{s.lastError}</p>}
+                  {s.lastError && <p className="text-xs text-danger mt-0.5">{s.lastError}</p>}
                 </div>
                 <div className="flex gap-1 shrink-0">
-                  <button type="button" onClick={() => reindex(s._id)} title="Re-index" className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500">
+                  <button type="button" onClick={() => reindex(s._id)} title="Re-index" className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800 text-fg-tertiary">
                     <RefreshCw className="w-4 h-4" />
                   </button>
-                  <button type="button" onClick={() => remove(s._id)} title="Delete" className="p-2 rounded-lg hover:bg-red-50 text-red-500">
+                  <button type="button" onClick={() => remove(s._id)} title="Delete" className="p-2 rounded-lg hover:bg-danger-subtle text-danger">
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>

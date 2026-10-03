@@ -26,8 +26,8 @@ export default function LeadDetailWorkspace({
   const [tab, setTab] = useState('whatsapp');
 
   return (
-    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm overflow-hidden min-h-[640px] flex flex-col">
-      <div className="flex border-b border-slate-200 dark:border-slate-800 overflow-x-auto">
+    <div className="bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 rounded-lg overflow-hidden min-h-[640px] flex flex-col">
+      <div className="flex border-b border-line dark:border-slate-800 overflow-x-auto">
         {TABS.map((t) => (
           <button
             key={t.id}
@@ -35,13 +35,13 @@ export default function LeadDetailWorkspace({
             onClick={() => setTab(t.id)}
             className={`px-4 py-3 text-sm font-medium whitespace-nowrap border-b-2 -mb-px transition-colors ${
               tab === t.id
-                ? 'border-teal-600 text-teal-600'
-                : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+                ? 'border-accent text-accent-fg'
+                : 'border-transparent text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled'
             }`}
           >
             {t.label}
             {t.id === 'whatsapp' && lead.messages?.length > 0 && (
-              <span className="ml-1.5 text-[10px] px-1.5 py-0.5 rounded-full bg-teal-100 text-teal-700 dark:bg-teal-950/40 dark:text-teal-300">
+              <span className="ml-1.5 text-meta px-1.5 py-0.5 rounded-full bg-accent-subtle text-accent-fg dark:bg-teal-950/40 dark:text-accent-fg">
                 {lead.messages.length}
               </span>
             )}

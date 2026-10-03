@@ -50,7 +50,7 @@ function AvatarStack({ guest, extra = 0 }) {
         {shown.map((p, i) => (
           <span
             key={`${p.name}-${i}`}
-            className="inline-flex items-center justify-center w-6 h-6 rounded-full text-[9px] font-medium text-white ring-2 ring-white"
+            className="inline-flex items-center justify-center w-6 h-6 rounded-full text-meta font-medium text-white ring-2 ring-white"
             style={{ backgroundColor: p.color }}
             title={p.name}
           >
@@ -58,7 +58,7 @@ function AvatarStack({ guest, extra = 0 }) {
           </span>
         ))}
         {more > 0 && (
-          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full text-[9px] font-medium text-[#667085] bg-[#F2F4F7] ring-2 ring-white">
+          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full text-meta font-medium text-fg-tertiary bg-muted ring-2 ring-white">
             +{more}
           </span>
         )}
@@ -71,13 +71,13 @@ function MeetingEventCard({ meeting }) {
   const platformLabel = meeting.platform ? `On ${meeting.platform}` : null;
 
   return (
-    <div className="flex-1 min-w-0 rounded-none border border-[#E8ECEF] bg-white px-3.5 py-3 transition-colors hover:border-[#D0D5DD]">
+    <div className="flex-1 min-w-0 rounded-md border border-line bg-canvas px-3.5 py-3 transition-colors hover:border-line-strong">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
-          <p className="text-[13px] font-semibold text-[#101828] truncate leading-tight">
+          <p className="text-dense font-semibold text-fg truncate leading-tight">
             {meeting.title}
           </p>
-          <p className="text-[12px] font-normal text-[#98A2B3] tabular-nums mt-1">
+          <p className="text-meta font-normal text-fg-tertiary tabular-nums mt-1">
             {formatTimeRange(meeting.startTime, meeting.endTime)}
           </p>
           <AvatarStack guest={meeting.guest} extra={meeting._id ? 2 + (String(meeting._id).charCodeAt(18) % 6) : 2} />
@@ -89,15 +89,15 @@ function MeetingEventCard({ meeting }) {
               href={meeting.meetingLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="shrink-0 inline-flex items-center gap-1 h-8 px-2.5 text-[11px] font-medium text-[#344054] bg-white border border-[#E5E7EB] rounded-none hover:bg-[#F9FAFB] transition-colors"
+              className="shrink-0 inline-flex items-center gap-1 h-8 px-2.5 text-meta font-medium text-fg-secondary bg-canvas border border-line rounded-md hover:bg-subtle transition-colors"
             >
               {platformLabel}
-              <ChevronRight className="w-3.5 h-3.5 text-[#98A2B3]" strokeWidth={2} />
+              <ChevronRight className="w-3.5 h-3.5 text-fg-tertiary" strokeWidth={2} />
             </a>
           ) : (
-            <span className="shrink-0 inline-flex items-center gap-1 h-8 px-2.5 text-[11px] font-medium text-[#344054] bg-white border border-[#E5E7EB] rounded-none">
+            <span className="shrink-0 inline-flex items-center gap-1 h-8 px-2.5 text-meta font-medium text-fg-secondary bg-canvas border border-line rounded-md">
               {platformLabel}
-              <ChevronRight className="w-3.5 h-3.5 text-[#98A2B3]" strokeWidth={2} />
+              <ChevronRight className="w-3.5 h-3.5 text-fg-tertiary" strokeWidth={2} />
             </span>
           )
         )}
@@ -108,9 +108,9 @@ function MeetingEventCard({ meeting }) {
 
 function AvailableSlotCard({ start, end }) {
   return (
-    <div className="flex-1 min-w-0 rounded-none border border-[#E8ECEF] bg-white px-3.5 py-3">
-      <p className="text-[13px] font-medium text-[#101828] leading-tight">Available Time</p>
-      <p className="text-[12px] font-normal text-[#98A2B3] tabular-nums mt-1">
+    <div className="flex-1 min-w-0 rounded-md border border-line bg-canvas px-3.5 py-3">
+      <p className="text-dense font-medium text-fg leading-tight">Available Time</p>
+      <p className="text-meta font-normal text-fg-tertiary tabular-nums mt-1">
         {formatTimeRange(start, end)}
       </p>
     </div>
@@ -271,19 +271,19 @@ export default function CalendarScheduleCard({ calendar, onRefresh }) {
     <PremiumCard padding="p-0" className="h-full min-h-0 flex flex-col overflow-hidden">
       {/* Header — fixed */}
       <div className="flex items-center justify-between gap-2 px-5 pt-5 pb-4 shrink-0">
-        <h2 className="text-[16px] font-semibold text-[#101828] tracking-[-0.02em]">Calendar</h2>
+        <h2 className="text-title font-semibold text-fg tracking-[-0.02em]">Calendar</h2>
         <div className="flex items-center gap-1.5 shrink-0">
-          <div className="inline-flex items-center h-8 bg-white border border-[#E5E7EB] rounded-none overflow-hidden">
+          <div className="inline-flex items-center h-8 bg-canvas border border-line rounded-md overflow-hidden">
             <button
               type="button"
               onClick={() => goToMonth(-1)}
               aria-label="Previous month"
               disabled={loadingMonth}
-              className="inline-flex items-center justify-center w-7 h-8 text-[#98A2B3] hover:bg-[#F9FAFB] hover:text-[#344054] disabled:opacity-50 transition-colors"
+              className="inline-flex items-center justify-center w-7 h-8 text-fg-tertiary hover:bg-subtle hover:text-fg-secondary disabled:opacity-50 transition-colors"
             >
               <ChevronLeft className="w-3.5 h-3.5" strokeWidth={2} />
             </button>
-            <span className="px-1.5 text-[13px] font-medium text-[#344054] min-w-[64px] text-center">
+            <span className="px-1.5 text-dense font-medium text-fg-secondary min-w-[64px] text-center">
               {monthLabel}
             </span>
             <button
@@ -291,7 +291,7 @@ export default function CalendarScheduleCard({ calendar, onRefresh }) {
               onClick={() => goToMonth(1)}
               aria-label="Next month"
               disabled={loadingMonth}
-              className="inline-flex items-center justify-center w-7 h-8 text-[#98A2B3] hover:bg-[#F9FAFB] hover:text-[#344054] disabled:opacity-50 transition-colors"
+              className="inline-flex items-center justify-center w-7 h-8 text-fg-tertiary hover:bg-subtle hover:text-fg-secondary disabled:opacity-50 transition-colors"
             >
               <ChevronRight className="w-3.5 h-3.5" strokeWidth={2} />
             </button>
@@ -320,7 +320,7 @@ export default function CalendarScheduleCard({ calendar, onRefresh }) {
                   >
                     <span
                       className={`text-[12px] font-normal ${
-                        isSelected ? 'text-[#101828]' : 'text-[#98A2B3]'
+                        isSelected ? 'text-fg' : 'text-fg-tertiary'
                       }`}
                     >
                       {day.dayName}
@@ -328,14 +328,14 @@ export default function CalendarScheduleCard({ calendar, onRefresh }) {
                     <span
                       className={`text-[14px] mt-1 tabular-nums leading-none ${
                         isSelected
-                          ? 'font-semibold text-[#101828]'
-                          : 'font-medium text-[#667085]'
+                          ? 'font-semibold text-fg'
+                          : 'font-medium text-fg-tertiary'
                       }`}
                     >
                       {day.dayNum}
                     </span>
                     {isSelected && (
-                      <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-[3px] rounded-full bg-[#101828]" />
+                      <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-[3px] rounded-full bg-accent" />
                     )}
                     {!isSelected && day.meetingCount > 0 && (
                       <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#98A2B3]" />
@@ -346,14 +346,14 @@ export default function CalendarScheduleCard({ calendar, onRefresh }) {
             </div>
           </div>
 
-          <div className="mt-4 mx-5 border-t border-[#E8ECEF] shrink-0" />
+          <div className="mt-4 mx-5 border-t border-line shrink-0" />
 
           {/* Schedule only — scrolls when content overflows card height */}
           <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain custom-scrollbar px-5 py-4">
             <div className="space-y-3.5">
               {timelineRows.map((row) => (
                 <div key={row.key} className="flex gap-3 items-start">
-                  <span className="w-11 shrink-0 pt-3 text-[12px] font-normal text-[#98A2B3] tabular-nums text-right">
+                  <span className="w-11 shrink-0 pt-3 text-meta font-normal text-fg-tertiary tabular-nums text-right">
                     {row.hourLabel}
                   </span>
                   {row.type === 'meeting' ? (
@@ -368,7 +368,7 @@ export default function CalendarScheduleCard({ calendar, onRefresh }) {
             <div className="mt-4 pt-1 pb-1">
               <Link
                 href="/automation/meetings"
-                className="text-[12px] font-medium text-[#667085] hover:text-[#101828] transition-colors"
+                className="text-meta font-medium text-fg-tertiary hover:text-fg transition-colors"
               >
                 View all meetings →
               </Link>

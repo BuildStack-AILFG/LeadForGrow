@@ -29,9 +29,9 @@ export default function TeamSettingsPage() {
         <SettingsCard title="Role definitions" description="Overview of workspace roles">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
             {roles.map((role) => (
-              <div key={role.id} className="p-3 rounded-lg border border-slate-200 dark:border-slate-700">
-                <span className="inline-block px-2 py-0.5 rounded text-[10px] font-semibold bg-teal-50 text-teal-700 dark:bg-teal-950/30 dark:text-teal-400 mb-1">{role.name}</span>
-                <p className="text-xs text-slate-500">{role.description}</p>
+              <div key={role.id} className="p-3 rounded-lg border border-line dark:border-slate-700">
+                <span className="inline-block px-2 py-0.5 rounded text-meta font-semibold bg-accent-subtle text-accent-fg dark:bg-teal-950/30 dark:text-accent-fg mb-1">{role.name}</span>
+                <p className="text-xs text-fg-tertiary">{role.description}</p>
               </div>
             ))}
           </div>

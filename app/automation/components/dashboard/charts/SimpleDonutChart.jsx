@@ -7,7 +7,7 @@ export default function SimpleDonutChart({ data = [], size = 120 }) {
 
   if (!total) {
     return (
-      <div className="flex items-center justify-center text-sm text-slate-500 dark:text-slate-400" style={{ minHeight: size }}>
+      <div className="flex items-center justify-center text-sm text-fg-tertiary dark:text-fg-tertiary" style={{ minHeight: size }}>
         No data yet
       </div>
     );
@@ -37,7 +37,7 @@ export default function SimpleDonutChart({ data = [], size = 120 }) {
   return (
     <div className="flex flex-col sm:flex-row items-center gap-4">
       <svg width={size} height={size} viewBox="0 0 100 100" className="flex-shrink-0">
-        <circle cx={cx} cy={cy} r={r} fill="none" stroke="currentColor" className="text-slate-100 dark:text-slate-800" strokeWidth={stroke} />
+        <circle cx={cx} cy={cy} r={r} fill="none" stroke="currentColor" className="text-slate-100 dark:text-fg" strokeWidth={stroke} />
         {segments.map((seg) => (
           <path
             key={seg.label}
@@ -48,10 +48,10 @@ export default function SimpleDonutChart({ data = [], size = 120 }) {
             strokeLinecap="butt"
           />
         ))}
-        <text x={cx} y={cy - 2} textAnchor="middle" className="fill-slate-900 dark:fill-slate-100 text-[11px] font-bold">
+        <text x={cx} y={cy - 2} textAnchor="middle" className="fill-slate-900 dark:fill-slate-100 text-meta font-semibold">
           {total}
         </text>
-        <text x={cx} y={cy + 10} textAnchor="middle" className="fill-slate-400 text-[7px]">
+        <text x={cx} y={cy + 10} textAnchor="middle" className="fill-slate-400 text-meta">
           total
         </text>
       </svg>
@@ -59,8 +59,8 @@ export default function SimpleDonutChart({ data = [], size = 120 }) {
         {segments.slice(0, 5).map((seg) => (
           <li key={seg.label} className="flex items-center gap-2 text-xs">
             <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: seg.color }} />
-            <span className="truncate text-slate-600 dark:text-slate-400 flex-1">{seg.label || 'Unknown'}</span>
-            <span className="tabular-nums font-medium text-slate-800 dark:text-slate-200">
+            <span className="truncate text-fg-secondary dark:text-fg-tertiary flex-1">{seg.label || 'Unknown'}</span>
+            <span className="tabular-nums font-medium text-fg dark:text-slate-200">
               {Math.round((seg.value / total) * 100)}%
             </span>
           </li>

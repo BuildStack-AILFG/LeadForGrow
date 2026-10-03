@@ -193,15 +193,15 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3 shrink-0">
         <div>
           <div className="flex items-center gap-1 mb-1.5">
-            <p className="text-[13px] font-normal text-[#475569]">Revenue</p>
-            <ChevronDown className="w-3.5 h-3.5 text-[#94A3B8]" strokeWidth={1.75} />
+            <p className="text-dense font-normal text-fg-secondary">Revenue</p>
+            <ChevronDown className="w-3.5 h-3.5 text-fg-tertiary" strokeWidth={1.75} />
           </div>
           <div className="flex items-baseline gap-2.5 flex-wrap">
-            <p className="text-[22px] font-medium text-[#1A1D1F] tabular-nums leading-none tracking-[-0.02em]">
+            <p className="text-page font-medium text-fg tabular-nums leading-none tracking-[-0.02em]">
               {formatCurrency(total, currency)}
             </p>
-            <p className="text-[12px] font-normal text-[#94A3B8]">
-              <span className={monthUp ? 'text-[#059669]' : 'text-[#E5484D]'}>
+            <p className="text-meta font-normal text-fg-tertiary">
+              <span className={monthUp ? 'text-accent-fg' : 'text-danger'}>
                 {monthUp ? '+' : ''}{monthChange}%
               </span>
               {' '}vs last month
@@ -210,9 +210,9 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
         </div>
 
         <div className="flex items-center gap-2 self-start">
-          <div className="relative flex p-1 bg-[#F2F4F3] rounded-none">
+          <div className="relative flex p-1 bg-muted rounded-md">
             <span
-              className="absolute top-1 bottom-1 rounded-none bg-white shadow-[0_1px_2px_rgba(16,24,40,0.06)] transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+              className="absolute top-1 bottom-1 rounded-md bg-canvas transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
               style={{
                 left: 4,
                 width: `calc((100% - 8px) / ${TIMEFRAMES.length})`,
@@ -227,7 +227,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
                   setTimeframe(tf);
                   setHoverIdx(null);
                 }}
-                className={`relative z-10 flex-1 px-2 py-1.5 text-[11px] font-normal rounded-none transition-colors duration-200 ${timeframe === tf ? 'text-[#1A1D1F]' : 'text-[#64748B] hover:text-[#1A1D1F]'
+                className={`relative z-10 flex-1 px-2 py-1.5 text-[11px] font-normal rounded-md transition-colors duration-200 ${timeframe === tf ? 'text-fg' : 'text-fg-tertiary hover:text-fg'
                   }`}
               >
                 {tf}
@@ -252,7 +252,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
             {chart.yTicks.map((tick) => (
               <span
                 key={tick}
-                className="text-[10px] font-normal text-[#94A3B8] tabular-nums leading-none"
+                className="text-meta font-normal text-fg-tertiary tabular-nums leading-none"
               >
                 {formatYTick(tick)}
               </span>
@@ -368,14 +368,14 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
 
               {hovered && (
                 <div
-                  className="absolute top-0 pointer-events-none px-2.5 py-1.5 bg-[#1A1D1F] text-white rounded-none shadow-[0_6px_16px_rgba(16,24,40,0.18)] tabular-nums whitespace-nowrap z-10"
+                  className="absolute top-0 pointer-events-none px-2.5 py-1.5 bg-[#1A1D1F] text-white rounded-md tabular-nums whitespace-nowrap z-10"
                   style={{
                     left: `${hovered.x}%`,
                     transform: `translateX(${hovered.x > 75 ? '-90%' : hovered.x < 15 ? '-10%' : '-50%'})`,
                   }}
                 >
-                  <p className="text-[10px] text-white/60 font-normal">{hovered.displayLabel}</p>
-                  <p className="text-[12px] font-medium">{formatCurrency(hovered.value, currency)}</p>
+                  <p className="text-meta text-white/60 font-normal">{hovered.displayLabel}</p>
+                  <p className="text-meta font-medium">{formatCurrency(hovered.value, currency)}</p>
                 </div>
               )}
             </div>
@@ -393,7 +393,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
                 return (
                   <span
                     key={`${p.label}-${i}`}
-                    className="absolute text-[10px] font-normal text-[#94A3B8] tabular-nums -translate-x-1/2"
+                    className="absolute text-meta font-normal text-fg-tertiary tabular-nums -translate-x-1/2"
                     style={{ left: `${p.x}%` }}
                   >
                     {p.displayLabel}

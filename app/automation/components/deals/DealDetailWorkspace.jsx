@@ -48,16 +48,16 @@ export default function DealDetailWorkspace() {
 
   if (loading) return <LeadsSkeleton />;
   if (!deal && error === 'not_found') {
-    return <div className="p-8 text-center text-slate-500">Deal not found</div>;
+    return <div className="p-8 text-center text-fg-tertiary">Deal not found</div>;
   }
   if (!deal) {
     return (
-      <div className="p-8 text-center text-slate-500">
+      <div className="p-8 text-center text-fg-tertiary">
         <p className="mb-3">Failed to load this deal.</p>
         <button
           type="button"
           onClick={fetchDeal}
-          className="px-3 py-1.5 text-[12px] font-semibold text-white bg-[#101828] hover:bg-[#1D2939] rounded"
+          className="px-3 py-1.5 text-meta font-semibold text-white bg-accent hover:bg-accent-hover rounded"
         >
           Retry
         </button>
@@ -72,7 +72,7 @@ export default function DealDetailWorkspace() {
   const payments = (deal.customFields?.payments) || (typeof deal.customFields?.get === 'function' ? deal.customFields.get('payments') : null) || [];
 
   return (
-    <div className="min-h-full bg-[#FAFDFA] dark:bg-slate-950">
+    <div className="min-h-full bg-subtle dark:bg-slate-950">
       <DemoScheduledModal
         open={!!detail.demoPrompt}
         entityName={detail.demoPrompt?.dealName}
@@ -96,19 +96,19 @@ export default function DealDetailWorkspace() {
         onConfirm={detail.confirmLostReason}
       />
       <div className="px-4 sm:px-6 py-5 max-w-[1400px] mx-auto">
-        <Link href="/automation/deals" className="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-emerald-600 mb-4">
+        <Link href="/automation/deals" className="inline-flex items-center gap-1 text-sm text-fg-tertiary hover:text-accent-fg mb-4">
           <ArrowLeft className="w-4 h-4" /> Deals
         </Link>
 
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-5">
           <div className="flex items-start gap-3">
-            <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
-              <Briefcase className="w-6 h-6 text-emerald-600" />
+            <div className="w-12 h-12 rounded-lg bg-canvas border border-line dark:bg-accent-pressed/30 flex items-center justify-center">
+              <Briefcase className="w-6 h-6 text-fg-secondary" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{deal.title}</h1>
-              <p className="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mt-1">{formatCurrency(deal.amount, currency)}</p>
-              <p className="text-sm text-slate-500 mt-1">{stageLabel} · {deal.probability}% probability</p>
+              <h1 className="text-2xl font-semibold text-fg dark:text-white">{deal.title}</h1>
+              <p className="text-xl font-semibold text-accent-fg dark:text-accent-fg mt-1">{formatCurrency(deal.amount, currency)}</p>
+              <p className="text-sm text-fg-tertiary mt-1">{stageLabel} · {deal.probability}% probability</p>
             </div>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -116,44 +116,44 @@ export default function DealDetailWorkspace() {
               value={deal.stage}
               disabled={saving || detail.demoSaving || detail.quotationSaving || detail.lostSaving}
               onChange={handleStageChange}
-              className="px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900"
+              className="px-3 py-2 text-sm border border-line dark:border-slate-700 rounded-lg bg-canvas dark:bg-slate-900"
             >
               {stages.map((s) => (
                 <option key={s.key} value={s.key}>{s.label}</option>
               ))}
             </select>
-            <button onClick={archiveDeal} className="px-3 py-2 text-sm border border-slate-200 rounded-lg hover:bg-white">Archive</button>
+            <button onClick={archiveDeal} className="px-3 py-2 text-sm border border-line rounded-lg hover:bg-canvas">Archive</button>
           </div>
         </div>
 
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-4">
           <div className="xl:col-span-4 space-y-4">
-            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl p-4">
-              <h3 className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-3">Details</h3>
+            <div className="bg-canvas dark:bg-slate-900 border border-line/80 dark:border-slate-800 rounded-lg p-4">
+              <h3 className="text-xs font-semibold text-fg-tertiary mb-3">Details</h3>
               <dl className="space-y-2 text-sm">
-                <div className="flex items-center gap-2"><User className="w-4 h-4 text-slate-400" /><span>{ownerLabel(deal.assignedTo)}</span></div>
+                <div className="flex items-center gap-2"><User className="w-4 h-4 text-fg-tertiary" /><span>{ownerLabel(deal.assignedTo)}</span></div>
                 {deal.expectedCloseDate && (
-                  <div className="flex items-center gap-2"><Calendar className="w-4 h-4 text-slate-400" /><span>{new Date(deal.expectedCloseDate).toLocaleDateString()}</span></div>
+                  <div className="flex items-center gap-2"><Calendar className="w-4 h-4 text-fg-tertiary" /><span>{new Date(deal.expectedCloseDate).toLocaleDateString()}</span></div>
                 )}
                 {deal.leadId && (
-                  <div>Lead: <Link href={`/automation/leads/${deal.leadId._id || deal.leadId}`} className="text-emerald-600 hover:underline">{deal.leadId.name || 'View'}</Link></div>
+                  <div>Lead: <Link href={`/automation/leads/${deal.leadId._id || deal.leadId}`} className="text-accent-fg hover:underline">{deal.leadId.name || 'View'}</Link></div>
                 )}
                 {deal.contactId && (
-                  <div>Contact: <Link href={`/automation/contacts/${deal.contactId._id || deal.contactId}`} className="text-emerald-600 hover:underline">{deal.contactId.fullName || 'View'}</Link></div>
+                  <div>Contact: <Link href={`/automation/contacts/${deal.contactId._id || deal.contactId}`} className="text-accent-fg hover:underline">{deal.contactId.fullName || 'View'}</Link></div>
                 )}
                 {deal.companyId && (
-                  <div>Company: <Link href={`/automation/companies/${deal.companyId._id || deal.companyId}`} className="text-emerald-600 hover:underline">{deal.companyId.name || 'View'}</Link></div>
+                  <div>Company: <Link href={`/automation/companies/${deal.companyId._id || deal.companyId}`} className="text-accent-fg hover:underline">{deal.companyId.name || 'View'}</Link></div>
                 )}
-                {deal.lostReason && <div className="text-red-600">Lost: {deal.lostReason}</div>}
+                {deal.lostReason && <div className="text-danger">Lost: {deal.lostReason}</div>}
               </dl>
             </div>
 
             {(quotations.length > 0 || payments.length > 0) && (
-              <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl p-4">
-                <h3 className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-3">Records</h3>
+              <div className="bg-canvas dark:bg-slate-900 border border-line/80 dark:border-slate-800 rounded-lg p-4">
+                <h3 className="text-xs font-semibold text-fg-tertiary mb-3">Records</h3>
                 {quotations.length > 0 && (
                   <div className="mb-3">
-                    <p className="text-xs text-slate-500 mb-1">Quotations</p>
+                    <p className="text-xs text-fg-tertiary mb-1">Quotations</p>
                     {quotations.map((q) => (
                       <p key={q.id} className="text-sm">{formatCurrency(q.amount, q.currency || currency)} · {q.status}</p>
                     ))}
@@ -161,7 +161,7 @@ export default function DealDetailWorkspace() {
                 )}
                 {payments.length > 0 && (
                   <div>
-                    <p className="text-xs text-slate-500 mb-1">Payments</p>
+                    <p className="text-xs text-fg-tertiary mb-1">Payments</p>
                     {payments.map((p) => (
                       <p key={p.id} className="text-sm">{formatCurrency(p.amount, p.currency || currency)} · {p.status}</p>
                     ))}
@@ -172,36 +172,36 @@ export default function DealDetailWorkspace() {
           </div>
 
           <div className="xl:col-span-4 space-y-4">
-            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl p-4">
-              <h3 className="text-sm font-semibold flex items-center gap-2 mb-3"><CheckSquare className="w-4 h-4 text-emerald-600" /> Tasks ({deal.tasks?.length || 0})</h3>
+            <div className="bg-canvas dark:bg-slate-900 border border-line/80 dark:border-slate-800 rounded-lg p-4">
+              <h3 className="text-sm font-semibold flex items-center gap-2 mb-3"><CheckSquare className="w-4 h-4 text-accent-fg" /> Tasks ({deal.tasks?.length || 0})</h3>
               {(deal.tasks || []).length ? deal.tasks.map((t) => (
-                <div key={t._id} className="text-sm py-2 border-b last:border-0 border-slate-100 dark:border-slate-800">
+                <div key={t._id} className="text-sm py-2 border-b last:border-0 border-line dark:border-slate-800">
                   <p className="font-medium">{t.title}</p>
-                  <p className="text-xs text-slate-400">{t.status} · {t.dueDate ? new Date(t.dueDate).toLocaleDateString() : '—'}</p>
+                  <p className="text-xs text-fg-tertiary">{t.status} · {t.dueDate ? new Date(t.dueDate).toLocaleDateString() : '—'}</p>
                 </div>
-              )) : <p className="text-sm text-slate-400">No tasks linked</p>}
+              )) : <p className="text-sm text-fg-tertiary">No tasks linked</p>}
             </div>
-            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl p-4">
-              <h3 className="text-sm font-semibold flex items-center gap-2 mb-3"><StickyNote className="w-4 h-4 text-emerald-600" /> Notes ({deal.notes?.length || 0})</h3>
+            <div className="bg-canvas dark:bg-slate-900 border border-line/80 dark:border-slate-800 rounded-lg p-4">
+              <h3 className="text-sm font-semibold flex items-center gap-2 mb-3"><StickyNote className="w-4 h-4 text-accent-fg" /> Notes ({deal.notes?.length || 0})</h3>
               {(deal.notes || []).length ? deal.notes.map((n) => (
-                <div key={n._id} className="text-sm py-2 border-b last:border-0 border-slate-100 dark:border-slate-800">
+                <div key={n._id} className="text-sm py-2 border-b last:border-0 border-line dark:border-slate-800">
                   <p className="whitespace-pre-wrap">{n.content}</p>
                 </div>
-              )) : <p className="text-sm text-slate-400">No notes yet</p>}
+              )) : <p className="text-sm text-fg-tertiary">No notes yet</p>}
             </div>
           </div>
 
           <div className="xl:col-span-4">
-            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl p-4">
-              <h3 className="text-sm font-semibold flex items-center gap-2 mb-3"><Activity className="w-4 h-4 text-emerald-600" /> Activity Timeline</h3>
+            <div className="bg-canvas dark:bg-slate-900 border border-line/80 dark:border-slate-800 rounded-lg p-4">
+              <h3 className="text-sm font-semibold flex items-center gap-2 mb-3"><Activity className="w-4 h-4 text-accent-fg" /> Activity Timeline</h3>
               <div className="space-y-3 max-h-[520px] overflow-y-auto">
                 {(deal.timeline || []).map((a) => (
-                  <div key={a._id} className="text-sm border-l-2 border-emerald-200 pl-3 py-1">
+                  <div key={a._id} className="text-sm border-l-2 border-line pl-3 py-1">
                     <p>{a.description}</p>
-                    <p className="text-xs text-slate-400">{new Date(a.performedAt).toLocaleString()}</p>
+                    <p className="text-xs text-fg-tertiary">{new Date(a.performedAt).toLocaleString()}</p>
                   </div>
                 ))}
-                {!deal.timeline?.length && <p className="text-sm text-slate-400">No activity yet</p>}
+                {!deal.timeline?.length && <p className="text-sm text-fg-tertiary">No activity yet</p>}
               </div>
             </div>
           </div>

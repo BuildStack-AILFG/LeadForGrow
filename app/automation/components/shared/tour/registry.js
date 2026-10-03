@@ -20,7 +20,7 @@ export const TOURS = {
     guideHref: '/help/getting-started',
     steps: [
       {
-        title: 'Welcome to LeadForGrow 👋',
+        title: 'Welcome to LeadForGrow',
         body: "This is your Dashboard — a live snapshot of your business. Revenue, leads, deals, and today's schedule, all in one place.",
       },
       {
@@ -42,7 +42,7 @@ export const TOURS = {
         placement: 'bottom',
       },
       {
-        title: "You're all set 🎉",
+        title: "You're all set",
         body: 'Explore Leads next to bring in your first contact, or open the Guide any time from Support in the sidebar.',
       },
     ],
@@ -78,7 +78,7 @@ export const TOURS = {
         placement: 'bottom',
       },
       {
-        title: 'Ready to grow your list 🎉',
+        title: 'Ready to grow your list',
         body: 'Want new leads to trigger a WhatsApp welcome automatically? Set that up in Automation Rules next.',
       },
     ],
@@ -92,7 +92,7 @@ export const TOURS = {
     guideHref: '/help/automation-rules',
     steps: [
       {
-        title: 'Welcome to Automation Rules 👋',
+        title: 'Welcome to automations',
         body: 'This is where LeadForGrow automatically performs actions for you when something happens to a lead — for example: new lead → send WhatsApp message → notify your team → create a follow-up task.',
       },
       {
@@ -114,7 +114,7 @@ export const TOURS = {
         placement: 'left',
       },
       {
-        title: "You're ready 🎉",
+        title: "You're ready",
         body: "You've seen the foundation of LeadForGrow automation. Start from a template above whenever you're ready — it takes under a minute.",
       },
     ],

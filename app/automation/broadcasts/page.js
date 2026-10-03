@@ -13,12 +13,12 @@ import PageLoader from '../components/PageLoader';
 import { useConfirm } from '@/app/components/ConfirmProvider';
 
 const STATUS_STYLES = {
-  draft: 'bg-amber-100 text-amber-700',
-  scheduled: 'bg-teal-100 text-teal-700',
-  sending: 'bg-violet-100 text-violet-700',
-  sent: 'bg-emerald-100 text-emerald-700',
-  failed: 'bg-red-100 text-red-700',
-  cancelled: 'bg-slate-100 text-slate-600',
+  draft: 'bg-warning-subtle text-warning',
+  scheduled: 'bg-accent-subtle text-accent-fg',
+  sending: 'bg-accent-subtle text-accent-fg',
+  sent: 'bg-accent-subtle text-accent-fg',
+  failed: 'bg-danger-subtle text-danger',
+  cancelled: 'bg-muted text-fg-secondary',
 };
 
 const emptyDraft = {
@@ -247,13 +247,13 @@ export default function BroadcastsPage() {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Broadcasts</h1>
-          <p className="text-sm text-slate-500 mt-1">Send WhatsApp and email campaigns to your audience</p>
+          <h1 className="text-2xl font-semibold text-fg dark:text-white">Broadcasts</h1>
+          <p className="text-sm text-fg-tertiary mt-1">Send WhatsApp and email campaigns to your audience</p>
         </div>
         <button
           type="button"
           onClick={() => setShowCreate(true)}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-teal-700 text-white text-sm font-semibold"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-accent text-white text-sm font-semibold"
         >
           <Plus className="w-4 h-4" /> New broadcast
         </button>
@@ -262,11 +262,11 @@ export default function BroadcastsPage() {
       <AutoPageIntro />
 
       {showCreate && (
-        <div className="mb-8 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-5">
+        <div className="mb-8 p-6 rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 space-y-5">
           <div className="flex items-center justify-between">
-            <h2 className="font-semibold text-slate-900 dark:text-white">Create broadcast</h2>
+            <h2 className="font-semibold text-fg dark:text-white">Create broadcast</h2>
             <button type="button" onClick={() => { setShowCreate(false); setDraft(emptyDraft); }}
-              className="text-xs text-slate-500 hover:underline">Cancel</button>
+              className="text-xs text-fg-tertiary hover:underline">Cancel</button>
           </div>
 
           {/* Step 1: name + channel */}
@@ -275,12 +275,12 @@ export default function BroadcastsPage() {
               value={draft.name}
               onChange={(e) => setDraft({ ...draft, name: e.target.value })}
               placeholder="Campaign name"
-              className="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-sm"
+              className="px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-transparent text-sm"
             />
             <select
               value={draft.channel}
               onChange={(e) => setDraft({ ...draft, channel: e.target.value, templateName: '', templateLanguage: '' })}
-              className="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-sm"
+              className="px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-transparent text-sm"
             >
               <option value="whatsapp">WhatsApp</option>
               <option value="email">Email</option>
@@ -296,7 +296,7 @@ export default function BroadcastsPage() {
           {/* Step 2: audience */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">Audience</p>
+              <p className="text-sm font-semibold text-fg-secondary dark:text-fg-disabled">Audience</p>
               <AudienceIndicator count={audienceCount} loading={countLoading} channel={draft.channel} />
             </div>
             <AudiencePicker
@@ -306,8 +306,8 @@ export default function BroadcastsPage() {
             />
 
             {isWhatsApp && (
-              <div className="mt-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 flex flex-wrap items-center gap-3">
-                <label className="flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300 cursor-pointer">
+              <div className="mt-3 rounded-lg border border-line dark:border-slate-800 bg-canvas dark:bg-slate-900 p-3 flex flex-wrap items-center gap-3">
+                <label className="flex items-center gap-2 text-xs text-fg-secondary dark:text-fg-disabled cursor-pointer">
                   <input
                     type="checkbox"
                     checked={draft.audience.engagementDays > 0}
@@ -315,7 +315,7 @@ export default function BroadcastsPage() {
                       ...draft,
                       audience: { ...draft.audience, engagementDays: e.target.checked ? 30 : 0 },
                     })}
-                    className="rounded text-emerald-600 focus:ring-emerald-500"
+                    className="rounded text-accent-fg focus:ring-focus"
                   />
                   <span>Only include leads who messaged us recently</span>
                 </label>
@@ -326,7 +326,7 @@ export default function BroadcastsPage() {
                       ...draft,
                       audience: { ...draft.audience, engagementDays: Number(e.target.value) },
                     })}
-                    className="px-2 py-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs"
+                    className="px-2 py-1 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-xs"
                   >
                     <option value={7}>last 7 days</option>
                     <option value={30}>last 30 days</option>
@@ -334,7 +334,7 @@ export default function BroadcastsPage() {
                     <option value={90}>last 90 days</option>
                   </select>
                 )}
-                <span className="text-[10px] text-emerald-700 dark:text-emerald-400">
+                <span className="text-meta text-accent-fg dark:text-accent-fg">
                   ✓ Recommended — Meta rewards engaged recipients, cuts quality drops
                 </span>
               </div>
@@ -344,16 +344,16 @@ export default function BroadcastsPage() {
           {/* Step 3: WhatsApp template */}
           {isWhatsApp && (
             <div className="space-y-4">
-              <div className="rounded-xl border border-emerald-200 dark:border-emerald-900 bg-emerald-50/40 dark:bg-emerald-950/20 p-4 space-y-3">
+              <div className="rounded-lg border border-line dark:border-emerald-900 bg-accent-subtle dark:bg-emerald-950/20 p-4 space-y-3">
                 <div className="flex items-center justify-between">
-                  <p className="text-xs font-semibold text-emerald-800 dark:text-emerald-300">Approved WhatsApp template</p>
+                  <p className="text-xs font-semibold text-accent-fg dark:text-accent-fg">Approved WhatsApp template</p>
                   <button type="button" onClick={fetchApprovedTemplates}
-                    className="inline-flex items-center gap-1 text-[11px] text-emerald-700 hover:underline">
+                    className="inline-flex items-center gap-1 text-meta text-accent-fg hover:underline">
                     <RefreshCw className="w-3 h-3" /> Refresh
                   </button>
                 </div>
                 {approvedTemplates.length === 0 ? (
-                  <div className="flex items-start gap-2 text-xs text-amber-800 bg-amber-50 p-3 rounded-lg">
+                  <div className="flex items-start gap-2 text-xs text-warning bg-warning-subtle p-3 rounded-lg">
                     <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
                     <div>
                       No approved templates yet.{' '}
@@ -376,7 +376,7 @@ export default function BroadcastsPage() {
                           headerMediaUrl: savedMediaUrl,
                         });
                       }}
-                      className="w-full px-3 py-2 rounded-lg border border-emerald-300 bg-white dark:bg-slate-900 text-sm"
+                      className="w-full px-3 py-2 rounded-lg border border-line bg-canvas dark:bg-slate-900 text-sm"
                     >
                       <option value="">— Choose a template —</option>
                       {approvedTemplates.map((t) => (
@@ -386,11 +386,11 @@ export default function BroadcastsPage() {
                       ))}
                     </select>
                     {selectedTemplate && (
-                      <div className="text-xs bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-3 space-y-1">
-                        <p className="flex items-center gap-1 text-emerald-700 font-semibold">
+                      <div className="text-xs bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 rounded-lg p-3 space-y-1">
+                        <p className="flex items-center gap-1 text-accent-fg font-semibold">
                           <CheckCircle2 className="w-3.5 h-3.5" /> Meta approved
                         </p>
-                        <p className="text-slate-600 whitespace-pre-wrap line-clamp-4">
+                        <p className="text-fg-secondary whitespace-pre-wrap line-clamp-4">
                           {selectedTemplate.components?.find((c) => c.type === 'BODY')?.text}
                         </p>
                       </div>
@@ -407,23 +407,23 @@ export default function BroadcastsPage() {
                 const filename = header.example?.header_filename;
                 const usingSaved = savedUrl && draft.headerMediaUrl === savedUrl;
                 const tone = draft.headerMediaUrl?.trim()
-                  ? 'border-emerald-200 dark:border-emerald-900 bg-emerald-50/60 dark:bg-emerald-950/20'
-                  : 'border-amber-200 dark:border-amber-900 bg-amber-50/60 dark:bg-amber-950/20';
+                  ? 'border-line dark:border-emerald-900 bg-accent-subtle dark:bg-emerald-950/20'
+                  : 'border-warning/30 dark:border-amber-900 bg-warning-subtle/60 dark:bg-amber-950/20';
                 return (
-                  <div className={`rounded-xl border ${tone} p-4 space-y-2`}>
+                  <div className={`rounded-lg border ${tone} p-4 space-y-2`}>
                     <div className="flex items-center justify-between">
-                      <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                      <p className="text-xs font-semibold text-fg-secondary dark:text-fg-disabled">
                         {header.format.charAt(0) + header.format.slice(1).toLowerCase()} for this campaign
                       </p>
                       {usingSaved && (
-                        <span className="text-[10px] font-medium text-emerald-700 dark:text-emerald-400 flex items-center gap-1">
+                        <span className="text-meta font-medium text-accent-fg dark:text-accent-fg flex items-center gap-1">
                           <CheckCircle2 className="w-3 h-3" /> Using template's file
-                          {filename && <span className="text-slate-500">· {filename}</span>}
+                          {filename && <span className="text-fg-tertiary">· {filename}</span>}
                         </span>
                       )}
                     </div>
                     {!usingSaved && (
-                      <p className="text-[11px] text-slate-600 dark:text-slate-400">
+                      <p className="text-meta text-fg-secondary dark:text-fg-tertiary">
                         This template has a {header.format.toLowerCase()} header. Meta needs a public URL for every send.
                         {savedUrl && ' A URL from the template is saved — click Reset to use it.'}
                       </p>
@@ -433,12 +433,12 @@ export default function BroadcastsPage() {
                         value={draft.headerMediaUrl}
                         onChange={(e) => setDraft({ ...draft, headerMediaUrl: e.target.value })}
                         placeholder={header.format === 'DOCUMENT' ? 'https://…/file.pdf' : header.format === 'VIDEO' ? 'https://…/video.mp4' : 'https://…/image.jpg'}
-                        className="flex-1 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-mono"
+                        className="flex-1 px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-xs font-mono"
                       />
                       {savedUrl && !usingSaved && (
                         <button type="button"
                           onClick={() => setDraft({ ...draft, headerMediaUrl: savedUrl })}
-                          className="px-3 py-2 text-[11px] font-medium rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700">
+                          className="px-3 py-2 text-meta font-medium rounded-lg bg-muted dark:bg-slate-800 hover:bg-muted dark:hover:bg-slate-700">
                           Reset
                         </button>
                       )}
@@ -459,10 +459,10 @@ export default function BroadcastsPage() {
 
           {/* Email content */}
           {isEmail && (
-            <div className="space-y-3 rounded-xl border border-violet-200 dark:border-violet-900 bg-violet-50/40 dark:bg-violet-950/20 p-4">
+            <div className="space-y-3 rounded-lg border border-line dark:border-violet-900 bg-accent-subtle dark:bg-violet-950/20 p-4">
               <div className="flex items-center justify-between">
-                <p className="text-xs font-semibold text-violet-800 dark:text-violet-300">Email content</p>
-                <a href="/automation/templates" className="text-[11px] text-violet-700 hover:underline">
+                <p className="text-xs font-semibold text-accent-fg dark:text-accent-fg">Email content</p>
+                <a href="/automation/templates" className="text-meta text-accent-fg hover:underline">
                   + Manage templates
                 </a>
               </div>
@@ -474,7 +474,7 @@ export default function BroadcastsPage() {
                     const t = emailTemplates.find((x) => String(x.id) === e.target.value);
                     if (t) setDraft({ ...draft, subject: t.subject || draft.subject, body: t.body || draft.body });
                   }}
-                  className="w-full px-3 py-2 rounded-lg border border-violet-300 bg-white dark:bg-slate-900 text-sm"
+                  className="w-full px-3 py-2 rounded-lg border border-line bg-canvas dark:bg-slate-900 text-sm"
                 >
                   <option value="">— Load from saved email template (optional) —</option>
                   {emailTemplates.map((t) => (
@@ -487,47 +487,47 @@ export default function BroadcastsPage() {
                 value={draft.subject}
                 onChange={(e) => setDraft({ ...draft, subject: e.target.value })}
                 placeholder="Email subject — use {{name}} for personalization"
-                className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm"
+                className="w-full px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm"
               />
               <textarea
                 value={draft.body}
                 onChange={(e) => setDraft({ ...draft, body: e.target.value })}
                 placeholder={'Email body — supports {{name}}, {{email}}, {{phone}}\n\nBasic HTML works too: <b>, <a>, <br>'}
                 rows={6}
-                className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm font-mono"
+                className="w-full px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm font-mono"
               />
-              <p className="text-[11px] text-slate-500">
+              <p className="text-meta text-fg-tertiary">
                 An unsubscribe link is auto-added to every email footer for compliance.
               </p>
             </div>
           )}
 
           {samplePreview?.to && (
-            <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900/40 p-4 space-y-2">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+            <div className="rounded-lg border border-line dark:border-slate-800 bg-subtle/60 dark:bg-slate-900/40 p-4 space-y-2">
+              <p className="text-meta font-semibold text-fg-tertiary">
                 Preview — first recipient will see:
               </p>
-              <p className="text-xs text-slate-600 dark:text-slate-400">
-                Sending to: <span className="font-medium text-slate-900 dark:text-white">{samplePreview.to.name}</span>
+              <p className="text-xs text-fg-secondary dark:text-fg-tertiary">
+                Sending to: <span className="font-medium text-fg dark:text-white">{samplePreview.to.name}</span>
                 {' · '}
                 <span className="font-mono">{samplePreview.to.phone || samplePreview.to.email}</span>
               </p>
               {samplePreview.whatsapp && (
-                <div className="rounded-lg bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900 p-3 space-y-2">
-                  <p className="text-[10px] uppercase font-semibold text-emerald-700">WhatsApp</p>
+                <div className="rounded-lg bg-accent-subtle dark:bg-emerald-950/30 border border-line dark:border-emerald-900 p-3 space-y-2">
+                  <p className="text-meta font-semibold text-accent-fg">WhatsApp</p>
 
                   {samplePreview.whatsapp.header && (
-                    <div className="rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-2">
+                    <div className="rounded bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 p-2">
                       {samplePreview.whatsapp.header.format === 'TEXT' ? (
-                        <p className="text-xs font-bold text-slate-900 dark:text-white">
+                        <p className="text-xs font-semibold text-fg dark:text-white">
                           {samplePreview.whatsapp.header.text}
                         </p>
                       ) : (
-                        <p className="text-[11px] text-slate-500 flex items-center gap-1.5">
-                          <span className="inline-block w-4 h-4 rounded bg-slate-200 dark:bg-slate-700 flex-shrink-0" />
+                        <p className="text-meta text-fg-tertiary flex items-center gap-1.5">
+                          <span className="inline-block w-4 h-4 rounded bg-muted dark:bg-slate-700 flex-shrink-0" />
                           <span>{samplePreview.whatsapp.header.format} header</span>
                           {samplePreview.whatsapp.header.filename && (
-                            <span className="text-slate-700 dark:text-slate-300 font-medium truncate">
+                            <span className="text-fg-secondary dark:text-fg-disabled font-medium truncate">
                               · {samplePreview.whatsapp.header.filename}
                             </span>
                           )}
@@ -536,21 +536,21 @@ export default function BroadcastsPage() {
                     </div>
                   )}
 
-                  <p className="text-xs text-slate-800 dark:text-slate-200 whitespace-pre-wrap">
+                  <p className="text-xs text-fg dark:text-slate-200 whitespace-pre-wrap">
                     {samplePreview.whatsapp.body}
                   </p>
 
                   {samplePreview.whatsapp.footer && (
-                    <p className="text-[11px] text-slate-500 italic">
+                    <p className="text-meta text-fg-tertiary italic">
                       {samplePreview.whatsapp.footer}
                     </p>
                   )}
 
                   {samplePreview.whatsapp.buttons?.length > 0 && (
-                    <div className="space-y-1 pt-1 border-t border-emerald-200 dark:border-emerald-900">
+                    <div className="space-y-1 pt-1 border-t border-line dark:border-emerald-900">
                       {samplePreview.whatsapp.buttons.map((btn, i) => (
                         <div key={i}
-                          className="flex items-center justify-center gap-1.5 py-1.5 text-[12px] text-teal-600 font-medium bg-white dark:bg-slate-900 rounded">
+                          className="flex items-center justify-center gap-1.5 py-1.5 text-meta text-accent-fg font-medium bg-canvas dark:bg-slate-900 rounded">
                           {btn.type === 'URL' && '🔗'}
                           {btn.type === 'PHONE_NUMBER' && '📞'}
                           {btn.type === 'QUICK_REPLY' && '↩️'}
@@ -562,23 +562,23 @@ export default function BroadcastsPage() {
                 </div>
               )}
               {samplePreview.email && (
-                <div className="rounded-lg bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-900 p-3">
-                  <p className="text-[10px] uppercase font-semibold text-violet-700 mb-1">Email</p>
-                  <p className="text-xs font-semibold text-slate-900 dark:text-white mb-1">{samplePreview.email.subject || '(no subject)'}</p>
-                  <p className="text-xs text-slate-800 dark:text-slate-200 whitespace-pre-wrap">{samplePreview.email.body}</p>
+                <div className="rounded-lg bg-accent-subtle dark:bg-violet-950/30 border border-line dark:border-violet-900 p-3">
+                  <p className="text-meta font-semibold text-accent-fg mb-1">Email</p>
+                  <p className="text-xs font-semibold text-fg dark:text-white mb-1">{samplePreview.email.subject || '(no subject)'}</p>
+                  <p className="text-xs text-fg dark:text-slate-200 whitespace-pre-wrap">{samplePreview.email.body}</p>
                 </div>
               )}
             </div>
           )}
 
           {/* Review + send */}
-          <div className="flex flex-wrap gap-2 items-center pt-2 border-t border-slate-100 dark:border-slate-800">
+          <div className="flex flex-wrap gap-2 items-center pt-2 border-t border-line dark:border-slate-800">
             <button type="button" onClick={() => createBroadcast(true)} disabled={saving}
-              className="px-4 py-2 rounded-xl border text-sm font-medium">
+              className="px-4 py-2 rounded-lg border text-sm font-medium">
               Test send
             </button>
             <button type="button" onClick={() => createBroadcast(false)} disabled={saving || !canSend}
-              className="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold disabled:opacity-50">
+              className="px-4 py-2 rounded-lg bg-accent hover:bg-accent-hover text-white text-sm font-semibold disabled:opacity-50">
               {saving
                 ? 'Sending…'
                 : audienceCount?.count > 0
@@ -590,16 +590,16 @@ export default function BroadcastsPage() {
       )}
 
       {broadcasts.length === 0 ? (
-        <div className="text-center py-16 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700">
-          <Send className="w-10 h-10 mx-auto text-slate-400 mb-3" />
-          <p className="text-slate-900 dark:text-white font-semibold">No broadcasts yet</p>
-          <p className="text-sm text-slate-500 mt-1 max-w-sm mx-auto mb-5">
+        <div className="text-center py-16 rounded-lg border-2 border-dashed border-line dark:border-slate-700">
+          <Send className="w-10 h-10 mx-auto text-fg-tertiary mb-3" />
+          <p className="text-fg dark:text-white font-semibold">No broadcasts yet</p>
+          <p className="text-sm text-fg-tertiary mt-1 max-w-sm mx-auto mb-5">
             Send an approved WhatsApp template to a filtered list — a promotion, an announcement, or a reminder.
           </p>
           <button
             type="button"
             onClick={() => setShowCreate(true)}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-teal-700 text-white text-sm font-semibold"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-accent text-white text-sm font-semibold"
           >
             <Plus className="w-4 h-4" /> New broadcast
           </button>
@@ -617,33 +617,33 @@ export default function BroadcastsPage() {
               <div
                 key={b._id}
                 onClick={() => setDetailId(b._id)}
-                className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-between gap-4 cursor-pointer hover:border-teal-300 hover:shadow-sm transition-all"
+                className="p-4 rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 flex items-center justify-between gap-4 cursor-pointer hover:border-line transition-all"
               >
                 <div className="flex items-center gap-3 min-w-0">
-                  {b.channel === 'email' ? <Mail className="w-5 h-5 text-violet-500 shrink-0" /> : <MessageCircle className="w-5 h-5 text-emerald-500 shrink-0" />}
+                  {b.channel === 'email' ? <Mail className="w-5 h-5 text-accent-fg shrink-0" /> : <MessageCircle className="w-5 h-5 text-accent-fg shrink-0" />}
                   <div className="min-w-0">
-                    <p className="font-medium text-slate-900 dark:text-white truncate">{b.name}</p>
-                    <p className="text-xs text-slate-500">
-                      <span className="text-slate-700 dark:text-slate-300">{a.sent || 0}</span> sent
-                      {' · '}<span className="text-teal-600">{reached}</span> delivered
-                      {a.read ? <> · <span className="text-emerald-600">{a.read}</span> read</> : null}
-                      {a.failed ? <> · <span className="text-red-600">{a.failed}</span> failed</> : null}
-                      {a.optedOut ? <> · <span className="text-purple-600">{a.optedOut}</span> opted-out</> : null}
-                      {successRate !== null && <> · <span className="text-slate-400">{successRate}% reached</span></>}
+                    <p className="font-medium text-fg dark:text-white truncate">{b.name}</p>
+                    <p className="text-xs text-fg-tertiary">
+                      <span className="text-fg-secondary dark:text-fg-disabled">{a.sent || 0}</span> sent
+                      {' · '}<span className="text-accent-fg">{reached}</span> delivered
+                      {a.read ? <> · <span className="text-accent-fg">{a.read}</span> read</> : null}
+                      {a.failed ? <> · <span className="text-danger">{a.failed}</span> failed</> : null}
+                      {a.optedOut ? <> · <span className="text-accent-fg">{a.optedOut}</span> opted-out</> : null}
+                      {successRate !== null && <> · <span className="text-fg-tertiary">{successRate}% reached</span></>}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0" onClick={(e) => e.stopPropagation()}>
-                  <span className={`text-[10px] font-semibold uppercase px-2 py-1 rounded-full ${STATUS_STYLES[b.status] || STATUS_STYLES.draft}`}>
+                  <span className={`text-meta font-semibold px-2 py-1 rounded-full ${STATUS_STYLES[b.status] || STATUS_STYLES.draft}`}>
                     {b.status}
                   </span>
                   {b.status === 'draft' && (
-                    <button type="button" onClick={() => runAction(b._id, 'send')} className="p-2 rounded-lg hover:bg-slate-100" title="Send">
+                    <button type="button" onClick={() => runAction(b._id, 'send')} className="p-2 rounded-lg hover:bg-muted" title="Send">
                       <Send className="w-4 h-4" />
                     </button>
                   )}
                   {a.failed > 0 && (
-                    <button type="button" onClick={() => runAction(b._id, 'retry_failed')} className="p-2 rounded-lg hover:bg-slate-100" title="Retry failed">
+                    <button type="button" onClick={() => runAction(b._id, 'retry_failed')} className="p-2 rounded-lg hover:bg-muted" title="Retry failed">
                       <RefreshCw className="w-4 h-4" />
                     </button>
                   )}
@@ -681,8 +681,8 @@ async function safeJson(res) {
 }
 
 function AudienceIndicator({ count, loading, channel }) {
-  if (loading) return <span className="text-[11px] text-slate-400 flex items-center gap-1"><Loader2 className="w-3 h-3 animate-spin" /> counting…</span>;
-  if (!count) return <span className="text-[11px] text-slate-400">—</span>;
+  if (loading) return <span className="text-meta text-fg-tertiary flex items-center gap-1"><Loader2 className="w-3 h-3 animate-spin" /> counting…</span>;
+  if (!count) return <span className="text-meta text-fg-tertiary">—</span>;
 
   const person = (n) => (n === 1 ? 'person' : 'people');
   const skips = [];
@@ -693,21 +693,21 @@ function AudienceIndicator({ count, loading, channel }) {
 
   if (count.count === 0) {
     return (
-      <div className="text-[11px] text-amber-700 flex flex-col items-end gap-0.5">
+      <div className="text-meta text-warning flex flex-col items-end gap-0.5">
         <span className="flex items-center gap-1"><AlertCircle className="w-3 h-3" /> No recipients match</span>
-        {skips.length > 0 && <span className="text-slate-500">Skipped: {skips.join(' · ')}</span>}
+        {skips.length > 0 && <span className="text-fg-tertiary">Skipped: {skips.join(' · ')}</span>}
       </div>
     );
   }
   return (
-    <div className="text-[11px] text-emerald-700 dark:text-emerald-400 flex flex-col items-end gap-0.5 font-medium">
+    <div className="text-meta text-accent-fg dark:text-accent-fg flex flex-col items-end gap-0.5 font-medium">
       <span className="flex items-center gap-1">
         <Users className="w-3 h-3" />
         Sends to {count.count} {person(count.count)}
         {count.truncated ? ' (capped at 5000)' : ''}
       </span>
       {skips.length > 0 && (
-        <span className="text-slate-500 font-normal">
+        <span className="text-fg-tertiary font-normal">
           {count.matchedTotal} matched · skipped {skips.join(' · ')}
         </span>
       )}

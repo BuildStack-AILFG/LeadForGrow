@@ -62,7 +62,7 @@ export default function CreateMeetingPage() {
   };
 
   return (
-    <div className="min-h-full bg-[#f8f9fc] dark:bg-slate-950">
+    <div className="min-h-full bg-subtle dark:bg-slate-950">
       <CreateMeetingWizard
         step={step}
         draft={draft}

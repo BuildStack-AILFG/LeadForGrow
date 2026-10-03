@@ -68,11 +68,11 @@ export default function InboxActionsMenu({ chat, onUpdate, onClaim, onAction, cu
 
   return (
     <div className="relative" ref={ref}>
-      <button type="button" onClick={() => setOpen(!open)} className="p-2 rounded text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800" title="More actions">
+      <button type="button" onClick={() => setOpen(!open)} className="p-2 rounded text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800" title="More actions">
         <MoreVertical className="w-4 h-4" />
       </button>
       {open && (
-        <div className="absolute right-0 top-full mt-1 w-56 p-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded shadow-lg z-30 max-h-80 overflow-y-auto">
+        <div className="absolute right-0 top-full mt-1 w-56 p-1.5 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded shadow-popover z-30 max-h-80 overflow-y-auto">
           {actions.map((action) => {
             const Icon = action.icon;
             return (
@@ -82,10 +82,10 @@ export default function InboxActionsMenu({ chat, onUpdate, onClaim, onAction, cu
                   onClick={() => { action.onClick(); if (!action.keepOpen) setOpen(false); }}
                   className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left rounded transition-colors ${
                     action.danger
-                      ? 'text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30'
+                      ? 'text-danger hover:bg-danger-subtle dark:hover:bg-red-950/30'
                       : action.active
-                        ? 'text-green-600 hover:bg-green-50 dark:hover:bg-green-950/30'
-                        : 'text-slate-700 dark:text-slate-300 hover:bg-[#F0F9F5] dark:hover:bg-slate-800'
+                        ? 'text-accent-fg hover:bg-accent-subtle dark:hover:bg-green-950/30'
+                        : 'text-fg-secondary dark:text-fg-disabled hover:bg-accent-subtle dark:hover:bg-slate-800'
                   }`}
                 >
                   <span className="w-4 h-4 flex items-center justify-center flex-shrink-0">
@@ -94,7 +94,7 @@ export default function InboxActionsMenu({ chat, onUpdate, onClaim, onAction, cu
                   {action.label}
                 </button>
                 {action.id === 'snooze' && snoozeOpen && (
-                  <div className="ml-[26px] mt-0.5 mb-1 py-1 border-l border-slate-100 dark:border-slate-800 pl-2 space-y-0.5">
+                  <div className="ml-[26px] mt-0.5 mb-1 py-1 border-l border-line dark:border-slate-800 pl-2 space-y-0.5">
                     {SNOOZE_PRESETS.map((p) => (
                       <button
                         key={p.id}
@@ -106,7 +106,7 @@ export default function InboxActionsMenu({ chat, onUpdate, onClaim, onAction, cu
                           setOpen(false);
                           setSnoozeOpen(false);
                         }}
-                        className="w-full text-left px-2.5 py-1.5 text-[11px] text-slate-600 dark:text-slate-400 hover:bg-[#F0F9F5] dark:hover:bg-slate-800 rounded transition-colors"
+                        className="w-full text-left px-2.5 py-1.5 text-meta text-fg-secondary dark:text-fg-tertiary hover:bg-accent-subtle dark:hover:bg-slate-800 rounded transition-colors"
                       >
                         {p.label}
                       </button>

@@ -1,10 +1,10 @@
 export const AVATAR_PALETTE = [
-  { bg: 'bg-teal-100 dark:bg-teal-950/50', text: 'text-teal-700 dark:text-teal-400', ring: 'ring-teal-200/60', bar: 'bg-teal-500' },
-  { bg: 'bg-violet-100 dark:bg-violet-950/50', text: 'text-violet-700 dark:text-violet-400', ring: 'ring-violet-200/60', bar: 'bg-violet-500' },
-  { bg: 'bg-emerald-100 dark:bg-emerald-950/50', text: 'text-emerald-700 dark:text-emerald-400', ring: 'ring-emerald-200/60', bar: 'bg-emerald-500' },
-  { bg: 'bg-amber-100 dark:bg-amber-950/50', text: 'text-amber-700 dark:text-amber-400', ring: 'ring-amber-200/60', bar: 'bg-amber-500' },
-  { bg: 'bg-rose-100 dark:bg-rose-950/50', text: 'text-rose-700 dark:text-rose-400', ring: 'ring-rose-200/60', bar: 'bg-rose-500' },
-  { bg: 'bg-cyan-100 dark:bg-cyan-950/50', text: 'text-cyan-700 dark:text-cyan-400', ring: 'ring-cyan-200/60', bar: 'bg-cyan-500' }
+  { bg: 'bg-accent-subtle dark:bg-teal-950/50', text: 'text-accent-fg dark:text-accent-fg', ring: 'ring-focus/60', bar: 'bg-accent' },
+  { bg: 'bg-accent-subtle dark:bg-violet-950/50', text: 'text-accent-fg dark:text-accent-fg', ring: 'ring-focus/60', bar: 'bg-accent' },
+  { bg: 'bg-accent-subtle dark:bg-emerald-950/50', text: 'text-accent-fg dark:text-accent-fg', ring: 'ring-focus/60', bar: 'bg-accent' },
+  { bg: 'bg-warning-subtle dark:bg-amber-950/50', text: 'text-warning dark:text-amber-400', ring: 'ring-amber-200/60', bar: 'bg-warning' },
+  { bg: 'bg-danger-subtle dark:bg-rose-950/50', text: 'text-danger dark:text-rose-400', ring: 'ring-rose-200/60', bar: 'bg-danger' },
+  { bg: 'bg-accent-subtle dark:bg-cyan-950/50', text: 'text-accent-fg dark:text-accent-fg', ring: 'ring-focus/60', bar: 'bg-accent' }
 ];
 
 export const STRATEGIES = [
@@ -14,8 +14,8 @@ export const STRATEGIES = [
     description: 'Every new lead assigns to you. Best when you handle sales personally.',
     icon: 'UserCircle',
     accent: 'blue',
-    selectedClass: 'border-teal-500/60 bg-teal-50/80 dark:bg-teal-950/20',
-    iconClass: 'bg-teal-100 text-teal-600 dark:bg-teal-950/40 dark:text-teal-400'
+    selectedClass: 'border-accent/60 bg-accent-subtle/80 dark:bg-teal-950/20',
+    iconClass: 'bg-accent-subtle text-accent-fg dark:bg-teal-950/40 dark:text-accent-fg'
   },
   {
     id: 'round-robin',
@@ -23,8 +23,8 @@ export const STRATEGIES = [
     description: 'Distribute leads evenly across active team members automatically.',
     icon: 'RefreshCw',
     accent: 'violet',
-    selectedClass: 'border-violet-500/60 bg-violet-50/80 dark:bg-violet-950/20',
-    iconClass: 'bg-violet-100 text-violet-600 dark:bg-violet-950/40 dark:text-violet-400'
+    selectedClass: 'border-accent/60 bg-accent-subtle/80 dark:bg-violet-950/20',
+    iconClass: 'bg-accent-subtle text-accent-fg dark:bg-violet-950/40 dark:text-accent-fg'
   }
 ];
 

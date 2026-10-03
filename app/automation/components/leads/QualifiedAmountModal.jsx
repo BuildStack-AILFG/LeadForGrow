@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 
 const inputCls =
-  'w-full px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500';
+  'w-full px-3 py-2 text-sm border border-line dark:border-slate-700 rounded-lg bg-canvas dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-focus focus:border-accent';
 
 export default function QualifiedAmountModal({ open, leadName, onConfirm, onCancel, saving }) {
   const [amount, setAmount] = useState('');
@@ -29,25 +29,25 @@ export default function QualifiedAmountModal({ open, leadName, onConfirm, onCanc
   return createPortal(
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-slate-900/50" onClick={saving ? undefined : onCancel} />
-      <div className="relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700">
-        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 dark:border-slate-800">
-          <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Deal amount</h3>
+      <div className="relative w-full max-w-sm bg-canvas dark:bg-slate-900 rounded-lg shadow-modal border border-line dark:border-slate-700">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-line dark:border-slate-800">
+          <h3 className="text-sm font-semibold text-fg dark:text-slate-100">Deal amount</h3>
           <button
             type="button"
             onClick={onCancel}
             disabled={saving}
-            className="p-1.5 rounded-md text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50"
+            className="p-1.5 rounded-md text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800 disabled:opacity-50"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
         <form onSubmit={handleSubmit} className="p-4 space-y-4">
-          <p className="text-sm text-slate-600 dark:text-slate-400">
-            Enter the deal amount for <span className="font-medium text-slate-900 dark:text-slate-100">{leadName || 'this lead'}</span>.
+          <p className="text-sm text-fg-secondary dark:text-fg-tertiary">
+            Enter the deal amount for <span className="font-medium text-fg dark:text-slate-100">{leadName || 'this lead'}</span>.
             A deal will be created and this lead will move to your Deals pipeline.
           </p>
           <div>
-            <label className="text-xs font-medium text-slate-500">Amount (INR)</label>
+            <label className="text-xs font-medium text-fg-tertiary">Amount (INR)</label>
             <input
               type="number"
               min="1"
@@ -64,14 +64,14 @@ export default function QualifiedAmountModal({ open, leadName, onConfirm, onCanc
               type="button"
               onClick={onCancel}
               disabled={saving}
-              className="flex-1 py-2 text-sm font-medium rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50"
+              className="flex-1 py-2 text-sm font-medium rounded-lg border border-line dark:border-slate-700 hover:bg-subtle dark:hover:bg-slate-800 disabled:opacity-50"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={saving || !amount.trim() || Number(amount) <= 0}
-              className="flex-1 py-2 text-sm font-medium rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50"
+              className="flex-1 py-2 text-sm font-medium rounded-lg bg-accent text-white hover:bg-accent-hover disabled:opacity-50"
             >
               {saving ? 'Saving…' : 'Save & qualify'}
             </button>

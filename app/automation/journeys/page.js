@@ -46,25 +46,25 @@ export default function JourneysPage() {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
       <div className="mb-8">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-100 dark:bg-violet-950/40 text-violet-700 text-xs font-medium mb-3">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-subtle dark:bg-violet-950/40 text-accent-fg text-xs font-medium mb-3">
           <Map className="w-3.5 h-3.5" /> Customer Journeys
         </div>
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Live journey tracker</h1>
-        <p className="text-sm text-slate-500 mt-1">Real-time progress across all active workflow executions</p>
+        <h1 className="text-2xl font-semibold text-fg dark:text-white">Live journey tracker</h1>
+        <p className="text-sm text-fg-tertiary mt-1">Real-time progress across all active workflow executions</p>
       </div>
 
       <AutoPageIntro />
 
       {journeys.length === 0 ? (
-        <div className="text-center py-16 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700">
-          <Map className="w-10 h-10 mx-auto text-slate-400 mb-3" />
-          <p className="text-slate-900 dark:text-white font-semibold mb-1">No active journeys yet</p>
-          <p className="text-slate-500 text-sm max-w-sm mx-auto mb-5">
+        <div className="text-center py-16 rounded-lg border-2 border-dashed border-line dark:border-slate-700">
+          <Map className="w-10 h-10 mx-auto text-fg-tertiary mb-3" />
+          <p className="text-fg dark:text-white font-semibold mb-1">No active journeys yet</p>
+          <p className="text-fg-tertiary text-sm max-w-sm mx-auto mb-5">
             Journeys appear here once a lead is enrolled in a Sequence. Build one to see it tracked live.
           </p>
           <Link
             href="/automation/sequences"
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-700 text-white text-sm font-semibold"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-accent hover:bg-accent-hover text-white text-sm font-semibold"
           >
             Go to Sequences
           </Link>
@@ -74,54 +74,54 @@ export default function JourneysPage() {
           {journeys.map((j) => {
             const Icon = STATUS_ICON[j.status] || Clock;
             return (
-              <div key={j.executionId} className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+              <div key={j.executionId} className="p-5 rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800">
                 <div className="flex items-start justify-between gap-4 mb-4">
                   <div>
-                    <p className="font-semibold text-slate-900 dark:text-white">{j.sequenceName}</p>
-                    <p className="text-xs text-slate-500">Lead {j.leadId?.slice?.(-6) || j.leadId}</p>
+                    <p className="font-semibold text-fg dark:text-white">{j.sequenceName}</p>
+                    <p className="text-xs text-fg-tertiary">Lead {j.leadId?.slice?.(-6) || j.leadId}</p>
                   </div>
                   <span className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full ${
-                    j.completed ? 'bg-emerald-100 text-emerald-700' :
-                    j.failed ? 'bg-red-100 text-red-700' :
-                    j.waiting ? 'bg-amber-100 text-amber-700' :
-                    'bg-teal-100 text-teal-700'
+                    j.completed ? 'bg-accent-subtle text-accent-fg' :
+                    j.failed ? 'bg-danger-subtle text-danger' :
+                    j.waiting ? 'bg-warning-subtle text-warning' :
+                    'bg-accent-subtle text-accent-fg'
                   }`}>
                     <Icon className="w-3 h-3" /> {j.status}
                   </span>
                 </div>
 
                 <div className="relative">
-                  <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden mb-3">
+                  <div className="h-2 rounded-full bg-muted dark:bg-slate-800 overflow-hidden mb-3">
                     <div
-                      className="h-full rounded-full bg-teal-700 transition-all duration-500"
+                      className="h-full rounded-full bg-accent transition-all duration-500"
                       style={{ width: `${j.progress}%` }}
                     />
                   </div>
                   <div className="grid grid-cols-3 gap-2 text-xs">
-                    <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50">
-                      <p className="text-slate-400 mb-0.5">Previous</p>
-                      <p className="font-medium text-slate-700 dark:text-slate-300 truncate">{j.previousStage || '—'}</p>
+                    <div className="p-2 rounded-lg bg-subtle dark:bg-slate-800/50">
+                      <p className="text-fg-tertiary mb-0.5">Previous</p>
+                      <p className="font-medium text-fg-secondary dark:text-fg-disabled truncate">{j.previousStage || '—'}</p>
                     </div>
-                    <div className="p-2 rounded-lg bg-teal-50 dark:bg-teal-950/30 border border-teal-200 dark:border-teal-800">
-                      <p className="text-teal-500 mb-0.5">Current</p>
-                      <p className="font-medium text-teal-700 dark:text-teal-300 truncate">{j.currentStage}</p>
+                    <div className="p-2 rounded-lg bg-accent-subtle dark:bg-teal-950/30 border border-line dark:border-teal-800">
+                      <p className="text-accent-fg mb-0.5">Current</p>
+                      <p className="font-medium text-accent-fg dark:text-accent-fg truncate">{j.currentStage}</p>
                     </div>
-                    <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50">
-                      <p className="text-slate-400 mb-0.5">Next</p>
-                      <p className="font-medium text-slate-700 dark:text-slate-300 truncate">{j.nextStage || '—'}</p>
+                    <div className="p-2 rounded-lg bg-subtle dark:bg-slate-800/50">
+                      <p className="text-fg-tertiary mb-0.5">Next</p>
+                      <p className="font-medium text-fg-secondary dark:text-fg-disabled truncate">{j.nextStage || '—'}</p>
                     </div>
                   </div>
                 </div>
 
                 {(j.logs || []).length > 0 && (
                   <details className="mt-3">
-                    <summary className="text-xs text-slate-500 cursor-pointer flex items-center gap-1">
+                    <summary className="text-xs text-fg-tertiary cursor-pointer flex items-center gap-1">
                       <ChevronRight className="w-3 h-3" /> {j.logs.length} steps logged
                     </summary>
                     <div className="mt-2 space-y-1 max-h-32 overflow-y-auto">
                       {j.logs.map((log, i) => (
-                        <div key={i} className="text-[11px] text-slate-500 flex gap-2">
-                          <span className={log.status === 'success' ? 'text-emerald-500' : log.status === 'failed' ? 'text-red-500' : ''}>
+                        <div key={i} className="text-meta text-fg-tertiary flex gap-2">
+                          <span className={log.status === 'success' ? 'text-accent-fg' : log.status === 'failed' ? 'text-danger' : ''}>
                             {log.status}
                           </span>
                           <span>{log.message}</span>

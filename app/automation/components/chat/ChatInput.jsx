@@ -324,7 +324,7 @@ export default function ChatInput({
   const composerShell = (children) => (
     <div
       className={`flex-shrink-0 border-t transition-colors ${
-        dragOver ? 'border-teal-400 bg-teal-50/50' : isNote ? 'border-green-200 dark:border-green-900/50 bg-green-50/30 dark:bg-green-950/10' : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900'
+        dragOver ? 'border-teal-400 bg-accent-subtle' : isNote ? 'border-line dark:border-green-900/50 bg-accent-subtle/30 dark:bg-green-950/10' : 'border-line dark:border-slate-800 bg-canvas dark:bg-slate-900'
       }`}
       onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
       onDragLeave={() => setDragOver(false)}
@@ -337,8 +337,8 @@ export default function ChatInput({
 
   if (!canSend && !hasSelection) {
     return (
-      <div className="flex-shrink-0 p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 text-center">
-        <button type="button" onClick={onIntervene} className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-teal-700 bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-900 rounded hover:bg-teal-100">
+      <div className="flex-shrink-0 p-4 border-t border-line dark:border-slate-800 bg-subtle dark:bg-slate-900/50 text-center">
+        <button type="button" onClick={onIntervene} className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-accent-fg bg-accent-subtle dark:bg-teal-950/40 border border-line dark:border-teal-900 rounded hover:bg-accent-subtle">
           <Hand className="w-4 h-4" /> Take over chat to reply
         </button>
       </div>
@@ -349,13 +349,13 @@ export default function ChatInput({
     return composerShell(
       <>
         <div className="px-3 pt-2">
-          <span className="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-medium rounded bg-green-600 text-white">
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 text-meta font-medium rounded bg-accent text-white">
             <StickyNote className="w-3 h-3" /> Note only
           </span>
         </div>
         <form onSubmit={handleSubmit} className="flex items-end gap-2 p-3 pt-2">
-          <textarea rows={1} value={text} onChange={(e) => setText(e.target.value)} placeholder="Add internal note..." className="flex-1 resize-none text-sm px-4 py-2.5 bg-green-50/50 dark:bg-green-950/20 border border-green-200 dark:border-green-900 rounded focus:outline-none focus:ring-2 focus:ring-green-500/20 max-h-32 min-h-[42px]" onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSubmit(e); } }} />
-          <button type="submit" disabled={!text.trim()} className="p-2.5 rounded bg-green-600 text-white disabled:opacity-40 hover:bg-green-700"><Send className="w-4 h-4" /></button>
+          <textarea rows={1} value={text} onChange={(e) => setText(e.target.value)} placeholder="Add internal note..." className="flex-1 resize-none text-sm px-4 py-2.5 bg-accent-subtle dark:bg-green-950/20 border border-line dark:border-green-900 rounded focus:outline-none focus:ring-2 focus:ring-focus max-h-32 min-h-[42px]" onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSubmit(e); } }} />
+          <button type="submit" disabled={!text.trim()} className="p-2.5 rounded bg-accent text-white disabled:opacity-40 hover:bg-accent-hover"><Send className="w-4 h-4" /></button>
         </form>
       </>
     );
@@ -371,14 +371,14 @@ export default function ChatInput({
         <button
           type="button"
           onClick={() => { setEmailMinimized(false); setEmailExpanded(true); }}
-          className="flex-1 text-left text-sm px-3 py-2 rounded bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-500 transition-colors"
+          className="flex-1 text-left text-sm px-3 py-2 rounded bg-subtle hover:bg-muted dark:bg-slate-800 dark:hover:bg-slate-700 border border-line dark:border-slate-700 text-fg-tertiary transition-colors"
         >
           Reply…
         </button>
         <button
           type="button"
           onClick={() => { setMode('note'); setEmailMinimized(false); setEmailExpanded(true); }}
-          className="inline-flex items-center gap-1 px-2.5 py-2 text-[11px] font-medium rounded text-green-700 hover:bg-green-50 dark:hover:bg-green-950/40"
+          className="inline-flex items-center gap-1 px-2.5 py-2 text-meta font-medium rounded text-accent-fg hover:bg-accent-subtle dark:hover:bg-green-950/40"
           title="Add internal note"
         >
           <StickyNote className="w-3.5 h-3.5" />
@@ -386,7 +386,7 @@ export default function ChatInput({
         <button
           type="button"
           onClick={() => { setEmailMinimized(false); setEmailExpanded(true); }}
-          className="inline-flex items-center gap-1 px-3 py-2 text-xs font-semibold text-white bg-[#1D4B3E] hover:bg-[#163c32] rounded"
+          className="inline-flex items-center gap-1 px-3 py-2 text-xs font-semibold text-white bg-accent hover:bg-accent-hover rounded"
         >
           Compose
         </button>
@@ -397,17 +397,17 @@ export default function ChatInput({
   return composerShell(
     <>
       <div className="flex items-center gap-1 px-3 pt-2">
-        <button type="button" onClick={() => setMode('message')} className={`inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-medium rounded ${!isNote ? 'bg-[#1D4B3E] text-white' : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800'}`}>
+        <button type="button" onClick={() => setMode('message')} className={`inline-flex items-center gap-1 px-2.5 py-1 text-meta font-medium rounded ${!isNote ? 'bg-accent text-white' : 'text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800'}`}>
           <MessageSquare className="w-3 h-3" /> Reply
         </button>
-        <button type="button" onClick={() => setMode('note')} className={`inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-medium rounded ${isNote ? 'bg-green-600 text-white' : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800'}`}>
+        <button type="button" onClick={() => setMode('note')} className={`inline-flex items-center gap-1 px-2.5 py-1 text-meta font-medium rounded ${isNote ? 'bg-accent text-white' : 'text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800'}`}>
           <StickyNote className="w-3 h-3" /> Note
         </button>
         {isEmail && (
           <button
             type="button"
             onClick={() => { setEmailExpanded(false); setEmailMinimized(true); }}
-            className="ml-auto inline-flex items-center gap-1 px-2 py-1 text-[11px] text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded"
+            className="ml-auto inline-flex items-center gap-1 px-2 py-1 text-meta text-fg-tertiary hover:text-fg-secondary hover:bg-muted rounded"
             title="Minimize composer"
           >
             <ChevronDown className="w-3.5 h-3.5" />
@@ -416,11 +416,11 @@ export default function ChatInput({
         {isEmail && onSaveDraft && (
           <>
             {draftSavedAt && (
-              <span className="text-[10px] text-emerald-600 mr-1" title={`Draft auto-saved at ${draftSavedAt.toLocaleTimeString()}`}>
+              <span className="text-meta text-accent-fg mr-1" title={`Draft auto-saved at ${draftSavedAt.toLocaleTimeString()}`}>
                 ✓ Saved
               </span>
             )}
-            <button type="button" onClick={() => { onSaveDraft({ subject: emailSubject, body: editorRef.current?.innerHTML, cc: emailCc, bcc: emailBcc }); setDraftSavedAt(new Date()); }} className="inline-flex items-center gap-1 px-2 py-1 text-[11px] text-slate-500 hover:bg-slate-100 rounded-md">
+            <button type="button" onClick={() => { onSaveDraft({ subject: emailSubject, body: editorRef.current?.innerHTML, cc: emailCc, bcc: emailBcc }); setDraftSavedAt(new Date()); }} className="inline-flex items-center gap-1 px-2 py-1 text-meta text-fg-tertiary hover:bg-muted rounded-md">
               <Save className="w-3 h-3" /> Save draft
             </button>
           </>
@@ -434,11 +434,11 @@ export default function ChatInput({
               When no accounts are connected, show a friendly nudge instead of
               a broken empty dropdown. */}
           {accountsLoading ? (
-            <div className="w-full text-xs px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-400">
+            <div className="w-full text-xs px-3 py-1.5 bg-subtle dark:bg-slate-800 border border-line dark:border-slate-700 rounded-lg text-fg-tertiary">
               Loading mailboxes…
             </div>
           ) : accounts.length === 0 ? (
-            <div className="w-full text-xs px-3 py-1.5 bg-green-50 border border-green-200 rounded text-green-900 flex items-center gap-2">
+            <div className="w-full text-xs px-3 py-1.5 bg-accent-subtle border border-line rounded text-accent-fg flex items-center gap-2">
               <Mail className="w-3.5 h-3.5" />
               <span>
                 No mailbox connected.{' '}
@@ -449,21 +449,21 @@ export default function ChatInput({
               </span>
             </div>
           ) : pinnedEmailAccountId ? (
-            <div className="w-full text-xs px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 flex items-center gap-2">
+            <div className="w-full text-xs px-3 py-1.5 bg-subtle dark:bg-slate-800 border border-line dark:border-slate-700 rounded-lg text-fg-secondary flex items-center gap-2">
               <Mail className="w-3.5 h-3.5" />
               <span className="font-medium">From:</span>
               <span>
                 {accounts.find((a) => a._id === pinnedEmailAccountId)?.email || 'original mailbox'}
               </span>
-              <span className="ml-auto text-[10px] text-slate-400">Locked to conversation</span>
+              <span className="ml-auto text-meta text-fg-tertiary">Locked to conversation</span>
             </div>
           ) : (
             <div className="flex items-center gap-2 text-xs">
-              <label className="text-slate-500 font-medium shrink-0">From:</label>
+              <label className="text-fg-tertiary font-medium shrink-0">From:</label>
               <select
                 value={selectedAccountId}
                 onChange={(e) => setSelectedAccountId(e.target.value)}
-                className="flex-1 text-xs px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg"
+                className="flex-1 text-xs px-3 py-1.5 bg-subtle dark:bg-slate-800 border border-line dark:border-slate-700 rounded-lg"
               >
                 {accounts.map((a) => (
                   <option key={a._id} value={a._id}>
@@ -481,14 +481,14 @@ export default function ChatInput({
             <RecipientRow label="Bcc" value={emailBcc} onChange={onEmailBccChange} autoFocus={bccUserOpened} />
           )}
           <div className="flex items-center gap-1.5">
-            <input type="text" value={emailSubject} onChange={(e) => onEmailSubjectChange?.(e.target.value)} placeholder="Subject" className="flex-1 text-sm px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg" />
+            <input type="text" value={emailSubject} onChange={(e) => onEmailSubjectChange?.(e.target.value)} placeholder="Subject" className="flex-1 text-sm px-3 py-1.5 bg-subtle dark:bg-slate-800 border border-line dark:border-slate-700 rounded-lg" />
             {!showCc && (
-              <button type="button" onClick={() => { setShowCc(true); setCcUserOpened(true); }} className="shrink-0 px-2.5 py-1.5 text-[11px] font-semibold text-slate-500 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg" title="Add Cc recipients">
+              <button type="button" onClick={() => { setShowCc(true); setCcUserOpened(true); }} className="shrink-0 px-2.5 py-1.5 text-meta font-semibold text-fg-tertiary hover:text-accent-fg hover:bg-muted dark:hover:bg-slate-800 rounded-lg" title="Add Cc recipients">
                 Cc
               </button>
             )}
             {!showBcc && (
-              <button type="button" onClick={() => { setShowBcc(true); setBccUserOpened(true); }} className="shrink-0 px-2.5 py-1.5 text-[11px] font-semibold text-slate-500 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg" title="Add Bcc recipients">
+              <button type="button" onClick={() => { setShowBcc(true); setBccUserOpened(true); }} className="shrink-0 px-2.5 py-1.5 text-meta font-semibold text-fg-tertiary hover:text-accent-fg hover:bg-muted dark:hover:bg-slate-800 rounded-lg" title="Add Bcc recipients">
                 Bcc
               </button>
             )}
@@ -500,35 +500,35 @@ export default function ChatInput({
 
       {aiSuggestion && !isNote && (
         <div className="px-4 pt-2">
-          <button type="button" onClick={() => { setText(aiSuggestion); if (editorRef.current) editorRef.current.innerText = aiSuggestion; }} className="w-full text-left px-3 py-2 text-xs rounded-lg bg-teal-50/80 dark:bg-teal-950/20 border border-teal-100 text-slate-600 hover:border-teal-300">
-            <span className="font-medium text-teal-700 flex items-center gap-1 mb-0.5"><Sparkles className="w-3 h-3" /> Suggested reply</span>
+          <button type="button" onClick={() => { setText(aiSuggestion); if (editorRef.current) editorRef.current.innerText = aiSuggestion; }} className="w-full text-left px-3 py-2 text-xs rounded-lg bg-accent-subtle/80 dark:bg-teal-950/20 border border-line text-fg-secondary hover:border-line">
+            <span className="font-medium text-accent-fg flex items-center gap-1 mb-0.5"><Sparkles className="w-3 h-3" /> Suggested reply</span>
             {aiSuggestion.slice(0, 120)}{aiSuggestion.length > 120 ? '…' : ''}
           </button>
         </div>
       )}
 
-      <div className="flex items-center gap-1 px-3 pt-2 text-slate-500">
+      <div className="flex items-center gap-1 px-3 pt-2 text-fg-tertiary">
         <div className="relative">
-          <button type="button" onClick={() => { setEmojiOpen(!emojiOpen); setTemplatesOpen(false); }} className="p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800"><Smile className="w-4 h-4" /></button>
+          <button type="button" onClick={() => { setEmojiOpen(!emojiOpen); setTemplatesOpen(false); }} className="p-2 rounded hover:bg-muted dark:hover:bg-slate-800"><Smile className="w-4 h-4" /></button>
           {emojiOpen && (
-            <div className="absolute bottom-full left-0 mb-1 p-1.5 bg-white dark:bg-slate-900 border rounded shadow-lg grid grid-cols-4 gap-1 z-20">
+            <div className="absolute bottom-full left-0 mb-1 p-1.5 bg-canvas dark:bg-slate-900 border rounded shadow-popover grid grid-cols-4 gap-1 z-20">
               {QUICK_EMOJIS.map((e) => (
-                <button key={e} type="button" onClick={() => { setText((t) => t + e); setEmojiOpen(false); }} className="text-lg p-1 hover:bg-[#F0F9F5] dark:hover:bg-slate-800 rounded">{e}</button>
+                <button key={e} type="button" onClick={() => { setText((t) => t + e); setEmojiOpen(false); }} className="text-lg p-1 hover:bg-accent-subtle dark:hover:bg-slate-800 rounded">{e}</button>
               ))}
             </div>
           )}
         </div>
         {!isNote && (
-          <button type="button" onClick={() => fileRef.current?.click()} className="p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800" title="Attach file">
+          <button type="button" onClick={() => fileRef.current?.click()} className="p-2 rounded hover:bg-muted dark:hover:bg-slate-800" title="Attach file">
             <Paperclip className="w-4 h-4" />
           </button>
         )}
         <input ref={fileRef} type="file" multiple className="hidden" accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.xls,.xlsx,.zip" onChange={(e) => { handleFiles(e.target.files); e.target.value = ''; }} />
         {isEmail && (
           <>
-            <span className="mx-0.5 h-4 w-px bg-slate-200 dark:bg-slate-700" />
-            <button type="button" onClick={() => document.execCommand('bold')} className="p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800" title="Bold"><Bold className="w-4 h-4" /></button>
-            <button type="button" onClick={() => document.execCommand('italic')} className="p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800" title="Italic"><Italic className="w-4 h-4" /></button>
+            <span className="mx-0.5 h-4 w-px bg-muted dark:bg-slate-700" />
+            <button type="button" onClick={() => document.execCommand('bold')} className="p-2 rounded hover:bg-muted dark:hover:bg-slate-800" title="Bold"><Bold className="w-4 h-4" /></button>
+            <button type="button" onClick={() => document.execCommand('italic')} className="p-2 rounded hover:bg-muted dark:hover:bg-slate-800" title="Italic"><Italic className="w-4 h-4" /></button>
             {/* Link + Schedule send grouped behind one "More" button — used far less often
                 than Bold/Italic/Attach, and having every control always inline was
                 crowding the composer. */}
@@ -536,7 +536,7 @@ export default function ChatInput({
               <button
                 type="button"
                 onClick={() => setMoreOpen((v) => !v)}
-                className={`p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800 ${scheduleOpen ? 'text-[#1D4B3E]' : ''}`}
+                className={`p-2 rounded hover:bg-muted dark:hover:bg-slate-800 ${scheduleOpen ? 'text-accent-fg' : ''}`}
                 title="More options"
               >
                 <MoreHorizontal className="w-4 h-4" />
@@ -544,18 +544,18 @@ export default function ChatInput({
               {moreOpen && (
                 <>
                   <div className="fixed inset-0 z-10" onClick={() => setMoreOpen(false)} />
-                  <div className="absolute bottom-full left-0 mb-1 z-20 w-44 rounded border border-slate-200 bg-white p-1.5 shadow-lg dark:bg-slate-900">
+                  <div className="absolute bottom-full left-0 mb-1 z-20 w-44 rounded border border-line bg-canvas p-1.5 shadow-popover dark:bg-slate-900">
                     <button
                       type="button"
                       onClick={() => { insertEmailLink(); setMoreOpen(false); }}
-                      className="flex w-full items-center gap-2 rounded px-2.5 py-2 text-left text-xs text-slate-700 dark:text-slate-300 hover:bg-[#F0F9F5] dark:hover:bg-slate-800"
+                      className="flex w-full items-center gap-2 rounded px-2.5 py-2 text-left text-xs text-fg-secondary dark:text-fg-disabled hover:bg-accent-subtle dark:hover:bg-slate-800"
                     >
                       <Link2 className="w-3.5 h-3.5" /> Insert link
                     </button>
                     <button
                       type="button"
                       onClick={() => { setScheduleOpen((v) => !v); setMoreOpen(false); }}
-                      className="flex w-full items-center gap-2 rounded px-2.5 py-2 text-left text-xs text-slate-700 dark:text-slate-300 hover:bg-[#F0F9F5] dark:hover:bg-slate-800"
+                      className="flex w-full items-center gap-2 rounded px-2.5 py-2 text-left text-xs text-fg-secondary dark:text-fg-disabled hover:bg-accent-subtle dark:hover:bg-slate-800"
                     >
                       <Clock className="w-3.5 h-3.5" /> {scheduleOpen ? 'Hide schedule send' : 'Schedule send'}
                     </button>
@@ -573,7 +573,7 @@ export default function ChatInput({
               className={`p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800 ${
                 selectedSignatureId &&
                 !accountSignatures.find((s) => s.id === selectedSignatureId)?.isDefault
-                  ? 'text-[#1D4B3E]'
+                  ? 'text-accent-fg'
                   : ''
               }`}
               title={`Signature: ${
@@ -585,8 +585,8 @@ export default function ChatInput({
             {signaturePickerOpen && (
               <>
                 <div className="fixed inset-0 z-10" onClick={() => setSignaturePickerOpen(false)} />
-                <div className="absolute bottom-full left-0 mb-1 z-20 w-56 rounded border border-slate-200 bg-white p-1.5 shadow-lg dark:bg-slate-900">
-                  <p className="px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+                <div className="absolute bottom-full left-0 mb-1 z-20 w-56 rounded border border-line bg-canvas p-1.5 shadow-popover dark:bg-slate-900">
+                  <p className="px-2.5 py-1.5 text-meta font-semibold text-fg-tertiary">
                     Signature
                   </p>
                   {accountSignatures.map((s) => (
@@ -598,17 +598,17 @@ export default function ChatInput({
                         setSignaturePickerOpen(false);
                       }}
                       className={`flex w-full items-center justify-between rounded px-2.5 py-2 text-left text-xs hover:bg-[#F0F9F5] dark:hover:bg-slate-800 ${
-                        s.id === selectedSignatureId ? 'bg-[#F0F9F5] dark:bg-slate-800' : ''
+                        s.id === selectedSignatureId ? 'bg-accent-subtle dark:bg-slate-800' : ''
                       }`}
                     >
                       <span className="flex items-center gap-1.5 truncate">
                         {s.id === selectedSignatureId && (
-                          <span className="h-1.5 w-1.5 rounded-full bg-[#1D4B3E]" />
+                          <span className="h-1.5 w-1.5 rounded-full bg-accent" />
                         )}
                         <span className="truncate">{s.name}</span>
                       </span>
                       {s.isDefault && (
-                        <span className="text-[9px] font-semibold uppercase tracking-wider text-slate-400">
+                        <span className="text-meta font-semibold text-fg-tertiary">
                           Default
                         </span>
                       )}
@@ -620,7 +620,7 @@ export default function ChatInput({
                       setSelectedSignatureId('');
                       setSignaturePickerOpen(false);
                     }}
-                    className="mt-1 flex w-full items-center rounded border-t border-slate-100 px-2.5 py-2 text-left text-[11px] text-slate-500 hover:bg-[#F0F9F5] dark:hover:bg-slate-800"
+                    className="mt-1 flex w-full items-center rounded border-t border-line px-2.5 py-2 text-left text-meta text-fg-tertiary hover:bg-accent-subtle dark:hover:bg-slate-800"
                   >
                     No signature this email
                   </button>
@@ -631,11 +631,11 @@ export default function ChatInput({
         )}
         {!isNote && templates.length > 0 && (
           <div className="relative ml-auto">
-            <button type="button" onClick={() => { setTemplatesOpen(!templatesOpen); setEmojiOpen(false); }} className="text-xs font-medium px-2.5 py-1.5 rounded bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700">Templates</button>
+            <button type="button" onClick={() => { setTemplatesOpen(!templatesOpen); setEmojiOpen(false); }} className="text-xs font-medium px-2.5 py-1.5 rounded bg-muted dark:bg-slate-800 hover:bg-muted dark:hover:bg-slate-700">Templates</button>
             {templatesOpen && (
-              <div className="absolute bottom-full right-0 mb-1 w-56 max-h-48 overflow-y-auto bg-white dark:bg-slate-900 border rounded shadow-lg z-20 p-1.5 space-y-0.5">
+              <div className="absolute bottom-full right-0 mb-1 w-56 max-h-48 overflow-y-auto bg-canvas dark:bg-slate-900 border rounded shadow-popover z-20 p-1.5 space-y-0.5">
                 {templates.map((t) => (
-                  <button key={t.id || t.name} type="button" onClick={() => { setText(t.body || ''); if (editorRef.current) editorRef.current.innerText = t.body || ''; setTemplatesOpen(false); }} className="w-full text-left px-2.5 py-2 text-xs rounded hover:bg-[#F0F9F5] dark:hover:bg-slate-800">
+                  <button key={t.id || t.name} type="button" onClick={() => { setText(t.body || ''); if (editorRef.current) editorRef.current.innerText = t.body || ''; setTemplatesOpen(false); }} className="w-full text-left px-2.5 py-2 text-xs rounded hover:bg-accent-subtle dark:hover:bg-slate-800">
                     <span className="font-medium block">{t.name}</span>
                   </button>
                 ))}
@@ -652,13 +652,13 @@ export default function ChatInput({
       )}
 
       {replyTo && (
-        <div className="mx-3 mb-1 flex items-start gap-2 px-2.5 py-1.5 bg-[#F0F9F5] dark:bg-slate-800 border-l-2 border-[#1D4B3E] rounded">
-          <CornerUpLeft className="w-3.5 h-3.5 text-[#1D4B3E] shrink-0 mt-0.5" />
+        <div className="mx-3 mb-1 flex items-start gap-2 px-2.5 py-1.5 bg-accent-subtle dark:bg-slate-800 border-l-2 border-accent rounded">
+          <CornerUpLeft className="w-3.5 h-3.5 text-accent-fg shrink-0 mt-0.5" />
           <div className="min-w-0 flex-1">
-            <p className="text-[10px] font-semibold text-[#1D4B3E] uppercase tracking-wide">Replying to</p>
-            <p className="text-xs text-slate-600 dark:text-slate-400 truncate">{replyTo.preview || 'this message'}</p>
+            <p className="text-meta font-semibold text-accent-fg">Replying to</p>
+            <p className="text-xs text-fg-secondary dark:text-fg-tertiary truncate">{replyTo.preview || 'this message'}</p>
           </div>
-          <button type="button" onClick={() => setReplyTo(null)} className="p-0.5 rounded text-slate-400 hover:text-slate-700 hover:bg-white dark:hover:bg-slate-700 shrink-0">
+          <button type="button" onClick={() => setReplyTo(null)} className="p-0.5 rounded text-fg-tertiary hover:text-fg-secondary hover:bg-canvas dark:hover:bg-slate-700 shrink-0">
             <X className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -666,11 +666,11 @@ export default function ChatInput({
 
       <form onSubmit={handleSubmit} className="flex items-end gap-2 p-3 pt-2">
         {isEmail && !isNote ? (
-          <div ref={editorRef} contentEditable suppressContentEditableWarning className="flex-1 text-sm px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#1D4B3E]/20 max-h-48 min-h-[44px] overflow-y-auto" />
+          <div ref={editorRef} contentEditable suppressContentEditableWarning className="flex-1 text-sm px-4 py-2.5 bg-subtle dark:bg-slate-800 border border-line dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-focus max-h-48 min-h-[44px] overflow-y-auto" />
         ) : (
-          <textarea rows={1} value={text} onChange={(e) => setText(e.target.value)} placeholder={isNote ? 'Add internal note...' : 'Type a message...'} className={`flex-1 resize-none text-sm px-4 py-2.5 border rounded focus:outline-none focus:ring-2 max-h-32 min-h-[42px] ${isNote ? 'bg-green-50/50 border-green-200 focus:ring-green-500/20' : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 focus:ring-[#1D4B3E]/20'}`} onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSubmit(e); } }} />
+          <textarea rows={1} value={text} onChange={(e) => setText(e.target.value)} placeholder={isNote ? 'Add internal note...' : 'Type a message...'} className={`flex-1 resize-none text-sm px-4 py-2.5 border rounded focus:outline-none focus:ring-2 max-h-32 min-h-[42px] ${isNote ? 'bg-accent-subtle border-line focus:ring-focus' : 'bg-subtle dark:bg-slate-800 border-line dark:border-slate-700 focus:ring-focus'}`} onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSubmit(e); } }} />
         )}
-        <button type="submit" disabled={!text.trim() && !readyUploads.length && !(isEmail && editorRef.current?.innerText?.trim())} className={`p-2.5 rounded text-white disabled:opacity-40 flex-shrink-0 ${isNote ? 'bg-green-600 hover:bg-green-700' : 'bg-[#1D4B3E] hover:bg-[#163c32]'}`}>
+        <button type="submit" disabled={!text.trim() && !readyUploads.length && !(isEmail && editorRef.current?.innerText?.trim())} className={`p-2.5 rounded text-white disabled:opacity-40 flex-shrink-0 ${isNote ? 'bg-accent hover:bg-accent-hover' : 'bg-accent hover:bg-accent-hover'}`}>
           <Send className="w-4 h-4" />
         </button>
       </form>
@@ -715,9 +715,9 @@ function RecipientRow({ label, value, onChange, autoFocus }) {
   return (
     <div
       onClick={() => inputRef.current?.focus()}
-      className="flex flex-wrap items-center gap-1.5 w-full text-xs px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg cursor-text focus-within:border-emerald-400 focus-within:ring-1 focus-within:ring-emerald-100 dark:focus-within:ring-emerald-900/40"
+      className="flex flex-wrap items-center gap-1.5 w-full text-xs px-2.5 py-1.5 bg-subtle dark:bg-slate-800 border border-line dark:border-slate-700 rounded-lg cursor-text focus-within:border-emerald-400 focus-within:ring-1 focus-within:ring-focus dark:focus-within:ring-emerald-900/40"
     >
-      <span className="pr-0.5 text-[11px] font-semibold text-slate-400 select-none w-7 shrink-0">{label}</span>
+      <span className="pr-0.5 text-meta font-semibold text-fg-tertiary select-none w-7 shrink-0">{label}</span>
       {chips.map((c, i) => {
         const valid = EMAIL_RE.test(c);
         return (
@@ -726,15 +726,15 @@ function RecipientRow({ label, value, onChange, autoFocus }) {
             title={valid ? c : 'Invalid email address'}
             className={`inline-flex items-center gap-1 pl-2 pr-1 py-0.5 rounded-md text-[11px] max-w-full ${
               valid
-                ? 'bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200'
-                : 'bg-rose-50 dark:bg-rose-950/40 border border-rose-300 dark:border-rose-800 text-rose-700 dark:text-rose-300'
+                ? 'bg-canvas dark:bg-slate-700 border border-line-strong dark:border-slate-600 text-fg-secondary dark:text-slate-200'
+                : 'bg-danger-subtle dark:bg-rose-950/40 border border-rose-300 dark:border-rose-800 text-danger dark:text-rose-300'
             }`}
           >
             <span className="truncate">{c}</span>
             <button
               type="button"
               onClick={(e) => { e.stopPropagation(); removeAt(i); }}
-              className="shrink-0 rounded p-0.5 text-slate-400 hover:text-slate-700 hover:bg-slate-200 dark:hover:bg-slate-500 dark:hover:text-slate-100"
+              className="shrink-0 rounded p-0.5 text-fg-tertiary hover:text-fg-secondary hover:bg-muted dark:hover:bg-slate-500 dark:hover:text-slate-100"
               aria-label={`Remove ${c}`}
             >
               <X className="w-3 h-3" />
@@ -754,7 +754,7 @@ function RecipientRow({ label, value, onChange, autoFocus }) {
           if (/[,\s]/.test(t)) { e.preventDefault(); commit(`${draft} ${t}`); }
         }}
         placeholder={chips.length ? '' : 'name@example.com'}
-        className="flex-1 min-w-[120px] bg-transparent outline-none py-0.5 text-xs placeholder:text-slate-400"
+        className="flex-1 min-w-[120px] bg-transparent outline-none py-0.5 text-xs placeholder:text-fg-tertiary"
       />
     </div>
   );

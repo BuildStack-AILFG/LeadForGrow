@@ -16,7 +16,7 @@ import {
   Clock,
   Timer,
   UserCheck,
-  Sparkles,
+  Bot as Sparkles,
   Plug,
   Zap,
   LayoutGrid,
@@ -103,11 +103,11 @@ export const SECTION_META = {
 };
 
 export const SECTION_COLORS = {
-  blue: { icon: 'bg-teal-100 text-teal-600 dark:bg-teal-950/50 dark:text-teal-400', bar: 'bg-teal-500', ring: 'hover:border-teal-200 dark:hover:border-teal-800', glow: 'hover:shadow-teal-100/80 dark:hover:shadow-teal-950/20' },
-  violet: { icon: 'bg-violet-100 text-violet-600 dark:bg-violet-950/50 dark:text-violet-400', bar: 'bg-violet-500', ring: 'hover:border-violet-200 dark:hover:border-violet-800', glow: 'hover:shadow-violet-100/80 dark:hover:shadow-violet-950/20' },
-  amber: { icon: 'bg-amber-100 text-amber-600 dark:bg-amber-950/50 dark:text-amber-400', bar: 'bg-amber-500', ring: 'hover:border-amber-200 dark:hover:border-amber-800', glow: 'hover:shadow-amber-100/80 dark:hover:shadow-amber-950/20' },
-  cyan: { icon: 'bg-cyan-100 text-cyan-600 dark:bg-cyan-950/50 dark:text-cyan-400', bar: 'bg-cyan-500', ring: 'hover:border-cyan-200 dark:hover:border-cyan-800', glow: 'hover:shadow-cyan-100/80 dark:hover:shadow-cyan-950/20' },
-  indigo: { icon: 'bg-indigo-100 text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-400', bar: 'bg-indigo-500', ring: 'hover:border-indigo-200 dark:hover:border-indigo-800', glow: 'hover:shadow-indigo-100/80 dark:hover:shadow-indigo-950/20' }
+  blue: { icon: 'bg-accent-subtle text-accent-fg dark:bg-teal-950/50 dark:text-accent-fg', bar: 'bg-accent', ring: 'hover:border-line dark:hover:border-teal-800', glow: ' ' },
+  violet: { icon: 'bg-accent-subtle text-accent-fg dark:bg-violet-950/50 dark:text-accent-fg', bar: 'bg-accent', ring: 'hover:border-line dark:hover:border-violet-800', glow: ' ' },
+  amber: { icon: 'bg-warning-subtle text-warning dark:bg-amber-950/50 dark:text-amber-400', bar: 'bg-warning', ring: 'hover:border-warning/30 dark:hover:border-amber-800', glow: ' ' },
+  cyan: { icon: 'bg-accent-subtle text-accent-fg dark:bg-cyan-950/50 dark:text-accent-fg', bar: 'bg-accent', ring: 'hover:border-line dark:hover:border-cyan-800', glow: ' ' },
+  indigo: { icon: 'bg-accent-subtle text-accent-fg dark:bg-indigo-950/50 dark:text-accent-fg', bar: 'bg-accent', ring: 'hover:border-line dark:hover:border-indigo-800', glow: ' ' }
 };
 
 export const SETTINGS_HUB_CARDS = [

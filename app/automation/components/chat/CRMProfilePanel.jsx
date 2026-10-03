@@ -23,19 +23,19 @@ import ActivityItem from '../dashboard/primitives/ActivityItem';
 function Section({ title, children, defaultOpen = true, icon: Icon }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
-    <div className="border-b border-slate-100 dark:border-slate-800 last:border-0">
+    <div className="border-b border-line dark:border-slate-800 last:border-0">
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className={`w-full flex items-center justify-between px-4 py-3 text-left transition-colors ${open ? 'bg-[#F0F9F5]/40 dark:bg-teal-950/10' : 'hover:bg-[#F0F9F5]/60 dark:hover:bg-slate-800/30'}`}
+        className={`w-full flex items-center justify-between px-4 py-3 text-left transition-colors ${open ? 'bg-accent-subtle dark:bg-teal-950/10' : 'hover:bg-accent-subtle dark:hover:bg-slate-800/30'}`}
       >
-        <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+        <span className="flex items-center gap-1.5 text-meta font-semibold text-fg-tertiary">
           {Icon && <Icon className="w-3.5 h-3.5" />}
           {title}
         </span>
-        <ChevronDown className={`w-4 h-4 transition-transform ${open ? 'rotate-180 text-[#1D4B3E]' : 'text-slate-400'}`} />
+        <ChevronDown className={`w-4 h-4 transition-transform ${open ? 'rotate-180 text-accent-fg' : 'text-fg-tertiary'}`} />
       </button>
-      {open && <div className="px-4 pb-4 bg-[#F0F9F5]/40 dark:bg-teal-950/10">{children}</div>}
+      {open && <div className="px-4 pb-4 bg-accent-subtle dark:bg-teal-950/10">{children}</div>}
     </div>
   );
 }
@@ -80,7 +80,7 @@ function FollowUpActionRow({ date, onUpdate }) {
               type="button"
               onClick={() => run(shiftDays(1))}
               disabled={busy}
-              className="text-[10px] font-medium px-2 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-[#F0F9F5] dark:hover:bg-slate-800 disabled:opacity-50"
+              className="text-meta font-medium px-2 py-1 rounded border border-line dark:border-slate-700 hover:bg-accent-subtle dark:hover:bg-slate-800 disabled:opacity-50"
             >
               Tomorrow
             </button>
@@ -88,7 +88,7 @@ function FollowUpActionRow({ date, onUpdate }) {
               type="button"
               onClick={() => run(shiftDays(3))}
               disabled={busy}
-              className="text-[10px] font-medium px-2 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-[#F0F9F5] dark:hover:bg-slate-800 disabled:opacity-50"
+              className="text-meta font-medium px-2 py-1 rounded border border-line dark:border-slate-700 hover:bg-accent-subtle dark:hover:bg-slate-800 disabled:opacity-50"
             >
               +3 days
             </button>
@@ -96,7 +96,7 @@ function FollowUpActionRow({ date, onUpdate }) {
               type="button"
               onClick={() => run(shiftDays(7))}
               disabled={busy}
-              className="text-[10px] font-medium px-2 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-[#F0F9F5] dark:hover:bg-slate-800 disabled:opacity-50"
+              className="text-meta font-medium px-2 py-1 rounded border border-line dark:border-slate-700 hover:bg-accent-subtle dark:hover:bg-slate-800 disabled:opacity-50"
             >
               Next week
             </button>
@@ -104,7 +104,7 @@ function FollowUpActionRow({ date, onUpdate }) {
               type="button"
               onClick={() => run(null)}
               disabled={busy || !date}
-              className="text-[10px] font-medium px-2 py-1 rounded border border-[#1D4B3E]/30 bg-[#F0F9F5] text-[#1D4B3E] hover:bg-[#dcefe6] disabled:opacity-50"
+              className="text-meta font-medium px-2 py-1 rounded border border-accent/30 bg-accent-subtle text-accent-fg hover:bg-accent-subtle disabled:opacity-50"
             >
               ✓ Done
             </button>
@@ -115,20 +115,20 @@ function FollowUpActionRow({ date, onUpdate }) {
                 type="date"
                 value={customDate}
                 onChange={(e) => setCustomDate(e.target.value)}
-                className="flex-1 text-[10px] px-2 py-1 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900"
+                className="flex-1 text-meta px-2 py-1 rounded border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900"
               />
               <button
                 type="button"
                 onClick={() => customDate && run(new Date(`${customDate}T09:00`).toISOString())}
                 disabled={!customDate || busy}
-                className="text-[10px] font-medium px-2 py-1 rounded bg-[#1D4B3E] text-white hover:bg-[#163c32] disabled:opacity-50"
+                className="text-meta font-medium px-2 py-1 rounded bg-accent text-white hover:bg-accent-hover disabled:opacity-50"
               >
                 Set
               </button>
               <button
                 type="button"
                 onClick={() => { setShowPicker(false); setCustomDate(''); }}
-                className="text-[10px] text-slate-500 px-1"
+                className="text-meta text-fg-tertiary px-1"
               >
                 Cancel
               </button>
@@ -137,7 +137,7 @@ function FollowUpActionRow({ date, onUpdate }) {
             <button
               type="button"
               onClick={() => setShowPicker(true)}
-              className="w-full text-[10px] font-medium text-slate-500 hover:text-[#1D4B3E] py-0.5"
+              className="w-full text-meta font-medium text-fg-tertiary hover:text-accent-fg py-0.5"
             >
               Pick a specific date…
             </button>
@@ -152,13 +152,13 @@ function RecordLink({ href, label, sub }) {
   return (
     <Link
       href={href}
-      className="flex items-center justify-between gap-2 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 group"
+      className="flex items-center justify-between gap-2 p-2 rounded-lg hover:bg-subtle dark:hover:bg-slate-800/50 group"
     >
       <div className="min-w-0">
-        <p className="text-xs font-medium text-slate-800 dark:text-slate-200 truncate">{label}</p>
-        {sub && <p className="text-[10px] text-slate-500 truncate">{sub}</p>}
+        <p className="text-xs font-medium text-fg dark:text-slate-200 truncate">{label}</p>
+        {sub && <p className="text-meta text-fg-tertiary truncate">{sub}</p>}
       </div>
-      <ExternalLink className="w-3 h-3 text-slate-400 opacity-0 group-hover:opacity-100 flex-shrink-0" />
+      <ExternalLink className="w-3 h-3 text-fg-tertiary opacity-0 group-hover:opacity-100 flex-shrink-0" />
     </Link>
   );
 }
@@ -192,8 +192,8 @@ export default function CRMProfilePanel({
 
   if (!lead) {
     return (
-      <aside className={`flex flex-col h-full bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 ${mobile ? 'w-full' : 'flex-[0_0_25%] min-w-[240px] max-w-[340px] hidden xl:flex'}`}>
-        <div className="p-6 text-center text-sm text-slate-500">Select a conversation to view CRM details.</div>
+      <aside className={`flex flex-col h-full bg-canvas dark:bg-slate-900 border-l border-line dark:border-slate-800 ${mobile ? 'w-full' : 'flex-[0_0_25%] min-w-[240px] max-w-[340px] hidden xl:flex'}`}>
+        <div className="p-6 text-center text-sm text-fg-tertiary">Select a conversation to view CRM details.</div>
       </aside>
     );
   }
@@ -203,14 +203,14 @@ export default function CRMProfilePanel({
 
   const panel = (
     <>
-      <div className="flex-shrink-0 px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
-        <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50">Customer profile</h3>
+      <div className="flex-shrink-0 px-4 py-3 border-b border-line dark:border-slate-800 flex items-center justify-between">
+        <h3 className="text-sm font-semibold text-fg dark:text-slate-50">Customer profile</h3>
         <div className="flex items-center gap-1">
-          <Link href={`/automation/leads/${lead._id}`} className="p-1.5 rounded-md text-slate-400 hover:text-[#1D4B3E]">
+          <Link href={`/automation/leads/${lead._id}`} className="p-1.5 rounded-md text-fg-tertiary hover:text-accent-fg">
             <ExternalLink className="w-4 h-4" />
           </Link>
           {mobile && onClose && (
-            <button type="button" onClick={onClose} className="p-1.5 rounded-md text-slate-400 hover:bg-slate-100">
+            <button type="button" onClick={onClose} className="p-1.5 rounded-md text-fg-tertiary hover:bg-muted">
               <X className="w-4 h-4" />
             </button>
           )}
@@ -220,12 +220,12 @@ export default function CRMProfilePanel({
       {/* pb-24 reserves clearance at the bottom so content (e.g. the Notes "Add" button)
           never sits underneath the fixed Help/Grovia floating buttons in this corner. */}
       <div className="flex-1 overflow-y-auto pb-24">
-        <div className="p-4 border-b border-slate-100 dark:border-slate-800">
+        <div className="p-4 border-b border-line dark:border-slate-800">
           <div className="flex items-start justify-between gap-2">
             <div>
-              <p className="font-semibold text-slate-900 dark:text-slate-50">{lead.name || conv?.participantName}</p>
-              <p className="text-xs text-slate-500 mt-0.5 tabular-nums">{lead.phone || lead.email || conv?.participantEmail}</p>
-              <span className={`inline-flex mt-1.5 text-[9px] font-semibold px-1.5 py-0.5 rounded-full ${channelMeta?.bg}`}>
+              <p className="font-semibold text-fg dark:text-slate-50">{lead.name || conv?.participantName}</p>
+              <p className="text-xs text-fg-tertiary mt-0.5 tabular-nums">{lead.phone || lead.email || conv?.participantEmail}</p>
+              <span className={`inline-flex mt-1.5 text-meta font-semibold px-1.5 py-0.5 rounded-full ${channelMeta?.bg}`}>
                 {channelMeta?.label}
               </span>
             </div>
@@ -234,12 +234,12 @@ export default function CRMProfilePanel({
           <div className="flex flex-wrap gap-1.5 mt-2">
             <StatusBadge status={lead.status} size="xs" />
             {tags.map((t) => (
-              <span key={t} className="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600">{t}</span>
+              <span key={t} className="text-meta px-1.5 py-0.5 rounded bg-muted dark:bg-slate-800 text-fg-secondary">{t}</span>
             ))}
             {(conv?.labels || []).map((l) => (
               <span
                 key={l.labelId || l.name}
-                className="text-[10px] px-1.5 py-0.5 rounded text-white"
+                className="text-meta px-1.5 py-0.5 rounded text-white"
                 style={{ backgroundColor: l.color || '#1D4B3E' }}
               >
                 {l.name}
@@ -260,7 +260,7 @@ export default function CRMProfilePanel({
                 leadId: lead._id || '',
               },
             }}
-            className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#1D4B3E] text-white text-xs font-semibold hover:bg-[#163c32]"
+            className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-accent text-white text-xs font-semibold hover:bg-accent-hover"
           >
             <Receipt className="w-3.5 h-3.5" /> Create bill for this customer
           </Link>
@@ -277,7 +277,7 @@ export default function CRMProfilePanel({
                     type="button"
                     onClick={() => onToggleLabel(label._id, !active)}
                     className={`text-[10px] px-2 py-1 rounded-full border transition-colors ${
-                      active ? 'text-white border-transparent' : 'border-slate-200 dark:border-slate-700 text-slate-600'
+                      active ? 'text-white border-transparent' : 'border-line dark:border-slate-700 text-fg-secondary'
                     }`}
                     style={active ? { backgroundColor: label.color } : {}}
                   >
@@ -317,17 +317,17 @@ export default function CRMProfilePanel({
           <select
             value={lead.status || 'new'}
             onChange={(e) => onStatusChange(e.target.value)}
-            className="w-full text-sm px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded mb-3 focus:outline-none focus:ring-2 focus:ring-[#1D4B3E]/20"
+            className="w-full text-sm px-3 py-2 bg-subtle dark:bg-slate-800 border border-line dark:border-slate-700 rounded mb-3 focus:outline-none focus:ring-2 focus:ring-focus"
           >
             {PIPELINE_STAGES.map((s) => (
               <option key={s.key} value={s.key}>{s.label}</option>
             ))}
           </select>
-          <p className="text-[11px] text-slate-500 mb-1">Assigned agent</p>
+          <p className="text-meta text-fg-tertiary mb-1">Assigned agent</p>
           <select
             value={chat?.assignedTo?._id || lead.assignedTo?._id || ''}
             onChange={(e) => onAssign(e.target.value)}
-            className="w-full text-sm px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#1D4B3E]/20"
+            className="w-full text-sm px-3 py-2 bg-subtle dark:bg-slate-800 border border-line dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-focus"
           >
             <option value="">Unassigned</option>
             {mapTeamMemberOptions(teamMembers).map((m) => (
@@ -335,7 +335,7 @@ export default function CRMProfilePanel({
             ))}
           </select>
           <div className="mt-3">
-            <p className="text-[11px] text-slate-500 mb-1">Next follow-up</p>
+            <p className="text-meta text-fg-tertiary mb-1">Next follow-up</p>
             <FollowUpActionRow
               date={lead.nextFollowUpAt}
               onUpdate={onUpdateFollowUp}
@@ -347,10 +347,10 @@ export default function CRMProfilePanel({
           <Section title="Open tasks" icon={CheckSquare} defaultOpen={false}>
             <ul className="space-y-2">
               {tasks.map((t) => (
-                <li key={t._id} className="text-xs p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50">
-                  <p className="font-medium text-slate-700 dark:text-slate-300">{t.title}</p>
+                <li key={t._id} className="text-xs p-2 rounded-lg bg-subtle dark:bg-slate-800/50">
+                  <p className="font-medium text-fg-secondary dark:text-fg-disabled">{t.title}</p>
                   {t.dueDate && (
-                    <p className="text-[10px] text-slate-400 mt-0.5">Due {formatRelative(t.dueDate)}</p>
+                    <p className="text-meta text-fg-tertiary mt-0.5">Due {formatRelative(t.dueDate)}</p>
                   )}
                 </li>
               ))}
@@ -362,9 +362,9 @@ export default function CRMProfilePanel({
           <Section title="Upcoming meetings" icon={Calendar} defaultOpen={false}>
             <ul className="space-y-2">
               {meetings.map((m) => (
-                <li key={m._id} className="text-xs p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50">
-                  <p className="font-medium text-slate-700 dark:text-slate-300">{m.title || 'Meeting'}</p>
-                  <p className="text-[10px] text-slate-400 mt-0.5">
+                <li key={m._id} className="text-xs p-2 rounded-lg bg-subtle dark:bg-slate-800/50">
+                  <p className="font-medium text-fg-secondary dark:text-fg-disabled">{m.title || 'Meeting'}</p>
+                  <p className="text-meta text-fg-tertiary mt-0.5">
                     {m.startTime ? new Date(m.startTime).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }) : ''}
                   </p>
                 </li>
@@ -377,10 +377,10 @@ export default function CRMProfilePanel({
           <Section title="Previous conversations" icon={MessageSquare} defaultOpen={false}>
             <ul className="space-y-1">
               {previousConversations.map((c) => (
-                <li key={c._id} className="text-xs p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50">
+                <li key={c._id} className="text-xs p-2 rounded-lg bg-subtle dark:bg-slate-800/50">
                   <span className="font-medium">{CHANNEL_META[c.channel]?.label || c.channel}</span>
-                  <p className="text-slate-500 truncate mt-0.5">{c.lastMessagePreview}</p>
-                  <p className="text-[10px] text-slate-400">{formatRelative(c.lastMessageAt)}</p>
+                  <p className="text-fg-tertiary truncate mt-0.5">{c.lastMessagePreview}</p>
+                  <p className="text-meta text-fg-tertiary">{formatRelative(c.lastMessageAt)}</p>
                 </li>
               ))}
             </ul>
@@ -388,9 +388,9 @@ export default function CRMProfilePanel({
         )}
 
         <Section title="Source">
-          <p className="text-sm text-slate-700 dark:text-slate-300">{formatSource(lead.source)}</p>
-          {lead.campaignName && <p className="text-xs text-slate-500 mt-1">{lead.campaignName}</p>}
-          {lead.serviceInterest && <p className="text-xs text-slate-500 mt-1">Interest: {lead.serviceInterest}</p>}
+          <p className="text-sm text-fg-secondary dark:text-fg-disabled">{formatSource(lead.source)}</p>
+          {lead.campaignName && <p className="text-xs text-fg-tertiary mt-1">{lead.campaignName}</p>}
+          {lead.serviceInterest && <p className="text-xs text-fg-tertiary mt-1">Interest: {lead.serviceInterest}</p>}
         </Section>
 
         <Section title="Notes">
@@ -400,7 +400,7 @@ export default function CRMProfilePanel({
               value={note}
               onChange={(e) => setNote(e.target.value)}
               placeholder="Add note..."
-              className="flex-1 text-xs px-2.5 py-2 border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-[#1D4B3E]/20"
+              className="flex-1 text-xs px-2.5 py-2 border border-line dark:border-slate-700 rounded bg-canvas dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-focus"
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && note.trim()) {
                   onAddNote(note);
@@ -411,16 +411,16 @@ export default function CRMProfilePanel({
             <button
               type="button"
               onClick={() => { onAddNote(note); setNote(''); }}
-              className="px-2.5 py-2 text-xs font-medium bg-[#1D4B3E] text-white rounded hover:bg-[#163c32]"
+              className="px-2.5 py-2 text-xs font-medium bg-accent text-white rounded hover:bg-accent-hover"
             >
               Add
             </button>
           </div>
           <ul className="space-y-2 max-h-32 overflow-y-auto">
             {(lead.notes || []).slice().reverse().map((n, i) => (
-              <li key={i} className="text-xs p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-400">
+              <li key={i} className="text-xs p-2 rounded-lg bg-subtle dark:bg-slate-800/50 text-fg-secondary dark:text-fg-tertiary">
                 {n.text}
-                <span className="block text-[10px] text-slate-400 mt-1">{formatRelative(n.addedAt)}</span>
+                <span className="block text-meta text-fg-tertiary mt-1">{formatRelative(n.addedAt)}</span>
               </li>
             ))}
           </ul>
@@ -430,7 +430,7 @@ export default function CRMProfilePanel({
           <Section title="Assignment history" icon={History} defaultOpen={false}>
             <ul className="space-y-2">
               {assignmentHistory.slice().reverse().slice(0, 5).map((h, i) => (
-                <li key={i} className="text-[10px] text-slate-500">
+                <li key={i} className="text-meta text-fg-tertiary">
                   {formatRelative(h.assignedAt)} · {h.reason || 'assigned'}
                 </li>
               ))}
@@ -441,7 +441,7 @@ export default function CRMProfilePanel({
         <Section title="Timeline" defaultOpen={false}>
           <div className="max-h-56 overflow-y-auto">
             {activities.length === 0 ? (
-              <p className="text-xs text-slate-500">No activity yet.</p>
+              <p className="text-xs text-fg-tertiary">No activity yet.</p>
             ) : (
               activities.slice(0, 12).map((a, i) => (
                 <ActivityItem key={a._id || i} activity={a} showConnector={i < Math.min(activities.length, 12) - 1} />
@@ -457,7 +457,7 @@ export default function CRMProfilePanel({
     return (
       <div className="fixed inset-0 z-50 flex justify-end xl:hidden">
         <div className="absolute inset-0 bg-slate-900/40" onClick={onClose} />
-        <aside className="relative w-full max-w-sm h-full bg-white dark:bg-slate-900 shadow-2xl flex flex-col">
+        <aside className="relative w-full max-w-sm h-full bg-canvas dark:bg-slate-900 shadow-modal flex flex-col">
           {panel}
         </aside>
       </div>
@@ -465,7 +465,7 @@ export default function CRMProfilePanel({
   }
 
   return (
-    <aside className="flex flex-col h-full bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 flex-[0_0_25%] min-w-[240px] max-w-[340px] hidden xl:flex">
+    <aside className="flex flex-col h-full bg-canvas dark:bg-slate-900 border-l border-line dark:border-slate-800 flex-[0_0_25%] min-w-[240px] max-w-[340px] hidden xl:flex">
       {panel}
     </aside>
   );

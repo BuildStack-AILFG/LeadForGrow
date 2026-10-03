@@ -35,8 +35,8 @@ export default function IntegrationsSettingsPage() {
   return (
     <div className="space-y-5">
       <div>
-        <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-50">Integrations</h1>
-        <p className="text-sm text-slate-500 mt-0.5">Connect the outside tools LeadForGrow talks to — WhatsApp, email, payments, and calendars.</p>
+        <h1 className="text-xl font-semibold text-fg dark:text-slate-50">Integrations</h1>
+        <p className="text-sm text-fg-tertiary mt-0.5">Connect the outside tools LeadForGrow talks to — WhatsApp, email, payments, and calendars.</p>
       </div>
 
       <AutoPageIntro />
@@ -44,19 +44,19 @@ export default function IntegrationsSettingsPage() {
       {/* Stats row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
-          { label: 'Available', value: stats.total, icon: Plug, accent: 'text-teal-600 bg-teal-50 dark:bg-teal-950/40' },
-          { label: 'Connected', value: stats.connected, icon: CheckCircle2, accent: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40' },
-          { label: 'Healthy', value: stats.healthy, icon: CheckCircle2, accent: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40' },
-          { label: 'Needs attention', value: stats.needsAttention, icon: AlertTriangle, accent: 'text-amber-600 bg-amber-50 dark:bg-amber-950/40' }
+          { label: 'Available', value: stats.total, icon: Plug, accent: 'text-accent-fg bg-accent-subtle dark:bg-teal-950/40' },
+          { label: 'Connected', value: stats.connected, icon: CheckCircle2, accent: 'text-accent-fg bg-accent-subtle dark:bg-emerald-950/40' },
+          { label: 'Healthy', value: stats.healthy, icon: CheckCircle2, accent: 'text-accent-fg bg-accent-subtle dark:bg-emerald-950/40' },
+          { label: 'Needs attention', value: stats.needsAttention, icon: AlertTriangle, accent: 'text-warning bg-warning-subtle dark:bg-amber-950/40' }
         ].map((s) => {
           const Icon = s.icon;
           return (
-            <div key={s.label} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 shadow-sm">
+            <div key={s.label} className="bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 rounded-lg p-4">
               <div className={`w-8 h-8 rounded-lg flex items-center justify-center mb-2 ${s.accent}`}>
                 <Icon className="w-4 h-4" />
               </div>
-              <p className="text-[10px] font-medium uppercase tracking-wide text-slate-400">{s.label}</p>
-              <p className="text-xl font-semibold text-slate-900 dark:text-slate-50 tabular-nums">{s.value}</p>
+              <p className="text-meta font-medium text-fg-tertiary">{s.label}</p>
+              <p className="text-xl font-semibold text-fg dark:text-slate-50 tabular-nums">{s.value}</p>
             </div>
           );
         })}
@@ -66,20 +66,20 @@ export default function IntegrationsSettingsPage() {
       <div className="flex flex-col gap-3">
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1 max-w-sm">
-            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
+            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-fg-tertiary" />
             <input
               type="text"
               placeholder="Search integrations…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-8 pr-3 py-2 text-xs border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
+              className="w-full pl-8 pr-3 py-2 text-xs border border-line dark:border-slate-700 rounded-lg bg-canvas dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-focus"
             />
           </div>
           <button
             type="button"
             onClick={refresh}
             disabled={loading}
-            className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-400 hover:border-slate-300 disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium border border-line dark:border-slate-700 rounded-lg text-fg-secondary dark:text-fg-tertiary hover:border-line-strong disabled:opacity-50"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} /> Refresh
           </button>
@@ -93,8 +93,8 @@ export default function IntegrationsSettingsPage() {
               onClick={() => setCategory(cat.id)}
               className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
                 category === cat.id
-                  ? 'bg-teal-600 text-white'
-                  : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-slate-300'
+                  ? 'bg-accent text-white'
+                  : 'bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 text-fg-secondary dark:text-fg-tertiary hover:border-line-strong'
               }`}
             >
               {cat.label}
@@ -110,8 +110,8 @@ export default function IntegrationsSettingsPage() {
               onClick={() => setHealthFilter(hf.id)}
               className={`px-2.5 py-1 text-[10px] font-medium rounded-md transition-colors ${
                 healthFilter === hf.id
-                  ? 'bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900'
-                  : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
+                  ? 'bg-slate-800 text-white dark:bg-muted dark:text-fg'
+                  : 'bg-muted dark:bg-slate-800 text-fg-tertiary dark:text-fg-tertiary'
               }`}
             >
               {hf.label}
@@ -122,9 +122,9 @@ export default function IntegrationsSettingsPage() {
 
       {/* Grid */}
       {loading ? (
-        <div className="text-center py-12 text-sm text-slate-400">Loading integrations…</div>
+        <div className="text-center py-12 text-sm text-fg-tertiary">Loading integrations…</div>
       ) : integrations.length === 0 ? (
-        <div className="text-center py-12 text-sm text-slate-400">No integrations match your filters</div>
+        <div className="text-center py-12 text-sm text-fg-tertiary">No integrations match your filters</div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
           {integrations.map((item) => (

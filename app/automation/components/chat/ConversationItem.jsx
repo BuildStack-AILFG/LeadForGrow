@@ -23,13 +23,13 @@ const CHANNEL_ICON_COLOR = {
 
 // Stable per-name color for avatar backgrounds — feels alive without being random
 const AVATAR_TONES = [
-  { bg: 'bg-emerald-100 dark:bg-emerald-900/40', fg: 'text-emerald-700 dark:text-emerald-300' },
-  { bg: 'bg-teal-100 dark:bg-teal-900/40',       fg: 'text-teal-700 dark:text-teal-300' },
-  { bg: 'bg-violet-100 dark:bg-violet-900/40',   fg: 'text-violet-700 dark:text-violet-300' },
-  { bg: 'bg-amber-100 dark:bg-amber-900/40',     fg: 'text-amber-700 dark:text-amber-300' },
+  { bg: 'bg-accent-subtle dark:bg-accent-pressed/40', fg: 'text-accent-fg dark:text-accent-fg' },
+  { bg: 'bg-accent-subtle dark:bg-accent-pressed/40',       fg: 'text-accent-fg dark:text-accent-fg' },
+  { bg: 'bg-accent-subtle dark:bg-accent-pressed/40',   fg: 'text-accent-fg dark:text-accent-fg' },
+  { bg: 'bg-warning-subtle dark:bg-amber-900/40',     fg: 'text-warning dark:text-amber-300' },
   { bg: 'bg-pink-100 dark:bg-pink-900/40',       fg: 'text-pink-700 dark:text-pink-300' },
-  { bg: 'bg-cyan-100 dark:bg-cyan-900/40',       fg: 'text-cyan-700 dark:text-cyan-300' },
-  { bg: 'bg-indigo-100 dark:bg-indigo-900/40',   fg: 'text-indigo-700 dark:text-indigo-300' },
+  { bg: 'bg-accent-subtle dark:bg-accent-pressed/40',       fg: 'text-accent-fg dark:text-accent-fg' },
+  { bg: 'bg-accent-subtle dark:bg-accent-pressed/40',   fg: 'text-accent-fg dark:text-accent-fg' },
 ];
 function toneForName(name) {
   const s = String(name || '');
@@ -98,7 +98,7 @@ function ConversationItem({ chat, active, onClick }) {
   const displayName = lead.name || chat.participantName || lead.phone || chat.participantEmail || 'Unknown';
   const channel = chat.channel || 'whatsapp';
   const ChannelIcon = CHANNEL_ICON[channel] || WhatsAppIcon;
-  const channelClass = CHANNEL_ICON_COLOR[channel] || 'text-emerald-600';
+  const channelClass = CHANNEL_ICON_COLOR[channel] || 'text-accent-fg';
 
   const { Icon: PreviewIcon, label: previewLabel, isInboundPreview } = messagePreviewMeta(chat);
   // Direction arrow reflects the preview we're actually rendering, not the
@@ -119,9 +119,9 @@ function ConversationItem({ chat, active, onClick }) {
     const waitH = waitMs / (60 * 60 * 1000);
     if (waitH >= 0.25) {  // Only show after 15 min — before that it's just "recent"
       let label, cls;
-      if (waitH < 1) { label = `${Math.round(waitH * 60)}m`; cls = 'bg-slate-100 text-slate-600'; }
-      else if (waitH < 4) { label = `${Math.round(waitH)}h`; cls = 'bg-amber-100 text-amber-700'; }
-      else if (waitH < 24) { label = `${Math.round(waitH)}h`; cls = 'bg-rose-100 text-rose-700'; }
+      if (waitH < 1) { label = `${Math.round(waitH * 60)}m`; cls = 'bg-muted text-fg-secondary'; }
+      else if (waitH < 4) { label = `${Math.round(waitH)}h`; cls = 'bg-warning-subtle text-warning'; }
+      else if (waitH < 24) { label = `${Math.round(waitH)}h`; cls = 'bg-danger-subtle text-danger'; }
       else { label = `${Math.round(waitH / 24)}d`; cls = 'bg-rose-200 text-rose-800'; }
       waitingBadge = { label, cls };
     }
@@ -133,9 +133,9 @@ function ConversationItem({ chat, active, onClick }) {
   let deliveryClass = '';
   if (showingOutgoing) {
     const s = String(chat.lastMessageStatus || '').toLowerCase();
-    if (s === 'read')          { DeliveryIcon = CheckCheck; deliveryClass = 'text-teal-500'; }
-    else if (s === 'delivered'){ DeliveryIcon = CheckCheck; deliveryClass = unread ? 'text-slate-500' : 'text-slate-400'; }
-    else if (s === 'sent' || s === 'accepted') { DeliveryIcon = Check; deliveryClass = unread ? 'text-slate-500' : 'text-slate-400'; }
+    if (s === 'read')          { DeliveryIcon = CheckCheck; deliveryClass = 'text-accent-fg'; }
+    else if (s === 'delivered'){ DeliveryIcon = CheckCheck; deliveryClass = unread ? 'text-fg-tertiary' : 'text-fg-tertiary'; }
+    else if (s === 'sent' || s === 'accepted') { DeliveryIcon = Check; deliveryClass = unread ? 'text-fg-tertiary' : 'text-fg-tertiary'; }
   }
 
   return (
@@ -144,10 +144,10 @@ function ConversationItem({ chat, active, onClick }) {
       onClick={onClick}
       className={`group w-full text-left flex items-center gap-3 pl-2 pr-3 py-2.5 border-b border-slate-100 dark:border-slate-800/80 border-l-[3px] transition-colors ${
         active
-          ? 'bg-[#F0F9F5] dark:bg-teal-950/30 border-l-[#1D4B3E]'
+          ? 'bg-accent-subtle dark:bg-teal-950/30 border-accent'
           : unread
-            ? 'bg-emerald-50/30 dark:bg-emerald-950/10 border-l-emerald-500 hover:bg-emerald-50/60'
-            : 'hover:bg-slate-50 dark:hover:bg-slate-800/40 border-l-transparent'
+            ? 'bg-accent-subtle/30 dark:bg-emerald-950/10 border-l-emerald-500 hover:bg-accent-subtle'
+            : 'hover:bg-subtle dark:hover:bg-slate-800/40 border-l-transparent'
       }`}
     >
       {/* Avatar */}
@@ -158,33 +158,33 @@ function ConversationItem({ chat, active, onClick }) {
       <div className="flex-1 min-w-0">
         {/* Row 1 — name + right rail (pin, channel icon, time, unread count) */}
         <div className="flex items-center justify-between gap-2">
-          <span className={`text-[13px] truncate ${unread ? 'font-semibold text-slate-900 dark:text-slate-100' : 'font-normal text-slate-600 dark:text-slate-400'}`}>
+          <span className={`text-dense truncate ${unread ? 'font-semibold text-fg dark:text-slate-100' : 'font-normal text-fg-secondary dark:text-fg-tertiary'}`}>
             {displayName}
           </span>
           <div className="flex items-center gap-1.5 flex-shrink-0">
-            {chat.isPinned && <Pin className="w-3 h-3 text-teal-500" />}
-            {chat.isFavorite && <Star className="w-3 h-3 text-green-600 fill-green-600" />}
+            {chat.isPinned && <Pin className="w-3 h-3 text-accent-fg" />}
+            {chat.isFavorite && <Star className="w-3 h-3 text-accent-fg fill-accent" />}
             {intervened && (
-              <span className="text-[9px] font-bold px-1.5 py-[1px] rounded-full bg-teal-100 dark:bg-teal-950/40 text-teal-700 dark:text-teal-300 uppercase tracking-wide">Live</span>
+              <span className="text-meta font-semibold px-1.5 py-[1px] rounded-full bg-accent-subtle dark:bg-teal-950/40 text-accent-fg dark:text-accent-fg">Live</span>
             )}
             {chat.status === 'closed' && (
-              <span className="text-[9px] font-bold px-1.5 py-[1px] rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 uppercase tracking-wide">Closed</span>
+              <span className="text-meta font-semibold px-1.5 py-[1px] rounded-full bg-muted dark:bg-slate-800 text-fg-secondary dark:text-fg-disabled">Closed</span>
             )}
             {waitingBadge && (
               <span
                 title="Waiting for reply"
-                className={`inline-flex items-center gap-0.5 text-[9px] font-bold px-1.5 py-[1px] rounded-full ${waitingBadge.cls}`}
+                className={`inline-flex items-center gap-0.5 text-meta font-semibold px-1.5 py-[1px] rounded-full ${waitingBadge.cls}`}
               >
                 <Clock className="w-2.5 h-2.5" />
                 {waitingBadge.label}
               </span>
             )}
-            <ChannelIcon className={`w-3 h-3 ${unread ? channelClass : 'text-slate-400'}`} />
-            <span className={`text-[11px] tabular-nums ${unread ? 'text-slate-700 dark:text-slate-300 font-medium' : 'text-slate-400'}`}>
+            <ChannelIcon className={`w-3 h-3 ${unread ? channelClass : 'text-fg-tertiary'}`} />
+            <span className={`text-meta tabular-nums ${unread ? 'text-fg-secondary dark:text-fg-disabled font-medium' : 'text-fg-tertiary'}`}>
               {formatTime(chat.lastMessageAt)}
             </span>
             {unread && (
-              <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-emerald-600 text-white text-[10px] font-semibold flex items-center justify-center tabular-nums">
+              <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-accent text-white text-meta font-semibold flex items-center justify-center tabular-nums">
                 {chat.unreadCount || 1}
               </span>
             )}
@@ -194,17 +194,17 @@ function ConversationItem({ chat, active, onClick }) {
         {/* Row 2 — direction arrow · type icon · delivery tick · preview */}
         <div className="flex items-center gap-1 mt-0.5 min-w-0">
           {isInboundPreview ? (
-            <ArrowLeft className={`w-3 h-3 flex-shrink-0 ${unread ? 'text-emerald-600' : 'text-slate-400'}`} />
+            <ArrowLeft className={`w-3 h-3 flex-shrink-0 ${unread ? 'text-accent-fg' : 'text-fg-tertiary'}`} />
           ) : (
-            <ArrowRight className="w-3 h-3 flex-shrink-0 text-slate-400" />
+            <ArrowRight className="w-3 h-3 flex-shrink-0 text-fg-tertiary" />
           )}
           {DeliveryIcon && (
             <DeliveryIcon className={`w-3 h-3 flex-shrink-0 ${deliveryClass}`} />
           )}
           {PreviewIcon && (
-            <PreviewIcon className={`w-3 h-3 flex-shrink-0 ${unread ? 'text-slate-600 dark:text-slate-300' : 'text-slate-400'}`} />
+            <PreviewIcon className={`w-3 h-3 flex-shrink-0 ${unread ? 'text-fg-secondary dark:text-fg-disabled' : 'text-fg-tertiary'}`} />
           )}
-          <span className={`text-[12px] truncate ${unread ? 'text-slate-800 dark:text-slate-200' : 'text-slate-500 dark:text-slate-400'}`}>
+          <span className={`text-meta truncate ${unread ? 'text-fg dark:text-slate-200' : 'text-fg-tertiary dark:text-fg-tertiary'}`}>
             {previewLabel}
           </span>
         </div>

@@ -16,7 +16,7 @@ export default function SidebarHeader({ collapsed, isMobile, onToggle, onMobileC
         <Link href="/automation" aria-label="LeadForGrow home" className={cx('inline-flex h-8 w-8 items-center justify-center rounded-md hover:bg-muted', focusRing)}>
           <LogoMark />
         </Link>
-        <Tooltip label={`Search  ${shortcutLabel}`} side="right">
+        <Tooltip label={`Search ${shortcutLabel}`} side="right">
           <button type="button" onClick={onOpenSearch} aria-label="Search" className={iconBtn}>
             <Search className="h-4 w-4" strokeWidth={1.5} />
           </button>

@@ -13,12 +13,12 @@ export default function SettingsHeader({ section }) {
   const isCrm = section === 'crm';
 
   return (
-    <header className="sticky top-0 z-20 bg-[#f8f9fc]/95 dark:bg-slate-950/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800">
+    <header className="sticky top-0 z-20 bg-subtle/95 dark:bg-slate-950/95 border-b border-line/80 dark:border-slate-800">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="pt-4 pb-1">
           <Link
             href="/automation/settings"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors group"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-fg-tertiary dark:text-fg-tertiary hover:text-accent-fg dark:hover:text-accent-fg transition-colors group"
           >
             <ChevronLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
             Settings
@@ -30,7 +30,7 @@ export default function SettingsHeader({ section }) {
             <div
               className={`w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0 ring-1 ring-inset ring-black/[0.04] dark:ring-white/[0.06] ${
                 isCrm
-                  ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900'
+                  ? 'bg-slate-900 text-white dark:bg-muted dark:text-fg'
                   : colors.icon
               }`}
             >
@@ -38,8 +38,8 @@ export default function SettingsHeader({ section }) {
             </div>
           )}
           <div className="min-w-0">
-            <h1 className="text-lg font-semibold text-slate-900 dark:text-slate-50 tracking-tight">{meta.title}</h1>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 truncate">{meta.description}</p>
+            <h1 className="text-lg font-semibold text-fg dark:text-slate-50 tracking-tight">{meta.title}</h1>
+            <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-0.5 truncate">{meta.description}</p>
           </div>
         </div>
       </div>

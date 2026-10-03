@@ -25,14 +25,14 @@ export default function ChatbotTranscript({ lead }) {
   if (!hasTranscript && !hasResponses && !supportMessage) return null;
 
   return (
-    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm overflow-hidden">
-      <div className="px-5 py-3.5 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2">
-        <div className="w-8 h-8 rounded-lg bg-teal-50 dark:bg-teal-950/40 flex items-center justify-center">
-          <Bot className="w-4 h-4 text-teal-600 dark:text-teal-400" />
+    <div className="bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 rounded-lg overflow-hidden">
+      <div className="px-5 py-3.5 border-b border-line dark:border-slate-800 flex items-center gap-2">
+        <div className="w-8 h-8 rounded-lg bg-canvas border border-line dark:bg-teal-950/40 flex items-center justify-center">
+          <Bot className="w-4 h-4 text-fg-secondary dark:text-accent-fg" />
         </div>
         <div>
-          <p className="text-sm font-semibold text-slate-900 dark:text-slate-50">Chatbot conversation</p>
-          <p className="text-[11px] text-slate-500">Captured from website widget</p>
+          <p className="text-sm font-semibold text-fg dark:text-slate-50">Chatbot conversation</p>
+          <p className="text-meta text-fg-tertiary">Captured from website widget</p>
         </div>
       </div>
 
@@ -44,8 +44,8 @@ export default function ChatbotTranscript({ lead }) {
                 <div
                   className={`max-w-[85%] px-3 py-2 rounded-xl text-xs leading-relaxed ${
                     msg.type === 'user'
-                      ? 'bg-teal-600 text-white rounded-br-sm'
-                      : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-bl-sm'
+                      ? 'bg-accent text-white rounded-br-sm'
+                      : 'bg-muted dark:bg-slate-800 text-fg-secondary dark:text-fg-disabled rounded-bl-sm'
                   }`}
                 >
                   {msg.text}
@@ -59,21 +59,21 @@ export default function ChatbotTranscript({ lead }) {
               <div className="space-y-3">
                 {responses.map((r, i) => (
                   <div key={i} className="text-sm">
-                    <p className="text-[11px] font-medium uppercase tracking-wide text-slate-400 mb-0.5">{r.question}</p>
-                    <p className="text-slate-800 dark:text-slate-200">{r.answer}</p>
+                    <p className="text-meta font-medium text-fg-tertiary mb-0.5">{r.question}</p>
+                    <p className="text-fg dark:text-slate-200">{r.answer}</p>
                   </div>
                 ))}
               </div>
             )}
             {supportType && (
-              <p className="text-xs text-slate-500">
-                Support type: <span className="font-medium text-slate-700 dark:text-slate-300 capitalize">{supportType}</span>
+              <p className="text-xs text-fg-tertiary">
+                Support type: <span className="font-medium text-fg-secondary dark:text-fg-disabled capitalize">{supportType}</span>
               </p>
             )}
             {supportMessage && (
               <div className="flex gap-2 text-sm">
-                <MessageSquare className="w-4 h-4 text-slate-400 flex-shrink-0 mt-0.5" />
-                <p className="text-slate-700 dark:text-slate-300">{supportMessage}</p>
+                <MessageSquare className="w-4 h-4 text-fg-tertiary flex-shrink-0 mt-0.5" />
+                <p className="text-fg-secondary dark:text-fg-disabled">{supportMessage}</p>
               </div>
             )}
           </>

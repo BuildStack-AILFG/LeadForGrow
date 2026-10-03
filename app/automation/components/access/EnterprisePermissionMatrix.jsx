@@ -20,24 +20,24 @@ export default function EnterprisePermissionMatrix({ roles, onToggle, readOnly }
   };
 
   return (
-    <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+    <div className="overflow-x-auto rounded-lg border border-line dark:border-slate-800 bg-canvas dark:bg-slate-900">
       <table className="w-full text-xs min-w-[900px]">
         <thead>
-          <tr className="bg-slate-50 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800">
-            <th className="text-left px-4 py-3 font-semibold text-slate-600 sticky left-0 bg-slate-50 dark:bg-slate-900 z-10 min-w-[180px]">
+          <tr className="bg-subtle dark:bg-slate-900/80 border-b border-line dark:border-slate-800">
+            <th className="text-left px-4 py-3 font-semibold text-fg-secondary sticky left-0 bg-subtle dark:bg-slate-900 z-10 min-w-[180px]">
               Module
             </th>
             {editableRoles.map((role) => (
-              <th key={role.id || role.slug} colSpan={ACTIONS.length} className="text-center px-2 py-3 border-l border-slate-200 dark:border-slate-800">
-                <span className="font-semibold text-slate-700 dark:text-slate-300">{role.name}</span>
+              <th key={role.id || role.slug} colSpan={ACTIONS.length} className="text-center px-2 py-3 border-l border-line dark:border-slate-800">
+                <span className="font-semibold text-fg-secondary dark:text-fg-disabled">{role.name}</span>
               </th>
             ))}
           </tr>
-          <tr className="bg-slate-50/80 dark:bg-slate-900/60 border-b border-slate-100">
-            <th className="sticky left-0 bg-slate-50/80 dark:bg-slate-900/60 z-10" />
+          <tr className="bg-subtle dark:bg-slate-900/60 border-b border-line">
+            <th className="sticky left-0 bg-subtle dark:bg-slate-900/60 z-10" />
             {editableRoles.map((role) =>
               ACTIONS.map((a) => (
-                <th key={`${role.slug}-${a}`} className="px-1 py-1 text-[9px] font-medium text-slate-400 border-l border-slate-100 dark:border-slate-800 first:border-l-slate-200">
+                <th key={`${role.slug}-${a}`} className="px-1 py-1 text-meta font-medium text-fg-tertiary border-l border-line dark:border-slate-800 first:border-l-slate-200">
                   {ACTION_LABELS[a]?.slice(0, 3)}
                 </th>
               ))
@@ -48,10 +48,10 @@ export default function EnterprisePermissionMatrix({ roles, onToggle, readOnly }
           {FLAT_MODULES.map((mod, i) => (
             <tr
               key={mod.id}
-              className={i % 2 === 0 ? 'bg-white dark:bg-slate-900' : 'bg-slate-50/40 dark:bg-slate-900/40'}
+              className={i % 2 === 0 ? 'bg-canvas dark:bg-slate-900' : 'bg-subtle/40 dark:bg-slate-900/40'}
             >
-              <td className="px-4 py-2 font-medium text-slate-700 dark:text-slate-300 sticky left-0 bg-inherit z-10 border-r border-slate-100 dark:border-slate-800">
-                <span className="block text-[10px] text-slate-400 uppercase">{mod.groupLabel}</span>
+              <td className="px-4 py-2 font-medium text-fg-secondary dark:text-fg-disabled sticky left-0 bg-inherit z-10 border-r border-line dark:border-slate-800">
+                <span className="block text-meta text-fg-tertiary">{mod.groupLabel}</span>
                 {mod.label}
               </td>
               {editableRoles.map((role) =>
@@ -65,8 +65,8 @@ export default function EnterprisePermissionMatrix({ roles, onToggle, readOnly }
                         onClick={() => onToggle?.(role, mod.id, action, !on)}
                         className={`w-6 h-6 rounded-md transition-colors ${
                           on
-                            ? 'bg-indigo-600 text-white'
-                            : 'bg-slate-100 dark:bg-slate-800 text-transparent hover:bg-slate-200'
+                            ? 'bg-accent text-white'
+                            : 'bg-muted dark:bg-slate-800 text-transparent hover:bg-muted'
                         } ${readOnly ? 'opacity-60 cursor-not-allowed' : ''}`}
                         title={`${role.name}: ${ACTION_LABELS[action]} ${mod.label}`}
                       >
@@ -80,7 +80,7 @@ export default function EnterprisePermissionMatrix({ roles, onToggle, readOnly }
           ))}
         </tbody>
       </table>
-      <p className="text-[10px] text-slate-400 px-4 py-2 border-t border-slate-100 dark:border-slate-800">
+      <p className="text-meta text-fg-tertiary px-4 py-2 border-t border-line dark:border-slate-800">
         Owner has full access. Plan limits may still lock features regardless of role permissions.
       </p>
     </div>

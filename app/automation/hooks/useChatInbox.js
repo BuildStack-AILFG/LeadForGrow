@@ -272,9 +272,9 @@ export function useChatInbox() {
             conversations.find((c) => c._id === eventConvId)?.leadId?.name ||
             conversations.find((c) => c._id === eventConvId)?.participantName ||
             'a customer';
-          const channelLabel = event.data.channel === 'email' ? '📧 email'
-            : event.data.channel === 'instagram' ? '📸 Instagram'
-            : '💬 WhatsApp';
+          const channelLabel = event.data.channel === 'email' ? 'email'
+            : event.data.channel === 'instagram' ? 'Instagram'
+            : 'WhatsApp';
           toast.success(`New ${channelLabel} from ${senderName}`, { duration: 4000 });
 
           // Optional sound — muted by default via user pref check.

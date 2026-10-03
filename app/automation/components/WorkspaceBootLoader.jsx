@@ -39,12 +39,25 @@ export default function WorkspaceBootLoader({ complete = false, onFinished }) {
     if (complete && progress >= 99) finish();
   }, [complete, progress, finish]);
 
+  // The progress bar advances on requestAnimationFrame, which browsers pause
+  // in background tabs — so a workspace opened in a new tab sat on this
+  // screen until focused. Once data is ready, skip the animation when the
+  // tab is hidden or the user prefers reduced motion.
+  useEffect(() => {
+    if (!complete) return;
+    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    if (document.visibilityState === 'hidden' || reduced) {
+      finishedRef.current = true;
+      onFinished?.();
+    }
+  }, [complete, onFinished]);
+
   return (
     <AnimatePresence>
       {!exiting && (
         <motion.div
           key="boot-loader"
-          className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-white"
+          className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-canvas"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4, ease }}
@@ -63,20 +76,20 @@ export default function WorkspaceBootLoader({ complete = false, onFinished }) {
             </motion.div>
 
             <motion.div
-              className="mt-8 h-[2px] w-48 overflow-hidden rounded-full bg-slate-100"
+              className="mt-8 h-[2px] w-48 overflow-hidden rounded-full bg-muted"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.4, ease }}
             >
               <motion.div
-                className="h-full rounded-full bg-emerald-600"
+                className="h-full rounded-full bg-accent"
                 style={{ width: `${progress}%` }}
                 transition={{ type: 'spring', stiffness: 80, damping: 24 }}
               />
             </motion.div>
 
             <motion.p
-              className="mt-5 text-[13px] text-slate-400"
+              className="mt-5 text-dense text-fg-tertiary"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.4, ease }}

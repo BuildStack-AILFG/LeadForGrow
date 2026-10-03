@@ -34,14 +34,14 @@ export default function GroviaIcon({ className = 'w-5 h-5', ...props }) {
 export function GroviaMark({ size = 'md', className = '' }) {
   const sizes = {
     sm: { box: 'w-6 h-6 rounded-md', icon: 'w-3.5 h-3.5' },
-    md: { box: 'w-9 h-9 rounded-xl', icon: 'w-4 h-4' },
-    lg: { box: 'w-11 h-11 rounded-2xl', icon: 'w-5 h-5' },
+    md: { box: 'w-9 h-9 rounded-lg', icon: 'w-4 h-4' },
+    lg: { box: 'w-11 h-11 rounded-lg', icon: 'w-5 h-5' },
   };
   const s = sizes[size] || sizes.md;
 
   return (
     <div
-      className={`${s.box} bg-[#0d9488] flex items-center justify-center text-white shadow-md shadow-teal-900/25 ${className}`}
+      className={`${s.box} bg-accent flex items-center justify-center text-white shadow-popover ${className}`}
     >
       <GroviaIcon className={s.icon} />
     </div>

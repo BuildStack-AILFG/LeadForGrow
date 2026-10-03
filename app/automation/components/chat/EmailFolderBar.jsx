@@ -22,7 +22,7 @@ export default function EmailFolderBar({ active, onChange }) {
   }, []);
 
   return (
-    <div className="flex gap-1 px-3 py-2 border-b border-slate-100 dark:border-slate-800 overflow-x-auto">
+    <div className="flex gap-1 px-3 py-2 border-b border-line dark:border-slate-800 overflow-x-auto">
       {FOLDERS.map((f) => {
         const Icon = f.icon;
         return (
@@ -31,7 +31,7 @@ export default function EmailFolderBar({ active, onChange }) {
             type="button"
             onClick={() => onChange(f.id)}
             className={`inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-medium rounded whitespace-nowrap ${
-              active === f.id ? 'bg-[#1D4B3E] text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600'
+              active === f.id ? 'bg-accent text-white' : 'bg-muted dark:bg-slate-800 text-fg-secondary'
             }`}
           >
             <Icon className="w-3 h-3" />

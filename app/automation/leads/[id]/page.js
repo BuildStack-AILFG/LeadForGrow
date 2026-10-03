@@ -39,10 +39,10 @@ function LeadDetailPageContent({ params }) {
 
   if (!detail.lead) {
     return (
-      <div className="min-h-full bg-[#f8f9fc] dark:bg-slate-950 flex items-center justify-center p-8">
+      <div className="min-h-full bg-subtle dark:bg-slate-950 flex items-center justify-center p-8">
         <div className="text-center">
-          <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">Lead not found</h2>
-          <Link href="/automation/leads" className="inline-flex items-center gap-1 mt-4 text-sm text-teal-600 hover:underline">
+          <h2 className="text-lg font-semibold text-fg dark:text-slate-50">Lead not found</h2>
+          <Link href="/automation/leads" className="inline-flex items-center gap-1 mt-4 text-sm text-accent-fg hover:underline">
             <ChevronLeft className="w-4 h-4" /> Back to leads
           </Link>
         </div>
@@ -69,7 +69,7 @@ function LeadDetailPageContent({ params }) {
   };
 
   return (
-    <div className="min-h-full bg-[#f8f9fc] dark:bg-slate-950">
+    <div className="min-h-full bg-subtle dark:bg-slate-950">
       <div className="px-4 sm:px-6 pb-8">
         <LeadDetailHeader
           lead={detail.lead}

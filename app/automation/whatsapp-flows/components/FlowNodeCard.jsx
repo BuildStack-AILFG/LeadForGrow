@@ -2,7 +2,7 @@
 
 import { memo, useState } from 'react';
 import { Handle, Position } from '@xyflow/react';
-import { Zap, MessageCircle, Split, Sparkles, MoreVertical, Flag } from 'lucide-react';
+import { Zap, MessageCircle, Split, Bot as Sparkles, MoreVertical, Flag } from 'lucide-react';
 import { getNodeMeta, CATEGORY_ACCENT } from '@/lib/whatsappFlows/constants';
 import { useFlowActions } from './FlowActionsContext';
 import NodeContextMenu from './NodeContextMenu';

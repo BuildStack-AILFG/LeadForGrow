@@ -11,10 +11,10 @@ export default function ContactsFilterBar({
 }) {
   if (!showFilters && !showSort) return null;
 
-  const selectCls = 'text-[12px] px-2.5 py-2 bg-white border border-[#E5E7EB] rounded-lg text-[#344054] focus:outline-none focus:ring-2 focus:ring-[#101828]/10';
+  const selectCls = 'text-meta px-2.5 py-2 bg-canvas border border-line rounded-lg text-fg-secondary focus:outline-none focus:ring-2 focus:ring-line';
 
   return (
-    <div className="mb-4 p-4 bg-white border border-[#E5E7EB] rounded-xl shadow-[0_1px_2px_rgba(16,24,40,0.04)] space-y-3">
+    <div className="mb-4 p-4 bg-canvas border border-line rounded-lg space-y-3">
       {showFilters && (
         <div className="flex flex-wrap items-center gap-2">
           <select value={filters.type} onChange={(e) => onFilterChange({ type: e.target.value, page: 1 })} className={selectCls}>
@@ -35,12 +35,12 @@ export default function ContactsFilterBar({
             <option value="yes">Has Open Deals</option>
             <option value="no">No Open Deals</option>
           </select>
-          <label className="inline-flex items-center gap-2 text-[12px] text-[#475467] px-2">
+          <label className="inline-flex items-center gap-2 text-meta text-fg-secondary px-2">
             <input
               type="checkbox"
               checked={filters.recentlyAdded}
               onChange={(e) => onFilterChange({ recentlyAdded: e.target.checked, page: 1 })}
-              className="rounded border-[#D0D5DD]"
+              className="rounded border-line-strong"
             />
             Recently Added
           </label>
@@ -48,7 +48,7 @@ export default function ContactsFilterBar({
             <button
               type="button"
               onClick={() => onFilterChange({ type: '', ownerId: '', hasOpenDeals: '', recentlyAdded: false, page: 1 })}
-              className="text-[12px] text-[#667085] hover:text-[#344054] underline"
+              className="text-meta text-fg-tertiary hover:text-fg-secondary underline"
             >
               Clear filters
             </button>
@@ -57,8 +57,8 @@ export default function ContactsFilterBar({
       )}
 
       {showSort && (
-        <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-[#F2F4F7]">
-          <span className="text-[11px] font-medium text-[#98A2B3] uppercase tracking-wide mr-1">Sort by</span>
+        <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-line">
+          <span className="text-meta font-medium text-fg-tertiary mr-1">Sort by</span>
           {SORT_OPTIONS.map((opt) => (
             <button
               key={opt.key}
@@ -66,8 +66,8 @@ export default function ContactsFilterBar({
               onClick={() => onFilterChange({ sort: opt.key, page: 1 })}
               className={`px-2.5 py-1.5 text-[12px] rounded-lg border transition-colors ${
                 filters.sort === opt.key
-                  ? 'bg-[#101828] text-white border-[#101828]'
-                  : 'bg-white text-[#475467] border-[#E5E7EB] hover:bg-[#F9FAFB]'
+                  ? 'bg-accent text-white border-accent'
+                  : 'bg-canvas text-fg-secondary border-line hover:bg-subtle'
               }`}
             >
               {opt.label}
@@ -76,7 +76,7 @@ export default function ContactsFilterBar({
           <button
             type="button"
             onClick={() => onFilterChange({ dir: filters.dir === 'asc' ? 'desc' : 'asc' })}
-            className="px-2.5 py-1.5 text-[12px] rounded-lg border border-[#E5E7EB] text-[#475467] hover:bg-[#F9FAFB]"
+            className="px-2.5 py-1.5 text-meta rounded-lg border border-line text-fg-secondary hover:bg-subtle"
           >
             {filters.dir === 'asc' ? 'Ascending ↑' : 'Descending ↓'}
           </button>

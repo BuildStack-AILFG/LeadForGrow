@@ -12,7 +12,7 @@ import {
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useState } from 'react';
 import { PIPELINE_STAGES, LEAD_STATUS_ACCENT_COLORS } from './constants';
-import { formatSource, getLeadRowBackgroundStyle, getStatusAccentColor } from './utils';
+import { formatSource, getLeadRowBackgroundStyle } from './utils';
 import { getLeadKanbanStage } from '@/lib/crm/leadStages';
 import KanbanCard from './KanbanCard';
 import KanbanColumn from './KanbanColumn';
@@ -64,14 +64,14 @@ export default function CRMKanban({ leads, onStatusChange, onOpenDrawer }) {
       onDragStart={(e) => setActiveId(e.active.id)}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex gap-3 overflow-x-auto pb-4 min-h-[480px]">
+      <div className="flex min-h-[480px] gap-3 overflow-x-auto pb-4">
         {PIPELINE_STAGES.map((stage) => (
           <KanbanColumn
             key={stage.key}
             id={stage.key}
             title={stage.label}
             count={columns[stage.key]?.length || 0}
-            color={LEAD_STATUS_ACCENT_COLORS[stage.key] || '#94a3b8'}
+            color={LEAD_STATUS_ACCENT_COLORS[stage.key] || 'var(--stage-1)'}
           >
             <SortableContext items={columns[stage.key]?.map((l) => l._id) || []} strategy={verticalListSortingStrategy}>
               {(columns[stage.key] || []).map((lead) => (
@@ -88,15 +88,9 @@ export default function CRMKanban({ leads, onStatusChange, onOpenDrawer }) {
 
       <DragOverlay>
         {activeLead ? (
-          <div
-            className="p-3 bg-white dark:bg-slate-900 border border-slate-200/80 border-l-[3px] rounded-lg shadow-lg w-64 rotate-2"
-            style={{
-              borderLeftColor: activeLead.rowColor || getStatusAccentColor(activeLead.status),
-              ...getLeadRowBackgroundStyle(activeLead),
-            }}
-          >
-            <p className="font-medium text-sm">{activeLead.name}</p>
-            <p className="text-xs text-slate-500">{formatSource(activeLead.source)}</p>
+          <div className="w-[280px] rounded-lg border border-line-strong bg-canvas p-3 shadow-drag" style={getLeadRowBackgroundStyle(activeLead)}>
+            <p className="truncate text-body font-medium text-fg">{activeLead.name}</p>
+            <p className="mt-0.5 text-dense text-fg-secondary">{formatSource(activeLead.source)}</p>
           </div>
         ) : null}
       </DragOverlay>

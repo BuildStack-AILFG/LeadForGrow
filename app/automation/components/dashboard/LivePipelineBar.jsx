@@ -14,10 +14,10 @@ export default function LivePipelineBar({ pipeline, currency = 'INR' }) {
     <DashboardCard padding="p-5">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h2 className="text-base font-semibold text-slate-900 dark:text-white">Live Pipeline</h2>
-          <p className="text-xs text-slate-500 mt-0.5">Deal count and value by stage — click to filter</p>
+          <h2 className="text-base font-semibold text-fg dark:text-white">Live Pipeline</h2>
+          <p className="text-xs text-fg-tertiary mt-0.5">Deal count and value by stage — click to filter</p>
         </div>
-        <Link href="/automation/deals" className="text-xs text-emerald-600 hover:underline font-medium">
+        <Link href="/automation/deals" className="text-xs text-accent-fg hover:underline font-medium">
           All deals
         </Link>
       </div>
@@ -35,17 +35,17 @@ export default function LivePipelineBar({ pipeline, currency = 'INR' }) {
               className="block group"
             >
               <div className="flex items-center justify-between text-xs mb-1">
-                <span className="font-medium text-slate-700 dark:text-slate-300 group-hover:text-emerald-600 truncate">
+                <span className="font-medium text-fg-secondary dark:text-fg-disabled group-hover:text-accent-fg truncate">
                   {stage.label}
                 </span>
-                <span className="text-slate-500 tabular-nums shrink-0 ml-2">
+                <span className="text-fg-tertiary tabular-nums shrink-0 ml-2">
                   {stage.count} · {formatCurrency(stage.totalValue, currency)}
                   {stage.count > 0 && (
-                    <span className="text-slate-400 ml-1">avg {formatCurrency(stage.avgValue, currency)}</span>
+                    <span className="text-fg-tertiary ml-1">avg {formatCurrency(stage.avgValue, currency)}</span>
                   )}
                 </span>
               </div>
-              <div className="h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+              <div className="h-2 bg-muted dark:bg-slate-800 rounded-full overflow-hidden">
                 <div
                   className="h-full rounded-full transition-all group-hover:opacity-90"
                   style={{ width: `${width}%`, backgroundColor: stage.color || '#6366f1' }}

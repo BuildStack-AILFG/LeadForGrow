@@ -61,7 +61,7 @@ export default function WidgetMenu({ onRefresh, onToggleCollapse, collapsed, ext
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className={`inline-flex items-center justify-center w-8 h-8 rounded-none text-[#98A2B3] transition-all duration-200 hover:bg-[#F2F4F3] hover:text-[#344054] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1D4B3E]/25 ${open ? 'bg-[#F2F4F3] text-[#344054]' : ''
+        className={`inline-flex items-center justify-center w-8 h-8 rounded-md text-[#98A2B3] transition-all duration-200 hover:bg-[#F2F4F3] hover:text-[#344054] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1D4B3E]/25 ${open ? 'bg-muted text-fg-secondary' : ''
           }`}
         aria-label="Widget options"
         aria-haspopup="menu"
@@ -73,7 +73,7 @@ export default function WidgetMenu({ onRefresh, onToggleCollapse, collapsed, ext
       {open && (
         <div
           role="menu"
-          className="lfg-scale-in absolute right-0 top-full mt-1.5 z-30 min-w-[168px] py-1.5 bg-white border border-[#E8ECEF] rounded-none shadow-[0_12px_32px_rgba(16,24,40,0.12)]"
+          className="lfg-scale-in absolute right-0 top-full mt-1.5 z-30 min-w-[168px] py-1.5 bg-canvas border border-line rounded-md"
         >
           {items.map((item) => {
             const Icon = item.icon;
@@ -83,9 +83,9 @@ export default function WidgetMenu({ onRefresh, onToggleCollapse, collapsed, ext
                 type="button"
                 role="menuitem"
                 onClick={item.onClick}
-                className="flex w-full items-center gap-2.5 px-3 py-2 text-[13px] font-medium text-[#344054] transition-colors hover:bg-[#F6F8F7]"
+                className="flex w-full items-center gap-2.5 px-3 py-2 text-dense font-medium text-fg-secondary transition-colors hover:bg-subtle"
               >
-                {Icon && <Icon className="w-4 h-4 text-[#98A2B3]" />}
+                {Icon && <Icon className="w-4 h-4 text-fg-tertiary" />}
                 {item.label}
               </button>
             );

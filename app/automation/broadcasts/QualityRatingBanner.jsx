@@ -21,10 +21,10 @@ const TIER_LABELS = {
 };
 
 const TONE_CLASSES = {
-  emerald: 'border-emerald-200 bg-emerald-50/60 text-emerald-900 dark:border-emerald-900 dark:bg-emerald-950/20 dark:text-emerald-300',
-  amber:   'border-amber-200 bg-amber-50/60 text-amber-900 dark:border-amber-900 dark:bg-amber-950/20 dark:text-amber-300',
-  red:     'border-red-200 bg-red-50/60 text-red-900 dark:border-red-900 dark:bg-red-950/20 dark:text-red-300',
-  slate:   'border-slate-200 bg-slate-50/60 text-slate-700 dark:border-slate-800 dark:bg-slate-900/40 dark:text-slate-300',
+  emerald: 'border-line bg-accent-subtle text-accent-fg dark:border-emerald-900 dark:bg-emerald-950/20 dark:text-accent-fg',
+  amber:   'border-warning/30 bg-warning-subtle/60 text-amber-900 dark:border-amber-900 dark:bg-amber-950/20 dark:text-amber-300',
+  red:     'border-danger/30 bg-danger-subtle/60 text-red-900 dark:border-red-900 dark:bg-red-950/20 dark:text-red-300',
+  slate:   'border-line bg-subtle/60 text-fg-secondary dark:border-slate-800 dark:bg-slate-900/40 dark:text-fg-disabled',
 };
 
 export default function QualityRatingBanner({ audienceCount, className = '' }) {
@@ -54,7 +54,7 @@ export default function QualityRatingBanner({ audienceCount, className = '' }) {
 
   if (loading) {
     return (
-      <div className={`rounded-xl border border-slate-200 dark:border-slate-800 p-3 text-xs text-slate-500 flex items-center gap-2 ${className}`}>
+      <div className={`rounded-lg border border-line dark:border-slate-800 p-3 text-xs text-fg-tertiary flex items-center gap-2 ${className}`}>
         <Loader2 className="w-3.5 h-3.5 animate-spin" /> Checking Meta quality rating…
       </div>
     );
@@ -62,7 +62,7 @@ export default function QualityRatingBanner({ audienceCount, className = '' }) {
 
   if (error) {
     return (
-      <div className={`rounded-xl border border-slate-200 dark:border-slate-800 p-3 text-xs text-slate-500 ${className}`}>
+      <div className={`rounded-lg border border-line dark:border-slate-800 p-3 text-xs text-fg-tertiary ${className}`}>
         Could not fetch quality rating: {error}
       </div>
     );
@@ -78,14 +78,14 @@ export default function QualityRatingBanner({ audienceCount, className = '' }) {
   const overLimit = audienceCount && audienceCount > tierCap;
 
   return (
-    <div className={`rounded-xl border p-3 space-y-2 ${TONE_CLASSES[meta.tone]} ${className}`}>
+    <div className={`rounded-lg border p-3 space-y-2 ${TONE_CLASSES[meta.tone]} ${className}`}>
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-2 min-w-0">
           <Icon className="w-4 h-4 shrink-0 mt-0.5" />
           <div className="min-w-0">
             <p className="text-xs font-semibold">Meta quality · {meta.label}</p>
             {tier && (
-              <p className="text-[11px] opacity-80 mt-0.5">
+              <p className="text-meta opacity-80 mt-0.5">
                 Daily send tier: <span className="font-medium">{TIER_LABELS[tier] || tier}</span>
                 {data?.displayPhoneNumber && <span> · from {data.displayPhoneNumber}</span>}
               </p>
@@ -96,17 +96,17 @@ export default function QualityRatingBanner({ audienceCount, className = '' }) {
           type="button"
           onClick={() => load(true)}
           disabled={refreshing}
-          className="p-1 rounded hover:bg-white/40 dark:hover:bg-slate-800/40 shrink-0"
+          className="p-1 rounded hover:bg-canvas/40 dark:hover:bg-slate-800/40 shrink-0"
           title="Re-check quality from Meta"
         >
           <RefreshCw className={`w-3 h-3 ${refreshing ? 'animate-spin' : ''}`} />
         </button>
       </div>
 
-      <p className="text-[11px] opacity-90 leading-relaxed">{meta.hint}</p>
+      <p className="text-meta opacity-90 leading-relaxed">{meta.hint}</p>
 
       {overLimit && (
-        <p className="text-[11px] font-semibold border-t border-current/20 pt-2">
+        <p className="text-meta font-semibold border-t border-current/20 pt-2">
           ⚠ This audience ({audienceCount}) is above your daily tier cap ({tierCap}). Meta will drop excess sends. Reduce audience or wait for tier upgrade.
         </p>
       )}

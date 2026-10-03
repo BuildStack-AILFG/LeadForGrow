@@ -28,7 +28,7 @@ function AutomationRulesContent() {
   if (ws.loading) return <AutomationSkeleton />;
 
   return (
-    <div className="min-h-full bg-[#f8f9fc] dark:bg-slate-950">
+    <div className="min-h-full bg-subtle dark:bg-slate-950">
       <div className="px-4 sm:px-6 pb-8">
         <AutomationHeader
           total={ws.allRules.length}
@@ -42,32 +42,32 @@ function AutomationRulesContent() {
           onCreate={() => ws.setShowCreateModal(true)}
         />
 
-        <div className="mt-4 mb-4 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="mt-4 mb-4 p-4 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 rounded-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
-            <p className="text-sm font-medium text-slate-900 dark:text-slate-100">CRM stage automations</p>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-sm font-medium text-fg dark:text-slate-100">CRM stage automations</p>
+            <p className="text-xs text-fg-tertiary mt-0.5">
               Configure welcome messages, meeting reminders, templates, and payment follow-ups per sales stage.
             </p>
           </div>
           <Link
             href="/automation/settings/crm"
-            className="inline-flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg bg-teal-600 text-white hover:bg-teal-700 shrink-0"
+            className="inline-flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg bg-accent text-white hover:bg-accent-hover shrink-0"
           >
             <Settings2 className="w-3.5 h-3.5" />
             CRM automation settings
           </Link>
         </div>
 
-        <div className="mt-4 mb-4 p-4 bg-slate-50 dark:from-slate-900 dark:to-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="mt-4 mb-4 p-4 bg-subtle dark:from-slate-900 dark:to-slate-800 border border-line dark:border-slate-700 rounded-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
-            <p className="text-sm font-medium text-slate-900 dark:text-slate-100">💬 WhatsApp Interactive Flows</p>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+            <p className="text-sm font-medium text-fg dark:text-slate-100">WhatsApp interactive flows</p>
+            <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-0.5">
               Automated customer conversations - garage bookings, service selection, quotes, and more. Triggers on incoming WhatsApp messages.
             </p>
           </div>
           <Link
             href="/automation/whatsapp-flows"
-            className="inline-flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 shrink-0"
+            className="inline-flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg bg-accent text-white hover:bg-accent-hover shrink-0"
           >
             <Settings2 className="w-3.5 h-3.5" />
             Manage flows

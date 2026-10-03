@@ -65,7 +65,7 @@ export default function CommandPalette({ open, onClose, items }) {
   return createPortal(
     <div className="fixed inset-0 z-[95] flex items-start justify-center px-4 pt-[12vh]">
       <div className="absolute inset-0 bg-[rgba(16,24,20,0.24)]" onClick={onClose} aria-hidden />
-      <div role="dialog" aria-modal="true" aria-label="Go to page" className="relative w-full max-w-[560px] overflow-hidden rounded-xl bg-canvas shadow-modal">
+      <div role="dialog" aria-modal="true" aria-label="Go to page" className="relative w-full max-w-[560px] overflow-hidden rounded-lg bg-canvas shadow-modal">
         <div className="flex h-12 items-center gap-2 border-b border-line px-4">
           <Search className="h-4 w-4 shrink-0 text-fg-tertiary" strokeWidth={1.5} aria-hidden />
           <input

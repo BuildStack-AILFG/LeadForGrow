@@ -74,29 +74,29 @@ export default function WorkflowCanvas({
   const nodeMap = Object.fromEntries(nodes.map((n) => [n.id, n]));
 
   return (
-    <div className="relative flex-1 flex flex-col min-h-0 rounded-2xl overflow-hidden border border-slate-200/80 dark:border-slate-800 bg-[#eef1f8] dark:bg-slate-950">
+    <div className="relative flex-1 flex flex-col min-h-0 rounded-lg overflow-hidden border border-line/80 dark:border-slate-800 bg-subtle dark:bg-slate-950">
       {/* Toolbar */}
-      <div className="absolute top-3 left-3 z-30 flex items-center gap-1 p-1 rounded-xl bg-white/90 dark:bg-slate-900/90 backdrop-blur border border-slate-200 dark:border-slate-700 shadow-lg">
-        <button type="button" onClick={() => setZoom((z) => Math.min(2, z + 0.1))} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600" title="Zoom in"><ZoomIn className="w-4 h-4" /></button>
-        <button type="button" onClick={() => setZoom((z) => Math.max(0.4, z - 0.1))} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600" title="Zoom out"><ZoomOut className="w-4 h-4" /></button>
-        <button type="button" onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600" title="Reset"><Maximize2 className="w-4 h-4" /></button>
-        <div className="w-px h-5 bg-slate-200 dark:bg-slate-700 mx-0.5" />
-        <button type="button" onClick={onUndo} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600"><Undo2 className="w-4 h-4" /></button>
-        <button type="button" onClick={onRedo} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600"><Redo2 className="w-4 h-4" /></button>
-        <div className="w-px h-5 bg-slate-200 dark:bg-slate-700 mx-0.5" />
+      <div className="absolute top-3 left-3 z-30 flex items-center gap-1 p-1 rounded-lg bg-canvas/90 dark:bg-slate-900/90 border border-line dark:border-slate-700 shadow-popover">
+        <button type="button" onClick={() => setZoom((z) => Math.min(2, z + 0.1))} className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800 text-fg-secondary" title="Zoom in"><ZoomIn className="w-4 h-4" /></button>
+        <button type="button" onClick={() => setZoom((z) => Math.max(0.4, z - 0.1))} className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800 text-fg-secondary" title="Zoom out"><ZoomOut className="w-4 h-4" /></button>
+        <button type="button" onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }} className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800 text-fg-secondary" title="Reset"><Maximize2 className="w-4 h-4" /></button>
+        <div className="w-px h-5 bg-muted dark:bg-slate-700 mx-0.5" />
+        <button type="button" onClick={onUndo} className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800 text-fg-secondary"><Undo2 className="w-4 h-4" /></button>
+        <button type="button" onClick={onRedo} className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800 text-fg-secondary"><Redo2 className="w-4 h-4" /></button>
+        <div className="w-px h-5 bg-muted dark:bg-slate-700 mx-0.5" />
         <button
           type="button"
           onClick={() => { setConnectMode(!connectMode); setConnectFrom(null); }}
-          className={`p-2 rounded-lg ${connectMode ? 'bg-teal-100 text-teal-600' : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600'}`}
+          className={`p-2 rounded-lg ${connectMode ? 'bg-accent-subtle text-accent-fg' : 'hover:bg-muted dark:hover:bg-slate-800 text-fg-secondary'}`}
           title="Connect nodes"
         >
           <Link2 className="w-4 h-4" />
         </button>
-        <span className="text-[10px] text-slate-400 px-2">{Math.round(zoom * 100)}%</span>
+        <span className="text-meta text-fg-tertiary px-2">{Math.round(zoom * 100)}%</span>
       </div>
 
       {/* Minimap */}
-      <div className="absolute bottom-3 right-3 z-30 w-32 h-24 rounded-lg bg-white/80 dark:bg-slate-900/80 backdrop-blur border border-slate-200 dark:border-slate-700 shadow-lg overflow-hidden hidden md:block">
+      <div className="absolute bottom-3 right-3 z-30 w-32 h-24 rounded-lg bg-canvas/80 dark:bg-slate-900/80 border border-line dark:border-slate-700 shadow-popover overflow-hidden hidden md:block">
         <div className="relative w-full h-full scale-[0.15] origin-top-left" style={{ width: 800, height: 600 }}>
           {nodes.map((n) => (
             <div key={n.id} className="absolute w-[220px] h-[20px] bg-teal-400/60 rounded" style={{ left: n.position?.x, top: n.position?.y }} />
@@ -175,7 +175,7 @@ export default function WorkflowCanvas({
       </div>
 
       {connectMode && (
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-30 px-4 py-2 rounded-full bg-teal-600 text-white text-xs font-medium shadow-lg">
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-30 px-4 py-2 rounded-full bg-accent text-white text-xs font-medium shadow-popover">
           {connectFrom ? 'Click target node' : 'Click source node to connect'}
         </div>
       )}

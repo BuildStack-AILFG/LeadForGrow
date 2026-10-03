@@ -18,17 +18,17 @@ import AutoPageIntro from '@/app/automation/components/shared/tour/AutoPageIntro
 function CompaniesEmptyState({ onCreate }) {
   return (
     <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
-      <div className="w-16 h-16 rounded-2xl bg-[#F9FAFB] border border-[#E5E7EB] flex items-center justify-center mb-5">
-        <Building2 className="w-8 h-8 text-[#98A2B3]" strokeWidth={1.5} />
+      <div className="w-16 h-16 rounded-lg bg-subtle border border-line flex items-center justify-center mb-5">
+        <Building2 className="w-8 h-8 text-fg-tertiary" strokeWidth={1.5} />
       </div>
-      <h3 className="text-[16px] font-semibold text-[#101828] mb-1">No companies yet</h3>
-      <p className="text-[13px] text-[#667085] max-w-sm mb-6">
+      <h3 className="text-title font-semibold text-fg mb-1">No companies yet</h3>
+      <p className="text-dense text-fg-tertiary max-w-sm mb-6">
         Add your first company to organize contacts, deals, and revenue in one place.
       </p>
       <button
         type="button"
         onClick={onCreate}
-        className="px-5 py-2.5 text-[13px] font-semibold text-white bg-[#101828] hover:bg-[#1F2937] rounded-lg shadow-sm transition-colors"
+        className="px-5 py-2.5 text-dense font-semibold text-white bg-accent hover:bg-[#1F2937] rounded-lg transition-colors"
       >
         Add First Company
       </button>
@@ -44,8 +44,8 @@ function CompaniesContent() {
   const hasFilters = ws.filters.search || ws.filters.industry || ws.filters.status || ws.filters.ownerId;
 
   return (
-    <div className="min-h-full bg-white">
-      <div className="px-4 sm:px-6 pb-8 max-w-[1600px] mx-auto pt-6">
+    <div className="min-h-full bg-canvas">
+      <div className="px-4 pb-8 pt-6 sm:px-6">
         <CompaniesHeader
           search={ws.searchInput}
           onSearchChange={ws.setSearchInput}

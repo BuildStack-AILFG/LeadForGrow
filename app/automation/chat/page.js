@@ -162,7 +162,7 @@ function ChatInboxContent() {
       case 'trash':
         return {
           visibleMessages: inbox.messages.filter((m) => m.isDeleted),
-          emptyLabel: 'Trash is empty. Hover any message and click the 🗑 to move it here.',
+          emptyLabel: 'Trash is empty. Deleted messages appear here.',
         };
       case 'inbox':
       default:
@@ -195,7 +195,7 @@ function ChatInboxContent() {
   };
 
   return (
-    <div className="flex h-[calc(100vh-0px)] bg-[#f8f9fc] dark:bg-slate-950 overflow-hidden font-[family-name:var(--font-whatsapp)]">
+    <div className="flex h-[calc(100vh-0px)] bg-subtle dark:bg-slate-950 overflow-hidden font-[family-name:var(--font-whatsapp)]">
       <div
         className={`${mobileView === 'list' ? 'flex' : 'hidden'} lg:flex h-full flex-shrink-0 w-full lg:w-[380px] xl:w-[420px] 2xl:w-[460px]`}
       >
@@ -260,12 +260,12 @@ function ChatInboxContent() {
               const cleanSubject = subject.replace(/^(Re:|Fwd?:|Fw:)\s*/i, '');
               const msgCount = visibleMessages.filter((m) => m.type === 'email').length;
               return (
-                <div className="sticky top-0 z-10 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-b border-slate-200 dark:border-slate-700 px-4 py-2 flex items-baseline gap-2">
-                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate flex-1" title={subject}>
+                <div className="sticky top-0 z-10 bg-canvas/95 dark:bg-slate-900/95 border-b border-line dark:border-slate-700 px-4 py-2 flex items-baseline gap-2">
+                  <p className="text-sm font-semibold text-fg dark:text-slate-100 truncate flex-1" title={subject}>
                     {cleanSubject}
                   </p>
                   {msgCount > 0 && (
-                    <span className="text-[10px] text-slate-500 dark:text-slate-400 flex-shrink-0">
+                    <span className="text-meta text-fg-tertiary dark:text-fg-tertiary flex-shrink-0">
                       {msgCount} message{msgCount !== 1 ? 's' : ''}
                     </span>
                   )}
@@ -275,29 +275,29 @@ function ChatInboxContent() {
             {emailFolder === 'drafts' ? (
               <div className="flex-1 overflow-y-auto p-4 space-y-2">
                 {draftsLoading ? (
-                  <p className="text-center text-sm text-slate-400 py-12">Loading drafts…</p>
+                  <p className="text-center text-sm text-fg-tertiary py-12">Loading drafts…</p>
                 ) : emailDrafts.length === 0 ? (
-                  <p className="text-center text-sm text-slate-400 py-12">{emptyLabel}</p>
+                  <p className="text-center text-sm text-fg-tertiary py-12">{emptyLabel}</p>
                 ) : (
                   emailDrafts.map((draft) => (
-                    <div key={draft._id} className="flex items-start gap-3 p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg">
-                      <FileText className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" />
+                    <div key={draft._id} className="flex items-start gap-3 p-3 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg">
+                      <FileText className="w-4 h-4 text-fg-tertiary mt-0.5 shrink-0" />
                       <div className="min-w-0 flex-1">
-                        <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">
+                        <p className="text-sm font-medium text-fg dark:text-slate-100 truncate">
                           {draft.subject || '(no subject)'}
                         </p>
-                        <p className="text-xs text-slate-500 truncate mt-0.5">
+                        <p className="text-xs text-fg-tertiary truncate mt-0.5">
                           {draft.bodyText || 'Empty draft'}
                         </p>
-                        <p className="text-[10px] text-slate-400 mt-1">
+                        <p className="text-meta text-fg-tertiary mt-1">
                           Saved {new Date(draft.updatedAt).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                         </p>
                       </div>
                       <div className="flex items-center gap-1 shrink-0">
-                        <button type="button" onClick={() => continueDraft(draft)} className="px-2.5 py-1.5 text-xs font-semibold text-[#1D4B3E] bg-[#F0F9F5] hover:bg-[#dcefe6] rounded">
+                        <button type="button" onClick={() => continueDraft(draft)} className="px-2.5 py-1.5 text-xs font-semibold text-accent-fg bg-accent-subtle hover:bg-accent-subtle rounded">
                           Continue editing
                         </button>
-                        <button type="button" onClick={() => deleteDraft(draft)} className="p-1.5 rounded text-slate-400 hover:text-red-600 hover:bg-red-50" title="Delete draft">
+                        <button type="button" onClick={() => deleteDraft(draft)} className="p-1.5 rounded text-fg-tertiary hover:text-danger hover:bg-danger-subtle" title="Delete draft">
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
@@ -374,11 +374,11 @@ function ChatInboxContent() {
           </>
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center text-center p-8">
-            <div className="w-16 h-16 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center mb-4 shadow-sm">
-              <MessageSquare className="w-8 h-8 text-slate-300" />
+            <div className="w-16 h-16 rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 flex items-center justify-center mb-4">
+              <MessageSquare className="w-8 h-8 text-fg-disabled" />
             </div>
-            <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-200">Unified Inbox</h2>
-            <p className="text-sm text-slate-500 mt-1 max-w-sm">WhatsApp, Instagram & Email — select a conversation to reply.</p>
+            <h2 className="text-lg font-semibold text-fg dark:text-slate-200">Unified Inbox</h2>
+            <p className="text-sm text-fg-tertiary mt-1 max-w-sm">WhatsApp, Instagram & Email — select a conversation to reply.</p>
           </div>
         )}
       </main>
@@ -429,7 +429,7 @@ function ChatInboxContent() {
 
 export default function ChatInboxPage() {
   return (
-    <Suspense fallback={<div className="h-screen flex items-center justify-center"><div className="w-8 h-8 border-2 border-[#1D4B3E] border-t-transparent rounded-full animate-spin" /></div>}>
+    <Suspense fallback={<div className="h-screen flex items-center justify-center"><div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" /></div>}>
       <ChatInboxContent />
     </Suspense>
   );

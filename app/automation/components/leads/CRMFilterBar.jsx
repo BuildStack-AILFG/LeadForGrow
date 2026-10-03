@@ -1,168 +1,141 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronDown, BookmarkPlus, X } from 'lucide-react';
-import { SMART_VIEWS, SOURCE_OPTIONS, PIPELINE_STAGES } from './constants';
+import { BookmarkPlus, CalendarRange, Columns3, LayoutList, RefreshCw, Search } from 'lucide-react';
+import { SOURCE_OPTIONS, PIPELINE_STAGES } from './constants';
 import { mapTeamMemberOptions } from './utils';
-import { useConfirm } from '@/app/components/ConfirmProvider';
+import Toolbar from '@/app/components/ui/Toolbar';
+import SegmentedControl from '@/app/components/ui/SegmentedControl';
+import Select from '@/app/components/ui/Select';
+import Checkbox from '@/app/components/ui/Checkbox';
+import Button from '@/app/components/ui/Button';
+import Popover from '@/app/components/ui/Popover';
+import Input from '@/app/components/ui/Input';
 
+/**
+ * Leads toolbar (DESIGN_BRIEF §8): view switcher + filters on the left,
+ * search / refresh / save view on the right. Smart views live in the page
+ * header tabs (LeadsHeader). Filtering behaviour is unchanged.
+ */
 export default function CRMFilterBar({
   filters,
   onFilterChange,
-  smartViews,
-  savedViews,
+  teamMembers,
+  viewMode,
+  onViewModeChange,
+  search,
+  onSearchChange,
+  refreshing,
+  onRefresh,
   onSaveView,
-  onApplySavedView,
-  onDeleteView,
-  teamMembers
 }) {
-  const [showAdvanced, setShowAdvanced] = useState(false);
   const [saveName, setSaveName] = useState('');
-  const confirm = useConfirm();
-
-  const handleDeleteView = async (e, view) => {
-    e.stopPropagation();
-    if (!(await confirm({ title: 'Delete saved view', message: `Delete "${view.name}"?`, confirmLabel: 'Delete', danger: true }))) return;
-    onDeleteView?.(view.id);
-  };
+  const hasDates = !!(filters.dateFrom || filters.dateTo);
 
   return (
-    <div className="space-y-3">
-      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
-        {smartViews.map((view) => (
-          <button
-            key={view.id}
-            type="button"
-            onClick={() => onFilterChange({ view: view.id, status: 'all' })}
-            className={`px-3 py-1.5 text-[14px] font-medium rounded whitespace-nowrap transition-colors ${filters.view === view.id
-                ? 'bg-teal-600 text-white shadow-sm'
-                : 'bg-white dark:bg-slate-900 text-[#222222] dark:text-slate-300 border border-[#D0D4E1] dark:border-slate-700 hover:border-teal-300'
-              }`}
-          >
-            {view.label}
-          </button>
-        ))}
-        {savedViews.map((view) => (
-          <span
-            key={view.id}
-            className="inline-flex items-center gap-1 pl-3 pr-1 py-1.5 text-[14px] font-medium rounded whitespace-nowrap bg-violet-50 text-violet-700 border border-violet-200 dark:bg-violet-950/30 dark:text-violet-300 dark:border-violet-900"
-          >
-            <button type="button" onClick={() => onApplySavedView(view)}>
-              {view.name}
-            </button>
-            <button
-              type="button"
-              onClick={(e) => handleDeleteView(e, view)}
-              title="Delete view"
-              className="p-0.5 rounded hover:bg-violet-100 dark:hover:bg-violet-900 text-violet-500 hover:text-violet-800"
-            >
-              <X className="w-3 h-3" />
-            </button>
+    <Toolbar
+      left={
+        <>
+          <span data-tour="leads-pipeline-toggle">
+            <SegmentedControl
+              ariaLabel="Layout"
+              value={viewMode === 'kanban' ? 'kanban' : 'table'}
+              onChange={onViewModeChange}
+              options={[
+                { value: 'table', label: 'List', icon: LayoutList },
+                { value: 'kanban', label: 'Board', icon: Columns3 },
+              ]}
+            />
           </span>
-        ))}
-      </div>
-
-      <div className="flex flex-wrap items-center gap-2">
-        <select
-          value={filters.status}
-          onChange={(e) => onFilterChange({ status: e.target.value, view: 'all' })}
-          className="text-[14px] px-2.5 py-2 bg-white dark:bg-slate-900 border border-[#D0D4E1] dark:border-slate-700 rounded text-[#222222] dark:text-slate-300"
-        >
-          <option value="all">All Statuses</option>
-          {PIPELINE_STAGES.map((s) => (
-            <option key={s.key} value={s.key}>{s.label}</option>
-          ))}
-          <option value="converted">Converted</option>
-        </select>
-
-        <select
-          value={filters.source}
-          onChange={(e) => onFilterChange({ source: e.target.value })}
-          className="text-[14px] px-2.5 py-2 bg-white dark:bg-slate-900 border border-[#D0D4E1] dark:border-slate-700 rounded text-[#222222] dark:text-slate-300"
-        >
-          {SOURCE_OPTIONS.map((o) => (
-            <option key={o.value} value={o.value}>{o.label}</option>
-          ))}
-        </select>
-
-        <select
-          value={filters.assignedTo}
-          onChange={(e) => onFilterChange({ assignedTo: e.target.value, view: 'all' })}
-          className="text-[14px] px-2.5 py-2 bg-white dark:bg-slate-900 border border-[#D0D4E1] dark:border-slate-700 rounded text-[#222222] dark:text-slate-300"
-        >
-          <option value="">All Agents</option>
-          <option value="me">My Leads</option>
-          <option value="unassigned">Unassigned</option>
-          {mapTeamMemberOptions(teamMembers).map((m) => (
-            <option key={m.id} value={m.id}>{m.label}</option>
-          ))}
-        </select>
-
-        <label className="inline-flex items-center gap-2 text-[14px] px-2.5 py-2 bg-white dark:bg-slate-900 border border-[#D0D4E1] dark:border-slate-700 rounded text-[#222222] dark:text-slate-300 cursor-pointer">
-          <input
-            type="checkbox"
+          <span aria-hidden className="mx-1 h-5 w-px bg-line" />
+          <Select size="sm" aria-label="Status" value={filters.status} onChange={(e) => onFilterChange({ status: e.target.value, view: 'all' })} className="w-auto">
+            <option value="all">All statuses</option>
+            {PIPELINE_STAGES.map((s) => (
+              <option key={s.key} value={s.key}>{s.label}</option>
+            ))}
+            <option value="converted">Converted</option>
+          </Select>
+          <Select size="sm" aria-label="Source" value={filters.source} onChange={(e) => onFilterChange({ source: e.target.value })} className="w-auto">
+            {SOURCE_OPTIONS.map((o) => (
+              <option key={o.value} value={o.value}>{o.label}</option>
+            ))}
+          </Select>
+          <Select size="sm" aria-label="Owner" value={filters.assignedTo} onChange={(e) => onFilterChange({ assignedTo: e.target.value, view: 'all' })} className="w-auto">
+            <option value="">All owners</option>
+            <option value="me">My leads</option>
+            <option value="unassigned">Unassigned</option>
+            {mapTeamMemberOptions(teamMembers).map((m) => (
+              <option key={m.id} value={m.id}>{m.label}</option>
+            ))}
+          </Select>
+          <Popover
+            width={280}
+            trigger={(p) => (
+              <Button {...p} size="sm" icon={CalendarRange} className={hasDates ? 'border-accent text-accent-fg' : undefined}>
+                {hasDates ? `${filters.dateFrom || '…'} – ${filters.dateTo || '…'}` : 'Date range'}
+              </Button>
+            )}
+          >
+            {({ close }) => (
+              <div className="flex flex-col gap-3 p-3">
+                <Input type="date" label="From" value={filters.dateFrom} onChange={(e) => onFilterChange({ dateFrom: e.target.value })} />
+                <Input type="date" label="To" value={filters.dateTo} onChange={(e) => onFilterChange({ dateTo: e.target.value })} />
+                <div className="flex justify-between">
+                  <Button size="sm" variant="ghost" disabled={!hasDates} onClick={() => onFilterChange({ dateFrom: '', dateTo: '' })}>
+                    Clear dates
+                  </Button>
+                  <Button size="sm" onClick={close}>Done</Button>
+                </div>
+              </div>
+            )}
+          </Popover>
+          <Checkbox
+            label={<span className="text-dense text-fg-secondary">Show converted</span>}
             checked={!!filters.showConverted}
             onChange={(e) => onFilterChange({ showConverted: e.target.checked, view: 'all' })}
-            className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
           />
-          Show converted
-        </label>
-
-        <button
-          type="button"
-          onClick={() => setShowAdvanced(!showAdvanced)}
-          className="inline-flex items-center gap-1 text-[14px] px-2.5 py-2 bg-white dark:bg-slate-900 border border-[#D0D4E1] dark:border-slate-700 rounded text-[#222222] dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
-        >
-          Date range <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showAdvanced ? 'rotate-180' : ''}`} />
-        </button>
-
-        <div className="flex items-center gap-1 ml-auto">
-          <input
-            type="text"
-            placeholder="Save view as..."
-            value={saveName}
-            onChange={(e) => setSaveName(e.target.value)}
-            className="text-[14px] px-2 py-1.5 w-28 sm:w-36 bg-white dark:bg-slate-900 border border-[#D0D4E1] dark:border-slate-700 rounded"
-          />
-          <button
-            type="button"
-            disabled={!saveName.trim()}
-            onClick={() => { onSaveView(saveName.trim()); setSaveName(''); }}
-            className="p-2 rounded border border-[#D0D4E1] dark:border-slate-700 text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-40"
-            title="Save current filters"
+        </>
+      }
+      right={
+        <>
+          <div className="w-56 lg:w-72" data-tour="leads-search">
+            <Input
+              type="search"
+              icon={Search}
+              aria-label="Search leads"
+              placeholder="Search name, phone, email"
+              value={search}
+              onChange={(e) => onSearchChange(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && onSearchChange(search)}
+              className="h-8"
+            />
+          </div>
+          <Button variant="ghost" icon={RefreshCw} aria-label="Refresh" onClick={onRefresh} loading={refreshing} />
+          <Popover
+            align="end"
+            width={260}
+            trigger={(p) => <Button {...p} variant="ghost" icon={BookmarkPlus} aria-label="Save current filters as a view" title="Save view" />}
           >
-            <BookmarkPlus className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
-
-      {showAdvanced && (
-        <div className="flex flex-wrap items-center gap-2 p-3 bg-slate-50 dark:bg-slate-900/50 rounded border border-slate-100 dark:border-slate-800">
-          <label className="text-[14px] text-slate-500">From</label>
-          <input
-            type="date"
-            value={filters.dateFrom}
-            onChange={(e) => onFilterChange({ dateFrom: e.target.value })}
-            className="text-[14px] px-2 py-1.5 border border-[#D0D4E1] dark:border-slate-700 rounded bg-white dark:bg-slate-900"
-          />
-          <label className="text-[14px] text-slate-500">To</label>
-          <input
-            type="date"
-            value={filters.dateTo}
-            onChange={(e) => onFilterChange({ dateTo: e.target.value })}
-            className="text-[14px] px-2 py-1.5 border border-[#D0D4E1] dark:border-slate-700 rounded bg-white dark:bg-slate-900"
-          />
-          {(filters.dateFrom || filters.dateTo) && (
-            <button
-              type="button"
-              onClick={() => onFilterChange({ dateFrom: '', dateTo: '' })}
-              className="text-xs text-teal-600 hover:underline"
-            >
-              Clear dates
-            </button>
-          )}
-        </div>
-      )}
-    </div>
+            {({ close }) => (
+              <form
+                className="flex flex-col gap-3 p-3"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (!saveName.trim()) return;
+                  onSaveView(saveName.trim());
+                  setSaveName('');
+                  close();
+                }}
+              >
+                <Input label="Save current filters as" placeholder="e.g. Hot leads this week" value={saveName} onChange={(e) => setSaveName(e.target.value)} autoFocus />
+                <Button type="submit" variant="primary" size="sm" disabled={!saveName.trim()} className="self-end">
+                  Save view
+                </Button>
+              </form>
+            )}
+          </Popover>
+        </>
+      }
+    />
   );
 }

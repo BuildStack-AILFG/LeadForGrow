@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Bot as Sparkles } from 'lucide-react';
 import { FORM_TYPES, FORM_TEMPLATES, LEAD_SOURCES, PIPELINE_STAGES } from './constants';
 
 const slide = {
@@ -20,24 +20,24 @@ export default function FormCreationWizard({ step, draft, onChange, onNext, onBa
           {[1, 2].map((s) => (
             <div key={s} className="flex items-center gap-2">
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-all ${
-                step >= s ? 'bg-teal-600 text-white shadow-sm' : 'bg-slate-200 dark:bg-slate-700 text-slate-500'
+                step >= s ? 'bg-accent text-white' : 'bg-muted dark:bg-slate-700 text-fg-tertiary'
               }`}>
                 {s}
               </div>
-              {s < 2 && <div className={`w-12 h-0.5 rounded ${step > s ? 'bg-teal-600' : 'bg-slate-200 dark:bg-slate-700'}`} />}
+              {s < 2 && <div className={`w-12 h-0.5 rounded ${step > s ? 'bg-accent' : 'bg-muted dark:bg-slate-700'}`} />}
             </div>
           ))}
         </div>
 
         <AnimatePresence mode="wait">
           {step === 1 && (
-            <motion.div key="step1" {...slide} className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm dark:shadow-none p-8 sm:p-10">
+            <motion.div key="step1" {...slide} className="bg-canvas dark:bg-slate-900 rounded-lg dark:shadow-none p-8 sm:p-10">
               <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-teal-50 dark:bg-teal-950/50 mb-4">
-                  <Sparkles className="w-6 h-6 text-teal-600" />
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-accent-subtle dark:bg-teal-950/50 mb-4">
+                  <Sparkles className="w-6 h-6 text-accent-fg" />
                 </div>
-                <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-50 tracking-tight">Form basics</h1>
-                <p className="text-sm text-slate-500 mt-2 max-w-sm mx-auto">Tell us about your form. You can change everything later.</p>
+                <h1 className="text-2xl font-semibold text-fg dark:text-slate-50 tracking-tight">Form basics</h1>
+                <p className="text-sm text-fg-tertiary mt-2 max-w-sm mx-auto">Tell us about your form. You can change everything later.</p>
               </div>
 
               <div className="space-y-5 max-w-md mx-auto">
@@ -68,8 +68,8 @@ export default function FormCreationWizard({ step, draft, onChange, onNext, onBa
                         onClick={() => onChange({ formType: ft.id })}
                         className={`px-3 py-2.5 text-xs font-medium rounded-xl transition-all ${
                           draft.formType === ft.id
-                            ? 'bg-teal-600 text-white shadow-sm'
-                            : 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700'
+                            ? 'bg-accent text-white'
+                            : 'bg-subtle dark:bg-slate-800 text-fg-secondary dark:text-fg-tertiary hover:bg-muted dark:hover:bg-slate-700'
                         }`}
                       >
                         {ft.label}
@@ -98,8 +98,8 @@ export default function FormCreationWizard({ step, draft, onChange, onNext, onBa
           {step === 2 && (
             <motion.div key="step2" {...slide}>
               <div className="text-center mb-8">
-                <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-50 tracking-tight">Choose a template</h1>
-                <p className="text-sm text-slate-500 mt-2">Start with a proven layout — customize every field after.</p>
+                <h1 className="text-2xl font-semibold text-fg dark:text-slate-50 tracking-tight">Choose a template</h1>
+                <p className="text-sm text-fg-tertiary mt-2">Start with a proven layout — customize every field after.</p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -112,20 +112,20 @@ export default function FormCreationWizard({ step, draft, onChange, onNext, onBa
                       type="button"
                       onClick={() => onChange({ templateId: tpl.id, templateFields: tpl.fields, formType: tpl.formType })}
                       className={`group text-left rounded-2xl overflow-hidden transition-all duration-200 ${
-                        selected ? 'ring-2 ring-teal-500 ring-offset-2 dark:ring-offset-slate-950 scale-[1.02]' : 'hover:scale-[1.01] hover:shadow-lg'
+                        selected ? 'ring-2 ring-focus ring-offset-2 dark:ring-offset-slate-950 scale-[1.02]' : 'hover:scale-[1.01] hover:shadow-popover'
                       }`}
                     >
-                      <div className={`h-24 bg-gradient-to-br ${tpl.gradient} flex items-center justify-center relative`}>
+                      <div className={`h-24 bg-canvas ${tpl.gradient} flex items-center justify-center relative`}>
                         <Icon className="w-10 h-10 text-white/90" />
                         {selected && (
-                          <div className="absolute top-3 right-3 w-5 h-5 bg-white rounded-full flex items-center justify-center">
-                            <div className="w-2.5 h-2.5 bg-teal-600 rounded-full" />
+                          <div className="absolute top-3 right-3 w-5 h-5 bg-canvas rounded-full flex items-center justify-center">
+                            <div className="w-2.5 h-2.5 bg-accent rounded-full" />
                           </div>
                         )}
                       </div>
-                      <div className="bg-white dark:bg-slate-900 p-4">
-                        <p className="text-sm font-semibold text-slate-900 dark:text-slate-50">{tpl.name}</p>
-                        <p className="text-xs text-slate-500 mt-1">{tpl.desc}</p>
+                      <div className="bg-canvas dark:bg-slate-900 p-4">
+                        <p className="text-sm font-semibold text-fg dark:text-slate-50">{tpl.name}</p>
+                        <p className="text-xs text-fg-tertiary mt-1">{tpl.desc}</p>
                       </div>
                     </button>
                   );
@@ -143,15 +143,15 @@ export default function FormCreationWizard({ step, draft, onChange, onNext, onBa
 
 function WizardActions({ onCancel, onBack, onNext, nextLabel, nextDisabled }) {
   return (
-    <div className="flex items-center justify-between mt-10 pt-6 border-t border-slate-100 dark:border-slate-800 max-w-md mx-auto">
-      <button type="button" onClick={onBack || onCancel} className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">
+    <div className="flex items-center justify-between mt-10 pt-6 border-t border-line dark:border-slate-800 max-w-md mx-auto">
+      <button type="button" onClick={onBack || onCancel} className="inline-flex items-center gap-1.5 text-sm text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled">
         <ArrowLeft className="w-4 h-4" /> {onBack ? 'Back' : 'Cancel'}
       </button>
       <button
         type="button"
         onClick={onNext}
         disabled={nextDisabled}
-        className="inline-flex items-center gap-1.5 px-5 py-2.5 text-sm font-semibold text-white bg-teal-600 hover:bg-teal-700 rounded-xl shadow-sm disabled:opacity-40 disabled:shadow-none transition-all"
+        className="inline-flex items-center gap-1.5 px-5 py-2.5 text-sm font-semibold text-white bg-accent hover:bg-accent-hover rounded-lg disabled:opacity-40 disabled:shadow-none transition-all"
       >
         {nextLabel} <ArrowRight className="w-4 h-4" />
       </button>
@@ -159,12 +159,12 @@ function WizardActions({ onCancel, onBack, onNext, nextLabel, nextDisabled }) {
   );
 }
 
-const inputClass = 'w-full px-4 py-3 text-sm bg-slate-50 dark:bg-slate-800/80 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/30 text-slate-900 dark:text-slate-100 placeholder:text-slate-400';
+const inputClass = 'w-full px-4 py-3 text-sm bg-subtle dark:bg-slate-800/80 border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-focus text-fg dark:text-slate-100 placeholder:text-fg-tertiary';
 
 function Field({ label, children }) {
   return (
     <div>
-      <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">{label}</label>
+      <label className="block text-xs font-medium text-fg-secondary dark:text-fg-tertiary mb-1.5">{label}</label>
       {children}
     </div>
   );

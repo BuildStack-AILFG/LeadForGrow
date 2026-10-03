@@ -41,17 +41,17 @@ export default function MessageList({ messages, loading, hasMore, onLoadMore, lo
 
   if (loading) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center gap-3 bg-[#F1F6F3] dark:bg-[#0b141a]">
-        <div className="w-9 h-9 border-2 border-[#1D4B3E] border-t-transparent rounded-full animate-spin" />
-        <p className="text-xs font-medium text-slate-600 dark:text-slate-400">Loading messages…</p>
+      <div className="flex-1 flex flex-col items-center justify-center gap-3 bg-subtle dark:bg-[#0b141a]">
+        <div className="w-9 h-9 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+        <p className="text-xs font-medium text-fg-secondary dark:text-fg-tertiary">Loading messages…</p>
       </div>
     );
   }
 
   if (!messages.length) {
     return (
-      <div className="flex-1 flex items-center justify-center p-8 bg-[#F1F6F3] dark:bg-[#0b141a]">
-        <p className="text-sm text-slate-500 text-center max-w-xs">
+      <div className="flex-1 flex items-center justify-center p-8 bg-subtle dark:bg-[#0b141a]">
+        <p className="text-sm text-fg-tertiary text-center max-w-xs">
           {emptyLabel || 'No messages yet. Start the conversation.'}
         </p>
       </div>
@@ -63,7 +63,7 @@ export default function MessageList({ messages, loading, hasMore, onLoadMore, lo
     <div
       ref={containerRef}
       onScroll={handleScroll}
-      className="flex-1 overflow-y-auto px-4 py-4 bg-[#F1F6F3] dark:bg-[#0b141a]"
+      className="flex-1 overflow-y-auto px-4 py-4 bg-subtle dark:bg-[#0b141a]"
       style={{ overflowAnchor: 'none' }}
     >
       {loadingMore && (
@@ -98,7 +98,7 @@ export default function MessageList({ messages, loading, hasMore, onLoadMore, lo
           <div key={msg._id || msg.messageId} data-msg-id={msg._id}>
             {showDate && (
               <div className="flex justify-center my-3">
-                <span className="text-[11px] font-medium text-[#54656f] dark:text-[#8696a0] px-3 py-1 bg-[#ffffff]/95 dark:bg-[#182229]/95 rounded-lg shadow-[0_1px_0.5px_rgba(11,20,26,0.13)] uppercase tracking-wide">
+                <span className="text-meta font-medium text-[#54656f] dark:text-[#8696a0] px-3 py-1 bg-[#ffffff]/95 dark:bg-[#182229]/95 rounded-lg">
                   {new Date(msg.timestamp).toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' })}
                 </span>
               </div>

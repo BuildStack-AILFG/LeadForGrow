@@ -1,21 +1,19 @@
 'use client';
 
-import { STATUS_CONFIG } from './constants';
+import { LEAD_STATUS_ACCENT_COLORS, normalizeLeadStatus } from '@/lib/crm/leadStages';
+import Badge from '@/app/components/ui/Badge';
 import { statusLabel } from './utils';
 
-export default function StatusBadge({ status, size = 'sm' }) {
-  const config = STATUS_CONFIG[status] || {
-    label: status || 'Unknown',
-    badge: 'bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700'
-  };
-
-  const sizeClass = size === 'xs' ? 'text-[10px] px-1.5 py-0.5' : 'text-xs px-2 py-0.5';
-
+/**
+ * Lead status chip — neutral chip + small dot in the stage's own colour
+ * (DESIGN_BRIEF §6: stage colours appear as dots/chips only, never fills).
+ */
+export default function StatusBadge({ status, className }) {
+  const key = normalizeLeadStatus(status);
+  const color = LEAD_STATUS_ACCENT_COLORS[key] || LEAD_STATUS_ACCENT_COLORS[status] || 'var(--stage-1)';
   return (
-    <span
-      className={`inline-flex items-center font-medium rounded-md border ${sizeClass} ${config.badge}`}
-    >
+    <Badge stageColor={color} className={className}>
       {statusLabel(status)}
-    </span>
+    </Badge>
   );
 }

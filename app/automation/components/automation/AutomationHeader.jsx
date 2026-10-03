@@ -20,37 +20,37 @@ export default function AutomationHeader({
   const activeFilter = FILTER_OPTIONS.find((f) => f.id === statusFilter);
 
   return (
-    <header className="sticky top-0 z-30 bg-[#f8f9fc]/95 dark:bg-slate-950/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 -mx-4 sm:-mx-6 px-4 sm:px-6 py-4">
+    <header className="sticky top-0 z-30 bg-subtle/95 dark:bg-slate-950/95 border-b border-line/80 dark:border-slate-800 -mx-4 sm:-mx-6 px-4 sm:px-6 py-4">
       <div className="flex flex-col gap-4">
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
           <div className="flex-1 min-w-0">
-            <h1 className="text-lg sm:text-xl font-semibold text-slate-900 dark:text-slate-50">Automation Rules</h1>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+            <h1 className="text-lg sm:text-xl font-semibold text-fg dark:text-slate-50">Automation Rules</h1>
+            <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-0.5">
               Automatically handle repetitive sales and communication tasks — {total} automations · {activeCount} active.
             </p>
             <Link
               href="/help/automation-rules"
-              className="inline-flex items-center gap-1 text-xs font-medium text-teal-600 hover:text-teal-700 dark:text-teal-400 mt-1.5"
+              className="inline-flex items-center gap-1 text-xs font-medium text-accent-fg hover:text-accent-fg dark:text-accent-fg mt-1.5"
             >
               <BookOpen className="w-3 h-3" /> Learn how automations work
             </Link>
           </div>
 
-          <div className="inline-flex items-center gap-2 self-start px-2.5 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/50">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-[11px] font-medium text-emerald-700 dark:text-emerald-400">Cloud engine active</span>
+          <div className="inline-flex items-center gap-2 self-start px-2.5 py-1.5 rounded-lg bg-accent-subtle dark:bg-emerald-950/30 border border-line dark:border-emerald-900/50">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+            <span className="text-meta font-medium text-accent-fg dark:text-accent-fg">Cloud engine active</span>
           </div>
         </div>
 
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
           <div className="relative flex-1 lg:max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-fg-tertiary" />
             <input
               type="search"
               placeholder="Search automations..."
               value={search}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500"
+              className="w-full pl-9 pr-3 py-2 text-sm bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-focus focus:border-accent"
             />
           </div>
 
@@ -59,15 +59,15 @@ export default function AutomationHeader({
               <button
                 type="button"
                 onClick={() => setFilterOpen(!filterOpen)}
-                className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50"
+                className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-fg-secondary dark:text-slate-200 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg hover:bg-subtle"
               >
                 {activeFilter?.label || 'Filter'}
-                <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+                <ChevronDown className="w-3.5 h-3.5 text-fg-tertiary" />
               </button>
               {filterOpen && (
                 <>
                   <div className="fixed inset-0 z-10" onClick={() => setFilterOpen(false)} />
-                  <div className="absolute left-0 mt-1 w-44 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg z-20 py-1">
+                  <div className="absolute left-0 mt-1 w-44 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg shadow-popover z-20 py-1">
                     {FILTER_OPTIONS.map((f) => (
                       <button
                         key={f.id}
@@ -77,7 +77,7 @@ export default function AutomationHeader({
                           setFilterOpen(false);
                         }}
                         className={`w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-800 ${
-                          statusFilter === f.id ? 'text-teal-600 font-medium' : 'text-slate-700 dark:text-slate-300'
+                          statusFilter === f.id ? 'text-accent-fg font-medium' : 'text-fg-secondary dark:text-fg-disabled'
                         }`}
                       >
                         {f.label}
@@ -92,7 +92,7 @@ export default function AutomationHeader({
               type="button"
               onClick={onRefresh}
               disabled={refreshing}
-              className="p-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 hover:bg-slate-50 disabled:opacity-50"
+              className="p-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-fg-secondary hover:bg-subtle disabled:opacity-50"
             >
               <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
             </button>
@@ -101,7 +101,7 @@ export default function AutomationHeader({
               type="button"
               data-tour="automation-create-btn"
               onClick={onCreate}
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-lg shadow-sm transition-colors hover:shadow-md"
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-lg transition-colors hover:shadow-popover"
             >
               <Plus className="w-4 h-4" />
               <span className="hidden sm:inline">Create Automation</span>

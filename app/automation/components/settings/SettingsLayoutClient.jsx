@@ -28,8 +28,8 @@ function SettingsLayoutInner({ children }) {
   }
 
   return (
-    <div className="flex flex-col min-h-full bg-[#f8f9fc] dark:bg-slate-950">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-teal-50/50 to-transparent dark:from-teal-950/15 dark:to-transparent" />
+    <div className="flex flex-col min-h-full bg-subtle dark:bg-slate-950">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-canvas" />
       <SettingsHeader section={section} />
       <div className="flex-1 overflow-y-auto relative">
         <div className={`mx-auto px-4 sm:px-6 py-6 pb-10 ${wide ? 'max-w-6xl' : 'max-w-4xl'}`}>
@@ -42,7 +42,7 @@ function SettingsLayoutInner({ children }) {
 
 export default function SettingsLayoutClient({ children }) {
   return (
-    <Suspense fallback={<div className="p-6 text-sm text-slate-400">Loading settings…</div>}>
+    <Suspense fallback={<div className="p-6 text-sm text-fg-tertiary">Loading settings…</div>}>
       <SettingsLayoutInner>{children}</SettingsLayoutInner>
     </Suspense>
   );

@@ -51,7 +51,7 @@ export function formatRelative(date) {
 export function stageBadgeClass(stage, stages = []) {
   const config = getStageConfig(stages, stage);
   if (stageBadgeStyle(config)) return '';
-  return 'bg-slate-50 text-slate-700 border-slate-200';
+  return 'bg-subtle text-fg-secondary border-line';
 }
 
 export function companyOrContact(deal) {

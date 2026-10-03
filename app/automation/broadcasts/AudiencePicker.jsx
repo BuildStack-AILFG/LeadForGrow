@@ -17,12 +17,12 @@ export default function AudiencePicker({ audience, onChange, campaignName = 'bro
   useEffect(() => { onChange({ type: tab, ...normalize(tab, audience) }); /* eslint-disable-next-line */ }, [tab]);
 
   return (
-    <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
-      <div className="grid grid-cols-4 border-b border-slate-200 dark:border-slate-800">
+    <div className="rounded-lg border border-line dark:border-slate-800 bg-canvas dark:bg-slate-900">
+      <div className="grid grid-cols-4 border-b border-line dark:border-slate-800">
         {TABS.map((t) => (
           <button key={t.id} type="button" onClick={() => setTab(t.id)}
             className={`flex flex-col items-center gap-1 py-3 text-xs font-medium border-b-2 transition-colors ${
-              tab === t.id ? 'border-emerald-500 text-emerald-700 dark:text-emerald-400 bg-emerald-50/40 dark:bg-emerald-950/20' : 'border-transparent text-slate-500 hover:text-slate-700'
+              tab === t.id ? 'border-accent text-accent-fg dark:text-accent-fg bg-accent-subtle dark:bg-emerald-950/20' : 'border-transparent text-fg-tertiary hover:text-fg-secondary'
             }`}>
             <t.icon className="w-4 h-4" />
             {t.label}
@@ -84,29 +84,29 @@ function ManualPicker({ audience, onChange }) {
   return (
     <div>
       <div className="relative mb-3">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-fg-tertiary" />
         <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search leads by name or phone…"
-          className="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm" />
+          className="w-full pl-10 pr-4 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm" />
       </div>
       <div className="flex items-center justify-between mb-2 text-xs">
-        <span className="text-slate-500">{selected.size} selected</span>
+        <span className="text-fg-tertiary">{selected.size} selected</span>
         <div className="flex gap-2">
-          <button type="button" onClick={selectAll} className="text-emerald-700 hover:underline">Select all visible</button>
-          {selected.size > 0 && <button type="button" onClick={clearAll} className="text-slate-500 hover:underline">Clear</button>}
+          <button type="button" onClick={selectAll} className="text-accent-fg hover:underline">Select all visible</button>
+          {selected.size > 0 && <button type="button" onClick={clearAll} className="text-fg-tertiary hover:underline">Clear</button>}
         </div>
       </div>
-      <div className="max-h-72 overflow-y-auto rounded-lg border border-slate-100 dark:border-slate-800 divide-y divide-slate-100 dark:divide-slate-800">
+      <div className="max-h-72 overflow-y-auto rounded-lg border border-line dark:border-slate-800 divide-y divide-line dark:divide-slate-800">
         {loading ? (
-          <div className="p-6 flex items-center justify-center"><Loader2 className="w-4 h-4 animate-spin text-slate-400" /></div>
+          <div className="p-6 flex items-center justify-center"><Loader2 className="w-4 h-4 animate-spin text-fg-tertiary" /></div>
         ) : leads.length === 0 ? (
-          <p className="p-6 text-center text-xs text-slate-500">No leads found</p>
+          <p className="p-6 text-center text-xs text-fg-tertiary">No leads found</p>
         ) : leads.map((l) => (
-          <label key={l._id} className="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer text-sm">
+          <label key={l._id} className="flex items-center gap-3 px-3 py-2 hover:bg-subtle dark:hover:bg-slate-800/50 cursor-pointer text-sm">
             <input type="checkbox" checked={selected.has(l._id)} onChange={() => toggle(l._id)}
-              className="rounded text-emerald-600 focus:ring-emerald-500" />
+              className="rounded text-accent-fg focus:ring-focus" />
             <div className="flex-1 min-w-0">
-              <p className="font-medium text-slate-900 dark:text-white truncate">{l.name}</p>
-              <p className="text-[11px] text-slate-500 truncate">
+              <p className="font-medium text-fg dark:text-white truncate">{l.name}</p>
+              <p className="text-meta text-fg-tertiary truncate">
                 {l.phone || l.whatsapp || 'no phone'} · {l.status || 'new'} {l.source ? `· ${l.source}` : ''}
               </p>
             </div>
@@ -163,16 +163,16 @@ function CsvImporter({ campaignName, onChange, audience }) {
   return (
     <div className="space-y-3">
       <div
-        className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-lg p-6 text-center hover:border-emerald-400 transition-colors cursor-pointer"
+        className="border-2 border-dashed border-line-strong dark:border-slate-700 rounded-lg p-6 text-center hover:border-emerald-400 transition-colors cursor-pointer"
         onClick={() => inputRef.current?.click()}
         onDragOver={(e) => e.preventDefault()}
         onDrop={(e) => { e.preventDefault(); handlePick(e.dataTransfer.files[0]); }}
       >
-        <Upload className="w-8 h-8 mx-auto text-slate-400 mb-2" />
-        <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
+        <Upload className="w-8 h-8 mx-auto text-fg-tertiary mb-2" />
+        <p className="text-sm font-medium text-fg-secondary dark:text-fg-disabled">
           {fileToImport?.name || 'Drop CSV or Excel file here, or click to browse'}
         </p>
-        <p className="text-[11px] text-slate-500 mt-1">Must have a column named phone / mobile / whatsapp / number</p>
+        <p className="text-meta text-fg-tertiary mt-1">Must have a column named phone / mobile / whatsapp / number</p>
         <input ref={inputRef} type="file" className="hidden" accept=".csv,.xlsx,.xlsm"
           onChange={(e) => handlePick(e.target.files?.[0])} />
       </div>
@@ -180,29 +180,29 @@ function CsvImporter({ campaignName, onChange, audience }) {
       {fileToImport && !result && (
         <div className="flex gap-2">
           <button type="button" disabled={uploading} onClick={() => runUpload(true)}
-            className="px-3 py-2 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700">
+            className="px-3 py-2 rounded-lg text-xs font-medium bg-muted dark:bg-slate-800 hover:bg-muted dark:hover:bg-slate-700">
             {uploading ? 'Checking…' : 'Preview'}
           </button>
           <button type="button" disabled={uploading} onClick={() => runUpload(false)}
-            className="px-3 py-2 rounded-lg text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700">
+            className="px-3 py-2 rounded-lg text-xs font-semibold text-white bg-accent hover:bg-accent-hover">
             {uploading ? 'Importing…' : 'Import & use as audience'}
           </button>
         </div>
       )}
 
       {preview && (
-        <div className="rounded-lg border border-slate-200 dark:border-slate-800 p-3 text-xs space-y-2">
+        <div className="rounded-lg border border-line dark:border-slate-800 p-3 text-xs space-y-2">
           <div className="flex flex-wrap gap-3">
             <Badge tone="emerald">✓ {preview.valid} valid</Badge>
             {preview.duplicates > 0 && <Badge tone="amber">⚠ {preview.duplicates} duplicates</Badge>}
             {preview.invalid > 0 && <Badge tone="red">✗ {preview.invalid} invalid phone</Badge>}
           </div>
           {preview.preview?.length > 0 && (
-            <table className="w-full text-[11px] mt-2">
-              <thead className="text-slate-400"><tr><th className="text-left">Name</th><th className="text-left">Phone</th><th className="text-left">Email</th></tr></thead>
+            <table className="w-full text-meta mt-2">
+              <thead className="text-fg-tertiary"><tr><th className="text-left">Name</th><th className="text-left">Phone</th><th className="text-left">Email</th></tr></thead>
               <tbody>
                 {preview.preview.map((r, i) => (
-                  <tr key={i} className="text-slate-700 dark:text-slate-300"><td>{r.name}</td><td>{r.phone}</td><td>{r.email}</td></tr>
+                  <tr key={i} className="text-fg-secondary dark:text-fg-disabled"><td>{r.name}</td><td>{r.phone}</td><td>{r.email}</td></tr>
                 ))}
               </tbody>
             </table>
@@ -211,16 +211,16 @@ function CsvImporter({ campaignName, onChange, audience }) {
       )}
 
       {result && (
-        <div className="rounded-lg bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900 p-3 text-xs">
-          <p className="flex items-center gap-1.5 text-emerald-800 dark:text-emerald-300 font-semibold">
+        <div className="rounded-lg bg-accent-subtle dark:bg-emerald-950/30 border border-line dark:border-emerald-900 p-3 text-xs">
+          <p className="flex items-center gap-1.5 text-accent-fg dark:text-accent-fg font-semibold">
             <CheckCircle2 className="w-4 h-4" /> {result.created + result.updated} recipients loaded
           </p>
-          <p className="text-slate-600 mt-1">Created {result.created}, updated {result.updated}. Tagged as <code className="bg-white dark:bg-slate-900 px-1 rounded">{result.tag}</code></p>
+          <p className="text-fg-secondary mt-1">Created {result.created}, updated {result.updated}. Tagged as <code className="bg-canvas dark:bg-slate-900 px-1 rounded">{result.tag}</code></p>
         </div>
       )}
 
       {audience?.leadIds?.length > 0 && !result && (
-        <p className="text-[11px] text-slate-500">Current audience: {audience.leadIds.length} recipients</p>
+        <p className="text-meta text-fg-tertiary">Current audience: {audience.leadIds.length} recipients</p>
       )}
     </div>
   );
@@ -232,9 +232,9 @@ function FilterPicker({ audience, onChange }) {
   return (
     <div className="grid gap-3 sm:grid-cols-2">
       <label className="text-xs">
-        <span className="text-slate-500 block mb-1">Status</span>
+        <span className="text-fg-tertiary block mb-1">Status</span>
         <select value={f.status || ''} onChange={(e) => set('status', e.target.value || undefined)}
-          className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm">
+          className="w-full px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm">
           <option value="">Any status</option>
           <option value="new_lead">New</option>
           <option value="first_contact">First contact</option>
@@ -244,15 +244,15 @@ function FilterPicker({ audience, onChange }) {
         </select>
       </label>
       <label className="text-xs">
-        <span className="text-slate-500 block mb-1">Source</span>
+        <span className="text-fg-tertiary block mb-1">Source</span>
         <input value={f.source || ''} onChange={(e) => set('source', e.target.value || undefined)}
-          placeholder="e.g. facebook_ad" className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm" />
+          placeholder="e.g. facebook_ad" className="w-full px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm" />
       </label>
       <label className="text-xs sm:col-span-2">
-        <span className="text-slate-500 block mb-1">Tags (comma-separated)</span>
+        <span className="text-fg-tertiary block mb-1">Tags (comma-separated)</span>
         <input value={(f.tags || []).join(', ')}
           onChange={(e) => set('tags', e.target.value.split(',').map((t) => t.trim()).filter(Boolean))}
-          placeholder="vip, hot_lead" className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm" />
+          placeholder="vip, hot_lead" className="w-full px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm" />
       </label>
     </div>
   );
@@ -262,20 +262,20 @@ function TagPicker({ audience, onChange }) {
   const tags = audience?.tags || [];
   return (
     <label className="text-xs block">
-      <span className="text-slate-500 block mb-1">Audience tags (comma-separated)</span>
+      <span className="text-fg-tertiary block mb-1">Audience tags (comma-separated)</span>
       <input value={tags.join(', ')}
         onChange={(e) => onChange({ type: 'tags', tags: e.target.value.split(',').map((t) => t.trim()).filter(Boolean) })}
         placeholder="e.g. newsletter, hot_lead"
-        className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm" />
+        className="w-full px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm" />
     </label>
   );
 }
 
 function Badge({ tone, children }) {
   const map = {
-    emerald: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300',
-    amber: 'bg-amber-100 text-amber-800',
-    red: 'bg-red-100 text-red-800',
+    emerald: 'bg-accent-subtle text-accent-fg dark:bg-accent-pressed/30 dark:text-accent-fg',
+    amber: 'bg-warning-subtle text-warning',
+    red: 'bg-danger-subtle text-red-800',
   };
   return <span className={`px-2 py-1 rounded font-medium ${map[tone] || map.emerald}`}>{children}</span>;
 }

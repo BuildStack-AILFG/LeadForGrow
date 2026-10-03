@@ -42,23 +42,23 @@ export default function SequenceNode({
       }}
     >
       <div className={`relative rounded-2xl overflow-hidden shadow-lg transition-all duration-200 ${
-        selected ? 'ring-2 ring-teal-500 ring-offset-2 ring-offset-[#eef1f8] dark:ring-offset-slate-950 scale-[1.02]' : 'hover:shadow-xl'
-      } ${connectingFrom === node.id ? 'ring-2 ring-emerald-400' : ''}`}>
-        <div className={`h-1.5 bg-gradient-to-r ${gradient}`} />
-        <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm p-3 border border-slate-200/80 dark:border-slate-700/80">
+        selected ? 'ring-2 ring-focus ring-offset-2 ring-offset-[#eef1f8] dark:ring-offset-slate-950 scale-[1.02]' : 'hover:shadow-modal'
+      } ${connectingFrom === node.id ? 'ring-2 ring-focus' : ''}`}>
+        <div className={`h-1.5 bg-canvas ${gradient}`} />
+        <div className="bg-canvas/95 dark:bg-slate-900/95 p-3 border border-line/80 dark:border-slate-700/80">
           <div className="flex items-start gap-2.5">
-            <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center shadow-md shrink-0`}>
+            <div className={`w-9 h-9 rounded-lg bg-canvas ${gradient} flex items-center justify-center shadow-popover shrink-0`}>
               <Icon className="w-4 h-4 text-white" />
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">
+              <p className="text-meta text-fg-tertiary font-semibold">
                 {isTrigger ? 'Trigger' : def.category === 'ai' ? 'AI' : def.category || 'Action'}
               </p>
-              <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">
+              <p className="text-sm font-semibold text-fg dark:text-white truncate">
                 {node.data?.label || def.label}
               </p>
             </div>
-            <GripVertical className="w-3.5 h-3.5 text-slate-300 opacity-0 group-hover:opacity-100 shrink-0" />
+            <GripVertical className="w-3.5 h-3.5 text-fg-disabled opacity-0 group-hover:opacity-100 shrink-0" />
           </div>
         </div>
       </div>
@@ -67,14 +67,14 @@ export default function SequenceNode({
       {!isTrigger && (
         <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-slate-300 border-2 border-white dark:border-slate-900" />
       )}
-      <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-teal-500 border-2 border-white dark:border-slate-900 shadow-sm" />
+      <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-accent border-2 border-white dark:border-slate-900" />
 
       {selected && (
         <div className="absolute -top-10 right-0 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button type="button" onClick={(e) => { e.stopPropagation(); onDuplicate?.(node.id); }} className="p-1 rounded-lg bg-white dark:bg-slate-800 shadow border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-teal-600">
+          <button type="button" onClick={(e) => { e.stopPropagation(); onDuplicate?.(node.id); }} className="p-1 rounded-lg bg-canvas dark:bg-slate-800 border border-line dark:border-slate-700 text-fg-tertiary hover:text-accent-fg">
             <Copy className="w-3 h-3" />
           </button>
-          <button type="button" onClick={(e) => { e.stopPropagation(); onDelete?.(node.id); }} className="p-1 rounded-lg bg-white dark:bg-slate-800 shadow border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-red-500">
+          <button type="button" onClick={(e) => { e.stopPropagation(); onDelete?.(node.id); }} className="p-1 rounded-lg bg-canvas dark:bg-slate-800 border border-line dark:border-slate-700 text-fg-tertiary hover:text-danger">
             <Trash2 className="w-3 h-3" />
           </button>
         </div>

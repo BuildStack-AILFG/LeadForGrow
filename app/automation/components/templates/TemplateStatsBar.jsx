@@ -17,10 +17,10 @@ export default function TemplateStatsBar({ stats }) {
       {cards.map((c) => {
         const Icon = c.icon;
         return (
-          <div key={c.label} className="bg-white dark:bg-slate-900 rounded p-4 shadow-sm">
+          <div key={c.label} className="bg-canvas dark:bg-slate-900 rounded p-4">
             <Icon size={16} className="mb-2" style={c.color ? { color: c.color } : undefined} />
-            <p className="text-xl font-semibold text-slate-900 dark:text-slate-50 tabular-nums">{c.value}</p>
-            <p className="text-xs text-slate-500 mt-0.5">{c.label}</p>
+            <p className="text-xl font-semibold text-fg dark:text-slate-50 tabular-nums">{c.value}</p>
+            <p className="text-xs text-fg-tertiary mt-0.5">{c.label}</p>
           </div>
         );
       })}

@@ -1,166 +1,70 @@
 'use client';
 
-import { memo, useLayoutEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
-import { MoreHorizontal, ExternalLink, Pencil, Trash2 } from 'lucide-react';
-import Link from 'next/link';
+import { memo } from 'react';
+import { useRouter } from 'next/navigation';
+import { MoreHorizontal, ExternalLink, Pencil, Trash2, PanelRight } from 'lucide-react';
 import DealStageBadge from './DealStageBadge';
-import {
-  initials,
-  ownerName,
-  formatValue,
-  formatDate,
-  companyOrContact,
-  dealProbability,
-} from './utils';
+import { ownerName, formatValue, formatDate, companyOrContact, dealProbability } from './utils';
+import { Td } from '@/app/components/ui/DataTable';
+import Avatar from '@/app/components/ui/Avatar';
+import Button from '@/app/components/ui/Button';
+import DropdownMenu from '@/app/components/ui/DropdownMenu';
 
-const MENU_WIDTH = 160; // w-40
-
-function Avatar({ name, size = 'sm' }) {
-  const sz = size === 'sm' ? 'w-7 h-7 text-[10px]' : 'w-8 h-8 text-[11px]';
-  return (
-    <span className={`${sz} rounded-full bg-[#101828] text-white font-semibold inline-flex items-center justify-center shrink-0`}>
-      {initials(name)}
-    </span>
-  );
-}
-
-function DealRow({
-  deal,
-  stages,
-  onOpen,
-  onEdit,
-  onDelete,
-  onStageChange,
-}) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [menuPos, setMenuPos] = useState(null);
-  const btnRef = useRef(null);
+/**
+ * Deal row (DESIGN_BRIEF §8 tables): 40px, text left / numbers right with
+ * tabular figures, owner as 20px avatar + name, stage as a dot chip that is
+ * itself the stage picker (native select layered invisibly over the chip),
+ * row actions in a ⋯ menu (portal-rendered, never clipped by the table).
+ */
+function DealRow({ deal, stages, onOpen, onEdit, onDelete, onStageChange }) {
+  const router = useRouter();
   const prob = dealProbability(deal, stages);
-  const contact = companyOrContact(deal);
-
-  // Rendered through a portal and positioned from the trigger button's own bounding
-  // rect (fixed coordinates) instead of `position: absolute` nested inside the table's
-  // overflow-x-auto/overflow-hidden wrapper — that ancestor was clipping the menu (and
-  // its "View details" item) for rows near the bottom of the table.
-  useLayoutEffect(() => {
-    if (!menuOpen || !btnRef.current) return undefined;
-    function place() {
-      const rect = btnRef.current.getBoundingClientRect();
-      const viewport = { w: window.innerWidth, h: window.innerHeight };
-      let left = rect.right - MENU_WIDTH;
-      left = Math.max(8, Math.min(left, viewport.w - MENU_WIDTH - 8));
-      let top = rect.bottom + 4;
-      const menuHeight = 160;
-      if (top + menuHeight > viewport.h - 8) {
-        top = rect.top - menuHeight - 4;
-      }
-      setMenuPos({ top: Math.max(8, top), left });
-    }
-    place();
-    window.addEventListener('resize', place);
-    window.addEventListener('scroll', place, true);
-    return () => {
-      window.removeEventListener('resize', place);
-      window.removeEventListener('scroll', place, true);
-    };
-  }, [menuOpen]);
+  const owner = ownerName(deal.assignedTo);
 
   return (
-    <tr
-      className="group border-b border-[#F2F4F7] hover:bg-[#FAFBFC] cursor-pointer transition-colors duration-150"
-      onClick={() => onOpen(deal._id)}
-    >
-      <td className="py-3 px-3 min-w-[220px]">
-        <div className="flex items-center gap-3">
-          <Avatar name={deal.title} />
-          <div className="min-w-0">
-            <p className="text-[13px] font-semibold text-[#101828] truncate">{deal.title}</p>
-            {deal.source && (
-              <p className="text-[11px] text-[#98A2B3] capitalize truncate mt-0.5">{deal.source}</p>
-            )}
-          </div>
-        </div>
-      </td>
-
-      <td className="py-3 px-3">
-        <span className="text-[12px] text-[#344054] truncate block max-w-[160px]">{contact}</span>
-      </td>
-
-      <td className="py-3 px-3" onClick={(e) => e.stopPropagation()}>
-        <select
-          value={deal.stage}
-          onChange={(e) => onStageChange(deal._id, e.target.value)}
-          className="text-[12px] font-medium bg-transparent border-0 p-0 pr-5 focus:ring-0 cursor-pointer text-[#344054] mb-1"
-          title="Change stage"
-        >
-          {stages.map((s) => (
-            <option key={s.key} value={s.key}>{s.label}</option>
-          ))}
-        </select>
-        <DealStageBadge stage={deal.stage} stages={stages} size="xs" />
-      </td>
-
-      <td className="py-3 px-3 text-[13px] font-semibold text-[#101828] tabular-nums whitespace-nowrap">
-        {formatValue(deal.amount, deal.currency)}
-      </td>
-
-      <td className="py-3 px-3">
-        <div className="flex items-center gap-2 min-w-[100px]">
-          <div className="flex-1 h-1.5 rounded-full bg-[#F2F4F7] overflow-hidden">
-            <div
-              className="h-full rounded-full bg-[#101828]"
-              style={{ width: `${Math.min(100, Math.max(0, prob))}%` }}
-            />
-          </div>
-          <span className="text-[12px] tabular-nums text-[#667085] w-8 text-right">{prob}%</span>
-        </div>
-      </td>
-
-      <td className="py-3 px-3 text-[12px] text-[#667085] tabular-nums whitespace-nowrap">
-        {formatDate(deal.wonAt || deal.expectedCloseDate)}
-      </td>
-
-      <td className="py-3 px-3">
-        <div className="flex items-center gap-2">
-          <Avatar name={ownerName(deal.assignedTo)} />
-          <span className="text-[12px] text-[#344054] truncate max-w-[100px]">{ownerName(deal.assignedTo)}</span>
-        </div>
-      </td>
-
-      <td className="py-3 px-2 w-10" onClick={(e) => e.stopPropagation()}>
-        <div className="relative">
-          <button
-            ref={btnRef}
-            type="button"
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="p-1.5 rounded-md text-[#98A2B3] hover:text-[#344054] hover:bg-[#F2F4F7] transition-opacity"
+    <tr className="group/row cursor-pointer [&>td]:border-b [&>td]:border-line [&>td]:bg-canvas hover:[&>td]:bg-subtle" onClick={() => onOpen(deal._id)}>
+      <Td className="max-w-[280px]">
+        <p className="truncate font-medium text-fg">{deal.title}</p>
+        {deal.source && <p className="truncate text-meta capitalize text-fg-tertiary">{deal.source}</p>}
+      </Td>
+      <Td muted className="max-w-[200px] truncate">{companyOrContact(deal)}</Td>
+      <Td onClick={(e) => e.stopPropagation()}>
+        <label className="relative inline-flex cursor-pointer">
+          <DealStageBadge stage={deal.stage} stages={stages} />
+          <select
+            aria-label={`Stage for ${deal.title}`}
+            value={deal.stage}
+            onChange={(e) => onStageChange(deal._id, e.target.value)}
+            className="absolute inset-0 cursor-pointer opacity-0"
           >
-            <MoreHorizontal className="w-4 h-4" />
-          </button>
-          {menuOpen && menuPos && createPortal(
-            <>
-              <div className="fixed inset-0 z-[100]" onClick={() => setMenuOpen(false)} />
-              <div
-                className="fixed w-40 bg-white border border-[#E5E7EB] rounded-lg shadow-lg z-[101] py-1"
-                style={{ top: menuPos.top, left: menuPos.left }}
-              >
-                <button type="button" onClick={() => { setMenuOpen(false); onOpen(deal._id); }} className="w-full px-3 py-2 text-left text-[12px] hover:bg-[#F9FAFB]">View details</button>
-                <Link href={`/automation/deals/${deal._id}`} onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 text-[12px] hover:bg-[#F9FAFB]">
-                  <ExternalLink className="w-3.5 h-3.5" /> Full page
-                </Link>
-                <button type="button" onClick={() => { setMenuOpen(false); onEdit(deal); }} className="flex items-center gap-2 w-full px-3 py-2 text-left text-[12px] hover:bg-[#F9FAFB]">
-                  <Pencil className="w-3.5 h-3.5" /> Edit
-                </button>
-                <button type="button" onClick={() => { setMenuOpen(false); onDelete(deal._id, deal.title); }} className="flex items-center gap-2 w-full px-3 py-2 text-left text-[12px] text-red-600 hover:bg-red-50">
-                  <Trash2 className="w-3.5 h-3.5" /> Delete
-                </button>
-              </div>
-            </>,
-            document.body
-          )}
-        </div>
-      </td>
+            {stages.map((s) => (
+              <option key={s.key} value={s.key}>{s.label}</option>
+            ))}
+          </select>
+        </label>
+      </Td>
+      <Td numeric className="font-medium">{formatValue(deal.amount, deal.currency)}</Td>
+      <Td numeric muted>{prob}%</Td>
+      <Td muted className="tabular">{formatDate(deal.wonAt || deal.expectedCloseDate)}</Td>
+      <Td>
+        <span className="inline-flex max-w-[180px] items-center gap-2">
+          <Avatar name={owner} size={20} />
+          <span className="truncate text-fg-secondary">{owner}</span>
+        </span>
+      </Td>
+      <Td align="right" onClick={(e) => e.stopPropagation()}>
+        <DropdownMenu
+          width={176}
+          trigger={(p) => <Button {...p} variant="ghost" size="sm" icon={MoreHorizontal} aria-label={`Actions for ${deal.title}`} />}
+          items={[
+            { label: 'Open in side panel', icon: PanelRight, onSelect: () => onOpen(deal._id) },
+            { label: 'Open full page', icon: ExternalLink, onSelect: () => router.push(`/automation/deals/${deal._id}`) },
+            { label: 'Edit', icon: Pencil, onSelect: () => onEdit(deal) },
+            { separator: true },
+            { label: 'Delete', icon: Trash2, danger: true, onSelect: () => onDelete(deal._id, deal.title) },
+          ]}
+        />
+      </Td>
     </tr>
   );
 }
