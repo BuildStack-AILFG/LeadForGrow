@@ -13,6 +13,14 @@ Related decisions: <link to DECISIONS.md entry, if any>
 
 ---
 
+## 2026-10-03 — Committed DESIGN_BRIEF.md; merged design/app-redesign into main
+Branch: design/app-redesign → main
+Files: `DESIGN_BRIEF.md` (new, previously untracked — the brief the app redesign was executed against), `CLAUDE.md`
+What changed: owner asked to commit and merge. Committed the brief on `design/app-redesign`, then merged the branch into local `main` (main and origin/main were already contained in the branch, so no conflicts). Not pushed.
+Related decisions: none.
+
+---
+
 ## 2026-10-03 — Inbox: collapsible panes + folded composer + a little colour
 Branch: design/app-redesign
 Files: `app/automation/chat/page.js`, `components/chat/{ChatSidebar,CRMProfilePanel,ChatInput,ConversationItem,ChatHeader}.jsx`
