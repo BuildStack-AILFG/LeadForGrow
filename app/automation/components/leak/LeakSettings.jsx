@@ -5,8 +5,8 @@ import { Loader2, RefreshCw } from 'lucide-react';
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const label = 'block text-xs font-medium text-fg-secondary dark:text-fg-tertiary mb-1.5';
-const input = 'w-full px-3 py-2 text-sm bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-focus focus:border-accent text-fg dark:text-white';
-const card = 'rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 p-5';
+const input = 'h-9 w-full rounded-md border border-line bg-canvas px-3 text-body text-fg placeholder:text-fg-tertiary hover:border-line-strong focus:outline-none focus-visible:ring-2 focus-visible:ring-focus';
+const card = 'rounded-lg border border-line bg-canvas p-5';
 
 export default function LeakSettings({ settings, onSave, onScan }) {
   const [form, setForm] = useState(settings);
@@ -57,11 +57,11 @@ export default function LeakSettings({ settings, onSave, onScan }) {
           </p>
         </div>
         {form.enabled && (
-          <button type="button" disabled={scanning} onClick={async () => { setScanning(true); try { await onScan(); } finally { setScanning(false); } }} className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium border border-line dark:border-slate-700 text-fg-secondary dark:text-slate-200 hover:bg-subtle dark:hover:bg-slate-800 disabled:opacity-50">
+          <button type="button" disabled={scanning} onClick={async () => { setScanning(true); try { await onScan(); } finally { setScanning(false); } }} className="inline-flex h-8 items-center gap-1.5 px-3 rounded-md text-body font-medium border border-line text-fg dark:text-slate-200 hover:bg-subtle dark:hover:bg-slate-800 disabled:opacity-50">
             <RefreshCw className={`w-4 h-4 ${scanning ? 'animate-spin' : ''}`} /> Check now
           </button>
         )}
-        <button type="button" disabled={saving} onClick={() => save({ enabled: !form.enabled })} className={`px-4 py-2 rounded-lg text-sm font-semibold disabled:opacity-50 ${form.enabled ? 'border border-danger/30 text-danger hover:bg-danger-subtle dark:border-rose-900 dark:text-rose-300 dark:hover:bg-rose-950/30' : 'bg-accent hover:bg-accent-hover text-white'}`}>
+        <button type="button" disabled={saving} onClick={() => save({ enabled: !form.enabled })} className={`inline-flex h-8 items-center px-3 rounded-md text-body font-medium disabled:opacity-50 ${form.enabled ? 'border border-danger/30 text-danger hover:bg-danger-subtle dark:border-rose-900 dark:text-rose-300 dark:hover:bg-rose-950/30' : 'bg-accent hover:bg-accent-hover text-white'}`}>
           {form.enabled ? 'Turn off' : 'Turn on'}
         </button>
       </section>

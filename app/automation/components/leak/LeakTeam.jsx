@@ -1,6 +1,12 @@
 'use client';
 
+import { Users } from 'lucide-react';
 import { formatDuration } from '@/lib/leak/rules';
+import MetricStrip from '@/app/components/ui/MetricStrip';
+import { TableFrame, Table, THead, Th, Td } from '@/app/components/ui/DataTable';
+import EmptyState from '@/app/components/ui/EmptyState';
+import Avatar from '@/app/components/ui/Avatar';
+import Button from '@/app/components/ui/Button';
 
 /**
  * Per salesperson: what's open now and how their enquiries went over the scan
@@ -12,63 +18,59 @@ export default function LeakTeam({ summary, onOpenQueue }) {
   const scan = summary?.scan || {};
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <Stat label="Enquiries (90 days)" value={scan.enquiries ?? '—'} />
-        <Stat label="Slipped" value={scan.leakPct != null ? `${scan.leakPct}%` : '—'} />
-        <Stat label="First reply, typical" value={scan.firstReplyMedianMin != null ? formatDuration(scan.firstReplyMedianMin) : '—'} hint="business hours" />
-        <Stat label="Replied within target" value={scan.withinSlaPct != null ? `${scan.withinSlaPct}%` : '—'} />
-      </div>
+      <MetricStrip
+        metrics={[
+          { label: 'Enquiries (90 days)', value: scan.enquiries ?? '—' },
+          { label: 'Slipped', value: scan.leakPct != null ? `${scan.leakPct}%` : '—' },
+          { label: 'First reply, typical', value: scan.firstReplyMedianMin != null ? formatDuration(scan.firstReplyMedianMin) : '—', note: 'Business hours' },
+          { label: 'Replied within target', value: scan.withinSlaPct != null ? `${scan.withinSlaPct}%` : '—' },
+        ]}
+      />
 
-      <div className="rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 overflow-hidden">
+      <div className="overflow-hidden rounded-lg border border-line">
         {team.length === 0 ? (
-          <p className="p-8 text-center text-sm text-fg-tertiary">Team numbers appear after the first scan.</p>
+          <EmptyState compact icon={Users} title="No team numbers yet." description="They appear after the first scan." />
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-subtle dark:bg-slate-800/60 text-xs text-fg-tertiary">
+          <TableFrame>
+            <Table className="min-w-[640px]">
+              <THead>
                 <tr>
-                  <th className="text-left font-semibold px-4 py-2.5">Salesperson</th>
-                  <th className="text-right font-semibold px-4 py-2.5">Open now</th>
-                  <th className="text-right font-semibold px-4 py-2.5">Leads (90 days)</th>
-                  <th className="text-right font-semibold px-4 py-2.5">Slipped</th>
-                  <th className="text-right font-semibold px-4 py-2.5 whitespace-nowrap">First reply</th>
-                  <th className="px-4 py-2.5"><span className="sr-only">Queue</span></th>
+                  <Th>Salesperson</Th>
+                  <Th align="right">Open now</Th>
+                  <Th align="right">Leads (90 days)</Th>
+                  <Th align="right">Slipped</Th>
+                  <Th align="right">First reply</Th>
+                  <Th align="right"><span className="sr-only">Queue</span></Th>
                 </tr>
-              </thead>
-              <tbody className="divide-y divide-line dark:divide-slate-800">
+              </THead>
+              <tbody>
                 {team.map((t) => (
-                  <tr key={t.ownerId || 'unassigned'}>
-                    <td className="px-4 py-3 font-medium text-fg dark:text-white">{t.name}</td>
-                    <td className="px-4 py-3 text-right tabular-nums">
-                      <span className={t.openNow ? 'font-semibold text-danger dark:text-rose-400' : 'text-fg-tertiary'}>{t.openNow}</span>
-                    </td>
-                    <td className="px-4 py-3 text-right tabular-nums text-fg-secondary dark:text-fg-disabled">{t.leads}</td>
-                    <td className="px-4 py-3 text-right tabular-nums text-fg-secondary dark:text-fg-disabled">{t.leakPct != null ? `${t.leakPct}%` : '—'}</td>
-                    <td className="px-4 py-3 text-right tabular-nums text-fg-secondary dark:text-fg-disabled">{t.firstReplyMedianMin != null ? formatDuration(t.firstReplyMedianMin) : '—'}</td>
-                    <td className="px-4 py-3 text-right">
+                  <tr key={t.ownerId || 'unassigned'} className="[&>td]:border-b [&>td]:border-line [&>td]:bg-canvas hover:[&>td]:bg-subtle">
+                    <Td>
+                      <span className="inline-flex items-center gap-2">
+                        <Avatar name={t.name} size={24} />
+                        <span className="font-medium text-fg">{t.name}</span>
+                      </span>
+                    </Td>
+                    <Td numeric className={t.openNow ? 'font-medium text-danger' : 'text-fg-tertiary'}>{t.openNow}</Td>
+                    <Td numeric muted>{t.leads}</Td>
+                    <Td numeric muted>{t.leakPct != null ? `${t.leakPct}%` : '—'}</Td>
+                    <Td numeric muted>{t.firstReplyMedianMin != null ? formatDuration(t.firstReplyMedianMin) : '—'}</Td>
+                    <Td align="right">
                       {t.openNow > 0 && (
-                        <button type="button" onClick={() => onOpenQueue(t.ownerId || 'unassigned')} className="text-xs font-semibold text-accent-fg dark:text-accent-fg hover:underline whitespace-nowrap">
+                        <Button size="sm" variant="ghost" onClick={() => onOpenQueue(t.ownerId || 'unassigned')}>
                           Open queue
-                        </button>
+                        </Button>
                       )}
-                    </td>
+                    </Td>
                   </tr>
                 ))}
               </tbody>
-            </table>
-          </div>
+            </Table>
+          </TableFrame>
         )}
       </div>
-      <p className="text-xs text-fg-tertiary">Leave and availability aren't tracked yet, so check before reading a high number as a problem.</p>
-    </div>
-  );
-}
-
-function Stat({ label, value, hint }) {
-  return (
-    <div className="rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 p-4">
-      <p className="text-2xl font-semibold text-fg dark:text-white tabular-nums">{value}</p>
-      <p className="text-xs text-fg-tertiary">{label}{hint ? <span className="block text-fg-tertiary">{hint}</span> : null}</p>
+      <p className="text-meta text-fg-tertiary">Leave and availability aren’t tracked yet, so check before reading a high number as a problem.</p>
     </div>
   );
 }

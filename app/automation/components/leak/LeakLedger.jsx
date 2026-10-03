@@ -1,7 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { Loader2, ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
+import SegmentedControl from '@/app/components/ui/SegmentedControl';
+import Skeleton from '@/app/components/ui/Skeleton';
+import cx, { focusRing } from '@/app/components/ui/cx';
 
 const inr = (n) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(n || 0);
 
@@ -12,7 +15,32 @@ const inr = (n) => new Intl.NumberFormat('en-IN', { style: 'currency', currency:
  */
 export default function LeakLedger({ ledger, days, onDays }) {
   const [method, setMethod] = useState(false);
-  if (!ledger) return <div className="flex justify-center py-16"><Loader2 className="w-6 h-6 animate-spin text-accent-fg" /></div>;
+
+  const header = (
+    <div className="flex flex-wrap items-center gap-3">
+      <span className="text-body text-fg-secondary">Leaks found in the last</span>
+      <SegmentedControl
+        size="sm"
+        ariaLabel="Period"
+        value={days}
+        onChange={onDays}
+        options={[7, 30, 90].map((d) => ({ value: d, label: `${d} days` }))}
+      />
+    </div>
+  );
+
+  if (!ledger) {
+    return (
+      <div className="space-y-4">
+        {header}
+        <div className="grid gap-4 lg:grid-cols-2">
+          <Skeleton className="h-56 rounded-lg" />
+          <Skeleton className="h-56 rounded-lg" />
+        </div>
+      </div>
+    );
+  }
+
   const s = ledger.shown;
   const h = ledger.holdout;
   const steps = [
@@ -23,52 +51,52 @@ export default function LeakLedger({ ledger, days, onDays }) {
   const max = Math.max(1, s.flagged);
 
   return (
-    <div className="space-y-5">
-      <div className="flex items-center gap-2">
-        <span className="text-sm text-fg-tertiary">Leaks found in the last</span>
-        {[7, 30, 90].map((d) => (
-          <button key={d} type="button" aria-pressed={days === d} onClick={() => onDays(d)} className={`px-3 py-1.5 rounded-lg text-xs font-semibold border ${days === d ? 'bg-accent border-accent text-white' : 'border-line dark:border-slate-700 text-fg-secondary dark:text-fg-disabled bg-canvas dark:bg-slate-900'}`}>
-            {d} days
-          </button>
-        ))}
-      </div>
+    <div className="space-y-4">
+      {header}
 
-      <div className="grid lg:grid-cols-2 gap-5">
-        <section className="rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 p-5">
-          <h3 className="text-sm font-semibold text-fg dark:text-white mb-4">What happened to the leaks</h3>
-          <ul className="space-y-3">
-            {steps.map(([label, n]) => (
+      <div className="grid gap-4 lg:grid-cols-2">
+        <section className="rounded-lg border border-line p-5">
+          <h3 className="text-body font-semibold text-fg">What happened to the leaks</h3>
+          <ul className="mt-4 space-y-4">
+            {steps.map(([label, n], i) => (
               <li key={label}>
-                <div className="flex justify-between text-sm"><span className="text-fg-secondary dark:text-slate-200">{label}</span><span className="tabular-nums font-semibold text-fg dark:text-white">{n}</span></div>
-                <div className="mt-1.5 h-2.5 rounded-full bg-muted dark:bg-slate-800 overflow-hidden">
-                  <div className="h-full rounded-full bg-accent" style={{ width: `${(n / max) * 100}%` }} />
+                <div className="flex justify-between text-body">
+                  <span className="text-fg-secondary">{label}</span>
+                  <span className="font-medium text-fg tabular">{n}</span>
+                </div>
+                <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-muted">
+                  <div className={cx('h-full rounded-full', i === 2 ? 'bg-accent' : 'bg-fg-disabled')} style={{ width: `${(n / max) * 100}%` }} />
                 </div>
               </li>
             ))}
           </ul>
-          <p className="mt-4 text-xs text-fg-tertiary">Recovered: the customer replied within 7 days, or the lead converted, a deal was won or a bill was paid within 30 days.</p>
+          <p className="mt-4 text-meta text-fg-tertiary">
+            Recovered: the customer replied within 7 days, or the lead converted, a deal was won or a bill was paid within 30 days.
+          </p>
         </section>
 
-        <section className="rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 p-5">
-          <h3 className="text-sm font-semibold text-fg dark:text-white mb-4">Money that came back</h3>
-          <div className="grid grid-cols-2 gap-3">
+        <section className="rounded-lg border border-line p-5">
+          <h3 className="text-body font-semibold text-fg">Money that came back</h3>
+          <dl className="mt-4 grid grid-cols-2 gap-4">
             <div>
-              <p className="text-2xl font-semibold text-fg dark:text-white tabular-nums">{inr(ledger.revenue.observed)}</p>
-              <p className="text-xs text-fg-tertiary">Observed: paid bills and won deals of flagged leads</p>
+              <dt className="text-meta text-fg-tertiary">Observed</dt>
+              <dd className="mt-1 text-page font-semibold text-fg tabular">{inr(ledger.revenue.observed)}</dd>
+              <dd className="mt-0.5 text-meta text-fg-tertiary">Paid bills and won deals of flagged leads</dd>
             </div>
             <div>
-              <p className="text-2xl font-semibold text-accent-fg dark:text-accent-fg tabular-nums">{inr(ledger.revenue.attributed)}</p>
-              <p className="text-xs text-fg-tertiary">Attributed: paid after your team acted in Leak Radar</p>
+              <dt className="text-meta text-fg-tertiary">Attributed</dt>
+              <dd className="mt-1 text-page font-semibold text-accent-fg tabular">{inr(ledger.revenue.attributed)}</dd>
+              <dd className="mt-0.5 text-meta text-fg-tertiary">Paid after your team acted in Leak Radar</dd>
             </div>
-          </div>
+          </dl>
 
-          <div className="mt-5 pt-4 border-t border-line dark:border-slate-800">
-            <p className="text-sm font-semibold text-fg dark:text-slate-100">Did Leak Radar make the difference?</p>
-            <div className="mt-2 grid grid-cols-2 gap-3 text-sm">
+          <div className="mt-5 border-t border-line pt-4">
+            <p className="text-body font-medium text-fg">Did Leak Radar make the difference?</p>
+            <div className="mt-3 grid grid-cols-2 gap-3">
               <Compare label="Shown to your team" rate={s.recoveryRate} n={s.flagged} />
               <Compare label="Comparison group (not shown)" rate={h.recoveryRate} n={h.flagged} />
             </div>
-            <p className="mt-3 text-xs text-fg-tertiary">
+            <p className="mt-3 text-meta text-fg-tertiary">
               {ledger.enoughData
                 ? `Shown leaks recovered ${ledger.difference > 0 ? `${ledger.difference} points more` : ledger.difference < 0 ? `${Math.abs(ledger.difference)} points less` : 'the same'} than the comparison group.`
                 : `Too few leaks to compare yet: each group needs at least ${ledger.minSample}.`}
@@ -77,17 +105,22 @@ export default function LeakLedger({ ledger, days, onDays }) {
         </section>
       </div>
 
-      <section className="rounded-lg border border-line dark:border-slate-800 bg-subtle dark:bg-slate-900/60">
-        <button type="button" onClick={() => setMethod((m) => !m)} aria-expanded={method} className="w-full flex items-center justify-between px-5 py-3 text-sm font-semibold text-fg-secondary dark:text-slate-200">
+      <section className="rounded-lg border border-line">
+        <button
+          type="button"
+          onClick={() => setMethod((m) => !m)}
+          aria-expanded={method}
+          className={cx('flex w-full items-center justify-between rounded-lg px-5 py-3 text-body font-medium text-fg-secondary hover:text-fg', focusRing)}
+        >
           How these numbers are worked out
-          <ChevronDown className={`w-4 h-4 transition-transform ${method ? 'rotate-180' : ''}`} />
+          <ChevronDown className={cx('h-4 w-4 transition-transform duration-[var(--duration-fast)]', method && 'rotate-180')} strokeWidth={1.75} />
         </button>
         {method && (
-          <ul className="px-5 pb-4 space-y-1.5 text-xs text-fg-secondary dark:text-fg-tertiary list-disc pl-9">
-            <li>A share of leaks (set in Settings) is picked at random and not shown. Your team can still work them from the inbox as usual; they're the comparison.</li>
-            <li>Observed revenue counts paid bills (or, where there's no bill, the won deal amount) within 30 days of the leak, once per lead.</li>
+          <ul className="list-disc space-y-1.5 border-t border-line px-5 pb-4 pl-9 pt-3 text-dense text-fg-secondary">
+            <li>A share of leaks (set in Settings) is picked at random and not shown. Your team can still work them from the inbox as usual; they’re the comparison.</li>
+            <li>Observed revenue counts paid bills (or, where there’s no bill, the won deal amount) within 30 days of the leak, once per lead.</li>
             <li>Attributed revenue counts only money that came in after someone acted on the leak in Leak Radar.</li>
-            <li>Leaks marked "Not a leak" are left out everywhere.</li>
+            <li>Leaks marked “Not a leak” are left out everywhere.</li>
             <li>The comparison is shown once both groups have enough leaks; small numbers swing too much to mean anything.</li>
           </ul>
         )}
@@ -98,9 +131,10 @@ export default function LeakLedger({ ledger, days, onDays }) {
 
 function Compare({ label, rate, n }) {
   return (
-    <div className="rounded-lg border border-line dark:border-slate-700 p-3">
-      <p className="text-xl font-semibold text-fg dark:text-white tabular-nums">{rate != null ? `${rate}%` : '—'}</p>
-      <p className="text-xs text-fg-tertiary">{label}<span className="block text-fg-tertiary">{n} leak{n === 1 ? '' : 's'}</span></p>
+    <div className="rounded-md border border-line p-3">
+      <p className="text-title font-semibold text-fg tabular">{rate != null ? `${rate}%` : '—'}</p>
+      <p className="text-meta text-fg-tertiary">{label}</p>
+      <p className="text-meta text-fg-tertiary">{n} leak{n === 1 ? '' : 's'}</p>
     </div>
   );
 }
