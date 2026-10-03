@@ -189,7 +189,7 @@ export default function RevenueChartCard({ revenue, currency = 'INR', onRefresh 
   const xLabelStep = chart.points.length > 12 ? 2 : chart.points.length > 8 ? 1 : 1;
 
   return (
-    <PremiumCard padding="p-4" className="h-[40vh] min-h-[240px] max-h-[80vh] flex flex-col overflow-auto resize-y">
+    <PremiumCard padding="p-4" className="flex-1 min-h-[320px] flex flex-col overflow-auto resize-y">
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3 shrink-0">
         <div>
           <div className="flex items-center gap-1 mb-1.5">

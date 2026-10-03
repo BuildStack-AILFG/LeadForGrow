@@ -1,10 +1,37 @@
 'use client';
 
-import { Plus, Trash2, GripVertical } from 'lucide-react';
+import { useId } from 'react';
+import { Plus, Trash2 } from 'lucide-react';
 import { COLOR_PRESETS } from './constants';
+import { Field, fieldClass } from '@/app/components/ui/Input';
+import Select from '@/app/components/ui/Select';
+import Switch from '@/app/components/ui/Switch';
+import cx, { focusRing } from '@/app/components/ui/cx';
 
-const inputClass = 'w-full text-sm px-3 py-2.5 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded focus:ring-2 focus:ring-focus focus:border-accent outline-none transition-all';
-const labelClass = 'text-meta font-semibold text-fg-tertiary mb-1.5 block';
+function Section({ title, description, children }) {
+  return (
+    <section className="grid gap-4 px-5 py-5 md:grid-cols-[200px_minmax(0,1fr)] md:gap-6">
+      <div>
+        <h3 className="text-body font-semibold text-fg">{title}</h3>
+        {description && <p className="mt-0.5 text-meta text-fg-tertiary">{description}</p>}
+      </div>
+      <div className="min-w-0 space-y-4">{children}</div>
+    </section>
+  );
+}
+
+function ToggleRow({ label, hint, checked, onChange }) {
+  const id = useId();
+  return (
+    <div className="flex items-start justify-between gap-4">
+      <div className="min-w-0">
+        <label htmlFor={id} className="block cursor-pointer text-dense font-medium text-fg">{label}</label>
+        {hint && <p className="mt-0.5 text-meta text-fg-tertiary">{hint}</p>}
+      </div>
+      <Switch id={id} checked={!!checked} onChange={onChange} />
+    </div>
+  );
+}
 
 export default function ChatbotCustomizePanel({ config, onChange }) {
   const { appearance, messages, flow } = config;
@@ -13,158 +40,153 @@ export default function ChatbotCustomizePanel({ config, onChange }) {
   const setMessages = (patch) => onChange({ messages: { ...messages, ...patch } });
   const setFlow = (patch) => onChange({ flow: { ...flow, ...patch } });
 
+  const questions = flow.questions || [];
   const updateQuestion = (idx, value) => {
-    const questions = [...(flow.questions || [])];
-    questions[idx] = value;
-    setFlow({ questions });
+    const next = [...questions];
+    next[idx] = value;
+    setFlow({ questions: next });
   };
+  const addQuestion = () => setFlow({ questions: [...questions, ''] });
+  const removeQuestion = (idx) => setFlow({ questions: questions.filter((_, i) => i !== idx) });
 
-  const addQuestion = () => setFlow({ questions: [...(flow.questions || []), ''] });
-  const removeQuestion = (idx) => setFlow({ questions: flow.questions.filter((_, i) => i !== idx) });
+  const color = appearance.primaryColor || '#0f766e';
 
   return (
-    <div className="space-y-8">
-      {/* Appearance */}
-      <section>
-        <h3 className="text-sm font-semibold text-fg dark:text-slate-50 mb-4">Appearance</h3>
-        <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className={labelClass}>Bot name</label>
-              <input
-                type="text"
-                value={appearance.botName || ''}
-                onChange={(e) => setAppearance({ botName: e.target.value })}
-                className={inputClass}
-                placeholder="Support"
-              />
-            </div>
-            <div>
-              <label className={labelClass}>Position</label>
-              <select
-                value={appearance.position || 'right'}
-                onChange={(e) => setAppearance({ position: e.target.value })}
-                className={inputClass}
-              >
-                <option value="right">Bottom right</option>
-                <option value="left">Bottom left</option>
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <label className={labelClass}>Subtitle</label>
+    <div className="divide-y divide-line">
+      <Section title="Look" description="How the chat button and window appear on your site.">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field label="Bot name" htmlFor="cb-name">
             <input
+              id="cb-name"
               type="text"
-              value={appearance.subtitle || ''}
-              onChange={(e) => setAppearance({ subtitle: e.target.value })}
-              className={inputClass}
-              placeholder="Typically replies in a few minutes"
+              value={appearance.botName || ''}
+              onChange={(e) => setAppearance({ botName: e.target.value })}
+              className={fieldClass()}
+              placeholder="Support"
             />
-          </div>
-
-          <div>
-            <label className={labelClass}>Brand color</label>
-            <div className="flex flex-wrap gap-2 mb-2">
-              {COLOR_PRESETS.map((c) => (
-                <button
-                  key={c}
-                  type="button"
-                  onClick={() => setAppearance({ primaryColor: c })}
-                  className={`w-8 h-8 rounded-lg border-2 transition-transform hover:scale-110 ${
-                    appearance.primaryColor === c ? 'border-slate-900 dark:border-white scale-110' : 'border-transparent'
-                  }`}
-                  style={{ backgroundColor: c }}
-                />
-              ))}
-            </div>
-            <input
-              type="text"
-              value={appearance.primaryColor || '#0f766e'}
-              onChange={(e) => setAppearance({ primaryColor: e.target.value })}
-              className={inputClass}
-            />
-          </div>
+          </Field>
+          <Select
+            label="Position"
+            value={appearance.position || 'right'}
+            onChange={(e) => setAppearance({ position: e.target.value })}
+            options={[
+              { value: 'right', label: 'Bottom right' },
+              { value: 'left', label: 'Bottom left' },
+            ]}
+          />
         </div>
-      </section>
-
-      {/* Messages */}
-      <section>
-        <h3 className="text-sm font-semibold text-fg dark:text-slate-50 mb-4">Messages</h3>
-        <div className="space-y-4">
-          <div>
-            <label className={labelClass}>Welcome message</label>
-            <textarea
-              rows={2}
-              value={messages.greeting || ''}
-              onChange={(e) => setMessages({ greeting: e.target.value })}
-              className={inputClass}
-            />
-          </div>
-          <div>
-            <label className={labelClass}>Thank you message</label>
-            <textarea
-              rows={2}
-              value={messages.thankYou || ''}
-              onChange={(e) => setMessages({ thankYou: e.target.value })}
-              className={inputClass}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Flow */}
-      <section>
-        <h3 className="text-sm font-semibold text-fg dark:text-slate-50 mb-4">Lead capture flow</h3>
-        <div className="space-y-3 mb-4">
-          {[
-            { key: 'collectEmail', label: 'Ask for email' },
-            { key: 'collectPhone', label: 'Ask for phone' },
-            { key: 'askSupportType', label: 'Ask sales vs support' },
-            { key: 'aiEnabled', label: 'Answer their final message with AI (using your Knowledge Base) instead of a canned "thank you"' },
-          ].map(({ key, label }) => (
-            <label key={key} className="flex items-center gap-3 p-3 rounded bg-subtle dark:bg-slate-900/50 border border-line dark:border-slate-800 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={!!flow[key]}
-                onChange={(e) => setFlow({ [key]: e.target.checked })}
-                className="rounded text-accent-fg"
-              />
-              <span className="text-sm text-fg-secondary dark:text-fg-disabled">{label}</span>
-            </label>
-          ))}
-        </div>
-
-        <label className={labelClass}>Qualification questions</label>
-        <div className="space-y-2">
-          {(flow.questions || []).map((q, idx) => (
-            <div key={idx} className="flex items-center gap-2">
-              <GripVertical className="w-4 h-4 text-fg-disabled flex-shrink-0" />
-              <input
-                type="text"
-                value={q}
-                onChange={(e) => updateQuestion(idx, e.target.value)}
-                className={inputClass}
-                placeholder={`Question ${idx + 1}`}
-              />
+        <Field label="Subtitle" htmlFor="cb-sub">
+          <input
+            id="cb-sub"
+            type="text"
+            value={appearance.subtitle || ''}
+            onChange={(e) => setAppearance({ subtitle: e.target.value })}
+            className={fieldClass()}
+            placeholder="Typically replies in a few minutes"
+          />
+        </Field>
+        <Field label="Colour">
+          <div className="flex flex-wrap items-center gap-2">
+            {COLOR_PRESETS.map((c) => (
               <button
+                key={c}
                 type="button"
-                onClick={() => removeQuestion(idx)}
-                className="p-2 text-fg-tertiary hover:text-danger hover:bg-danger-subtle dark:hover:bg-red-950/30 rounded-lg transition-colors"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
-            </div>
-          ))}
+                onClick={() => setAppearance({ primaryColor: c })}
+                aria-label={`Use colour ${c}`}
+                aria-pressed={color === c}
+                className={cx(
+                  'h-7 w-7 rounded-md ring-offset-2 ring-offset-canvas',
+                  color === c ? 'ring-2 ring-fg' : 'hover:ring-2 hover:ring-line-strong',
+                  focusRing
+                )}
+                style={{ backgroundColor: c }}
+              />
+            ))}
+            <label className="ml-1 inline-flex items-center gap-2">
+              <span className="sr-only">Custom colour</span>
+              <input
+                type="text"
+                value={color}
+                onChange={(e) => setAppearance({ primaryColor: e.target.value })}
+                className={cx(fieldClass(), 'h-8 w-28 font-mono text-dense')}
+              />
+            </label>
+          </div>
+        </Field>
+      </Section>
+
+      <Section title="Messages" description="The first and last thing a visitor reads.">
+        <Field label="Welcome message" htmlFor="cb-greet">
+          <textarea
+            id="cb-greet"
+            rows={2}
+            value={messages.greeting || ''}
+            onChange={(e) => setMessages({ greeting: e.target.value })}
+            className={cx(fieldClass(), 'h-auto py-2')}
+          />
+        </Field>
+        <Field label="Thank-you message" htmlFor="cb-thanks">
+          <textarea
+            id="cb-thanks"
+            rows={2}
+            value={messages.thankYou || ''}
+            onChange={(e) => setMessages({ thankYou: e.target.value })}
+            className={cx(fieldClass(), 'h-auto py-2')}
+          />
+        </Field>
+      </Section>
+
+      <Section title="What to ask" description="Details collected before the lead is saved.">
+        <div className="space-y-4">
+          <ToggleRow label="Email address" checked={flow.collectEmail} onChange={(v) => setFlow({ collectEmail: v })} />
+          <ToggleRow label="Phone number" checked={flow.collectPhone} onChange={(v) => setFlow({ collectPhone: v })} />
+          <ToggleRow label="Sales or support?" hint="Lets you route the lead to the right person." checked={flow.askSupportType} onChange={(v) => setFlow({ askSupportType: v })} />
+        </div>
+
+        <div className="pt-1">
+          <p className="text-dense font-medium text-fg">Your own questions</p>
+          <p className="mt-0.5 mb-2 text-meta text-fg-tertiary">Asked one by one, in this order.</p>
+          <div className="space-y-2">
+            {questions.map((q, idx) => (
+              <div key={idx} className="flex items-center gap-2">
+                <span className="w-5 shrink-0 text-right text-meta text-fg-tertiary tabular">{idx + 1}.</span>
+                <input
+                  type="text"
+                  value={q}
+                  onChange={(e) => updateQuestion(idx, e.target.value)}
+                  className={fieldClass()}
+                  placeholder="e.g. Which service are you interested in?"
+                  aria-label={`Question ${idx + 1}`}
+                />
+                <button
+                  type="button"
+                  onClick={() => removeQuestion(idx)}
+                  aria-label={`Remove question ${idx + 1}`}
+                  className={cx('inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-fg-tertiary hover:bg-danger-subtle hover:text-danger', focusRing)}
+                >
+                  <Trash2 className="h-4 w-4" />
+                </button>
+              </div>
+            ))}
+          </div>
           <button
             type="button"
             onClick={addQuestion}
-            className="inline-flex items-center gap-1.5 text-xs font-medium text-accent-fg dark:text-accent-fg hover:text-accent-fg dark:hover:text-teal-200 mt-1"
+            className={cx('mt-2 inline-flex items-center gap-1.5 rounded-sm text-dense font-medium text-accent-fg hover:underline', focusRing)}
           >
-            <Plus className="w-3.5 h-3.5" /> Add question
+            <Plus className="h-3.5 w-3.5" /> Add question
           </button>
         </div>
-      </section>
+      </Section>
+
+      <Section title="AI answer" description="Optional. Uses your Knowledge Base.">
+        <ToggleRow
+          label="Answer the visitor’s last message with AI"
+          hint="Instead of the fixed thank-you message."
+          checked={flow.aiEnabled}
+          onChange={(v) => setFlow({ aiEnabled: v })}
+        />
+      </Section>
     </div>
   );
 }

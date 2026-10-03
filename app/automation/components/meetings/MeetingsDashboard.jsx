@@ -1,280 +1,228 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import {
-  Plus,
-  Link2,
-  Sparkles,
-  Calendar,
-  ArrowRight,
-  MessageCircle,
-  Copy,
-  ExternalLink,
-  Pencil,
-  ClipboardCheck,
-} from 'lucide-react';
-import MeetingsKpiRow from './MeetingsKpiRow';
-import DashboardCard from '../dashboard/primitives/DashboardCard';
-import { MEETING_STATUS_COLORS } from '@/lib/meetings/constants';
-import CalendarIntegrationsPanel from './CalendarIntegrationsPanel';
+import { Plus, Copy, ExternalLink, Pencil, CalendarDays, Link2, ArrowRight, Check, UserX } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Button from '@/app/components/ui/Button';
+import Badge from '@/app/components/ui/Badge';
+import MetricStrip from '@/app/components/ui/MetricStrip';
+import EmptyState from '@/app/components/ui/EmptyState';
+import cx, { focusRing } from '@/app/components/ui/cx';
 import AutoPageIntro from '../shared/tour/AutoPageIntro';
 
-function formatTime(d) {
-  return new Date(d).toLocaleString('en-IN', {
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-  });
+const STATUS_TONE = {
+  scheduled: 'info',
+  confirmed: 'accent',
+  completed: 'success',
+  cancelled: 'neutral',
+  no_show: 'warning',
+  rescheduled: 'info',
+};
+const STATUS_LABEL = { no_show: 'No-show' };
+const statusLabel = (s) => STATUS_LABEL[s] || (s ? s.charAt(0).toUpperCase() + s.slice(1) : '');
+
+const timeOf = (d) => new Date(d).toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit', hour12: true });
+const shortDate = (d) => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+
+function dayLabel(d) {
+  const date = new Date(d);
+  const today = new Date();
+  const startOf = (x) => new Date(x.getFullYear(), x.getMonth(), x.getDate()).getTime();
+  const diff = Math.round((startOf(date) - startOf(today)) / 86400000);
+  if (diff === 0) return 'Today';
+  if (diff === 1) return 'Tomorrow';
+  return date.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'short' });
+}
+
+function groupByDay(bookings) {
+  const groups = [];
+  for (const b of bookings) {
+    const label = dayLabel(b.startTime);
+    const last = groups[groups.length - 1];
+    if (last && last.label === label) last.items.push(b);
+    else groups.push({ label, items: [b] });
+  }
+  return groups;
+}
+
+const iconBtn = cx('inline-flex h-7 w-7 items-center justify-center rounded-md text-fg-tertiary hover:bg-muted hover:text-fg', focusRing);
+
+function SectionHeader({ title, count, action }) {
+  return (
+    <div className="flex items-center justify-between gap-3 border-b border-line px-4 py-3">
+      <h2 className="text-body font-semibold text-fg">
+        {title}
+        {count != null && <span className="ml-1.5 font-normal text-fg-tertiary tabular">{count}</span>}
+      </h2>
+      {action}
+    </div>
+  );
 }
 
 export default function MeetingsDashboard({ dashboard, onCreate, onEdit, onNoShow, onComplete }) {
+  const kpis = dashboard?.kpis || {};
+  const upcoming = dashboard?.upcomingBookings || [];
+  const awaiting = dashboard?.awaitingOutcome || [];
+  const links = dashboard?.bookingLinks || [];
+
   const copyLink = (slug) => {
-    const url = `${window.location.origin}/book/${slug}`;
-    navigator.clipboard.writeText(url);
+    navigator.clipboard.writeText(`${window.location.origin}/book/${slug}`);
     toast.success('Booking link copied');
   };
 
+  const metrics = [
+    { label: 'Meetings booked', value: kpis.meetingsBooked ?? 0 },
+    { label: 'Upcoming', value: upcoming.length },
+    { label: 'Show-up rate', value: `${Math.max(0, 100 - (kpis.noShowRate ?? 0))}%`, note: `${kpis.noShowRate ?? 0}% no-shows` },
+    { label: 'Converted to deals', value: `${kpis.conversionRate ?? 0}%` },
+  ];
+
   return (
-    <div className="space-y-6 p-4 sm:p-6 max-w-[1600px] mx-auto">
-      <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="mx-auto max-w-[1280px] space-y-5 p-4 sm:p-6">
+      <header className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h1 className="text-page font-semibold text-fg">Meetings</h1>
-          <p className="mt-0.5 text-body text-fg-secondary">Booking links, upcoming appointments and calendar sync.</p>
+          <p className="mt-0.5 text-body text-fg-secondary">Share a booking link, then track who is coming and how each meeting went.</p>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <Link
-            href="/automation/meetings/analytics"
-            className="px-4 py-2 text-sm font-medium text-fg-secondary dark:text-slate-200 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-md hover:bg-subtle dark:hover:bg-slate-800/50 transition-colors"
-          >
-            Analytics
+        <div className="flex items-center gap-2">
+          <Link href="/automation/meetings/analytics" tabIndex={-1}>
+            <Button variant="ghost">Analytics</Button>
           </Link>
-          <button
-            type="button"
-            onClick={onCreate}
-            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-md transition-colors"
-          >
-            <Plus className="w-4 h-4" />
-            New booking link
-          </button>
+          <Button variant="primary" icon={Plus} onClick={onCreate}>New booking link</Button>
         </div>
       </header>
 
       <AutoPageIntro />
 
-      <MeetingsKpiRow kpis={dashboard?.kpis} />
+      <MetricStrip metrics={metrics} />
 
-      {(dashboard?.awaitingOutcome || []).length > 0 && (
-        <DashboardCard padding="p-0">
-          <div className="px-5 py-4 border-b border-warning/30 dark:border-amber-900/40 bg-warning-subtle/60 dark:bg-amber-950/20 flex items-center justify-between gap-3 rounded-t-xl">
-            <div>
-              <h2 className="text-sm font-semibold text-fg dark:text-slate-50 flex items-center gap-2">
-                <ClipboardCheck className="w-4 h-4 text-warning dark:text-amber-400" />
-                Awaiting outcome ({dashboard.awaitingOutcome.length})
-              </h2>
-              <p className="text-meta text-fg-secondary dark:text-fg-tertiary mt-0.5">
-                These meetings have ended. Mark each one so follow-ups run — no-shows get a rebook message automatically.
-              </p>
-            </div>
-          </div>
-          <div className="divide-y divide-line dark:divide-slate-800">
-            {dashboard.awaitingOutcome.map((b) => (
-              <div key={b._id} className="px-5 py-3 flex flex-wrap items-center justify-between gap-3">
-                <div className="min-w-0">
-                  <p className="text-sm font-medium text-fg dark:text-slate-100 truncate">{b.guest?.name || 'Guest'}</p>
-                  <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">
-                    {b.meetingTypeId?.title || 'Meeting'} · ended {formatTime(b.endTime)}
-                    {b.assignedTo?.name ? ` · ${b.assignedTo.name}` : ''}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2 flex-shrink-0">
-                  <button type="button" onClick={() => onComplete(String(b._id))} className="px-2.5 py-1 rounded-md text-xs font-semibold text-accent-fg dark:text-accent-fg bg-accent-subtle dark:bg-emerald-950/30 hover:bg-accent-subtle">
-                    Completed
-                  </button>
-                  <button type="button" onClick={() => onNoShow(String(b._id))} className="px-2.5 py-1 rounded-md text-xs font-semibold text-warning dark:text-amber-300 bg-warning-subtle dark:bg-amber-950/30 hover:bg-warning-subtle">
-                    No-show
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </DashboardCard>
-      )}
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+        <div className="space-y-5 lg:col-span-2">
+          {awaiting.length > 0 && (
+            <section className="overflow-hidden rounded-lg border border-line bg-canvas">
+              <SectionHeader
+                title="Awaiting outcome"
+                count={awaiting.length}
+                action={<span className="hidden text-meta text-fg-tertiary sm:inline">No-shows get a rebook message automatically</span>}
+              />
+              <ul className="divide-y divide-line">
+                {awaiting.map((b) => (
+                  <li key={b._id} className="flex flex-wrap items-center justify-between gap-3 px-4 py-3">
+                    <div className="min-w-0">
+                      <p className="truncate text-body font-medium text-fg">{b.guest?.name || 'Guest'}</p>
+                      <p className="truncate text-meta text-fg-tertiary">
+                        {b.meetingTypeId?.title || 'Meeting'} · {shortDate(b.startTime)}, {timeOf(b.startTime)}
+                        {b.assignedTo?.name ? ` · ${b.assignedTo.name}` : ''}
+                      </p>
+                    </div>
+                    <div className="flex shrink-0 items-center gap-2">
+                      <Button size="sm" icon={Check} onClick={() => onComplete(String(b._id))}>Completed</Button>
+                      <Button size="sm" icon={UserX} onClick={() => onNoShow(String(b._id))}>No-show</Button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
 
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
-        <DashboardCard className="xl:col-span-2" padding="p-0">
-          <div className="px-5 py-4 border-b border-line dark:border-slate-800 flex items-center justify-between">
-            <div>
-              <h2 className="text-sm font-semibold text-fg dark:text-slate-50 flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-accent-fg dark:text-accent-fg" />
-                Upcoming appointments
-              </h2>
-              <p className="text-meta text-fg-tertiary dark:text-fg-tertiary mt-0.5">Guest bookings from your /book links</p>
-            </div>
-            <Link href="/automation/meetings/team" className="text-xs text-accent-fg dark:text-accent-fg hover:underline flex items-center gap-1">
-              Team schedules <ArrowRight className="w-3 h-3" />
-            </Link>
-          </div>
-          <div className="divide-y divide-line dark:divide-slate-800">
-            {(dashboard?.upcomingBookings || []).length === 0 ? (
-              <div className="p-6 sm:p-8">
-                <p className="text-sm text-fg-secondary dark:text-fg-tertiary text-center mb-4">
-                  No guest appointments yet. Upcoming shows bookings from your public link — not the link itself.
-                </p>
-                {(dashboard?.bookingLinks || []).length > 0 ? (
-                  <div className="space-y-2 max-w-md mx-auto">
-                    <p className="text-meta font-semibold text-fg-tertiary text-center mb-2">
-                      Share a link to get bookings
-                    </p>
-                    {dashboard.bookingLinks.slice(0, 3).map((m) => (
-                      <div
-                        key={m._id}
-                        className="flex items-center justify-between p-3 rounded-lg bg-accent-subtle dark:bg-indigo-950/20 border border-line dark:border-indigo-900/40"
-                      >
-                        <div>
-                          <p className="text-sm font-medium text-fg dark:text-slate-100">{m.title}</p>
-                          <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">/book/{m.bookingSlug}</p>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => copyLink(m.bookingSlug)}
-                          className="text-xs font-semibold text-accent-fg dark:text-accent-fg hover:underline"
-                        >
-                          Copy
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-sm text-fg-tertiary dark:text-fg-tertiary text-center">Publish a booking link to start accepting meetings.</p>
-                )}
-              </div>
+          <section className="overflow-hidden rounded-lg border border-line bg-canvas">
+            <SectionHeader
+              title="Upcoming"
+              count={upcoming.length}
+              action={
+                <Link href="/automation/meetings/team" className={cx('inline-flex items-center gap-1 rounded-sm text-meta font-medium text-accent-fg hover:underline', focusRing)}>
+                  Team schedules <ArrowRight className="h-3 w-3" />
+                </Link>
+              }
+            />
+            {upcoming.length === 0 ? (
+              <EmptyState
+                compact
+                icon={CalendarDays}
+                title="No upcoming meetings"
+                description={links.length ? 'Share one of your booking links and new bookings will show up here.' : 'Create a booking link, share it with customers, and their bookings will show up here.'}
+                action={!links.length && <Button variant="primary" icon={Plus} onClick={onCreate}>New booking link</Button>}
+              />
             ) : (
-              dashboard.upcomingBookings.map((b, i) => (
-                <div
-                  key={b._id}
-                  className="px-5 py-3 flex items-center justify-between gap-3 hover:bg-subtle dark:hover:bg-slate-800/30"
-                >
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium text-fg dark:text-slate-100 truncate">
-                      {b.guest?.name || 'Guest'}
-                    </p>
-                    <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">
-                      {b.meetingTypeId?.title || 'Meeting'} · {formatTime(b.startTime)}
-                      {b.assignedTo?.name ? ` · ${b.assignedTo.name}` : ''}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2 flex-shrink-0">
-                    <span className={`text-meta font-semibold px-2 py-0.5 rounded-full ${MEETING_STATUS_COLORS[b.status] || ''}`}>
-                      {b.status}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => onComplete(String(b._id))}
-                      className="text-meta font-medium text-accent-fg dark:text-accent-fg hover:underline"
-                    >
-                      Complete
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => onNoShow(String(b._id))}
-                      className="text-meta font-medium text-warning dark:text-amber-400 hover:underline"
-                    >
-                      No-show
-                    </button>
-                  </div>
+              groupByDay(upcoming).map((g) => (
+                <div key={g.label}>
+                  <p className="border-b border-line bg-subtle px-4 py-1.5 text-meta font-medium text-fg-secondary">{g.label}</p>
+                  <ul className="divide-y divide-line">
+                    {g.items.map((b) => (
+                      <li key={b._id} className="group/row flex items-center gap-4 px-4 py-3 hover:bg-subtle">
+                        <span className="w-[68px] shrink-0 text-dense font-medium text-fg tabular">{timeOf(b.startTime)}</span>
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate text-body font-medium text-fg">{b.guest?.name || 'Guest'}</p>
+                          <p className="truncate text-meta text-fg-tertiary">
+                            {b.meetingTypeId?.title || 'Meeting'}
+                            {b.meetingTypeId?.durationMinutes ? ` · ${b.meetingTypeId.durationMinutes} min` : ''}
+                            {b.assignedTo?.name ? ` · with ${b.assignedTo.name}` : ''}
+                          </p>
+                        </div>
+                        <Badge tone={STATUS_TONE[b.status] || 'neutral'}>{statusLabel(b.status)}</Badge>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               ))
             )}
-          </div>
-        </DashboardCard>
+          </section>
+        </div>
 
-        <DashboardCard padding="p-5">
-          <div className="flex items-center gap-2 mb-4">
-            <Sparkles className="w-4 h-4 text-accent-fg dark:text-accent-fg" />
-            <h2 className="text-body font-semibold text-fg">Insights</h2>
-          </div>
-          <ul className="space-y-3 text-sm text-fg-secondary dark:text-fg-tertiary">
-            <li className="p-3 rounded-lg bg-accent-subtle dark:bg-indigo-950/20 border border-line dark:border-indigo-900/40">
-              Peak booking window: <strong className="text-fg dark:text-slate-200">10am–12pm</strong> drives highest show rates.
-            </li>
-            <li className="p-3 rounded-lg bg-accent-subtle dark:bg-cyan-950/20 border border-line">
-              WhatsApp reminders reduce no-shows by up to <strong>35%</strong> vs email-only.
-            </li>
-            <li className="p-3 rounded-lg bg-subtle dark:bg-slate-800/50 text-xs">
-              AI summaries & transcripts — architecture ready. Enable in meeting settings when available.
-            </li>
-          </ul>
-        </DashboardCard>
-      </div>
-
-      <CalendarIntegrationsPanel />
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <DashboardCard padding="p-5">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-sm font-semibold text-fg dark:text-slate-50 flex items-center gap-2">
-              <Link2 className="w-4 h-4 text-accent-fg dark:text-accent-fg" />
-              Booking links
-            </h2>
-            <Link href="/automation/meetings/templates" className="text-xs text-accent-fg dark:text-accent-fg hover:underline">
-              Templates
-            </Link>
-          </div>
-          <div className="space-y-2">
-            {(dashboard?.bookingLinks || []).map((m) => (
-              <div
-                key={m._id}
-                className="flex items-center justify-between p-3 rounded-lg border border-line dark:border-slate-800 hover:border-line dark:hover:border-indigo-800 transition-colors group"
-              >
-                <div>
-                  <p className="text-sm font-medium text-fg dark:text-slate-100">{m.title}</p>
-                  <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">/book/{m.bookingSlug}</p>
-                </div>
-                <div className="flex gap-1 opacity-80 group-hover:opacity-100">
-                  {onEdit && (
-                    <button type="button" onClick={() => onEdit(m)} className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800" title="Edit settings & automations" aria-label={`Edit ${m.title}`}>
-                      <Pencil className="w-3.5 h-3.5 text-fg-tertiary dark:text-fg-tertiary" />
+        <aside className="space-y-5">
+          <section className="overflow-hidden rounded-lg border border-line bg-canvas">
+            <SectionHeader
+              title="Booking links"
+              count={links.length}
+              action={
+                <Link href="/automation/meetings/templates" className={cx('rounded-sm text-meta font-medium text-accent-fg hover:underline', focusRing)}>
+                  Templates
+                </Link>
+              }
+            />
+            {links.length === 0 ? (
+              <EmptyState
+                compact
+                icon={Link2}
+                title="No booking links yet"
+                description="A booking link lets customers pick a free slot themselves."
+              />
+            ) : (
+              <ul className="divide-y divide-line">
+                {links.map((m) => (
+                  <li key={m._id} className="flex items-center gap-2 px-4 py-3">
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-body font-medium text-fg">{m.title}</p>
+                      <p className="truncate text-meta text-fg-tertiary">
+                        /book/{m.bookingSlug}
+                        {m.durationMinutes ? ` · ${m.durationMinutes} min` : ''}
+                      </p>
+                    </div>
+                    <button type="button" onClick={() => copyLink(m.bookingSlug)} className={iconBtn} title="Copy link" aria-label={`Copy link for ${m.title}`}>
+                      <Copy className="h-3.5 w-3.5" />
                     </button>
-                  )}
-                  <button type="button" onClick={() => copyLink(m.bookingSlug)} className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800" title="Copy link">
-                    <Copy className="w-3.5 h-3.5 text-fg-tertiary dark:text-fg-tertiary" />
-                  </button>
-                  <a href={`/book/${m.bookingSlug}`} target="_blank" rel="noreferrer" className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800">
-                    <ExternalLink className="w-3.5 h-3.5 text-fg-tertiary dark:text-fg-tertiary" />
-                  </a>
-                </div>
-              </div>
-            ))}
-            {!dashboard?.bookingLinks?.length && (
-              <p className="text-sm text-fg-tertiary dark:text-fg-tertiary py-4 text-center">Publish a meeting type to get your booking link.</p>
+                    <a href={`/book/${m.bookingSlug}`} target="_blank" rel="noreferrer" className={iconBtn} title="Open booking page" aria-label={`Open booking page for ${m.title}`}>
+                      <ExternalLink className="h-3.5 w-3.5" />
+                    </a>
+                    {onEdit && (
+                      <button type="button" onClick={() => onEdit(m)} className={iconBtn} title="Edit settings & reminders" aria-label={`Edit ${m.title}`}>
+                        <Pencil className="h-3.5 w-3.5" />
+                      </button>
+                    )}
+                  </li>
+                ))}
+              </ul>
             )}
-          </div>
-        </DashboardCard>
+          </section>
 
-        <DashboardCard padding="p-5">
-          <h2 className="text-sm font-semibold text-fg dark:text-slate-50 flex items-center gap-2 mb-4">
-            <MessageCircle className="w-4 h-4 text-accent-fg dark:text-accent-fg" />
-            Recent activity
-          </h2>
-          <div className="space-y-2 max-h-[280px] overflow-y-auto">
-            {(dashboard?.recentBookings || []).map((b) => (
-              <div key={b._id} className="text-sm py-2 border-b border-slate-50 dark:border-slate-800 last:border-0">
-                <span className="font-medium text-fg dark:text-slate-200">{b.guest?.name}</span>
-                <span className="text-fg-tertiary dark:text-fg-tertiary"> booked </span>
-                <span className="text-fg-secondary dark:text-fg-disabled">{b.meetingTypeId?.title}</span>
-                {b.whatsappConfirmationSent && (
-                  <span className="ml-2 text-meta font-semibold text-accent-fg dark:text-accent-fg bg-accent-subtle dark:bg-emerald-950/30 px-1.5 py-0.5 rounded">
-                    WA sent
-                  </span>
-                )}
-              </div>
-            ))}
-          </div>
-        </DashboardCard>
+          <Link
+            href="/automation/settings/integrations"
+            className={cx('flex items-center justify-between rounded-lg border border-line bg-canvas px-4 py-3 text-body text-fg-secondary hover:bg-subtle', focusRing)}
+          >
+            Calendar & video integrations
+            <ArrowRight className="h-4 w-4 text-fg-tertiary" />
+          </Link>
+        </aside>
       </div>
     </div>
   );

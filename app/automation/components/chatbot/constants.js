@@ -29,5 +29,4 @@ export const COLOR_PRESETS = [
 export const WORKSPACE_TABS = [
   { id: 'customize', label: 'Customize' },
   { id: 'install', label: 'Install' },
-  { id: 'leads', label: 'Bot Leads' },
 ];

@@ -8,7 +8,7 @@ import LeadActionsMenu from './LeadActionsMenu';
 import LeadColorPicker from './LeadColorPicker';
 import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { hasWhatsAppHistory } from '@/lib/whatsapp/waPhone';
-import { assigneeName, formatRelative, formatSource, formatDate, getLeadRowBackgroundStyle, getStatusRowColor, statusLabel } from './utils';
+import { assigneeName, formatRelative, formatSource, formatDate, getLeadRowBackgroundStyle, getLeadStickyCellStyle, getStatusRowColor, statusLabel } from './utils';
 import { Td } from '@/app/components/ui/DataTable';
 import Checkbox from '@/app/components/ui/Checkbox';
 import Avatar from '@/app/components/ui/Avatar';
@@ -39,7 +39,7 @@ function LeadRow({ lead, selected, onSelect, onOpenDrawer, onConvert, teamMember
         <Checkbox aria-label={`Select ${lead.name}`} checked={selected} onChange={() => onSelect(lead._id)} />
       </Td>
 
-      <Td sticky className="max-w-[260px]" style={tinted ? rowBg : undefined}>
+      <Td sticky className="max-w-[260px]" style={tinted && !selected ? getLeadStickyCellStyle(lead) : undefined}>
         <div className="flex items-center gap-2">
           {tinted && (
             <span

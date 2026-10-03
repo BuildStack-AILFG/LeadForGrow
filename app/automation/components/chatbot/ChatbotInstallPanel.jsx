@@ -1,94 +1,73 @@
 'use client';
 
-import { Copy, Check, Globe, Code2, FileCode } from 'lucide-react';
 import { useState } from 'react';
+import { Copy, Check, Rocket, ChevronRight } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { getEmbedSnippets } from './constants';
+import Button from '@/app/components/ui/Button';
+import EmptyState from '@/app/components/ui/EmptyState';
 
-function CodeBlock({ label, code, onCopy }) {
+function CodeBlock({ label, hint, code, toastMsg }) {
   const [copied, setCopied] = useState(false);
-  const handleCopy = () => {
-    onCopy();
+  const copy = () => {
+    navigator.clipboard.writeText(code);
+    toast.success(toastMsg);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
   return (
-    <div className="bg-canvas dark:bg-slate-900 rounded border border-line dark:border-slate-800 overflow-hidden">
-      <div className="flex items-center justify-between px-4 py-3 border-b border-line dark:border-slate-800">
-        <p className="text-sm font-medium text-fg dark:text-slate-100">{label}</p>
-        <button
-          type="button"
-          onClick={handleCopy}
-          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-fg-secondary dark:text-fg-disabled hover:bg-muted dark:hover:bg-slate-800 rounded-md transition-colors"
-        >
-          {copied ? <Check className="w-3.5 h-3.5 text-accent-fg dark:text-accent-fg" /> : <Copy className="w-3.5 h-3.5" />}
-          {copied ? 'Copied' : 'Copy'}
-        </button>
+    <div className="overflow-hidden rounded-md border border-line">
+      <div className="flex items-center justify-between gap-3 border-b border-line bg-subtle px-3 py-2">
+        <div className="min-w-0">
+          <p className="text-dense font-medium text-fg">{label}</p>
+          {hint && <p className="text-meta text-fg-tertiary">{hint}</p>}
+        </div>
+        <Button size="sm" icon={copied ? Check : Copy} onClick={copy}>{copied ? 'Copied' : 'Copy'}</Button>
       </div>
-      <pre className="p-4 text-xs text-fg-disabled bg-slate-950 overflow-x-auto font-mono leading-relaxed">{code}</pre>
+      <pre className="overflow-x-auto bg-slate-950 p-4 font-mono text-xs leading-relaxed text-slate-200">{code}</pre>
     </div>
   );
 }
 
-export default function ChatbotInstallPanel({ businessId, config, isPublished }) {
+export default function ChatbotInstallPanel({ businessId, config, isPublished, onPublish, publishing }) {
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
   const snippets = getEmbedSnippets(businessId, baseUrl, config.appearance?.position || 'right');
 
-  const copy = (text, msg = 'Copied to clipboard') => {
-    navigator.clipboard.writeText(text);
-    toast.success(msg);
-  };
-
   if (!isPublished) {
     return (
-      <div className="rounded border border-warning/30 bg-warning-subtle dark:bg-amber-950/20 dark:border-amber-900 p-6">
-        <p className="text-sm font-semibold text-amber-900 dark:text-amber-200">Publish your chatbot first</p>
-        <p className="text-xs text-warning/80 dark:text-amber-300/80 mt-1">
-          Turn on the chatbot using the toggle above, then paste the embed code on your website.
-        </p>
-      </div>
+      <EmptyState
+        icon={Rocket}
+        title="Publish the chatbot to get its code"
+        description="Once it’s live, you paste one snippet into your website."
+        action={onPublish && <Button variant="primary" icon={Rocket} onClick={onPublish} loading={publishing}>Publish</Button>}
+      />
     );
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-start gap-3 p-4 rounded bg-accent-subtle dark:bg-emerald-950/20 border border-line dark:border-emerald-900">
-        <Globe className="w-5 h-5 text-accent-fg flex-shrink-0 mt-0.5" />
-        <div>
-          <p className="text-sm font-semibold text-accent-fg dark:text-emerald-200">Works on any website</p>
-          <p className="text-xs text-accent-fg/80 dark:text-accent-fg/70 mt-1">
-            WordPress, Shopify, Webflow, React, or plain HTML — paste once and leads flow into your CRM with source <strong>Bot</strong>.
-          </p>
-        </div>
+    <div className="space-y-5 p-5">
+      <div>
+        <h3 className="text-body font-semibold text-fg">Add it to your website</h3>
+        <p className="mt-0.5 text-dense text-fg-secondary">
+          Paste this just before <code className="rounded bg-muted px-1 font-mono text-meta">&lt;/body&gt;</code> on every page. Works with WordPress, Shopify, Webflow and plain HTML.
+        </p>
       </div>
 
-      <CodeBlock
-        label="Script embed (recommended)"
-        code={snippets.script}
-        onCopy={() => copy(snippets.script, 'Embed code copied')}
-      />
+      <CodeBlock label="Script" hint="Recommended" code={snippets.script} toastMsg="Embed code copied" />
 
-      <CodeBlock
-        label="Direct iframe"
-        code={snippets.iframe}
-        onCopy={() => copy(snippets.iframe, 'Iframe code copied')}
-      />
-
-      <div className="bg-canvas dark:bg-slate-900 rounded border border-line dark:border-slate-800 p-5">
-        <div className="flex items-center gap-2 mb-2">
-          <FileCode className="w-4 h-4 text-fg-tertiary dark:text-fg-tertiary" />
-          <p className="text-sm font-medium text-fg dark:text-slate-100">WordPress & CMS</p>
+      <details className="group rounded-md border border-line">
+        <summary className="flex cursor-pointer list-none items-center gap-2 px-3 py-2.5 text-dense font-medium text-fg-secondary hover:text-fg">
+          <ChevronRight className="h-4 w-4 transition-transform group-open:rotate-90" />
+          Other ways to install
+        </summary>
+        <div className="space-y-4 border-t border-line p-3">
+          <CodeBlock label="Iframe" hint="If your site doesn’t allow scripts" code={snippets.iframe} toastMsg="Iframe code copied" />
+          <div>
+            <p className="text-dense font-medium text-fg">WordPress</p>
+            <p className="mt-0.5 text-meta leading-relaxed text-fg-tertiary">{snippets.wordpress}</p>
+          </div>
         </div>
-        <p className="text-xs text-fg-tertiary dark:text-fg-tertiary leading-relaxed">{snippets.wordpress}</p>
-      </div>
-
-      <div className="flex items-start gap-3 p-4 rounded bg-subtle dark:bg-slate-900/50 border border-line dark:border-slate-800">
-        <Code2 className="w-5 h-5 text-fg-tertiary flex-shrink-0 mt-0.5" />
-        <div>
-          <p className="text-sm font-medium text-fg dark:text-slate-100">Your Business ID</p>
-          <code className="text-xs text-fg-secondary dark:text-fg-tertiary break-all">{businessId}</code>
-        </div>
-      </div>
+      </details>
     </div>
   );
 }

@@ -192,6 +192,17 @@ export function getLeadRowBackgroundStyle(lead) {
   return { backgroundColor: `light-dark(${color}, ${darkRowTint(color)})` };
 }
 
+/**
+ * Same tint for a frozen (sticky) cell: drawn as a layer over an opaque canvas base, because
+ * status colours are translucent and a see-through sticky cell lets scrolled columns show through.
+ */
+export function getLeadStickyCellStyle(lead) {
+  const style = getLeadRowBackgroundStyle(lead);
+  if (!style) return undefined;
+  const tint = style.backgroundColor;
+  return { backgroundColor: 'var(--color-canvas)', backgroundImage: `linear-gradient(${tint}, ${tint})` };
+}
+
 function readMeta(lead, key) {
   const meta = lead?.metadata;
   if (!meta) return undefined;

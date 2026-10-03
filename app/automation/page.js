@@ -55,10 +55,15 @@ export default function AutomationDashboard() {
           {(visibleWidgets.kpis || visibleWidgets.revenue || visibleWidgets.calendar) && (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
               {(visibleWidgets.kpis || visibleWidgets.revenue) && (
-                <div className="lg:col-span-7 xl:col-span-8 grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-3 content-start auto-rows-min" data-tour="dashboard-kpis">
-                  {visibleWidgets.kpis && <HeroKpiRow heroKpis={dash?.heroKpis} />}
+                <div className="lg:col-span-7 xl:col-span-8 flex flex-col gap-3 min-w-0" data-tour="dashboard-kpis">
+                  {visibleWidgets.kpis && (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-3">
+                      <HeroKpiRow heroKpis={dash?.heroKpis} />
+                    </div>
+                  )}
+                  {/* Chart fills whatever height the calendar gives the row — no empty gap below it */}
                   {visibleWidgets.revenue && (
-                    <div className="col-span-2 sm:col-span-3 xl:col-span-5" data-tour="dashboard-revenue">
+                    <div className="flex-1 min-h-0 flex flex-col" data-tour="dashboard-revenue">
                       <RevenueChartCard revenue={dash?.revenue} currency={currency} onRefresh={refresh} />
                     </div>
                   )}

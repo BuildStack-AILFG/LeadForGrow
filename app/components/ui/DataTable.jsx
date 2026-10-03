@@ -51,7 +51,7 @@ export function Th({ align = 'left', sticky = false, sort, onSort, width, classN
       className={cx(
         'h-9 whitespace-nowrap border-b border-line bg-subtle px-3 text-dense font-medium text-fg-secondary first:pl-6 last:pr-6',
         align === 'right' ? 'text-right' : align === 'center' ? 'text-center' : 'text-left',
-        sticky && 'sticky left-0 z-[3]',
+        sticky && 'sticky left-0 z-[3] shadow-[inset_-1px_0_0_var(--color-line)]',
         className
       )}
     >
@@ -87,7 +87,7 @@ export function Td({ align = 'left', numeric = false, sticky = false, muted = fa
         align === 'right' || numeric ? 'text-right' : align === 'center' ? 'text-center' : 'text-left',
         numeric && 'tabular',
         muted && 'text-fg-secondary',
-        sticky && 'sticky left-0 z-[1]',
+        sticky && 'sticky left-0 z-[1] shadow-[inset_-1px_0_0_var(--color-line)]',
         className
       )}
       {...props}
