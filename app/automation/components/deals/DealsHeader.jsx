@@ -1,48 +1,32 @@
 'use client';
 
-import { LayoutGrid, Table2 } from 'lucide-react';
+import { Columns3, LayoutList } from 'lucide-react';
 import CrmPageHeader from '../crm/CrmPageHeader';
+import SegmentedControl from '@/app/components/ui/SegmentedControl';
 
-export default function DealsHeader({
-  viewMode,
-  onViewModeChange,
-  onCreate,
-  ...props
-}) {
+export default function DealsHeader({ viewMode, onViewModeChange, onCreate, ...props }) {
   return (
     <CrmPageHeader
       title="Deals"
-      subtitle="Pipeline, revenue, and closed deals in one workspace."
-      searchPlaceholder="Search deals, companies, contacts…"
-      primaryLabel="New Deal"
-      totalLabel="deals total"
+      subtitle="Pipeline, revenue and closed deals."
+      searchPlaceholder="Search deals, companies, contacts"
+      primaryLabel="New deal"
+      totalLabel="deals"
       onPrimaryClick={onCreate}
       toolbarStart={
         onViewModeChange && (
-          <div className="inline-flex items-center p-0.5 bg-white border border-[#E5E7EB] rounded-lg shrink-0">
-            <button
-              type="button"
-              onClick={() => onViewModeChange('table')}
-              className={`inline-flex items-center gap-1 px-2.5 py-1.5 text-[12px] font-medium rounded-md transition-colors whitespace-nowrap ${
-                viewMode === 'table'
-                  ? 'bg-[#F9FAFB] text-[#101828] shadow-sm'
-                  : 'text-[#667085] hover:text-[#344054]'
-              }`}
-            >
-              <Table2 className="w-3.5 h-3.5" /> Table
-            </button>
-            <button
-              type="button"
-              onClick={() => onViewModeChange('kanban')}
-              className={`inline-flex items-center gap-1 px-2.5 py-1.5 text-[12px] font-medium rounded-md transition-colors whitespace-nowrap ${
-                viewMode === 'kanban'
-                  ? 'bg-[#F9FAFB] text-[#101828] shadow-sm'
-                  : 'text-[#667085] hover:text-[#344054]'
-              }`}
-            >
-              <LayoutGrid className="w-3.5 h-3.5" /> Kanban
-            </button>
-          </div>
+          <>
+            <SegmentedControl
+              ariaLabel="Layout"
+              value={viewMode === 'kanban' ? 'kanban' : 'table'}
+              onChange={onViewModeChange}
+              options={[
+                { value: 'table', label: 'List', icon: LayoutList },
+                { value: 'kanban', label: 'Board', icon: Columns3 },
+              ]}
+            />
+            <span aria-hidden className="mx-1 h-5 w-px bg-line" />
+          </>
         )
       }
       {...props}

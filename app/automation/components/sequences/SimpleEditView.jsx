@@ -29,14 +29,14 @@ export default function SimpleEditView({
   if (!linear.ok) {
     return (
       <div className="max-w-3xl mx-auto py-10 px-4">
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-8 text-center">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-teal-50 dark:bg-teal-950/40 text-teal-600 mb-3">
+        <div className="rounded-lg border border-line dark:border-slate-800 bg-canvas dark:bg-slate-900 p-8 text-center">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-subtle dark:bg-teal-950/40 text-accent-fg dark:text-accent-fg mb-3">
             <GitBranch className="w-6 h-6" />
           </div>
-          <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-1">
+          <h3 className="text-base font-semibold text-fg dark:text-white mb-1">
             This sequence has advanced logic
           </h3>
-          <p className="text-sm text-slate-500 max-w-md mx-auto mb-4">
+          <p className="text-sm text-fg-tertiary dark:text-fg-tertiary max-w-md mx-auto mb-4">
             {linear.reason} Simple edit only supports straight-line drips
             (message → wait → message). Open the Builder to edit the full
             workflow visually.
@@ -44,7 +44,7 @@ export default function SimpleEditView({
           <button
             type="button"
             onClick={onSwitchToBuilder}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-teal-600 text-white text-sm font-semibold hover:bg-teal-700"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md bg-accent text-white text-sm font-medium hover:bg-accent-hover"
           >
             <Layers className="w-4 h-4" /> Open Builder
           </button>
@@ -111,11 +111,11 @@ export default function SimpleEditView({
 
   return (
     <div className="max-w-3xl mx-auto py-6 px-4">
-      <div className="mb-4 flex items-start gap-3 rounded-xl bg-teal-50 dark:bg-teal-950/30 border border-teal-100 dark:border-teal-900/40 p-3">
-        <Info className="w-4 h-4 text-teal-600 dark:text-teal-400 shrink-0 mt-0.5" />
-        <div className="text-xs text-teal-900 dark:text-teal-200">
+      <div className="mb-4 flex items-start gap-3 rounded-lg bg-accent-subtle dark:bg-teal-950/30 border border-line dark:border-teal-900/40 p-3">
+        <Info className="w-4 h-4 text-accent-fg dark:text-accent-fg shrink-0 mt-0.5" />
+        <div className="text-xs text-accent-fg dark:text-teal-200">
           <p className="font-semibold">Simple edit — no canvas needed.</p>
-          <p className="mt-0.5 text-teal-800/80 dark:text-teal-300/80">
+          <p className="mt-0.5 text-accent-fg/80 dark:text-accent-fg/80">
             Trigger: <strong>{triggerLabel}</strong> · {steps.length} {steps.length === 1 ? 'message' : 'messages'} · edits save
             with <em>Save draft</em> at the top.
           </p>
@@ -149,7 +149,7 @@ export default function SimpleEditView({
         <button
           type="button"
           onClick={() => handleAddStep(steps.length - 1)}
-          className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 text-slate-500 hover:text-teal-600 hover:border-teal-400 text-sm font-medium transition-colors"
+          className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-lg border-2 border-dashed border-line-strong dark:border-slate-700 text-fg-tertiary dark:text-fg-tertiary hover:text-accent-fg dark:hover:text-accent-fg hover:border-teal-400 text-sm font-medium transition-colors"
         >
           <Plus className="w-4 h-4" /> Add another step
         </button>
@@ -171,12 +171,12 @@ function StepCard({
   const isEmail = channel === 'email';
 
   return (
-    <li className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
-      <div className="px-4 py-2.5 flex items-center gap-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
-        <span className="w-6 h-6 rounded-full bg-teal-100 dark:bg-teal-950/40 text-teal-700 dark:text-teal-300 flex items-center justify-center text-[11px] font-semibold shrink-0">
+    <li className="rounded-lg border border-line dark:border-slate-800 bg-canvas dark:bg-slate-900 overflow-hidden">
+      <div className="px-4 py-2.5 flex items-center gap-3 border-b border-line dark:border-slate-800 bg-subtle dark:bg-slate-800/30">
+        <span className="w-6 h-6 rounded-full bg-accent-subtle dark:bg-teal-950/40 text-accent-fg dark:text-accent-fg flex items-center justify-center text-meta font-semibold shrink-0">
           {index + 1}
         </span>
-        <div className="flex items-center gap-1.5 text-[11px] font-medium text-slate-500 uppercase tracking-wide">
+        <div className="flex items-center gap-1.5 text-meta font-medium text-fg-tertiary dark:text-fg-tertiary">
           <Clock className="w-3 h-3" /> {delayLabel}
         </div>
 
@@ -192,7 +192,7 @@ function StepCard({
             onClick={onMoveUp}
             disabled={isFirst}
             title="Move up"
-            className="p-1 rounded text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed"
+            className="p-1 rounded text-fg-tertiary hover:text-fg-secondary dark:hover:text-slate-200 hover:bg-muted dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed"
           >
             <ChevronUp className="w-3.5 h-3.5" />
           </button>
@@ -201,7 +201,7 @@ function StepCard({
             onClick={onMoveDown}
             disabled={isLast}
             title="Move down"
-            className="p-1 rounded text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed"
+            className="p-1 rounded text-fg-tertiary hover:text-fg-secondary dark:hover:text-slate-200 hover:bg-muted dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed"
           >
             <ChevronDown className="w-3.5 h-3.5" />
           </button>
@@ -210,7 +210,7 @@ function StepCard({
             onClick={onDelete}
             disabled={!canDelete}
             title={canDelete ? 'Delete step' : 'A sequence needs at least one step'}
-            className="p-1 rounded text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 disabled:opacity-30 disabled:cursor-not-allowed"
+            className="p-1 rounded text-fg-tertiary hover:text-danger dark:hover:text-red-400 hover:bg-danger-subtle dark:hover:bg-red-950/30 disabled:opacity-30 disabled:cursor-not-allowed"
           >
             <Trash2 className="w-3.5 h-3.5" />
           </button>
@@ -220,47 +220,47 @@ function StepCard({
       <div className="p-4 space-y-3">
         {step.delayNode && index > 0 && (
           <div className="flex items-center gap-2 text-xs">
-            <label className="text-slate-500">Wait</label>
+            <label className="text-fg-tertiary dark:text-fg-tertiary">Wait</label>
             <input
               type="number"
               min="0"
               step="1"
               value={Math.max(0, Math.round((delayHours || 0) / 24))}
               onChange={(e) => onChangeDelayHours(Math.max(0, parseInt(e.target.value || '0', 10)) * 24)}
-              className="w-16 px-2 py-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm tabular-nums text-center"
+              className="w-16 px-2 py-1 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-800 text-sm tabular-nums text-center"
             />
-            <span className="text-slate-500">day(s) after previous step</span>
+            <span className="text-fg-tertiary dark:text-fg-tertiary">day(s) after previous step</span>
           </div>
         )}
 
         {isEmail && (
           <div>
-            <label className="text-xs font-medium text-slate-500 mb-1 block">Subject</label>
+            <label className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary mb-1 block">Subject</label>
             <input
               type="text"
               value={subject}
               onChange={(e) => onChangeEmailSubject(e.target.value)}
               placeholder="Email subject line"
-              className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm"
+              className="w-full px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-800 text-sm"
             />
           </div>
         )}
 
         <div>
-          <label className="text-xs font-medium text-slate-500 mb-1 flex items-center justify-between">
+          <label className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary mb-1 flex items-center justify-between">
             <span>Message</span>
-            <span className="text-[10px] text-slate-400 font-normal">Variables: {'{{name}}, {{phone}}, {{business_name}}'}</span>
+            <span className="text-meta text-fg-tertiary font-normal">Variables: {'{{name}}, {{phone}}, {{business_name}}'}</span>
           </label>
           <textarea
             value={message}
             onChange={(e) => onChangeMessage(e.target.value)}
             rows={4}
             placeholder={isEmail ? 'Write your email body…' : 'Hi {{name}}, ...'}
-            className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-mono leading-relaxed"
+            className="w-full px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-800 text-sm font-mono leading-relaxed"
           />
-          <p className="mt-1 text-[10px] text-slate-400 tabular-nums">
+          <p className="mt-1 text-meta text-fg-tertiary tabular-nums">
             {message.length}/1024 characters
-            {message.length > 1024 && <span className="text-red-500 ml-2">Meta limit exceeded</span>}
+            {message.length > 1024 && <span className="text-danger ml-2">Meta limit exceeded</span>}
           </p>
         </div>
 
@@ -270,11 +270,11 @@ function StepCard({
       {/* Add-between button — hangs below each card so inserting a new step
           between existing ones is a single click, not "scroll to bottom, add,
           drag up to reorder". */}
-      <div className="border-t border-slate-100 dark:border-slate-800 bg-slate-50/30 dark:bg-slate-800/20 flex items-center justify-center py-2">
+      <div className="border-t border-line dark:border-slate-800 bg-subtle/30 dark:bg-slate-800/20 flex items-center justify-center py-2">
         <button
           type="button"
           onClick={onInsertAfter}
-          className="inline-flex items-center gap-1 text-[11px] text-slate-500 hover:text-teal-600 font-medium"
+          className="inline-flex items-center gap-1 text-meta text-fg-tertiary dark:text-fg-tertiary hover:text-accent-fg dark:hover:text-accent-fg font-medium"
         >
           <Plus className="w-3 h-3" /> Insert step below
         </button>
@@ -292,22 +292,22 @@ function BranchingBadges({ data }) {
   return (
     <div className="flex flex-wrap gap-1.5 pt-1">
       {isGoal && (
-        <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 font-medium">
+        <span className="inline-flex items-center gap-1 text-meta px-1.5 py-0.5 rounded bg-warning-subtle dark:bg-amber-950/40 text-warning dark:text-amber-300 font-medium">
           🎯 Goal step
         </span>
       )}
       {pauseOnReply && (
-        <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-violet-100 dark:bg-violet-950/40 text-violet-700 dark:text-violet-300 font-medium">
+        <span className="inline-flex items-center gap-1 text-meta px-1.5 py-0.5 rounded bg-accent-subtle dark:bg-violet-950/40 text-accent-fg dark:text-accent-fg font-medium">
           ⏸ Pauses if replied
         </span>
       )}
       {exitOnAnyReply && !pauseOnReply && (
-        <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-teal-100 dark:bg-teal-950/40 text-teal-700 dark:text-teal-300 font-medium">
+        <span className="inline-flex items-center gap-1 text-meta px-1.5 py-0.5 rounded bg-accent-subtle dark:bg-teal-950/40 text-accent-fg dark:text-accent-fg font-medium">
           ✓ Exits on any reply
         </span>
       )}
       {exitKeywords.length > 0 && (
-        <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-300 font-medium">
+        <span className="inline-flex items-center gap-1 text-meta px-1.5 py-0.5 rounded bg-danger-subtle dark:bg-red-950/40 text-danger dark:text-red-300 font-medium">
           🛑 Exits: {exitKeywords.slice(0, 3).join(', ')}{exitKeywords.length > 3 ? '…' : ''}
         </span>
       )}
@@ -318,8 +318,8 @@ function BranchingBadges({ data }) {
 // Real brand marks (WhatsApp / Instagram from BrandIcons.jsx, Gmail from the
 // mono envelope variant) — chip label uses proper case, not shouty ALL CAPS.
 const CHANNEL_META = {
-  whatsapp:     { Icon: WhatsAppIcon,   label: 'WhatsApp',     chipClass: 'text-emerald-700 bg-emerald-100 dark:bg-emerald-950/40 dark:text-emerald-300' },
-  email:        { Icon: GmailMonoIcon,  label: 'Email',        chipClass: 'text-violet-700 bg-violet-100 dark:bg-violet-950/40 dark:text-violet-300' },
+  whatsapp:     { Icon: WhatsAppIcon,   label: 'WhatsApp',     chipClass: 'text-accent-fg bg-accent-subtle dark:bg-emerald-950/40 dark:text-accent-fg' },
+  email:        { Icon: GmailMonoIcon,  label: 'Email',        chipClass: 'text-accent-fg bg-accent-subtle dark:bg-violet-950/40 dark:text-accent-fg' },
   instagram_dm: { Icon: InstagramIcon,  label: 'Instagram DM', chipClass: 'text-pink-700 bg-pink-100 dark:bg-pink-950/40 dark:text-pink-300' },
 };
 
@@ -357,7 +357,7 @@ function ChannelPicker({ channel, onChange }) {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-[11px] font-semibold ${meta.chipClass} hover:opacity-90 cursor-pointer`}
+        className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-meta font-semibold ${meta.chipClass} hover:opacity-90 cursor-pointer`}
         title="Change channel"
       >
         <Icon className="w-3 h-3" />
@@ -365,7 +365,7 @@ function ChannelPicker({ channel, onChange }) {
         <ChevronDown className="w-3 h-3 opacity-70" />
       </button>
       {open && (
-        <div className="absolute left-0 top-full mt-1 z-20 min-w-[160px] rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-lg py-1">
+        <div className="absolute left-0 top-full mt-1 z-20 min-w-[160px] rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 shadow-popover py-1">
           {options.map((opt) => {
             const optMeta = CHANNEL_META[opt];
             const OptIcon = optMeta.Icon;
@@ -375,11 +375,11 @@ function ChannelPicker({ channel, onChange }) {
                 key={opt}
                 type="button"
                 onClick={() => { onChange(opt); setOpen(false); }}
-                className={`w-full flex items-center gap-2 px-3 py-1.5 text-xs text-left hover:bg-slate-50 dark:hover:bg-slate-800 ${selected ? 'font-semibold text-slate-900 dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}
+                className={`w-full flex items-center gap-2 px-3 py-1.5 text-xs text-left hover:bg-subtle dark:hover:bg-slate-800 ${selected ? 'font-semibold text-fg dark:text-white' : 'text-fg-secondary dark:text-fg-disabled'}`}
               >
                 <OptIcon className={`w-3.5 h-3.5 ${selected ? '' : 'opacity-70'}`} />
                 <span className="flex-1">{optMeta.label}</span>
-                {selected && <Check className="w-3.5 h-3.5 text-emerald-600" />}
+                {selected && <Check className="w-3.5 h-3.5 text-accent-fg dark:text-accent-fg" />}
               </button>
             );
           })}

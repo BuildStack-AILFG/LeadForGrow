@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react';
  */
 export default function CountUp({
   value = 0,
-  duration = 900,
+  duration = 0, // static by default (DESIGN_BRIEF §4: motion only for user-caused changes)
   decimals = 0,
   prefix = '',
   suffix = '',

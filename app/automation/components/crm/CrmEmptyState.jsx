@@ -2,13 +2,13 @@
 
 export default function CrmEmptyState({ title, description, actionLabel, onAction }) {
   return (
-    <div className="text-center py-16 px-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl">
-      <p className="text-lg font-medium text-slate-700 dark:text-slate-300">{title}</p>
-      <p className="text-sm text-slate-500 mt-2 max-w-md mx-auto">{description}</p>
+    <div className="text-center py-16 px-4 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 rounded-lg">
+      <p className="text-lg font-medium text-fg-secondary dark:text-fg-disabled">{title}</p>
+      <p className="text-sm text-fg-tertiary dark:text-fg-tertiary mt-2 max-w-md mx-auto">{description}</p>
       {onAction && (
         <button
           onClick={onAction}
-          className="mt-6 px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg"
+          className="mt-6 px-4 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-md"
         >
           {actionLabel}
         </button>

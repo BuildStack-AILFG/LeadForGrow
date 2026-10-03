@@ -11,7 +11,6 @@ import {
 } from '@dnd-kit/core';
 import DealKanbanColumn from './DealKanbanColumn';
 import { formatValue } from './utils';
-import DealStageBadge from './DealStageBadge';
 
 export default function DealsKanban({
   stages,
@@ -73,14 +72,9 @@ export default function DealsKanban({
 
       <DragOverlay>
         {activeDeal ? (
-          <div className="p-3.5 bg-white border border-[#E5E7EB] rounded-xl shadow-lg w-72 rotate-1">
-            <p className="text-[13px] font-semibold text-[#101828] truncate">{activeDeal.title}</p>
-            <p className="text-[13px] font-semibold text-[#101828] mt-1 tabular-nums">
-              {formatValue(activeDeal.amount, activeDeal.currency)}
-            </p>
-            <div className="mt-2">
-              <DealStageBadge stage={activeDeal.stage} stages={stages} size="xs" />
-            </div>
+          <div className="w-[280px] rounded-lg border border-line-strong bg-canvas p-3 shadow-drag">
+            <p className="truncate text-body font-medium text-fg">{activeDeal.title}</p>
+            <p className="mt-0.5 text-dense font-medium text-fg tabular">{formatValue(activeDeal.amount, activeDeal.currency)}</p>
           </div>
         ) : null}
       </DragOverlay>

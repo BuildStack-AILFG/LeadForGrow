@@ -2,18 +2,10 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowUpRight, LayoutGrid, Users, Compass, UserCircle } from 'lucide-react';
+import { ArrowUpRight, LayoutGrid, Users, Compass } from 'lucide-react';
 import { LANDING } from './landingStyles';
 
 const CARDS = [
-  {
-    icon: UserCircle,
-    title: 'Our founders',
-    description:
-      'Meet S.Singh, Honey Singh, and S.S Chauhan — the co-founders building LeadForGrow.',
-    href: '/founders',
-    linkText: 'Meet the team',
-  },
   {
     icon: Users,
     title: 'About us',
@@ -66,7 +58,7 @@ export default function DiscoverPlatformSection() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {CARDS.map((card, i) => {
             const Icon = card.icon;
             return (

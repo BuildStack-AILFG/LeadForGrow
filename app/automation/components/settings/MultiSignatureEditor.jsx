@@ -39,14 +39,26 @@ function newId() {
   return `sig_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
 }
 
+const escapeHtml = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+// Build the "Default" entry from the old single-signature fields: the text
+// (plain text keeps its line breaks) plus the old logo, which used to be
+// added only at send time and would otherwise be lost here.
 function synthesizeFromLegacy(account) {
   const legacy = (account?.signature || '').trim();
-  if (!legacy) return [];
+  const logoUrl = /^https:\/\//i.test(account?.signatureLogoUrl || '') ? account.signatureLogoUrl : '';
+  if (!legacy && !logoUrl) return [];
+  const isHtml = /<[a-z][\s\S]*>/i.test(legacy);
+  const width = Number(account?.signatureLogoWidth) || 180;
+  const logo = logoUrl
+    ? `<p><img src="${escapeHtml(logoUrl)}" alt="" width="${width}" style="max-width:${width}px;height:auto;display:block;border:0;"></p>`
+    : '';
+  const text = !legacy ? '' : isHtml ? legacy : `<p>${escapeHtml(legacy).replace(/\n/g, '<br>')}</p>`;
   return [
     {
       id: newId(),
       name: 'Default',
-      html: legacy,
+      html: `${logo}${text}`,
       isDefault: true,
       createdAt: new Date().toISOString(),
     },
@@ -166,12 +178,12 @@ export default function MultiSignatureEditor({
   // an empty editor that confuses users.
   if (signatures.length === 0) {
     return (
-      <div className="rounded-xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center">
-        <p className="text-sm text-slate-600">You don't have any signatures yet.</p>
+      <div className="rounded-lg border border-dashed border-line-strong bg-subtle p-6 text-center">
+        <p className="text-sm text-fg-secondary">You don't have any signatures yet.</p>
         <button
           type="button"
           onClick={createNew}
-          className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-slate-800 px-4 py-2 text-sm font-medium text-white hover:bg-black"
+          className="mt-3 inline-flex items-center gap-1.5 rounded-md bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-hover"
         >
           <Plus className="h-4 w-4" />
           Create your first signature
@@ -188,22 +200,22 @@ export default function MultiSignatureEditor({
           <button
             type="button"
             onClick={() => setPickerOpen((v) => !v)}
-            className="flex w-full items-center justify-between rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm hover:border-slate-300"
+            className="flex w-full items-center justify-between rounded-lg border border-line bg-canvas px-3 py-2 text-sm hover:border-line-strong"
           >
             <span className="flex items-center gap-2">
-              <span className="truncate font-medium text-slate-800">{selected?.name || 'Select…'}</span>
+              <span className="truncate font-medium text-fg">{selected?.name || 'Select…'}</span>
               {selected?.isDefault && (
-                <span className="rounded-full bg-indigo-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-indigo-700">
+                <span className="rounded-full bg-accent-subtle px-2 py-0.5 text-meta font-semibold text-accent-fg">
                   Default
                 </span>
               )}
             </span>
-            <ChevronDown className="h-4 w-4 text-slate-400" />
+            <ChevronDown className="h-4 w-4 text-fg-tertiary" />
           </button>
           {pickerOpen && (
             <>
               <div className="fixed inset-0 z-10" onClick={() => setPickerOpen(false)} />
-              <div className="absolute left-0 top-full z-20 mt-1 w-full rounded-lg border border-slate-200 bg-white p-1 shadow-lg">
+              <div className="absolute left-0 top-full z-20 mt-1 w-full rounded-lg border border-line bg-canvas p-1 shadow-popover">
                 {signatures.map((s) => (
                   <button
                     key={s.id}
@@ -212,16 +224,16 @@ export default function MultiSignatureEditor({
                       setSelectedId(s.id);
                       setPickerOpen(false);
                     }}
-                    className={`flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-sm hover:bg-slate-50 ${
-                      s.id === selectedId ? 'bg-slate-50' : ''
+                    className={`flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-sm hover:bg-subtle ${
+                      s.id === selectedId ? 'bg-subtle' : ''
                     }`}
                   >
                     <span className="flex items-center gap-2 truncate">
-                      {s.id === selectedId && <Check className="h-3.5 w-3.5 text-indigo-600" />}
+                      {s.id === selectedId && <Check className="h-3.5 w-3.5 text-accent-fg" />}
                       <span className="truncate">{s.name}</span>
                     </span>
                     {s.isDefault && (
-                      <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+                      <span className="text-meta font-semibold text-fg-tertiary">
                         Default
                       </span>
                     )}
@@ -234,7 +246,7 @@ export default function MultiSignatureEditor({
         <button
           type="button"
           onClick={createNew}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50"
+          className="inline-flex items-center gap-1.5 rounded-md border border-line bg-canvas px-3 py-2 text-xs font-medium text-fg-secondary hover:bg-subtle"
         >
           <Plus className="h-3.5 w-3.5" />
           Create new
@@ -244,13 +256,13 @@ export default function MultiSignatureEditor({
       {/* Rename input */}
       {selected && (
         <div>
-          <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+          <label className="mb-1 block text-meta font-semibold text-fg-tertiary">
             Signature name
           </label>
           <input
             value={selected.name}
             onChange={(e) => updateSelected({ name: e.target.value.slice(0, 60) })}
-            className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
+            className="w-full rounded-lg border border-line px-3 py-2 text-sm"
             placeholder="e.g. Sales team, HR, Personal"
           />
         </div>
@@ -276,7 +288,7 @@ export default function MultiSignatureEditor({
             type="button"
             onClick={deleteSelected}
             disabled={busy || signatures.length === 0}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-rose-200 bg-white px-3 py-1.5 text-xs font-medium text-rose-700 hover:bg-rose-50 disabled:opacity-40"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-danger/30 bg-canvas px-3 py-1.5 text-xs font-medium text-danger hover:bg-danger-subtle disabled:opacity-40"
           >
             <Trash2 className="h-3.5 w-3.5" />
             Delete signature
@@ -287,7 +299,7 @@ export default function MultiSignatureEditor({
                 type="button"
                 onClick={makeDefault}
                 disabled={busy}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-40"
+                className="inline-flex items-center gap-1.5 rounded-md border border-line bg-canvas px-3 py-1.5 text-xs font-medium text-fg-secondary hover:bg-subtle disabled:opacity-40"
               >
                 <Star className="h-3.5 w-3.5" />
                 Make default
@@ -298,7 +310,7 @@ export default function MultiSignatureEditor({
                 type="button"
                 onClick={save}
                 disabled={!dirty || busy}
-                className="inline-flex items-center gap-1.5 rounded-lg bg-slate-800 px-3 py-1.5 text-xs font-medium text-white hover:bg-black disabled:opacity-40"
+                className="inline-flex items-center gap-1.5 rounded-md bg-accent px-3 py-1.5 text-xs font-medium text-white hover:bg-accent-hover disabled:opacity-40"
               >
                 {busy ? 'Saving…' : 'Save'}
               </button>

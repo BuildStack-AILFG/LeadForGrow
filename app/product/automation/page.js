@@ -5,7 +5,7 @@ export const metadata = {
   description: "Set your sales on autopilot with LeadForGrow. Instant WhatsApp replies, automated email follow-ups, and smart lead routing. Protect your revenue 24/7.",
   keywords: ["lead automation software", "automated follow-ups India", "sales automation tool", "WhatsApp lead automation", "speed to lead software"],
   alternates: {
-    canonical: 'https://leadforgrow.online/product/automation'
+    canonical: 'https://www.leadforgrow.com/product/automation'
   }
 };
 

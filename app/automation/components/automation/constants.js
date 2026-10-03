@@ -27,10 +27,10 @@ export const CHANNEL_OPTIONS = [
 ];
 
 export const STATUS_CONFIG = {
-  active: { label: 'Active', className: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400' },
-  paused: { label: 'Paused', className: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400' },
-  error: { label: 'Error', className: 'bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-400' },
-  draft: { label: 'Draft', className: 'bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400' }
+  active: { label: 'Active', className: 'bg-accent-subtle text-accent-fg dark:bg-emerald-950/30 dark:text-accent-fg' },
+  paused: { label: 'Paused', className: 'bg-muted text-fg-secondary dark:bg-slate-800 dark:text-fg-tertiary' },
+  error: { label: 'Error', className: 'bg-danger-subtle text-danger dark:bg-red-950/30 dark:text-red-400' },
+  draft: { label: 'Draft', className: 'bg-warning-subtle text-warning dark:bg-amber-950/30 dark:text-amber-400' }
 };
 
 export const FILTER_OPTIONS = [

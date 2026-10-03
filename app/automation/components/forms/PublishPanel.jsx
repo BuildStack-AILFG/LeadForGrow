@@ -26,24 +26,24 @@ export default function PublishPanel({ form, styling, onStylingChange, onPublish
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
       <div className="mb-8">
-        <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-50">Publish your form</h2>
-        <p className="text-sm text-slate-500 mt-1">Share, embed, or connect via API. Existing tokens stay the same.</p>
+        <h2 className="text-title font-semibold text-fg dark:text-slate-50">Publish your form</h2>
+        <p className="text-sm text-fg-tertiary dark:text-fg-tertiary mt-1">Share, embed, or connect via API. Existing tokens stay the same.</p>
       </div>
 
       {/* Publish status */}
-      <div className={`flex items-center justify-between p-4 rounded-2xl mb-8 ${isPublished ? 'bg-emerald-50 dark:bg-emerald-950/30' : 'bg-amber-50 dark:bg-amber-950/30'}`}>
+      <div className={`flex items-center justify-between p-4 rounded-lg mb-8 ${isPublished ? 'bg-accent-subtle dark:bg-emerald-950/30' : 'bg-warning-subtle dark:bg-amber-950/30'}`}>
         <div className="flex items-center gap-3">
-          <CheckCircle2 className={`w-5 h-5 ${isPublished ? 'text-emerald-600' : 'text-amber-600'}`} />
+          <CheckCircle2 className={`w-5 h-5 ${isPublished ? 'text-accent-fg dark:text-accent-fg' : 'text-warning dark:text-amber-400'}`} />
           <div>
-            <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{isPublished ? 'Form is live' : 'Form is unpublished'}</p>
-            <p className="text-xs text-slate-500">{isPublished ? 'Accepting submissions' : 'Not accepting submissions yet'}</p>
+            <p className="text-sm font-medium text-fg dark:text-slate-100">{isPublished ? 'Form is live' : 'Form is unpublished'}</p>
+            <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">{isPublished ? 'Accepting submissions' : 'Not accepting submissions yet'}</p>
           </div>
         </div>
         <button
           type="button"
           onClick={() => onPublish(!isPublished)}
           className={`px-4 py-2 text-xs font-semibold rounded-xl transition-colors ${
-            isPublished ? 'bg-white dark:bg-slate-800 text-slate-700 shadow-sm' : 'bg-teal-600 text-white shadow-lg shadow-teal-600/20'
+            isPublished ? 'bg-canvas dark:bg-slate-800 text-fg-secondary dark:text-slate-200' : 'bg-accent text-white shadow-popover'
           }`}
         >
           {isPublished ? 'Unpublish' : 'Publish now'}
@@ -51,14 +51,14 @@ export default function PublishPanel({ form, styling, onStylingChange, onPublish
       </div>
 
       {/* Section tabs */}
-      <div className="flex gap-1 p-1 bg-slate-100 dark:bg-slate-800 rounded-xl mb-6 w-fit">
+      <div className="flex gap-1 p-1 bg-muted dark:bg-slate-800 rounded-lg mb-6 w-fit">
         {SECTIONS.map(({ id, label, icon: Icon }) => (
           <button
             key={id}
             type="button"
             onClick={() => setSection(id)}
             className={`inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-lg transition-all ${
-              section === id ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+              section === id ? 'bg-canvas dark:bg-slate-900 text-fg dark:text-slate-50' : 'text-fg-tertiary dark:text-fg-tertiary hover:text-fg-secondary dark:hover:text-slate-200'
             }`}
           >
             <Icon className="w-3.5 h-3.5" /> {label}
@@ -67,13 +67,13 @@ export default function PublishPanel({ form, styling, onStylingChange, onPublish
       </div>
 
       {section === 'share' && (
-        <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm space-y-4">
-          <p className="text-sm font-medium text-slate-900 dark:text-slate-100">Public link</p>
-          <p className="text-xs text-slate-500">Share in ads, WhatsApp, or email — no website needed.</p>
+        <div className="bg-canvas dark:bg-slate-900 rounded-lg p-6 space-y-4">
+          <p className="text-sm font-medium text-fg dark:text-slate-100">Public link</p>
+          <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">Share in ads, WhatsApp, or email — no website needed.</p>
           <div className="flex gap-2">
-            <code className="flex-1 text-xs bg-slate-50 dark:bg-slate-800 p-3 rounded-xl break-all">{snippets.hostedLink}</code>
-            <button type="button" onClick={() => copy(snippets.hostedLink)} className="p-3 text-teal-600 hover:bg-teal-50 rounded-xl"><Copy className="w-4 h-4" /></button>
-            <a href={snippets.hostedLink} target="_blank" rel="noopener noreferrer" className="p-3 text-teal-600 hover:bg-teal-50 rounded-xl"><ExternalLink className="w-4 h-4" /></a>
+            <code className="flex-1 text-xs bg-subtle dark:bg-slate-800 p-3 rounded-lg break-all">{snippets.hostedLink}</code>
+            <button type="button" onClick={() => copy(snippets.hostedLink)} className="p-3 text-accent-fg dark:text-accent-fg hover:bg-accent-subtle dark:hover:bg-teal-950/30 rounded-lg"><Copy className="w-4 h-4" /></button>
+            <a href={snippets.hostedLink} target="_blank" rel="noopener noreferrer" className="p-3 text-accent-fg dark:text-accent-fg hover:bg-accent-subtle dark:hover:bg-teal-950/30 rounded-lg"><ExternalLink className="w-4 h-4" /></a>
           </div>
         </div>
       )}
@@ -88,7 +88,7 @@ export default function PublishPanel({ form, styling, onStylingChange, onPublish
       )}
 
       {section === 'api' && (
-        <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm">
+        <div className="bg-canvas dark:bg-slate-900 rounded-lg p-6">
           <APIDocumentation form={form} baseUrl={baseUrl} />
         </div>
       )}
@@ -101,7 +101,7 @@ export default function PublishPanel({ form, styling, onStylingChange, onPublish
             { key: 'assignAgent', label: 'Auto-assign agent', desc: 'Round-robin team assignment' },
             { key: 'triggerAutomation', label: 'Trigger automation', desc: 'Run CRM automation rules' },
           ].map((item) => (
-            <label key={item.key} className="flex items-start gap-3 p-4 bg-white dark:bg-slate-900 rounded-2xl shadow-sm cursor-pointer hover:shadow-md transition-shadow">
+            <label key={item.key} className="flex items-start gap-3 p-4 bg-canvas dark:bg-slate-900 rounded-lg cursor-pointer hover:shadow-popover transition-shadow">
               <input
                 type="checkbox"
                 checked={!!styling.automation?.[item.key]}
@@ -109,11 +109,11 @@ export default function PublishPanel({ form, styling, onStylingChange, onPublish
                   ...styling,
                   automation: { ...styling.automation, [item.key]: e.target.checked },
                 })}
-                className="mt-0.5 rounded text-teal-600"
+                className="mt-0.5 rounded text-accent-fg dark:text-accent-fg"
               />
               <div>
-                <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{item.label}</p>
-                <p className="text-xs text-slate-500">{item.desc}</p>
+                <p className="text-sm font-medium text-fg dark:text-slate-100">{item.label}</p>
+                <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">{item.desc}</p>
               </div>
             </label>
           ))}
@@ -125,14 +125,14 @@ export default function PublishPanel({ form, styling, onStylingChange, onPublish
 
 function CodeBlock({ label, code, onCopy }) {
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 shadow-sm">
+    <div className="bg-canvas dark:bg-slate-900 rounded-lg p-5">
       <div className="flex items-center justify-between mb-3">
-        <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{label}</span>
-        <button type="button" onClick={onCopy} className="flex items-center gap-1 text-xs text-teal-600 font-medium">
+        <span className="text-sm font-medium text-fg-secondary dark:text-fg-disabled">{label}</span>
+        <button type="button" onClick={onCopy} className="flex items-center gap-1 text-xs text-accent-fg dark:text-accent-fg font-medium">
           <Copy className="w-3.5 h-3.5" /> Copy
         </button>
       </div>
-      <pre className="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs overflow-x-auto max-h-48"><code>{code}</code></pre>
+      <pre className="bg-slate-900 text-slate-100 p-4 rounded-lg text-xs overflow-x-auto max-h-48"><code>{code}</code></pre>
     </div>
   );
 }

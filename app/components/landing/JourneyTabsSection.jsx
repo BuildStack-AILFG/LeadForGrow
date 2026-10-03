@@ -58,7 +58,7 @@ const TABS = [
     bullets: [
       'Agency mode for managing multiple clients',
       'API and webhook integrations on Pro plans',
-      'Enterprise-grade security and data isolation',
+      'Role-based access and workspace data isolation',
     ],
     image:
       'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80',
@@ -71,7 +71,7 @@ const TABS = [
       'Free onboarding, live chat support, and dedicated success managers on Growth plans. We help you go live in 15 minutes and stay productive.',
     bullets: [
       'Free onboarding on all paid plans',
-      '24/7 live chat and email support',
+      'Live chat and email support',
       'Dedicated success manager on Growth+',
     ],
     image:

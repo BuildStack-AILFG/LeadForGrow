@@ -1,5 +1,6 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
@@ -19,7 +20,7 @@ import LandingSectionBg from './LandingSectionBg';
 const FEATURES = [
   {
     id: 'inbox',
-    icon: MessageSquare,
+    icon: WhatsAppIcon,
     label: 'WhatsApp Inbox',
     badge: 'Inbox',
     headline: 'Every conversation in one operational inbox',

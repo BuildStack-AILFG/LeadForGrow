@@ -32,14 +32,14 @@ function PipelineStagesOverview() {
   return (
     <div className="grid gap-5 lg:grid-cols-2">
       <CrmPanel title="Lead qualification" description="Stages before converting to a deal">
-        <div className="divide-y divide-slate-100 dark:divide-slate-800">
+        <div className="divide-y divide-line dark:divide-slate-800">
           {DEFAULT_LEAD_STAGES.map((s, i) => (
             <div key={s.key} className="flex items-center gap-4 py-3.5 first:pt-0 last:pb-0">
-              <span className="text-xs font-mono text-slate-400 w-5 tabular-nums">{i + 1}</span>
+              <span className="text-xs font-mono text-fg-tertiary w-5 tabular-nums">{i + 1}</span>
               <span className="w-2 h-2 rounded-full shrink-0 ring-2 ring-white dark:ring-slate-900" style={{ backgroundColor: s.color }} />
-              <span className="text-sm font-medium text-slate-800 dark:text-slate-200 flex-1">{s.label}</span>
+              <span className="text-sm font-medium text-fg dark:text-slate-200 flex-1">{s.label}</span>
               {s.isLost && (
-                <span className="text-[10px] font-semibold uppercase tracking-wide text-red-600 bg-red-50 dark:bg-red-950/40 px-2 py-0.5 rounded-md">
+                <span className="text-meta font-semibold text-danger dark:text-red-400 bg-danger-subtle dark:bg-red-950/40 px-2 py-0.5 rounded-md">
                   Lost
                 </span>
               )}
@@ -54,23 +54,23 @@ function PipelineStagesOverview() {
         action={
           <a
             href="/automation/pipelines"
-            className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 hover:text-indigo-700"
+            className="inline-flex items-center gap-1 text-xs font-semibold text-accent-fg dark:text-accent-fg hover:text-accent-fg dark:hover:text-accent-fg"
           >
             Edit pipeline <ExternalLink className="w-3 h-3" />
           </a>
         }
       >
-        <div className="divide-y divide-slate-100 dark:divide-slate-800">
+        <div className="divide-y divide-line dark:divide-slate-800">
           {dealStages.map((s, i) => (
             <div key={s.key} className="flex items-center gap-4 py-3.5 first:pt-0 last:pb-0">
-              <span className="text-xs font-mono text-slate-400 w-5 tabular-nums">{i + 1}</span>
+              <span className="text-xs font-mono text-fg-tertiary w-5 tabular-nums">{i + 1}</span>
               <span className="w-2 h-2 rounded-full shrink-0 ring-2 ring-white dark:ring-slate-900" style={{ backgroundColor: s.color }} />
-              <span className="text-sm font-medium text-slate-800 dark:text-slate-200 flex-1">{s.label}</span>
-              <span className="text-xs font-medium text-slate-400 tabular-nums">{s.probability}%</span>
+              <span className="text-sm font-medium text-fg dark:text-slate-200 flex-1">{s.label}</span>
+              <span className="text-xs font-medium text-fg-tertiary tabular-nums">{s.probability}%</span>
             </div>
           ))}
           {dealStages.length === 0 && (
-            <p className="text-sm text-slate-500 py-4">Loading deal stages…</p>
+            <p className="text-sm text-fg-tertiary dark:text-fg-tertiary py-4">Loading deal stages…</p>
           )}
         </div>
       </CrmPanel>
@@ -132,8 +132,8 @@ export default function CRMSettingsPage() {
   if (!config) {
     return (
       <div className="flex flex-col items-center justify-center py-24 gap-4">
-        <div className="w-10 h-10 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin" />
-        <p className="text-sm text-slate-500">Loading CRM settings…</p>
+        <div className="w-10 h-10 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+        <p className="text-sm text-fg-tertiary dark:text-fg-tertiary">Loading CRM settings…</p>
       </div>
     );
   }
@@ -145,10 +145,10 @@ export default function CRMSettingsPage() {
 
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
           <aside className="lg:w-[240px] shrink-0">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400 px-3 mb-3 hidden lg:block">
+            <p className="text-meta font-semibold text-fg-tertiary px-3 mb-3 hidden lg:block">
               Configuration
             </p>
-            <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/30 p-2">
+            <div className="rounded-lg border border-line/80 dark:border-slate-800 bg-subtle dark:bg-slate-950/30 p-2">
               <CrmSettingsNav active={tab} onChange={setTab} />
             </div>
           </aside>
@@ -190,7 +190,7 @@ export default function CRMSettingsPage() {
 
             {tab === 'pipeline' && (
               <CrmPanel title="Pipeline control" description="Your team controls every stage change">
-                <div className="mb-4 p-4 rounded-xl bg-indigo-50/60 dark:bg-indigo-950/20 border border-indigo-100 dark:border-indigo-900/40 text-sm text-indigo-900 dark:text-indigo-200 leading-relaxed">
+                <div className="mb-4 p-4 rounded-lg bg-accent-subtle dark:bg-indigo-950/20 border border-line dark:border-indigo-900/40 text-sm text-accent-fg dark:text-indigo-200 leading-relaxed">
                   Stages are never moved automatically by workflows. Only your team — or payment confirmation when enabled — can advance a deal.
                 </div>
                 <SettingsField label="When payment gateway confirms payment" className="mb-4">
@@ -235,7 +235,7 @@ export default function CRMSettingsPage() {
 
             {tab === 'reminders' && (
               <CrmPanel title="Reminders" description="Internal reminders for salespeople">
-                <p className="text-xs text-slate-500 mb-2 pb-4 border-b border-slate-100 dark:border-slate-800">
+                <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mb-2 pb-4 border-b border-line dark:border-slate-800">
                   Customer-facing payment messages are configured under Automation → Payment reminder.
                 </p>
                 <CrmSettingRow label="24 hours before meeting" description="Creates an internal prep reminder for the assignee.">

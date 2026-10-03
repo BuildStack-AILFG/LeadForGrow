@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import TeamMember from '@/models/automation/TeamMember';
 import User from '@/models/User';
+import UserAccess from '@/models/access/UserAccess';
 import bcrypt from 'bcryptjs';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
 
@@ -18,7 +19,21 @@ export const GET = withTenantAuth(async (request) => {
       .populate('userId', 'email firstName lastName phone lastActivityAt')
       .lean();
 
-    return NextResponse.json({ success: true, data: members });
+    // The legacy `role` field only distinguishes owner/admin/team_member — the real
+    // assignment (including custom roles) lives in UserAccess.roleSlug. Attach it here
+    // so the Team & Access role dropdown can reflect a member's actual custom role
+    // instead of collapsing everything non-owner/admin to "Sales Agent".
+    const accessRecords = await UserAccess.find({
+      businessId: business._id,
+      userId: { $in: members.map((m) => m.userId?._id).filter(Boolean) },
+    }).lean();
+    const roleSlugByUserId = new Map(accessRecords.map((a) => [String(a.userId), a.roleSlug]));
+    const enriched = members.map((m) => ({
+      ...m,
+      roleSlug: roleSlugByUserId.get(String(m.userId?._id)) || m.role,
+    }));
+
+    return NextResponse.json({ success: true, data: enriched });
   } catch (error) {
     console.error('Error fetching team:', error);
     return NextResponse.json({ success: false, error: 'Failed' }, { status: 500 });

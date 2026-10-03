@@ -1,42 +1,28 @@
 'use client';
 
 import SidebarItem from './SidebarItem';
-import { isNavItemActive } from './constants';
 
 /**
- * "Quick Links" — Interakt's pattern: a tiny uppercase-caps label (no icon,
- * no chevron, not clickable) followed by a couple of always-visible
- * shortcuts, sitting above the real collapsible nav groups. Unlike those
- * groups it never collapses — no state, no toggle, just permanently shown.
- * Sits on the same faint mint tint Interakt uses to set it apart from the
- * plain-white area around it.
+ * "Quick links" strip (owner's reference): small caps label + always-visible
+ * shortcuts on a faint mint band, above the collapsible groups. When the
+ * current page is one of these, it is highlighted HERE only — never twice.
  */
-export default function SidebarQuickLinks({ items, pathname, searchParams, stats, onNavigate, onLockedClick }) {
+export default function SidebarQuickLinks({ items, activeId, getBadge, onNavigate, onLockedClick }) {
   if (!items.length) return null;
-
-  const getBadge = (item) => {
-    if (!item.badgeKey) return 0;
-    return stats[item.badgeKey] || 0;
-  };
-
   return (
-    <div className="bg-[#F7FCFA] pb-1">
-      <div className="px-4 py-1.5">
-        <span className="text-[10px] font-bold uppercase tracking-wider text-[#737DA5]">Quick Links</span>
-      </div>
-      <div className="space-y-0.5">
-        {items.map((item) => (
-          <SidebarItem
-            key={`quick-${item.id}`}
-            item={item}
-            active={isNavItemActive(pathname, searchParams, item)}
-            collapsed={false}
-            badgeCount={getBadge(item)}
-            onNavigate={onNavigate}
-            onLockedClick={onLockedClick}
-          />
-        ))}
-      </div>
+    <div className="bg-accent-subtle/50 pb-1">
+      <p className="px-4 pb-1 pt-2.5 text-meta font-semibold text-fg-tertiary">Quick links</p>
+      {items.map((item) => (
+        <SidebarItem
+          key={`quick-${item.id}`}
+          item={item}
+          active={item.id === activeId}
+          collapsed={false}
+          badgeCount={getBadge(item)}
+          onNavigate={onNavigate}
+          onLockedClick={onLockedClick}
+        />
+      ))}
     </div>
   );
 }

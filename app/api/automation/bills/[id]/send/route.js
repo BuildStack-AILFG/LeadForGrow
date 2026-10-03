@@ -43,8 +43,11 @@ export const POST = withPlanAccess('automation', async (req, ctx) => {
     // 1. Generate PDF (or reuse cached one) ────────────────────────────────
     let pdfUrl = bill.pdfUrl;
     if (!pdfUrl) {
-      const logoDataUrl = await fetchLogoDataUrl(business?.logo);
-      const buffer = renderBillPdf({ bill: bill.toObject(), business, logoDataUrl });
+      const [logoDataUrl, stampDataUrl] = await Promise.all([
+        fetchLogoDataUrl(business?.logo),
+        fetchLogoDataUrl(business?.billStampUrl),
+      ]);
+      const buffer = renderBillPdf({ bill: bill.toObject(), business, logoDataUrl, stampDataUrl });
       pdfUrl = await uploadPdf({ buffer, bill, businessId: req.user.businessId, req });
       bill.pdfUrl = pdfUrl;
     }

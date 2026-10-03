@@ -2,46 +2,45 @@
 
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
-import { SECTION_META, SECTION_COLORS, SETTINGS_HUB_CARDS } from './constants';
+import { SECTION_META, SETTINGS_HUB_CARDS } from './constants';
 import { CrmHubIcon } from './crm/CrmIcons';
+import cx, { focusRing } from '@/app/components/ui/cx';
 
+/**
+ * Settings sub-page header: "← Settings" back link + section title.
+ * Pages that aren't one of the hub sections (e.g. AI settings, email,
+ * WhatsApp) render their own title, so here they only get the back link —
+ * avoids two page titles on one screen.
+ */
 export default function SettingsHeader({ section }) {
+  const isSection = section !== 'hub' && !!SECTION_META[section];
   const meta = SECTION_META[section] || SECTION_META.hub;
-  const colors = SECTION_COLORS[meta.color] || SECTION_COLORS.blue;
   const hubCard = SETTINGS_HUB_CARDS.find((c) => c.id === section);
   const Icon = hubCard?.icon;
   const isCrm = section === 'crm';
 
   return (
-    <header className="sticky top-0 z-20 bg-[#f8f9fc]/95 dark:bg-slate-950/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="pt-4 pb-1">
-          <Link
-            href="/automation/settings"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors group"
-          >
-            <ChevronLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
+    <header className={cx('sticky top-0 z-20 bg-canvas', isSection && 'border-b border-line')}>
+      <div className="px-4 sm:px-6">
+        <div className="pt-4">
+          <Link href="/automation/settings" className={cx('inline-flex items-center gap-1 rounded-sm text-dense text-fg-tertiary hover:text-fg', focusRing)}>
+            <ChevronLeft className="h-4 w-4" strokeWidth={1.75} aria-hidden />
             Settings
           </Link>
         </div>
-
-        <div className="flex items-center gap-3 pb-4 pt-2">
-          {(Icon || isCrm) && (
-            <div
-              className={`w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0 ring-1 ring-inset ring-black/[0.04] dark:ring-white/[0.06] ${
-                isCrm
-                  ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900'
-                  : colors.icon
-              }`}
-            >
-              {isCrm ? <CrmHubIcon className="w-5 h-5" /> : <Icon className="w-5 h-5" strokeWidth={1.75} />}
+        {isSection && (
+          <div className="flex items-center gap-3 pb-4 pt-2">
+            {(Icon || isCrm) && (
+              <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-line text-fg-secondary">
+                {isCrm ? <CrmHubIcon className="h-4 w-4" /> : <Icon className="h-4 w-4" strokeWidth={1.75} />}
+              </span>
+            )}
+            <div className="min-w-0">
+              <h1 className="text-page font-semibold text-fg">{meta.title}</h1>
+              <p className="mt-0.5 truncate text-body text-fg-secondary">{meta.description}</p>
             </div>
-          )}
-          <div className="min-w-0">
-            <h1 className="text-lg font-semibold text-slate-900 dark:text-slate-50 tracking-tight">{meta.title}</h1>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 truncate">{meta.description}</p>
           </div>
-        </div>
+        )}
       </div>
     </header>
   );

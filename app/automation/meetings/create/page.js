@@ -24,10 +24,10 @@ const EMPTY_DRAFT = {
   automationRules: {
     whatsappConfirmation: true,
     whatsappReminder: true,
-    whatsappReminderMinutes: 30,
     emailReminder: true,
+    noShowRecovery: true,
     triggerAutomationOnBook: true,
-    leadStatusOnBook: 'interested',
+    leadStatusOnBook: 'qualified',
   },
   branding: { accentColor: '#4338ca' },
 };
@@ -62,7 +62,7 @@ export default function CreateMeetingPage() {
   };
 
   return (
-    <div className="min-h-full bg-[#f8f9fc] dark:bg-slate-950">
+    <div className="min-h-full bg-canvas">
       <CreateMeetingWizard
         step={step}
         draft={draft}

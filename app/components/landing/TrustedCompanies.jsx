@@ -1,7 +1,5 @@
-'use client';
-
 const TRUSTED_COMPANIES = [
-  'Scaledesk technology',
+  'ScaleDesk',
   'Homies4u',
   'Pistons Garage',
   'PMKR',

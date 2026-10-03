@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useCallback } from 'react';
 import MessageBubble from './MessageBubble';
+import EmailThread from './EmailThread';
 
 /**
  * WhatsApp-style message list.
@@ -13,7 +14,9 @@ import MessageBubble from './MessageBubble';
  * <500 messages per convo. If we ever hit ~thousands, swap in react-virtuoso
  * which handles variable-height rows properly.
  */
-export default function MessageList({ messages, loading, hasMore, onLoadMore, loadingMore, onMessageAction, emptyLabel, conversation }) {
+export default function MessageList({ messages, loading, hasMore, onLoadMore, loadingMore, onMessageAction, emptyLabel, conversation, gutterClass = 'pr-4' }) {
+  // Chat threads get the faint doodle wallpaper; email threads are long formal text, so they stay on the flat colour.
+  const surface = conversation?.channel === 'email' ? 'bg-subtle dark:bg-[#0b141a]' : 'chat-wallpaper';
   const containerRef = useRef(null);
   const bottomRef = useRef(null);
   const prevLengthRef = useRef(0);
@@ -41,17 +44,17 @@ export default function MessageList({ messages, loading, hasMore, onLoadMore, lo
 
   if (loading) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center gap-3 bg-[#F1F6F3] dark:bg-[#0b141a]">
-        <div className="w-9 h-9 border-2 border-[#1D4B3E] border-t-transparent rounded-full animate-spin" />
-        <p className="text-xs font-medium text-slate-600 dark:text-slate-400">Loading messages…</p>
+      <div className={`flex-1 flex flex-col items-center justify-center gap-3 ${surface}`}>
+        <div className="w-9 h-9 border-2 border-brand border-t-transparent rounded-full animate-spin" />
+        <p className="text-xs font-medium text-fg-secondary dark:text-fg-tertiary">Loading messages…</p>
       </div>
     );
   }
 
   if (!messages.length) {
     return (
-      <div className="flex-1 flex items-center justify-center p-8 bg-[#F1F6F3] dark:bg-[#0b141a]">
-        <p className="text-sm text-slate-500 text-center max-w-xs">
+      <div className={`flex-1 flex items-center justify-center p-8 ${surface}`}>
+        <p className="text-sm text-fg-tertiary dark:text-fg-tertiary text-center max-w-xs">
           {emptyLabel || 'No messages yet. Start the conversation.'}
         </p>
       </div>
@@ -63,7 +66,7 @@ export default function MessageList({ messages, loading, hasMore, onLoadMore, lo
     <div
       ref={containerRef}
       onScroll={handleScroll}
-      className="flex-1 overflow-y-auto px-4 py-4 bg-[#F1F6F3] dark:bg-[#0b141a]"
+      className={`flex-1 overflow-y-auto pl-4 py-4 ${gutterClass} ${surface}`}
       style={{ overflowAnchor: 'none' }}
     >
       {loadingMore && (
@@ -71,7 +74,9 @@ export default function MessageList({ messages, loading, hasMore, onLoadMore, lo
           <div className="w-5 h-5 border-2 border-[#25d366] border-t-transparent rounded-full animate-spin" />
         </div>
       )}
-      {messages.map((msg, idx) => {
+      {conversation?.channel === 'email' ? (
+        <EmailThread messages={messages} conversation={conversation} onAction={onMessageAction} />
+      ) : messages.map((msg, idx) => {
         const d = msg.timestamp ? new Date(msg.timestamp).toDateString() : '';
         const showDate = d && d !== lastDate;
         if (showDate) lastDate = d;
@@ -98,7 +103,7 @@ export default function MessageList({ messages, loading, hasMore, onLoadMore, lo
           <div key={msg._id || msg.messageId} data-msg-id={msg._id}>
             {showDate && (
               <div className="flex justify-center my-3">
-                <span className="text-[11px] font-medium text-[#54656f] dark:text-[#8696a0] px-3 py-1 bg-[#ffffff]/95 dark:bg-[#182229]/95 rounded-lg shadow-[0_1px_0.5px_rgba(11,20,26,0.13)] uppercase tracking-wide">
+                <span className="text-meta font-medium text-[#54656f] dark:text-[#8696a0] px-3 py-1 bg-[#ffffff]/95 dark:bg-[#182229]/95 rounded-lg">
                   {new Date(msg.timestamp).toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' })}
                 </span>
               </div>

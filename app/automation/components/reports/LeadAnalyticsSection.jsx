@@ -19,10 +19,10 @@ export default function LeadAnalyticsSection({ sources = [], totalLeads = 0, sta
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
       <ChartCard title="Leads by Source" subtitle="Attribution breakdown">
-        <SimpleBarChart data={sourceData} color="#2563eb" />
+        <SimpleBarChart data={sourceData} color="#1D4B3E" />
       </ChartCard>
       <ChartCard title="Leads by Stage" subtitle="Pipeline distribution">
-        <SimpleBarChart data={stageData} color="#6366f1" />
+        <SimpleBarChart data={stageData} color="#5C8F8A" />
       </ChartCard>
     </div>
   );

@@ -5,7 +5,7 @@ export const metadata = {
   description: "Scale your agency to 50+ clients with the LeadForGrow operating system. Unified dashboard, white-label options, and automated fulfillment. Start your agency journey today.",
   keywords: ["agency operating system", "marketing agency software India", "manage multiple clients platform", "white label lead management", "agency fulfillment automation"],
   alternates: {
-    canonical: 'https://leadforgrow.online/agencies/overview'
+    canonical: 'https://www.leadforgrow.com/agencies/overview'
   }
 };
 

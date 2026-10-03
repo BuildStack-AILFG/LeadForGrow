@@ -14,7 +14,7 @@ export default function TeamPage() {
   if (ws.loading) return <TeamSkeleton />;
 
   return (
-    <div className="min-h-full bg-[#f8f9fc] dark:bg-slate-950">
+    <div className="min-h-full bg-canvas">
       <div className="px-4 sm:px-6 pb-8">
         <TeamHeader
           total={ws.stats.total}
@@ -36,8 +36,8 @@ export default function TeamPage() {
 
           <div>
             <div className="mb-3">
-              <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-50">Team members</h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400">Manage access and track performance</p>
+              <h2 className="text-sm font-semibold text-fg dark:text-slate-50">Team members</h2>
+              <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">Manage access and track performance</p>
             </div>
             <TeamGrid
               team={ws.team}

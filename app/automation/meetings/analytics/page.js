@@ -4,7 +4,7 @@ import MeetingsAnalyticsView from '../../components/meetings/MeetingsAnalyticsVi
 
 export default function MeetingsAnalyticsPage() {
   return (
-    <div className="min-h-full bg-[#f8f9fc] dark:bg-slate-950">
+    <div className="min-h-full bg-canvas">
       <MeetingsAnalyticsView />
     </div>
   );

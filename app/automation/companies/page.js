@@ -1,8 +1,7 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { Building2 } from 'lucide-react';
-import { toast } from 'react-hot-toast';
 import { useCompaniesWorkspace } from '../hooks/useCompaniesWorkspace';
 import CompaniesHeader from '../components/companies/CompaniesHeader';
 import CompaniesKpiCards from '../components/companies/CompaniesKpiCards';
@@ -11,6 +10,7 @@ import CompanyTable from '../components/companies/CompanyTable';
 import CompaniesBulkBar from '../components/companies/CompaniesBulkBar';
 import CompaniesPagination from '../components/companies/CompaniesPagination';
 import CompanyCreateModal from '../components/companies/CompanyCreateModal';
+import CompaniesImportModal from '../components/companies/CompaniesImportModal';
 import CompanyDrawer from '../components/companies/CompanyDrawer';
 import CompaniesSkeleton from '../components/companies/CompaniesSkeleton';
 import AutoPageIntro from '@/app/automation/components/shared/tour/AutoPageIntro';
@@ -18,17 +18,17 @@ import AutoPageIntro from '@/app/automation/components/shared/tour/AutoPageIntro
 function CompaniesEmptyState({ onCreate }) {
   return (
     <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
-      <div className="w-16 h-16 rounded-2xl bg-[#F9FAFB] border border-[#E5E7EB] flex items-center justify-center mb-5">
-        <Building2 className="w-8 h-8 text-[#98A2B3]" strokeWidth={1.5} />
+      <div className="w-16 h-16 rounded-lg bg-subtle dark:bg-slate-900 border border-line dark:border-slate-700 flex items-center justify-center mb-5">
+        <Building2 className="w-8 h-8 text-fg-tertiary dark:text-fg-tertiary" strokeWidth={1.5} />
       </div>
-      <h3 className="text-[16px] font-semibold text-[#101828] mb-1">No companies yet</h3>
-      <p className="text-[13px] text-[#667085] max-w-sm mb-6">
+      <h3 className="text-title font-semibold text-fg dark:text-slate-100 mb-1">No companies yet</h3>
+      <p className="text-dense text-fg-tertiary dark:text-fg-disabled max-w-sm mb-6">
         Add your first company to organize contacts, deals, and revenue in one place.
       </p>
       <button
         type="button"
         onClick={onCreate}
-        className="px-5 py-2.5 text-[13px] font-semibold text-white bg-[#101828] hover:bg-[#1F2937] rounded-lg shadow-sm transition-colors"
+        className="px-5 py-2.5 text-dense font-medium text-white bg-accent dark:bg-slate-700 hover:bg-[#1F2937] rounded-md transition-colors"
       >
         Add First Company
       </button>
@@ -38,13 +38,14 @@ function CompaniesEmptyState({ onCreate }) {
 
 function CompaniesContent() {
   const ws = useCompaniesWorkspace();
+  const [showImport, setShowImport] = useState(false);
 
   if (ws.loading && !ws.companies.length) return <CompaniesSkeleton />;
 
   const hasFilters = ws.filters.search || ws.filters.industry || ws.filters.status || ws.filters.ownerId;
 
   return (
-    <div className="min-h-full bg-white">
+    <div className="min-h-full bg-canvas dark:bg-slate-900">
       <div className="px-4 sm:px-6 pb-8 max-w-[1600px] mx-auto pt-6">
         <CompaniesHeader
           search={ws.searchInput}
@@ -54,7 +55,7 @@ function CompaniesContent() {
           onRefresh={() => ws.fetchCompanies(true)}
           onCreate={() => ws.setShowModal(true)}
           onExport={ws.exportCompanies}
-          onImport={() => toast('Import coming soon')}
+          onImport={() => setShowImport(true)}
           showFilters={ws.showFilters}
           onToggleFilters={() => ws.setShowFilters((v) => !v)}
           showSort={ws.showSort}
@@ -130,6 +131,12 @@ function CompaniesContent() {
         companyId={ws.drawerId}
         onClose={() => ws.setDrawerId(null)}
         onUpdated={() => ws.fetchCompanies(true)}
+      />
+
+      <CompaniesImportModal
+        open={showImport}
+        onClose={() => setShowImport(false)}
+        onImported={() => ws.fetchCompanies(true)}
       />
     </div>
   );

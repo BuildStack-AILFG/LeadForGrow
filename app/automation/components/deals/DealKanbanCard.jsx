@@ -1,55 +1,45 @@
 'use client';
 
-import Link from 'next/link';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import DealStageBadge from './DealStageBadge';
-import { companyOrContact } from './utils';
+import { companyOrContact, ownerName } from './utils';
+import Avatar from '@/app/components/ui/Avatar';
+import cx, { focusRing } from '@/app/components/ui/cx';
 
-export default function DealKanbanCard({ deal, stages = [], formatValue, onOpen }) {
+/**
+ * Deal card (DESIGN_BRIEF §8): name (14/500) · company/value (13 secondary) ·
+ * owner + close date (12 tertiary). No shadow at rest; the column already
+ * says the stage, so the card doesn't repeat it.
+ */
+export default function DealKanbanCard({ deal, formatValue, onOpen }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: deal._id });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.45 : 1,
-  };
+  const owner = ownerName(deal.assignedTo);
+  const close = deal.expectedCloseDate ? new Date(deal.expectedCloseDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : null;
 
   return (
     <div
       ref={setNodeRef}
-      style={style}
+      style={{ transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.4 : 1 }}
       {...attributes}
       {...listeners}
-      className="bg-white border border-[#E5E7EB] rounded-xl p-3.5 cursor-grab active:cursor-grabbing shadow-[0_1px_2px_rgba(16,24,40,0.04)] hover:shadow-[0_4px_12px_rgba(16,24,40,0.08)] hover:border-[#D0D5DD] transition-all duration-150"
+      role="button"
+      tabIndex={0}
+      aria-label={`Open ${deal.title}`}
+      onClick={() => onOpen?.(deal._id)}
+      onKeyDown={(e) => e.key === 'Enter' && onOpen?.(deal._id)}
+      className={cx('cursor-pointer rounded-lg border border-line bg-canvas p-3 text-left hover:border-line-strong', focusRing)}
     >
-      <button
-        type="button"
-        onClick={(e) => { e.stopPropagation(); onOpen?.(deal._id); }}
-        className="text-left w-full"
-      >
-        <p className="text-[13px] font-semibold text-[#101828] hover:text-[#344054] line-clamp-2 leading-snug">
-          {deal.title}
-        </p>
-      </button>
-      <p className="text-[13px] font-semibold text-[#101828] mt-1.5 tabular-nums">
-        {formatValue(deal.amount, deal.currency)}
+      <p className="line-clamp-2 text-body font-medium text-fg">{deal.title}</p>
+      <p className="mt-0.5 flex items-center justify-between gap-2 text-dense text-fg-secondary">
+        <span className="truncate">{companyOrContact(deal)}</span>
+        <span className="shrink-0 font-medium text-fg tabular">{formatValue(deal.amount, deal.currency)}</span>
       </p>
-      <p className="text-[11px] text-[#667085] mt-1.5 truncate">{companyOrContact(deal)}</p>
-      {deal.expectedCloseDate && (
-        <p className="text-[11px] text-[#98A2B3] mt-1 tabular-nums">
-          Close {new Date(deal.expectedCloseDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
-        </p>
-      )}
-      <div className="mt-2.5 flex items-center justify-between gap-2">
-        <DealStageBadge stage={deal.stage} stages={stages} size="xs" />
-        <Link
-          href={`/automation/deals/${deal._id}`}
-          onClick={(e) => e.stopPropagation()}
-          className="text-[10px] font-medium text-[#98A2B3] hover:text-[#344054]"
-        >
-          Open
-        </Link>
+      <div className="mt-2 flex items-center justify-between gap-2 text-meta text-fg-tertiary">
+        <span className="flex min-w-0 items-center gap-1.5">
+          <Avatar name={owner} size={20} />
+          <span className="truncate">{owner}</span>
+        </span>
+        {close && <span className="shrink-0 tabular">Closes {close}</span>}
       </div>
     </div>
   );

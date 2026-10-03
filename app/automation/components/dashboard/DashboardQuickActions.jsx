@@ -19,13 +19,13 @@ export default function DashboardQuickActions() {
   return (
     <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-2">
       {open && (
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl p-2 min-w-[180px] animate-in fade-in slide-in-from-bottom-2">
+        <div className="bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg shadow-modal p-2 min-w-[180px] ">
           {ACTIONS.map(({ label, href, icon: Icon }) => (
             <Link
               key={label}
               href={href}
               onClick={() => setOpen(false)}
-              className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-700 rounded-lg transition-colors"
+              className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-fg-secondary dark:text-fg-disabled hover:bg-accent-subtle dark:hover:bg-emerald-950/30 hover:text-accent-fg dark:hover:text-accent-fg rounded-lg transition-colors"
             >
               <Icon className="w-4 h-4" />
               {label}
@@ -36,7 +36,7 @@ export default function DashboardQuickActions() {
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="w-14 h-14 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-600/30 flex items-center justify-center transition-transform hover:scale-105"
+        className="w-14 h-14 rounded-full bg-accent hover:bg-accent-hover text-white shadow-popover flex items-center justify-center transition-transform hover:scale-105"
         aria-label={open ? 'Close quick actions' : 'Quick actions'}
       >
         {open ? <X className="w-6 h-6" /> : <Plus className="w-6 h-6" />}

@@ -12,13 +12,17 @@ import { withPlanAccess } from '@/lib/accessControl';
  * settings surfaces.
  */
 
-const FIELDS = ['businessName', 'phone', 'email', 'address', 'gstin', 'website'];
+const FIELDS = [
+  'businessName', 'phone', 'email', 'address', 'gstin', 'website',
+  // Invoice signature block
+  'billStampUrl', 'billSignatoryName', 'billSignatoryTitle',
+];
 
 export const GET = withPlanAccess('automation', async (req) => {
   try {
     await dbConnect();
     const business = await Business.findById(req.user.businessId)
-      .select('businessName phone email address gstin website logo')
+      .select('businessName phone email address gstin website logo billStampUrl billSignatoryName billSignatoryTitle')
       .lean();
     return NextResponse.json({ success: true, data: business || {} });
   } catch (err) {
@@ -56,7 +60,7 @@ export const PUT = withPlanAccess('automation', async (req) => {
     const business = await Business.findByIdAndUpdate(
       req.user.businessId,
       { $set: patch },
-      { new: true, projection: 'businessName phone email address gstin website logo' }
+      { new: true, projection: 'businessName phone email address gstin website logo billStampUrl billSignatoryName billSignatoryTitle' }
     ).lean();
 
     return NextResponse.json({ success: true, data: business });

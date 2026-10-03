@@ -8,13 +8,13 @@ import DashboardCard from './primitives/DashboardCard';
 
 function InsightTile({ icon: Icon, label, value, sub, color, href }) {
   const inner = (
-  <div className={`p-3 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-violet-300 dark:hover:border-violet-700 transition-colors ${href ? 'cursor-pointer' : ''}`}>
+  <div className={`p-3 rounded-lg border border-line dark:border-slate-700 hover:border-line dark:hover:border-accent transition-colors ${href ? 'cursor-pointer' : ''}`}>
       <div className={`w-8 h-8 rounded-lg flex items-center justify-center mb-2 ${color}`}>
         <Icon className="w-4 h-4" />
       </div>
-      <p className="text-sm font-medium text-slate-700 dark:text-slate-300">{label}</p>
-      <p className="text-lg font-bold text-slate-900 dark:text-white mt-0.5">{value}</p>
-      {sub && <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-2">{sub}</p>}
+      <p className="text-sm font-medium text-fg-secondary dark:text-fg-disabled">{label}</p>
+      <p className="text-lg font-semibold text-fg dark:text-white mt-0.5">{value}</p>
+      {sub && <p className="text-meta text-fg-tertiary dark:text-fg-tertiary mt-0.5 line-clamp-2">{sub}</p>}
     </div>
   );
   return href ? <Link href={href}>{inner}</Link> : inner;
@@ -43,23 +43,23 @@ export default function AiInsightsPanel() {
     <DashboardCard padding="p-5">
       <div className="flex items-center justify-between gap-2 mb-4">
         <div className="flex items-center gap-2">
-          <Sparkles className="w-4 h-4 text-violet-500" />
+          <Sparkles className="w-4 h-4 text-accent-fg" />
           <div>
-            <h2 className="text-base font-semibold text-slate-900 dark:text-white">AI Insights</h2>
-            <p className="text-xs text-slate-500">Powered by Grovia</p>
+            <h2 className="text-base font-semibold text-fg dark:text-white">AI Insights</h2>
+            <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">Powered by Grovia</p>
           </div>
         </div>
-        <Link href="/automation/ai/knowledge" className="text-xs text-violet-600 hover:underline flex items-center gap-0.5">
+        <Link href="/automation/ai/knowledge" className="text-xs text-accent-fg dark:text-accent-fg hover:underline flex items-center gap-0.5">
           Knowledge <ArrowRight className="w-3 h-3" />
         </Link>
       </div>
 
       {loading ? (
-        <div className="flex items-center justify-center py-8 text-slate-400">
+        <div className="flex items-center justify-center py-8 text-fg-tertiary">
           <Loader2 className="w-5 h-5 animate-spin" />
         </div>
       ) : !data ? (
-        <p className="text-sm text-slate-500 py-4">Insights unavailable</p>
+        <p className="text-sm text-fg-tertiary dark:text-fg-tertiary py-4">Insights unavailable</p>
       ) : (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -68,7 +68,7 @@ export default function AiInsightsPanel() {
               label="Hot Leads"
               value={data.hotLeads?.length || 0}
               sub={data.hotLeads?.[0]?.name ? `${data.hotLeads[0].name} — ${data.hotLeads[0].action}` : 'No hot leads'}
-              color="text-orange-600 bg-orange-50 dark:bg-orange-950/30"
+              color="text-warning dark:text-orange-400 bg-warning-subtle dark:bg-orange-950/30"
               href="/automation/leads"
             />
             <InsightTile
@@ -76,7 +76,7 @@ export default function AiInsightsPanel() {
               label="Deals at Risk"
               value={data.dealsAtRisk?.length || 0}
               sub={data.dealsAtRisk?.[0]?.title || 'Pipeline healthy'}
-              color="text-red-600 bg-red-50 dark:bg-red-950/30"
+              color="text-danger dark:text-red-400 bg-danger-subtle dark:bg-red-950/30"
               href="/automation/deals"
             />
             <InsightTile
@@ -84,7 +84,7 @@ export default function AiInsightsPanel() {
               label="Customers Waiting"
               value={data.customersWaiting || 0}
               sub="Unread conversations"
-              color="text-teal-600 bg-teal-50 dark:bg-teal-950/30"
+              color="text-accent-fg dark:text-accent-fg bg-accent-subtle dark:bg-teal-950/30"
               href="/automation/chat"
             />
             <InsightTile
@@ -92,18 +92,18 @@ export default function AiInsightsPanel() {
               label="Pipeline Value"
               value={formatCur(data.pipelineValue)}
               sub={`${data.stats?.activeDeals || 0} active deals`}
-              color="text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30"
+              color="text-accent-fg dark:text-accent-fg bg-accent-subtle dark:bg-emerald-950/30"
               href="/automation/pipelines"
             />
           </div>
 
           {data.nextBestActions?.length > 0 && (
-            <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
-              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Next Best Actions</p>
+            <div className="mt-4 pt-4 border-t border-line dark:border-slate-800">
+              <p className="text-xs font-semibold text-fg-tertiary dark:text-fg-tertiary mb-2">Next Best Actions</p>
               <ul className="space-y-1.5">
                 {data.nextBestActions.slice(0, 3).map((a, i) => (
-                  <li key={i} className="text-xs text-slate-600 dark:text-slate-400 flex gap-2">
-                    <span className="text-violet-500 font-medium shrink-0">{a.leadName}</span>
+                  <li key={i} className="text-xs text-fg-secondary dark:text-fg-tertiary flex gap-2">
+                    <span className="text-accent-fg font-medium shrink-0">{a.leadName}</span>
                     <span className="truncate">{a.action}</span>
                   </li>
                 ))}

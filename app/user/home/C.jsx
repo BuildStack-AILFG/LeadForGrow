@@ -13,7 +13,7 @@ const CONTACT_ITEMS = [
   {
     icon: Mail,
     label: 'Email us',
-    value: 'sales@leadforgrow.online',
+    value: 'sales@leadforgrow.com',
     iconClass: 'bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400',
   },
   {
@@ -25,7 +25,7 @@ const CONTACT_ITEMS = [
   {
     icon: Headphones,
     label: 'Support',
-    value: '24/7 live agent chat',
+    value: 'Mon–Fri, 9:00 AM – 6:00 PM IST',
     iconClass: 'bg-sky-50 text-sky-600 dark:bg-sky-950/40 dark:text-sky-400',
   },
 ];

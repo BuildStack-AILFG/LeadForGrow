@@ -4,7 +4,10 @@ import { HELP_GUIDES } from '@/lib/help/guides';
 import { industries } from '@/app/industry/data';
 import { SITE_URL } from '@/lib/seo/metadata';
 
-const STATIC_ROUTES = ['/', '/pricing', '/blog', '/help', '/about', '/register', '/login'];
+const STATIC_ROUTES = [
+  '/', '/pricing', '/blog', '/help', '/about', '/contact', '/register', '/login',
+  '/privacy', '/terms', '/gdpr', '/cookie-policy', '/refund-policy', '/dpa', '/security', '/compliance',
+];
 
 export default function sitemap() {
   const now = new Date();

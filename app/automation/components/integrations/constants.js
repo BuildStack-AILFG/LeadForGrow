@@ -19,25 +19,25 @@ export const HEALTH_FILTERS = [
 ];
 
 export const COLOR_MAP = {
-  emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400',
-  violet: 'bg-violet-100 text-violet-700 dark:bg-violet-950/50 dark:text-violet-400',
-  red: 'bg-red-100 text-red-700 dark:bg-red-950/50 dark:text-red-400',
-  rose: 'bg-rose-100 text-rose-700 dark:bg-rose-950/50 dark:text-rose-400',
-  blue: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-400',
-  purple: 'bg-purple-100 text-purple-700 dark:bg-purple-950/50 dark:text-purple-400',
-  amber: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-400',
-  slate: 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300',
-  indigo: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-950/50 dark:text-indigo-400',
-  orange: 'bg-orange-100 text-orange-700 dark:bg-orange-950/50 dark:text-orange-400',
-  green: 'bg-green-100 text-green-700 dark:bg-green-950/50 dark:text-green-400'
+  emerald: 'bg-accent-subtle text-accent-fg dark:bg-emerald-950/50 dark:text-accent-fg',
+  violet: 'bg-accent-subtle text-accent-fg dark:bg-violet-950/50 dark:text-accent-fg',
+  red: 'bg-danger-subtle text-danger dark:bg-red-950/50 dark:text-red-400',
+  rose: 'bg-danger-subtle text-danger dark:bg-rose-950/50 dark:text-rose-400',
+  blue: 'bg-accent-subtle text-accent-fg dark:bg-teal-950/50 dark:text-accent-fg',
+  purple: 'bg-accent-subtle text-accent-fg dark:bg-purple-950/50 dark:text-accent-fg',
+  amber: 'bg-warning-subtle text-warning dark:bg-amber-950/50 dark:text-amber-400',
+  slate: 'bg-muted text-fg-secondary dark:bg-slate-800 dark:text-fg-disabled',
+  indigo: 'bg-accent-subtle text-accent-fg dark:bg-indigo-950/50 dark:text-accent-fg',
+  orange: 'bg-warning-subtle text-warning dark:bg-orange-950/50 dark:text-orange-400',
+  green: 'bg-accent-subtle text-accent-fg dark:bg-green-950/50 dark:text-accent-fg'
 };
 
 export const HEALTH_STYLES = {
-  healthy: { label: 'Healthy', dot: 'bg-emerald-500', text: 'text-emerald-700 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-950/30' },
-  warning: { label: 'Needs attention', dot: 'bg-amber-500', text: 'text-amber-700 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-950/30' },
-  error: { label: 'Error', dot: 'bg-red-500', text: 'text-red-700 dark:text-red-400', bg: 'bg-red-50 dark:bg-red-950/30' },
-  unknown: { label: 'Unknown', dot: 'bg-slate-400', text: 'text-slate-500 dark:text-slate-400', bg: 'bg-slate-50 dark:bg-slate-800/50' },
-  disconnected: { label: 'Not connected', dot: 'bg-slate-400', text: 'text-slate-500 dark:text-slate-400', bg: 'bg-slate-50 dark:bg-slate-800/50' }
+  healthy: { label: 'Healthy', dot: 'bg-accent', text: 'text-accent-fg dark:text-accent-fg', bg: 'bg-accent-subtle dark:bg-emerald-950/30' },
+  warning: { label: 'Needs attention', dot: 'bg-warning', text: 'text-warning dark:text-amber-400', bg: 'bg-warning-subtle dark:bg-amber-950/30' },
+  error: { label: 'Error', dot: 'bg-danger', text: 'text-danger dark:text-red-400', bg: 'bg-danger-subtle dark:bg-red-950/30' },
+  unknown: { label: 'Unknown', dot: 'bg-fg-disabled', text: 'text-fg-tertiary dark:text-fg-tertiary', bg: 'bg-subtle dark:bg-slate-800/50' },
+  disconnected: { label: 'Not connected', dot: 'bg-fg-disabled', text: 'text-fg-tertiary dark:text-fg-tertiary', bg: 'bg-subtle dark:bg-slate-800/50' }
 };
 
 export const STATUS_LABELS = {

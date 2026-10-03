@@ -1,31 +1,58 @@
-import React from 'react';
+import cx from './cx';
 
 /**
- * Premium SaaS Badge Component
- * @param {'default'|'success'|'warning'|'error'|'indigo'} variant
+ * Badge / Chip — small status label. Colour always paired with text.
+ * tone: neutral · accent · success · warning · danger · info
+ * `dot` shows a leading dot (status chips); `stageColor` overrides the dot
+ * with a pipeline stage colour (e.g. 'var(--stage-3)' or a stage's own hex).
+ * `count` style = tertiary on muted, for nav/tab counts.
  */
-export default function Badge({ 
-  children, 
-  variant = 'default', 
-  className = '', 
-  ...props 
-}) {
-  const baseStyles = "inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider transition-colors";
-  
-  const variants = {
-    default: "bg-slate-100 text-slate-600 border border-slate-200",
-    success: "bg-emerald-50 text-emerald-700 border border-emerald-100",
-    warning: "bg-amber-50 text-amber-700 border border-amber-100",
-    error: "bg-red-50 text-red-700 border border-red-100",
-    indigo: "bg-indigo-50 text-indigo-700 border border-indigo-100"
-  };
+const TONES = {
+  neutral: 'bg-muted text-fg-secondary',
+  accent: 'bg-accent-subtle text-accent-fg',
+  success: 'bg-success-subtle text-success',
+  warning: 'bg-warning-subtle text-warning',
+  danger: 'bg-danger-subtle text-danger',
+  info: 'bg-info-subtle text-info',
+};
 
+const DOTS = {
+  neutral: 'bg-fg-tertiary',
+  accent: 'bg-accent',
+  success: 'bg-success',
+  warning: 'bg-warning',
+  danger: 'bg-danger',
+  info: 'bg-info',
+};
+
+export default function Badge({ tone = 'neutral', dot = false, stageColor, count = false, className, children, ...props }) {
+  if (count) {
+    return (
+      <span
+        className={cx('inline-flex h-[18px] min-w-[18px] items-center justify-center rounded-sm bg-muted px-1 text-[11px] font-medium leading-none text-fg-tertiary tabular', className)}
+        {...props}
+      >
+        {children}
+      </span>
+    );
+  }
   return (
-    <span 
-      className={`${baseStyles} ${variants[variant]} ${className}`}
+    <span
+      className={cx(
+        'inline-flex h-5 max-w-full items-center gap-1.5 whitespace-nowrap rounded-sm px-1.5 text-meta font-medium',
+        stageColor ? 'bg-subtle text-fg-secondary' : TONES[tone],
+        className
+      )}
       {...props}
     >
-      {children}
+      {(dot || stageColor) && (
+        <span
+          aria-hidden
+          className={cx('h-1.5 w-1.5 shrink-0 rounded-full', !stageColor && DOTS[tone])}
+          style={stageColor ? { backgroundColor: stageColor } : undefined}
+        />
+      )}
+      <span className="truncate">{children}</span>
     </span>
   );
 }

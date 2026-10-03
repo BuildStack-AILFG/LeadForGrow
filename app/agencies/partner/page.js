@@ -5,7 +5,7 @@ export const metadata = {
   description: "Join the LeadForGrow partner program. Get exclusive training, priority support, and revenue share opportunities while scaling your agency with our elite tech.",
   keywords: ["agency partner program", "marketing certified expert India", "SaaS referral partner", "agency growth community", "certified lead management expert"],
   alternates: {
-    canonical: 'https://leadforgrow.online/agencies/partner'
+    canonical: 'https://www.leadforgrow.com/agencies/partner'
   }
 };
 
@@ -159,7 +159,7 @@ export default function PartnerPage() {
         "provider": {
           "@type": "Organization",
           "name": "LeadForGrow",
-          "url": "https://leadforgrow.online"
+          "url": "https://www.leadforgrow.com"
         },
         "description": "Exclusive training, certification, and referral program for marketing agencies and sales consultants."
       })}} />

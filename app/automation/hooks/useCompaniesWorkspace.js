@@ -148,14 +148,14 @@ export function useCompaniesWorkspace() {
         fetchCompanies(true);
         fetchStats();
       } else toast.error(result.error);
-    } else if (action === 'archive') {
+    } else if (action === 'archive' || action === 'restore') {
       const res = await authFetch('/api/automation/companies/bulk', {
         method: 'POST',
-        body: JSON.stringify({ ids: [id], action: 'archive' }),
+        body: JSON.stringify({ ids: [id], action }),
       });
       const result = await res.json();
       if (result.success) {
-        toast.success('Company archived');
+        toast.success(action === 'archive' ? 'Company archived' : 'Company restored');
         fetchCompanies(true);
         fetchStats();
       } else toast.error(result.error);

@@ -1,5 +1,3 @@
-'use client';
-
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { MARKETING } from '@/lib/marketing/designTokens';
@@ -28,11 +26,11 @@ const CAPABILITIES = [
     tag: 'Support',
     title: 'Launch WhatsApp Chatbots in Minutes',
     description:
-      "Automate up to 80% of queries with LeadForGrow's easy-to-use, drag-and-drop, no-code chatbot builder.",
+      "Automate common customer queries with LeadForGrow's easy-to-use, drag-and-drop, no-code chatbot builder.",
     href: '/products/automation',
     bg: '#D1FAE5',
     tagColor: '#059669',
-    image: '/images/interakt-clone/chatbot-builder.gif',
+    image: '/images/interakt-clone/chatbot-builder.webp',
   },
   {
     tag: 'Marketing',
@@ -48,7 +46,7 @@ const CAPABILITIES = [
     tag: 'Marketing',
     title: 'Automate Instagram, Win Customers',
     description:
-      'Instantly reply to Instagram DMs and comments 24/7, and turn followers into paying customers.',
+      'Reply to Instagram DMs and comments automatically, and follow up with every new conversation.',
     href: '/products/unified-inbox',
     bg: '#EDE9FE',
     tagColor: '#7C3AED',

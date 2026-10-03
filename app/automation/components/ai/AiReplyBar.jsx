@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Sparkles, Loader2, ChevronDown, Send, Zap } from 'lucide-react';
+import { Bot as Sparkles, Loader2, ChevronDown, Send, Zap } from 'lucide-react';
 import { authFetch } from '@/lib/apiClient';
 import { toast } from 'react-hot-toast';
 
@@ -77,57 +77,55 @@ export default function AiReplyBar({
 
   return (
     <div className="px-3 pt-2">
-      <div className="flex items-center gap-1.5 flex-wrap">
+      {/* One compact line: generate + tone. Changing the tone regenerates. */}
+      <div className="flex items-center gap-1.5">
         <button
           type="button"
           onClick={() => generate()}
           disabled={loading}
-          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-[11px] font-medium rounded-lg bg-violet-50 dark:bg-violet-950/30 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800 hover:bg-violet-100 disabled:opacity-50"
+          className="inline-flex h-7 items-center gap-1.5 rounded-md border border-line bg-canvas px-2.5 text-meta font-medium text-fg-secondary hover:bg-subtle hover:text-fg disabled:opacity-50"
         >
-          {loading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
-          AI Reply
+          {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Sparkles className="h-3.5 w-3.5" strokeWidth={1.75} />}
+          AI reply
         </button>
-        {STYLES.map((s) => (
-          <button
-            key={s.id}
-            type="button"
-            onClick={() => { setStyle(s.id); generate(s.id); }}
-            disabled={loading}
-            className={`px-2 py-1 text-[10px] rounded-md border transition-colors ${
-              style === s.id
-                ? 'bg-violet-600 text-white border-violet-600'
-                : 'text-slate-500 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
-            }`}
-          >
-            {s.label}
-          </button>
-        ))}
+        <label className="sr-only" htmlFor="ai-reply-tone">Reply tone</label>
+        <select
+          id="ai-reply-tone"
+          value={style}
+          disabled={loading}
+          onChange={(e) => { setStyle(e.target.value); generate(e.target.value); }}
+          className="h-7 rounded-md border border-line bg-canvas px-2 text-meta text-fg-secondary hover:border-line-strong focus:outline-none focus-visible:ring-2 focus-visible:ring-focus disabled:opacity-50"
+        >
+          {STYLES.map((s) => (
+            <option key={s.id} value={s.id}>{s.label}</option>
+          ))}
+        </select>
       </div>
 
       {reply && open && (
-        <div className="mt-2 p-3 rounded-xl bg-violet-50/80 dark:bg-violet-950/20 border border-violet-200 dark:border-violet-800">
+        <div className="mt-2 p-3 rounded-lg bg-accent-subtle/80 dark:bg-violet-950/20 border border-line dark:border-violet-800">
           <div className="flex items-center justify-between gap-2 mb-1.5">
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-violet-600 flex items-center gap-1">
+            <span className="text-meta font-semibold text-accent-fg flex items-center gap-1">
               <Zap className="w-3 h-3" /> AI {style} reply
               {reply.confidence != null && (
-                <span className="ml-1 px-1.5 py-0.5 rounded bg-white/60 text-violet-700">
+                <span className="ml-1 px-1.5 py-0.5 rounded bg-canvas/60 text-accent-fg">
                   {Math.round(reply.confidence * 100)}%
                 </span>
               )}
             </span>
-            <button type="button" onClick={() => setOpen(false)} className="text-slate-400 hover:text-slate-600">
+            <button type="button" onClick={() => setOpen(false)} className="text-fg-tertiary hover:text-fg-secondary">
               <ChevronDown className="w-3.5 h-3.5" />
             </button>
           </div>
-          <p className="text-xs text-slate-700 dark:text-slate-300 whitespace-pre-wrap leading-relaxed">{reply.reply}</p>
+          <p className="text-xs text-fg-secondary dark:text-fg-disabled whitespace-pre-wrap leading-relaxed">{reply.reply}</p>
           {reply.sources?.length > 0 && (
-            <p className="text-[10px] text-slate-500 mt-1.5">Sources: {reply.sources.join(', ')}</p>
+            <p className="text-meta text-fg-tertiary mt-1.5">Sources: {reply.sources.join(', ')}</p>
           )}
           <div className="flex gap-2 mt-2.5">
-            <button type="button" onClick={handleUse} className="flex-1 text-xs py-1.5 rounded-lg border border-violet-300 text-violet-700 hover:bg-white/50">
+            <button type="button" onClick={handleUse} className="flex-1 text-xs py-1.5 rounded-lg border border-line text-accent-fg hover:bg-canvas/50">
               Insert
             </button>
-            <button type="button" onClick={handleSend} className="flex-1 text-xs py-1.5 rounded-lg bg-violet-600 text-white hover:bg-violet-700 flex items-center justify-center gap-1">
+            <button type="button" onClick={handleSend} className="flex-1 text-xs py-1.5 rounded-lg bg-accent text-white hover:bg-accent-hover flex items-center justify-center gap-1">
               <Send className="w-3 h-3" /> Send
             </button>
           </div>

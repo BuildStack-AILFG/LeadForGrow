@@ -93,9 +93,14 @@ async function patchHandler(req, { params }) {
       await markConversationRead(id, user.businessId);
     }
 
+    // Done / reopen: keep closedAt in step with status (closed -> now, open -> cleared).
+    const update = { $set: updates };
+    if (updates.status === 'closed') update.$set.closedAt = new Date();
+    else if (updates.status === 'open') update.$unset = { closedAt: 1 };
+
     const conversation = await Conversation.findOneAndUpdate(
       { _id: id, businessId: user.businessId },
-      { $set: updates },
+      update,
       { new: true }
     );
 

@@ -1,46 +1,67 @@
-import React from 'react';
+'use client';
+
+import { forwardRef } from 'react';
+import cx, { focusRing } from './cx';
 
 /**
- * Premium SaaS Button Component
- * @param {'primary'|'secondary'|'outline'|'ghost'|'danger'} variant
- * @param {'sm'|'md'|'lg'} size
+ * Button — DESIGN_BRIEF §8.
+ * variant: primary (accent fill) · secondary (white, border) · ghost · destructive
+ * size:    sm 28 · md 32 (default) · lg 36
+ * Pass `icon` alone (no children) for a square icon button; give it `aria-label`.
+ * `loading` keeps the button's width (label stays, made invisible).
  */
-export default function Button({ 
-  children, 
-  variant = 'primary', 
-  size = 'md', 
-  className = '', 
-  disabled = false,
-  loading = false,
-  icon: Icon,
-  ...props 
-}) {
-  const baseStyles = "inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none rounded-md";
-  
-  const variants = {
-    primary: "bg-primary text-primary-foreground shadow-sm hover:opacity-90",
-    secondary: "bg-secondary text-secondary-foreground hover:bg-slate-200/80",
-    outline: "border border-border bg-transparent hover:bg-slate-50 text-slate-700",
-    ghost: "bg-transparent hover:bg-slate-100 text-slate-600",
-    danger: "bg-destructive text-destructive-foreground hover:opacity-90"
-  };
-  
-  const sizes = {
-    sm: "h-8 px-3 text-xs",
-    md: "h-10 px-4 text-sm",
-    lg: "h-12 px-6 text-base"
-  };
+const VARIANTS = {
+  primary:
+    'bg-accent text-white hover:bg-accent-hover active:bg-accent-pressed disabled:bg-muted disabled:text-fg-disabled',
+  secondary:
+    'bg-canvas text-fg border border-line hover:bg-subtle hover:border-line-strong active:bg-muted disabled:text-fg-disabled disabled:bg-canvas',
+  ghost:
+    'bg-transparent text-fg-secondary hover:bg-muted hover:text-fg active:bg-line disabled:text-fg-disabled disabled:bg-transparent',
+  destructive:
+    'bg-danger text-white hover:brightness-95 active:brightness-90 disabled:bg-muted disabled:text-fg-disabled',
+};
 
+const SIZES = {
+  sm: 'h-7 px-2.5 text-dense gap-1.5',
+  md: 'h-8 px-3 text-body gap-2',
+  lg: 'h-9 px-4 text-body gap-2',
+};
+
+const ICON_ONLY = { sm: 'h-7 w-7', md: 'h-8 w-8', lg: 'h-9 w-9' };
+
+const Button = forwardRef(function Button(
+  { variant = 'secondary', size = 'md', icon: Icon, iconRight: IconRight, loading = false, disabled, className, children, type = 'button', ...props },
+  ref
+) {
+  const iconOnly = Icon && !children;
   return (
-    <button 
-      className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
+    <button
+      ref={ref}
+      type={type}
       disabled={disabled || loading}
+      aria-busy={loading || undefined}
+      className={cx(
+        'relative inline-flex shrink-0 select-none items-center justify-center whitespace-nowrap rounded-md font-medium',
+        'transition-colors duration-[var(--duration-fast)] ease-standard disabled:cursor-not-allowed',
+        focusRing,
+        VARIANTS[variant],
+        iconOnly ? ICON_ONLY[size] : SIZES[size],
+        className
+      )}
       {...props}
     >
-      {loading ? (
-        <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-      ) : Icon && <Icon className={`${size === 'sm' ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />}
-      {children}
+      <span className={cx('inline-flex items-center gap-[inherit]', loading && 'invisible')}>
+        {Icon && <Icon className="h-4 w-4 shrink-0" strokeWidth={1.5} aria-hidden />}
+        {children}
+        {IconRight && <IconRight className="h-4 w-4 shrink-0" strokeWidth={1.5} aria-hidden />}
+      </span>
+      {loading && (
+        <span className="absolute inset-0 flex items-center justify-center" aria-hidden>
+          <span className="h-3.5 w-3.5 animate-spin rounded-full border-[1.5px] border-current border-t-transparent" />
+        </span>
+      )}
     </button>
   );
-}
+});
+
+export default Button;

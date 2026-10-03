@@ -20,6 +20,17 @@ const PUBLIC_API_PREFIXES = [
   '/api/website-funnel/leads', // public lead capture from published funnel sites (validated in handler)
 ];
 
+/**
+ * Inbound webhook receivers that live under a protected prefix. Callers are
+ * outside services with no JWT; each handler checks its own secret or token.
+ * Exact shapes only, so the management routes next to them stay protected.
+ */
+const PUBLIC_API_PATTERNS = [
+  /^\/api\/integrations\/webhooks\/[^/]+\/?$/,                 // Business.webhookSecret, or interakt-reply (per-business token)
+  /^\/api\/automation\/webhooks\/[^/]+\/[^/]+\/?$/,            // workflow id + secret
+  /^\/api\/automation\/whatsapp-flows\/webhook\/[^/]+\/?$/,    // WhatsAppFlow.webhookSecret
+];
+
 /** Protected API prefixes — JWT required */
 const PROTECTED_API_PREFIXES = [
   '/api/automation/',
@@ -46,7 +57,8 @@ const PROTECTED_API_PREFIXES = [
 const PROTECTED_PAGE_PREFIXES = ['/automation', '/agency', '/lfgadmin'];
 
 function isPublicApi(pathname) {
-  return PUBLIC_API_PREFIXES.some((p) => pathname.startsWith(p));
+  return PUBLIC_API_PREFIXES.some((p) => pathname.startsWith(p))
+    || PUBLIC_API_PATTERNS.some((re) => re.test(pathname));
 }
 
 function isProtectedApi(pathname) {

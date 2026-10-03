@@ -4,7 +4,7 @@ import MeetingsTemplatesView from '../../components/meetings/MeetingsTemplatesVi
 
 export default function MeetingsTemplatesPage() {
   return (
-    <div className="min-h-full bg-[#f8f9fc] dark:bg-slate-950">
+    <div className="min-h-full bg-canvas">
       <MeetingsTemplatesView />
     </div>
   );

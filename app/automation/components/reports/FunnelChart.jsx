@@ -23,15 +23,15 @@ export default function FunnelChart({ statusCounts = {}, totalLeads = 0 }) {
           return (
             <div key={stage.key}>
               <div className="flex items-center justify-between text-xs mb-1">
-                <span className="font-medium text-slate-700 dark:text-slate-300">{stage.label}</span>
-                <span className="text-slate-500 tabular-nums">
+                <span className="font-medium text-fg-secondary dark:text-fg-disabled">{stage.label}</span>
+                <span className="text-fg-tertiary dark:text-fg-tertiary tabular-nums">
                   {stage.count.toLocaleString()} · {pct}%
-                  {dropOff > 0 && <span className="text-red-500 ml-1">−{dropOff}%</span>}
+                  {dropOff > 0 && <span className="text-danger ml-1">−{dropOff}%</span>}
                 </span>
               </div>
-              <div className="h-8 rounded-lg bg-slate-100 dark:bg-slate-800 overflow-hidden flex justify-center">
+              <div className="h-8 rounded-lg bg-muted dark:bg-slate-800 overflow-hidden flex justify-center">
                 <div
-                  className="h-full rounded-lg transition-all duration-700 flex items-center justify-center text-[11px] font-semibold text-white"
+                  className="h-full rounded-lg transition-all duration-700 flex items-center justify-center text-meta font-semibold text-white"
                   style={{ width: `${widthPct}%`, backgroundColor: stage.color, minWidth: stage.count > 0 ? '2rem' : 0 }}
                 >
                   {stage.count > 0 && stage.count}

@@ -22,10 +22,11 @@ export const POST = withTenantAuth(async (req) => {
     const business = await Business.findById(req.user.businessId);
     if (!business) return NextResponse.json({ success: false, error: 'Business not found' }, { status: 404 });
 
-    const result = await sendAutoWhatsApp(lead, business, message);
+    // Sent by an agent from the lead page.
+    const result = await sendAutoWhatsApp(lead, business, message, null, null, 'en', null, null, null, { origin: 'user' });
 
     if (!result.success) {
-      return NextResponse.json({ success: false, error: result.error || 'Failed to send WhatsApp' }, { status: 500 });
+      return NextResponse.json({ success: false, error: result.error || 'Failed to send WhatsApp' }, { status: result.reason === 'opted_out' ? 403 : 500 });
     }
 
     await emitChatMessage(req.user.businessId, { leadId, direction: 'outbound' });

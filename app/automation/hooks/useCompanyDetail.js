@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import { authFetch, getUserId } from '@/lib/apiClient';
 import { useConfirm } from '@/app/components/ConfirmProvider';
+import { useMediaUpload } from './useMediaUpload';
 
 const EMPTY_FORM = {
   name: '',
@@ -32,6 +33,7 @@ export function useCompanyDetail(companyId) {
   const [dealForm, setDealForm] = useState({ title: '', amount: '', stage: 'qualification' });
   const [noteText, setNoteText] = useState('');
   const [uploading, setUploading] = useState(false);
+  const { uploadFile } = useMediaUpload();
 
   const fetchCompany = useCallback(async () => {
     if (!companyId) return;
@@ -203,12 +205,11 @@ export function useCompanyDetail(companyId) {
     if (!file) return;
     setUploading(true);
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      const uploadRes = await authFetch('/api/upload', { method: 'POST', body: formData });
-      const uploadData = await uploadRes.json();
-      if (!uploadData.success) {
-        toast.error(uploadData.error || 'Upload failed');
+      let uploaded;
+      try {
+        uploaded = await uploadFile(file);
+      } catch (err) {
+        toast.error(err.message || 'Upload failed');
         return;
       }
       const res = await authFetch('/api/automation/attachments', {
@@ -216,10 +217,10 @@ export function useCompanyDetail(companyId) {
         body: JSON.stringify({
           entityType: 'company',
           entityId: companyId,
-          fileName: file.name,
-          fileUrl: uploadData.url,
-          fileSize: file.size,
-          mimeType: file.type,
+          fileName: uploaded.fileName,
+          fileUrl: uploaded.url,
+          fileSize: uploaded.size,
+          mimeType: uploaded.mimeType,
         }),
       });
       const data = await res.json();

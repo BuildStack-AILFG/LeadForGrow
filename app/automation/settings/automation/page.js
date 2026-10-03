@@ -52,13 +52,13 @@ export default function AutomationSettingsPage() {
   };
 
   if (!config) {
-    return <div className="p-8 text-center text-slate-500">Loading automation settings…</div>;
+    return <div className="p-8 text-center text-fg-tertiary dark:text-fg-tertiary">Loading automation settings…</div>;
   }
 
   return (
     <div className="space-y-5">
       <div className="flex justify-end">
-        <button type="button" onClick={save} disabled={saving} className="px-4 py-2 rounded-xl bg-teal-600 text-white text-sm font-medium disabled:opacity-50">
+        <button type="button" onClick={save} disabled={saving} className="px-4 py-2 rounded-md bg-accent text-white text-sm font-medium disabled:opacity-50">
           {saving ? 'Saving…' : 'Save settings'}
         </button>
       </div>
@@ -89,7 +89,7 @@ export default function AutomationSettingsPage() {
               <button key={d} type="button" onClick={() => {
                 const days = (config.businessHours?.days || []).includes(d) ? config.businessHours.days.filter((x) => x !== d) : [...(config.businessHours?.days || []), d];
                 setConfig({ ...config, businessHours: { ...config.businessHours, days } });
-              }} className={`px-3 py-1.5 text-xs font-medium rounded-lg capitalize ${(config.businessHours?.days || []).includes(d) ? 'bg-teal-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600'}`}>{d}</button>
+              }} className={`px-3 py-1.5 text-xs font-medium rounded-lg capitalize ${(config.businessHours?.days || []).includes(d) ? 'bg-accent text-white' : 'bg-muted dark:bg-slate-800 text-fg-secondary dark:text-fg-disabled'}`}>{d}</button>
             ))}
           </div>
         </SettingsCard>

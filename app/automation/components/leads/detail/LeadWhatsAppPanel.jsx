@@ -1,12 +1,60 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Send, MessageSquare } from 'lucide-react';
+import { Send, MessageSquare, Clock } from 'lucide-react';
 import Link from 'next/link';
+import WarningNote from '@/app/components/ui/WarningNote';
+import { WhatsAppIcon, InstagramIcon, FacebookIcon, GmailIcon } from '../../chat/BrandIcons';
+import { CHANNEL_LABELS, getMessageChannels, getPrimaryChannel, getReplyChannels, getReplyWindow, formatWindowLeft } from './leadChannels';
 
-export default function LeadWhatsAppPanel({ lead, messages = [], onSend, sending }) {
+const CHANNEL_ICONS = {
+  whatsapp: WhatsAppIcon,
+  instagram: InstagramIcon,
+  facebook: FacebookIcon,
+  email: GmailIcon,
+};
+
+// "a WhatsApp" / "an Instagram" / "an Email"
+const withArticle = (label) => `${/^[AEIOU]/i.test(label) ? 'an' : 'a'} ${label}`;
+
+export function ChannelMark({ channel, className = 'w-3.5 h-3.5' }) {
+  const Icon = CHANNEL_ICONS[channel];
+  return Icon ? <Icon colored className={className} /> : null;
+}
+
+/**
+ * The lead's message thread. Shows every channel the lead has talked to us on (each message is tagged with
+ * its own channel) and sends replies on the channel picked in the composer — defaulting to the channel of
+ * the latest message, so an Instagram lead's reply goes out as an Instagram DM, not WhatsApp.
+ * `onSend(text, channel)` does the actual sending.
+ */
+export default function LeadWhatsAppPanel({ lead, messages = [], onSend, sending, draft = null }) {
   const [text, setText] = useState('');
+  const [picked, setPicked] = useState(null);
+  const [now, setNow] = useState(() => Date.now());
   const bottomRef = useRef(null);
+
+  // A quick template picked on the profile card lands in the composer.
+  useEffect(() => {
+    if (draft?.text) setText(draft.text);
+  }, [draft]);
+
+  useEffect(() => {
+    const t = setInterval(() => setNow(Date.now()), 60_000);
+    return () => clearInterval(t);
+  }, []);
+
+  const visible = messages.filter((m) => !m.isInternal);
+  const threadChannels = getMessageChannels(visible);
+  const replyChannels = getReplyChannels(lead, visible);
+  const primary = getPrimaryChannel(lead, visible);
+  const channel = picked && replyChannels.includes(picked) ? picked : (replyChannels.includes(primary) ? primary : replyChannels[0] || primary);
+  const multi = threadChannels.length > 1;
+  const replyWindow = getReplyWindow(visible, channel, now);
+  // Meta rejects Instagram/Messenger DMs outside 24h, so don't offer a send that can only fail.
+  // (WhatsApp keeps sending: the send route can fall back to templates.)
+  const sendBlocked = replyWindow.state === 'closed' && channel !== 'whatsapp';
+  const title = multi ? 'Conversation' : `${CHANNEL_LABELS[threadChannels[0] || channel]} conversation`;
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -14,42 +62,46 @@ export default function LeadWhatsAppPanel({ lead, messages = [], onSend, sending
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!text.trim() || sending) return;
-    const ok = await onSend(text.trim());
+    if (!text.trim() || sending || sendBlocked) return;
+    const ok = await onSend(text.trim(), channel);
     if (ok) setText('');
   };
 
   return (
-    <div className="flex flex-col h-[560px]">
-      <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-100 dark:border-slate-800">
-        <p className="text-sm font-medium text-slate-700 dark:text-slate-300">WhatsApp conversation</p>
+    <div className="flex flex-col flex-1 min-h-[560px] max-h-[80vh]">
+      <div className="flex items-center justify-between pb-3 mb-3 border-b border-line dark:border-slate-800">
+        <p className="text-sm font-medium text-fg-secondary dark:text-fg-disabled flex items-center gap-2">
+          <ChannelMark channel={threadChannels[0] || channel} className="w-4 h-4" />
+          {title}
+        </p>
         <Link
           href={`/automation/chat?leadId=${lead._id}`}
-          className="text-xs font-medium text-teal-600 hover:underline"
+          className="text-xs font-medium text-accent-fg dark:text-accent-fg hover:underline"
         >
           Open full inbox →
         </Link>
       </div>
 
       <div className="flex-1 overflow-y-auto space-y-3 pr-1">
-        {messages.length === 0 ? (
+        {visible.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center py-12">
-            <MessageSquare className="w-10 h-10 text-slate-300 mb-2" />
-            <p className="text-sm text-slate-500">No messages yet</p>
-            <p className="text-xs text-slate-400 mt-1 max-w-xs">Send a WhatsApp message to start the conversation.</p>
+            <MessageSquare className="w-10 h-10 text-fg-disabled mb-2" />
+            <p className="text-sm text-fg-tertiary dark:text-fg-tertiary">No messages yet</p>
+            <p className="text-xs text-fg-tertiary mt-1 max-w-xs">Send {withArticle(CHANNEL_LABELS[channel])} message to start the conversation.</p>
           </div>
         ) : (
-          messages.map((msg, idx) => (
-            <div key={idx} className={`flex ${msg.direction === 'outgoing' ? 'justify-end' : 'justify-start'}`}>
+          visible.map((msg, idx) => (
+            <div key={msg._id || idx} className={`flex ${msg.direction === 'outgoing' ? 'justify-end' : 'justify-start'}`}>
               <div
-                className={`max-w-[85%] px-3.5 py-2.5 rounded-xl text-sm ${
+                className={`max-w-[85%] min-w-0 px-3.5 py-2.5 rounded text-sm ${
                   msg.direction === 'outgoing'
-                    ? 'bg-teal-600 text-white rounded-tr-sm'
-                    : 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 rounded-tl-sm border border-slate-200 dark:border-slate-700'
+                    ? 'bg-accent text-white rounded-tr-sm'
+                    : 'bg-muted dark:bg-slate-800 text-fg dark:text-slate-100 rounded-tl-sm border border-line dark:border-slate-700'
                 }`}
               >
-                <p className="whitespace-pre-wrap">{msg.content?.body || msg.text}</p>
-                <p className={`text-[10px] mt-1 ${msg.direction === 'outgoing' ? 'text-teal-100' : 'text-slate-400'}`}>
+                <p className="whitespace-pre-wrap [overflow-wrap:anywhere]">{msg.content?.body || msg.text}</p>
+                <p className={`text-meta mt-1 flex items-center gap-1 ${msg.direction === 'outgoing' ? 'text-teal-100 justify-end' : 'text-fg-tertiary'}`}>
+                  {multi && <ChannelMark channel={msg.channel} className="w-3 h-3" />}
                   {msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}
                 </p>
               </div>
@@ -59,27 +111,63 @@ export default function LeadWhatsAppPanel({ lead, messages = [], onSend, sending
         <div ref={bottomRef} />
       </div>
 
-      <form onSubmit={handleSubmit} className="pt-3 mt-auto border-t border-slate-100 dark:border-slate-800 flex gap-2">
-        <textarea
-          rows={1}
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Type a WhatsApp message..."
-          className="flex-1 text-sm px-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 resize-none focus:outline-none focus:ring-2 focus:ring-teal-500/20"
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault();
-              handleSubmit(e);
-            }
-          }}
-        />
-        <button
-          type="submit"
-          disabled={!text.trim() || sending}
-          className="p-2.5 rounded-lg bg-teal-600 text-white disabled:opacity-40 hover:bg-teal-700 flex-shrink-0"
-        >
-          <Send className="w-4 h-4" />
-        </button>
+      <form onSubmit={handleSubmit} className="pt-3 mt-auto border-t border-line dark:border-slate-800 space-y-2">
+        {replyWindow.state === 'open' && (
+          <p className={`text-xs flex items-center gap-1.5 ${replyWindow.msLeft < 3 * 3600_000 ? 'text-warning dark:text-amber-400' : 'text-fg-tertiary dark:text-fg-tertiary'}`}>
+            <Clock className="w-3.5 h-3.5" />
+            Reply window: {formatWindowLeft(replyWindow.msLeft)} left
+          </p>
+        )}
+        {replyWindow.state === 'closed' && (
+          <WarningNote>
+            {channel === 'whatsapp'
+              ? 'The 24-hour window has closed. Free-text WhatsApp messages may be rejected, so use a template.'
+              : `The 24-hour window has closed. ${CHANNEL_LABELS[channel]} only allows replies within 24 hours of the customer's last message. You can reply again once they message you.`}
+          </WarningNote>
+        )}
+        {replyChannels.length > 1 && (
+          <div className="flex items-center gap-1.5 text-xs text-fg-tertiary dark:text-fg-tertiary">
+            <span>Reply via</span>
+            {replyChannels.map((c) => (
+              <button
+                key={c}
+                type="button"
+                onClick={() => setPicked(c)}
+                className={`inline-flex items-center gap-1 px-2 py-1 rounded border transition-colors ${
+                  c === channel
+                    ? 'border-accent text-accent-fg dark:text-accent-fg bg-accent-subtle dark:bg-teal-950/30'
+                    : 'border-line dark:border-slate-700 hover:bg-subtle dark:hover:bg-slate-800'
+                }`}
+              >
+                <ChannelMark channel={c} className="w-3 h-3" />
+                {CHANNEL_LABELS[c]}
+              </button>
+            ))}
+          </div>
+        )}
+        <div className="flex gap-2">
+          <textarea
+            rows={1}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            disabled={sendBlocked}
+            placeholder={sendBlocked ? 'Reply window closed' : `Type ${withArticle(CHANNEL_LABELS[channel])} message...`}
+            className="flex-1 text-sm px-3 py-2.5 border border-line dark:border-slate-700 rounded bg-canvas dark:bg-slate-900 resize-none focus:outline-none focus:ring-2 focus:ring-focus"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSubmit(e);
+              }
+            }}
+          />
+          <button
+            type="submit"
+            disabled={!text.trim() || sending || sendBlocked}
+            className="p-2.5 rounded bg-accent text-white disabled:opacity-40 hover:bg-accent-hover flex-shrink-0"
+          >
+            <Send className="w-4 h-4" />
+          </button>
+        </div>
       </form>
     </div>
   );
@@ -89,28 +177,28 @@ export function LeadCallsTab({ activities = [] }) {
   const calls = activities.filter((a) => a.type === 'contacted' || a.type === 'call').reverse();
 
   if (!calls.length) {
-    return <p className="text-sm text-slate-500 text-center py-12">No call history yet.</p>;
+    return <p className="text-sm text-fg-tertiary dark:text-fg-tertiary text-center py-12">No call history yet.</p>;
   }
 
   return (
     <ul className="space-y-3 max-h-[560px] overflow-y-auto">
       {calls.map((call, idx) => (
-        <li key={call._id || idx} className="p-4 rounded-lg border border-slate-200 dark:border-slate-700">
+        <li key={call._id || idx} className="p-4 rounded border border-line dark:border-slate-700">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-sm font-medium text-slate-800 dark:text-slate-200">Call session</p>
+            <p className="text-sm font-medium text-fg dark:text-slate-200">Call session</p>
             {call.metadata?.durationSeconds != null && (
-              <span className="text-xs text-slate-500 tabular-nums">{call.metadata.durationSeconds}s</span>
+              <span className="text-xs text-fg-tertiary dark:text-fg-tertiary tabular-nums">{call.metadata.durationSeconds}s</span>
             )}
           </div>
           {call.metadata?.notes && (
-            <p className="text-sm text-slate-600 dark:text-slate-400 mb-2">{call.metadata.notes}</p>
+            <p className="text-sm text-fg-secondary dark:text-fg-tertiary mb-2">{call.metadata.notes}</p>
           )}
           {call.metadata?.recordingUrl && (
             <audio controls className="w-full h-9 mt-2">
               <source src={call.metadata.recordingUrl} type="audio/mpeg" />
             </audio>
           )}
-          <p className="text-[11px] text-slate-400 mt-2">
+          <p className="text-meta text-fg-tertiary mt-2">
             {call.performedAt ? new Date(call.performedAt).toLocaleString() : ''}
           </p>
         </li>

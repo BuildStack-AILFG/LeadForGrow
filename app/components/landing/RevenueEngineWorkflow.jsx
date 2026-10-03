@@ -1,16 +1,15 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   Layers,
   Route,
-  MessageCircle,
   Users,
   Kanban,
   TrendingUp,
-  ChevronRight,
-} from 'lucide-react';
+  ChevronRight} from 'lucide-react';
 import { LANDING } from './landingStyles';
 import LandingSectionBg from './LandingSectionBg';
 
@@ -31,7 +30,7 @@ const STAGES = [
   },
   {
     id: 'whatsapp',
-    icon: MessageCircle,
+    icon: WhatsAppIcon,
     label: 'WhatsApp Automation',
     detail: 'Instant welcome, templates, and nurture sequences fire automatically.',
     metric: '60s reply',

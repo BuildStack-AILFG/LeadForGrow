@@ -1,5 +1,6 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import React, { useState } from 'react';
 import UserNavbar from '../user/Header';
 import AIChatPopup from './AIChatPopup';
@@ -75,7 +76,7 @@ const FeatureSection = ({ title, sub, desc, points, image, reverse, icon: Icon, 
         </button>
       </div>
       <div className="flex-1 w-full flex justify-center items-center">
-        <img src={image} alt={title} className="w-full max-w-2xl h-auto" />
+        <img src={image} alt={title} className="w-full max-w-2xl h-auto" loading="lazy" decoding="async" />
       </div>
     </div>
   </section>
@@ -232,7 +233,7 @@ export default function IndustryTemplate({ data }) {
             "Automatically assign leads to your agents.",
             "Connect with leads instantly with LeadForGrow's WhatsApp Chatbot."
           ]}
-          image="/portal-integrations.png"
+          image="/portal-integrations.webp"
         />
 
         <FeatureSection 
@@ -246,7 +247,7 @@ export default function IndustryTemplate({ data }) {
             "Use LeadForGrow's web application to make calls from your mobile in one click.",
             "Eliminate manual effort and automatically sync call feedback (call connected, disconnected, missed, etc.)"
           ]}
-          image="/calling-list.png"
+          image="/calling-list.webp"
         />
 
         <FeatureSection 
@@ -259,7 +260,7 @@ export default function IndustryTemplate({ data }) {
             "Seamless Routing: Sync leads to Sales or Support teams based on intent.",
             "Automated Follow-ups: Initiate onboarding sequences and document collection without manual work."
           ]}
-          image="/whatsapp-automation.png"
+          image="/whatsapp-automation.webp"
         />
 
         <FeatureSection 
@@ -319,7 +320,7 @@ export default function IndustryTemplate({ data }) {
               { t: "Customer Support", d: "Dedicated onboarding sessions and a WhatsApp group for your team members.", i: Headphones },
               { t: "Intuitive Interface", d: "Easy-to-use interface, specially designed for non-tech-savvy agents.", i: Layout },
               { t: "Affordable", d: "Extensive features designed for your business at an unmatchable price.", i: ArrowRight },
-              { t: "WhatsApp-first", d: "Manage all WhatsApp interactions from one central hub 24/7.", i: MessageSquare },
+              { t: "WhatsApp-first", d: "Manage all WhatsApp interactions from one central hub.", i: WhatsAppIcon },
             ].map((item, i) => (
               <div key={i} className="p-8 border border-slate-100 rounded-2xl bg-slate-50/30 hover:shadow-xl transition-all">
                 <div className="text-indigo-600 mb-6"><item.i size={28} /></div>
@@ -338,7 +339,7 @@ export default function IndustryTemplate({ data }) {
           <div className="bg-white rounded-3xl border border-slate-100 p-8 shadow-xl">
             <FAQItem 
               question={`Can LeadForGrow handle thousands of ${data.name.toLowerCase()} leads?`}
-              answer="Yes, LeadForGrow is built on enterprise infrastructure designed to scale effortlessly. We handle millions of interactions daily with 99.9% uptime."
+              answer="Yes. LeadForGrow runs on cloud infrastructure and is designed to grow with your business."
             />
             <FAQItem 
               question="Does it integrate with my current ad platforms?"
@@ -350,7 +351,7 @@ export default function IndustryTemplate({ data }) {
             />
             <FAQItem 
               question="What kind of support do you provide?"
-              answer="We provide dedicated onboarding, personalized training sessions, and 24/7 support via WhatsApp and Email to ensure your team is successful."
+              answer="We provide onboarding guidance and support via WhatsApp and email to help your team get started."
             />
           </div>
         </div>
@@ -360,7 +361,7 @@ export default function IndustryTemplate({ data }) {
       <section className="py-32 px-8 text-center bg-indigo-600 text-white relative overflow-hidden">
         <div className="max-w-4xl mx-auto space-y-12 relative z-10">
           <h2 className="text-5xl md:text-6xl font-black tracking-tight leading-tight">Ready to boost your sales efficiency?</h2>
-          <p className="text-xl opacity-90 font-medium">Join 5000+ growing teams using LeadForGrow to scale their operations.</p>
+          <p className="text-xl opacity-90 font-medium">Start using LeadForGrow to scale your operations.</p>
           <div className="flex justify-center gap-6">
             <button className="bg-white text-indigo-600 px-12 py-6 rounded-2xl text-xl font-bold hover:bg-slate-50 transition-all shadow-2xl">Book My Free Demo</button>
           </div>

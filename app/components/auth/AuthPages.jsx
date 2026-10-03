@@ -128,12 +128,12 @@ export function LoginPage() {
         <form onSubmit={handleSubmit} className="space-y-5">
           <Field icon={Mail} label="Email" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} />
           <Field icon={Lock} label="Password" type={showPassword ? 'text' : 'password'} value={form.password} onChange={(v) => setForm({ ...form, password: v })} togglePassword={() => setShowPassword(!showPassword)} showToggle>
-            <Link href="/forgot-password" className="text-xs font-semibold text-emerald-700 hover:text-emerald-800">Forgot?</Link>
+            <Link href="/forgot-password" className="text-xs font-semibold text-[#163c32] hover:text-[#163c32]">Forgot?</Link>
           </Field>
           <SubmitButton loading={loading} label="Sign in" />
         </form>
         <p className="mt-8 text-center text-sm text-[#64748B]">
-          New here? <Link href="/register" className="text-emerald-700 font-semibold hover:text-emerald-800">Create account</Link>
+          New here? <Link href="/register" className="text-[#163c32] font-semibold hover:text-[#163c32]">Create account</Link>
         </p>
       </AuthFormShell>
     </div>
@@ -197,10 +197,10 @@ export function RegisterPage() {
     <div className={AUTH.panel}>
       <AuthIllustrationPanel variant="register" />
       <AuthFormShell title="Create your account" subtitle="Start your 14-day free trial. No credit card required.">
-        <div className="flex p-1 bg-emerald-50 rounded-xl mb-6 border border-emerald-100">
+        <div className="flex p-1 bg-[#F0F9F5] rounded-xl mb-6 border border-[#BAE0CF]">
           {[{ id: 'business', icon: Briefcase, label: 'Business' }, { id: 'agency', icon: Building2, label: 'Agency' }].map((t) => (
             <button key={t.id} type="button" onClick={() => setAccountType(t.id)}
-              className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-all ${accountType === t.id ? 'bg-white text-emerald-700 shadow-sm' : 'text-[#64748B]'}`}>
+              className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-all ${accountType === t.id ? 'bg-white text-[#163c32] shadow-sm' : 'text-[#64748B]'}`}>
               <t.icon className="w-4 h-4" />{t.label}
             </button>
           ))}
@@ -219,10 +219,10 @@ export function RegisterPage() {
           <SubmitButton loading={loading} label="Create account" disabled={!canSubmit} />
         </form>
         <p className="mt-8 text-center text-sm text-[#64748B]">
-          Already have an account? <Link href="/login" className="text-emerald-700 font-semibold">Sign in</Link>
+          Already have an account? <Link href="/login" className="text-[#163c32] font-semibold">Sign in</Link>
         </p>
         <p className="mt-4 text-center text-xs text-[#94A3B8]">
-          By signing up you agree to our <Link href="/terms" className="underline hover:text-emerald-700">Terms</Link> and <Link href="/privacy" className="underline hover:text-emerald-700">Privacy Policy</Link>.
+          By signing up you agree to our <Link href="/terms" className="underline hover:text-[#163c32]">Terms</Link> and <Link href="/privacy" className="underline hover:text-[#163c32]">Privacy Policy</Link>.
         </p>
       </AuthFormShell>
     </div>
@@ -265,7 +265,7 @@ export function ForgotPasswordPage() {
         title={sent ? 'Check your email' : 'Reset your password'}
         subtitle={sent ? `We sent a reset link to ${email}` : 'Enter your email and we\'ll send a secure reset link.'}
         backLink={
-          <Link href="/login" className="inline-flex items-center gap-1 text-sm text-[#64748B] hover:text-emerald-700 mb-6">
+          <Link href="/login" className="inline-flex items-center gap-1 text-sm text-[#64748B] hover:text-[#163c32] mb-6">
             <ChevronLeft className="w-4 h-4" /> Back to sign in
           </Link>
         }
@@ -277,8 +277,8 @@ export function ForgotPasswordPage() {
           </form>
         ) : (
           <div className="space-y-4">
-            <p className="text-sm text-[#64748B]">Didn&apos;t receive it? Check spam or <button type="button" onClick={() => setSent(false)} className="text-emerald-700 font-medium">try again</button>.</p>
-            <Link href="/login" className="block w-full text-center py-3.5 rounded-xl bg-emerald-600 text-white font-semibold hover:bg-emerald-700">
+            <p className="text-sm text-[#64748B]">Didn&apos;t receive it? Check spam or <button type="button" onClick={() => setSent(false)} className="text-[#163c32] font-medium">try again</button>.</p>
+            <Link href="/login" className="block w-full text-center py-3.5 rounded-xl bg-[#1D4B3E] text-white font-semibold hover:bg-[#163c32]">
               Return to sign in
             </Link>
           </div>
@@ -349,12 +349,12 @@ export function VerifyEmailPage() {
     <div className={AUTH.panel}>
       <AuthIllustrationPanel variant="verify" />
       <AuthFormShell title="Verify your email" subtitle="We sent a verification link to your inbox. Click it to activate your account.">
-        <div className="p-6 rounded-2xl bg-emerald-50 border border-emerald-100 text-center">
-          <Mail className="w-10 h-10 text-emerald-600 mx-auto mb-3" />
+        <div className="p-6 rounded-2xl bg-[#F0F9F5] border border-[#BAE0CF] text-center">
+          <Mail className="w-10 h-10 text-[#1D4B3E] mx-auto mb-3" />
           <p className="text-sm text-[#64748B] mb-4">Didn&apos;t get the email? Check spam or request a new link.</p>
-          <button type="button" className="text-sm font-semibold text-emerald-700 hover:text-emerald-800">Resend verification email</button>
+          <button type="button" className="text-sm font-semibold text-[#163c32] hover:text-[#163c32]">Resend verification email</button>
         </div>
-        <Link href="/login" className="mt-6 block text-center text-sm text-emerald-700 font-medium">Continue to sign in</Link>
+        <Link href="/login" className="mt-6 block text-center text-sm text-[#163c32] font-medium">Continue to sign in</Link>
       </AuthFormShell>
     </div>
   );
@@ -382,7 +382,7 @@ export function MagicLinkPage() {
           </form>
         ) : null}
         <p className="mt-6 text-center text-sm text-[#64748B]">
-          Prefer password? <Link href="/login" className="text-emerald-700 font-semibold">Sign in</Link>
+          Prefer password? <Link href="/login" className="text-[#163c32] font-semibold">Sign in</Link>
         </p>
       </AuthFormShell>
     </div>
@@ -394,14 +394,14 @@ export function InvitePage() {
     <div className={AUTH.panel}>
       <AuthIllustrationPanel variant="invite" />
       <AuthFormShell title="Accept invitation" subtitle="You've been invited to join a team on LeadForGrow.">
-        <div className="p-5 rounded-2xl border border-emerald-100 bg-emerald-50/50 mb-6">
+        <div className="p-5 rounded-2xl border border-[#BAE0CF] bg-[#F0F9F5] mb-6">
           <p className="text-sm font-semibold text-[#111827]">Acme Corp workspace</p>
           <p className="text-xs text-[#64748B] mt-1">Role: Sales Member · Invited by admin@acme.com</p>
         </div>
-        <Link href="/register" className="block w-full text-center py-3.5 rounded-xl bg-emerald-600 text-white font-semibold hover:bg-emerald-700 transition-colors">
+        <Link href="/register" className="block w-full text-center py-3.5 rounded-xl bg-[#1D4B3E] text-white font-semibold hover:bg-[#163c32] transition-colors">
           Accept & create account
         </Link>
-        <Link href="/login" className="mt-4 block text-center text-sm text-emerald-700 font-medium">Already have an account? Sign in</Link>
+        <Link href="/login" className="mt-4 block text-center text-sm text-[#163c32] font-medium">Already have an account? Sign in</Link>
       </AuthFormShell>
     </div>
   );
@@ -421,11 +421,11 @@ export function TwoFactorPage() {
             placeholder="000000"
             value={code}
             onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
-            className="w-full text-center text-2xl tracking-[0.5em] font-mono py-4 rounded-xl border border-emerald-200 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400"
+            className="w-full text-center text-2xl tracking-[0.5em] font-mono py-4 rounded-xl border border-[#BAE0CF] focus:ring-2 focus:ring-[#1D4B3E]/30 focus:border-[#8FC4AE]"
           />
           <SubmitButton loading={false} label="Verify" />
         </form>
-        <button type="button" className="mt-4 w-full text-sm text-[#64748B] hover:text-emerald-700">Use backup code instead</button>
+        <button type="button" className="mt-4 w-full text-sm text-[#64748B] hover:text-[#163c32]">Use backup code instead</button>
       </AuthFormShell>
     </div>
   );
@@ -450,8 +450,8 @@ export function AccountLockedPage() {
       <AuthIllustrationPanel variant="locked" />
       <AuthFormShell title="Account locked" subtitle="Too many failed sign-in attempts. Try again in 30 minutes or contact support.">
         <div className="space-y-3">
-          <Link href="/contact" className="block w-full text-center py-3.5 rounded-xl bg-emerald-600 text-white font-semibold hover:bg-emerald-700">Contact support</Link>
-          <Link href="/login" className="block w-full text-center py-3.5 rounded-xl border border-emerald-200 text-[#111827] font-semibold hover:bg-emerald-50">Try again later</Link>
+          <Link href="/contact" className="block w-full text-center py-3.5 rounded-xl bg-[#1D4B3E] text-white font-semibold hover:bg-[#163c32]">Contact support</Link>
+          <Link href="/login" className="block w-full text-center py-3.5 rounded-xl border border-[#BAE0CF] text-[#111827] font-semibold hover:bg-[#F0F9F5]">Try again later</Link>
         </div>
       </AuthFormShell>
     </div>
@@ -466,7 +466,7 @@ function Field({ icon: Icon, label, type = 'text', value, onChange, togglePasswo
         {children}
       </div>
       <div className="relative group">
-        <Icon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-600/50 group-focus-within:text-emerald-600 transition-colors" />
+        <Icon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#1D4B3E]/50 group-focus-within:text-[#1D4B3E] transition-colors" />
         <input type={type} required value={value} onChange={(e) => onChange(e.target.value)} className={AUTH.input} />
         {showToggle && (
           <button type="button" onClick={togglePassword} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#94A3B8] hover:text-[#64748B]">
@@ -480,7 +480,7 @@ function Field({ icon: Icon, label, type = 'text', value, onChange, togglePasswo
 
 function SubmitButton({ loading, label, disabled }) {
   return (
-    <button type="submit" disabled={loading || disabled} className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center gap-2 mt-2 disabled:opacity-60 disabled:cursor-not-allowed">
+    <button type="submit" disabled={loading || disabled} className="w-full bg-[#1D4B3E] hover:bg-[#163c32] text-white font-bold py-4 rounded-xl shadow-lg shadow-[#1D4B3E]/20 transition-all flex items-center justify-center gap-2 mt-2 disabled:opacity-60 disabled:cursor-not-allowed">
       {loading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <>{label} <ArrowRight className="w-5 h-5" /></>}
     </button>
   );
@@ -498,8 +498,8 @@ function PasswordStrengthPanel({ result }) {
   const strengthColor = {
     weak: 'bg-red-500',
     fair: 'bg-amber-500',
-    strong: 'bg-emerald-500',
-    excellent: 'bg-emerald-600',
+    strong: 'bg-[#1D4B3E]',
+    excellent: 'bg-[#1D4B3E]',
   }[result.strength];
   const strengthLabel = {
     weak: 'Weak',
@@ -530,12 +530,12 @@ function PasswordStrengthPanel({ result }) {
         <span className={`text-xs font-semibold min-w-[64px] text-right ${
           result.strength === 'weak' ? 'text-red-600'
             : result.strength === 'fair' ? 'text-amber-600'
-              : 'text-emerald-700'
+              : 'text-[#163c32]'
         }`}>{strengthLabel}</span>
       </div>
       <ul className="text-[11px] space-y-0.5">
         {items.map((item) => (
-          <li key={item.label} className={`flex items-center gap-1.5 ${item.ok ? 'text-emerald-700' : 'text-slate-500'}`}>
+          <li key={item.label} className={`flex items-center gap-1.5 ${item.ok ? 'text-[#163c32]' : 'text-slate-500'}`}>
             {item.ok ? <Check className="w-3 h-3" /> : <X className="w-3 h-3 text-slate-400" />}
             <span>{item.label}</span>
           </li>

@@ -14,6 +14,7 @@ import { enrichLeadsWithNextFollowUp } from '@/lib/crm/followUpSync';
 import { leadActivityFields } from '@/lib/crm/activityHelpers';
 import { runLeadStagePipelineActions } from '@/lib/crm/pipelineAutomation';
 import { formatTimelineItems } from '@/lib/crm/timelinePresentation';
+import { buildContactUpdates, phoneClashFilter } from '@/lib/crm/leadContactUpdate';
 
 // GET - Fetch single lead with details
 export const GET = withPlanAccess('leads', async (req, { params }) => {
@@ -177,6 +178,19 @@ export const PUT = withPlanAccess('leads', async (req, { params }) => {
     }
 
     if (priority) updates.priority = priority;
+
+    // Contact details (e.g. adding a phone number to an Instagram/Messenger lead) — rules in lib/crm/leadContactUpdate.js
+    if (body.phone !== undefined || body.email !== undefined) {
+      const contact = await buildContactUpdates({
+        body,
+        lead,
+        findClash: (digits) => Lead.findOne(phoneClashFilter({ businessId, leadId: lead._id, digits })).select('name').lean(),
+      });
+      if (contact.error) {
+        return NextResponse.json({ success: false, error: contact.error }, { status: contact.status });
+      }
+      Object.assign(updates, contact.updates);
+    }
 
     if (nextFollowUpAt) {
       updates.nextFollowUpAt = new Date(nextFollowUpAt);

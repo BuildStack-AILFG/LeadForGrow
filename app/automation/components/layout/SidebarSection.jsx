@@ -1,89 +1,58 @@
 'use client';
 
-import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import SidebarItem from './SidebarItem';
-import { isNavItemActive } from './constants';
+import cx, { focusRing } from '@/app/components/ui/cx';
 
-export default function SidebarSection({
-  group,
-  pathname,
-  searchParams,
-  collapsed,
-  stats,
-  onNavigate,
-  onLockedClick,
-  open,
-  onToggle,
-}) {
-  // The header's hover cue (when closed) is JS-driven, not Tailwind's
-  // `hover:` variant — see SidebarItem.jsx's comment: `hover:` is gated
-  // behind `@media (hover: hover)`, which is false on touchscreen
-  // laptops/2-in-1s even with an active mouse, silently killing every
-  // pure-CSS hover effect on that class of device.
-  const [headerHovered, setHeaderHovered] = useState(false);
+/**
+ * Nav group — owner's reference style: the header is a full-size row (green
+ * icon + black label + chevron). An open group sits on a light mint panel.
+ * Click the chevron row to open/close — including the group of the current
+ * page. In the collapsed rail, groups become icon stacks with a divider.
+ */
+export default function SidebarSection({ group, activeId, hideActiveIds, collapsed, open, onToggle, getBadge, onNavigate, onLockedClick }) {
   const GroupIcon = group.icon;
-
-  const getBadge = (item) => {
-    if (!item.badgeKey) return 0;
-    return stats[item.badgeKey] || 0;
-  };
+  const panelId = `nav-group-${group.id}`;
+  const isActive = (item) => item.id === activeId && !hideActiveIds?.has(item.id);
 
   if (collapsed) {
     return (
-      <div className="space-y-0.5">
+      <div className="flex flex-col items-center gap-0.5 border-t border-line pt-2">
         {group.items.map((item) => (
-          <SidebarItem
-            key={item.id}
-            item={item}
-            active={isNavItemActive(pathname, searchParams, item)}
-            collapsed
-            badgeCount={getBadge(item)}
-            onNavigate={onNavigate}
-            onLockedClick={onLockedClick}
-          />
+          <SidebarItem key={item.id} item={item} active={isActive(item)} collapsed badgeCount={getBadge(item)} onNavigate={onNavigate} onLockedClick={onLockedClick} />
         ))}
       </div>
     );
   }
 
   return (
-    // The whole wrapper (header row + items) shares ONE background rect
-    // with no gap between them — header has no own margin/bg, the parent
-    // div carries the mint tint continuously through both when open, so
-    // there's no seam of white between the header and the first item.
-    <div className={open ? 'bg-[#F0F9F5] pb-1' : ''}>
-      {/* Styled as a full-weight nav row — same size/padding/font as a leaf
-          item (Home/Campaigns-style in Interakt), NOT a small uppercase-caps
-          section label. Icon + normal-case label + trailing chevron. */}
+    <div className={open ? 'bg-accent-subtle/60 pb-1' : undefined}>
       <button
         type="button"
         onClick={onToggle}
-        onMouseEnter={() => setHeaderHovered(true)}
-        onMouseLeave={() => setHeaderHovered(false)}
-        className={`group flex w-full items-center gap-3 px-4 py-3 text-[14px] font-medium transition-colors duration-150 ${
-          open
-            ? 'text-[#1D4B3E]'
-            : headerHovered
-              ? 'bg-[#F0F9F5] text-[#1D4B3E]'
-              : 'text-[#0A0B10]'
-        }`}
-      >
-        {GroupIcon && (
-          <GroupIcon className={`h-[18px] w-[18px] shrink-0 text-[#1D4B3E]`} strokeWidth={1.75} />
+        aria-expanded={open}
+        aria-controls={panelId}
+        className={cx(
+          'flex h-11 w-full items-center gap-3 px-4 text-body font-medium text-fg transition-colors duration-[var(--duration-fast)]',
+          !open && 'hover:bg-accent-subtle',
+          focusRing
         )}
+      >
+        {GroupIcon && <GroupIcon className="h-[18px] w-[18px] shrink-0 text-accent" strokeWidth={1.75} aria-hidden />}
         <span className="flex-1 truncate text-left">{group.label}</span>
         <ChevronDown
-          className={`h-4 w-4 shrink-0 text-[#1D4B3E] transition-transform duration-200 ${open ? 'rotate-180' : 'rotate-0'}`}
+          aria-hidden
+          strokeWidth={1.75}
+          className={cx('h-4 w-4 shrink-0 text-accent transition-transform duration-[var(--duration-base)] ease-standard', open && 'rotate-180')}
         />
       </button>
       {open && (
-        <div className="space-y-0.5 animate-in fade-in duration-200">
+        <div id={panelId}>
           {group.items.map((item) => (
             <SidebarItem
               key={item.id}
               item={item}
-              active={isNavItemActive(pathname, searchParams, item)}
+              active={isActive(item)}
               collapsed={false}
               badgeCount={getBadge(item)}
               onNavigate={onNavigate}

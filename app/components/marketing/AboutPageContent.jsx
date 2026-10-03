@@ -3,16 +3,15 @@
 import Link from 'next/link';
 import { ArrowRight, Building2, Globe, Heart, Lightbulb, Rocket, Shield, Sparkles, Target, Users, Zap } from 'lucide-react';
 import MarketingShell from '@/app/components/marketing/MarketingShell';
-import FounderCard from '@/app/components/landing/FounderCard';
-import { FOUNDERS, COMPANY } from '@/lib/founders/data';
+import { COMPANY } from '@/lib/founders/data';
 import { MARKETING } from '@/lib/marketing/designTokens';
 
 const TIMELINE = [
   { year: '2022', title: 'The problem became personal', body: 'Watching Indian SMBs lose leads in WhatsApp threads and spreadsheets — we started building a better way.' },
   { year: '2023', title: 'LeadForGrow launches', body: 'First CRM + WhatsApp automation platform for agencies and growth teams across India.' },
   { year: '2024', title: 'AI & unified inbox', body: 'Shipped AI reply assistant, Meta integrations, and a true multi-channel inbox.' },
-  { year: '2025', title: 'Platform maturity', body: 'Full automation engine, enterprise security, and 1,100+ businesses on the platform.' },
-  { year: '2026', title: 'Global expansion', body: 'Scaling infrastructure, compliance, and partnerships for teams worldwide.' },
+  { year: '2025', title: 'Platform maturity', body: 'Full automation engine, role-based access, and multi-tenant workspaces for teams.' },
+  { year: '2026', title: 'Growing the platform', body: 'Adding channels, integrations, and tooling for growing sales teams.' },
 ];
 
 const VALUES = [
@@ -23,10 +22,19 @@ const VALUES = [
 ];
 
 const TECH = [
-  { label: 'Cloud-native infrastructure', detail: 'Auto-scaling on modern cloud with 99.9% uptime target' },
-  { label: 'End-to-end encryption', detail: 'TLS in transit, encrypted at rest, role-based access' },
+  { label: 'Cloud infrastructure', detail: 'Hosted on managed cloud infrastructure' },
+  { label: 'Data protection', detail: 'TLS in transit, sensitive credentials encrypted at rest, role-based access' },
   { label: 'Real-time messaging', detail: 'WhatsApp, Instagram, email, and web chat in one pipeline' },
-  { label: 'AI inference layer', detail: 'Context-aware replies trained on your business knowledge' },
+  { label: 'AI assistance', detail: 'Context-aware replies grounded in your business knowledge base' },
+];
+
+// Registered-company details shown in "About Our Company". Only facts the business has confirmed; do not add
+// registration numbers, addresses or claims here without the owner's sign-off.
+const COMPANY_DETAILS = [
+  { term: 'Legal Company Name', value: 'ScaleDesk Technology Private Limited' },
+  { term: 'Product Brand', value: 'LeadForGrow' },
+  { term: 'Official Website', value: 'https://www.leadforgrow.com', href: 'https://www.leadforgrow.com' },
+  { term: 'Country of Operation', value: 'India' },
 ];
 
 export default function AboutPageContent() {
@@ -58,10 +66,10 @@ export default function AboutPageContent() {
             <div className={`${MARKETING.glass} rounded-3xl p-8 lg:p-10`}>
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  { icon: Users, value: '1,100+', label: 'Businesses' },
-                  { icon: Globe, value: '1M+', label: 'Leads managed' },
-                  { icon: Zap, value: '<60s', label: 'Speed-to-lead' },
-                  { icon: Building2, value: 'India & beyond', label: 'Global reach' },
+                  { icon: Users, value: 'CRM', label: 'Leads, deals & tasks' },
+                  { icon: Globe, value: 'One inbox', label: 'WhatsApp, Instagram, email' },
+                  { icon: Zap, value: 'Automation', label: 'Follow-ups & workflows' },
+                  { icon: Building2, value: 'India', label: 'Built in India' },
                 ].map((stat) => (
                   <div key={stat.label} className="rounded-2xl bg-white/80 border border-emerald-100/60 p-5 text-center">
                     <stat.icon className="w-5 h-5 text-emerald-600 mx-auto mb-2" />
@@ -93,6 +101,38 @@ export default function AboutPageContent() {
               Become the operating system for revenue teams — where CRM, inbox, automation, and AI work as one
               seamless experience for businesses of every size.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* About Our Company — the legal entity behind the product brand */}
+      <section className={MARKETING.sectionTight} aria-labelledby="about-company-heading">
+        <div className={`${MARKETING.container} grid lg:grid-cols-2 gap-8 lg:gap-12 items-start`}>
+          <div>
+            <p className={MARKETING.overline}>Company</p>
+            <h2 id="about-company-heading" className={`${MARKETING.h2} mt-3 mb-5`}>About Our Company</h2>
+            <p className={MARKETING.body}>
+              LeadForGrow is a SaaS platform developed and operated by ScaleDesk Technology Private Limited.
+              LeadForGrow helps businesses manage leads, customer conversations, sales pipelines, follow-ups, and
+              business automation through an integrated platform.
+            </p>
+          </div>
+          <div className={`${MARKETING.card} p-6 lg:p-8`}>
+            <Building2 className="w-6 h-6 text-emerald-600 mb-4" aria-hidden="true" />
+            <dl className="divide-y divide-emerald-100/80">
+              {COMPANY_DETAILS.map((item) => (
+                <div key={item.term} className="py-3 first:pt-0 last:pb-0 sm:grid sm:grid-cols-[11rem_1fr] sm:gap-4">
+                  <dt className="text-sm font-semibold text-[#111827]">{item.term}</dt>
+                  <dd className={`${MARKETING.body} mt-1 sm:mt-0 break-words`}>
+                    {item.href ? (
+                      <a href={item.href} className={MARKETING.link}>{item.value}</a>
+                    ) : (
+                      item.value
+                    )}
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </div>
       </section>
@@ -133,29 +173,6 @@ export default function AboutPageContent() {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Leadership */}
-      <section className={`${MARKETING.sectionTight} bg-gradient-to-b from-white to-[#FAFDFA]`}>
-        <div className={MARKETING.container}>
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className={MARKETING.overline}>Leadership</p>
-            <h2 className={`${MARKETING.h2} mt-3`}>Meet the team behind LeadForGrow</h2>
-            <p className={`${MARKETING.body} mt-4`}>
-              Three co-founders united by one obsession — helping businesses never lose a lead again.
-            </p>
-          </div>
-          <div className="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            {FOUNDERS.map((founder) => (
-              <FounderCard key={founder.name} founder={founder} compact />
-            ))}
-          </div>
-          <div className="text-center mt-8">
-            <Link href="/founders" className={MARKETING.link}>
-              Full leadership profiles →
-            </Link>
           </div>
         </div>
       </section>
@@ -205,7 +222,7 @@ export default function AboutPageContent() {
       <section className={`${MARKETING.sectionTight} border-t border-emerald-100`}>
         <div className={`${MARKETING.containerNarrow} text-center`}>
           <h2 className={MARKETING.h2}>Ready to grow with us?</h2>
-          <p className={`${MARKETING.body} mt-4 mb-8`}>Join 1,100+ businesses using LeadForGrow to capture and convert more leads.</p>
+          <p className={`${MARKETING.body} mt-4 mb-8`}>Use LeadForGrow to capture, track, and follow up on every lead in one place.</p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link href="/register" className={MARKETING.btnGreen}>Start free trial</Link>
             <Link href="/contact" className={MARKETING.btnOutline}>Contact sales</Link>

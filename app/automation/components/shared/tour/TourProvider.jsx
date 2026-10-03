@@ -1,6 +1,7 @@
 'use client';
 
-import { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import TourOverlay from './TourOverlay';
 import { isTourDone, setTourState } from './storage';
 
@@ -21,13 +22,21 @@ import { isTourDone, setTourState } from './storage';
 const TourContext = createContext(null);
 
 export function TourProvider({ children }) {
-  const [active, setActive] = useState(null); // { id, label, steps, stepIndex }
+  const [active, setActive] = useState(null); // { id, label, steps, stepIndex, path }
+  const pathname = usePathname();
 
   const start = useCallback((tour, { force = false } = {}) => {
     if (!tour?.id || !Array.isArray(tour.steps) || tour.steps.length === 0) return;
     if (!force && isTourDone(tour.id)) return;
-    setActive({ ...tour, stepIndex: 0 });
+    setActive({ ...tour, stepIndex: 0, path: window.location.pathname });
   }, []);
+
+  // A tour belongs to the page it started on: leaving the page closes it
+  // (without marking it done, so it can run next time) instead of the
+  // "Leads tour" hovering over Deals.
+  useEffect(() => {
+    setActive((cur) => (cur && cur.path && cur.path !== pathname ? null : cur));
+  }, [pathname]);
 
   const restart = useCallback((tour) => start(tour, { force: true }), [start]);
 

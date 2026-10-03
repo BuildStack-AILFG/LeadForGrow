@@ -1,115 +1,95 @@
 'use client';
 
 import { memo, useRef, useState } from 'react';
-import { CheckSquare, Square, MessageSquare, Phone, Palette } from 'lucide-react';
+import { MessageSquare, Phone, Palette } from 'lucide-react';
 import StatusBadge from './StatusBadge';
 import LeadScoreBadge from './LeadScoreBadge';
 import LeadActionsMenu from './LeadActionsMenu';
 import LeadColorPicker from './LeadColorPicker';
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
+import { hasWhatsAppHistory } from '@/lib/whatsapp/waPhone';
 import { assigneeName, formatRelative, formatSource, formatDate, getLeadRowBackgroundStyle, getStatusRowColor, statusLabel } from './utils';
-import { TABLE_COL_LINE, TABLE_ROW_LINE } from './constants';
+import { Td } from '@/app/components/ui/DataTable';
+import Checkbox from '@/app/components/ui/Checkbox';
+import Avatar from '@/app/components/ui/Avatar';
+import cx, { focusRing } from '@/app/components/ui/cx';
 
-function LeadRow({
-  lead,
-  selected,
-  onSelect,
-  onOpenDrawer,
-  onConvert,
-  teamMembers,
-  onAssign,
-  onStatusChange,
-  onCall,
-  onRowColorChange
-}) {
+const actionBtn = cx('inline-flex h-7 w-7 items-center justify-center rounded-md text-fg-tertiary hover:bg-muted hover:text-fg', focusRing);
+
+function LeadRow({ lead, selected, onSelect, onOpenDrawer, onConvert, teamMembers, onAssign, onStatusChange, onCall, onSendTemplate, onRowColorChange }) {
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
   const paletteRef = useRef(null);
+  // User-chosen row colours are a real feature — keep them as the row's background.
   const rowBg = getLeadRowBackgroundStyle(lead);
   const statusColor = getStatusRowColor(lead.status);
+  const owner = assigneeName(lead.assignedTo);
+  const tinted = !!(lead.rowColor || statusColor);
 
   return (
     <tr
-      className={`group ${TABLE_ROW_LINE} cursor-pointer transition-colors ${selected ? 'ring-1 ring-inset ring-[#059669]/40' : ''
-        } ${!lead.rowColor && !statusColor ? 'hover:bg-[#FAFBFC]/80 dark:hover:bg-slate-800/30' : ''}`}
+      className={cx(
+        'group/row cursor-pointer [&>td]:border-b [&>td]:border-line',
+        selected ? '[&>td]:bg-accent-subtle' : !tinted && '[&>td]:bg-canvas hover:[&>td]:bg-subtle'
+      )}
       style={rowBg}
       onClick={() => onOpenDrawer(lead._id)}
+      aria-selected={selected || undefined}
     >
-      <td className={`py-3 pl-3 pr-2 w-10 ${TABLE_COL_LINE}`} onClick={(e) => e.stopPropagation()}>
-        <button type="button" onClick={() => onSelect(lead._id)} className="text-[#98A2B3] hover:text-[#059669]">
-          {selected ? <CheckSquare className="w-4 h-4 text-[#059669]" /> : <Square className="w-4 h-4" />}
-        </button>
-      </td>
+      <Td className="!pr-0" onClick={(e) => e.stopPropagation()}>
+        <Checkbox aria-label={`Select ${lead.name}`} checked={selected} onChange={() => onSelect(lead._id)} />
+      </Td>
 
-      {/* Lead Name — left aligned */}
-      <td className={`py-3 px-3 min-w-[180px] text-left ${TABLE_COL_LINE}`}>
+      <Td sticky className="max-w-[260px]" style={tinted ? rowBg : undefined}>
         <div className="flex items-center gap-2">
-          {(lead.rowColor || statusColor) && (
+          {tinted && (
             <span
-              className="w-2 h-2 rounded-full shrink-0 border border-slate-300/50"
+              className="h-2 w-2 shrink-0 rounded-full"
               style={{ backgroundColor: lead.rowColor || statusColor }}
-              title={lead.rowColor ? 'Custom row color' : `${statusLabel(lead.status)} status color`}
+              title={lead.rowColor ? 'Custom row colour' : `${statusLabel(lead.status)} status colour`}
             />
           )}
           <div className="min-w-0">
-            <p className="text-[14px] font-normal text-[#222222] dark:text-slate-100 truncate">{lead.name}</p>
-            {lead.email && <p className="text-[12px] text-[#667085] truncate mt-0.5">{lead.email}</p>}
+            <p className="truncate font-medium text-fg">{lead.name}</p>
+            {lead.email && <p className="truncate text-meta text-fg-tertiary">{lead.email}</p>}
           </div>
         </div>
-      </td>
+      </Td>
 
-      <td className={`py-3 px-3 text-center text-[14px] font-normal text-[#222222] dark:text-slate-400 tabular-nums whitespace-nowrap ${TABLE_COL_LINE}`}>
-        {lead.phone || '—'}
-      </td>
-
-      <td className={`py-3 px-3 text-center ${TABLE_COL_LINE}`}>
-        <span className="inline-flex text-[14px] font-normal text-[#222222] dark:text-slate-400 whitespace-nowrap">
-          {formatSource(lead.source)}
-        </span>
-      </td>
-
-      <td className={`py-3 px-3 text-center ${TABLE_COL_LINE}`}>
-        <div className="flex justify-center">
-          <StatusBadge status={lead.status} size="xs" />
-        </div>
-      </td>
-
-      <td className={`py-3 px-3 text-center ${TABLE_COL_LINE}`}>
-        <span className="inline-block text-[14px] font-normal text-[#222222] dark:text-slate-400 truncate max-w-[130px]">
-          {assigneeName(lead.assignedTo)}
-        </span>
-      </td>
-
-      <td className={`py-3 px-3 text-center ${TABLE_COL_LINE}`}>
-        <span className="inline-flex text-[14px] font-normal text-[#222222] dark:text-slate-400 whitespace-nowrap">
-          {formatRelative(lead.lastContactedAt || lead.updatedAt)}
-        </span>
-      </td>
-
-      <td className={`py-3 px-3 text-center ${TABLE_COL_LINE}`}>
-        <div className="flex justify-center">
+      <Td muted className="tabular">{lead.phone || '—'}</Td>
+      <Td muted>{formatSource(lead.source)}</Td>
+      <Td>
+        <StatusBadge status={lead.status} size="xs" />
+      </Td>
+      <Td>
+        {owner && owner !== 'Unassigned' ? (
+          <span className="inline-flex max-w-[160px] items-center gap-2">
+            <Avatar name={owner} size={20} />
+            <span className="truncate text-fg-secondary">{owner}</span>
+          </span>
+        ) : (
+          <span className="text-fg-tertiary">Unassigned</span>
+        )}
+      </Td>
+      <Td muted>{formatRelative(lead.lastContactedAt || lead.updatedAt)}</Td>
+      <Td align="right">
+        <div className="flex justify-end">
           <LeadScoreBadge intelligence={lead.intelligence} />
         </div>
-      </td>
+      </Td>
+      <Td muted className="tabular">{formatDate(lead.receivedAt)}</Td>
 
-      <td className={`py-3 px-3 text-center ${TABLE_COL_LINE}`}>
-        <span className="inline-flex text-[14px] font-normal text-[#222222] dark:text-slate-400 whitespace-nowrap tabular-nums">
-          {formatDate(lead.receivedAt)}
-        </span>
-      </td>
-
-      <td className="py-3 px-2 w-28 text-center" onClick={(e) => e.stopPropagation()}>
-        <div className="flex items-center justify-center gap-0.5">
+      <Td align="right" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center justify-end gap-0.5">
           <div className="relative">
             <button
               ref={paletteRef}
               type="button"
-              title="Choose row color"
+              aria-label="Choose row colour"
+              title="Row colour"
               onClick={() => setColorPickerOpen((v) => !v)}
-              className={`inline-flex items-center gap-1 px-1.5 py-1 rounded hover:bg-[#F2F4F7] dark:hover:bg-slate-800 ${colorPickerOpen || lead.rowColor
-                  ? 'text-[#059669] bg-[#EFF8FF]'
-                  : 'text-[#667085]'
-                }`}
+              className={cx(actionBtn, (colorPickerOpen || lead.rowColor) && 'text-accent-fg')}
             >
-              <Palette className="w-3.5 h-3.5" />
+              <Palette className="h-4 w-4" strokeWidth={1.5} />
             </button>
             <LeadColorPicker
               open={colorPickerOpen}
@@ -122,26 +102,19 @@ function LeadRow({
               }}
             />
           </div>
-          {/* Always visible — not hover-revealed. `group-hover:opacity-100`
-              lives behind Tailwind's `@media (hover: hover)`, which reads
-              false on touchscreen laptops even with a mouse actively
-              driving the pointer, so these silently never appeared for
-              that class of device. Interakt's own actions column is
-              always-visible too, not a hover reveal. */}
-          <button
-            type="button"
-            onClick={() => onCall(lead)}
-            className="p-1.5 rounded text-[#667085] hover:text-[#059669] hover:bg-[#F2F4F7] dark:hover:bg-slate-800"
-          >
-            <Phone className="w-3.5 h-3.5" />
+          <button type="button" aria-label={`Call ${lead.name}`} title="Call" onClick={() => onCall(lead)} className={actionBtn}>
+            <Phone className="h-4 w-4" strokeWidth={1.5} />
           </button>
-          <a
-            href={`/automation/chat?leadId=${lead._id}`}
-            onClick={(e) => e.stopPropagation()}
-            className="p-1.5 rounded text-[#667085] hover:text-emerald-600 hover:bg-[#F2F4F7] dark:hover:bg-slate-800"
-          >
-            <MessageSquare className="w-3.5 h-3.5" />
-          </a>
+          {lead.phone && !hasWhatsAppHistory(lead) && onSendTemplate ? (
+            // Never messaged on WhatsApp: no Inbox conversation exists yet, and only an approved template may start one.
+            <button type="button" aria-label={`Send a WhatsApp template to ${lead.name}`} title="Send a WhatsApp template" onClick={() => onSendTemplate(lead)} className={actionBtn}>
+              <WhatsAppIcon colored className="h-4 w-4" />
+            </button>
+          ) : (
+            <a href={`/automation/chat?leadId=${lead._id}`} aria-label={`Message ${lead.name}`} title={lead.phone ? 'Open the WhatsApp chat' : 'Open the conversation'} onClick={(e) => e.stopPropagation()} className={actionBtn}>
+              {lead.phone ? <WhatsAppIcon colored className="h-4 w-4" /> : <MessageSquare className="h-4 w-4" strokeWidth={1.5} />}
+            </a>
+          )}
           <LeadActionsMenu
             lead={lead}
             teamMembers={teamMembers}
@@ -152,7 +125,7 @@ function LeadRow({
             onConvert={onConvert}
           />
         </div>
-      </td>
+      </Td>
     </tr>
   );
 }

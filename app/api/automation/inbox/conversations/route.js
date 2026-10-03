@@ -3,8 +3,18 @@ import { escapeRegex } from '@/lib/crm/queryBuilder';
 import { dbConnect } from '@/lib/mongodb';
 import Conversation from '@/models/omnichannel/Conversation';
 import Lead from '@/models/automation/Lead';
+// Registered for the .populate() calls below. Without these imports the
+// route only worked if some other route had already loaded the models in
+// the same server process — on a fresh server it 500'd with
+// MissingSchemaError: Schema hasn't been registered for model "Contact".
+import '@/models/automation/Contact';
+import '@/models/automation/Company';
+import '@/models/automation/Deal';
+import '@/models/User';
 import { withPermissions } from '@/lib/rbac';
 import { syncLegacyWhatsAppConversations } from '@/lib/omnichannel/conversationService';
+import { isServerView, viewClauses } from '@/lib/omnichannel/inboxViews';
+import { loadViewInputs } from '@/lib/omnichannel/inboxViewQuery';
 
 async function handler(req) {
   try {
@@ -42,6 +52,35 @@ async function handler(req) {
     if (spam) query.isSpam = true;
     else query.isSpam = { $ne: true };
     query.isDeleted = { $ne: true };
+
+    // Email folders (Gmail-style) — the email tab is triaged by folder, not the
+    // chat queues. Overrides the default open-inbox query above.
+    //   inbox   → default (open, not sent/deleted/spam)
+    //   sent    → conversations where we spoke last (outgoing)
+    //   trash   → soft-deleted conversations
+    //   spam    → conversations flagged spam
+    //   starred → favourited conversations
+    //   drafts  → handled client-side (EmailDraft, not a conversation)
+    const emailFolder = channel === 'email' ? searchParams.get('emailFolder') : null;
+    if (emailFolder === 'sent') {
+      query.lastMessageDirection = 'outgoing';
+    } else if (emailFolder === 'trash') {
+      query.isDeleted = true;
+    } else if (emailFolder === 'spam') {
+      query.isSpam = true;
+    } else if (emailFolder === 'starred') {
+      query.isFavorite = true;
+    }
+
+    // Instagram / Facebook triage by type — DMs vs public post comments. Comment
+    // conversations are keyed with an "ig_comment:" / "fb_comment:" participant,
+    // so the type filter is a prefix match on participantId.
+    const convType = ['instagram', 'facebook'].includes(channel) ? searchParams.get('convType') : null;
+    if (convType === 'comment') {
+      query.participantId = { $regex: '^(ig|fb)_comment:' };
+    } else if (convType === 'dm') {
+      query.participantId = { $not: /^(ig|fb)_comment:/ };
+    }
     const andClauses = [
       { $or: [{ snoozedUntil: null }, { snoozedUntil: { $exists: false } }, { snoozedUntil: { $lte: new Date() } }] },
     ];
@@ -95,6 +134,16 @@ async function handler(req) {
       });
     }
 
+    // Inbox queues (?view=needs_reply|mine|unassigned|taken_over): same rules the tab counts use.
+    let sortOrder = { isPinned: -1, lastMessageAt: -1 };
+    const view = searchParams.get('view');
+    if (isServerView(view)) {
+      const inputs = await loadViewInputs({ businessId: user.businessId, userId: user.userId, view });
+      const { clauses, sort } = viewClauses(view, inputs);
+      andClauses.push(...clauses);
+      if (sort) sortOrder = sort;
+    }
+
     if (andClauses.length) query.$and = andClauses;
 
     // countDocuments on a big Conversation collection is the second-biggest
@@ -107,7 +156,7 @@ async function handler(req) {
       .populate('contactId', 'firstName lastName email phones')
       .populate('companyId', 'name')
       .populate('dealId', 'title amount stage')
-      .sort({ isPinned: -1, lastMessageAt: -1 })
+      .sort(sortOrder)
       .skip(skip)
       .limit(limit)
       .lean();

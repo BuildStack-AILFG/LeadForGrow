@@ -19,21 +19,21 @@ export default function MediaAttachmentStrip({ uploads, onRemove, onRetry }) {
         <div
           key={u.id}
           className={`relative flex-shrink-0 w-20 h-20 rounded-lg border overflow-hidden ${
-            u.status === 'failed' ? 'border-red-300 bg-red-50' : 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800'
+            u.status === 'failed' ? 'border-danger/30 dark:border-red-700 bg-danger-subtle dark:bg-red-950/30' : 'border-line dark:border-slate-700 bg-subtle dark:bg-slate-800'
           }`}
         >
           {u.preview ? (
             <img src={u.preview} alt="" className="w-full h-full object-cover" />
           ) : (
-            <div className="w-full h-full flex flex-col items-center justify-center p-1 text-slate-500">
+            <div className="w-full h-full flex flex-col items-center justify-center p-1 text-fg-tertiary dark:text-fg-tertiary">
               <FileIcon mimeType={u.mimeType} />
-              <span className="text-[8px] truncate w-full text-center mt-1">{u.name}</span>
+              <span className="text-meta truncate w-full text-center mt-1">{u.name}</span>
             </div>
           )}
           {u.status === 'uploading' && (
             <div className="absolute inset-0 bg-black/40 flex items-end">
-              <div className="w-full h-1 bg-slate-200">
-                <div className="h-full bg-[#1D4B3E] transition-all" style={{ width: `${u.progress}%` }} />
+              <div className="w-full h-1 bg-muted dark:bg-slate-700">
+                <div className="h-full bg-brand transition-all" style={{ width: `${u.progress}%` }} />
               </div>
             </div>
           )}
@@ -41,10 +41,10 @@ export default function MediaAttachmentStrip({ uploads, onRemove, onRetry }) {
             <button
               type="button"
               onClick={() => onRetry?.(u.id)}
-              className="absolute inset-0 flex items-center justify-center bg-red-500/20"
+              className="absolute inset-0 flex items-center justify-center bg-danger/20"
               title={u.error || 'Retry'}
             >
-              <RotateCcw className="w-4 h-4 text-red-600" />
+              <RotateCcw className="w-4 h-4 text-danger dark:text-red-400" />
             </button>
           )}
           <button
@@ -54,7 +54,7 @@ export default function MediaAttachmentStrip({ uploads, onRemove, onRetry }) {
           >
             <X className="w-3 h-3" />
           </button>
-          <span className="absolute bottom-0 left-0 right-0 text-[8px] text-center bg-black/50 text-white py-0.5">
+          <span className="absolute bottom-0 left-0 right-0 text-meta text-center bg-black/50 text-white py-0.5">
             {formatFileSize(u.size)}
           </span>
         </div>

@@ -1,31 +1,12 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
-import * as Icons from 'lucide-react';
-import PageIntro from './PageIntro';
-import { findIntroForPath } from './registry';
-
 /**
- * Drop `<AutoPageIntro />` under any page header — it looks up the current
- * route in the tour registry and renders the matching one-shot welcome
- * card automatically. Renders nothing if the route has no registered
- * intro (or already has a full ProductTour instead).
+ * Page-intro banners are switched off at the owner's request (2026-10-03,
+ * re-applied after main's 0141a6a brought "green intro banners" back).
+ * Kept as a no-op so every page that mounts <AutoPageIntro /> still works;
+ * PageIntro.jsx and the registry (incl. iconImage/iconFullBleed) are
+ * untouched if they're wanted again.
  */
 export default function AutoPageIntro() {
-  const pathname = usePathname();
-  const intro = findIntroForPath(pathname);
-  if (!intro) return null;
-
-  const Icon = Icons[intro.icon] || Icons.Sparkles;
-
-  return (
-    <PageIntro
-      id={intro.id}
-      icon={Icon}
-      title={intro.title}
-      body={intro.body}
-      guideHref={intro.guideHref}
-      tone={intro.tone}
-    />
-  );
+  return null;
 }

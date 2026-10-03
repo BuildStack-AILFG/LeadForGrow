@@ -1,4 +1,5 @@
-import { Clock, AlertCircle, Calendar, CheckCircle2, Phone, MessageCircle, Mail, Users } from 'lucide-react';
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
+import { Clock, AlertCircle, Calendar, CheckCircle2, Phone, Mail, Users } from 'lucide-react';
 
 export const TASK_FILTERS = [
   { id: 'today', label: 'Due Today', icon: Clock },
@@ -9,16 +10,16 @@ export const TASK_FILTERS = [
 
 export const TASK_TYPES = {
   call: { label: 'Call', icon: Phone, accent: 'blue' },
-  whatsapp: { label: 'WhatsApp', icon: MessageCircle, accent: 'green' },
+  whatsapp: { label: 'WhatsApp', icon: WhatsAppIcon, accent: 'green' },
   email: { label: 'Email', icon: Mail, accent: 'sky' },
   meeting: { label: 'Meeting', icon: Users, accent: 'slate' }
 };
 
 export const TASK_TYPE_ACCENTS = {
-  blue: 'bg-teal-50 text-teal-600 dark:bg-teal-950/40 dark:text-teal-400',
-  green: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400',
-  sky: 'bg-sky-50 text-sky-600 dark:bg-sky-950/40 dark:text-sky-400',
-  slate: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
+  blue: 'bg-accent-subtle text-accent-fg dark:bg-teal-950/40 dark:text-accent-fg',
+  green: 'bg-accent-subtle text-accent-fg dark:bg-emerald-950/40 dark:text-accent-fg',
+  sky: 'bg-info-subtle text-info dark:bg-sky-950/40 dark:text-sky-400',
+  slate: 'bg-muted text-fg-secondary dark:bg-slate-800 dark:text-fg-tertiary'
 };
 
 export const TABLE_COLUMNS = [

@@ -10,20 +10,20 @@ export function CrmIconBadge({
 }) {
   const sizes = {
     sm: 'w-8 h-8 rounded-lg [&_svg]:w-4 [&_svg]:h-4',
-    md: 'w-10 h-10 rounded-xl [&_svg]:w-[18px] [&_svg]:h-[18px]',
-    lg: 'w-12 h-12 rounded-2xl [&_svg]:w-5 [&_svg]:h-5',
+    md: 'w-10 h-10 rounded-lg [&_svg]:w-[18px] [&_svg]:h-[18px]',
+    lg: 'w-12 h-12 rounded-lg [&_svg]:w-5 [&_svg]:h-5',
   };
 
   const variants = {
-    slate: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300',
-    indigo: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-400',
-    violet: 'bg-violet-50 text-violet-600 dark:bg-violet-950/60 dark:text-violet-400',
-    emerald: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400',
-    sky: 'bg-sky-50 text-sky-600 dark:bg-sky-950/50 dark:text-sky-400',
-    amber: 'bg-amber-50 text-amber-600 dark:bg-amber-950/50 dark:text-amber-400',
-    rose: 'bg-rose-50 text-rose-600 dark:bg-rose-950/50 dark:text-rose-400',
+    slate: 'bg-muted text-fg-secondary dark:bg-slate-800 dark:text-fg-disabled',
+    indigo: 'bg-accent-subtle text-accent-fg dark:bg-indigo-950/60 dark:text-accent-fg',
+    violet: 'bg-accent-subtle text-accent-fg dark:bg-violet-950/60 dark:text-accent-fg',
+    emerald: 'bg-accent-subtle text-accent-fg dark:bg-emerald-950/50 dark:text-accent-fg',
+    sky: 'bg-info-subtle text-info dark:bg-sky-950/50 dark:text-sky-400',
+    amber: 'bg-warning-subtle text-warning dark:bg-amber-950/50 dark:text-amber-400',
+    rose: 'bg-danger-subtle text-danger dark:bg-rose-950/50 dark:text-rose-400',
     whatsapp: 'bg-[#25D366]/10 text-[#128C7E] dark:bg-[#25D366]/15 dark:text-[#25D366]',
-    active: 'bg-slate-900 text-white dark:bg-white dark:text-slate-900',
+    active: 'bg-slate-900 text-white dark:bg-canvas dark:text-fg',
   };
 
   return (
@@ -127,6 +127,12 @@ export const CRM_MESSAGE_ICONS = {
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...p}>
       <rect x="2" y="5" width="20" height="14" rx="2" />
       <path d="M2 10h20M6 15h2" />
+    </svg>
+  ),
+  won: (p) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M8 12.5l2.7 2.7L16 9.5" />
     </svg>
   ),
 };

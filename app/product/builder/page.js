@@ -5,7 +5,7 @@ export const metadata = {
   description: "Launch professional, lead-capture-optimized websites in minutes with LeadForGrow. 50+ templates, native forms, and no dev dependency. Start free.",
   keywords: ["website funnel builder", "landing page builder India", "agency website templates", "conversion rate optimization", "lead capture website"],
   alternates: {
-    canonical: 'https://leadforgrow.online/product/builder'
+    canonical: 'https://www.leadforgrow.com/product/builder'
   }
 };
 
@@ -70,7 +70,7 @@ export default function BuilderPage() {
     <MarketingLayout 
       title="Stop Building 'Just' Websites. Build Conversion Engines." 
       subtitle="Most websites look good but leak leads. LeadForGrow websites are engineered to capture, qualify, and close every visitor."
-      heroImage="/images/hero/builder.png"
+      heroImage="/images/hero/builder.webp"
       benefits={benefits}
       whoIsThisFor={whoIsThisFor}
       whyItMatters={whyItMatters}

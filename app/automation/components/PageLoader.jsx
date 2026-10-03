@@ -26,15 +26,15 @@ export default function PageLoader({
     return (
       <div className={`p-6 space-y-3 ${className}`}>
         {label && (
-          <div className="flex items-center justify-center gap-2 py-2 text-xs font-medium text-slate-500">
-            <Loader2 className="w-4 h-4 animate-spin text-emerald-600" />
+          <div className="flex items-center justify-center gap-2 py-2 text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">
+            <Loader2 className="w-4 h-4 animate-spin text-accent-fg dark:text-accent-fg" />
             <span>{label}</span>
           </div>
         )}
         {Array.from({ length: count }).map((_, i) => (
           <div
             key={i}
-            className="h-16 bg-gradient-to-r from-slate-100 via-slate-50 to-slate-100 dark:from-slate-800 dark:via-slate-800/60 dark:to-slate-800 rounded-lg animate-pulse"
+            className="h-16 bg-canvas rounded-lg animate-pulse"
             style={{ animationDelay: `${i * 80}ms` }}
           />
         ))}
@@ -44,8 +44,8 @@ export default function PageLoader({
 
   if (inline) {
     return (
-      <span className={`inline-flex items-center gap-2 text-xs text-slate-500 ${className}`}>
-        <Loader2 className="w-3.5 h-3.5 animate-spin text-emerald-600" />
+      <span className={`inline-flex items-center gap-2 text-xs text-fg-tertiary dark:text-fg-tertiary ${className}`}>
+        <Loader2 className="w-3.5 h-3.5 animate-spin text-accent-fg dark:text-accent-fg" />
         {label || 'Loading…'}
       </span>
     );
@@ -56,8 +56,8 @@ export default function PageLoader({
       className={`flex flex-col items-center justify-center gap-3 ${className}`}
       style={{ minHeight: height }}
     >
-      <div className="w-10 h-10 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin" />
-      <p className="text-xs font-medium text-slate-600 dark:text-slate-400">
+      <div className="w-10 h-10 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+      <p className="text-xs font-medium text-fg-secondary dark:text-fg-tertiary">
         {label || 'Loading…'}
       </p>
     </div>

@@ -2,14 +2,14 @@
 
 import {
   LayoutDashboard, Building2, Package, GitBranch, Plug, Database,
-  Lock, ChevronRight, Menu, X
+  Lock, ChevronRight, Menu, X, Droplets
 } from 'lucide-react';
 import { MODEL_GROUPS } from '../constants';
 
 const ICONS = { LayoutDashboard, Building2, Package, GitBranch, Plug, Database };
 
 export default function AdminSidebar({
-  models, activeView, selectedModel, onOverview, onSelectModel, onLogout,
+  models, activeView, selectedModel, onOverview, onLeakAudit, onSelectModel, onLogout,
   open, onClose,
 }) {
   const grouped = MODEL_GROUPS.map((g) => ({
@@ -46,6 +46,20 @@ export default function AdminSidebar({
           <LayoutDashboard className="w-4 h-4" />
           Dashboard
           {activeView === 'overview' && <ChevronRight className="w-3.5 h-3.5 ml-auto" />}
+        </button>
+
+        <button
+          type="button"
+          onClick={onLeakAudit}
+          className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+            activeView === 'leakAudit'
+              ? 'bg-teal-600/20 text-teal-400 border border-teal-500/30'
+              : 'text-slate-400 hover:text-white hover:bg-white/5'
+          }`}
+        >
+          <Droplets className="w-4 h-4" />
+          Leak Audit
+          {activeView === 'leakAudit' && <ChevronRight className="w-3.5 h-3.5 ml-auto" />}
         </button>
 
         {grouped.filter((g) => g.id !== 'overview').map((group) => {
@@ -116,7 +130,7 @@ export default function AdminSidebar({
   return (
     <>
       {/* Desktop */}
-      <aside className="hidden lg:flex w-64 shrink-0 bg-[#0f1629] border-r border-white/5 flex-col">
+      <aside className="hidden lg:flex print:!hidden w-64 shrink-0 bg-[#0f1629] border-r border-white/5 flex-col">
         {sidebar}
       </aside>
 

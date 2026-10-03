@@ -14,16 +14,16 @@ export default function MeetingsKpiRow({ kpis }) {
   if (!kpis) return null;
 
   const cards = [
-    { label: 'Meetings Booked', value: kpis.meetingsBooked ?? 0, icon: CalendarCheck, accent: 'blue' },
-    { label: 'Conversion Rate', value: `${kpis.conversionRate ?? 0}%`, icon: TrendingUp, accent: 'green' },
-    { label: 'No-Show Rate', value: `${kpis.noShowRate ?? 0}%`, icon: UserX, accent: 'amber' },
+    { label: 'Meetings booked', value: kpis.meetingsBooked ?? 0, icon: CalendarCheck, accent: 'blue' },
+    { label: 'Conversion rate', value: `${kpis.conversionRate ?? 0}%`, icon: TrendingUp, accent: 'green' },
+    { label: 'No-show rate', value: `${kpis.noShowRate ?? 0}%`, icon: UserX, accent: 'amber' },
     {
-      label: 'Revenue Generated',
+      label: 'Revenue generated',
       value: kpis.revenueGenerated ? `₹${kpis.revenueGenerated.toLocaleString()}` : '₹0',
       icon: IndianRupee,
       accent: 'slate',
     },
-    { label: 'Avg Response', value: kpis.avgResponseTime || '—', icon: Clock, accent: 'blue' },
+    { label: 'Avg response', value: kpis.avgResponseTime || '—', icon: Clock, accent: 'blue' },
     { label: 'Upcoming', value: kpis.upcomingMeetings ?? 0, icon: CalendarDays, accent: 'green' },
   ];
 

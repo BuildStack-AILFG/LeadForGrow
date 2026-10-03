@@ -5,7 +5,7 @@ export const metadata = {
   description: "Get a premium, high-converting agency website built for you by LeadForGrow experts. Launch in 7 days with native lead capture and automation.",
   keywords: ["DFY website design", "agency website builder service", "done for you landing pages", "high converting website design India", "lead generation website service"],
   alternates: {
-    canonical: 'https://leadforgrow.online/services/dfy-website'
+    canonical: 'https://www.leadforgrow.com/services/dfy-website'
   }
 };
 
@@ -13,7 +13,7 @@ export default function DFYWebsitePage() {
   const benefits = [
     {
       title: "Expert Blueprint Design",
-      text: "We don't just 'build a site'. We design a lead-generation framework based on conversion data from 500+ successful agencies."
+      text: "We don't just 'build a site'. We design a lead-generation framework based on proven lead-generation practices."
     },
     {
       title: "Zero Setup Friction",
@@ -154,8 +154,8 @@ export default function DFYWebsitePage() {
         "@type": "Service",
         "serviceType": "Website Design and Implementation",
         "provider": {
-          "@type": "LocalBusiness",
-          "name": "LeadForGrow Services"
+          "@type": "Organization",
+          "name": "ScaleDesk Technology Private Limited"
         },
         "areaServed": "India",
         "hasOfferCatalog": {

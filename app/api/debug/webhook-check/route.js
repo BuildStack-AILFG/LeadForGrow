@@ -18,8 +18,14 @@ export const GET = withPlanAccess('automation', async (req) => {
   const business = await Business.findById(businessId).select('+integrationCredentials');
   const wa = business?.integrationCredentials?.whatsapp || {};
 
+  // Only this business's rows, plus unattributed rows that carry its own
+  // phone number / WABA id (the "why didn't it match?" case). Other tenants'
+  // traffic is never returned.
+  const ownIds = [];
+  if (wa.phoneNumberId) ownIds.push({ 'payload.entry.changes.value.metadata.phone_number_id': String(wa.phoneNumberId) });
+  if (wa.businessAccountId) ownIds.push({ 'payload.entry.id': String(wa.businessAccountId) });
   const recent = await MetaWebhookIngress
-    .find({})
+    .find({ $or: [{ businessId }, ...(ownIds.length ? [{ businessId: null, $or: ownIds }] : [])] })
     .sort({ createdAt: -1 })
     .limit(20)
     .lean();
@@ -48,7 +54,7 @@ export const GET = withPlanAccess('automation', async (req) => {
     lastGlobal: globalIngress.slice(0, 5).map(summarise),
     hint:
       recent.length === 0
-        ? '❌ No webhooks in the last 20 events at all. Meta is not reaching your ngrok URL. Re-check callback URL in Meta dashboard matches your current ngrok URL, and that verify token matches.'
+        ? '❌ No webhooks for this business or its phone number. Meta is not reaching your URL. Re-check callback URL in Meta dashboard matches your current ngrok URL, and that verify token matches.'
         : yourIngress.length === 0
           ? '⚠️ Webhooks are arriving but none matched this business. Business is resolved by phone_number_id — make sure your business.integrationCredentials.whatsapp.phoneNumberId equals the Meta phone_number_id.'
           : `✅ ${yourIngress.length} webhook(s) reached this business. Check the fields below to see what Meta sent.`,

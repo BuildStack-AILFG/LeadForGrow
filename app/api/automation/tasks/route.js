@@ -17,6 +17,9 @@ export const GET = withTenantAuth(async (request) => {
     const assignedTo = searchParams.get('assignedTo');
     const leadId = searchParams.get('leadId');
     const companyId = searchParams.get('companyId');
+    // Reminder polling asks only for tasks due within N minutes (overdue included),
+    // instead of downloading every pending task and filtering in the browser.
+    const dueWithin = Number.parseInt(searchParams.get('dueWithin'), 10);
 
     const query = { businessId: business._id, status: 'pending' };
 
@@ -42,18 +45,24 @@ export const GET = withTenantAuth(async (request) => {
     } else if (filter === 'upcoming') {
       query.dueDate = { $gte: tomorrow };
     }
+    if (Number.isFinite(dueWithin) && dueWithin >= 0) {
+      query.dueDate = { $lte: new Date(now.getTime() + Math.min(dueWithin, 1440) * 60000) };
+    }
 
-    const tasks = await Task.find(query)
+    let tasksQuery = Task.find(query)
       .populate('leadId', 'name phone serviceInterest')
       .populate('assignedTo', 'email firstName lastName')
-      .sort({ dueDate: 1 })
-      .lean();
+      .sort({ dueDate: 1 });
+    if (Number.isFinite(dueWithin)) tasksQuery = tasksQuery.limit(100);
+    const tasks = await tasksQuery.lean();
 
     // A task whose lead was deleted (without going through a cascade-delete path,
     // e.g. legacy/seed data) can never be actioned — auto-cancel it here so it
     // stops permanently polluting overdue counts and follow-up reminders.
-    const orphaned = tasks.filter((t) => t.leadId == null);
-    const valid = tasks.filter((t) => t.leadId != null);
+    // Tasks linked to a contact, deal or company (no lead) are valid and kept.
+    const isOrphan = (t) => t.leadId == null && !t.contactId && !t.dealId && !t.companyId;
+    const orphaned = tasks.filter(isOrphan);
+    const valid = tasks.filter((t) => !isOrphan(t));
     if (orphaned.length) {
       await Task.updateMany(
         { _id: { $in: orphaned.map((t) => t._id) } },

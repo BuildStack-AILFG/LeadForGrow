@@ -31,6 +31,7 @@ import {
 } from 'lucide-react';
 import { authFetch } from '@/lib/apiClient';
 import { useConfirm } from '@/app/components/ConfirmProvider';
+import { useTheme } from '@/app/components/ThemeContext';
 import { getDefaultNodeData } from '@/lib/whatsappFlows/constants';
 import { flowNodeTypes } from './FlowNodeCard';
 import { FlowActionsContext } from './FlowActionsContext';
@@ -50,9 +51,9 @@ function autoLayoutNodes(nodes) {
 }
 
 const STATUS_PILL = {
-  draft: 'bg-amber-100 text-amber-700',
-  published: 'bg-emerald-100 text-emerald-700',
-  archived: 'bg-slate-100 text-slate-600',
+  draft: 'bg-warning-subtle dark:bg-amber-900/30 text-warning dark:text-amber-300',
+  published: 'bg-accent-subtle dark:bg-accent-pressed/30 text-accent-fg dark:text-accent-fg',
+  archived: 'bg-muted dark:bg-slate-800 text-fg-secondary dark:text-fg-disabled',
 };
 
 const PANEL_WIDTH = 320;
@@ -66,19 +67,20 @@ function ActivateToggle({ active, onChange, disabled }) {
         aria-checked={active}
         disabled={disabled}
         onClick={() => onChange(!active)}
-        className={`relative w-9 h-5 rounded-full transition-colors ${active ? 'bg-[#1D4B3E]' : 'bg-slate-300'} disabled:opacity-50`}
+        className={`relative w-9 h-5 rounded-full transition-colors ${active ? 'bg-brand' : 'bg-slate-300'} disabled:opacity-50`}
       >
         <span
-          className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${active ? 'translate-x-4' : ''}`}
+          className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-canvas transition-transform ${active ? 'translate-x-4' : ''}`}
         />
       </button>
-      <span className="text-sm font-medium text-slate-600 hidden sm:inline">Activate Workflow</span>
+      <span className="text-sm font-medium text-fg-secondary dark:text-fg-disabled hidden sm:inline">Activate Workflow</span>
     </label>
   );
 }
 
 function FlowBuilderInner({ flowId }) {
   const confirm = useConfirm();
+  const { theme } = useTheme() || { theme: 'light' };
   const [flow, setFlow] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -474,7 +476,7 @@ function FlowBuilderInner({ flowId }) {
 
   if (loading) {
     return (
-      <div className="min-h-full bg-[#f4f6fa] flex items-center justify-center text-slate-500 text-sm">
+      <div className="min-h-full bg-subtle dark:bg-slate-900 flex items-center justify-center text-fg-tertiary dark:text-fg-tertiary text-sm">
         Loading builder…
       </div>
     );
@@ -483,17 +485,17 @@ function FlowBuilderInner({ flowId }) {
   const isActive = flow?.status === 'published';
 
   return (
-    <div className="flex flex-col h-[calc(100vh-0px)] min-h-[640px] bg-white text-slate-900" data-theme="light">
-      <header className="sticky top-0 z-40 shrink-0 bg-white border-b border-slate-200 px-3 sm:px-4 py-2.5 flex flex-wrap items-center gap-2">
+    <div className="flex flex-col h-[calc(100vh-0px)] min-h-[640px] bg-canvas dark:bg-slate-900 text-fg dark:text-slate-50" data-theme="light">
+      <header className="sticky top-0 z-40 shrink-0 bg-canvas dark:bg-slate-900 border-b border-line dark:border-slate-700 px-3 sm:px-4 py-2.5 flex flex-wrap items-center gap-2">
         <Link
           href="/automation/whatsapp-flows"
-          className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-700 transition-colors"
+          className="inline-flex items-center gap-1.5 text-sm text-fg-tertiary dark:text-fg-tertiary hover:text-fg-secondary dark:hover:text-slate-200 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           <span className="hidden sm:inline">Go back to all Workflows</span>
         </Link>
 
-        <div className="w-6 h-6 rounded bg-[#1D4B3E] flex items-center justify-center shrink-0 hidden sm:flex">
+        <div className="w-6 h-6 rounded bg-brand flex items-center justify-center shrink-0 hidden sm:flex">
           <MessageCircle className="w-3.5 h-3.5 text-white" />
         </div>
 
@@ -503,19 +505,19 @@ function FlowBuilderInner({ flowId }) {
             setFlow((f) => ({ ...f, name: e.target.value }));
             setDirty(true);
           }}
-          className="text-sm font-semibold bg-transparent text-slate-900 focus:outline-none border-b border-transparent focus:border-[#1D4B3E] min-w-[120px] max-w-[220px] truncate"
+          className="text-sm font-semibold bg-transparent text-fg dark:text-slate-50 focus:outline-none border-b border-transparent focus:border-brand min-w-[120px] max-w-[220px] truncate"
         />
 
         <div className="relative" ref={menuRef}>
           <button
             type="button"
             onClick={() => setMenuOpen((v) => !v)}
-            className="p-1.5 rounded hover:bg-slate-100 text-slate-400 hover:text-slate-600"
+            className="p-1.5 rounded hover:bg-muted dark:hover:bg-slate-700 text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled"
           >
             <MoreHorizontal className="w-4 h-4" />
           </button>
           {menuOpen && (
-            <div className="absolute top-8 left-0 z-30 w-52 rounded-lg border border-slate-200 bg-white shadow-xl py-1">
+            <div className="absolute top-8 left-0 z-30 w-52 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 shadow-modal py-1">
               <button
                 type="button"
                 onClick={() => {
@@ -523,9 +525,9 @@ function FlowBuilderInner({ flowId }) {
                   setTestOpen(false);
                   setMenuOpen(false);
                 }}
-                className="w-full flex items-center gap-2 px-3 py-2 text-xs text-slate-700 hover:bg-[#F0F9F5]"
+                className="w-full flex items-center gap-2 px-3 py-2 text-xs text-fg-secondary dark:text-slate-200 hover:bg-brand-tint"
               >
-                <History className="w-3.5 h-3.5 text-slate-400" /> Versions
+                <History className="w-3.5 h-3.5 text-fg-tertiary" /> Versions
               </button>
               <button
                 type="button"
@@ -534,9 +536,9 @@ function FlowBuilderInner({ flowId }) {
                   setVersionsOpen(false);
                   setMenuOpen(false);
                 }}
-                className="w-full flex items-center gap-2 px-3 py-2 text-xs text-slate-700 hover:bg-[#F0F9F5]"
+                className="w-full flex items-center gap-2 px-3 py-2 text-xs text-fg-secondary dark:text-slate-200 hover:bg-brand-tint"
               >
-                <FlaskConical className="w-3.5 h-3.5 text-slate-400" /> Test
+                <FlaskConical className="w-3.5 h-3.5 text-fg-tertiary" /> Test
               </button>
               <button
                 type="button"
@@ -546,9 +548,9 @@ function FlowBuilderInner({ flowId }) {
                   setMenuOpen(false);
                   setTimeout(() => fitView({ padding: 0.2 }), 50);
                 }}
-                className="w-full flex items-center gap-2 px-3 py-2 text-xs text-slate-700 hover:bg-[#F0F9F5]"
+                className="w-full flex items-center gap-2 px-3 py-2 text-xs text-fg-secondary dark:text-slate-200 hover:bg-brand-tint"
               >
-                <LayoutGrid className="w-3.5 h-3.5 text-slate-400" /> Auto layout
+                <LayoutGrid className="w-3.5 h-3.5 text-fg-tertiary" /> Auto layout
               </button>
               <button
                 type="button"
@@ -556,9 +558,9 @@ function FlowBuilderInner({ flowId }) {
                   duplicateFlowAndOpen();
                   setMenuOpen(false);
                 }}
-                className="w-full flex items-center gap-2 px-3 py-2 text-xs text-slate-700 hover:bg-[#F0F9F5]"
+                className="w-full flex items-center gap-2 px-3 py-2 text-xs text-fg-secondary dark:text-slate-200 hover:bg-brand-tint"
               >
-                <Copy className="w-3.5 h-3.5 text-slate-400" /> Duplicate flow
+                <Copy className="w-3.5 h-3.5 text-fg-tertiary" /> Duplicate flow
               </button>
               <button
                 type="button"
@@ -566,18 +568,18 @@ function FlowBuilderInner({ flowId }) {
                   exportFlowJson();
                   setMenuOpen(false);
                 }}
-                className="w-full flex items-center gap-2 px-3 py-2 text-xs text-slate-700 hover:bg-[#F0F9F5]"
+                className="w-full flex items-center gap-2 px-3 py-2 text-xs text-fg-secondary dark:text-slate-200 hover:bg-brand-tint"
               >
-                <FileDown className="w-3.5 h-3.5 text-slate-400" /> Export flow (.json)
+                <FileDown className="w-3.5 h-3.5 text-fg-tertiary" /> Export flow (.json)
               </button>
-              <div className="my-1 border-t border-slate-100" />
+              <div className="my-1 border-t border-line dark:border-slate-800" />
               <button
                 type="button"
                 onClick={() => {
                   deleteFlowAndBack();
                   setMenuOpen(false);
                 }}
-                className="w-full flex items-center gap-2 px-3 py-2 text-xs text-rose-600 hover:bg-rose-50"
+                className="w-full flex items-center gap-2 px-3 py-2 text-xs text-danger dark:text-rose-400 hover:bg-danger-subtle dark:hover:bg-rose-950/30"
               >
                 <Trash2 className="w-3.5 h-3.5" /> Delete flow
               </button>
@@ -585,9 +587,9 @@ function FlowBuilderInner({ flowId }) {
           )}
         </div>
 
-        {dirty && <span className="text-[11px] text-amber-600 font-medium">Unsaved</span>}
-        {saving && <span className="text-[11px] text-slate-400">Saving…</span>}
-        <span className={`text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full ${STATUS_PILL[flow?.status] || STATUS_PILL.draft}`}>
+        {dirty && <span className="text-meta text-warning dark:text-amber-400 font-medium">Unsaved</span>}
+        {saving && <span className="text-meta text-fg-tertiary">Saving…</span>}
+        <span className={`text-meta font-semibold px-2 py-0.5 rounded-full ${STATUS_PILL[flow?.status] || STATUS_PILL.draft}`}>
           {flow?.status}
         </span>
 
@@ -595,7 +597,7 @@ function FlowBuilderInner({ flowId }) {
           <button
             type="button"
             onClick={() => setTemplateGalleryOpen(true)}
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-700"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-fg-tertiary dark:text-fg-tertiary hover:text-fg-secondary dark:hover:text-slate-200"
           >
             <Grid3x3 className="w-4 h-4" />
             <span className="hidden md:inline">Template gallery</span>
@@ -603,7 +605,7 @@ function FlowBuilderInner({ flowId }) {
           <button
             type="button"
             onClick={exportResponses}
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-700"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-fg-tertiary dark:text-fg-tertiary hover:text-fg-secondary dark:hover:text-slate-200"
           >
             <FileDown className="w-4 h-4" />
             <span className="hidden md:inline">Export Workflow Responses</span>
@@ -612,19 +614,19 @@ function FlowBuilderInner({ flowId }) {
           <button
             type="button"
             onClick={() => persist()}
-            className="inline-flex items-center px-4 py-2 rounded bg-[#1D4B3E] text-white text-sm font-semibold hover:bg-[#173d32] transition-colors"
+            className="inline-flex items-center px-4 py-2 rounded bg-brand text-white text-sm font-semibold hover:bg-accent-hover transition-colors"
           >
             Save Workflow
           </button>
         </div>
       </header>
 
-      <div className="flex flex-1 min-h-0 gap-3 p-3 bg-[#F8F9FA]">
+      <div className="flex flex-1 min-h-0 gap-3 p-3 bg-subtle dark:bg-slate-900">
         <NodePalette onAdd={addNode} hasTrigger={nodes.some((n) => String(n.type).startsWith('trigger_'))} />
 
         <div
           ref={canvasRef}
-          className="flex-1 relative rounded-lg border border-slate-200 bg-[#eef1f8] overflow-hidden shadow-sm"
+          className="flex-1 relative rounded-lg border border-line dark:border-slate-700 bg-subtle dark:bg-slate-800 overflow-hidden"
           onDragOver={onDragOver}
           onDrop={onDrop}
         >
@@ -632,7 +634,7 @@ function FlowBuilderInner({ flowId }) {
             <button
               type="button"
               onClick={() => setShowMiniMap((v) => !v)}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white border border-slate-200 shadow-sm text-xs font-medium text-slate-500 hover:text-slate-700"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 text-xs font-medium text-fg-tertiary dark:text-fg-tertiary hover:text-fg-secondary dark:hover:text-slate-200"
             >
               <Grid3x3 className="w-3.5 h-3.5" />
               Switch View
@@ -657,19 +659,19 @@ function FlowBuilderInner({ flowId }) {
               nodeTypes={flowNodeTypes}
               fitView
               fitViewOptions={{ maxZoom: 1, padding: 0.3 }}
-              colorMode="light"
+              colorMode={theme === 'dark' ? 'dark' : 'light'}
               proOptions={{ hideAttribution: true }}
               defaultEdgeOptions={{ type: 'smoothstep' }}
             >
-              <Background variant={BackgroundVariant.Dots} gap={18} size={1.2} color="#c5cddb" />
+              <Background variant={BackgroundVariant.Dots} gap={18} size={1.2} color={theme === 'dark' ? '#334155' : '#c5cddb'} />
               <Controls
                 position="bottom-right"
-                className="!bg-white !border-slate-200 !shadow-lg !rounded-xl overflow-hidden !text-slate-600"
+                className="!bg-white !border-slate-200 !shadow-lg !rounded-xl overflow-hidden !text-slate-600 dark:!bg-slate-900 dark:!border-slate-700 dark:!text-slate-300"
               />
               {showMiniMap && (
                 <MiniMap
                   position="bottom-left"
-                  className="!bg-white !border-slate-200 !rounded-xl !shadow-lg"
+                  className="!bg-white !border-slate-200 !rounded-xl !shadow-lg dark:!bg-slate-900 dark:!border-slate-700"
                   nodeColor={(n) =>
                     String(n.type).startsWith('trigger_')
                       ? '#1D4B3E'
@@ -694,60 +696,66 @@ function FlowBuilderInner({ flowId }) {
                   setNodes((nds) => nds.map((n) => (n.id === selectedId ? { ...n, data: nextData } : n)));
                   setDirty(true);
                 }}
-                onClose={() => setSelectedId(null)}
+                onClose={() => {
+                  // Also clear React Flow's own `selected` flag on the node — leaving it
+                  // true let a later internal selection-change event re-derive the same
+                  // selectedId and instantly re-open the panel right after closing it.
+                  setNodes((nds) => nds.map((n) => (n.id === selectedId ? { ...n, selected: false } : n)));
+                  setSelectedId(null);
+                }}
               />
             </div>
           )}
 
           {versionsOpen && (
-            <div className="absolute top-14 right-3 w-72 max-h-80 overflow-y-auto rounded-2xl border border-slate-200 bg-white/95 backdrop-blur p-3 shadow-xl z-10">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Version history</h4>
+            <div className="absolute top-14 right-3 w-72 max-h-80 overflow-y-auto rounded-lg border border-line dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 p-3 shadow-modal z-10">
+              <h4 className="text-xs font-semibold text-fg-tertiary mb-2">Version history</h4>
               {(versions.length ? versions : []).map((v) => (
                 <button
                   key={v._id || v.version}
                   type="button"
                   onClick={() => restoreVersion(v.version)}
-                  className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#F0F9F5] text-xs mb-1 transition-colors"
+                  className="w-full text-left px-3 py-2 rounded-lg hover:bg-brand-tint text-xs mb-1 transition-colors"
                 >
-                  <div className="text-slate-900 font-semibold">
+                  <div className="text-fg dark:text-slate-50 font-semibold">
                     v{v.version} {v.published ? '· published' : ''}
                   </div>
-                  <div className="text-slate-500">{v.note || 'Snapshot'}</div>
+                  <div className="text-fg-tertiary dark:text-fg-tertiary">{v.note || 'Snapshot'}</div>
                 </button>
               ))}
-              {!versions.length && <p className="text-slate-500 text-xs px-1">No versions yet — publish to create one</p>}
+              {!versions.length && <p className="text-fg-tertiary dark:text-fg-tertiary text-xs px-1">No versions yet — publish to create one</p>}
             </div>
           )}
 
           {testOpen && (
-            <div className="absolute bottom-3 left-3 right-3 md:left-auto md:right-3 md:w-96 rounded-2xl border border-slate-200 bg-white/95 backdrop-blur p-4 shadow-xl z-10">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Test flow</h4>
-              <p className="text-[11px] text-slate-500 mb-2">
+            <div className="absolute bottom-3 left-3 right-3 md:left-auto md:right-3 md:w-96 rounded-lg border border-line dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 p-4 shadow-modal z-10">
+              <h4 className="text-xs font-semibold text-fg-tertiary mb-2">Test flow</h4>
+              <p className="text-meta text-fg-tertiary dark:text-fg-tertiary mb-2">
                 Simulate an inbound WhatsApp message before publishing.
                 {flow?.testStartNodeKey && (
-                  <span className="block mt-1 text-[#1D4B3E]">Starting from the marked start node.</span>
+                  <span className="block mt-1 text-brand-ink">Starting from the marked start node.</span>
                 )}
               </p>
               <input
                 value={testMessage}
                 onChange={(e) => setTestMessage(e.target.value)}
-                className="w-full mb-2 px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm"
+                className="w-full mb-2 px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm"
                 placeholder="Simulated inbound message"
               />
               <button
                 type="button"
                 onClick={runTest}
-                className="w-full py-2.5 rounded-xl bg-[#1D4B3E] text-white text-sm font-semibold shadow-sm"
+                className="w-full py-2.5 rounded-lg bg-brand text-white text-sm font-semibold"
               >
                 Run simulation
               </button>
               {testResult && (
-                <div className="mt-3 max-h-40 overflow-y-auto text-[11px] space-y-1 custom-scrollbar">
-                  <div className="text-slate-500">
-                    Status: <span className="font-semibold text-slate-900">{testResult.status}</span>
+                <div className="mt-3 max-h-40 overflow-y-auto text-meta space-y-1 custom-scrollbar">
+                  <div className="text-fg-tertiary dark:text-fg-tertiary">
+                    Status: <span className="font-semibold text-fg dark:text-slate-50">{testResult.status}</span>
                   </div>
                   {(testResult.logs || []).map((log, i) => (
-                    <div key={i} className="text-slate-500 border-l-2 border-slate-200 pl-2">
+                    <div key={i} className="text-fg-tertiary dark:text-fg-tertiary border-l-2 border-line dark:border-slate-700 pl-2">
                       [{log.status}] {log.nodeType || ''} — {log.message || ''}
                     </div>
                   ))}

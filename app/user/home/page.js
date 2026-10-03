@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import SmoothScroll from '@/app/components/landing/SmoothScroll';
 import LandingNavbar from '@/app/components/landing/LandingNavbar';
@@ -16,31 +14,20 @@ import HomePricingSection from '@/app/components/landing/HomePricingSection';
 import SuccessStoriesSection from '@/app/components/landing/SuccessStoriesSection';
 import LandingCTA from '@/app/components/landing/LandingCTA';
 import ScrollToTopButton from '@/app/components/landing/ScrollToTopButton';
-import BookDemoModal, { openBookDemoPopup } from '@/app/components/landing/BookDemoModal';
 
 export default function LeadForGrowHeroPage() {
-  const handleGetStarted = () => {
-    const userId = localStorage.getItem('userid');
-    window.location.href = userId ? '/automation' : '/user/register';
-  };
-
-  const handleBookDemo = () => {
-    const popup = openBookDemoPopup();
-    if (popup) {
-      popup.focus();
-    }
-  };
-
+  // Server-rendered: only the interactive sections (navbar, hero, AI tabs,
+  // automation demo, CTA, scroll button) ship JavaScript to the browser.
   return (
     <SmoothScroll>
     <div className="min-h-screen overflow-x-hidden bg-white">
       <LandingNavbar />
-      <PremiumHero onGetStarted={handleGetStarted} onBookDemo={handleBookDemo} />
+      <PremiumHero />
       <TrustedCompanies />
       <ProductHubsSection />
       <AutomationInActionSection />
       <CapabilitiesGridSection />
-      <AICapabilitiesSection onGetStarted={handleGetStarted} onBookDemo={handleBookDemo} />
+      <AICapabilitiesSection />
       <StatsSection />
       <div id="integrations">
         <IntegrationsTeaser />
@@ -48,7 +35,7 @@ export default function LeadForGrowHeroPage() {
       <IndustriesGridSection />
       <HomePricingSection />
       <SuccessStoriesSection />
-      <LandingCTA onGetStarted={handleGetStarted} onBookDemo={handleBookDemo} />
+      <LandingCTA />
       <ScrollToTopButton />
     </div>
     </SmoothScroll>

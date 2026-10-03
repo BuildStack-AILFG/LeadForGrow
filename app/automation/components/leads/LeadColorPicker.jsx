@@ -79,16 +79,16 @@ export default function LeadColorPicker({ open, onClose, currentColor, onSelect,
   return createPortal(
     <div
       ref={panelRef}
-      className="fixed z-[100] w-52 p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-lg"
+      className="fixed z-[100] w-52 p-3 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg shadow-popover"
       style={{ top: pos.top, left: pos.left }}
       onClick={(e) => e.stopPropagation()}
     >
       <div className="flex items-center justify-between mb-2">
-        <p className="text-xs font-semibold text-slate-700 dark:text-slate-200">Row color</p>
+        <p className="text-xs font-semibold text-fg-secondary dark:text-slate-200">Row color</p>
         <button
           type="button"
           onClick={onClose}
-          className="p-0.5 rounded text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+          className="p-0.5 rounded text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled"
         >
           <X className="w-3.5 h-3.5" />
         </button>
@@ -102,8 +102,8 @@ export default function LeadColorPicker({ open, onClose, currentColor, onSelect,
             onClick={() => onSelect(c.value)}
             className={`w-8 h-8 rounded-lg border-2 transition-transform hover:scale-110 ${
               currentColor === c.value
-                ? 'border-teal-500 ring-2 ring-teal-200 dark:ring-teal-800'
-                : 'border-slate-200 dark:border-slate-600'
+                ? 'border-accent ring-2 ring-focus dark:ring-teal-800'
+                : 'border-line dark:border-slate-600'
             }`}
             style={{ backgroundColor: c.value }}
           />
@@ -113,7 +113,7 @@ export default function LeadColorPicker({ open, onClose, currentColor, onSelect,
         <button
           type="button"
           onClick={() => onSelect(null)}
-          className="mt-2 w-full text-[11px] text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 py-1"
+          className="mt-2 w-full text-meta text-fg-tertiary dark:text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled py-1"
         >
           Clear color
         </button>

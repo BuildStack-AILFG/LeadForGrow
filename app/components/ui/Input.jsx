@@ -1,25 +1,84 @@
-import React, { forwardRef } from 'react';
+'use client';
 
-const Input = forwardRef(({ label, error, className = '', ...props }, ref) => {
+import { forwardRef, useId } from 'react';
+import cx, { focusRing } from './cx';
+
+/** Shared field chrome — 36px, radius 6, border → border-strong on hover, focus ring. */
+export const fieldClass = (error) =>
+  cx(
+    'h-9 w-full rounded-md border bg-canvas px-3 text-body text-fg placeholder:text-fg-tertiary',
+    'transition-colors duration-[var(--duration-fast)]',
+    'disabled:cursor-not-allowed disabled:bg-subtle disabled:text-fg-disabled',
+    focusRing,
+    error ? 'border-danger' : 'border-line hover:border-line-strong'
+  );
+
+/**
+ * Field — label above, optional hint (tertiary), inline error that says what to do.
+ * Wraps any control; Input/Select/Textarea use it.
+ */
+export function Field({ label, hint, error, htmlFor, required, children, className }) {
   return (
-    <div className="space-y-1.5 w-full">
+    <div className={cx('flex flex-col gap-1.5', className)}>
       {label && (
-        <label className="text-xs font-medium text-slate-500 uppercase tracking-wider ml-0.5">
+        <label htmlFor={htmlFor} className="text-dense font-medium text-fg">
           {label}
+          {required && <span className="ml-0.5 text-fg-tertiary" aria-hidden>*</span>}
         </label>
       )}
+      {hint && !error && <p className="text-meta text-fg-tertiary" id={htmlFor ? `${htmlFor}-hint` : undefined}>{hint}</p>}
+      {children}
+      {error && (
+        <p className="text-meta text-danger" id={htmlFor ? `${htmlFor}-error` : undefined} role="alert">
+          <span className="sr-only">Error: </span>
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+
+const Input = forwardRef(function Input({ label, hint, error, id, className, fieldClassName, required, icon: Icon, ...props }, ref) {
+  const autoId = useId();
+  const inputId = id || autoId;
+  const describedBy = error ? `${inputId}-error` : hint ? `${inputId}-hint` : undefined;
+  const control = (
+    <div className="relative">
+      {Icon && <Icon className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-fg-tertiary" strokeWidth={1.5} aria-hidden />}
       <input
         ref={ref}
-        className={`flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/20 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200 ${
-          error ? 'border-red-500 focus-visible:ring-red-500/20' : 'hover:border-slate-300'
-        } ${className}`}
+        id={inputId}
+        required={required}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={describedBy}
+        className={cx(fieldClass(error), Icon && 'pl-8', className)}
         {...props}
       />
-      {error && <p className="text-[11px] font-medium text-red-500 ml-0.5">{error}</p>}
     </div>
+  );
+  if (!label && !hint && !error) return control;
+  return (
+    <Field label={label} hint={hint} error={error} htmlFor={inputId} required={required} className={fieldClassName}>
+      {control}
+    </Field>
   );
 });
 
-Input.displayName = 'Input';
-
 export default Input;
+
+export const Textarea = forwardRef(function Textarea({ label, hint, error, id, className, rows = 3, ...props }, ref) {
+  const autoId = useId();
+  const inputId = id || autoId;
+  return (
+    <Field label={label} hint={hint} error={error} htmlFor={inputId}>
+      <textarea
+        ref={ref}
+        id={inputId}
+        rows={rows}
+        aria-invalid={error ? true : undefined}
+        className={cx(fieldClass(error), 'h-auto py-2', className)}
+        {...props}
+      />
+    </Field>
+  );
+});

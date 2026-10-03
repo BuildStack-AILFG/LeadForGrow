@@ -294,12 +294,14 @@ export default function Chatbot({
   const posClass = embedded
     ? 'absolute inset-0'
     : isPreview
-      ? `absolute bottom-4 ${pos === 'left' ? 'left-4' : 'right-4'}`
+      // Spans the preview box (inset-x-4) so a narrow box can shrink the panel.
+      ? `absolute bottom-4 inset-x-4 flex flex-col ${pos === 'left' ? 'items-start' : 'items-end'} pointer-events-none [&>*]:pointer-events-auto`
       : `fixed bottom-6 ${pos === 'left' ? 'left-6' : 'right-6'} z-[9999]`;
 
   const showQuickReplies = step === supportStep && flow.askSupportType && !submitted;
   const showInput = !submitted && !showQuickReplies;
-  const panelW = embedded ? 'w-full' : isPreview ? 'w-[360px]' : 'w-[400px]';
+  // On a phone the 400px panel would run off the left edge; keep 1.5rem clear on each side.
+  const panelW = embedded ? 'w-full' : isPreview ? 'w-[360px] max-w-full' : 'w-[400px] max-w-[calc(100vw-3rem)]';
   const panelH = embedded ? 'h-full' : isPreview ? 'h-[540px]' : 'h-[620px] max-h-[88vh]';
 
   const inputPlaceholder =

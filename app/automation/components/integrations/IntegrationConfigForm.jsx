@@ -61,8 +61,8 @@ export default function IntegrationConfigForm({ integration, onSubmit, submittin
         if (field.readOnly) {
           return (
             <div key={field.key}>
-              <label className="block text-[10px] font-semibold uppercase tracking-wide text-slate-400 mb-1">{field.label}</label>
-              <p className="text-sm text-slate-700 dark:text-slate-300">{values[field.key] || '—'}</p>
+              <label className="block text-meta font-semibold text-fg-tertiary mb-1">{field.label}</label>
+              <p className="text-sm text-fg-secondary dark:text-fg-disabled">{values[field.key] || '—'}</p>
             </div>
           );
         }
@@ -81,11 +81,11 @@ export default function IntegrationConfigForm({ integration, onSubmit, submittin
         return (
           <div key={field.key}>
             <div className="flex items-center justify-between mb-1">
-              <label className="block text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+              <label className="block text-meta font-semibold text-fg-tertiary">
                 {field.label}{field.required ? ' *' : ''}
               </label>
               {alreadySaved && (
-                <span className="text-[10px] font-medium text-emerald-600 flex items-center gap-1">
+                <span className="text-meta font-medium text-accent-fg dark:text-accent-fg flex items-center gap-1">
                   <CheckCircle2 className="w-3 h-3" /> Saved
                 </span>
               )}
@@ -94,7 +94,7 @@ export default function IntegrationConfigForm({ integration, onSubmit, submittin
               <select
                 value={values[field.key] ?? field.default ?? ''}
                 onChange={(e) => handleChange(field.key, e.target.value)}
-                className="w-full px-3 py-2 text-xs border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
+                className="w-full px-3 py-2 text-xs border border-line dark:border-slate-700 rounded-lg bg-canvas dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-focus"
               >
                 {(field.options || []).map((opt) => (
                   <option key={opt} value={opt}>{opt}</option>
@@ -111,15 +111,15 @@ export default function IntegrationConfigForm({ integration, onSubmit, submittin
                   disabled={submitting}
                   className={`w-full px-3 py-2 text-xs border rounded-lg bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500/20 pr-9 ${
                     alreadySaved
-                      ? 'border-emerald-200 dark:border-emerald-900 placeholder:text-emerald-700/60'
-                      : 'border-slate-200 dark:border-slate-700'
+                      ? 'border-line dark:border-emerald-900 placeholder:text-accent-fg/60 dark:placeholder:text-accent-fg/60'
+                      : 'border-line dark:border-slate-700'
                   }`}
                 />
                 {isSecret && (
                   <button
                     type="button"
                     onClick={() => setShowSecrets((s) => ({ ...s, [field.key]: !s[field.key] }))}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled"
                   >
                     {showSecrets[field.key] ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                   </button>
@@ -134,7 +134,7 @@ export default function IntegrationConfigForm({ integration, onSubmit, submittin
         <button
           type="submit"
           disabled={submitting}
-          className="w-full mt-2 px-4 py-2.5 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-lg disabled:opacity-50"
+          className="w-full mt-2 px-4 py-2.5 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-md disabled:opacity-50"
         >
           {submitting ? 'Connecting…' : submitLabel}
         </button>

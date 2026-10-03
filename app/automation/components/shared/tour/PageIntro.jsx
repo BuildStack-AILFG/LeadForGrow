@@ -6,11 +6,11 @@ import { X } from 'lucide-react';
 import { isIntroSeen, markIntroSeen } from './storage';
 
 const TONE = {
-  blue:    { bg: 'from-teal-50 to-indigo-50 dark:from-teal-950/30 dark:to-indigo-950/20', border: 'border-teal-100 dark:border-teal-900/40', chip: 'bg-teal-600', link: 'text-teal-700 dark:text-teal-400 hover:text-teal-800' },
-  emerald: { bg: 'from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/20', border: 'border-emerald-100 dark:border-emerald-900/40', chip: 'bg-emerald-600', link: 'text-emerald-700 dark:text-emerald-400 hover:text-emerald-800' },
-  violet:  { bg: 'from-violet-50 to-purple-50 dark:from-violet-950/30 dark:to-purple-950/20', border: 'border-violet-100 dark:border-violet-900/40', chip: 'bg-violet-600', link: 'text-violet-700 dark:text-violet-400 hover:text-violet-800' },
-  amber:   { bg: 'from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/20', border: 'border-amber-100 dark:border-amber-900/40', chip: 'bg-amber-600', link: 'text-amber-700 dark:text-amber-400 hover:text-amber-800' },
-  slate:   { bg: 'from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800', border: 'border-slate-200 dark:border-slate-700', chip: 'bg-slate-700', link: 'text-slate-700 dark:text-slate-300 hover:text-slate-900' },
+  blue:    { bg: 'from-teal-50 to-indigo-50 dark:from-teal-950/30 dark:to-indigo-950/20', border: 'border-line dark:border-teal-900/40', chip: 'bg-accent', link: 'text-accent-fg dark:text-accent-fg hover:text-accent-fg dark:hover:text-teal-200' },
+  emerald: { bg: 'from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/20', border: 'border-line dark:border-emerald-900/40', chip: 'bg-accent', link: 'text-accent-fg dark:text-accent-fg hover:text-accent-fg dark:hover:text-emerald-200' },
+  violet:  { bg: 'from-violet-50 to-purple-50 dark:from-violet-950/30 dark:to-purple-950/20', border: 'border-line dark:border-violet-900/40', chip: 'bg-accent', link: 'text-accent-fg dark:text-accent-fg hover:text-accent-fg dark:hover:text-violet-200' },
+  amber:   { bg: 'from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/20', border: 'border-warning/30 dark:border-amber-900/40', chip: 'bg-warning', link: 'text-warning dark:text-amber-400 hover:text-warning dark:hover:text-amber-200' },
+  slate:   { bg: 'from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800', border: 'border-line dark:border-slate-700', chip: 'bg-slate-700', link: 'text-fg-secondary dark:text-fg-disabled hover:text-fg dark:hover:text-slate-50' },
 };
 
 /**
@@ -25,7 +25,7 @@ const TONE = {
  * server render / before the localStorage check resolves, so it never
  * causes a layout flash for returning users.
  */
-export default function PageIntro({ id, icon: Icon, title, body, guideHref, tone = 'blue', ctaLabel = 'Learn how this works' }) {
+export default function PageIntro({ id, icon: Icon, iconImage, iconFullBleed = false, title, body, guideHref, tone = 'blue', ctaLabel = 'Learn how this works' }) {
   const [visible, setVisible] = useState(false);
   const [checked, setChecked] = useState(false);
   const t = TONE[tone] || TONE.blue;
@@ -44,17 +44,30 @@ export default function PageIntro({ id, icon: Icon, title, body, guideHref, tone
 
   return (
     <div
-      className={`lfg-tour-pop relative mb-4 rounded-2xl border ${t.border} bg-gradient-to-r ${t.bg} p-4 sm:p-5 flex items-start gap-3.5`}
+      className={`lfg-tour-pop relative mb-4 rounded-lg border ${t.border} bg-canvas ${t.bg} p-4 sm:p-5 flex items-start gap-3.5`}
       data-testid={`page-intro-${id}`}
     >
-      {Icon && (
-        <div className={`w-9 h-9 rounded-xl ${t.chip} flex items-center justify-center shrink-0 shadow-sm`}>
+      {iconImage ? (
+        iconFullBleed ? (
+          // A self-contained tile icon (its own rounded background) — render it
+          // full-bleed with no wrapper chip.
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={iconImage} alt="" className="w-9 h-9 rounded-lg shrink-0" />
+        ) : (
+          // A flat brand image — shown on a light tile so its own colours read.
+          <div className="w-9 h-9 rounded-lg bg-canvas dark:bg-slate-900 border border-black/5 dark:border-white/10 flex items-center justify-center shrink-0 p-1">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={iconImage} alt="" className="w-full h-full object-contain" />
+          </div>
+        )
+      ) : Icon && (
+        <div className={`w-9 h-9 rounded-lg ${t.chip} flex items-center justify-center shrink-0`}>
           <Icon className="w-4.5 h-4.5 text-white" strokeWidth={2} />
         </div>
       )}
       <div className="flex-1 min-w-0 pr-6">
-        <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{title}</p>
-        <p className="text-[13px] text-slate-600 dark:text-slate-400 mt-0.5 leading-relaxed">{body}</p>
+        <p className="text-sm font-semibold text-fg dark:text-slate-100">{title}</p>
+        <p className="text-dense text-fg-secondary dark:text-fg-tertiary mt-0.5 leading-relaxed">{body}</p>
         {guideHref && (
           <Link href={guideHref} className={`inline-flex items-center gap-1 text-xs font-semibold mt-2 ${t.link}`}>
             {ctaLabel} →
@@ -65,7 +78,7 @@ export default function PageIntro({ id, icon: Icon, title, body, guideHref, tone
         type="button"
         onClick={dismiss}
         aria-label="Dismiss"
-        className="absolute top-3 right-3 p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-white/60 dark:hover:bg-white/10 transition-colors"
+        className="absolute top-3 right-3 p-1 rounded-lg text-fg-tertiary hover:text-fg-secondary dark:hover:text-slate-200 hover:bg-white/60 dark:hover:bg-white/10 transition-colors"
       >
         <X className="w-4 h-4" />
       </button>

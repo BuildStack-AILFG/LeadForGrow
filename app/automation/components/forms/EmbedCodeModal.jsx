@@ -32,23 +32,23 @@ export default function EmbedCodeModal({ form, onClose }) {
   return (
     <>
       <div className="fixed inset-0 bg-black/40 z-50" onClick={onClose} />
-      <div className="fixed inset-4 sm:inset-auto sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:w-full sm:max-w-3xl sm:max-h-[90vh] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl z-50 flex flex-col border border-slate-200 dark:border-slate-800">
-        <div className="flex items-center justify-between p-5 border-b border-slate-200 dark:border-slate-800">
+      <div className="fixed inset-4 sm:inset-auto sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:w-full sm:max-w-3xl sm:max-h-[90vh] bg-canvas dark:bg-slate-900 rounded-lg shadow-modal z-50 flex flex-col border border-line dark:border-slate-800">
+        <div className="flex items-center justify-between p-5 border-b border-line dark:border-slate-800">
           <div>
-            <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">Publish & embed</h2>
-            <p className="text-xs text-slate-500">{form.name}</p>
+            <h2 className="text-title font-semibold text-fg dark:text-slate-50">Publish & embed</h2>
+            <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">{form.name}</p>
           </div>
-          <button type="button" onClick={onClose} className="p-1.5 text-slate-400 hover:text-slate-600"><X className="w-5 h-5" /></button>
+          <button type="button" onClick={onClose} className="p-1.5 text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled"><X className="w-5 h-5" /></button>
         </div>
 
-        <div className="flex flex-wrap gap-1 px-5 pt-3 border-b border-slate-100 dark:border-slate-800">
+        <div className="flex flex-wrap gap-1 px-5 pt-3 border-b border-line dark:border-slate-800">
           {TABS.map((t) => (
             <button
               key={t.id}
               type="button"
               onClick={() => setTab(t.id)}
               className={`px-3 py-2 text-xs font-medium rounded-t-lg transition-colors ${
-                tab === t.id ? 'text-teal-600 border-b-2 border-teal-600' : 'text-slate-500 hover:text-slate-700'
+                tab === t.id ? 'text-accent-fg dark:text-accent-fg border-b-2 border-accent' : 'text-fg-tertiary dark:text-fg-tertiary hover:text-fg-secondary dark:hover:text-slate-200'
               }`}
             >
               {t.label}
@@ -74,21 +74,21 @@ export default function EmbedCodeModal({ form, onClose }) {
           {tab === 'react' && (
             <>
               <CodeBlock label="React integration" code={reactSnippet} onCopy={() => copy(snippets.html)} />
-              <p className="text-xs text-slate-500 mt-3">Use the HTML widget inside a React component via dangerouslySetInnerHTML or a portal.</p>
+              <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-3">Use the HTML widget inside a React component via dangerouslySetInnerHTML or a portal.</p>
             </>
           )}
           {tab === 'api' && <APIDocumentation form={form} baseUrl={baseUrl} />}
           {tab === 'hosted' && (
-            <div className="bg-teal-50 dark:bg-teal-950/30 border border-teal-100 dark:border-teal-900 rounded-xl p-4">
+            <div className="bg-accent-subtle dark:bg-teal-950/30 border border-line dark:border-teal-900 rounded-lg p-4">
               <div className="flex items-start gap-3">
-                <Globe className="w-5 h-5 text-teal-600 mt-0.5" />
+                <Globe className="w-5 h-5 text-accent-fg dark:text-accent-fg mt-0.5" />
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-slate-900 dark:text-slate-100">Public form URL</p>
-                  <p className="text-xs text-slate-500 mt-1 mb-3">Share in ads, WhatsApp, or email — no website needed.</p>
+                  <p className="text-sm font-medium text-fg dark:text-slate-100">Public form URL</p>
+                  <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-1 mb-3">Share in ads, WhatsApp, or email — no website needed.</p>
                   <div className="flex gap-2">
-                    <code className="flex-1 text-xs bg-white dark:bg-slate-900 p-2 rounded-lg border break-all">{snippets.hostedLink}</code>
-                    <button type="button" onClick={() => copy(snippets.hostedLink)} className="p-2 text-teal-600"><Copy className="w-4 h-4" /></button>
-                    <a href={snippets.hostedLink} target="_blank" rel="noopener noreferrer" className="p-2 text-teal-600"><ExternalLink className="w-4 h-4" /></a>
+                    <code className="flex-1 text-xs bg-canvas dark:bg-slate-900 p-2 rounded-lg border break-all">{snippets.hostedLink}</code>
+                    <button type="button" onClick={() => copy(snippets.hostedLink)} className="p-2 text-accent-fg dark:text-accent-fg"><Copy className="w-4 h-4" /></button>
+                    <a href={snippets.hostedLink} target="_blank" rel="noopener noreferrer" className="p-2 text-accent-fg dark:text-accent-fg"><ExternalLink className="w-4 h-4" /></a>
                   </div>
                 </div>
               </div>
@@ -104,12 +104,12 @@ function CodeBlock({ label, code, onCopy }) {
   return (
     <div>
       <div className="flex items-center justify-between mb-2">
-        <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">{label}</span>
-        <button type="button" onClick={onCopy} className="flex items-center gap-1 text-xs text-teal-600 font-medium">
+        <span className="text-xs font-semibold text-fg-secondary dark:text-fg-disabled">{label}</span>
+        <button type="button" onClick={onCopy} className="flex items-center gap-1 text-xs text-accent-fg dark:text-accent-fg font-medium">
           <Copy className="w-3.5 h-3.5" /> Copy
         </button>
       </div>
-      <pre className="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs overflow-x-auto max-h-64"><code>{code}</code></pre>
+      <pre className="bg-slate-900 text-slate-100 p-4 rounded-lg text-xs overflow-x-auto max-h-64"><code>{code}</code></pre>
     </div>
   );
 }

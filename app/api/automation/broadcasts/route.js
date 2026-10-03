@@ -3,6 +3,7 @@ import { dbConnect } from '@/lib/mongodb';
 import Broadcast from '@/models/automation/Broadcast';
 import { withPlanAccess } from '@/lib/accessControl';
 import { sendBroadcast } from '@/lib/broadcasts/engine';
+import { normalizeBroadcastEmailContent, EmailContentError } from '@/lib/broadcasts/emailContent';
 
 export const GET = withPlanAccess('automation', async (req) => {
   try {
@@ -31,6 +32,14 @@ export const POST = withPlanAccess('automation', async (req) => {
       return NextResponse.json({ success: false, error: 'Broadcast name required' }, { status: 400 });
     }
 
+    let content;
+    try {
+      content = normalizeBroadcastEmailContent(body.content || {});
+    } catch (err) {
+      if (err instanceof EmailContentError) return NextResponse.json({ success: false, error: err.message }, { status: 400 });
+      throw err;
+    }
+
     const broadcast = await Broadcast.create({
       businessId,
       name: body.name.trim(),
@@ -38,7 +47,7 @@ export const POST = withPlanAccess('automation', async (req) => {
       channel: body.channel || 'whatsapp',
       status: body.sendNow ? 'sending' : (body.scheduledAt ? 'scheduled' : 'draft'),
       audience: body.audience || { type: 'filter', filters: {} },
-      content: body.content || {},
+      content,
       scheduledAt: body.scheduledAt,
       testMode: body.testMode || false,
       testRecipients: body.testRecipients || [],

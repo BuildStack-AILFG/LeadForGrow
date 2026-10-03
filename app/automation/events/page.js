@@ -117,21 +117,21 @@ export default function EventsPage() {
     }
 
     return (
-        <div className="px-8 py-10">
+        <div className="px-4 sm:px-8 py-6 sm:py-10">
             {/* Header */}
-            <div className="flex items-center justify-between mb-10">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 sm:mb-10">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center">
-                        <Calendar className="w-5 h-5 text-purple-600" strokeWidth={2.5} />
+                    <div className="w-10 h-10 rounded-lg bg-canvas border border-line dark:bg-purple-950/30 flex items-center justify-center">
+                        <Calendar className="w-5 h-5 text-fg-secondary dark:text-accent-fg" strokeWidth={2.5} />
                     </div>
                     <div>
-                        <h1 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight leading-tight">Events & Sessions</h1>
-                        <p className="text-xs text-slate-500 font-medium">Monitor live customer interactions and session data</p>
+                        <h1 className="text-page font-semibold text-fg">Events & Sessions</h1>
+                        <p className="text-xs text-fg-tertiary dark:text-fg-tertiary font-medium">Monitor live customer interactions and session data</p>
                     </div>
                 </div>
                 <button
                     onClick={() => setIsModalOpen(true)}
-                    className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl font-medium transition-all shadow-sm"
+                    className="flex items-center gap-2 self-start sm:self-auto whitespace-nowrap bg-accent hover:bg-accent-hover text-white px-4 py-2.5 rounded-md font-medium transition-all"
                 >
                     <Plus className="w-5 h-5" />
                     Create New Event
@@ -142,97 +142,97 @@ export default function EventsPage() {
 
             {/* Stats Overview */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <div className="bg-canvas dark:bg-slate-900 p-6 rounded-lg border border-line dark:border-slate-700">
                     <div className="flex items-center justify-between mb-2">
-                        <span className="text-slate-500 text-sm font-medium">Total Event Leads</span>
-                        <div className="bg-indigo-50 p-2 rounded-lg">
-                            <Users className="w-5 h-5 text-indigo-600" />
+                        <span className="text-fg-tertiary dark:text-fg-tertiary text-sm font-medium">Total Event Leads</span>
+                        <div className="bg-accent-subtle dark:bg-indigo-950/30 p-2 rounded-lg">
+                            <Users className="w-5 h-5 text-accent-fg dark:text-accent-fg" />
                         </div>
                     </div>
-                    <div className="text-3xl font-bold text-slate-900">
+                    <div className="text-hero font-semibold text-fg dark:text-slate-50">
                         {events.reduce((acc, ev) => acc + (ev.leadCount || 0), 0)}
                     </div>
-                    <div className="text-xs text-slate-400 mt-1">Across all events</div>
+                    <div className="text-xs text-fg-tertiary mt-1">Across all events</div>
                 </div>
 
-                <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <div className="bg-canvas dark:bg-slate-900 p-6 rounded-lg border border-line dark:border-slate-700">
                     <div className="flex items-center justify-between mb-2">
-                        <span className="text-slate-500 text-sm font-medium">Conversions</span>
-                        <div className="bg-purple-50 p-2 rounded-lg">
-                            <TrendingUp className="w-5 h-5 text-purple-600" />
+                        <span className="text-fg-tertiary dark:text-fg-tertiary text-sm font-medium">Conversions</span>
+                        <div className="bg-accent-subtle dark:bg-purple-950/30 p-2 rounded-lg">
+                            <TrendingUp className="w-5 h-5 text-accent-fg dark:text-accent-fg" />
                         </div>
                     </div>
-                    <div className="text-3xl font-bold text-slate-900">
+                    <div className="text-hero font-semibold text-fg dark:text-slate-50">
                         {events.reduce((acc, ev) => acc + (ev.conversionCount || 0), 0)}
                     </div>
-                    <div className="text-xs text-slate-400 mt-1">Overall conversion performance</div>
+                    <div className="text-xs text-fg-tertiary mt-1">Overall conversion performance</div>
                 </div>
 
-                <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <div className="bg-canvas dark:bg-slate-900 p-6 rounded-lg border border-line dark:border-slate-700">
                     <div className="flex items-center justify-between mb-2">
-                        <span className="text-slate-500 text-sm font-medium">Active Events</span>
-                        <div className="bg-teal-50 p-2 rounded-lg">
-                            <Calendar className="w-5 h-5 text-teal-600" />
+                        <span className="text-fg-tertiary dark:text-fg-tertiary text-sm font-medium">Active Events</span>
+                        <div className="bg-accent-subtle dark:bg-teal-950/30 p-2 rounded-lg">
+                            <Calendar className="w-5 h-5 text-accent-fg dark:text-accent-fg" />
                         </div>
                     </div>
-                    <div className="text-3xl font-bold text-slate-900">{events.length}</div>
-                    <div className="text-xs text-slate-400 mt-1">Currently tracked</div>
+                    <div className="text-hero font-semibold text-fg dark:text-slate-50">{events.length}</div>
+                    <div className="text-xs text-fg-tertiary mt-1">Currently tracked</div>
                 </div>
             </div>
 
             {/* CREATE MODAL */}
             {isModalOpen && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
-                    <div className="bg-white rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl animate-in fade-in zoom-in duration-200">
-                        <div className="flex items-center justify-between p-6 border-b border-slate-100">
-                            <h3 className="text-xl font-bold text-slate-900">New Event Session</h3>
-                            <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
-                                <X className="w-5 h-5 text-slate-500" />
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/40">
+                    <div className="bg-canvas dark:bg-slate-900 rounded-lg w-full max-w-lg overflow-hidden shadow-modal zoom-in duration-200">
+                        <div className="flex items-center justify-between p-6 border-b border-line dark:border-slate-800">
+                            <h3 className="text-xl font-semibold text-fg dark:text-slate-50">New Event Session</h3>
+                            <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-muted dark:hover:bg-slate-700 rounded-full transition-colors">
+                                <X className="w-5 h-5 text-fg-tertiary dark:text-fg-tertiary" />
                             </button>
                         </div>
 
                         <form onSubmit={handleCreateEvent} className="p-6 space-y-4">
                             <div>
-                                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Event Name*</label>
+                                <label className="block text-sm font-semibold text-fg-secondary dark:text-slate-200 mb-1.5">Event Name*</label>
                                 <input
                                     required
                                     type="text"
                                     value={newEvent.name}
                                     onChange={(e) => setNewEvent({ ...newEvent, name: e.target.value })}
                                     placeholder="e.g. Founder's Meet Kolkata"
-                                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all outline-none"
+                                    className="w-full px-4 py-2.5 rounded-lg border border-line dark:border-slate-700 focus:ring-2 focus:ring-focus focus:border-transparent transition-all outline-none"
                                 />
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">Date</label>
+                                    <label className="block text-sm font-semibold text-fg-secondary dark:text-slate-200 mb-1.5">Date</label>
                                     <input
                                         type="date"
                                         value={newEvent.date}
                                         onChange={(e) => setNewEvent({ ...newEvent, date: e.target.value })}
-                                        className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none"
+                                        className="w-full px-4 py-2.5 rounded-lg border border-line dark:border-slate-700 focus:ring-2 focus:ring-focus outline-none"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">Location</label>
+                                    <label className="block text-sm font-semibold text-fg-secondary dark:text-slate-200 mb-1.5">Location</label>
                                     <input
                                         type="text"
                                         value={newEvent.location}
                                         onChange={(e) => setNewEvent({ ...newEvent, location: e.target.value })}
                                         placeholder="City / Venue"
-                                        className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none"
+                                        className="w-full px-4 py-2.5 rounded-lg border border-line dark:border-slate-700 focus:ring-2 focus:ring-focus outline-none"
                                     />
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Link to Lead Form*</label>
+                                <label className="block text-sm font-semibold text-fg-secondary dark:text-slate-200 mb-1.5">Link to Lead Form*</label>
                                 <select
                                     required
                                     value={newEvent.formId}
                                     onChange={(e) => setNewEvent({ ...newEvent, formId: e.target.value })}
-                                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none"
+                                    className="w-full px-4 py-2.5 rounded-lg border border-line dark:border-slate-700 focus:ring-2 focus:ring-focus outline-none"
                                 >
                                     <option value="">Select a form</option>
                                     {forms.map(f => <option key={f._id} value={f._id}>{f.name}</option>)}
@@ -240,11 +240,11 @@ export default function EventsPage() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Automation Sequence (Optional)</label>
+                                <label className="block text-sm font-semibold text-fg-secondary dark:text-slate-200 mb-1.5">Automation Sequence (Optional)</label>
                                 <select
                                     value={newEvent.sequenceId}
                                     onChange={(e) => setNewEvent({ ...newEvent, sequenceId: e.target.value })}
-                                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none"
+                                    className="w-full px-4 py-2.5 rounded-lg border border-line dark:border-slate-700 focus:ring-2 focus:ring-focus outline-none"
                                 >
                                     <option value="">No follow-up sequence</option>
                                     {sequences.map(s => <option key={s._id} value={s._id}>{s.name}</option>)}
@@ -255,14 +255,14 @@ export default function EventsPage() {
                                 <button
                                     type="button"
                                     onClick={() => setIsModalOpen(false)}
-                                    className="flex-1 py-3 text-sm font-bold text-slate-600 hover:bg-slate-50 rounded-xl transition-all"
+                                    className="flex-1 py-3 text-sm font-semibold text-fg-secondary dark:text-fg-disabled hover:bg-subtle dark:hover:bg-slate-800/50 rounded-lg transition-all"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="flex-1 py-3 bg-indigo-600 text-white rounded-xl text-sm font-bold hover:bg-indigo-700 shadow-lg shadow-indigo-600/20 transition-all flex items-center justify-center gap-2"
+                                    className="flex-1 py-3 bg-accent text-white rounded-lg text-sm font-semibold hover:bg-accent-hover shadow-popover transition-all flex items-center justify-center gap-2"
                                 >
                                     {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Create Session'}
                                 </button>
@@ -273,14 +273,14 @@ export default function EventsPage() {
             )}
 
             {/* Events Table/List */}
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                <div className="p-4 border-b border-slate-100 flex items-center justify-between">
+            <div className="bg-canvas dark:bg-slate-900 rounded-lg border border-line dark:border-slate-700 overflow-hidden">
+                <div className="p-4 border-b border-line dark:border-slate-800 flex items-center justify-between">
                     <div className="relative flex-1 max-w-md">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-fg-tertiary" />
                         <input
                             type="text"
                             placeholder="Search events..."
-                            className="w-full bg-slate-50 border-none rounded-xl py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-indigo-500 transition-all"
+                            className="w-full bg-subtle dark:bg-slate-800/50 border-none rounded-lg py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-focus transition-all"
                         />
                     </div>
                 </div>
@@ -288,7 +288,7 @@ export default function EventsPage() {
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
                         <thead>
-                            <tr className="bg-slate-50/50 text-slate-500 text-xs font-semibold uppercase tracking-wider">
+                            <tr className="bg-subtle dark:bg-slate-800/50 text-fg-tertiary dark:text-fg-tertiary text-xs font-semibold">
                                 <th className="px-6 py-4">Event Name</th>
                                 <th className="px-6 py-4">Date</th>
                                 <th className="px-6 py-4">Leads</th>
@@ -296,46 +296,46 @@ export default function EventsPage() {
                                 <th className="px-6 py-4 text-right">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-slate-100">
+                        <tbody className="divide-y divide-line dark:divide-slate-800">
                             {events.length === 0 ? (
                                 <tr className="group/row">
                                     <td colSpan="5" className="px-8 py-20 text-left">
                                         <div className="flex flex-col items-start gap-4">
-                                            <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center border border-slate-100">
-                                                <Calendar className="w-6 h-6 text-slate-300" />
+                                            <div className="w-12 h-12 bg-subtle dark:bg-slate-800/50 rounded-lg flex items-center justify-center border border-line dark:border-slate-800">
+                                                <Calendar className="w-6 h-6 text-fg-disabled" />
                                             </div>
                                             <div>
-                                                <p className="text-sm font-bold text-slate-900">No events found</p>
-                                                <p className="text-[11px] text-slate-400 mt-1">Create your first session to start tracking leads and conversions.</p>
+                                                <p className="text-sm font-semibold text-fg dark:text-slate-50">No events found</p>
+                                                <p className="text-meta text-fg-tertiary mt-1">Create your first session to start tracking leads and conversions.</p>
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
                             ) : events.map((event) => (
-                                <tr key={event._id} className="hover:bg-slate-50/50 transition-colors group">
+                                <tr key={event._id} className="hover:bg-subtle dark:hover:bg-slate-800/50 transition-colors group">
                                     <td className="px-6 py-4">
                                         <Link href={`/automation/leads?eventId=${event._id}`} className="hover:underline">
-                                            <div className="font-medium text-slate-900">{event.name}</div>
+                                            <div className="font-medium text-fg dark:text-slate-50">{event.name}</div>
                                         </Link>
-                                        <div className="text-xs text-slate-500">{event.location || 'N/A'}</div>
+                                        <div className="text-xs text-fg-tertiary dark:text-fg-tertiary">{event.location || 'N/A'}</div>
                                     </td>
-                                    <td className="px-6 py-4 text-slate-600 text-sm">
+                                    <td className="px-6 py-4 text-fg-secondary dark:text-fg-disabled text-sm">
                                         {new Date(event.date).toLocaleDateString()}
                                     </td>
                                     <td className="px-6 py-4">
-                                        <Link href={`/automation/leads?eventId=${event._id}`} className="flex flex-col hover:bg-slate-100 p-1 rounded transition-colors">
-                                            <span className="font-semibold text-slate-900">{event.leadCount || 0}</span>
-                                            <span className="text-[10px] text-emerald-600">{event.conversionCount || 0} converted</span>
+                                        <Link href={`/automation/leads?eventId=${event._id}`} className="flex flex-col hover:bg-muted dark:hover:bg-slate-700 p-1 rounded transition-colors">
+                                            <span className="font-semibold text-fg dark:text-slate-50">{event.leadCount || 0}</span>
+                                            <span className="text-meta text-accent-fg dark:text-accent-fg">{event.conversionCount || 0} converted</span>
                                         </Link>
                                     </td>
                                     <td className="px-6 py-4">
                                         <span className={`
                       inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-tight
                       ${event.active !== false
-                                                ? 'bg-emerald-100 text-emerald-700'
-                                                : 'bg-slate-100 text-slate-700'}
+                                                ? 'bg-accent-subtle dark:bg-accent-pressed/30 text-accent-fg dark:text-accent-fg'
+                                                : 'bg-muted dark:bg-slate-800 text-fg-secondary dark:text-slate-200'}
                     `}>
-                                            <span className={`w-1 h-1 rounded-full ${event.active !== false ? 'bg-emerald-500' : 'bg-slate-500'}`} />
+                                            <span className={`w-1 h-1 rounded-full ${event.active !== false ? 'bg-accent' : 'bg-slate-500'}`} />
                                             {event.active !== false ? 'Active' : 'Archived'}
                                         </span>
                                     </td>
@@ -343,24 +343,24 @@ export default function EventsPage() {
                                         <div className="flex items-center justify-end gap-2">
                                             <button
                                                 onClick={() => setSelectedEventForQr(event)}
-                                                className="p-2 hover:bg-white hover:shadow-sm rounded-lg transition-all text-slate-400 hover:text-indigo-600"
+                                                className="p-2 hover:bg-canvas dark:hover:bg-slate-800 rounded-lg transition-all text-fg-tertiary hover:text-accent-fg dark:hover:text-accent-fg"
                                                 title="View QR Code"
                                             >
                                                 <QrCode className="w-4 h-4" />
                                             </button>
                                             <button
                                                 onClick={() => window.open(getEventURL(event.formId, event._id), '_blank')}
-                                                className="p-2 hover:bg-white hover:shadow-sm rounded-lg transition-all text-slate-400 hover:text-indigo-600"
+                                                className="p-2 hover:bg-canvas dark:hover:bg-slate-800 rounded-lg transition-all text-fg-tertiary hover:text-accent-fg dark:hover:text-accent-fg"
                                                 title="Open Form"
                                             >
                                                 <ExternalLink className="w-4 h-4" />
                                             </button>
                                             <button
                                                 onClick={() => copyToClipboard(getEventURL(event.formId, event._id), event._id)}
-                                                className="p-2 hover:bg-white hover:shadow-sm rounded-lg transition-all text-slate-400 hover:text-slate-900"
+                                                className="p-2 hover:bg-canvas dark:hover:bg-slate-800 rounded-lg transition-all text-fg-tertiary hover:text-fg dark:hover:text-slate-50"
                                                 title="Copy Link"
                                             >
-                                                {copiedId === event._id ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+                                                {copiedId === event._id ? <Check className="w-4 h-4 text-accent-fg" /> : <Copy className="w-4 h-4" />}
                                             </button>
                                         </div>
                                     </td>
@@ -372,49 +372,49 @@ export default function EventsPage() {
             </div>
             {/* QR CODE MODAL */}
             {selectedEventForQr && (
-                <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md">
-                    <div className="bg-white rounded-[32px] w-full max-w-sm overflow-hidden shadow-2xl animate-in fade-in zoom-in duration-200">
-                        <div className="p-6 border-b border-slate-100 flex items-center justify-between">
-                            <h3 className="font-bold text-slate-900">Scan to Register</h3>
-                            <button onClick={() => setSelectedEventForQr(null)} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
-                                <X className="w-5 h-5 text-slate-400" />
+                <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-slate-900/60">
+                    <div className="bg-canvas dark:bg-slate-900 rounded-lg w-full max-w-sm overflow-hidden shadow-modal zoom-in duration-200">
+                        <div className="p-6 border-b border-line dark:border-slate-800 flex items-center justify-between">
+                            <h3 className="font-semibold text-fg dark:text-slate-50">Scan to Register</h3>
+                            <button onClick={() => setSelectedEventForQr(null)} className="p-2 hover:bg-muted dark:hover:bg-slate-700 rounded-full transition-colors">
+                                <X className="w-5 h-5 text-fg-tertiary" />
                             </button>
                         </div>
                         <div className="p-10 flex flex-col items-center text-center">
                             <div className="w-full mb-6">
-                                <label className="block text-[10px] font-black uppercase text-slate-400 mb-2 text-left">Generated Link Base URL</label>
+                                <label className="block text-meta font-semibold text-fg-tertiary mb-2 text-left">Generated Link Base URL</label>
                                 <div className="flex gap-2">
                                     <input
                                         type="text"
                                         value={customBaseUrl}
                                         onChange={(e) => setCustomBaseUrl(e.target.value)}
-                                        className="flex-1 px-3 py-2 text-xs border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500"
+                                        className="flex-1 px-3 py-2 text-xs border border-line dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-focus"
                                         placeholder="http://192.168.x.x:3000"
                                     />
                                 </div>
                                 {customBaseUrl.includes('localhost') && (
-                                    <p className="text-[10px] text-amber-600 mt-2 text-left flex gap-1 items-start">
+                                    <p className="text-meta text-warning dark:text-amber-400 mt-2 text-left flex gap-1 items-start">
                                         <AlertCircle className="w-3 h-3 flex-shrink-0 mt-0.5" />
                                         <span>Warning: Phones cannot reach 'localhost'. Use your computer's IP address (e.g. 192.168.x.x) if testing on mobile.</span>
                                     </p>
                                 )}
                             </div>
 
-                            <div className="bg-white p-4 rounded-2xl border-2 border-slate-100 shadow-sm mb-6">
+                            <div className="bg-canvas dark:bg-slate-900 p-4 rounded-lg border-2 border-line dark:border-slate-800 mb-6">
                                 <img
                                     src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(getEventURL(selectedEventForQr.formId, selectedEventForQr._id))}`}
                                     alt="Event QR Code"
                                     className="w-48 h-48"
                                 />
                             </div>
-                            <h4 className="text-xl font-black text-slate-900 mb-1">{selectedEventForQr.name}</h4>
-                            <p className="text-sm text-slate-500 mb-8">Attendees can scan this to fill the registration form.</p>
+                            <h4 className="text-xl font-semibold text-fg dark:text-slate-50 mb-1">{selectedEventForQr.name}</h4>
+                            <p className="text-sm text-fg-tertiary dark:text-fg-tertiary mb-8">Attendees can scan this to fill the registration form.</p>
 
                             <button
                                 onClick={() => {
                                     copyToClipboard(getEventURL(selectedEventForQr.formId, selectedEventForQr._id), 'qr-modal');
                                 }}
-                                className="w-full py-4 bg-indigo-50 text-indigo-600 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-indigo-100 transition-all border border-indigo-100"
+                                className="w-full py-4 bg-accent-subtle dark:bg-indigo-950/30 text-accent-fg dark:text-accent-fg rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-accent-subtle dark:hover:bg-accent-pressed/30 transition-all border border-line dark:border-indigo-900/50"
                             >
                                 {copiedId === 'qr-modal' ? <><Check className="w-4 h-4" /> Copied!</> : <><Copy className="w-4 h-4" /> Copy Form Link</>}
                             </button>

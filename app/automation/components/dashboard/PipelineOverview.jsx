@@ -5,10 +5,10 @@ import { ArrowRight } from 'lucide-react';
 import ChartCard from './primitives/ChartCard';
 
 const STAGES = [
-  { key: 'new', label: 'New', color: 'bg-teal-500' },
-  { key: 'contacted', label: 'Contacted', color: 'bg-indigo-500' },
-  { key: 'follow-up', label: 'Follow-up', color: 'bg-violet-500' },
-  { key: 'converted', label: 'Won', color: 'bg-emerald-500' },
+  { key: 'new', label: 'New', color: 'bg-accent' },
+  { key: 'contacted', label: 'Contacted', color: 'bg-accent' },
+  { key: 'follow-up', label: 'Follow-up', color: 'bg-accent' },
+  { key: 'converted', label: 'Won', color: 'bg-accent' },
   { key: 'lost', label: 'Lost', color: 'bg-slate-400' }
 ];
 
@@ -26,7 +26,7 @@ export default function PipelineOverview({ statusCounts = {} }) {
       action={
         <Link
           href="/automation/leads"
-          className="text-xs font-medium text-teal-600 hover:text-teal-700 flex items-center gap-1"
+          className="text-xs font-medium text-accent-fg dark:text-accent-fg hover:text-accent-fg dark:hover:text-accent-fg flex items-center gap-1"
         >
           View all <ArrowRight className="w-3 h-3" />
         </Link>
@@ -34,7 +34,7 @@ export default function PipelineOverview({ statusCounts = {} }) {
       className="h-full"
     >
       <div className="space-y-4">
-        <div className="flex h-2 rounded-full overflow-hidden bg-slate-100 dark:bg-slate-800">
+        <div className="flex h-2 rounded-full overflow-hidden bg-muted dark:bg-slate-800">
           {counts.map((stage) =>
             stage.count > 0 ? (
               <div
@@ -52,15 +52,15 @@ export default function PipelineOverview({ statusCounts = {} }) {
             <Link
               key={stage.key}
               href={`/automation/leads?filter=${stage.key === 'follow-up' ? 'follow-up' : stage.key}`}
-              className="group p-3 rounded-lg border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 hover:border-teal-200 dark:hover:border-teal-900 hover:bg-white dark:hover:bg-slate-800 transition-all"
+              className="group p-3 rounded-lg border border-line dark:border-slate-800 bg-subtle dark:bg-slate-800/30 hover:border-line dark:hover:border-teal-900 hover:bg-canvas dark:hover:bg-slate-800 transition-all"
             >
               <div className="flex items-center gap-2 mb-1">
                 <span className={`w-2 h-2 rounded-full ${stage.color}`} />
-                <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate">
+                <span className="text-meta font-medium text-fg-tertiary dark:text-fg-tertiary truncate">
                   {stage.label}
                 </span>
               </div>
-              <p className="text-lg font-semibold text-slate-900 dark:text-slate-100 tabular-nums">
+              <p className="text-lg font-semibold text-fg dark:text-slate-100 tabular-nums">
                 {stage.count}
               </p>
             </Link>

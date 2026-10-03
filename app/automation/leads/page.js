@@ -1,6 +1,7 @@
 'use client';
 
-import { Suspense, useCallback } from 'react';
+import { Suspense, useCallback, useState } from 'react';
+import SendTemplateModal from '../components/leads/SendTemplateModal';
 import { SMART_VIEWS } from '../components/leads/constants';
 import { useLeadsWorkspace } from '../hooks/useLeadsWorkspace';
 import LeadsHeader from '../components/leads/LeadsHeader';
@@ -19,10 +20,14 @@ import MobileLeadCard from '../components/leads/MobileLeadCard';
 import LeadsSkeleton from '../components/leads/LeadsSkeleton';
 import { useAutoStartTour } from '../components/shared/tour/useAutoStartTour';
 import { TOURS } from '../components/shared/tour/registry';
-import DiscoveryLink from '../components/shared/tour/DiscoveryLink';
+import Button from '@/app/components/ui/Button';
+import EmptyState from '@/app/components/ui/EmptyState';
+import { Users, Plus } from 'lucide-react';
+import Link from 'next/link';
 
 function LeadsWorkspaceContent() {
   const ws = useLeadsWorkspace();
+  const [templateLead, setTemplateLead] = useState(null); // lead whose WhatsApp template picker is open
   useAutoStartTour(TOURS.leads, !ws.loading);
 
   const handleSearch = useCallback((value) => ws.setSearchInput(value), [ws]);
@@ -30,40 +35,33 @@ function LeadsWorkspaceContent() {
   if (ws.loading) return <LeadsSkeleton />;
 
   return (
-    <div className="min-h-full bg-[#F8F9FA] dark:bg-slate-950">
-      <div className="px-4 sm:px-6 pb-8">
+    <div className="min-h-full bg-canvas">
+      <div className="sticky top-0 z-30">
         <LeadsHeader
-          search={ws.searchInput}
-          onSearchChange={handleSearch}
           total={ws.pagination.total}
-          refreshing={ws.refreshing}
-          onRefresh={ws.refresh}
+          onExport={ws.exportLeads}
+          filters={ws.filters}
+          smartViews={SMART_VIEWS}
+          savedViews={ws.savedViews}
+          onFilterChange={ws.updateFilter}
+          onApplySavedView={ws.applySavedView}
+          onDeleteView={ws.deleteSavedView}
+        />
+        <CRMFilterBar
+          filters={ws.filters}
+          onFilterChange={ws.updateFilter}
+          teamMembers={ws.teamMembers}
           viewMode={ws.viewMode}
           onViewModeChange={ws.setViewMode}
-          onExport={ws.exportLeads}
+          search={ws.searchInput}
+          onSearchChange={handleSearch}
+          refreshing={ws.refreshing}
+          onRefresh={ws.refresh}
+          onSaveView={ws.saveCurrentView}
         />
+      </div>
 
-        <div className="mt-4">
-          <DiscoveryLink
-            text="Want to automatically follow up with new leads?"
-            cta="Create Automation"
-            href="/automation/automation-rules"
-          />
-        </div>
-
-        <div className="mt-4 mb-4 p-4 bg-[#F8F9FA] dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm">
-          <CRMFilterBar
-            filters={ws.filters}
-            onFilterChange={ws.updateFilter}
-            smartViews={SMART_VIEWS}
-            savedViews={ws.savedViews}
-            onSaveView={ws.saveCurrentView}
-            onApplySavedView={ws.applySavedView}
-            onDeleteView={ws.deleteSavedView}
-            teamMembers={ws.teamMembers}
-          />
-        </div>
-
+      <div className="px-4 pb-8 pt-4 sm:px-6">
         <BulkActionsBar
           count={ws.selectedIds.length}
           teamMembers={ws.teamMembers}
@@ -74,15 +72,9 @@ function LeadsWorkspaceContent() {
         />
 
         {ws.error && (
-          <div className="mb-4 flex items-center justify-between gap-3 px-4 py-3 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 rounded-xl">
-            <p className="text-sm text-red-700 dark:text-red-300">{ws.error}</p>
-            <button
-              type="button"
-              onClick={ws.refresh}
-              className="shrink-0 px-3 py-1.5 text-xs font-semibold text-white bg-red-600 hover:bg-red-700 rounded-lg"
-            >
-              Retry
-            </button>
+          <div role="alert" className="mb-4 flex items-center justify-between gap-3 rounded-lg border border-danger/30 bg-danger-subtle px-4 py-3">
+            <p className="text-body text-danger">{ws.error}</p>
+            <Button size="sm" onClick={ws.refresh}>Try again</Button>
           </div>
         )}
 
@@ -100,6 +92,7 @@ function LeadsWorkspaceContent() {
                 onAssign={ws.assignLead}
                 onStatusChange={ws.updateLeadStatus}
                 onCall={ws.initiateCall}
+                onSendTemplate={setTemplateLead}
                 onRowColorChange={ws.updateLeadRowColor}
                 sortField={ws.sortField}
                 sortDir={ws.sortDir}
@@ -116,15 +109,21 @@ function LeadsWorkspaceContent() {
                   onOpen={ws.setDrawerLeadId}
                 />
               ))}
-              {ws.leads.length === 0 && (
-                <p className="text-center text-sm text-slate-500 py-12">No leads match your filters.</p>
-              )}
+              {ws.leads.length === 0 && <EmptyState compact icon={Users} title="No leads match your filters." description="Try a different view or clear a filter." />}
             </div>
           </>
         ) : ws.leads.length === 0 ? (
-          <div className="py-20 text-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl">
-            <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">No leads in your pipeline</p>
-            <p className="text-sm text-slate-500 mt-1">Adjust filters or capture new leads to see them here.</p>
+          <div className="rounded-lg border border-line">
+            <EmptyState
+              icon={Users}
+              title="No leads on the board."
+              description="Leads appear here as soon as they're captured or added."
+              action={
+                <Link href="/automation/leads/new">
+                  <Button variant="primary" icon={Plus} tabIndex={-1}>Add lead</Button>
+                </Link>
+              }
+            />
           </div>
         ) : (
           <>
@@ -134,8 +133,8 @@ function LeadsWorkspaceContent() {
             onOpenDrawer={ws.setDrawerLeadId}
           />
           {ws.pagination.total > ws.leads.length && (
-            <p className="mt-3 text-xs text-amber-700 bg-amber-50 border border-amber-100 rounded-lg px-3 py-2">
-              Showing {ws.leads.length} of {ws.pagination.total} leads in pipeline view. Use filters to narrow results.
+            <p className="mt-3 text-meta text-fg-tertiary">
+              Showing {ws.leads.length} of {ws.pagination.total} leads on the board. Use filters to narrow it down.
             </p>
           )}
           </>
@@ -192,6 +191,8 @@ function LeadsWorkspaceContent() {
         onCancel={ws.cancelQuotationPrompt}
         onConfirm={ws.confirmQuotationSent}
       />
+
+      {templateLead && <SendTemplateModal lead={templateLead} onClose={() => setTemplateLead(null)} />}
 
       <ConvertLeadDialog
         open={!!ws.convertLeadId && !ws.drawerLeadId && !!ws.convertLeadMeta}

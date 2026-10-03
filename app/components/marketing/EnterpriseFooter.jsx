@@ -40,7 +40,7 @@ export default function EnterpriseFooter({ forceShow = false }) {
         <div className="flex flex-col gap-12 lg:flex-row lg:justify-between">
           <div className="max-w-xs">
             <Link href="/" className="inline-flex items-center gap-3 mb-4">
-              <img src="/image.png" alt="" className="h-9 w-10 object-contain brightness-0 invert" />
+              <img src="/logo-mark.webp" alt="" className="h-9 w-10 object-contain brightness-0 invert" />
               <span className="text-xl font-bold font-[family-name:var(--font-plus-jakarta)] text-white">
                 LeadForGrow
               </span>
@@ -74,7 +74,7 @@ export default function EnterpriseFooter({ forceShow = false }) {
         {/* Bottom: copyright + legal + social */}
         <div className="mt-14 flex flex-col gap-6 border-t border-white/10 pt-8 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <p className="text-xs text-white/60">© {year} LeadForGrow. All rights reserved.</p>
+            <p className="text-xs text-white/60">© {year} LeadForGrow — a product of ScaleDesk Technology Private Limited. All rights reserved.</p>
             <div className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
               {FOOTER_LEGAL.map((l) => (
                 <Link key={l.href} href={l.href} className="text-xs text-white/60 hover:text-white transition-colors">

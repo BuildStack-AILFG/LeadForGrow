@@ -1,8 +1,8 @@
 'use client';
 
-export default function Sparkline({ data = [], color = '#2563eb', height = 32 }) {
+export default function Sparkline({ data = [], color = '#1D4B3E', height = 32 }) {
   if (!data.length) {
-    return <div className="h-8 bg-slate-50 dark:bg-slate-800/50 rounded" style={{ height }} />;
+    return <div className="h-8 bg-subtle dark:bg-slate-800/50 rounded" style={{ height }} />;
   }
 
   const max = Math.max(...data, 1);

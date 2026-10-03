@@ -36,39 +36,39 @@ export default function SubmissionsTable({ submissions, loading, formName }) {
   };
 
   if (loading) {
-    return <div className="py-12 text-center text-sm text-slate-400">Loading submissions…</div>;
+    return <div className="py-12 text-center text-sm text-fg-tertiary">Loading submissions…</div>;
   }
 
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row gap-3 justify-between">
         <div className="relative flex-1 max-w-xs">
-          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
+          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-fg-tertiary" />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search submissions…"
-            className="w-full pl-8 pr-3 py-2 text-xs border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900"
+            className="w-full pl-8 pr-3 py-2 text-xs border border-line dark:border-slate-700 rounded-lg bg-canvas dark:bg-slate-900"
           />
         </div>
         <button
           type="button"
           onClick={exportCsv}
-          className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800"
+          className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium border border-line dark:border-slate-700 rounded-md hover:bg-subtle dark:hover:bg-slate-800"
         >
           <Download className="w-3.5 h-3.5" /> Export CSV
         </button>
       </div>
 
       {filtered.length === 0 ? (
-        <div className="py-16 text-center border border-dashed border-slate-200 dark:border-slate-700 rounded-xl">
-          <p className="text-sm text-slate-500">No submissions yet for this form</p>
-          <p className="text-xs text-slate-400 mt-1">Leads from this form appear here automatically</p>
+        <div className="py-16 text-center border border-dashed border-line dark:border-slate-700 rounded-lg">
+          <p className="text-sm text-fg-tertiary dark:text-fg-tertiary">No submissions yet for this form</p>
+          <p className="text-xs text-fg-tertiary mt-1">Leads from this form appear here automatically</p>
         </div>
       ) : (
-        <div className="overflow-x-auto border border-slate-200 dark:border-slate-800 rounded-xl">
+        <div className="overflow-x-auto border border-line dark:border-slate-800 rounded-lg">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 uppercase tracking-wide">
+            <thead className="bg-subtle dark:bg-slate-800/50 text-fg-tertiary dark:text-fg-tertiary">
               <tr>
                 <th className="px-4 py-3 font-semibold">Lead</th>
                 <th className="px-4 py-3 font-semibold">Contact</th>
@@ -77,19 +77,19 @@ export default function SubmissionsTable({ submissions, loading, formName }) {
                 <th className="px-4 py-3 font-semibold"></th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+            <tbody className="divide-y divide-line dark:divide-slate-800">
               {filtered.map((s) => (
-                <tr key={s._id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
-                  <td className="px-4 py-3 font-medium text-slate-900 dark:text-slate-100">{s.name}</td>
-                  <td className="px-4 py-3 text-slate-600 dark:text-slate-400">
+                <tr key={s._id} className="hover:bg-subtle dark:hover:bg-slate-800/30">
+                  <td className="px-4 py-3 font-medium text-fg dark:text-slate-100">{s.name}</td>
+                  <td className="px-4 py-3 text-fg-secondary dark:text-fg-tertiary">
                     {s.phone || s.email || '—'}
                   </td>
                   <td className="px-4 py-3">
-                    <span className="px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 capitalize">{s.status}</span>
+                    <span className="px-2 py-0.5 rounded-full bg-muted dark:bg-slate-800 text-fg-secondary dark:text-fg-tertiary capitalize">{s.status}</span>
                   </td>
-                  <td className="px-4 py-3 text-slate-500">{new Date(s.receivedAt).toLocaleString()}</td>
+                  <td className="px-4 py-3 text-fg-tertiary dark:text-fg-tertiary">{new Date(s.receivedAt).toLocaleString()}</td>
                   <td className="px-4 py-3">
-                    <Link href={`/automation/leads/${s._id}`} className="text-teal-600 hover:underline inline-flex items-center gap-1">
+                    <Link href={`/automation/leads/${s._id}`} className="text-accent-fg dark:text-accent-fg hover:underline inline-flex items-center gap-1">
                       View <ExternalLink className="w-3 h-3" />
                     </Link>
                   </td>

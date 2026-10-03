@@ -153,7 +153,7 @@ export default function WebsiteFunnelPage() {
                         ))}
                      </div>
                      <div>
-                       <p className="text-[12px] font-semibold text-slate-700 dark:text-white leading-none">Used by 500+ pros</p>
+                       <p className="text-[12px] font-semibold text-slate-700 dark:text-white leading-none">Built for growing businesses</p>
                        <p className="text-[9px] font-bold text-slate-400 mt-1 uppercase tracking-wider">Join them today</p>
                      </div>
                   </div>

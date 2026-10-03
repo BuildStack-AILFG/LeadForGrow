@@ -14,7 +14,7 @@ export default function MeetingsWorkspace() {
 
   if (ws.mode === 'create') {
     return (
-      <div className="min-h-full bg-[#f8f9fc] dark:bg-slate-950">
+      <div className="min-h-full bg-canvas">
         <CreateMeetingWizard
           step={ws.wizardStep}
           draft={ws.draft}
@@ -24,16 +24,18 @@ export default function MeetingsWorkspace() {
           onCancel={() => ws.setMode('dashboard')}
           onPublish={ws.publishMeeting}
           saving={ws.saving}
+          editing={!!ws.editingId}
         />
       </div>
     );
   }
 
   return (
-    <div className="min-h-full bg-[#f8f9fc] dark:bg-slate-950">
+    <div className="min-h-full bg-canvas">
       <MeetingsDashboard
         dashboard={ws.dashboard}
         onCreate={ws.startCreate}
+        onEdit={ws.startEdit}
         onNoShow={ws.markNoShow}
         onComplete={ws.completeBooking}
       />

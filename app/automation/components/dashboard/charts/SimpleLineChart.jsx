@@ -5,12 +5,12 @@ export default function SimpleLineChart({
   dataKey = 'leads',
   secondaryKey,
   height = 160,
-  stroke = '#2563eb',
-  secondaryStroke = '#10b981'
+  stroke = '#1D4B3E',
+  secondaryStroke = '#A9B1AD'
 }) {
   if (!data.length) {
     return (
-      <div className="flex items-center justify-center text-sm text-slate-500 dark:text-slate-400" style={{ height }}>
+      <div className="flex items-center justify-center text-sm text-fg-tertiary dark:text-fg-tertiary" style={{ height }}>
         No trend data yet
       </div>
     );
@@ -48,7 +48,7 @@ export default function SimpleLineChart({
             y1={pad + h * ratio}
             y2={pad + h * ratio}
             stroke="currentColor"
-            className="text-slate-100 dark:text-slate-800"
+            className="text-slate-100 dark:text-fg"
             strokeWidth="0.3"
           />
         ))}
@@ -73,17 +73,17 @@ export default function SimpleLineChart({
           vectorEffect="non-scaling-stroke"
         />
       </svg>
-      <div className="flex items-center justify-between mt-2 text-[10px] text-slate-400 dark:text-slate-500 px-1">
+      <div className="flex items-center justify-between mt-2 text-meta text-fg-tertiary dark:text-fg-tertiary px-1">
         <span>{sorted[0]?._id?.slice(5) || ''}</span>
         <span>{sorted[sorted.length - 1]?._id?.slice(5) || ''}</span>
       </div>
       {secondaryKey && (
-        <div className="flex items-center gap-4 mt-2 text-[11px]">
-          <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
-            <span className="w-3 h-0.5 rounded bg-teal-600" /> Leads
+        <div className="flex items-center gap-4 mt-2 text-meta">
+          <span className="flex items-center gap-1.5 text-fg-secondary dark:text-fg-tertiary">
+            <span className="w-3 h-0.5 rounded bg-accent" /> Leads
           </span>
-          <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
-            <span className="w-3 h-0.5 rounded bg-emerald-500" /> Conversions
+          <span className="flex items-center gap-1.5 text-fg-secondary dark:text-fg-tertiary">
+            <span className="w-3 h-0.5 rounded bg-accent" /> Conversions
           </span>
         </div>
       )}

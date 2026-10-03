@@ -54,7 +54,7 @@ export default function FormsWorkspace() {
   /* ── HOME ── */
   if (ws.workspaceMode === 'home') {
     return (
-      <div className="min-h-full bg-[#f4f6fa] dark:bg-slate-950">
+      <div className="min-h-full bg-subtle dark:bg-slate-950">
         <FormsHomeView
           forms={ws.forms}
           stats={ws.stats}
@@ -70,7 +70,7 @@ export default function FormsWorkspace() {
   /* ── WIZARD ── */
   if (ws.workspaceMode === 'wizard') {
     return (
-      <div className="min-h-full bg-[#f4f6fa] dark:bg-slate-950">
+      <div className="min-h-full bg-subtle dark:bg-slate-950">
         <FormCreationWizard
           step={ws.wizardStep}
           draft={ws.wizardDraft}
@@ -88,27 +88,27 @@ export default function FormsWorkspace() {
 
   /* ── EDITOR ── */
   return (
-    <div className="flex flex-col h-full min-h-[calc(100vh-0px)] bg-[#f4f6fa] dark:bg-slate-950">
+    <div className="flex flex-col h-full min-h-[calc(100vh-0px)] bg-subtle dark:bg-slate-950">
       {/* Top bar */}
-      <header className="flex-shrink-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-30">
+      <header className="flex-shrink-0 bg-white/80 dark:bg-slate-900/80 sticky top-0 z-30">
         <div className="flex items-center justify-between gap-3 px-4 sm:px-6 h-14">
           <div className="flex items-center gap-3 min-w-0">
             <button
               type="button"
               onClick={ws.backToHome}
-              className="p-2 -ml-2 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              className="p-2 -ml-2 text-fg-tertiary dark:text-fg-tertiary hover:text-fg dark:hover:text-slate-200 rounded-lg hover:bg-muted dark:hover:bg-slate-800 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
             </button>
             <div className="min-w-0">
-              <h1 className="text-sm font-semibold text-slate-900 dark:text-slate-50 truncate">
+              <h1 className="text-sm font-semibold text-fg dark:text-slate-50 truncate">
                 {ws.draftMeta.name || ws.selectedForm?.name}
               </h1>
             </div>
           </div>
 
           {/* Tabs — desktop */}
-          <nav className="hidden sm:flex items-center gap-0.5 p-0.5 bg-slate-100 dark:bg-slate-800 rounded-xl">
+          <nav className="hidden sm:flex items-center gap-0.5 p-0.5 bg-muted dark:bg-slate-800 rounded-lg">
             {TABS.map((tab) => {
               const Icon = tab.icon;
               const active = ws.view === tab.id;
@@ -118,13 +118,13 @@ export default function FormsWorkspace() {
                   type="button"
                   onClick={() => ws.setView(tab.id)}
                   className={`relative inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium rounded-lg transition-colors ${
-                    active ? 'text-slate-900 dark:text-slate-50' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+                    active ? 'text-fg dark:text-slate-50' : 'text-fg-tertiary dark:text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled'
                   }`}
                 >
                   {active && (
                     <motion.div
                       layoutId="form-tab"
-                      className="absolute inset-0 bg-white dark:bg-slate-900 rounded-lg shadow-sm"
+                      className="absolute inset-0 bg-canvas dark:bg-slate-900 rounded-lg"
                       transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                     />
                   )}
@@ -142,7 +142,7 @@ export default function FormsWorkspace() {
               <button
                 type="button"
                 onClick={() => ws.setShowThemeDrawer(true)}
-                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-fg-secondary dark:text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800 rounded-lg transition-colors"
               >
                 <Palette className="w-3.5 h-3.5" /> Theme
               </button>
@@ -150,7 +150,7 @@ export default function FormsWorkspace() {
             <button
               type="button"
               onClick={() => ws.setView('preview')}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-fg-secondary dark:text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800 rounded-lg transition-colors"
             >
               <Eye className="w-3.5 h-3.5" /> Preview
             </button>
@@ -158,7 +158,7 @@ export default function FormsWorkspace() {
               type="button"
               onClick={ws.saveForm}
               disabled={ws.saving}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg disabled:opacity-50 transition-colors"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium text-fg-secondary dark:text-slate-200 bg-muted dark:bg-slate-800 hover:bg-muted dark:hover:bg-slate-700 rounded-md disabled:opacity-50 transition-colors"
             >
               {ws.saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
               Save
@@ -166,7 +166,7 @@ export default function FormsWorkspace() {
             <button
               type="button"
               onClick={() => ws.setView('publish')}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white bg-teal-600 hover:bg-teal-700 rounded-lg shadow-md shadow-teal-600/20 transition-all"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium text-white bg-accent hover:bg-accent-hover rounded-md shadow-popover transition-all"
             >
               Publish
             </button>
@@ -174,7 +174,7 @@ export default function FormsWorkspace() {
               <button
                 type="button"
                 onClick={() => setShowMenu(!showMenu)}
-                className="p-2 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+                className="p-2 text-fg-tertiary dark:text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled rounded-lg hover:bg-muted dark:hover:bg-slate-800"
                 aria-label="More options"
               >
                 <MoreHorizontal className="w-4 h-4" />
@@ -182,18 +182,18 @@ export default function FormsWorkspace() {
               {showMenu && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setShowMenu(false)} />
-                  <div className="absolute right-0 top-full mt-1 w-44 bg-white dark:bg-slate-900 rounded-xl shadow-lg border border-slate-100 dark:border-slate-800 py-1 z-50">
+                  <div className="absolute right-0 top-full mt-1 w-44 bg-canvas dark:bg-slate-900 rounded-lg shadow-popover border border-line dark:border-slate-800 py-1 z-50">
                     <button
                       type="button"
                       onClick={() => { ws.duplicateForm(ws.selectedForm); setShowMenu(false); }}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
+                      className="w-full flex items-center gap-2 px-3 py-2 text-xs text-fg-secondary dark:text-fg-disabled hover:bg-subtle dark:hover:bg-slate-800"
                     >
                       <Copy className="w-3.5 h-3.5" /> Duplicate form
                     </button>
                     <button
                       type="button"
                       onClick={confirmDelete}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-xs text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30"
+                      className="w-full flex items-center gap-2 px-3 py-2 text-xs text-danger dark:text-red-400 hover:bg-danger-subtle dark:hover:bg-red-950/30"
                     >
                       <Trash2 className="w-3.5 h-3.5" /> Delete form
                     </button>
@@ -212,7 +212,7 @@ export default function FormsWorkspace() {
               type="button"
               onClick={() => ws.setView(tab.id)}
               className={`flex-shrink-0 px-3 py-1.5 text-xs font-medium rounded-lg ${
-                ws.view === tab.id ? 'bg-teal-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600'
+                ws.view === tab.id ? 'bg-accent text-white' : 'bg-muted dark:bg-slate-800 text-fg-secondary dark:text-fg-disabled'
               }`}
             >
               {tab.label}
@@ -252,7 +252,7 @@ export default function FormsWorkspace() {
 
                 {/* Mobile field settings */}
                 {selectedField && (
-                  <div className="xl:hidden mt-6 bg-white dark:bg-slate-900 rounded-2xl p-5 shadow-sm">
+                  <div className="xl:hidden mt-6 bg-canvas dark:bg-slate-900 rounded-lg p-5">
                     <FormSettingsPanel
                       field={selectedField}
                       fieldIndex={ws.selectedFieldIndex}
@@ -266,7 +266,7 @@ export default function FormsWorkspace() {
 
             {ws.view === 'preview' && (
               <div className="flex flex-col items-center py-8 px-4">
-                <div className="flex items-center gap-1 p-1 bg-white dark:bg-slate-900 rounded-xl shadow-sm mb-6">
+                <div className="flex items-center gap-1 p-1 bg-canvas dark:bg-slate-900 rounded-lg mb-6">
                   {[
                     { id: 'desktop', icon: Monitor, label: 'Desktop' },
                     { id: 'tablet', icon: Tablet, label: 'Tablet' },
@@ -277,7 +277,7 @@ export default function FormsWorkspace() {
                       type="button"
                       onClick={() => setPreviewDevice(id)}
                       className={`inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-lg transition-all ${
-                        previewDevice === id ? 'bg-teal-600 text-white shadow-sm' : 'text-slate-500 hover:text-slate-700'
+                        previewDevice === id ? 'bg-accent text-white' : 'text-fg-tertiary dark:text-fg-tertiary hover:text-fg-secondary dark:hover:text-slate-200'
                       }`}
                     >
                       <Icon className="w-3.5 h-3.5" /> {label}
@@ -302,14 +302,22 @@ export default function FormsWorkspace() {
               </div>
             )}
 
-            {ws.view === 'publish' && ws.selectedForm && (
-              <PublishPanel
-                form={ws.selectedForm}
-                styling={ws.draftStyling}
-                onStylingChange={ws.setDraftStyling}
-                onPublish={(active) => ws.togglePublish(active)}
-                isPublished={ws.selectedForm.active !== false}
-              />
+            {ws.view === 'publish' && (
+              ws.selectedForm ? (
+                <PublishPanel
+                  form={ws.selectedForm}
+                  styling={ws.draftStyling}
+                  onStylingChange={ws.setDraftStyling}
+                  onPublish={(active) => ws.togglePublish(active)}
+                  isPublished={ws.selectedForm.active !== false}
+                />
+              ) : (
+                <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
+                  <Rocket className="w-10 h-10 text-fg-disabled mb-3" />
+                  <p className="text-sm font-medium text-fg-secondary dark:text-fg-disabled">Save your form to publish it</p>
+                  <p className="text-xs text-fg-tertiary mt-1 max-w-sm">Publishing options appear once this form has been saved for the first time.</p>
+                </div>
+              )
             )}
 
             {ws.view === 'analytics' && (

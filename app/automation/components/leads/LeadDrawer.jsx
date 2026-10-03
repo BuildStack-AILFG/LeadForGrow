@@ -1,11 +1,11 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   X,
   Phone,
-  MessageSquare,
   ExternalLink,
   Clock,
   User,
@@ -13,8 +13,7 @@ import {
   Sparkles,
   ArrowRightLeft,
   MapPin,
-  Share2,
-} from 'lucide-react';
+  Share2} from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { authFetch, getUserId } from '@/lib/apiClient';
 import StatusBadge from './StatusBadge';
@@ -27,6 +26,8 @@ import { normalizeLeadStatus } from '@/lib/crm/leadStages';
 import { computeLeadIntelligence } from '@/lib/leadIntelligence';
 import ConvertLeadDialog from './ConvertLeadDialog';
 import ShareLeadModal, { resolveLeadLocation } from './ShareLeadModal';
+import SendTemplateModal from './SendTemplateModal';
+import { hasWhatsAppHistory } from '@/lib/whatsapp/waPhone';
 
 export default function LeadDrawer({
   leadId,
@@ -45,6 +46,7 @@ export default function LeadDrawer({
   const [showConvert, setShowConvert] = useState(false);
   const [converting, setConverting] = useState(false);
   const [showShare, setShowShare] = useState(false);
+  const [showTemplate, setShowTemplate] = useState(false);
   const [locationForm, setLocationForm] = useState({
     street: '',
     city: '',
@@ -167,19 +169,19 @@ export default function LeadDrawer({
   return (
     <>
       <div className="fixed inset-0 bg-slate-900/40 z-[60]" onClick={onClose} />
-      <aside className="fixed top-0 right-0 h-full w-full sm:w-[440px] lg:w-[480px] bg-white dark:bg-slate-950 border-l border-slate-200 dark:border-slate-800 z-[70] flex flex-col shadow-2xl">
+      <aside className="fixed top-0 right-0 h-full w-full sm:w-[440px] lg:w-[480px] bg-canvas dark:bg-slate-950 border-l border-line dark:border-slate-800 z-[70] flex flex-col shadow-modal">
         <div className="relative flex flex-col flex-1 min-h-0 overflow-hidden">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200 dark:border-slate-800 shrink-0">
-            <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Lead Details</h2>
+          <div className="flex items-center justify-between px-4 py-3 border-b border-line dark:border-slate-800 shrink-0">
+            <h2 className="text-sm font-semibold text-fg dark:text-slate-100">Lead Details</h2>
             <div className="flex items-center gap-1">
               <Link
                 href={`/automation/leads/${leadId}`}
-                className="p-2 rounded-md text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
+                className="p-2 rounded-md text-fg-tertiary dark:text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800"
                 title="Full page"
               >
                 <ExternalLink className="w-4 h-4" />
               </Link>
-              <button type="button" onClick={onClose} className="p-2 rounded-md text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
+              <button type="button" onClick={onClose} className="p-2 rounded-md text-fg-tertiary dark:text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800">
                 <X className="w-4 h-4" />
               </button>
             </div>
@@ -189,28 +191,36 @@ export default function LeadDrawer({
             <div className="flex-1"><PageLoader label="Loading lead…" height="100%" /></div>
           ) : lead ? (
             <>
-              <div className="px-4 py-4 border-b border-slate-100 dark:border-slate-800">
+              <div className="px-4 py-4 border-b border-line dark:border-slate-800">
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50">{lead.name}</h3>
-                    <p className="text-sm text-slate-500 mt-0.5">{lead.phone || lead.email || 'No contact'}</p>
+                    <h3 className="text-lg font-semibold text-fg dark:text-slate-50">{lead.name}</h3>
+                    <p className="text-sm text-fg-tertiary dark:text-fg-tertiary mt-0.5">{lead.phone || lead.email || 'No contact'}</p>
                   </div>
                   <LeadScoreBadge intelligence={intelligence} />
                 </div>
                 <div className="flex flex-wrap gap-2 mt-3">
                   <StatusBadge status={lead.status} />
-                  <span className="text-xs px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                  <span className="text-xs px-2 py-0.5 rounded-md bg-muted dark:bg-slate-800 text-fg-secondary dark:text-fg-tertiary">
                     {formatSource(lead.source)}
                   </span>
                 </div>
                 <div className="flex gap-2 mt-4">
-                  <button type="button" onClick={() => onCall(lead)} className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 text-xs font-medium rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">
+                  <button type="button" onClick={() => onCall(lead)} className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 text-xs font-medium rounded-lg border border-line dark:border-slate-700 hover:bg-subtle dark:hover:bg-slate-800">
                     <Phone className="w-3.5 h-3.5" /> Call
                   </button>
-                  <Link href={`/automation/chat?leadId=${leadId}`} className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 text-xs font-medium rounded-lg bg-emerald-600 text-white hover:bg-emerald-700">
-                    <MessageSquare className="w-3.5 h-3.5" /> WhatsApp
-                  </Link>
-                  <button type="button" onClick={() => setShowShare(true)} title="Share this lead on WhatsApp" className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 text-xs font-medium rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">
+                  {/* Someone who has never messaged on WhatsApp has no Inbox conversation to open, and WhatsApp only
+                      allows an approved template as the first message: open the template picker for them. */}
+                  {lead.phone && !hasWhatsAppHistory(lead) ? (
+                    <button type="button" onClick={() => setShowTemplate(true)} className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 text-xs font-medium rounded-lg bg-accent text-white hover:bg-accent-hover">
+                      <WhatsAppIcon className="w-3.5 h-3.5" /> WhatsApp
+                    </button>
+                  ) : (
+                    <Link href={`/automation/chat?leadId=${leadId}`} className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 text-xs font-medium rounded-lg bg-accent text-white hover:bg-accent-hover">
+                      <WhatsAppIcon className="w-3.5 h-3.5" /> WhatsApp
+                    </Link>
+                  )}
+                  <button type="button" onClick={() => setShowShare(true)} title="Share this lead on WhatsApp" className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 text-xs font-medium rounded-lg border border-line dark:border-slate-700 hover:bg-subtle dark:hover:bg-slate-800">
                     <Share2 className="w-3.5 h-3.5" /> Share
                   </button>
                 </div>
@@ -220,8 +230,8 @@ export default function LeadDrawer({
                     onClick={() => setShowConvert(true)}
                     className={`w-full mt-2 inline-flex items-center justify-center gap-1.5 py-2.5 text-xs font-semibold rounded-lg border ${
                       normalizeLeadStatus(lead.status) === 'qualified'
-                        ? 'bg-emerald-600 text-white border-emerald-600 hover:bg-emerald-700 shadow-sm'
-                        : 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100'
+                        ? 'bg-accent text-white border-accent hover:bg-accent-hover'
+                        : 'bg-accent-subtle dark:bg-emerald-950/30 text-accent-fg dark:text-accent-fg border-line dark:border-emerald-800 hover:bg-accent-subtle dark:hover:bg-accent-pressed/30'
                     }`}
                   >
                     <ArrowRightLeft className="w-3.5 h-3.5" />
@@ -230,13 +240,13 @@ export default function LeadDrawer({
                 )}
               </div>
 
-              <div className="flex border-b border-slate-100 dark:border-slate-800 px-2">
+              <div className="flex border-b border-line dark:border-slate-800 px-2">
                 {['overview', 'messages', 'activity', 'notes'].map((t) => (
                   <button
                     key={t}
                     type="button"
                     onClick={() => setTab(t)}
-                    className={`px-3 py-2.5 text-xs font-medium capitalize border-b-2 -mb-px ${tab === t ? 'border-teal-600 text-teal-600' : 'border-transparent text-slate-500'
+                    className={`px-3 py-2.5 text-xs font-medium capitalize border-b-2 -mb-px ${tab === t ? 'border-accent text-accent-fg dark:text-accent-fg' : 'border-transparent text-fg-tertiary dark:text-fg-tertiary'
                       }`}
                   >
                     {t}
@@ -248,8 +258,8 @@ export default function LeadDrawer({
                 {tab === 'overview' && (
                   <>
                     <div className="grid grid-cols-2 gap-3 text-xs">
-                      <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800">
-                        <p className="text-slate-500 mb-1 flex items-center gap-1"><User className="w-3 h-3" /> Assigned</p>
+                      <div className="p-3 rounded-lg bg-subtle dark:bg-slate-900/50 border border-line dark:border-slate-800">
+                        <p className="text-fg-tertiary dark:text-fg-tertiary mb-1 flex items-center gap-1"><User className="w-3 h-3" /> Assigned</p>
                         <select
                           value={resolveAssignedToId(lead)}
                           onChange={(e) => handleAssign(e.target.value || null)}
@@ -261,41 +271,41 @@ export default function LeadDrawer({
                           ))}
                         </select>
                       </div>
-                      <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800">
-                        <p className="text-slate-500 mb-1 flex items-center gap-1"><Clock className="w-3 h-3" /> Follow-up</p>
+                      <div className="p-3 rounded-lg bg-subtle dark:bg-slate-900/50 border border-line dark:border-slate-800">
+                        <p className="text-fg-tertiary dark:text-fg-tertiary mb-1 flex items-center gap-1"><Clock className="w-3 h-3" /> Follow-up</p>
                         <FollowupChip date={lead.nextFollowUpAt} />
                       </div>
-                      <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800">
-                        <p className="text-slate-500 mb-1">Stage</p>
+                      <div className="p-3 rounded-lg bg-subtle dark:bg-slate-900/50 border border-line dark:border-slate-800">
+                        <p className="text-fg-tertiary dark:text-fg-tertiary mb-1">Stage</p>
                         <select
                           value={resolveStageSelectValue(lead.status)}
                           onChange={(e) => handleStageChange(e.target.value)}
-                          className="w-full text-sm font-medium bg-transparent border border-slate-200 dark:border-slate-700 rounded-md px-2 py-1"
+                          className="w-full text-sm font-medium bg-transparent border border-line dark:border-slate-700 rounded-md px-2 py-1"
                         >
                           {STAGE_SELECT_OPTIONS.map((s) => (
                             <option key={s.key} value={s.key}>{s.label}</option>
                           ))}
                         </select>
                       </div>
-                      <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800">
-                        <p className="text-slate-500 mb-1">Created</p>
+                      <div className="p-3 rounded-lg bg-subtle dark:bg-slate-900/50 border border-line dark:border-slate-800">
+                        <p className="text-fg-tertiary dark:text-fg-tertiary mb-1">Created</p>
                         <p className="text-sm font-medium">{formatDate(lead.receivedAt)}</p>
                       </div>
                     </div>
 
                     {lead.serviceInterest && (
                       <div>
-                        <p className="text-xs font-medium text-slate-500 mb-1 flex items-center gap-1"><Tag className="w-3 h-3" /> Interest</p>
-                        <p className="text-sm text-slate-700 dark:text-slate-300">{lead.serviceInterest}</p>
+                        <p className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary mb-1 flex items-center gap-1"><Tag className="w-3 h-3" /> Interest</p>
+                        <p className="text-sm text-fg-secondary dark:text-fg-disabled">{lead.serviceInterest}</p>
                       </div>
                     )}
 
-                    <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 space-y-2.5">
-                      <p className="text-xs font-medium text-slate-500 flex items-center gap-1">
+                    <div className="p-3 rounded-lg bg-subtle dark:bg-slate-900/50 border border-line dark:border-slate-800 space-y-2.5">
+                      <p className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary flex items-center gap-1">
                         <MapPin className="w-3 h-3" /> Location
                       </p>
                       {resolveLeadLocation(lead) && (
-                        <p className="text-sm text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-md px-2.5 py-2 break-words">
+                        <p className="text-sm text-fg-secondary dark:text-fg-disabled bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-md px-2.5 py-2 break-words">
                           {resolveLeadLocation(lead)}
                         </p>
                       )}
@@ -305,60 +315,60 @@ export default function LeadDrawer({
                           value={locationForm.country}
                           onChange={(e) => setLocationForm((prev) => ({ ...prev, country: e.target.value }))}
                           placeholder="Country"
-                          className="col-span-2 text-sm px-2.5 py-2 border border-slate-200 dark:border-slate-700 rounded-md bg-white dark:bg-slate-900"
+                          className="col-span-2 text-sm px-2.5 py-2 border border-line dark:border-slate-700 rounded-md bg-canvas dark:bg-slate-900"
                         />
                         <input
                           type="text"
                           value={locationForm.city}
                           onChange={(e) => setLocationForm((prev) => ({ ...prev, city: e.target.value }))}
                           placeholder="City"
-                          className="text-sm px-2.5 py-2 border border-slate-200 dark:border-slate-700 rounded-md bg-white dark:bg-slate-900"
+                          className="text-sm px-2.5 py-2 border border-line dark:border-slate-700 rounded-md bg-canvas dark:bg-slate-900"
                         />
                         <input
                           type="text"
                           value={locationForm.state}
                           onChange={(e) => setLocationForm((prev) => ({ ...prev, state: e.target.value }))}
                           placeholder="State"
-                          className="text-sm px-2.5 py-2 border border-slate-200 dark:border-slate-700 rounded-md bg-white dark:bg-slate-900"
+                          className="text-sm px-2.5 py-2 border border-line dark:border-slate-700 rounded-md bg-canvas dark:bg-slate-900"
                         />
                         <input
                           type="text"
                           value={locationForm.postalCode}
                           onChange={(e) => setLocationForm((prev) => ({ ...prev, postalCode: e.target.value }))}
                           placeholder="Postal code"
-                          className="text-sm px-2.5 py-2 border border-slate-200 dark:border-slate-700 rounded-md bg-white dark:bg-slate-900"
+                          className="text-sm px-2.5 py-2 border border-line dark:border-slate-700 rounded-md bg-canvas dark:bg-slate-900"
                         />
                         <input
                           type="text"
                           value={locationForm.street}
                           onChange={(e) => setLocationForm((prev) => ({ ...prev, street: e.target.value }))}
                           placeholder="Street"
-                          className="text-sm px-2.5 py-2 border border-slate-200 dark:border-slate-700 rounded-md bg-white dark:bg-slate-900"
+                          className="text-sm px-2.5 py-2 border border-line dark:border-slate-700 rounded-md bg-canvas dark:bg-slate-900"
                         />
                       </div>
                       <button
                         type="button"
                         onClick={saveLocation}
                         disabled={savingLocation}
-                        className="w-full py-2 text-xs font-medium rounded-md bg-slate-900 text-white hover:bg-slate-800 disabled:opacity-60"
+                        className="w-full py-2 text-xs font-medium rounded-md bg-accent text-white hover:bg-accent-hover disabled:opacity-60"
                       >
                         {savingLocation ? 'Saving…' : 'Save location'}
                       </button>
                     </div>
 
                     {intelligence && (
-                      <div className="p-3 rounded-lg border border-teal-100 dark:border-teal-900 bg-teal-50/50 dark:bg-teal-950/20">
-                        <p className="text-xs font-semibold text-teal-800 dark:text-teal-300 flex items-center gap-1 mb-1">
+                      <div className="p-3 rounded-lg border border-line dark:border-teal-900 bg-accent-subtle dark:bg-teal-950/20">
+                        <p className="text-xs font-semibold text-accent-fg dark:text-accent-fg flex items-center gap-1 mb-1">
                           <Sparkles className="w-3.5 h-3.5" /> Suggested next step
                         </p>
-                        <p className="text-sm text-slate-700 dark:text-slate-300">{intelligence.nextAction?.text || 'Review and follow up'}</p>
+                        <p className="text-sm text-fg-secondary dark:text-fg-disabled">{intelligence.nextAction?.text || 'Review and follow up'}</p>
                       </div>
                     )}
 
                     {(lead.campaignName || lead.adName) && (
                       <div>
-                        <p className="text-xs font-medium text-slate-500 mb-1">Attribution</p>
-                        <p className="text-sm text-slate-600 dark:text-slate-400">{lead.campaignName || lead.adName}</p>
+                        <p className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary mb-1">Attribution</p>
+                        <p className="text-sm text-fg-secondary dark:text-fg-tertiary">{lead.campaignName || lead.adName}</p>
                       </div>
                     )}
                   </>
@@ -368,7 +378,7 @@ export default function LeadDrawer({
                   <div className="space-y-2">
                     {messagesLoading ? (
                       <div className="flex justify-center py-6">
-                        <div className="w-6 h-6 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin" />
+                        <div className="w-6 h-6 border-2 border-accent border-t-transparent rounded-full animate-spin" />
                       </div>
                     ) : messages.length ? (
                       messages.map((m, i) => {
@@ -381,17 +391,17 @@ export default function LeadDrawer({
                           <div key={m._id || i} className={`flex ${outgoing ? 'justify-end' : 'justify-start'}`}>
                             <div className={`max-w-[82%] px-3 py-2 rounded-lg text-sm shadow-sm ${
                               outgoing
-                                ? 'bg-emerald-100 dark:bg-emerald-900/40 text-slate-800 dark:text-slate-100 rounded-tr-none'
-                                : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 rounded-tl-none'
+                                ? 'bg-accent-subtle dark:bg-accent-pressed/40 text-fg dark:text-slate-100 rounded-tr-none'
+                                : 'bg-muted dark:bg-slate-800 text-fg dark:text-slate-100 rounded-tl-none'
                             }`}>
                               <p className="whitespace-pre-wrap break-words leading-snug">{body}</p>
-                              <p className="text-[10px] text-slate-400 mt-1 text-right">{time}</p>
+                              <p className="text-meta text-fg-tertiary mt-1 text-right">{time}</p>
                             </div>
                           </div>
                         );
                       })
                     ) : (
-                      <p className="text-sm text-slate-500 text-center py-8">No messages yet with this lead.</p>
+                      <p className="text-sm text-fg-tertiary dark:text-fg-tertiary text-center py-8">No messages yet with this lead.</p>
                     )}
                   </div>
                 )}
@@ -408,18 +418,18 @@ export default function LeadDrawer({
                         value={note}
                         onChange={(e) => setNote(e.target.value)}
                         placeholder="Add a note..."
-                        className="flex-1 text-sm px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900"
+                        className="flex-1 text-sm px-3 py-2 border border-line dark:border-slate-700 rounded-lg bg-canvas dark:bg-slate-900"
                         onKeyDown={(e) => e.key === 'Enter' && addNote()}
                       />
-                      <button type="button" onClick={addNote} className="px-3 py-2 text-xs font-medium bg-teal-600 text-white rounded-lg">
+                      <button type="button" onClick={addNote} className="px-3 py-2 text-xs font-medium bg-accent text-white rounded-md">
                         Add
                       </button>
                     </div>
                     <ul className="space-y-2">
                       {(lead.notes || []).map((n, i) => (
-                        <li key={i} className="p-3 rounded-lg bg-slate-50 dark:bg-slate-900/50 text-sm">
-                          <p className="text-slate-700 dark:text-slate-300">{n.text}</p>
-                          <p className="text-[11px] text-slate-400 mt-1">{formatRelative(n.addedAt)}</p>
+                        <li key={i} className="p-3 rounded-lg bg-subtle dark:bg-slate-900/50 text-sm">
+                          <p className="text-fg-secondary dark:text-fg-disabled">{n.text}</p>
+                          <p className="text-meta text-fg-tertiary mt-1">{formatRelative(n.addedAt)}</p>
                         </li>
                       ))}
                     </ul>
@@ -429,6 +439,9 @@ export default function LeadDrawer({
             </>
           ) : null}
 
+          {lead && showTemplate && (
+            <SendTemplateModal lead={lead} onClose={() => setShowTemplate(false)} />
+          )}
           {lead && showShare && (
             <ShareLeadModal lead={lead} shareMessage={lastMessage} onClose={() => setShowShare(false)} />
           )}

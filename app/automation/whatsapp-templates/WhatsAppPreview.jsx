@@ -20,14 +20,14 @@ export default function WhatsAppPreview({ template }) {
 
   return (
     <div className="w-full max-w-[340px] mx-auto">
-      <div className="rounded-[2rem] bg-[#0b141a] p-3 shadow-2xl shadow-black/40">
+      <div className="rounded-lg bg-[#0b141a] p-3 shadow-modal">
         <div className="rounded-[1.4rem] overflow-hidden bg-[#0b141a]">
           {/* Chat header */}
           <div className="bg-[#1f2c33] px-4 py-3 flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-emerald-600 flex items-center justify-center text-white text-sm font-semibold">B</div>
+            <div className="w-9 h-9 rounded-full bg-accent flex items-center justify-center text-white text-sm font-semibold">B</div>
             <div className="flex-1 min-w-0">
               <p className="text-white text-sm font-medium truncate">Your Business</p>
-              <p className="text-emerald-300/70 text-[10px]">online</p>
+              <p className="text-accent-fg/70 text-meta">online</p>
             </div>
           </div>
 
@@ -41,47 +41,47 @@ export default function WhatsAppPreview({ template }) {
             }}
           >
             <div className="flex justify-start">
-              <div className="max-w-[85%] bg-[#202c33] text-white rounded-lg overflow-hidden shadow-md">
+              <div className="max-w-[85%] bg-[#202c33] text-white rounded-lg overflow-hidden shadow-popover">
                 {header && (
                   <div>
                     {header.format === 'TEXT' && header.text && (
-                      <p className="px-3 pt-2 text-[13px] font-bold">
+                      <p className="px-3 pt-2 text-dense font-semibold">
                         {renderTextWithVars(header.text, headerSamples)}
                       </p>
                     )}
                     {header.format === 'IMAGE' && (
                       <div className="h-40 bg-slate-700/60 flex items-center justify-center">
-                        <ImageIcon className="w-8 h-8 text-slate-400" />
+                        <ImageIcon className="w-8 h-8 text-fg-tertiary" />
                       </div>
                     )}
                     {header.format === 'VIDEO' && (
                       <div className="h-40 bg-slate-700/60 flex items-center justify-center">
-                        <Video className="w-8 h-8 text-slate-400" />
+                        <Video className="w-8 h-8 text-fg-tertiary" />
                       </div>
                     )}
                     {header.format === 'DOCUMENT' && (
                       <div className="h-16 bg-slate-700/60 flex items-center gap-2 px-3">
-                        <FileText className="w-6 h-6 text-slate-300" />
-                        <div className="text-[11px] text-slate-300">Document.pdf</div>
+                        <FileText className="w-6 h-6 text-fg-disabled" />
+                        <div className="text-meta text-fg-disabled">Document.pdf</div>
                       </div>
                     )}
                   </div>
                 )}
 
                 {body?.text ? (
-                  <p className="px-3 py-2 text-[13.5px] leading-snug whitespace-pre-wrap">
+                  <p className="px-3 py-2 text-dense leading-snug whitespace-pre-wrap">
                     {renderTextWithVars(body.text, bodySamples)}
                   </p>
                 ) : (
-                  <p className="px-3 py-2 text-[13px] italic text-slate-500">Message body preview…</p>
+                  <p className="px-3 py-2 text-dense italic text-fg-tertiary">Message body preview…</p>
                 )}
 
                 {footer?.text && (
-                  <p className="px-3 pb-1 text-[11px] text-slate-400">{footer.text}</p>
+                  <p className="px-3 pb-1 text-meta text-fg-tertiary">{footer.text}</p>
                 )}
 
                 <div className="flex items-center justify-end gap-1 px-3 pb-1.5">
-                  <span className="text-[10px] text-slate-500">{timeStr}</span>
+                  <span className="text-meta text-fg-tertiary">{timeStr}</span>
                 </div>
 
                 {buttons?.buttons?.length > 0 && (
@@ -89,7 +89,7 @@ export default function WhatsAppPreview({ template }) {
                     {buttons.buttons.map((btn, i) => (
                       <div
                         key={i}
-                        className="px-3 py-2.5 border-t border-white/5 first:border-t-0 flex items-center justify-center gap-1.5 text-[13px] text-[#53bdeb] font-medium"
+                        className="px-3 py-2.5 border-t border-white/5 first:border-t-0 flex items-center justify-center gap-1.5 text-dense text-[#53bdeb] font-medium"
                       >
                         {btn.type === 'PHONE_NUMBER' && <Phone className="w-3.5 h-3.5" />}
                         {btn.type === 'URL' && <ExternalLink className="w-3.5 h-3.5" />}
@@ -104,7 +104,7 @@ export default function WhatsAppPreview({ template }) {
           </div>
         </div>
       </div>
-      <p className="text-center text-[10px] text-slate-400 mt-3">Live WhatsApp preview</p>
+      <p className="text-center text-meta text-fg-tertiary mt-3">Live WhatsApp preview</p>
     </div>
   );
 }

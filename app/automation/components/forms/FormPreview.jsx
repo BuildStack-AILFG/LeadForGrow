@@ -62,26 +62,26 @@ export default function FormPreview({ fields, styling, meta, device = 'desktop',
       {/* Browser chrome mockup for desktop */}
       {device === 'desktop' && (
         <div className="w-full max-w-[560px]">
-          <div className="bg-slate-200 dark:bg-slate-700 rounded-t-xl px-4 py-2.5 flex items-center gap-2">
+          <div className="bg-muted dark:bg-slate-700 rounded-t-xl px-4 py-2.5 flex items-center gap-2">
             <div className="flex gap-1.5">
               <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
-              <div className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+              <div className="w-2.5 h-2.5 rounded-full bg-warning" />
               <div className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
             </div>
-            <div className="flex-1 bg-white dark:bg-slate-800 rounded-md px-3 py-1 text-[10px] text-slate-400 text-center">yourwebsite.com/contact</div>
+            <div className="flex-1 bg-canvas dark:bg-slate-800 rounded-md px-3 py-1 text-meta text-fg-tertiary text-center">yourwebsite.com/contact</div>
           </div>
         </div>
       )}
       {device === 'tablet' && (
-        <div className="w-[480px] max-w-full bg-slate-800 rounded-[20px] p-3 shadow-2xl">
-          <div className="bg-slate-900 rounded-[14px] overflow-hidden" style={{ minHeight: 400 }}>
+        <div className="w-[480px] max-w-full bg-slate-800 rounded-lg p-3 shadow-modal">
+          <div className="bg-slate-900 rounded-lg overflow-hidden" style={{ minHeight: 400 }}>
             {renderForm(fields, styling, meta, bg, isDark, width, device)}
           </div>
         </div>
       )}
       {device === 'mobile' && (
-        <div className="w-[375px] max-w-full bg-slate-900 rounded-[32px] p-2.5 shadow-2xl">
-          <div className="bg-slate-800 rounded-[26px] overflow-hidden" style={{ minHeight: 520 }}>
+        <div className="w-[375px] max-w-full bg-slate-900 rounded-lg p-2.5 shadow-modal">
+          <div className="bg-slate-800 rounded-lg overflow-hidden" style={{ minHeight: 520 }}>
             <div className="h-6 flex items-center justify-center">
               <div className="w-16 h-1 bg-slate-600 rounded-full" />
             </div>
@@ -128,9 +128,9 @@ function renderForm(fields, styling, meta, bg, isDark, width, device, roundedBot
             return (
               <div key={field.name}>
                 <label className="block text-xs font-semibold mb-1.5 opacity-80">
-                  {field.label}{field.required && <span className="text-red-500 ml-0.5">*</span>}
+                  {field.label}{field.required && <span className="text-danger ml-0.5">*</span>}
                 </label>
-                {field.helpText && <p className="text-[10px] opacity-50 mb-1">{field.helpText}</p>}
+                {field.helpText && <p className="text-meta opacity-50 mb-1">{field.helpText}</p>}
                 {renderInput(field, styling)}
               </div>
             );
@@ -153,17 +153,17 @@ function renderForm(fields, styling, meta, bg, isDark, width, device, roundedBot
         >
           {styling.buttonText || 'Submit'}
         </button>
-        <p className="text-[10px] text-center opacity-40 mt-3">Powered by LeadForGrow</p>
+        <p className="text-meta text-center opacity-40 mt-3">Powered by LeadForGrow</p>
     </div>
   );
 }
 
 export function FormPreviewThumbnail({ fields, styling }) {
   return (
-    <div className="h-full w-full p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg overflow-hidden">
+    <div className="h-full w-full p-3 bg-subtle dark:bg-slate-800/50 rounded-lg overflow-hidden">
       <div className="space-y-1.5 scale-[0.85] origin-top-left">
         {(fields || []).slice(0, 4).map((f) => (
-          <div key={f.name} className="h-2 rounded bg-slate-200 dark:bg-slate-700" style={{ width: f.type === 'textarea' ? '90%' : '70%' }} />
+          <div key={f.name} className="h-2 rounded bg-muted dark:bg-slate-700" style={{ width: f.type === 'textarea' ? '90%' : '70%' }} />
         ))}
         <div className="h-3 w-1/2 rounded mt-2" style={{ background: styling?.primaryColor || '#2563eb', opacity: 0.8 }} />
       </div>

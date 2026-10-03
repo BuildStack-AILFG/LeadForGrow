@@ -2,70 +2,51 @@
 
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { GripVertical } from 'lucide-react';
-import {
-  assigneeName,
-  formatSource,
-  getLeadAmount,
-  formatLeadAmount,
-  getLeadRowBackgroundStyle,
-  getStatusAccentColor,
-} from './utils';
+import { assigneeName, formatSource, getLeadAmount, formatLeadAmount, getLeadRowBackgroundStyle } from './utils';
 import FollowupChip from './FollowupChip';
+import Avatar from '@/app/components/ui/Avatar';
+import cx, { focusRing } from '@/app/components/ui/cx';
 
+/**
+ * Lead card (DESIGN_BRIEF §8 boards): white, 1px border, radius 8, padding 12,
+ * no shadow at rest. Name (14/500) · source/interest (13 secondary) · owner +
+ * value / follow-up (12 tertiary). Whole card is the drag handle (8px
+ * activation distance keeps clicks working) and opens the lead on click/Enter.
+ * A user-chosen row colour still tints the card.
+ */
 export default function KanbanCard({ lead, onOpen }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: lead._id
-  });
-
-  const accent = lead.rowColor || getStatusAccentColor(lead.status);
-  const rowBg = getLeadRowBackgroundStyle(lead);
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1,
-    borderLeftColor: accent,
-    ...rowBg,
-  };
-
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: lead._id });
+  const owner = assigneeName(lead.assignedTo);
   const dealInfo = getLeadAmount(lead);
 
   return (
     <div
       ref={setNodeRef}
-      style={style}
-      className="mb-2 p-3 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-700 border-l-[3px] rounded-lg shadow-sm hover:shadow-md hover:brightness-[0.98] dark:hover:brightness-110 transition-all cursor-pointer group"
+      style={{ transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.4 : 1, ...getLeadRowBackgroundStyle(lead) }}
+      {...attributes}
+      {...listeners}
+      role="button"
+      tabIndex={0}
+      aria-label={`Open ${lead.name}`}
       onClick={onOpen}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') onOpen();
+      }}
+      className={cx('cursor-pointer rounded-lg border border-line bg-canvas p-3 text-left hover:border-line-strong', focusRing)}
     >
-      <div className="flex items-start gap-2">
-        <button
-          type="button"
-          className="mt-0.5 text-slate-300 hover:text-slate-500 cursor-grab active:cursor-grabbing"
-          {...attributes}
-          {...listeners}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <GripVertical className="w-3.5 h-3.5" />
-        </button>
-        <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">{lead.name}</p>
-          <p className="text-[11px] text-slate-500 mt-0.5">{formatSource(lead.source)}</p>
-          {lead.serviceInterest && (
-            <p className="text-[11px] text-slate-400 truncate mt-1">{lead.serviceInterest}</p>
-          )}
-          <div className="flex items-center justify-between mt-2 gap-2">
-            <span className="text-[10px] text-slate-500 truncate">{assigneeName(lead.assignedTo)}</span>
-            <div className="flex items-center gap-1.5 shrink-0">
-              {dealInfo && (
-                <span className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 tabular-nums">
-                  {formatLeadAmount(dealInfo.amount, dealInfo.currency)}
-                </span>
-              )}
-              {lead.nextFollowUpAt ? <FollowupChip date={lead.nextFollowUpAt} /> : !dealInfo && <FollowupChip date={null} />}
-            </div>
-          </div>
-        </div>
+      <p className="truncate text-body font-medium text-fg">{lead.name}</p>
+      <p className="mt-0.5 truncate text-dense text-fg-secondary">
+        {[formatSource(lead.source), lead.serviceInterest].filter(Boolean).join(' · ')}
+      </p>
+      <div className="mt-2 flex items-center justify-between gap-2 text-meta text-fg-tertiary">
+        <span className="flex min-w-0 items-center gap-1.5">
+          {owner && owner !== 'Unassigned' && <Avatar name={owner} size={20} />}
+          <span className="truncate">{owner || 'Unassigned'}</span>
+        </span>
+        <span className="flex shrink-0 items-center gap-1.5">
+          {dealInfo && <span className="font-medium text-fg-secondary tabular">{formatLeadAmount(dealInfo.amount, dealInfo.currency)}</span>}
+          {lead.nextFollowUpAt && <FollowupChip date={lead.nextFollowUpAt} />}
+        </span>
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import { dbConnect } from '@/lib/mongodb';
 import Broadcast from '@/models/automation/Broadcast';
 import { withPlanAccess } from '@/lib/accessControl';
 import { sendBroadcast, retryFailedRecipients } from '@/lib/broadcasts/engine';
+import { normalizeBroadcastEmailContent, EmailContentError } from '@/lib/broadcasts/emailContent';
 
 export const GET = withPlanAccess('automation', async (req, { params }) => {
   try {
@@ -23,6 +24,15 @@ export const PUT = withPlanAccess('automation', async (req, { params }) => {
     const body = await req.json();
     const broadcast = await Broadcast.findOne({ _id: id, businessId: req.user.businessId });
     if (!broadcast) return NextResponse.json({ success: false, error: 'Not found' }, { status: 404 });
+
+    if (body.content !== undefined) {
+      try {
+        body.content = normalizeBroadcastEmailContent(body.content);
+      } catch (err) {
+        if (err instanceof EmailContentError) return NextResponse.json({ success: false, error: err.message }, { status: 400 });
+        throw err;
+      }
+    }
 
     ['name', 'description', 'channel', 'audience', 'content', 'scheduledAt', 'testMode', 'testRecipients'].forEach((k) => {
       if (body[k] !== undefined) broadcast.set(k, body[k]);

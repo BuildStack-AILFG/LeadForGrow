@@ -31,7 +31,7 @@ export default function NodeContextMenu({
   return (
     <div
       ref={ref}
-      className="absolute top-8 right-0 z-20 w-48 rounded-lg border border-slate-200 bg-white shadow-xl py-1 text-left nodrag nopan"
+      className="absolute top-8 right-0 z-20 w-48 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 shadow-modal py-1 text-left nodrag nopan"
       onClick={(e) => e.stopPropagation()}
     >
       <button
@@ -40,9 +40,9 @@ export default function NodeContextMenu({
           onEdit?.();
           onClose?.();
         }}
-        className="w-full flex items-center gap-2 px-3 py-2 text-xs text-slate-700 hover:bg-[#F0F9F5]"
+        className="w-full flex items-center gap-2 px-3 py-2 text-xs text-fg-secondary dark:text-slate-200 hover:bg-brand-tint"
       >
-        <Pencil className="w-3.5 h-3.5 text-slate-400" />
+        <Pencil className="w-3.5 h-3.5 text-fg-tertiary" />
         Edit
       </button>
       <button
@@ -51,9 +51,9 @@ export default function NodeContextMenu({
           onDuplicate?.();
           onClose?.();
         }}
-        className="w-full flex items-center gap-2 px-3 py-2 text-xs text-slate-700 hover:bg-[#F0F9F5]"
+        className="w-full flex items-center gap-2 px-3 py-2 text-xs text-fg-secondary dark:text-slate-200 hover:bg-brand-tint"
       >
-        <Copy className="w-3.5 h-3.5 text-slate-400" />
+        <Copy className="w-3.5 h-3.5 text-fg-tertiary" />
         Duplicate
       </button>
       <button
@@ -62,26 +62,26 @@ export default function NodeContextMenu({
           onDelete?.();
           onClose?.();
         }}
-        className="w-full flex items-center gap-2 px-3 py-2 text-xs text-rose-600 hover:bg-rose-50"
+        className="w-full flex items-center gap-2 px-3 py-2 text-xs text-danger dark:text-rose-400 hover:bg-danger-subtle dark:hover:bg-rose-950/30"
       >
         <Trash2 className="w-3.5 h-3.5" />
         Delete
       </button>
-      <div className="my-1 border-t border-slate-100" />
+      <div className="my-1 border-t border-line dark:border-slate-800" />
       <button
         type="button"
         onClick={() => {
           onSetStartNode?.();
           onClose?.();
         }}
-        className="w-full flex items-center gap-2 px-3 py-2 text-xs text-slate-700 hover:bg-[#F0F9F5]"
+        className="w-full flex items-center gap-2 px-3 py-2 text-xs text-fg-secondary dark:text-slate-200 hover:bg-brand-tint"
       >
-        <Flag className={`w-3.5 h-3.5 ${isStartNode ? 'text-[#1D4B3E] fill-[#1D4B3E]' : 'text-slate-400'}`} />
+        <Flag className={`w-3.5 h-3.5 ${isStartNode ? 'text-brand-ink fill-brand-ink' : 'text-fg-tertiary'}`} />
         {isStartNode ? 'Start node ✓' : 'Set start node'}
       </button>
       <div className="px-3 py-2">
-        <div className="flex items-center gap-1.5 mb-1.5 text-xs text-slate-700">
-          <Palette className="w-3.5 h-3.5 text-slate-400" />
+        <div className="flex items-center gap-1.5 mb-1.5 text-xs text-fg-secondary dark:text-slate-200">
+          <Palette className="w-3.5 h-3.5 text-fg-tertiary" />
           Card Colour
         </div>
         <div className="flex flex-wrap gap-1.5">
@@ -90,7 +90,7 @@ export default function NodeContextMenu({
               key={c}
               type="button"
               onClick={() => onSetCardColor?.(c)}
-              className={`w-5 h-5 rounded-full border ${cardColor === c ? 'ring-2 ring-offset-1 ring-slate-400' : 'border-slate-200'}`}
+              className={`w-5 h-5 rounded-full border ${cardColor === c ? 'ring-2 ring-offset-1 ring-slate-400' : 'border-line dark:border-slate-700'}`}
               style={{ backgroundColor: c }}
               title={c}
             />

@@ -13,6 +13,7 @@ import ChatbotTranscript from '../../components/leads/detail/ChatbotTranscript';
 import ConvertLeadDialog from '../../components/leads/ConvertLeadDialog';
 import LostReasonModal from '../../components/leads/LostReasonModal';
 import QualifiedSummaryModal from '../../components/leads/QualifiedSummaryModal';
+import LeadLeakStrip from '../../components/leak/LeadLeakStrip';
 
 export default function LeadDetailPage({ params }) {
   return (
@@ -28,6 +29,7 @@ function LeadDetailPageContent({ params }) {
   const searchParams = useSearchParams();
   const [sendingChat, setSendingChat] = useState(false);
   const [showConvert, setShowConvert] = useState(false);
+  const [composerDraft, setComposerDraft] = useState(null);
 
   useEffect(() => {
     if (searchParams.get('convert') === '1' && detail.lead && detail.lead.status !== 'converted') {
@@ -39,10 +41,10 @@ function LeadDetailPageContent({ params }) {
 
   if (!detail.lead) {
     return (
-      <div className="min-h-full bg-[#f8f9fc] dark:bg-slate-950 flex items-center justify-center p-8">
+      <div className="min-h-full bg-subtle dark:bg-slate-950 flex items-center justify-center p-8">
         <div className="text-center">
-          <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">Lead not found</h2>
-          <Link href="/automation/leads" className="inline-flex items-center gap-1 mt-4 text-sm text-teal-600 hover:underline">
+          <h2 className="text-title font-semibold text-fg dark:text-slate-50">Lead not found</h2>
+          <Link href="/automation/leads" className="inline-flex items-center gap-1 mt-4 text-sm text-accent-fg dark:text-accent-fg hover:underline">
             <ChevronLeft className="w-4 h-4" /> Back to leads
           </Link>
         </div>
@@ -50,10 +52,10 @@ function LeadDetailPageContent({ params }) {
     );
   }
 
-  const handleSendWhatsApp = async (message) => {
+  const handleSendMessage = async (message, channel) => {
     setSendingChat(true);
     try {
-      return await detail.sendWhatsApp(message);
+      return await detail.sendMessage(message, channel);
     } finally {
       setSendingChat(false);
     }
@@ -63,13 +65,16 @@ function LeadDetailPageContent({ params }) {
     const msg = detail.renderTemplate(template.body);
     if (template.channel === 'email' && detail.lead.email) {
       window.open(`mailto:${detail.lead.email}?body=${encodeURIComponent(msg)}`, '_blank');
-        } else {
+        } else if (detail.lead.phone) {
       detail.openWhatsApp(msg);
+    } else {
+      // No phone (e.g. an Instagram lead): put the text in the composer instead of opening wa.me.
+      setComposerDraft({ text: msg, id: Date.now() });
     }
   };
 
   return (
-    <div className="min-h-full bg-[#f8f9fc] dark:bg-slate-950">
+    <div className="min-h-full bg-subtle dark:bg-slate-950">
       <div className="px-4 sm:px-6 pb-8">
         <LeadDetailHeader
           lead={detail.lead}
@@ -130,9 +135,11 @@ function LeadDetailPageContent({ params }) {
             onTemplate={handleTemplate}
             onCall={detail.initiateCall}
             onWhatsApp={() => detail.openWhatsApp()}
+            onUpdateContact={detail.updateContact}
           />
 
-          <div className="space-y-6">
+          <div className="flex flex-col gap-6">
+            <LeadLeakStrip leadId={id} />
             {detail.lead.source === 'bot' && (
               <ChatbotTranscript lead={detail.lead} />
             )}
@@ -142,10 +149,11 @@ function LeadDetailPageContent({ params }) {
             teamMembers={detail.teamMembers}
             updating={detail.updating}
             sendingChat={sendingChat}
-            onSendWhatsApp={handleSendWhatsApp}
+            onSendWhatsApp={handleSendMessage}
             onAddNote={detail.addNote}
             onCreateTask={detail.createTask}
             onCompleteTask={detail.completeTask}
+            draft={composerDraft}
           />
           </div>
         </div>

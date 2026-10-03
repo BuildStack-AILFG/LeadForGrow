@@ -1,21 +1,39 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import { Cookie, Mail, MessageCircle, Phone, X } from 'lucide-react';
 import { CONTACT_FORM_TOKEN, getFormSubmitUrl } from '@/lib/publicForms';
-import { getConsentPayloadForForms } from '@/lib/consent/client';
+import { getConsentPayloadForForms, getConsentState } from '@/lib/consent/client';
+import { ENGAGED_AFTER_SECONDS, hasScrolledEnough, shouldAutoOpen } from '@/lib/enquiryPopup';
 import BookDemoModal, { openBookDemoPopup } from '@/app/components/landing/BookDemoModal';
 
-const INITIAL_DELAY_MS = 10000;
-const DISMISS_STORAGE_KEY = 'lfg_enquiry_popup_dismissed';
-const SUBMITTED_STORAGE_KEY = 'lfg_enquiry_form_submitted';
+// How long to leave a visitor alone. Remembered in localStorage (shared by every tab and later visit) as
+// an expiry timestamp — it used to be sessionStorage, so every new tab/window re-opened the popup.
+const DISMISS_STORAGE_KEY = 'lfg_enquiry_popup_dismissed_until';
+const SUBMITTED_STORAGE_KEY = 'lfg_enquiry_form_submitted_until';
+const DISMISS_DAYS = 7;
+const SUBMITTED_DAYS = 30;
 const WHATSAPP_URL = 'https://wa.me/918810873052?text=Hi%20LeadForGrow%2C%20I%20would%20like%20to%20know%20more.';
 
-function readSessionFlag(key) {
+/** True while this visitor is still inside a "don't show again until" window. Never throws (storage can be blocked). */
+function isSnoozed(key) {
   if (typeof window === 'undefined') return false;
-  return sessionStorage.getItem(key) === '1';
+  try {
+    const until = Number(localStorage.getItem(key));
+    return Number.isFinite(until) && until > Date.now();
+  } catch {
+    return false;
+  }
+}
+
+function snoozeFor(key, days) {
+  try {
+    localStorage.setItem(key, String(Date.now() + days * 24 * 60 * 60 * 1000));
+  } catch {
+    /* storage blocked — the popup may reappear next time, acceptable */
+  }
 }
 
 function WhatsAppLogo({ className = 'h-6 w-6' }) {
@@ -37,61 +55,97 @@ const MENU_ITEMS = [
   { id: 'cookies', label: 'Cookie settings', icon: 'cookie' },
 ];
 
+// Sign-in / account-recovery flows: a sales popup here is just friction.
+const AUTH_PATHS = [
+  '/login', '/register', '/forgot-password', '/reset-password', '/rotate-password',
+  '/two-factor', '/verify-email', '/session-expired', '/account-locked', '/invite',
+];
+
 export default function LeadForGrowWidget({ onBookDemo }) {
   const pathname = usePathname();
+  // This is a MARKETING widget mounted in the root layout, so it must stay out of the logged-in apps,
+  // customer-facing pages (/s/ sites, chatbot iframe) and the editor. `hidden` has to suppress the
+  // auto-open timer and the modal too, not just the floating launcher button.
   const hidden =
     pathname.startsWith('/automation') ||
+    pathname.startsWith('/agency') ||
+    pathname.startsWith('/lfgadmin') ||
+    pathname.startsWith('/editor') ||
+    AUTH_PATHS.some((path) => pathname.startsWith(path)) ||
     pathname.startsWith('/s/') ||
     pathname.includes('/chatbot-iframe');
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
   const [isBookDemoOpen, setIsBookDemoOpen] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(() => readSessionFlag(SUBMITTED_STORAGE_KEY));
+  const [isSubmitted, setIsSubmitted] = useState(() => isSnoozed(SUBMITTED_STORAGE_KEY));
   const [isSending, setIsSending] = useState(false);
   const [success, setSuccess] = useState(false);
-  const timerRef = useRef(null);
-
-  const clearTimer = useCallback(() => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
-    }
-  }, []);
-
-  const scheduleFormOpen = useCallback(() => {
-    if (
-      readSessionFlag(DISMISS_STORAGE_KEY) ||
-      readSessionFlag(SUBMITTED_STORAGE_KEY) ||
-      isSubmitted ||
-      formOpen ||
-      menuOpen
-    ) {
-      return;
-    }
-
-    clearTimer();
-    timerRef.current = setTimeout(() => {
-      setFormOpen(true);
-    }, INITIAL_DELAY_MS);
-  }, [clearTimer, formOpen, isSubmitted, menuOpen]);
+  const [engaged, setEngaged] = useState(false);
+  const [consentDecided, setConsentDecided] = useState(false);
+  const [autoOpened, setAutoOpened] = useState(false);
 
   const closeForm = useCallback(() => {
     setFormOpen(false);
     setSuccess(false);
-    if (typeof window !== 'undefined') {
-      sessionStorage.setItem(DISMISS_STORAGE_KEY, '1');
-    }
-    clearTimer();
-  }, [clearTimer]);
+    snoozeFor(DISMISS_STORAGE_KEY, DISMISS_DAYS);
+  }, []);
+
+  // 1) "Engaged" = the visitor has really been reading: ENGAGED_AFTER_SECONDS of VISIBLE time, or scrolled
+  //    half the page. (It used to pop 10 s after load — before they'd seen anything.)
+  useEffect(() => {
+    if (hidden || engaged) return undefined;
+
+    let visibleSeconds = 0;
+    const tick = setInterval(() => {
+      if (document.visibilityState !== 'visible') return; // background tabs don't count
+      visibleSeconds += 1;
+      if (visibleSeconds >= ENGAGED_AFTER_SECONDS) setEngaged(true);
+    }, 1000);
+
+    const onScroll = () => {
+      if (hasScrolledEnough({
+        scrollY: window.scrollY,
+        viewportHeight: window.innerHeight,
+        docHeight: document.documentElement.scrollHeight,
+      })) setEngaged(true);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    return () => {
+      clearInterval(tick);
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, [hidden, engaged]);
+
+  // 2) Never stack on top of the cookie banner: wait until the visitor has answered it.
+  useEffect(() => {
+    const sync = () => setConsentDecided(getConsentState() !== null);
+    sync();
+    window.addEventListener('lfg-consent-changed', sync);
+    return () => window.removeEventListener('lfg-consent-changed', sync);
+  }, []);
+
+  // 3) Open — at most once per page load, and never inside a snooze window.
+  useEffect(() => {
+    const open = shouldAutoOpen({
+      engaged,
+      consentDecided,
+      hidden,
+      snoozed: isSnoozed(DISMISS_STORAGE_KEY) || isSnoozed(SUBMITTED_STORAGE_KEY),
+      isSubmitted,
+      formOpen,
+      menuOpen,
+      alreadyAutoOpened: autoOpened,
+    });
+    if (!open) return undefined;
+    // small pause so it doesn't land in the same instant as the cookie choice
+    const t = setTimeout(() => { setAutoOpened(true); setFormOpen(true); }, 1200);
+    return () => clearTimeout(t);
+  }, [engaged, consentDecided, hidden, isSubmitted, formOpen, menuOpen, autoOpened]);
 
   useEffect(() => {
-    scheduleFormOpen();
-    return clearTimer;
-  }, [scheduleFormOpen, clearTimer]);
-
-  useEffect(() => {
-    if (!formOpen) return undefined;
+    if (!formOpen || hidden) return undefined;
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -105,7 +159,7 @@ export default function LeadForGrowWidget({ onBookDemo }) {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener('keydown', onKeyDown);
     };
-  }, [formOpen, closeForm]);
+  }, [formOpen, hidden, closeForm]);
 
   const handleBookDemo = () => {
     setMenuOpen(false);
@@ -125,7 +179,6 @@ export default function LeadForGrowWidget({ onBookDemo }) {
     setMenuOpen(false);
 
     if (id === 'form') {
-      clearTimer();
       setFormOpen(true);
       return;
     }
@@ -168,10 +221,7 @@ export default function LeadForGrowWidget({ onBookDemo }) {
       if (res.success) {
         setIsSubmitted(true);
         setSuccess(true);
-        if (typeof window !== 'undefined') {
-          sessionStorage.setItem(SUBMITTED_STORAGE_KEY, '1');
-        }
-        clearTimer();
+        snoozeFor(SUBMITTED_STORAGE_KEY, SUBMITTED_DAYS);
         e.target.reset();
         setTimeout(() => setFormOpen(false), 3000);
       } else {
@@ -257,7 +307,7 @@ export default function LeadForGrowWidget({ onBookDemo }) {
       )}
 
       {/* Contact form modal */}
-      {formOpen && (
+      {formOpen && !hidden && (
         <div className="fixed inset-0 z-[110] flex items-end justify-center p-4 sm:items-center">
           <button
             type="button"

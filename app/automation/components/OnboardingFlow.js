@@ -1,5 +1,6 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
@@ -94,15 +95,15 @@ export default function OnboardingFlow({ onComplete }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-[32px] w-full max-w-2xl overflow-hidden shadow-2xl">
+    <div className="fixed inset-0 bg-slate-900/50 z-50 flex items-center justify-center p-4">
+      <div className="bg-canvas dark:bg-slate-900 rounded-lg w-full max-w-2xl overflow-hidden shadow-modal">
         {/* Progress Bar */}
-        <div className="h-1.5 w-full bg-slate-100 flex">
+        <div className="h-1.5 w-full bg-muted dark:bg-slate-800 flex">
           {[1, 2, 3, 4].map((s) => (
             <div 
               key={s} 
               className={`h-full flex-1 transition-all duration-500 ${
-                s <= step ? 'bg-indigo-600' : 'bg-transparent'
+                s <= step ? 'bg-accent' : 'bg-transparent'
               }`}
             />
           ))}
@@ -111,30 +112,30 @@ export default function OnboardingFlow({ onComplete }) {
         <div className="p-8 md:p-12">
           {step === 1 && (
             <div className="text-center">
-              <div className="w-20 h-20 bg-indigo-100 rounded-[24px] flex items-center justify-center mx-auto mb-8 animate-bounce">
-                <Globe className="w-10 h-10 text-indigo-600" />
+              <div className="w-20 h-20 bg-accent-subtle dark:bg-accent-pressed/30 rounded-lg flex items-center justify-center mx-auto mb-8 animate-bounce">
+                <Globe className="w-10 h-10 text-accent-fg dark:text-accent-fg" />
               </div>
-              <h2 className="text-3xl font-bold text-slate-900 mb-4">Connect Lead Sources</h2>
-              <p className="text-slate-600 mb-8 text-lg">
+              <h2 className="text-title font-semibold text-fg dark:text-slate-50 mb-4">Connect Lead Sources</h2>
+              <p className="text-fg-secondary dark:text-fg-disabled mb-8 text-lg">
                 You’re almost ready. Connect where leads come from so the system can start working for you.
               </p>
               
               <div className="grid grid-cols-2 gap-4 mb-8">
-                <div className="p-6 border-2 border-slate-100 rounded-2xl text-left hover:border-indigo-600 cursor-pointer group transition-all">
-                  <MessageCircle className="w-8 h-8 text-emerald-500 mb-3" />
-                  <h3 className="font-bold text-slate-900">WhatsApp</h3>
-                  <p className="text-xs text-slate-500">Capture from WhatsApp buttons</p>
+                <div className="p-6 border-2 border-line dark:border-slate-800 rounded-lg text-left hover:border-accent cursor-pointer group transition-all">
+                  <WhatsAppIcon colored className="w-8 h-8 mb-3" />
+                  <h3 className="font-semibold text-fg dark:text-slate-50">WhatsApp</h3>
+                  <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">Capture from WhatsApp buttons</p>
                 </div>
-                <div className="p-6 border-2 border-indigo-600 bg-indigo-50 rounded-2xl text-left">
-                  <CheckCircle2 className="w-8 h-8 text-indigo-600 mb-3" />
-                  <h3 className="font-bold text-slate-900">Website Forms</h3>
-                  <p className="text-xs text-slate-500 font-bold text-indigo-600">Active (Standard)</p>
+                <div className="p-6 border-2 border-accent bg-accent-subtle dark:bg-indigo-950/30 rounded-lg text-left">
+                  <CheckCircle2 className="w-8 h-8 text-accent-fg dark:text-accent-fg mb-3" />
+                  <h3 className="font-semibold text-fg dark:text-slate-50">Website Forms</h3>
+                  <p className="text-xs text-fg-tertiary dark:text-fg-tertiary font-semibold text-accent-fg dark:text-accent-fg">Active (Standard)</p>
                 </div>
               </div>
 
               <button 
                 onClick={handleCompleteStep1}
-                className="w-full py-4 bg-indigo-600 text-white rounded-2xl font-bold text-lg hover:bg-indigo-700 transition-all flex items-center justify-center gap-2"
+                className="w-full py-4 bg-accent text-white rounded-lg font-semibold text-lg hover:bg-accent-hover transition-all flex items-center justify-center gap-2"
               >
                 Go to Integrations <ArrowRight className="w-5 h-5" />
               </button>
@@ -144,56 +145,56 @@ export default function OnboardingFlow({ onComplete }) {
           {step === 2 && (
             <div>
               <div className="text-center mb-10">
-                <div className="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <Sparkles className="w-8 h-8 text-amber-600" />
+                <div className="w-16 h-16 bg-warning-subtle dark:bg-amber-900/30 rounded-lg flex items-center justify-center mx-auto mb-6">
+                  <Sparkles className="w-8 h-8 text-warning dark:text-amber-400" />
                 </div>
-                <h2 className="text-3xl font-bold text-slate-900 mb-2">Automation Quick Setup</h2>
-                <p className="text-slate-600">Enable recommended rules for instant results</p>
+                <h2 className="text-title font-semibold text-fg dark:text-slate-50 mb-2">Automation Quick Setup</h2>
+                <p className="text-fg-secondary dark:text-fg-disabled">Enable recommended rules for instant results</p>
               </div>
 
               <div className="space-y-4 mb-10">
-                <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                <div className="flex items-center justify-between p-4 bg-subtle dark:bg-slate-800/50 rounded-lg border border-line dark:border-slate-800">
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
-                      <MessageCircle className="w-5 h-5 text-emerald-600" />
+                    <div className="w-10 h-10 bg-canvas dark:bg-slate-900 rounded-lg flex items-center justify-center">
+                      <MessageCircle className="w-5 h-5 text-accent-fg dark:text-accent-fg" />
                     </div>
                     <div>
-                      <p className="font-bold text-slate-900 text-sm">Instant Customer Response</p>
-                      <p className="text-xs text-slate-500">WhatsApp / Email welcome message</p>
+                      <p className="font-semibold text-fg dark:text-slate-50 text-sm">Instant Customer Response</p>
+                      <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">WhatsApp / Email welcome message</p>
                     </div>
                   </div>
-                  <div className="w-12 h-6 bg-indigo-600 rounded-full relative p-1">
-                    <div className="w-4 h-4 bg-white rounded-full ml-auto"></div>
+                  <div className="w-12 h-6 bg-accent rounded-full relative p-1">
+                    <div className="w-4 h-4 bg-canvas dark:bg-slate-900 rounded-full ml-auto"></div>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                <div className="flex items-center justify-between p-4 bg-subtle dark:bg-slate-800/50 rounded-lg border border-line dark:border-slate-800">
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
-                      <Bell className="w-5 h-5 text-teal-600" />
+                    <div className="w-10 h-10 bg-canvas dark:bg-slate-900 rounded-lg flex items-center justify-center">
+                      <Bell className="w-5 h-5 text-accent-fg dark:text-accent-fg" />
                     </div>
                     <div>
-                      <p className="font-bold text-slate-900 text-sm">Internal Notification</p>
-                      <p className="text-xs text-slate-500">Notify you instantly on new lead</p>
+                      <p className="font-semibold text-fg dark:text-slate-50 text-sm">Internal Notification</p>
+                      <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">Notify you instantly on new lead</p>
                     </div>
                   </div>
-                  <div className="w-12 h-6 bg-indigo-600 rounded-full relative p-1">
-                    <div className="w-4 h-4 bg-white rounded-full ml-auto"></div>
+                  <div className="w-12 h-6 bg-accent rounded-full relative p-1">
+                    <div className="w-4 h-4 bg-canvas dark:bg-slate-900 rounded-full ml-auto"></div>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                <div className="flex items-center justify-between p-4 bg-subtle dark:bg-slate-800/50 rounded-lg border border-line dark:border-slate-800">
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
-                      <RefreshCw className="w-5 h-5 text-orange-600" />
+                    <div className="w-10 h-10 bg-canvas dark:bg-slate-900 rounded-lg flex items-center justify-center">
+                      <RefreshCw className="w-5 h-5 text-warning dark:text-orange-400" />
                     </div>
                     <div>
-                      <p className="font-bold text-slate-900 text-sm">Auto Follow-up Reminder</p>
-                      <p className="text-xs text-slate-500">Remind if no action in 24 hours</p>
+                      <p className="font-semibold text-fg dark:text-slate-50 text-sm">Auto Follow-up Reminder</p>
+                      <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">Remind if no action in 24 hours</p>
                     </div>
                   </div>
-                  <div className="w-12 h-6 bg-indigo-600 rounded-full relative p-1">
-                    <div className="w-4 h-4 bg-white rounded-full ml-auto"></div>
+                  <div className="w-12 h-6 bg-accent rounded-full relative p-1">
+                    <div className="w-4 h-4 bg-canvas dark:bg-slate-900 rounded-full ml-auto"></div>
                   </div>
                 </div>
               </div>
@@ -201,7 +202,7 @@ export default function OnboardingFlow({ onComplete }) {
               <button 
                 onClick={handleEnableAutomation}
                 disabled={loading}
-                className="w-full py-4 bg-indigo-600 text-white rounded-2xl font-bold text-lg hover:bg-indigo-700 transition-all"
+                className="w-full py-4 bg-accent text-white rounded-lg font-semibold text-lg hover:bg-accent-hover transition-all"
               >
                 {loading ? 'Enabling...' : 'Enable Recommended Automation'}
               </button>
@@ -210,48 +211,48 @@ export default function OnboardingFlow({ onComplete }) {
 
           {step === 3 && (
             <div className="text-center">
-              <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <Users className="w-8 h-8 text-purple-600" />
+              <div className="w-16 h-16 bg-accent-subtle dark:bg-accent-pressed/30 rounded-lg flex items-center justify-center mx-auto mb-6">
+                <Users className="w-8 h-8 text-accent-fg dark:text-accent-fg" />
               </div>
-              <h2 className="text-3xl font-bold text-slate-900 mb-2">Who handles new leads?</h2>
-              <p className="text-slate-600 mb-8">Choose how enquiries are distributed</p>
+              <h2 className="text-title font-semibold text-fg dark:text-slate-50 mb-2">Who handles new leads?</h2>
+              <p className="text-fg-secondary dark:text-fg-disabled mb-8">Choose how enquiries are distributed</p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
                 <button 
                   onClick={() => setAssignMode('solo')}
                   className={`p-6 rounded-[32px] border-2 text-left transition-all ${
                     assignMode === 'solo' 
-                      ? 'border-indigo-600 bg-indigo-50 shadow-lg shadow-indigo-100' 
-                      : 'border-slate-100 bg-slate-50'
+                      ? 'border-accent bg-accent-subtle dark:bg-indigo-950/30 shadow-popover' 
+                      : 'border-line dark:border-slate-800 bg-subtle dark:bg-slate-800/50'
                   }`}
                 >
-                  <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center mb-4">
-                    <CheckCircle2 className={`w-6 h-6 ${assignMode === 'solo' ? 'text-indigo-600' : 'text-slate-300'}`} />
+                  <div className="w-10 h-10 bg-canvas dark:bg-slate-900 rounded-lg flex items-center justify-center mb-4">
+                    <CheckCircle2 className={`w-6 h-6 ${assignMode === 'solo' ? 'text-accent-fg dark:text-accent-fg' : 'text-fg-disabled'}`} />
                   </div>
-                  <h3 className="font-bold text-slate-900 text-lg">Assign all to me</h3>
-                  <p className="text-sm text-slate-500 mt-2">I will handle all new leads myself</p>
+                  <h3 className="font-semibold text-fg dark:text-slate-50 text-lg">Assign all to me</h3>
+                  <p className="text-sm text-fg-tertiary dark:text-fg-tertiary mt-2">I will handle all new leads myself</p>
                 </button>
 
                 <button 
                   onClick={() => setAssignMode('team')}
                   className={`p-6 rounded-[32px] border-2 text-left transition-all ${
                     assignMode === 'team' 
-                      ? 'border-indigo-600 bg-indigo-50 shadow-lg shadow-indigo-100' 
-                      : 'border-slate-100 bg-slate-50'
+                      ? 'border-accent bg-accent-subtle dark:bg-indigo-950/30 shadow-popover' 
+                      : 'border-line dark:border-slate-800 bg-subtle dark:bg-slate-800/50'
                   }`}
                 >
-                  <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center mb-4">
-                    <UserPlus className={`w-6 h-6 ${assignMode === 'team' ? 'text-indigo-600' : 'text-slate-300'}`} />
+                  <div className="w-10 h-10 bg-canvas dark:bg-slate-900 rounded-lg flex items-center justify-center mb-4">
+                    <UserPlus className={`w-6 h-6 ${assignMode === 'team' ? 'text-accent-fg dark:text-accent-fg' : 'text-fg-disabled'}`} />
                   </div>
-                  <h3 className="font-bold text-slate-900 text-lg">Auto-assign Team</h3>
-                  <p className="text-sm text-slate-500 mt-2">Distribute leads between team members</p>
+                  <h3 className="font-semibold text-fg dark:text-slate-50 text-lg">Auto-assign Team</h3>
+                  <p className="text-sm text-fg-tertiary dark:text-fg-tertiary mt-2">Distribute leads between team members</p>
                 </button>
               </div>
 
               <button 
                 onClick={handleSaveTeam}
                 disabled={loading}
-                className="w-full py-4 bg-indigo-600 text-white rounded-2xl font-bold text-lg hover:bg-indigo-700 transition-all"
+                className="w-full py-4 bg-accent text-white rounded-lg font-semibold text-lg hover:bg-accent-hover transition-all"
               >
                 Save Ownership Setup
               </button>
@@ -260,35 +261,35 @@ export default function OnboardingFlow({ onComplete }) {
 
           {step === 4 && (
             <div className="text-center">
-              <div className="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-8">
-                <Rocket className="w-12 h-12 text-emerald-600" />
+              <div className="w-24 h-24 bg-accent-subtle dark:bg-accent-pressed/30 rounded-full flex items-center justify-center mx-auto mb-8">
+                <Rocket className="w-12 h-12 text-accent-fg dark:text-accent-fg" />
               </div>
-              <h2 className="text-4xl font-bold text-slate-900 mb-4">You’re Live! 🎉</h2>
-              <p className="text-xl text-slate-700 font-bold mb-8">Your lead automation is now active.</p>
+              <h2 className="text-title font-semibold text-fg dark:text-slate-50 mb-4">You’re Live! 🎉</h2>
+              <p className="text-xl text-fg-secondary dark:text-slate-200 font-semibold mb-8">Your lead automation is now active.</p>
               
-              <div className="bg-slate-50 rounded-[32px] p-8 text-left space-y-4 mb-10">
+              <div className="bg-subtle dark:bg-slate-800/50 rounded-lg p-8 text-left space-y-4 mb-10">
                 <div className="flex gap-4">
-                  <CheckCircle2 className="w-6 h-6 text-emerald-500 flex-shrink-0" />
-                  <p className="text-slate-700"><span className="font-bold">Captured:</span> New enquiries are saved instantly.</p>
+                  <CheckCircle2 className="w-6 h-6 text-accent-fg flex-shrink-0" />
+                  <p className="text-fg-secondary dark:text-slate-200"><span className="font-semibold">Captured:</span> New enquiries are saved instantly.</p>
                 </div>
                 <div className="flex gap-4">
-                  <CheckCircle2 className="w-6 h-6 text-emerald-500 flex-shrink-0" />
-                  <p className="text-slate-700"><span className="font-bold">Responded:</span> Customers get an instant welcome message.</p>
+                  <CheckCircle2 className="w-6 h-6 text-accent-fg flex-shrink-0" />
+                  <p className="text-fg-secondary dark:text-slate-200"><span className="font-semibold">Responded:</span> Customers get an instant welcome message.</p>
                 </div>
                 <div className="flex gap-4">
-                  <CheckCircle2 className="w-6 h-6 text-emerald-500 flex-shrink-0" />
-                  <p className="text-slate-700"><span className="font-bold">Notified:</span> You get alerted on every new lead.</p>
+                  <CheckCircle2 className="w-6 h-6 text-accent-fg flex-shrink-0" />
+                  <p className="text-fg-secondary dark:text-slate-200"><span className="font-semibold">Notified:</span> You get alerted on every new lead.</p>
                 </div>
                 <div className="flex gap-4">
-                  <CheckCircle2 className="w-6 h-6 text-emerald-500 flex-shrink-0" />
-                  <p className="text-slate-700"><span className="font-bold">Tracked:</span> Follow-up tasks are created automatically.</p>
+                  <CheckCircle2 className="w-6 h-6 text-accent-fg flex-shrink-0" />
+                  <p className="text-fg-secondary dark:text-slate-200"><span className="font-semibold">Tracked:</span> Follow-up tasks are created automatically.</p>
                 </div>
               </div>
 
               <button 
                 onClick={handleFinalComplete}
                 disabled={loading}
-                className="w-full py-4 bg-emerald-600 text-white rounded-2xl font-bold text-lg hover:bg-emerald-700 transition-all flex items-center justify-center gap-2"
+                className="w-full py-4 bg-accent text-white rounded-lg font-semibold text-lg hover:bg-accent-hover transition-all flex items-center justify-center gap-2"
               >
                 {loading ? 'Finalizing...' : 'Go to Dashboard'}
                 <ArrowRight className="w-5 h-5" />

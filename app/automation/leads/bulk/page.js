@@ -186,21 +186,21 @@ export default function BulkUploadPage() {
   const progress = data.length > 0 ? (currentIndex / data.length) * 100 : 0;
 
   return (
-    <div className="min-h-screen bg-slate-50 p-8">
+    <div className="min-h-screen bg-subtle dark:bg-slate-800/50 p-4 sm:p-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <button 
           onClick={() => router.back()}
-          className="flex items-center gap-2 text-slate-500 hover:text-indigo-600 transition-colors mb-6 group"
+          className="flex items-center gap-2 text-fg-tertiary dark:text-fg-tertiary hover:text-accent-fg dark:hover:text-accent-fg transition-colors mb-6 group"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
           Back to Leads
         </button>
 
-        <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden mb-8">
-          <div className="bg-slate-900 p-8 text-white relative">
+        <div className="bg-canvas dark:bg-slate-900 rounded-lg border border-line dark:border-slate-700 overflow-hidden mb-8">
+          <div className="bg-slate-900 p-5 pt-8 sm:p-8 text-white relative">
             {/* Status Diagnostic */}
-            <div className="absolute top-2 right-4 text-[10px] font-mono text-slate-500 uppercase">
+            <div className="absolute top-2 right-4 text-meta font-mono text-fg-tertiary dark:text-fg-tertiary">
               UI Status: {status} | Data: {data.length}
             </div>
 
@@ -213,21 +213,21 @@ export default function BulkUploadPage() {
               onChange={handleFileUpload}
             />
 
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center">
+                <div className="w-12 h-12 bg-white/10 dark:bg-slate-900/10 rounded-lg flex items-center justify-center">
                   <Upload className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold">Bulk Lead Upload</h1>
-                  <p className="text-slate-400">Import leads via CSV with automated staggering</p>
+                  <h1 className="text-page font-semibold text-fg">Bulk Lead Upload</h1>
+                  <p className="text-fg-tertiary">Import leads via CSV with automated staggering</p>
                 </div>
               </div>
               
               {(status === 'idle' || status === 'ready' || status === 'completed') && (
                 <label
                   htmlFor="csv-upload-input"
-                  className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all flex items-center gap-2 cursor-pointer"
+                  className="self-start sm:self-auto whitespace-nowrap px-6 py-3 bg-accent text-white rounded-lg font-semibold hover:bg-accent-hover transition-all flex items-center gap-2 cursor-pointer"
                 >
                   <FileSpreadsheet className="w-5 h-5" />
                   {data.length > 0 ? 'Change CSV' : 'Select CSV'}
@@ -236,15 +236,15 @@ export default function BulkUploadPage() {
             </div>
           </div>
 
-          <div className="p-8">
+          <div className="p-4 sm:p-8">
             {status === 'idle' ? (
-              <div className="text-center py-12 border-2 border-dashed border-slate-200 rounded-3xl">
+              <div className="text-center py-12 border-2 border-dashed border-line dark:border-slate-700 rounded-lg">
                 <LayoutGrid className="w-16 h-16 text-slate-200 mx-auto mb-4" />
-                <h3 className="text-xl font-bold text-slate-900 mb-2">No file selected</h3>
-                <p className="text-slate-500 mb-6">Upload a CSV file with headers like Name, Email, Phone</p>
+                <h3 className="text-xl font-semibold text-fg dark:text-slate-50 mb-2">No file selected</h3>
+                <p className="text-fg-tertiary dark:text-fg-tertiary mb-6">Upload a CSV file with headers like Name, Email, Phone</p>
                 <label
                   htmlFor="csv-upload-input"
-                  className="px-8 py-4 bg-slate-50 text-slate-700 border border-slate-200 rounded-2xl font-bold hover:bg-slate-100 transition-all cursor-pointer inline-flex items-center gap-2"
+                  className="px-8 py-4 bg-subtle dark:bg-slate-800/50 text-fg-secondary dark:text-slate-200 border border-line dark:border-slate-700 rounded-lg font-semibold hover:bg-muted dark:hover:bg-slate-700 transition-all cursor-pointer inline-flex items-center gap-2"
                 >
                   <Upload className="w-5 h-5" />
                   Choose CSV File
@@ -252,46 +252,46 @@ export default function BulkUploadPage() {
               </div>
             ) : status === 'parsing' ? (
               <div className="text-center py-12">
-                <div className="w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                <h3 className="text-xl font-bold text-slate-900">Parsing CSV...</h3>
-                <p className="text-slate-500">Wait a moment while we process your file</p>
+                <div className="w-12 h-12 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <h3 className="text-xl font-semibold text-fg dark:text-slate-50">Parsing CSV...</h3>
+                <p className="text-fg-tertiary dark:text-fg-tertiary">Wait a moment while we process your file</p>
               </div>
             ) : (
               <div className="space-y-8">
                 {/* Stats */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                  <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                    <p className="text-sm font-semibold text-slate-500 mb-1">Total Leads</p>
-                    <p className="text-3xl font-bold text-slate-900">{data.length}</p>
+                  <div className="bg-subtle dark:bg-slate-800/50 p-6 rounded-lg border border-line dark:border-slate-800">
+                    <p className="text-sm font-semibold text-fg-tertiary dark:text-fg-tertiary mb-1">Total Leads</p>
+                    <p className="text-hero font-semibold text-fg dark:text-slate-50">{data.length}</p>
                   </div>
-                  <div className="bg-emerald-50 p-6 rounded-2xl border border-emerald-100">
-                    <p className="text-sm font-semibold text-emerald-600 mb-1">Successful</p>
-                    <p className="text-3xl font-bold text-emerald-700">{results.success}</p>
+                  <div className="bg-accent-subtle dark:bg-emerald-950/30 p-6 rounded-lg border border-line dark:border-emerald-900/50">
+                    <p className="text-sm font-semibold text-accent-fg dark:text-accent-fg mb-1">Successful</p>
+                    <p className="text-hero font-semibold text-accent-fg dark:text-accent-fg">{results.success}</p>
                   </div>
-                  <div className="bg-red-50 p-6 rounded-2xl border border-red-100">
-                    <p className="text-sm font-semibold text-red-600 mb-1">Failed</p>
-                    <p className="text-3xl font-bold text-red-700">{results.failed}</p>
+                  <div className="bg-danger-subtle dark:bg-red-950/30 p-6 rounded-lg border border-danger/30 dark:border-red-900/50">
+                    <p className="text-sm font-semibold text-danger dark:text-red-400 mb-1">Failed</p>
+                    <p className="text-hero font-semibold text-danger dark:text-red-300">{results.failed}</p>
                   </div>
-                  <div className="bg-indigo-50 p-6 rounded-2xl border border-indigo-100">
-                    <p className="text-sm font-semibold text-indigo-600 mb-1">Remaining</p>
-                    <p className="text-3xl font-bold text-indigo-700">{data.length - currentIndex}</p>
+                  <div className="bg-accent-subtle dark:bg-indigo-950/30 p-6 rounded-lg border border-line dark:border-indigo-900/50">
+                    <p className="text-sm font-semibold text-accent-fg dark:text-accent-fg mb-1">Remaining</p>
+                    <p className="text-hero font-semibold text-accent-fg dark:text-accent-fg">{data.length - currentIndex}</p>
                   </div>
                 </div>
 
                 {/* Progress */}
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between text-sm font-bold">
-                    <span className="text-slate-700">Overall Progress</span>
-                    <span className="text-indigo-600">{Math.round(progress)}%</span>
+                  <div className="flex items-center justify-between text-sm font-semibold">
+                    <span className="text-fg-secondary dark:text-slate-200">Overall Progress</span>
+                    <span className="text-accent-fg dark:text-accent-fg">{Math.round(progress)}%</span>
                   </div>
-                  <div className="w-full h-4 bg-slate-100 rounded-full overflow-hidden">
+                  <div className="w-full h-4 bg-muted dark:bg-slate-800 rounded-full overflow-hidden">
                     <div 
-                      className="h-full bg-indigo-600 transition-all duration-500 ease-out"
+                      className="h-full bg-accent transition-all duration-500 ease-out"
                       style={{ width: `${progress}%` }}
                     ></div>
                   </div>
                   {status === 'processing' && (
-                    <div className="flex items-center gap-2 text-sm text-slate-500 animate-pulse">
+                    <div className="flex items-center gap-2 text-sm text-fg-tertiary dark:text-fg-tertiary animate-pulse">
                       <Clock className="w-4 h-4" />
                       Processing lead...
                     </div>
@@ -303,7 +303,7 @@ export default function BulkUploadPage() {
                   {status === 'processing' ? (
                     <button
                       onClick={pauseProcessing}
-                      className="flex-1 py-4 bg-amber-500 text-white rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-amber-600 transition-all shadow-lg shadow-amber-100"
+                      className="flex-1 py-4 bg-warning text-white rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-warning transition-all shadow-popover"
                     >
                       <Pause className="w-5 h-5" />
                       Pause
@@ -311,7 +311,7 @@ export default function BulkUploadPage() {
                   ) : status === 'completed' ? (
                     <button
                       onClick={() => router.push('/automation/leads')}
-                      className="flex-1 py-4 bg-emerald-600 text-white rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-100"
+                      className="flex-1 py-4 bg-accent text-white rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-accent-hover transition-all shadow-popover"
                     >
                       <CheckCircle2 className="w-5 h-5" />
                       Finish & Return
@@ -319,7 +319,7 @@ export default function BulkUploadPage() {
                   ) : (
                     <button
                       onClick={startProcessing}
-                      className="flex-1 py-4 bg-indigo-600 text-white rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100"
+                      className="flex-1 py-4 bg-accent text-white rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-accent-hover transition-all shadow-popover"
                     >
                       <Play className="w-5 h-5" />
                       {currentIndex > 0 ? 'Resume Processing' : 'Start Processing'}
@@ -329,7 +329,7 @@ export default function BulkUploadPage() {
                   {status !== 'completed' && (
                     <button
                       onClick={cancelProcessing}
-                      className="px-8 py-4 bg-white text-red-600 border border-red-100 rounded-2xl font-bold hover:bg-red-50 transition-all"
+                      className="px-8 py-4 bg-canvas dark:bg-slate-900 text-danger dark:text-red-400 border border-danger/30 dark:border-red-900/50 rounded-lg font-semibold hover:bg-danger-subtle dark:hover:bg-red-950/30 transition-all"
                     >
                       <X className="w-5 h-5" />
                     </button>
@@ -338,16 +338,16 @@ export default function BulkUploadPage() {
 
                 {/* Logs */}
                 <div className="space-y-4">
-                  <h3 className="font-bold text-slate-900 flex items-center gap-2">
-                    <AlertCircle className="w-5 h-5 text-slate-400" />
+                  <h3 className="font-semibold text-fg dark:text-slate-50 flex items-center gap-2">
+                    <AlertCircle className="w-5 h-5 text-fg-tertiary" />
                     Activity Log
                   </h3>
-                  <div className="bg-slate-50 rounded-2xl p-6 h-64 overflow-y-auto font-mono text-sm space-y-2 border border-slate-100">
+                  <div className="bg-subtle dark:bg-slate-800/50 rounded-lg p-6 h-64 overflow-y-auto font-mono text-sm space-y-2 border border-line dark:border-slate-800">
                     {logs.length === 0 ? (
-                      <p className="text-slate-400 italic">No activity yet</p>
+                      <p className="text-fg-tertiary italic">No activity yet</p>
                     ) : (
                       logs.map((log, i) => (
-                        <div key={i} className="text-slate-700">{log}</div>
+                        <div key={i} className="text-fg-secondary dark:text-slate-200">{log}</div>
                       ))
                     )}
                   </div>

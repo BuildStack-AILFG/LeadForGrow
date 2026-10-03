@@ -134,7 +134,7 @@ export default function HelpCenter() {
     },
     {
       question: "Can LeadForGrow integrate with my CRM?",
-      answer: "Yes, LeadForGrow is designed to layer on top of your existing ecosystem. We offer native integrations with popular CRMs like Salesforce, HubSpot, and Zoho, ensuring bidirectional data sync without duplicating work."
+      answer: "LeadForGrow can import your existing leads from CSV files and can receive leads from other tools through forms and webhooks. Connections to CRMs such as Salesforce, HubSpot, or Zoho can be built on request around your requirements; they are not part of the standard product."
     },
     {
       question: "How can I track revenue and conversions?",
@@ -362,7 +362,7 @@ export default function HelpCenter() {
                   <h3 className="text-xl font-bold text-gray-900 mb-3">Email Support</h3>
                   <p className="text-[#64748B] mb-8 leading-relaxed max-w-[250px] mx-auto">Get help from our support specialists via email.</p>
                 </div>
-                <button onClick={() => window.location.href = "mailto:sales@leadforgrow.online?subject=LeadForGrow Support Request&body=Hello LeadForGrow Support,%0D%0A%0D%0AI need help with:"} className="w-full py-3 px-4 bg-[#2563EB] text-white shadow-sm rounded-[12px] font-bold hover:bg-blue-700 transition-all">
+                <button onClick={() => window.location.href = "mailto:sales@leadforgrow.com?subject=LeadForGrow Support Request&body=Hello LeadForGrow Support,%0D%0A%0D%0AI need help with:"} className="w-full py-3 px-4 bg-[#2563EB] text-white shadow-sm rounded-[12px] font-bold hover:bg-blue-700 transition-all">
                   Send Email
                 </button>
               </FadeInView>
@@ -562,7 +562,7 @@ export default function HelpCenter() {
                 <MessageCircle className="w-4 h-4" /> Live Chat
               </button>
               <button
-                onClick={() => window.location.href = "mailto:sales@leadforgrow.online?subject=LeadForGrow Support Request&body=Hello LeadForGrow Support,%0D%0A%0D%0AI need help with:"}
+                onClick={() => window.location.href = "mailto:sales@leadforgrow.com?subject=LeadForGrow Support Request&body=Hello LeadForGrow Support,%0D%0A%0D%0AI need help with:"}
                 className="w-full text-left px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-blue-50 hover:text-[#2563EB] flex items-center gap-2 border-b border-gray-50 transition-colors"
               >
                 <Mail className="w-4 h-4" /> Email Support

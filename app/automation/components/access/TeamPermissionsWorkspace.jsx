@@ -10,6 +10,7 @@ import {
   Key,
   Plus,
   Loader2,
+  Trash2,
 } from 'lucide-react';
 import { useAccessControl } from '../../hooks/useAccessControl';
 import { useTeamWorkspace } from '../../hooks/useTeamWorkspace';
@@ -23,7 +24,6 @@ const SECTIONS = [
   { id: 'members', label: 'Team Members', icon: Users },
   { id: 'roles', label: 'Roles', icon: Shield },
   { id: 'features', label: 'Feature Access', icon: LayoutGrid },
-  { id: 'policies', label: 'Access Policies', icon: Shield },
   { id: 'usage', label: 'Usage Limits', icon: Gauge },
   { id: 'audit', label: 'Audit Logs', icon: ScrollText },
 ];
@@ -59,10 +59,10 @@ export default function TeamPermissionsWorkspace() {
   const canManage = ac.access?.canManageAccess;
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-[calc(100vh-80px)] bg-[#f4f6fa] dark:bg-slate-950">
-      <aside className="lg:w-56 flex-shrink-0 border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
-        <p className="text-[10px] font-semibold uppercase tracking-wider text-indigo-600 mb-1">Admin Control</p>
-        <h1 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4">Team & Permissions</h1>
+    <div className="flex flex-col lg:flex-row min-h-[calc(100vh-80px)] bg-subtle dark:bg-slate-950">
+      <aside className="lg:w-56 flex-shrink-0 border-b lg:border-b-0 lg:border-r border-line dark:border-slate-800 bg-canvas dark:bg-slate-900 p-4">
+        <p className="text-meta font-semibold text-accent-fg dark:text-accent-fg mb-1">Admin Control</p>
+        <h1 className="text-page font-semibold text-fg mb-4">Team & Permissions</h1>
         <nav className="space-y-0.5">
           {SECTIONS.map((s) => {
             const Icon = s.icon;
@@ -74,8 +74,8 @@ export default function TeamPermissionsWorkspace() {
                 onClick={() => setSection(s.id)}
                 className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   active
-                    ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-300'
-                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'
+                    ? 'bg-accent-subtle text-accent-fg dark:bg-indigo-950/40 dark:text-accent-fg'
+                    : 'text-fg-secondary dark:text-fg-tertiary hover:bg-subtle dark:hover:bg-slate-800'
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -84,9 +84,9 @@ export default function TeamPermissionsWorkspace() {
             );
           })}
         </nav>
-        <div className="mt-6 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
-          <p className="text-[10px] text-slate-500 uppercase font-semibold">Plan</p>
-          <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 capitalize">
+        <div className="mt-6 p-3 rounded-lg bg-subtle dark:bg-slate-800/50 border border-line dark:border-slate-700">
+          <p className="text-meta text-fg-tertiary dark:text-fg-tertiary font-semibold">Plan</p>
+          <p className="text-sm font-semibold text-fg dark:text-slate-100 capitalize">
             {ac.access?.tierLabel || ac.access?.plan}
           </p>
         </div>
@@ -96,7 +96,7 @@ export default function TeamPermissionsWorkspace() {
         <AutoPageIntro />
 
         {!canManage && (
-          <div className="mb-4 p-4 rounded-xl bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/40 text-sm text-amber-800 dark:text-amber-200">
+          <div className="mb-4 p-4 rounded-lg bg-warning-subtle dark:bg-amber-950/20 border border-warning/30 dark:border-amber-900/40 text-sm text-warning dark:text-amber-200">
             View-only mode — contact your workspace owner to change permissions.
           </div>
         )}
@@ -105,33 +105,33 @@ export default function TeamPermissionsWorkspace() {
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <div>
-                <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">Team members</h2>
-                <p className="text-sm text-slate-500">Invite, assign roles, suspend access</p>
+                <h2 className="text-title font-semibold text-fg dark:text-slate-50">Team members</h2>
+                <p className="text-sm text-fg-tertiary dark:text-fg-tertiary">Invite, assign roles, suspend access</p>
               </div>
               {canManage && (
                 <button
                   type="button"
                   onClick={() => team.setShowAddModal(true)}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-accent text-white text-sm font-medium rounded-md"
                 >
                   <Plus className="w-4 h-4" /> Invite
                 </button>
               )}
             </div>
-            <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 divide-y divide-slate-100 dark:divide-slate-800">
+            <div className="bg-canvas dark:bg-slate-900 rounded-lg border border-line dark:border-slate-800 divide-y divide-line dark:divide-slate-800">
               {team.team.map((m) => {
                 const u = m.userId || {};
                 const name = [u.firstName, u.lastName].filter(Boolean).join(' ') || u.email || 'Member';
                 return (
                   <div key={m._id} className="px-4 py-3 flex flex-wrap items-center justify-between gap-3">
                     <div>
-                      <p className="font-medium text-slate-900 dark:text-slate-100">{name}</p>
-                      <p className="text-xs text-slate-500">{u.email}</p>
+                      <p className="font-medium text-fg dark:text-slate-100">{name}</p>
+                      <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">{u.email}</p>
                     </div>
                     {canManage && (
                       <select
-                        className="text-sm border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-1.5 bg-white dark:bg-slate-950"
-                        value={m.role === 'owner' ? 'owner' : m.role === 'admin' ? 'admin' : 'sales_agent'}
+                        className="text-sm border border-line dark:border-slate-700 rounded-lg px-3 py-1.5 bg-canvas dark:bg-slate-950"
+                        value={m.roleSlug || (m.role === 'owner' ? 'owner' : m.role === 'admin' ? 'admin' : 'sales_agent')}
                         onChange={(e) =>
                           ac.updateMemberAccess(String(u._id || m.userId), { roleSlug: e.target.value })
                         }
@@ -163,8 +163,8 @@ export default function TeamPermissionsWorkspace() {
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <div>
-                <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">Roles</h2>
-                <p className="text-sm text-slate-500">Built-in and custom workspace roles</p>
+                <h2 className="text-title font-semibold text-fg dark:text-slate-50">Roles</h2>
+                <p className="text-sm text-fg-tertiary dark:text-fg-tertiary">Built-in and custom workspace roles</p>
               </div>
               {canManage && ac.access?.tierFeatures?.custom_roles && (
                 <button
@@ -173,7 +173,7 @@ export default function TeamPermissionsWorkspace() {
                     const name = await confirm({ mode: 'prompt', title: 'New role', message: 'Role name', placeholder: 'e.g. Sales Manager', required: true });
                     if (name) ac.createRole(name, '');
                   }}
-                  className="text-sm font-medium text-indigo-600 hover:underline"
+                  className="text-sm font-medium text-accent-fg dark:text-accent-fg hover:underline"
                 >
                   + Custom role
                 </button>
@@ -183,13 +183,29 @@ export default function TeamPermissionsWorkspace() {
               {ac.roles.map((r) => (
                 <div
                   key={r.slug}
-                  className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900"
+                  className="p-4 rounded-lg border border-line dark:border-slate-800 bg-canvas dark:bg-slate-900"
                 >
-                  <span className="text-[10px] font-semibold uppercase text-indigo-600">{r.slug}</span>
-                  <p className="font-semibold text-slate-900 dark:text-slate-100 mt-1">{r.name}</p>
-                  <p className="text-xs text-slate-500 mt-1">{r.description}</p>
+                  <div className="flex items-start justify-between gap-2">
+                    <span className="text-meta font-semibold text-accent-fg">{r.slug}</span>
+                    {canManage && !r.systemRole && (
+                      <button
+                        type="button"
+                        onClick={async () => {
+                          if (await confirm({ title: 'Delete role', message: `Delete the "${r.name}" role? Members assigned to it will need to be reassigned.`, confirmLabel: 'Delete', danger: true })) {
+                            ac.deleteRole(r._id);
+                          }
+                        }}
+                        className="text-fg-tertiary hover:text-danger shrink-0"
+                        title="Delete role"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
+                  <p className="font-semibold text-fg dark:text-slate-100 mt-1">{r.name}</p>
+                  <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-1">{r.description}</p>
                   {r.systemRole && (
-                    <span className="inline-block mt-2 text-[10px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600">
+                    <span className="inline-block mt-2 text-meta px-2 py-0.5 rounded-full bg-muted dark:bg-slate-800 text-fg-secondary dark:text-fg-disabled">
                       System
                     </span>
                   )}
@@ -199,18 +215,18 @@ export default function TeamPermissionsWorkspace() {
           </div>
         )}
 
-        {(section === 'features' || section === 'policies') && (
+        {section === 'features' && (
           <div className="space-y-4">
             <div>
-              <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">
-                {section === 'features' ? 'Feature access matrix' : 'Access policies'}
+              <h2 className="text-title font-semibold text-fg dark:text-slate-50">
+                Feature access matrix
               </h2>
-              <p className="text-sm text-slate-500 mb-4">
+              <p className="text-sm text-fg-tertiary dark:text-fg-tertiary mb-4">
                 Control view, create, edit, delete, export, and manage per module. Plan locks apply on top.
               </p>
             </div>
             {ac.saving && (
-              <p className="text-xs text-indigo-600">Saving permissions…</p>
+              <p className="text-xs text-accent-fg dark:text-accent-fg">Saving permissions…</p>
             )}
             <EnterprisePermissionMatrix
               roles={ac.roles}
@@ -222,8 +238,8 @@ export default function TeamPermissionsWorkspace() {
 
         {section === 'usage' && (
           <div className="space-y-4">
-            <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">Usage limits</h2>
-            <p className="text-sm text-slate-500">Real-time usage vs plan quotas</p>
+            <h2 className="text-title font-semibold text-fg dark:text-slate-50">Usage limits</h2>
+            <p className="text-sm text-fg-tertiary dark:text-fg-tertiary">Real-time usage vs plan quotas</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {ac.usageLimits.map((u) => {
                 const pct = u.limit > 0 ? Math.min(100, Math.round((u.used / u.limit) * 100)) : 0;
@@ -231,22 +247,22 @@ export default function TeamPermissionsWorkspace() {
                 return (
                   <div
                     key={u.id}
-                    className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800"
+                    className="p-4 rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800"
                   >
                     <div className="flex justify-between text-sm mb-2">
-                      <span className="font-medium text-slate-800 dark:text-slate-200">{u.label}</span>
-                      <span className="text-slate-500 tabular-nums">
+                      <span className="font-medium text-fg dark:text-slate-200">{u.label}</span>
+                      <span className="text-fg-tertiary dark:text-fg-tertiary tabular-nums">
                         {u.used} / {u.limit >= 999999 ? '∞' : u.limit}
                       </span>
                     </div>
-                    <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                    <div className="h-2 rounded-full bg-muted dark:bg-slate-800 overflow-hidden">
                       <div
-                        className={`h-full rounded-full transition-all ${warn ? 'bg-amber-500' : 'bg-indigo-600'}`}
+                        className={`h-full rounded-full transition-all ${warn ? 'bg-warning' : 'bg-accent'}`}
                         style={{ width: `${pct}%` }}
                       />
                     </div>
                     {warn && (
-                      <p className="text-[10px] text-amber-600 mt-2">Approaching limit — consider upgrading</p>
+                      <p className="text-meta text-warning dark:text-amber-400 mt-2">Approaching limit — consider upgrading</p>
                     )}
                   </div>
                 );
@@ -257,18 +273,18 @@ export default function TeamPermissionsWorkspace() {
 
         {section === 'audit' && (
           <div className="space-y-4">
-            <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">Audit logs</h2>
-            <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
+            <h2 className="text-title font-semibold text-fg dark:text-slate-50">Audit logs</h2>
+            <div className="bg-canvas dark:bg-slate-900 rounded-lg border border-line dark:border-slate-800">
               {ac.auditLogs.length === 0 ? (
-                <p className="p-8 text-sm text-slate-500 text-center">No audit events yet.</p>
+                <p className="p-8 text-sm text-fg-tertiary dark:text-fg-tertiary text-center">No audit events yet.</p>
               ) : (
-                <div className="divide-y divide-slate-100 dark:divide-slate-800 max-h-[500px] overflow-y-auto">
+                <div className="divide-y divide-line dark:divide-slate-800 max-h-[500px] overflow-y-auto">
                   {ac.auditLogs.map((log) => (
                     <div key={log._id} className="px-4 py-3 flex gap-3">
-                      <div className="w-2 h-2 rounded-full bg-indigo-500 mt-2 flex-shrink-0" />
+                      <div className="w-2 h-2 rounded-full bg-accent mt-2 flex-shrink-0" />
                       <div>
-                        <p className="text-sm text-slate-800 dark:text-slate-200">{log.description}</p>
-                        <p className="text-[10px] text-slate-400 mt-0.5">
+                        <p className="text-sm text-fg dark:text-slate-200">{log.description}</p>
+                        <p className="text-meta text-fg-tertiary mt-0.5">
                           {log.action} · {log.actorEmail || 'System'} ·{' '}
                           {new Date(log.createdAt).toLocaleString()}
                         </p>

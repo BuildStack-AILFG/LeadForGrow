@@ -1,61 +1,10 @@
 'use client';
 
 import { formatValue } from './utils';
-
-function MiniSparkline({ data = [], color = '#344054' }) {
-  if (!data?.length) return null;
-  const max = Math.max(...data);
-  const min = Math.min(...data);
-  const range = max - min || 1;
-  const w = 64;
-  const h = 24;
-  const points = data
-    .map((v, i) => {
-      const x = (i / (data.length - 1)) * w;
-      const y = h - ((v - min) / range) * (h - 4) - 2;
-      return `${x},${y}`;
-    })
-    .join(' ');
-
-  return (
-    <svg width={w} height={h} className="opacity-70">
-      <polyline fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" points={points} />
-    </svg>
-  );
-}
-
-function KpiCard({ label, value, trendLabel, sparkData, accent, subtext }) {
-  return (
-    <div className="bg-white border border-[#E5E7EB] rounded-xl p-4 shadow-[0_1px_2px_rgba(16,24,40,0.04)] hover:shadow-[0_4px_12px_rgba(16,24,40,0.06)] transition-shadow duration-200">
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0 flex-1">
-          <p className="text-[12px] font-medium text-[#667085] mb-2">{label}</p>
-          <p className="text-[26px] font-semibold text-[#101828] tracking-tight tabular-nums leading-none">
-            {value}
-          </p>
-          {subtext && (
-            <p className="text-[11px] font-medium mt-2 text-[#667085]">{subtext}</p>
-          )}
-          {trendLabel && (
-            <p className="text-[11px] font-medium mt-2 text-[#667085]">{trendLabel}</p>
-          )}
-        </div>
-        <MiniSparkline data={sparkData} color={accent || '#667085'} />
-      </div>
-    </div>
-  );
-}
+import MetricStrip, { fromKpiCard } from '@/app/components/ui/MetricStrip';
 
 export default function DealsKpiCards({ stats, loading }) {
-  if (loading) {
-    return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4 mb-6">
-        {[1, 2, 3, 4, 5].map((i) => (
-          <div key={i} className="h-[120px] rounded-xl border border-[#E5E7EB] bg-white animate-shimmer bg-gradient-to-r from-[#F9FAFB] via-white to-[#F9FAFB] bg-[length:200%_100%]" />
-        ))}
-      </div>
-    );
-  }
+  if (loading) return <MetricStrip loading metrics={Array.from({ length: 5 })} className="mb-6" />;
 
   if (!stats) return null;
 
@@ -99,11 +48,5 @@ export default function DealsKpiCards({ stats, loading }) {
     },
   ];
 
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4 mb-6">
-      {cards.map((card) => (
-        <KpiCard key={card.label} {...card} />
-      ))}
-    </div>
-  );
+  return <MetricStrip metrics={cards.map(fromKpiCard)} className="mb-6" />;
 }

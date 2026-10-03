@@ -26,6 +26,8 @@ const nextConfig = {
       { source: '/industry/:slug', destination: '/solutions/:slug', permanent: false },
       { source: '/user/register', destination: '/register', permanent: false },
       { source: '/user/login', destination: '/login', permanent: false },
+      { source: '/founders', destination: '/about', permanent: true },
+      { source: '/blog/author/saurabh-singh', destination: '/blog/author/leadforgrow-team', permanent: true },
     ];
   },
   async headers() {

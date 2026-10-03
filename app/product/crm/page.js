@@ -5,7 +5,7 @@ export const metadata = {
   description: "Scale your agency with LeadForGrow's lead management CRM. Automate follow-ups, track won/lost leads, and ensure zero enquiries are missed. Start your free trial.",
   keywords: ["lead management system", "CRM for small business", "agency lead tracking", "sales lead automation", "India lead management software"],
   alternates: {
-    canonical: 'https://leadforgrow.online/product/crm'
+    canonical: 'https://www.leadforgrow.com/product/crm'
   }
 };
 
@@ -50,7 +50,7 @@ export default function CRMPage() {
     },
     {
       q: "Can I import my existing leads from Excel or Google Sheets?",
-      a: "Yes! You can easily import your CSV data into our dashboard. We also allow you to connect your existing sheets via our smart integration layer so you don't lose any historical data."
+      a: "Yes. Export your spreadsheet as a CSV file and import it into the dashboard so you keep your historical data."
     },
     {
       q: "Does this work for Indian businesses using WhatsApp?",
@@ -70,7 +70,7 @@ export default function CRMPage() {
     <MarketingLayout 
       title="Manage Leads Without the CRM Headache." 
       subtitle="Excel and WhatsApp chats fail as you scale. One unified dashboard for all your enquiries, ownership, and statuses."
-      heroImage="/images/hero/crm.png"
+      heroImage="/images/hero/crm.webp"
       benefits={benefits}
       whoIsThisFor={whoIsThisFor}
       whyItMatters={whyItMatters}
@@ -157,11 +157,6 @@ export default function CRMPage() {
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "INR"
-        },
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "ratingCount": "512"
         }
       })}} />
     </MarketingLayout>
