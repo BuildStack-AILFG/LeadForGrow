@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Search, Filter, MessageSquarePlus, Loader2, LayoutGrid, Volume2, VolumeX } from 'lucide-react';
+import { Search, Inbox, MessageSquarePlus, Loader2, LayoutGrid, Volume2, VolumeX } from 'lucide-react';
+import EmptyState from '@/app/components/ui/EmptyState';
 import Link from 'next/link';
 import { INBOX_FILTERS, CHANNEL_FILTERS } from './constants';
 import ConversationItem from './ConversationItem';
@@ -84,7 +85,7 @@ export default function ChatSidebar({
       <div className="flex-shrink-0 p-3 border-b border-line dark:border-slate-800 space-y-3">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <h1 className="text-sm font-semibold text-fg dark:text-slate-50">Unified Inbox</h1>
+            <h1 className="text-title font-semibold text-fg">Inbox</h1>
             {/* Live indicator: pulsing green dot when SSE is connected,
                 grey static dot when disconnected. Silent — users don't need
                 to know the mechanism, just whether it's live. */}
@@ -92,10 +93,7 @@ export default function ChatSidebar({
               title={realtimeConnected ? 'Live — receiving new messages in real time' : 'Reconnecting…'}
               className="inline-flex items-center"
             >
-              <span className={`relative inline-flex w-2 h-2 rounded-full ${realtimeConnected ? 'bg-accent' : 'bg-line-strong'}`}>
-                {realtimeConnected && (
-                  <span className="absolute inline-flex w-full h-full rounded-full bg-accent opacity-60 animate-ping" />
-                )}
+              <span className={`relative inline-flex w-2 h-2 rounded-full ${realtimeConnected ? 'bg-success' : 'bg-line-strong'}`}>
               </span>
             </span>
           </div>
@@ -121,10 +119,10 @@ export default function ChatSidebar({
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-fg-tertiary" />
           <input
             type="search"
-            placeholder="Search messages, leads, deals..."
+            placeholder="Search messages, leads, deals"
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 text-sm bg-subtle dark:bg-slate-800 border border-line dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-focus"
+            className="h-8 w-full rounded-md border border-line bg-canvas pl-9 pr-3 text-body text-fg placeholder:text-fg-tertiary hover:border-line-strong focus:outline-none focus-visible:ring-2 focus-visible:ring-focus"
           />
           {searchResults && search.length >= 2 && (
             <div className="absolute left-0 right-0 top-full mt-1 z-20 max-h-64 overflow-y-auto bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded shadow-popover p-1.5 space-y-0.5">
@@ -163,10 +161,10 @@ export default function ChatSidebar({
                 key={f.id}
                 type="button"
                 onClick={() => onChannelFilterChange(f.id)}
-                className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded whitespace-nowrap transition-colors ${
+                className={`inline-flex h-7 items-center gap-1.5 px-2.5 text-meta font-medium rounded-md whitespace-nowrap transition-colors ${
                   active
                     ? `${CHANNEL_ACTIVE_BG[f.id] || CHANNEL_ACTIVE_BG.all} text-white`
-                    : 'bg-muted dark:bg-slate-800 text-fg-secondary dark:text-fg-tertiary hover:bg-muted dark:hover:bg-slate-700'
+                    : 'border border-line bg-canvas text-fg-secondary hover:bg-subtle'
                 }`}
               >
                 <Icon
@@ -178,16 +176,16 @@ export default function ChatSidebar({
             );
           })}
         </div>
-        <div className="flex gap-1.5 overflow-x-auto pb-0.5 scrollbar-hide">
+        <div role="tablist" aria-label="Conversation status" className="-mb-3 flex gap-4 overflow-x-auto border-t border-line pt-1 scrollbar-hide">
           {INBOX_FILTERS.map((f) => (
             <button
               key={f.id}
               type="button"
+              role="tab"
+              aria-selected={filter === f.id}
               onClick={() => onFilterChange(f.id)}
-              className={`px-2.5 py-1 text-[11px] font-medium rounded whitespace-nowrap transition-colors ${
-                filter === f.id
-                  ? 'bg-accent text-white'
-                  : 'bg-muted dark:bg-slate-800 text-fg-secondary dark:text-fg-tertiary hover:bg-muted dark:hover:bg-slate-700'
+              className={`-mb-px h-8 whitespace-nowrap border-b-2 text-dense transition-colors ${
+                filter === f.id ? 'border-accent font-medium text-fg' : 'border-transparent text-fg-secondary hover:text-fg'
               }`}
             >
               {f.label}
@@ -198,25 +196,19 @@ export default function ChatSidebar({
 
       <div className="flex-1 overflow-y-auto">
         {loading ? (
-          <div className="p-6 space-y-3">
-            <div className="flex items-center justify-center gap-2 py-3 text-xs font-medium text-fg-tertiary">
-              <Loader2 className="w-4 h-4 animate-spin text-accent-fg" />
-              <span>Loading conversations…</span>
-            </div>
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div
-                key={i}
-                className="h-16 bg-canvas rounded-lg animate-pulse"
-                style={{ animationDelay: `${i * 80}ms` }}
-              />
+          <div className="space-y-4 p-4">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} role={i === 1 ? 'status' : undefined} aria-label={i === 1 ? 'Loading conversations' : undefined} className="flex items-center gap-3">
+                <span className="h-9 w-9 shrink-0 rounded-full bg-muted motion-safe:animate-pulse" />
+                <span className="flex-1 space-y-2">
+                  <span className="block h-3 w-1/2 rounded-sm bg-muted motion-safe:animate-pulse" />
+                  <span className="block h-3 w-4/5 rounded-sm bg-muted motion-safe:animate-pulse" />
+                </span>
+              </div>
             ))}
           </div>
         ) : conversations.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full p-8 text-center">
-            <Filter className="w-10 h-10 text-fg-disabled mb-2" />
-            <p className="text-sm font-medium text-fg-secondary dark:text-fg-tertiary">No conversations</p>
-            <p className="text-xs text-fg-tertiary mt-1">Try a different filter or search term.</p>
-          </div>
+          <EmptyState compact icon={Inbox} title="No conversations here." description="Try another channel, status or search." />
         ) : (
           <>
             {conversations.map((chat) => (
@@ -242,7 +234,7 @@ export default function ChatSidebar({
             )}
             {!hasMoreConversations && conversations.length > 20 && (
               <div className="text-center py-4 text-meta text-fg-tertiary">
-                End of list · {conversations.length} conversations
+                {conversations.length} conversations
               </div>
             )}
           </>
