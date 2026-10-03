@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Flame, AlertTriangle, MessageSquare, TrendingUp, Bot as Sparkles, Loader2, ArrowRight } from 'lucide-react';
+import { Flame, AlertTriangle, MessageSquare, TrendingUp, Sparkles, Loader2, ArrowRight } from 'lucide-react';
 import { authFetch } from '@/lib/apiClient';
 import DashboardCard from './primitives/DashboardCard';
 
@@ -14,7 +14,7 @@ function InsightTile({ icon: Icon, label, value, sub, color, href }) {
       </div>
       <p className="text-sm font-medium text-fg-secondary dark:text-fg-disabled">{label}</p>
       <p className="text-lg font-semibold text-fg dark:text-white mt-0.5">{value}</p>
-      {sub && <p className="text-meta text-fg-tertiary mt-0.5 line-clamp-2">{sub}</p>}
+      {sub && <p className="text-meta text-fg-tertiary dark:text-fg-tertiary mt-0.5 line-clamp-2">{sub}</p>}
     </div>
   );
   return href ? <Link href={href}>{inner}</Link> : inner;
@@ -46,10 +46,10 @@ export default function AiInsightsPanel() {
           <Sparkles className="w-4 h-4 text-accent-fg" />
           <div>
             <h2 className="text-base font-semibold text-fg dark:text-white">AI Insights</h2>
-            <p className="text-xs text-fg-tertiary">Powered by Grovia</p>
+            <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">Powered by Grovia</p>
           </div>
         </div>
-        <Link href="/automation/ai/knowledge" className="text-xs text-accent-fg hover:underline flex items-center gap-0.5">
+        <Link href="/automation/ai/knowledge" className="text-xs text-accent-fg dark:text-accent-fg hover:underline flex items-center gap-0.5">
           Knowledge <ArrowRight className="w-3 h-3" />
         </Link>
       </div>
@@ -59,7 +59,7 @@ export default function AiInsightsPanel() {
           <Loader2 className="w-5 h-5 animate-spin" />
         </div>
       ) : !data ? (
-        <p className="text-sm text-fg-tertiary py-4">Insights unavailable</p>
+        <p className="text-sm text-fg-tertiary dark:text-fg-tertiary py-4">Insights unavailable</p>
       ) : (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -68,7 +68,7 @@ export default function AiInsightsPanel() {
               label="Hot Leads"
               value={data.hotLeads?.length || 0}
               sub={data.hotLeads?.[0]?.name ? `${data.hotLeads[0].name} — ${data.hotLeads[0].action}` : 'No hot leads'}
-              color="text-warning bg-warning-subtle dark:bg-orange-950/30"
+              color="text-warning dark:text-orange-400 bg-warning-subtle dark:bg-orange-950/30"
               href="/automation/leads"
             />
             <InsightTile
@@ -76,7 +76,7 @@ export default function AiInsightsPanel() {
               label="Deals at Risk"
               value={data.dealsAtRisk?.length || 0}
               sub={data.dealsAtRisk?.[0]?.title || 'Pipeline healthy'}
-              color="text-danger bg-danger-subtle dark:bg-red-950/30"
+              color="text-danger dark:text-red-400 bg-danger-subtle dark:bg-red-950/30"
               href="/automation/deals"
             />
             <InsightTile
@@ -84,7 +84,7 @@ export default function AiInsightsPanel() {
               label="Customers Waiting"
               value={data.customersWaiting || 0}
               sub="Unread conversations"
-              color="text-accent-fg bg-accent-subtle dark:bg-teal-950/30"
+              color="text-accent-fg dark:text-accent-fg bg-accent-subtle dark:bg-teal-950/30"
               href="/automation/chat"
             />
             <InsightTile
@@ -92,14 +92,14 @@ export default function AiInsightsPanel() {
               label="Pipeline Value"
               value={formatCur(data.pipelineValue)}
               sub={`${data.stats?.activeDeals || 0} active deals`}
-              color="text-accent-fg bg-accent-subtle dark:bg-emerald-950/30"
+              color="text-accent-fg dark:text-accent-fg bg-accent-subtle dark:bg-emerald-950/30"
               href="/automation/pipelines"
             />
           </div>
 
           {data.nextBestActions?.length > 0 && (
             <div className="mt-4 pt-4 border-t border-line dark:border-slate-800">
-              <p className="text-xs font-semibold text-fg-tertiary mb-2">Next Best Actions</p>
+              <p className="text-xs font-semibold text-fg-tertiary dark:text-fg-tertiary mb-2">Next Best Actions</p>
               <ul className="space-y-1.5">
                 {data.nextBestActions.slice(0, 3).map((a, i) => (
                   <li key={i} className="text-xs text-fg-secondary dark:text-fg-tertiary flex gap-2">

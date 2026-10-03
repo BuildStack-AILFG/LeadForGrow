@@ -133,6 +133,13 @@ export function filterSources(sources, sourceFilter) {
   return sources.filter((s) => String(s._id || '').toLowerCase().includes(sourceFilter));
 }
 
+export function filterStatusCounts(statusCounts, stageFilter) {
+  if (!stageFilter || stageFilter === 'all') return statusCounts;
+  return Object.fromEntries(
+    Object.entries(statusCounts || {}).filter(([k]) => k === stageFilter)
+  );
+}
+
 export function exportReportsCSV(reports, metrics) {
   const rows = [
     ['Metric', 'Value'],

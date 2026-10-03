@@ -25,7 +25,7 @@ export default function ChannelSelector({ value, onChange }) {
               className={`flex flex-col items-center gap-1 py-2.5 px-2 rounded-lg border text-xs font-medium transition-colors ${
                 active
                   ? 'border-accent bg-accent-subtle text-accent-fg dark:bg-teal-950/30 dark:text-accent-fg dark:border-teal-800'
-                  : 'border-line dark:border-slate-700 text-fg-tertiary hover:border-line-strong dark:hover:border-slate-600'
+                  : 'border-line dark:border-slate-700 text-fg-tertiary dark:text-fg-tertiary hover:border-line-strong dark:hover:border-slate-600'
               }`}
             >
               <Icon className="w-4 h-4" />

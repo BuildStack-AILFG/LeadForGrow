@@ -2,7 +2,12 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { Menu } from 'lucide-react';
+import Link from 'next/link';
+import { Menu, Compass } from 'lucide-react';
+import { useBusinessAssistant } from '../../context/BusinessAssistantContext';
+import GroviaIcon from '../assistant/GroviaIcon';
+import { ASSISTANT_NAME } from '../assistant/constants';
+import LogoMark from './LogoMark';
 import { useSidebar } from '../../hooks/useSidebar';
 import { useAccess } from '../../context/AccessContext';
 import { NAV_GROUPS, QUICK_LINK_IDS, SIDEBAR_WIDTH, filterNavGroups, getActiveNavId } from './constants';
@@ -32,6 +37,7 @@ export default function Sidebar() {
   const searchParams = useSearchParams();
   const sidebar = useSidebar();
   const { access, showUpgrade } = useAccess();
+  const assistant = useBusinessAssistant();
 
   const [hoverExpanded, setHoverExpanded] = useState(false);
   const [openGroupId, setOpenGroupId] = useState(null);
@@ -177,19 +183,36 @@ export default function Sidebar() {
         </div>
       </aside>
 
-      {sidebar.isMobile && !sidebar.mobileOpen && (
+      {/* Phones and tablets: a slim top bar instead of a button floating over
+          page headers (<main> reserves its height with pt-12 below lg).
+          Help and the assistant live here on small screens. */}
+      <div className="fixed inset-x-0 top-0 z-30 flex h-12 items-center gap-2.5 border-b border-line bg-canvas px-3 lg:hidden">
         <button
           type="button"
           onClick={sidebar.toggleMobile}
           aria-label="Open navigation"
-          className={cx(
-            'fixed left-3 top-3 z-40 inline-flex h-9 w-9 items-center justify-center rounded-md border border-line bg-canvas text-fg-secondary shadow-popover hover:text-fg lg:hidden',
-            focusRing
-          )}
+          title="Open navigation"
+          className={cx('inline-flex h-9 w-9 items-center justify-center rounded-md text-fg hover:bg-muted', focusRing)}
         >
-          <Menu className="h-4 w-4" strokeWidth={1.75} />
+          <Menu className="h-5 w-5" strokeWidth={1.75} />
         </button>
-      )}
+        <LogoMark size={20} />
+        <span className="text-body font-semibold text-fg">LeadForGrow</span>
+        <div className="ml-auto flex items-center gap-1">
+          <Link href="/help" aria-label="Help" title="Help" className={cx('inline-flex h-9 w-9 items-center justify-center rounded-md text-fg-secondary hover:bg-muted', focusRing)}>
+            <Compass className="h-[18px] w-[18px]" strokeWidth={1.75} />
+          </Link>
+          <button
+            type="button"
+            onClick={assistant.toggle}
+            aria-label={`Open ${ASSISTANT_NAME}`}
+            title={ASSISTANT_NAME}
+            className={cx('inline-flex h-9 w-9 items-center justify-center rounded-md bg-accent text-white hover:bg-accent-hover', focusRing)}
+          >
+            <GroviaIcon className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
 
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} items={allItems} />
     </>

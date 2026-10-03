@@ -17,7 +17,7 @@ export default function ReportsTable({ columns = [], rows = [], emptyMessage = '
             {columns.map((col) => (
               <th
                 key={col.key}
-                className="text-left text-meta font-semibold text-fg-tertiary py-2.5 px-3 first:pl-0"
+                className="text-left text-meta font-semibold text-fg-tertiary dark:text-fg-tertiary py-2.5 px-3 first:pl-0"
               >
                 {col.label}
               </th>

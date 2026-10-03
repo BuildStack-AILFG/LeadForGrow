@@ -27,9 +27,12 @@ const MeetingReminderSchema = new mongoose.Schema(
     scheduledFor: { type: Date, required: true, index: true },
     status: {
       type: String,
-      enum: ['pending', 'sent', 'failed', 'cancelled'],
+      // 'processing' = claimed by one sender (cron or booking request) so the
+      // same reminder can't be sent twice when both run at once.
+      enum: ['pending', 'processing', 'sent', 'failed', 'cancelled'],
       default: 'pending',
     },
+    claimedAt: { type: Date },
     payload: { type: mongoose.Schema.Types.Mixed, default: {} },
     sentAt: { type: Date },
     error: { type: String },

@@ -14,7 +14,7 @@ import {
   Tag,
   Globe,
   MapPin,
-  Bot as Sparkles,
+  Sparkles,
   Zap,
   Inbox,
   BarChart3,
@@ -36,17 +36,17 @@ const STEPS = [
 ];
 
 const inputClass =
-  'w-full h-10 px-3 text-dense rounded-lg border border-line bg-canvas text-fg placeholder:text-fg-tertiary focus:outline-none focus:ring-2 focus:ring-[#059669]/15 focus:border-accent transition-all';
+  'w-full h-10 px-3 text-dense rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-fg dark:text-slate-100 placeholder:text-fg-tertiary dark:placeholder:text-fg-tertiary focus:outline-none focus:ring-2 focus:ring-[#059669]/15 focus:border-accent transition-all';
 
 function Field({ label, required, children, hint, className = '' }) {
   return (
     <div className={`space-y-1.5 ${className}`}>
-      <label className="text-meta font-medium text-fg-tertiary">
+      <label className="text-meta font-medium text-fg-tertiary dark:text-fg-disabled">
         {label}
         {required && <span className="text-danger ml-0.5">*</span>}
       </label>
       {children}
-      {hint && <p className="text-meta text-fg-tertiary leading-snug">{hint}</p>}
+      {hint && <p className="text-meta text-fg-tertiary dark:text-fg-tertiary leading-snug">{hint}</p>}
     </div>
   );
 }
@@ -55,13 +55,13 @@ function Section({ step, title, subtitle, children, activeStep }) {
   const isActive = step === activeStep;
   return (
     <section
-      className={`bg-canvas border rounded-xl overflow-hidden transition-shadow duration-200 ${
+      className={`bg-white dark:bg-slate-900 border rounded-xl overflow-hidden transition-shadow duration-200 ${
         isActive
           ? 'border-accent/30'
-          : 'border-line'
+          : 'border-line dark:border-slate-700'
       }`}
     >
-      <div className="px-5 py-4 border-b border-line flex items-center gap-3">
+      <div className="px-5 py-4 border-b border-line dark:border-slate-700 flex items-center gap-3">
         <span
           className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-meta font-semibold text-white"
           style={{ backgroundColor: isActive ? BLUE : '#98A2B3' }}
@@ -69,8 +69,8 @@ function Section({ step, title, subtitle, children, activeStep }) {
           {step}
         </span>
         <div>
-          <h2 className="text-body font-semibold text-fg">{title}</h2>
-          {subtitle && <p className="text-meta text-fg-tertiary mt-0.5">{subtitle}</p>}
+          <h2 className="text-body font-semibold text-fg dark:text-slate-100">{title}</h2>
+          {subtitle && <p className="text-meta text-fg-tertiary dark:text-fg-disabled mt-0.5">{subtitle}</p>}
         </div>
       </div>
       <div className="p-5">{children}</div>
@@ -89,15 +89,15 @@ function PreviewPanel({ formData }) {
 
   return (
     <div className="sticky top-6 space-y-4">
-      <div className="rounded-lg border border-line bg-canvas overflow-hidden">
-        <div className="px-5 py-4 border-b border-line" style={{ backgroundColor: BLUE_LIGHT }}>
+      <div className="rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 overflow-hidden">
+        <div className="px-5 py-4 border-b border-line dark:border-slate-700" style={{ backgroundColor: BLUE_LIGHT }}>
           <div className="flex items-center gap-2 mb-1">
             <Sparkles className="w-4 h-4" style={{ color: BLUE }} />
             <p className="text-meta font-semibold" style={{ color: BLUE }}>
               Live preview
             </p>
           </div>
-          <p className="text-meta text-fg-tertiary">How this lead will appear in your CRM</p>
+          <p className="text-meta text-fg-tertiary dark:text-fg-disabled">How this lead will appear in your CRM</p>
         </div>
         <div className="p-5 space-y-4">
           <div className="flex items-center gap-3">
@@ -108,10 +108,10 @@ function PreviewPanel({ formData }) {
               {(formData.name || '?').charAt(0).toUpperCase()}
             </div>
             <div className="min-w-0">
-              <p className="text-body font-semibold text-fg truncate">
+              <p className="text-body font-semibold text-fg dark:text-slate-100 truncate">
                 {formData.name || 'Lead name'}
               </p>
-              <p className="text-meta text-fg-tertiary truncate">
+              <p className="text-meta text-fg-tertiary dark:text-fg-disabled truncate">
                 {formData.phone || 'No phone yet'}
               </p>
             </div>
@@ -119,33 +119,33 @@ function PreviewPanel({ formData }) {
 
           <div className="space-y-2 text-meta">
             {formData.email && (
-              <div className="flex items-center gap-2 text-fg-secondary">
-                <Mail className="w-3.5 h-3.5 text-fg-tertiary" />
+              <div className="flex items-center gap-2 text-fg-secondary dark:text-fg-disabled">
+                <Mail className="w-3.5 h-3.5 text-fg-tertiary dark:text-fg-tertiary" />
                 <span className="truncate">{formData.email}</span>
               </div>
             )}
             {formData.serviceInterest && (
-              <div className="flex items-center gap-2 text-fg-secondary">
-                <Briefcase className="w-3.5 h-3.5 text-fg-tertiary" />
+              <div className="flex items-center gap-2 text-fg-secondary dark:text-fg-disabled">
+                <Briefcase className="w-3.5 h-3.5 text-fg-tertiary dark:text-fg-tertiary" />
                 <span className="truncate">{formData.serviceInterest}</span>
               </div>
             )}
             {locationLine && (
-              <div className="flex items-center gap-2 text-fg-secondary">
-                <MapPin className="w-3.5 h-3.5 text-fg-tertiary" />
+              <div className="flex items-center gap-2 text-fg-secondary dark:text-fg-disabled">
+                <MapPin className="w-3.5 h-3.5 text-fg-tertiary dark:text-fg-tertiary" />
                 <span className="truncate">{locationLine}</span>
               </div>
             )}
           </div>
 
           <div className="flex flex-wrap gap-1.5 pt-1">
-            <span className="text-meta font-medium px-2 py-0.5 rounded-md bg-muted text-fg-secondary border border-line capitalize">
+            <span className="text-meta font-medium px-2 py-0.5 rounded-md bg-muted dark:bg-slate-900 text-fg-secondary dark:text-fg-disabled border border-line dark:border-slate-700 capitalize">
               {MANUAL_SOURCES.find((s) => s.value === formData.source)?.label || formData.source}
             </span>
-            <span className={`text-meta font-medium px-2 py-0.5 rounded-md border ${priorityCfg?.badge || 'bg-muted text-fg-secondary border-line'}`}>
+            <span className={`text-meta font-medium px-2 py-0.5 rounded-md border ${priorityCfg?.badge || 'bg-muted dark:bg-slate-800 text-fg-secondary dark:text-slate-200 border-line dark:border-slate-700'}`}>
               {priorityCfg?.label || formData.priority}
             </span>
-            <span className="text-meta font-medium px-2 py-0.5 rounded-md bg-info-subtle text-accent-fg border border-info/30">
+            <span className="text-meta font-medium px-2 py-0.5 rounded-md bg-info-subtle dark:bg-slate-800 text-accent-fg dark:text-accent-fg border border-info/30">
               New Lead
             </span>
           </div>
@@ -153,7 +153,7 @@ function PreviewPanel({ formData }) {
           {formData.tags.length > 0 && (
             <div className="flex flex-wrap gap-1">
               {formData.tags.map((tag) => (
-                <span key={tag} className="text-meta px-2 py-0.5 rounded-full bg-subtle border border-line text-fg-tertiary">
+                <span key={tag} className="text-meta px-2 py-0.5 rounded-full bg-subtle dark:bg-slate-900 border border-line dark:border-slate-700 text-fg-tertiary dark:text-fg-disabled">
                   {tag}
                 </span>
               ))}
@@ -162,15 +162,15 @@ function PreviewPanel({ formData }) {
         </div>
       </div>
 
-      <div className="rounded-lg border border-line bg-subtle p-4 space-y-3">
-        <p className="text-meta font-semibold text-fg-tertiary">On save</p>
+      <div className="rounded-lg border border-line dark:border-slate-700 bg-subtle dark:bg-slate-900 p-4 space-y-3">
+        <p className="text-meta font-semibold text-fg-tertiary dark:text-fg-disabled">On save</p>
         {[
           { icon: BarChart3, text: 'Added to lead pipeline' },
           { icon: Inbox, text: 'Synced to inbox & activity feed' },
           { icon: Zap, text: 'Automations triggered if configured' },
         ].map(({ icon: Icon, text }) => (
-          <div key={text} className="flex items-center gap-2.5 text-meta text-fg-secondary">
-            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-canvas border border-line">
+          <div key={text} className="flex items-center gap-2.5 text-meta text-fg-secondary dark:text-fg-disabled">
+            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700">
               <Icon className="w-3.5 h-3.5" style={{ color: BLUE }} />
             </span>
             {text}
@@ -274,13 +274,13 @@ export default function NewLeadPage() {
   };
 
   return (
-    <div className="min-h-full bg-canvas">
+    <div className="min-h-full bg-subtle dark:bg-slate-900">
       {/* Top bar */}
-      <div className="border-b border-line bg-canvas sticky top-0 z-30">
+      <div className="border-b border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 sticky top-0 z-30">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
           <Link
             href="/automation/leads"
-            className="inline-flex items-center gap-1.5 text-dense font-medium text-fg-tertiary hover:text-accent-fg transition-colors group"
+            className="inline-flex items-center gap-1.5 text-dense font-medium text-fg-tertiary dark:text-fg-disabled hover:text-accent-fg dark:hover:text-accent-fg transition-colors group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
             Back to Leads
@@ -298,8 +298,8 @@ export default function NewLeadPage() {
                     active
                       ? 'text-white'
                       : done
-                        ? 'text-accent-fg bg-info-subtle'
-                        : 'text-fg-tertiary hover:bg-muted'
+                        ? 'text-accent-fg dark:text-accent-fg bg-info-subtle dark:bg-slate-800'
+                        : 'text-fg-tertiary dark:text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800'
                   }`}
                   style={active ? { backgroundColor: BLUE } : undefined}
                 >
@@ -310,8 +310,8 @@ export default function NewLeadPage() {
             })}
           </div>
           <div className="flex items-center gap-2 min-w-[100px] justify-end">
-            <span className="text-meta text-fg-tertiary hidden sm:inline">{completion}% complete</span>
-            <div className="w-16 h-1.5 rounded-full bg-muted overflow-hidden">
+            <span className="text-meta text-fg-tertiary dark:text-fg-tertiary hidden sm:inline">{completion}% complete</span>
+            <div className="w-16 h-1.5 rounded-full bg-muted dark:bg-slate-800 overflow-hidden">
               <div
                 className="h-full rounded-full transition-all duration-300"
                 style={{ width: `${completion}%`, backgroundColor: BLUE }}
@@ -333,7 +333,7 @@ export default function NewLeadPage() {
             </div>
             <div>
               <h1 className="text-page font-semibold text-fg">Add New Lead</h1>
-              <p className="text-dense text-fg-tertiary mt-1 max-w-lg">
+              <p className="text-dense text-fg-tertiary dark:text-fg-disabled mt-1 max-w-lg">
                 Register a new enquiry manually. It will sync to your pipeline, inbox, and dashboard instantly.
               </p>
             </div>
@@ -352,7 +352,7 @@ export default function NewLeadPage() {
                         type="text"
                         value={formData.name}
                         onChange={(e) => set('name', e.target.value)}
-                        placeholder="e.g. S.Singh"
+                        placeholder="e.g. Priya Sharma"
                         className={inputClass}
                         autoComplete="name"
                       />
@@ -477,7 +477,7 @@ export default function NewLeadPage() {
                               className={`px-3 py-1.5 text-[12px] font-medium rounded-lg border transition-all ${
                                 active
                                   ? 'text-white border-transparent'
-                                  : 'text-fg-secondary border-line bg-canvas hover:border-info/30 hover:bg-subtle'
+                                  : 'text-fg-secondary dark:text-fg-disabled border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 hover:border-info/30 hover:bg-subtle dark:hover:bg-slate-800'
                               }`}
                               style={active ? { backgroundColor: BLUE } : undefined}
                             >
@@ -542,9 +542,9 @@ export default function NewLeadPage() {
       </div>
 
       {/* Sticky footer */}
-      <div className="fixed bottom-0 left-0 right-0 z-20 border-t border-line bg-canvas px-4 sm:px-6 py-4">
+      <div className="fixed bottom-0 left-0 right-0 z-20 border-t border-line dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 px-4 sm:px-6 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
-          <p className="text-meta text-fg-tertiary hidden md:flex items-center gap-2">
+          <p className="text-meta text-fg-tertiary dark:text-fg-disabled hidden md:flex items-center gap-2">
             <Globe className="w-3.5 h-3.5" style={{ color: BLUE }} />
             Manual entry · syncs to pipeline & inbox
           </p>
@@ -552,7 +552,7 @@ export default function NewLeadPage() {
             <button
               type="button"
               onClick={() => router.push('/automation/leads')}
-              className="flex-1 md:flex-none h-10 px-5 text-dense font-medium text-fg-secondary border border-line rounded-md hover:bg-subtle transition-colors"
+              className="flex-1 md:flex-none h-10 px-5 text-dense font-medium text-fg-secondary dark:text-slate-200 border border-line dark:border-slate-700 rounded-md hover:bg-subtle dark:hover:bg-slate-800 transition-colors"
             >
               Cancel
             </button>

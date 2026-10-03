@@ -16,7 +16,7 @@ export default function FilterBar({
     <div className="p-4 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 rounded-lg">
       <div className="flex flex-col lg:flex-row lg:items-end gap-3">
         <div className="flex-1 min-w-[140px]">
-          <label className="block text-meta font-medium text-fg-tertiary mb-1.5">Source</label>
+          <label className="block text-meta font-medium text-fg-tertiary dark:text-fg-tertiary mb-1.5">Source</label>
           <select
             value={sourceFilter}
             onChange={(e) => onSourceChange(e.target.value)}
@@ -28,7 +28,7 @@ export default function FilterBar({
           </select>
         </div>
         <div className="flex-1 min-w-[140px]">
-          <label className="block text-meta font-medium text-fg-tertiary mb-1.5">Lead stage</label>
+          <label className="block text-meta font-medium text-fg-tertiary dark:text-fg-tertiary mb-1.5">Lead stage</label>
           <select
             value={stageFilter}
             onChange={(e) => onStageChange(e.target.value)}
@@ -40,7 +40,7 @@ export default function FilterBar({
           </select>
         </div>
         <div className="flex-1 min-w-[140px]">
-          <label className="block text-meta font-medium text-fg-tertiary mb-1.5">Assigned agent</label>
+          <label className="block text-meta font-medium text-fg-tertiary dark:text-fg-tertiary mb-1.5">Assigned agent</label>
           <select
             value={assigneeFilter}
             onChange={(e) => onAssigneeChange(e.target.value)}

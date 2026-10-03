@@ -224,7 +224,7 @@ export default function CRMProfilePanel({
               <PanelRightClose className="w-4 h-4" strokeWidth={1.75} />
             </button>
           )}
-          {mobile && onClose && (
+          {onClose && (
             <button type="button" onClick={onClose} className="p-1.5 rounded-md text-fg-tertiary hover:bg-muted">
               <X className="w-4 h-4" />
             </button>

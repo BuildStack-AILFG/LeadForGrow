@@ -1,6 +1,7 @@
 'use client';
 
-import { memo, useState } from 'react';
+import { memo, useLayoutEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { CheckSquare, Square, MoreHorizontal, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import ContactTypeBadge from './ContactTypeBadge';
@@ -11,13 +12,15 @@ import {
   contactName,
 } from './utils';
 
+const MENU_WIDTH = 160; // w-40
+
 function Avatar({ name, src, size = 'sm' }) {
   const sz = size === 'sm' ? 'w-7 h-7 text-meta' : 'w-8 h-8 text-meta';
   if (src) {
-    return <img src={src} alt={name} className={`${sz} rounded-full object-cover border border-line`} />;
+    return <img src={src} alt={name} className={`${sz} rounded-full object-cover border border-line dark:border-slate-700`} />;
   }
   return (
-    <span className={`${sz} rounded-full bg-muted border border-line text-fg-secondary font-semibold inline-flex items-center justify-center shrink-0`}>
+    <span className={`${sz} rounded-full bg-muted dark:bg-slate-900 border border-line dark:border-slate-700 text-fg-secondary dark:text-fg-disabled font-semibold inline-flex items-center justify-center shrink-0`}>
       {initials(name)}
     </span>
   );
@@ -39,22 +42,51 @@ function ContactRow({
   onMenuAction,
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [menuPos, setMenuPos] = useState(null);
+  const btnRef = useRef(null);
   const stats = contact.stats || {};
   const name = contactName(contact);
   const email = primaryEmail(contact);
   const phone = primaryPhone(contact);
   const company = contact.companyId;
 
+  // Rendered through a portal and positioned from the trigger button's own bounding
+  // rect (fixed coordinates) instead of `position: absolute` nested inside the table's
+  // overflow-x-auto/overflow-hidden wrapper — that ancestor was clipping the menu (and
+  // its "View details" item) for rows near the bottom of the table.
+  useLayoutEffect(() => {
+    if (!menuOpen || !btnRef.current) return undefined;
+    function place() {
+      const rect = btnRef.current.getBoundingClientRect();
+      const viewport = { w: window.innerWidth, h: window.innerHeight };
+      let left = rect.right - MENU_WIDTH;
+      left = Math.max(8, Math.min(left, viewport.w - MENU_WIDTH - 8));
+      let top = rect.bottom + 4;
+      const menuHeight = 160;
+      if (top + menuHeight > viewport.h - 8) {
+        top = rect.top - menuHeight - 4;
+      }
+      setMenuPos({ top: Math.max(8, top), left });
+    }
+    place();
+    window.addEventListener('resize', place);
+    window.addEventListener('scroll', place, true);
+    return () => {
+      window.removeEventListener('resize', place);
+      window.removeEventListener('scroll', place, true);
+    };
+  }, [menuOpen]);
+
   return (
     <tr
-      className={`group border-b border-[#F2F4F7] hover:bg-[#FAFBFC] cursor-pointer transition-colors duration-150 ${
-        selected ? 'bg-subtle' : ''
+      className={`group border-b border-[#F2F4F7] dark:border-slate-700 hover:bg-[#FAFBFC] dark:hover:bg-slate-800 cursor-pointer transition-colors duration-150 ${
+        selected ? 'bg-subtle dark:bg-slate-900' : ''
       }`}
       onClick={() => onOpen(contact._id)}
     >
       <td className="py-3 pl-3 pr-2 w-10" onClick={(e) => e.stopPropagation()}>
-        <button type="button" onClick={() => onSelect(contact._id)} className="text-fg-tertiary hover:text-fg-secondary">
-          {selected ? <CheckSquare className="w-4 h-4 text-fg" /> : <Square className="w-4 h-4" />}
+        <button type="button" onClick={() => onSelect(contact._id)} className="text-fg-tertiary dark:text-fg-tertiary hover:text-fg-secondary dark:hover:text-slate-200">
+          {selected ? <CheckSquare className="w-4 h-4 text-fg dark:text-slate-100" /> : <Square className="w-4 h-4" />}
         </button>
       </td>
 
@@ -62,9 +94,9 @@ function ContactRow({
         <div className="flex items-center gap-3">
           <Avatar name={name} src={contact.avatar} />
           <div className="min-w-0">
-            <p className="text-dense font-semibold text-fg truncate">{name}</p>
+            <p className="text-dense font-semibold text-fg dark:text-slate-100 truncate">{name}</p>
             {email && (
-              <p className="text-meta text-fg-tertiary truncate">{email}</p>
+              <p className="text-meta text-fg-tertiary dark:text-fg-tertiary truncate">{email}</p>
             )}
           </div>
         </div>
@@ -74,51 +106,51 @@ function ContactRow({
         {company?.name ? (
           <Link
             href={`/automation/companies/${company._id || company}`}
-            className="text-meta font-medium text-accent-fg hover:underline truncate block max-w-[140px]"
+            className="text-meta font-medium text-accent-fg dark:text-accent-fg hover:underline truncate block max-w-[140px]"
           >
             {company.name}
           </Link>
         ) : (
-          <span className="text-meta text-fg-tertiary">—</span>
+          <span className="text-meta text-fg-tertiary dark:text-fg-tertiary">—</span>
         )}
       </td>
 
       <td className="py-3 px-3">
         {email ? (
-          <span className="text-meta text-fg-secondary truncate block max-w-[160px]">{email}</span>
+          <span className="text-meta text-fg-secondary dark:text-slate-200 truncate block max-w-[160px]">{email}</span>
         ) : (
-          <span className="text-meta text-fg-tertiary">—</span>
+          <span className="text-meta text-fg-tertiary dark:text-fg-tertiary">—</span>
         )}
       </td>
 
       <td className="py-3 px-3">
         {phone ? (
-          <span className="text-meta text-fg-secondary whitespace-nowrap">{phone}</span>
+          <span className="text-meta text-fg-secondary dark:text-slate-200 whitespace-nowrap">{phone}</span>
         ) : (
-          <span className="text-meta text-fg-tertiary">—</span>
+          <span className="text-meta text-fg-tertiary dark:text-fg-tertiary">—</span>
         )}
       </td>
 
       <td className="py-3 px-3">
         {contact.jobTitle ? (
-          <span className="text-meta text-fg-secondary truncate block max-w-[120px]">{contact.jobTitle}</span>
+          <span className="text-meta text-fg-secondary dark:text-slate-200 truncate block max-w-[120px]">{contact.jobTitle}</span>
         ) : (
-          <span className="text-meta text-fg-tertiary">—</span>
+          <span className="text-meta text-fg-tertiary dark:text-fg-tertiary">—</span>
         )}
       </td>
 
       <td className="py-3 px-3">
         <div className="flex items-center gap-2">
           <Avatar name={ownerName(contact.ownerId)} />
-          <span className="text-meta text-fg-secondary truncate max-w-[100px]">{ownerName(contact.ownerId)}</span>
+          <span className="text-meta text-fg-secondary dark:text-slate-200 truncate max-w-[100px]">{ownerName(contact.ownerId)}</span>
         </div>
       </td>
 
-      <td className="py-3 px-3 text-dense font-medium text-fg-secondary tabular-nums">
+      <td className="py-3 px-3 text-dense font-medium text-fg-secondary dark:text-slate-200 tabular-nums">
         {stats.openDeals || 0}
       </td>
 
-      <td className="py-3 px-3 text-meta text-fg-tertiary whitespace-nowrap">
+      <td className="py-3 px-3 text-meta text-fg-tertiary dark:text-fg-disabled whitespace-nowrap">
         {formatRelative(stats.lastActivity)}
       </td>
 
@@ -129,24 +161,33 @@ function ContactRow({
       <td className="py-3 px-2 w-10" onClick={(e) => e.stopPropagation()}>
         <div className="relative">
           <button
+            ref={btnRef}
             type="button"
             onClick={() => setMenuOpen(!menuOpen)}
-            className="p-1.5 rounded-md text-fg-tertiary hover:text-fg-secondary hover:bg-muted transition-opacity"
+            className="p-1.5 rounded-md text-fg-tertiary dark:text-fg-tertiary hover:text-fg-secondary dark:hover:text-slate-200 hover:bg-muted dark:hover:bg-slate-800 transition-opacity"
           >
             <MoreHorizontal className="w-4 h-4" />
           </button>
-          {menuOpen && (
+          {menuOpen && menuPos && createPortal(
             <>
-              <div className="fixed inset-0 z-10" onClick={() => setMenuOpen(false)} />
-              <div className="absolute right-0 mt-1 w-40 bg-canvas border border-line rounded-lg shadow-popover z-20 py-1">
+              <div className="fixed inset-0 z-[100]" onClick={() => setMenuOpen(false)} />
+              <div
+                className="fixed w-40 bg-canvas border border-line rounded-lg shadow-popover z-[101] py-1"
+                style={{ top: menuPos.top, left: menuPos.left }}
+              >
                 <button type="button" onClick={() => { setMenuOpen(false); onOpen(contact._id); }} className="w-full px-3 py-2 text-left text-meta hover:bg-subtle">View details</button>
                 <Link href={`/automation/contacts/${contact._id}`} onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 text-meta hover:bg-subtle">
                   <ExternalLink className="w-3.5 h-3.5" /> Full page
                 </Link>
-                <button type="button" onClick={() => { setMenuOpen(false); onMenuAction?.('archive', contact._id); }} className="w-full px-3 py-2 text-left text-meta hover:bg-subtle">Archive</button>
+                {contact.archived ? (
+                  <button type="button" onClick={() => { setMenuOpen(false); onMenuAction?.('restore', contact._id); }} className="w-full px-3 py-2 text-left text-meta hover:bg-subtle">Restore</button>
+                ) : (
+                  <button type="button" onClick={() => { setMenuOpen(false); onMenuAction?.('archive', contact._id); }} className="w-full px-3 py-2 text-left text-meta hover:bg-subtle">Archive</button>
+                )}
                 <button type="button" onClick={() => { setMenuOpen(false); onMenuAction?.('delete', contact._id); }} className="w-full px-3 py-2 text-left text-meta text-danger hover:bg-danger-subtle">Delete</button>
               </div>
-            </>
+            </>,
+            document.body
           )}
         </div>
       </td>
@@ -155,4 +196,4 @@ function ContactRow({
 }
 
 export default memo(ContactRow);
-
+

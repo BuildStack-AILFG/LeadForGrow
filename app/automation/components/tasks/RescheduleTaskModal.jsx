@@ -17,7 +17,7 @@ export default function RescheduleTaskModal({ open, task, dueDate, onDueDateChan
         <div className="flex items-center justify-between mb-5">
           <div>
             <h3 className="text-base font-semibold text-fg dark:text-slate-50">Reschedule task</h3>
-            <p className="text-xs text-fg-tertiary mt-0.5 truncate">{task.title}</p>
+            <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-0.5 truncate">{task.title}</p>
           </div>
           <button type="button" onClick={onClose} className="p-1.5 rounded text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800">
             <X className="w-5 h-5" />
@@ -32,20 +32,20 @@ export default function RescheduleTaskModal({ open, task, dueDate, onDueDateChan
               required
               value={dueDate}
               onChange={(e) => onDueDateChange(e.target.value)}
-              className="w-full px-3 py-2 text-sm bg-subtle dark:bg-slate-800 border border-line dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-focus"
+              className="w-full px-3 py-2 text-sm bg-subtle dark:bg-slate-800 border border-line dark:border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-brand/20"
             />
           </div>
           <div className="flex gap-2 pt-1">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-3 py-2 text-sm font-medium text-fg-secondary bg-muted dark:bg-slate-800 rounded hover:bg-muted"
+              className="flex-1 px-3 py-2 text-sm font-medium text-fg-secondary dark:text-slate-200 bg-muted dark:bg-slate-800 rounded hover:bg-muted dark:hover:bg-slate-700"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="flex-1 px-3 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-md"
+              className="flex-1 px-3 py-2 text-sm font-medium text-white bg-brand hover:bg-brand-hover rounded"
             >
               Save
             </button>

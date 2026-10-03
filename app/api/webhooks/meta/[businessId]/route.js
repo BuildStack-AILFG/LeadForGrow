@@ -169,12 +169,22 @@ export async function POST(request, { params }) {
             candidates: signatureResult.candidates
         });
 
-        if (signature && signatureResult.valid === false) {
+        // Fail closed. This used to reject only a *wrong* signature, so a request
+        // with no X-Hub-Signature-256 header (or a business with no secret
+        // configured) was processed as if genuine — anyone who knew this URL
+        // could inject WhatsApp messages, delivery receipts or template
+        // approvals. Every delivery must now match a configured secret.
+        if (signatureResult.valid !== true) {
+            const reason = !signature
+                ? 'Missing X-Hub-Signature-256 header'
+                : signatureResult.reason === 'no_app_secret_candidates'
+                    ? 'No app secret configured for this business'
+                    : 'Invalid signature';
             await finalizeMetaWebhookIngress(ingressId, {
                 outcome: 'rejected',
                 processing: {
                     step: 'signature_invalid',
-                    error: 'Invalid signature — webhook rejected before lead processing',
+                    error: `${reason} — webhook rejected before processing`,
                     result: signatureResult
                 },
                 signature: {
@@ -185,11 +195,13 @@ export async function POST(request, { params }) {
                     candidates: signatureResult.candidates
                 }
             });
+            // Never echo signature diagnostics to the caller: they contain the
+            // *expected* HMAC for this body (a forger could resend with it) and
+            // secret previews. They stay in MetaWebhookIngress for debugging.
             return respond200({
                 success: false,
                 error: 'Invalid signature',
-                step: 'signature',
-                signatureResult
+                step: 'signature'
             }, '4-error');
         }
 

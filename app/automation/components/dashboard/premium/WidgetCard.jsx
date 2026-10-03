@@ -29,15 +29,15 @@ export default function WidgetCard({
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-2.5 min-w-0">
           {Icon && (
-            <span className="flex items-center justify-center w-8 h-8 rounded-md bg-accent-subtle text-accent-fg">
+            <span className="flex items-center justify-center w-8 h-8 rounded-none bg-brand-tint text-brand-ink">
               <Icon className="w-4 h-4" strokeWidth={2} />
             </span>
           )}
           <div className="min-w-0">
-            <h2 className="text-dense font-medium text-fg tracking-[-0.01em] truncate">
+            <h2 className="text-dense font-medium text-fg dark:text-slate-100 tracking-[-0.01em] truncate">
               {title}
             </h2>
-            {subtitle && <p className="text-meta text-fg-tertiary mt-0.5 truncate">{subtitle}</p>}
+            {subtitle && <p className="text-meta text-fg-tertiary dark:text-fg-tertiary mt-0.5 truncate">{subtitle}</p>}
           </div>
         </div>
 

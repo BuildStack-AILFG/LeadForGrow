@@ -28,6 +28,8 @@ const ACTIVITY_TYPES = [
   'whatsapp_received',
   'whatsapp_sent',
   'whatsapp_failed',
+  'whatsapp_opted_out', // customer replied STOP
+  'whatsapp_opted_in',  // customer replied START
   'instagram_received',
   'instagram_sent',
   'email_received',

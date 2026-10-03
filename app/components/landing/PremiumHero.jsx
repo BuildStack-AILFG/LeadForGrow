@@ -5,6 +5,7 @@ import { Anton } from 'next/font/google';
 import { ArrowUpRight, MessageCircle, MousePointer2 } from 'lucide-react';
 import { WhatsAppIcon, InstagramIcon, GmailIcon } from '@/app/automation/components/chat/BrandIcons';
 import { MetaIcon, ZapierIcon, ShopifyIcon, SlackColorIcon } from '@/app/components/pricing/IntegrationBrandIcons';
+import { goToGetStarted, openBookDemo } from './homeActions';
 
 const anton = Anton({ subsets: ['latin'], weight: '400' });
 
@@ -42,10 +43,8 @@ function Spark({ left, top, size = '3cqw', rotate = 0, color = '#1D4B3E' }) {
   );
 }
 
-// Bare integration logos, same treatment as the left cluster — real,
-// already-supported LeadForGrow integrations (per the pricing page's own
-// integrations list) rather than the generic Instant/Every chat/Revenue
-// concept icons this replaced.
+// Bare integration logos, same treatment as the left cluster. Same tools as the pricing page's integrations list; some of them
+// are connected per client requirement (see `onRequest` in pricingData.js).
 const RIGHT_CARDS = [
   { key: 'zapier', left: '0%', top: '0%', rotate: -6, color: '#FF4A00', icon: <ZapierIcon className="h-full w-full" /> },
   // Slack's real 4-color mark is baked into its own paths, not currentColor.
@@ -355,7 +354,7 @@ function MobileHero({ onGetStarted, onBookDemo }) {
   );
 }
 
-export default function PremiumHero({ onGetStarted, onBookDemo }) {
+export default function PremiumHero({ onGetStarted = goToGetStarted, onBookDemo = openBookDemo } = {}) {
   return (
     <section className="bg-white px-3 pt-24 sm:px-4 sm:pt-28">
       <DesktopHero onGetStarted={onGetStarted} onBookDemo={onBookDemo} />

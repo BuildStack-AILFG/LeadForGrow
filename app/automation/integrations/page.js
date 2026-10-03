@@ -1,10 +1,10 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
   Globe, 
-  MessageCircle, 
   Code,
   ExternalLink,
   ChevronRight,
@@ -18,8 +18,7 @@ import {
   ChevronUp,
   Menu,
   X,
-  Activity
-} from 'lucide-react';
+  Activity } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { authFetch } from '@/lib/apiClient';
 import Heading from '@/app/components/ui/Heading';
@@ -88,10 +87,10 @@ export default function IntegrationsPage() {
 
   // Static class maps — Tailwind JIT cannot compile interpolated class names
   const colorClasses = {
-    indigo: { bg: 'bg-accent-subtle', text: 'text-accent-fg' },
-    purple: { bg: 'bg-accent-subtle', text: 'text-accent-fg' },
-    emerald: { bg: 'bg-accent-subtle', text: 'text-accent-fg' },
-    blue: { bg: 'bg-accent-subtle', text: 'text-accent-fg' },
+    indigo: { bg: 'bg-accent-subtle dark:bg-indigo-950/30', text: 'text-accent-fg dark:text-accent-fg' },
+    purple: { bg: 'bg-accent-subtle dark:bg-purple-950/30', text: 'text-accent-fg dark:text-accent-fg' },
+    emerald: { bg: 'bg-accent-subtle dark:bg-emerald-950/30', text: 'text-accent-fg dark:text-accent-fg' },
+    blue: { bg: 'bg-accent-subtle dark:bg-teal-950/30', text: 'text-accent-fg dark:text-accent-fg' },
   };
 
   const activeSources = [
@@ -124,7 +123,7 @@ export default function IntegrationsPage() {
     {
       name: 'WhatsApp Button',
       description: 'Capture clicks on WhatsApp chat button',
-      icon: MessageCircle,
+      icon: WhatsAppIcon,
       color: 'emerald'
     },
     {
@@ -137,20 +136,20 @@ export default function IntegrationsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-canvas">
+      <div className="flex items-center justify-center min-h-screen bg-subtle dark:bg-slate-800/50">
         <div className="flex flex-col items-center gap-3">
           <div className="w-10 h-10 border-3 border-accent border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-fg-tertiary text-sm font-medium">Loading sources...</p>
+          <p className="text-fg-tertiary dark:text-fg-tertiary text-sm font-medium">Loading sources...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-canvas px-8 py-10">
+    <div className="min-h-screen bg-subtle dark:bg-slate-800/50 px-8 py-10">
       <div className="w-full">
         {/* Mobile Header */}
-        <div className="lg:hidden sticky top-0 z-50 bg-canvas border-b border-line px-4 py-3">
+        <div className="lg:hidden sticky top-0 z-50 bg-canvas dark:bg-slate-900 border-b border-line dark:border-slate-700 px-4 py-3">
           <div className="flex items-center justify-between">
             <div>
               <Heading level={1} className="text-lg">Lead Sources</Heading>
@@ -158,7 +157,7 @@ export default function IntegrationsPage() {
             </div>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="w-10 h-10 flex items-center justify-center rounded-lg bg-muted text-fg-secondary hover:bg-muted transition-colors"
+              className="w-10 h-10 flex items-center justify-center rounded-lg bg-muted dark:bg-slate-800 text-fg-secondary dark:text-slate-200 hover:bg-muted dark:hover:bg-slate-700 transition-colors"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -175,43 +174,43 @@ export default function IntegrationsPage() {
 
         {/* Desktop Header */}
         <div className="hidden lg:flex items-center gap-3 mb-10">
-          <div className="w-10 h-10 rounded-lg bg-canvas border border-line flex items-center justify-center">
-            <Globe className="w-5 h-5 text-fg-secondary" strokeWidth={2.5} />
+          <div className="w-10 h-10 rounded-lg bg-canvas border border-line dark:bg-teal-950/30 flex items-center justify-center">
+            <Globe className="w-5 h-5 text-fg-secondary dark:text-accent-fg" strokeWidth={2.5} />
           </div>
           <div>
             <h1 className="text-page font-semibold text-fg">Lead Integrations</h1>
-            <p className="text-xs text-fg-tertiary font-medium whitespace-nowrap">Connect external platforms and tracking scripts</p>
+            <p className="text-xs text-fg-tertiary dark:text-fg-tertiary font-medium whitespace-nowrap">Connect external platforms and tracking scripts</p>
           </div>
         </div>
 
         {/* Status Strip */}
-        <div className="bg-canvas rounded-lg border border-line/80 p-4 mb-6">
+        <div className="bg-canvas dark:bg-slate-900 rounded-lg border border-line/80 dark:border-slate-700/80 p-4 mb-6">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-canvas border border-line rounded-lg flex items-center justify-center">
-                <CheckCircle2 className="w-5 h-5 text-fg-secondary" />
+              <div className="w-10 h-10 bg-canvas border border-line dark:bg-emerald-950/30 rounded-lg flex items-center justify-center">
+                <CheckCircle2 className="w-5 h-5 text-fg-secondary dark:text-accent-fg" />
               </div>
               <div>
-                <p className="text-xs text-fg-tertiary font-medium">Active Sources</p>
-                <p className="text-xl font-semibold text-fg">{activeSources.length}</p>
+                <p className="text-xs text-fg-tertiary dark:text-fg-tertiary font-medium">Active Sources</p>
+                <p className="text-xl font-semibold text-fg dark:text-slate-50">{activeSources.length}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-canvas border border-line rounded-lg flex items-center justify-center">
-                <TrendingUp className="w-5 h-5 text-fg-secondary" />
+              <div className="w-10 h-10 bg-canvas border border-line dark:bg-indigo-950/30 rounded-lg flex items-center justify-center">
+                <TrendingUp className="w-5 h-5 text-fg-secondary dark:text-accent-fg" />
               </div>
               <div>
-                <p className="text-xs text-fg-tertiary font-medium">Leads Captured</p>
-                <p className="text-xl font-semibold text-fg">{leads.length}</p>
+                <p className="text-xs text-fg-tertiary dark:text-fg-tertiary font-medium">Leads Captured</p>
+                <p className="text-xl font-semibold text-fg dark:text-slate-50">{leads.length}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-canvas border border-line rounded-lg flex items-center justify-center">
-                <Clock className="w-5 h-5 text-fg-secondary" />
+              <div className="w-10 h-10 bg-canvas border border-line dark:bg-purple-950/30 rounded-lg flex items-center justify-center">
+                <Clock className="w-5 h-5 text-fg-secondary dark:text-accent-fg" />
               </div>
               <div>
-                <p className="text-xs text-fg-tertiary font-medium">Last Lead</p>
-                <p className="text-xl font-semibold text-fg">{getLastLeadTime()}</p>
+                <p className="text-xs text-fg-tertiary dark:text-fg-tertiary font-medium">Last Lead</p>
+                <p className="text-xl font-semibold text-fg dark:text-slate-50">{getLastLeadTime()}</p>
               </div>
             </div>
           </div>
@@ -220,14 +219,14 @@ export default function IntegrationsPage() {
         {/* Active Sources */}
         {activeSources.length > 0 && (
           <div className="mb-6">
-            <h2 className="text-xs font-semibold text-fg-tertiary mb-3">Active Sources</h2>
+            <h2 className="text-xs font-semibold text-fg-tertiary dark:text-fg-tertiary mb-3">Active Sources</h2>
             <div className="space-y-3">
               {activeSources.map((source) => {
                 const Icon = source.icon;
                 return (
                   <div
                     key={source.name}
-                    className="bg-canvas rounded-lg border border-line p-5 hover:shadow-popover transition-all duration-150"
+                    className="bg-canvas dark:bg-slate-900 rounded-lg border border-line dark:border-emerald-800 p-5 hover:shadow-popover transition-all duration-150"
                   >
                     <div className="flex items-start gap-4">
                       <div className={`w-12 h-12 ${(colorClasses[source.color] || colorClasses.indigo).bg} rounded-lg flex items-center justify-center shrink-0`}>
@@ -238,17 +237,17 @@ export default function IntegrationsPage() {
                         <div className="flex items-start justify-between gap-3 mb-3">
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1">
-                              <h3 className="text-base font-semibold text-fg">{source.name}</h3>
-                              <span className="flex items-center gap-1 px-2 py-0.5 bg-accent-subtle text-accent-fg rounded-md text-meta font-semibold">
+                              <h3 className="text-base font-semibold text-fg dark:text-slate-50">{source.name}</h3>
+                              <span className="flex items-center gap-1 px-2 py-0.5 bg-accent-subtle dark:bg-accent-pressed/30 text-accent-fg dark:text-accent-fg rounded-md text-meta font-semibold">
                                 <CheckCircle2 className="w-3 h-3" />
                                 Active
                               </span>
                             </div>
-                            <p className="text-xs text-fg-tertiary">{source.description}</p>
+                            <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">{source.description}</p>
                           </div>
                         </div>
 
-                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-fg-secondary mb-3">
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-fg-secondary dark:text-fg-disabled mb-3">
                           <span className="flex items-center gap-1.5">
                             <Code className="w-3.5 h-3.5" />
                             {source.formsCount} form{source.formsCount !== 1 ? 's' : ''}
@@ -281,14 +280,14 @@ export default function IntegrationsPage() {
 
         {/* Available Sources */}
         <div className="mb-6">
-          <h2 className="text-xs font-semibold text-fg-tertiary mb-3">Available Sources</h2>
+          <h2 className="text-xs font-semibold text-fg-tertiary dark:text-fg-tertiary mb-3">Available Sources</h2>
           <div className="space-y-3">
             {availableSources.map((source) => {
               const Icon = source.icon;
               return (
                 <div
                   key={source.name}
-                  className="bg-canvas rounded-lg border border-line/80 p-5 hover:shadow-popover hover:border-line transition-all duration-150"
+                  className="bg-canvas dark:bg-slate-900 rounded-lg border border-line/80 dark:border-slate-700/80 p-5 hover:shadow-popover hover:border-line dark:hover:border-indigo-800 transition-all duration-150"
                 >
                   <div className="flex items-start gap-4">
                     <div className={`w-12 h-12 ${(colorClasses[source.color] || colorClasses.indigo).bg} rounded-lg flex items-center justify-center shrink-0`}>
@@ -299,19 +298,19 @@ export default function IntegrationsPage() {
                       <div className="flex items-start justify-between gap-3 mb-2">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
-                            <h3 className="text-base font-semibold text-fg">{source.name}</h3>
-                            <span className="flex items-center gap-1 px-2 py-0.5 bg-accent-subtle text-accent-fg rounded-md text-meta font-semibold">
+                            <h3 className="text-base font-semibold text-fg dark:text-slate-50">{source.name}</h3>
+                            <span className="flex items-center gap-1 px-2 py-0.5 bg-accent-subtle dark:bg-accent-pressed/30 text-accent-fg dark:text-accent-fg rounded-md text-meta font-semibold">
                               <Circle className="w-3 h-3" />
                               Ready to connect
                             </span>
                           </div>
-                          <p className="text-xs text-fg-tertiary mb-3">{source.description}</p>
+                          <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mb-3">{source.description}</p>
                         </div>
                       </div>
 
                       <button
                         onClick={source.action}
-                        className="px-4 py-2 bg-canvas border border-accent text-accent-fg rounded-lg text-sm font-semibold hover:bg-accent-subtle transition-colors flex items-center gap-2"
+                        className="px-4 py-2 bg-canvas dark:bg-slate-900 border border-accent text-accent-fg dark:text-accent-fg rounded-lg text-sm font-semibold hover:bg-accent-subtle dark:hover:bg-indigo-950/30 transition-colors flex items-center gap-2"
                       >
                         Set up now
                         <ChevronRight className="w-4 h-4" />
@@ -328,7 +327,7 @@ export default function IntegrationsPage() {
         <div className="mb-6">
           <button
             onClick={() => setShowComingSoon(!showComingSoon)}
-            className="w-full flex items-center justify-between text-xs font-semibold text-fg-tertiary mb-3 hover:text-fg-secondary transition-colors"
+            className="w-full flex items-center justify-between text-xs font-semibold text-fg-tertiary dark:text-fg-tertiary mb-3 hover:text-fg-secondary dark:hover:text-slate-200 transition-colors"
           >
             <span>Coming Soon</span>
             {showComingSoon ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -341,15 +340,15 @@ export default function IntegrationsPage() {
                 return (
                   <div
                     key={source.name}
-                    className="bg-subtle rounded-lg border border-line/60 p-4 opacity-60"
+                    className="bg-subtle dark:bg-slate-800/50 rounded-lg border border-line/60 dark:border-slate-700/60 p-4 opacity-60"
                   >
                     <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 bg-muted rounded-lg flex items-center justify-center shrink-0`}>
+                      <div className={`w-10 h-10 bg-muted dark:bg-slate-800 rounded-lg flex items-center justify-center shrink-0`}>
                         <Icon className="w-5 h-5 text-fg-tertiary" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="text-sm font-semibold text-fg-secondary">{source.name}</h3>
-                        <p className="text-xs text-fg-tertiary">{source.description}</p>
+                        <h3 className="text-sm font-semibold text-fg-secondary dark:text-slate-200">{source.name}</h3>
+                        <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">{source.description}</p>
                       </div>
                       <span className="text-meta font-semibold text-fg-tertiary shrink-0">
                         Soon
@@ -376,7 +375,7 @@ export default function IntegrationsPage() {
             </div>
           </div>
           
-          <div className="bg-canvas/5 rounded-lg p-4 font-mono text-xs mb-4 border border-white/10 text-accent-fg overflow-x-auto">
+          <div className="bg-white/5 dark:bg-slate-900/5 rounded-lg p-4 font-mono text-xs mb-4 border border-white/10 text-accent-fg overflow-x-auto">
             <code>{scriptTag}</code>
           </div>
           

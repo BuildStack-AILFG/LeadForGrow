@@ -55,7 +55,7 @@ function SectionCard({ title, icon: Icon, count, action, children, empty }) {
     <div className="bg-canvas dark:bg-slate-900 border border-line/80 dark:border-slate-800 rounded-lg overflow-hidden">
       <div className="flex items-center justify-between px-4 py-3 border-b border-line dark:border-slate-800 bg-subtle dark:bg-slate-800/30">
         <div className="flex items-center gap-2">
-          {Icon && <Icon className="w-4 h-4 text-accent-fg" />}
+          {Icon && <Icon className="w-4 h-4 text-accent-fg dark:text-accent-fg" />}
           <h2 className="text-sm font-semibold text-fg dark:text-slate-200">{title}</h2>
           {count !== undefined && (
             <span className="text-xs font-medium px-1.5 py-0.5 rounded-full bg-accent-subtle text-accent-fg dark:bg-accent-pressed/40 dark:text-accent-fg">
@@ -96,7 +96,7 @@ export default function CompanyDetailWorkspace({ companyId }) {
 
   if (ws.loading) return <LeadsSkeleton />;
   if (!ws.company) {
-    return <div className="p-8 text-center text-fg-tertiary">Company not found</div>;
+    return <div className="p-8 text-center text-fg-tertiary dark:text-fg-tertiary">Company not found</div>;
   }
 
   const c = ws.company;
@@ -104,21 +104,21 @@ export default function CompanyDetailWorkspace({ companyId }) {
   const currency = summary.currency || 'INR';
 
   return (
-    <div className="min-h-full bg-canvas">
+    <div className="min-h-full bg-subtle dark:bg-slate-950">
       <div className="px-4 sm:px-6 py-5 max-w-[1600px] mx-auto">
         {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-5">
           <div>
-            <Link href="/automation/companies" className="inline-flex items-center gap-1 text-sm text-fg-tertiary hover:text-accent-fg mb-2">
+            <Link href="/automation/companies" className="inline-flex items-center gap-1 text-sm text-fg-tertiary dark:text-fg-tertiary hover:text-accent-fg dark:hover:text-accent-fg mb-2">
               <ArrowLeft className="w-4 h-4" /> Companies
             </Link>
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-lg bg-canvas border border-line dark:bg-accent-pressed/30 border border-line dark:border-emerald-800 flex items-center justify-center">
-                <Building2 className="w-6 h-6 text-fg-secondary" />
+                <Building2 className="w-6 h-6 text-fg-secondary dark:text-accent-fg" />
               </div>
               <div>
                 <h1 className="text-page font-semibold text-fg">{c.name}</h1>
-                <p className="text-sm text-fg-tertiary">{c.industry || 'No industry'} · Owner: {ownerLabel(c.ownerId)}</p>
+                <p className="text-sm text-fg-tertiary dark:text-fg-tertiary">{c.industry || 'No industry'} · Owner: {ownerLabel(c.ownerId)}</p>
               </div>
             </div>
           </div>
@@ -134,7 +134,7 @@ export default function CompanyDetailWorkspace({ companyId }) {
               <Pencil className="w-4 h-4" /> Edit
             </button>
             <div className="relative">
-              <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 border border-line dark:border-slate-700 rounded-lg hover:bg-canvas">
+              <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 border border-line dark:border-slate-700 rounded-lg hover:bg-canvas dark:hover:bg-slate-800">
                 <MoreHorizontal className="w-4 h-4" />
               </button>
               {menuOpen && (
@@ -142,7 +142,7 @@ export default function CompanyDetailWorkspace({ companyId }) {
                   <button onClick={() => { setMenuOpen(false); ws.archiveCompany(); }} className="w-full flex items-center gap-2 px-3 py-2 text-sm text-left hover:bg-subtle dark:hover:bg-slate-800">
                     <Archive className="w-4 h-4" /> Archive
                   </button>
-                  <button onClick={() => { setMenuOpen(false); ws.deleteCompany(); }} className="w-full flex items-center gap-2 px-3 py-2 text-sm text-left text-danger hover:bg-danger-subtle dark:hover:bg-red-950/30">
+                  <button onClick={() => { setMenuOpen(false); ws.deleteCompany(); }} className="w-full flex items-center gap-2 px-3 py-2 text-sm text-left text-danger dark:text-red-400 hover:bg-danger-subtle dark:hover:bg-red-950/30">
                     <Trash2 className="w-4 h-4" /> Delete
                   </button>
                 </div>
@@ -160,8 +160,8 @@ export default function CompanyDetailWorkspace({ companyId }) {
             { label: 'Active Contacts', value: summary.activeContacts ?? 0, icon: Users },
           ].map((kpi) => (
             <div key={kpi.label} className="bg-canvas dark:bg-slate-900 border border-line/80 dark:border-slate-800 rounded-lg p-4">
-              <div className="flex items-center gap-2 text-xs text-fg-tertiary">
-                <kpi.icon className="w-3.5 h-3.5 text-accent-fg" />
+              <div className="flex items-center gap-2 text-xs text-fg-tertiary dark:text-fg-tertiary">
+                <kpi.icon className="w-3.5 h-3.5 text-accent-fg dark:text-accent-fg" />
                 {kpi.label}
               </div>
               <p className="text-xl font-semibold text-fg dark:text-white mt-1">{kpi.value}</p>
@@ -179,7 +179,7 @@ export default function CompanyDetailWorkspace({ companyId }) {
                 {c.website && (
                   <div>
                     <dt className="text-fg-tertiary text-xs">Website</dt>
-                    <dd className="flex items-center gap-1 text-accent-fg truncate">
+                    <dd className="flex items-center gap-1 text-accent-fg dark:text-accent-fg truncate">
                       <Globe className="w-3.5 h-3.5" />
                       <a href={c.website.startsWith('http') ? c.website : `https://${c.website}`} target="_blank" rel="noreferrer" className="hover:underline truncate">
                         {c.website.replace(/^https?:\/\//, '')}
@@ -222,7 +222,7 @@ export default function CompanyDetailWorkspace({ companyId }) {
 
             <SectionCard title="Attachments" icon={Paperclip} count={c.attachments?.length || 0}
               action={
-                <button onClick={() => fileRef.current?.click()} disabled={ws.uploading} className="text-xs font-medium text-accent-fg hover:text-accent-fg flex items-center gap-1">
+                <button onClick={() => fileRef.current?.click()} disabled={ws.uploading} className="text-xs font-medium text-accent-fg dark:text-accent-fg hover:text-accent-fg dark:hover:text-accent-fg flex items-center gap-1">
                   <Upload className="w-3.5 h-3.5" /> {ws.uploading ? 'Uploading…' : 'Upload'}
                 </button>
               }
@@ -232,7 +232,7 @@ export default function CompanyDetailWorkspace({ companyId }) {
               <ul className="space-y-2">
                 {(c.attachments || []).map((a) => (
                   <li key={a._id}>
-                    <a href={a.fileUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm text-fg-secondary dark:text-fg-disabled hover:text-accent-fg py-1">
+                    <a href={a.fileUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm text-fg-secondary dark:text-fg-disabled hover:text-accent-fg dark:hover:text-accent-fg py-1">
                       <Paperclip className="w-3.5 h-3.5 flex-shrink-0" />
                       <span className="truncate">{a.fileName}</span>
                       <ExternalLink className="w-3 h-3 flex-shrink-0 opacity-50" />
@@ -246,14 +246,14 @@ export default function CompanyDetailWorkspace({ companyId }) {
           {/* Center */}
           <div className="xl:col-span-6 space-y-4">
             <SectionCard title="Contacts" icon={Users} count={c.contacts?.length || 0}
-              action={<button onClick={() => ws.setShowAddContact(true)} className="text-xs font-medium text-accent-fg">+ Add</button>}
+              action={<button onClick={() => ws.setShowAddContact(true)} className="text-xs font-medium text-accent-fg dark:text-accent-fg">+ Add</button>}
               empty={!c.contacts?.length ? 'No contacts linked yet' : undefined}
             >
               <div className="divide-y divide-line dark:divide-slate-800">
                 {(c.contacts || []).map((contact) => (
                   <Link key={contact._id} href={`/automation/contacts/${contact._id}`} className="flex items-center justify-between py-2.5 group">
                     <div>
-                      <p className="text-sm font-medium text-fg dark:text-slate-200 group-hover:text-accent-fg">
+                      <p className="text-sm font-medium text-fg dark:text-slate-200 group-hover:text-accent-fg dark:group-hover:text-accent-fg">
                         {contact.fullName || `${contact.firstName || ''} ${contact.lastName || ''}`.trim()}
                       </p>
                       <p className="text-xs text-fg-tertiary">{contact.jobTitle || contact.emails?.[0]?.address || contact.phones?.[0]?.number || '—'}</p>
@@ -265,14 +265,14 @@ export default function CompanyDetailWorkspace({ companyId }) {
             </SectionCard>
 
             <SectionCard title="Deals" icon={Briefcase} count={c.deals?.length || 0}
-              action={<button onClick={() => ws.setShowAddDeal(true)} className="text-xs font-medium text-accent-fg">+ Add</button>}
+              action={<button onClick={() => ws.setShowAddDeal(true)} className="text-xs font-medium text-accent-fg dark:text-accent-fg">+ Add</button>}
               empty={!c.deals?.length ? 'No deals linked yet' : undefined}
             >
               <div className="divide-y divide-line dark:divide-slate-800">
                 {(c.deals || []).map((deal) => (
                   <Link key={deal._id} href={`/automation/deals/${deal._id}`} className="flex items-center justify-between py-2.5 group">
                     <div>
-                      <p className="text-sm font-medium text-fg dark:text-slate-200 group-hover:text-accent-fg">{deal.title}</p>
+                      <p className="text-sm font-medium text-fg dark:text-slate-200 group-hover:text-accent-fg dark:group-hover:text-accent-fg">{deal.title}</p>
                       <p className="text-xs text-fg-tertiary capitalize">{deal.stage?.replace(/_/g, ' ')}</p>
                     </div>
                     <span className="text-sm font-semibold text-accent-fg dark:text-accent-fg">
@@ -289,7 +289,7 @@ export default function CompanyDetailWorkspace({ companyId }) {
               >
                 <ul className="space-y-2">
                   {(c.tasks || []).map((t) => (
-                    <li key={t._id} className="text-sm border-l-2 border-warning/30 pl-2.5 py-0.5">
+                    <li key={t._id} className="text-sm border-l-2 border-warning/30 dark:border-amber-700 pl-2.5 py-0.5">
                       <p className="font-medium text-fg dark:text-slate-200">{t.title}</p>
                       <p className="text-xs text-fg-tertiary">Due {formatDateTime(t.dueDate)} · {ownerLabel(t.assignedTo)}</p>
                     </li>
@@ -302,7 +302,7 @@ export default function CompanyDetailWorkspace({ companyId }) {
               >
                 <ul className="space-y-2">
                   {(c.meetings || []).map((m) => (
-                    <li key={m._id} className="text-sm border-l-2 border-line pl-2.5 py-0.5">
+                    <li key={m._id} className="text-sm border-l-2 border-line dark:border-accent pl-2.5 py-0.5">
                       <p className="font-medium text-fg dark:text-slate-200">{m.guest?.name || 'Meeting'}</p>
                       <p className="text-xs text-fg-tertiary">{formatDateTime(m.startTime)} · {m.status}</p>
                     </li>

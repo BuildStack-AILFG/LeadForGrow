@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Bold, Italic, Eye, Send, MessageCircle, ChevronDown } from 'lucide-react';
 import { authFetch } from '@/lib/apiClient';
 import { TEMPLATE_VARIABLES, applyPreviewVars } from './constants';
@@ -43,6 +43,7 @@ export default function TemplateEditor({
 }) {
   const [showPreview, setShowPreview] = useState(false);
   const [approvedTemplates, setApprovedTemplates] = useState([]);
+  const emailBodyRef = useRef(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -63,8 +64,22 @@ export default function TemplateEditor({
   };
 
   const wrapSelection = (field, wrapper) => {
+    const el = emailBodyRef.current;
     const val = form[field] || '';
-    onChange({ ...form, [field]: val + wrapper });
+    if (!el) {
+      onChange({ ...form, [field]: val + wrapper + wrapper });
+      return;
+    }
+    const start = el.selectionStart ?? val.length;
+    const end = el.selectionEnd ?? val.length;
+    const selected = val.slice(start, end);
+    const next = `${val.slice(0, start)}${wrapper}${selected}${wrapper}${val.slice(end)}`;
+    onChange({ ...form, [field]: next });
+    requestAnimationFrame(() => {
+      el.focus();
+      const cursor = selected ? end + wrapper.length * 2 : start + wrapper.length;
+      el.setSelectionRange(cursor, cursor);
+    });
   };
 
   const showEmail = ['email', 'both'].includes(form.channel);
@@ -103,6 +118,7 @@ export default function TemplateEditor({
               </div>
             </div>
             <textarea
+              ref={emailBodyRef}
               rows={5}
               value={form.messageTemplate}
               onChange={(e) => onChange({ ...form, messageTemplate: e.target.value })}
@@ -119,7 +135,7 @@ export default function TemplateEditor({
         <>
           <div>
             <div className="flex items-center gap-1.5 mb-1.5">
-              <MessageCircle className="w-3.5 h-3.5 text-accent-fg" />
+              <WhatsAppIcon colored className="w-3.5 h-3.5" />
               <label className="text-xs font-medium text-fg-secondary dark:text-fg-tertiary">WhatsApp message</label>
             </div>
             <textarea
@@ -130,7 +146,7 @@ export default function TemplateEditor({
               placeholder="Hi {{name}}, we received your inquiry..."
               className={`w-full px-3 py-2 text-sm border rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-teal-500/20 ${
                 waLocked
-                  ? 'bg-muted dark:bg-slate-800 border-line text-fg-tertiary cursor-not-allowed'
+                  ? 'bg-muted dark:bg-slate-800 border-line dark:border-slate-700 text-fg-tertiary dark:text-fg-tertiary cursor-not-allowed'
                   : 'bg-canvas dark:bg-slate-900 border-line dark:border-slate-700'
               }`}
             />
@@ -179,7 +195,7 @@ export default function TemplateEditor({
                 )}
               </select>
               {approvedTemplates.length === 0 && (
-                <p className="text-meta text-fg-tertiary mt-1">
+                <p className="text-meta text-fg-tertiary dark:text-fg-tertiary mt-1">
                   No approved templates yet — <a href="/automation/whatsapp-templates" className="underline">build & submit one</a>.
                 </p>
               )}
@@ -197,7 +213,7 @@ export default function TemplateEditor({
                 placeholder="https://..."
                 className="flex-1 px-3 py-2 text-sm bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-focus"
               />
-              <label className="cursor-pointer px-3 py-2 text-xs font-medium text-fg-secondary bg-muted dark:bg-slate-800 border border-line dark:border-slate-700 rounded-md hover:bg-muted dark:hover:bg-slate-700">
+              <label className="cursor-pointer px-3 py-2 text-xs font-medium text-fg-secondary dark:text-fg-disabled bg-muted dark:bg-slate-800 border border-line dark:border-slate-700 rounded-md hover:bg-muted dark:hover:bg-slate-700">
                 Upload
                 <input
                   type="file"
@@ -211,7 +227,7 @@ export default function TemplateEditor({
               </label>
             </div>
             <div className="mt-2 p-2.5 rounded-lg bg-subtle dark:bg-slate-800/50 border border-line dark:border-slate-700">
-              <p className="text-meta font-medium text-fg-tertiary mb-1.5">Cloudinary (large uploads)</p>
+              <p className="text-meta font-medium text-fg-tertiary dark:text-fg-tertiary mb-1.5">Cloudinary (large uploads)</p>
               <div className="grid grid-cols-2 gap-2">
                 <input
                   type="text"
@@ -249,7 +265,7 @@ export default function TemplateEditor({
       <button
         type="button"
         onClick={() => setShowPreview(!showPreview)}
-        className="inline-flex items-center gap-1.5 text-xs font-medium text-accent-fg hover:text-accent-fg"
+        className="inline-flex items-center gap-1.5 text-xs font-medium text-accent-fg dark:text-accent-fg hover:text-accent-fg dark:hover:text-accent-fg"
       >
         <Send className="w-3.5 h-3.5" />
         {showPreview ? 'Hide preview' : 'Test message preview'}

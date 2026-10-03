@@ -14,13 +14,13 @@ export default function DealsFilterBar({
 }) {
   if (!showFilters && !showSort) return null;
 
-  const selectCls = 'text-meta px-2.5 py-2 bg-canvas border border-line rounded-lg text-fg-secondary focus:outline-none focus:ring-2 focus:ring-line';
+  const selectCls = 'text-meta px-2.5 py-2 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg text-fg-secondary dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-line';
 
   return (
-    <div className="mb-4 p-4 bg-canvas border border-line rounded-lg space-y-3">
+    <div className="mb-4 p-4 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg space-y-3">
       {showFilters && (
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-meta font-medium text-fg-tertiary mr-1">Status</span>
+          <span className="text-meta font-medium text-fg-tertiary dark:text-fg-tertiary mr-1">Status</span>
           {FILTERS.map((f) => (
             <button
               key={f.id}
@@ -28,15 +28,15 @@ export default function DealsFilterBar({
               onClick={() => onFilterChange({ status: f.id })}
               className={`px-2.5 py-1.5 text-[12px] rounded-lg border transition-colors ${
                 filters.status === f.id
-                  ? 'bg-accent text-white border-accent'
-                  : 'bg-canvas text-fg-secondary border-line hover:bg-subtle'
+                  ? 'bg-accent dark:bg-slate-700 text-white border-accent dark:border-slate-700'
+                  : 'bg-canvas dark:bg-slate-900 text-fg-secondary dark:text-fg-disabled border-line dark:border-slate-700 hover:bg-subtle dark:hover:bg-slate-800'
               }`}
             >
               {f.label}
             </button>
           ))}
 
-          <div className="w-px h-6 bg-muted mx-1 hidden sm:block" />
+          <div className="w-px h-6 bg-muted dark:bg-slate-800 mx-1 hidden sm:block" />
 
           <select
             value={filters.stage}
@@ -67,14 +67,14 @@ export default function DealsFilterBar({
             <button
               type="button"
               onClick={() => onFilterChange({ status: 'all', stage: '', ownerId: '' })}
-              className="text-meta text-fg-tertiary hover:text-fg-secondary underline"
+              className="text-meta text-fg-tertiary dark:text-fg-disabled hover:text-fg-secondary dark:hover:text-slate-200 underline"
             >
               Clear filters
             </button>
           )}
 
           {filteredCount != null && (
-            <span className="text-meta text-fg-tertiary tabular-nums ml-auto">
+            <span className="text-meta text-fg-tertiary dark:text-fg-tertiary tabular-nums ml-auto">
               Showing {filteredCount} of {totalCount}
             </span>
           )}
@@ -84,8 +84,8 @@ export default function DealsFilterBar({
       {showSort && (() => {
         const activeSort = SORT_OPTIONS.find((o) => o.key === filters.sort) || SORT_OPTIONS[0];
         return (
-          <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-line">
-            <span className="text-meta font-medium text-fg-tertiary mr-1">Sort by</span>
+          <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-line dark:border-slate-700">
+            <span className="text-meta font-medium text-fg-tertiary dark:text-fg-tertiary mr-1">Sort by</span>
             {SORT_OPTIONS.map((opt) => (
               <button
                 key={opt.key}
@@ -93,8 +93,8 @@ export default function DealsFilterBar({
                 onClick={() => onFilterChange({ sort: opt.key })}
                 className={`px-2.5 py-1.5 text-[12px] rounded-lg border transition-colors ${
                   filters.sort === opt.key
-                    ? 'bg-accent text-white border-accent'
-                    : 'bg-canvas text-fg-secondary border-line hover:bg-subtle'
+                    ? 'bg-accent dark:bg-slate-700 text-white border-accent dark:border-slate-700'
+                    : 'bg-canvas dark:bg-slate-900 text-fg-secondary dark:text-fg-disabled border-line dark:border-slate-700 hover:bg-subtle dark:hover:bg-slate-800'
                 }`}
               >
                 {opt.label}
@@ -106,7 +106,7 @@ export default function DealsFilterBar({
               type="button"
               onClick={() => onFilterChange({ dir: filters.dir === 'asc' ? 'desc' : 'asc' })}
               title={`Currently sorting by ${activeSort.label}`}
-              className="px-2.5 py-1.5 text-meta rounded-md border border-line text-fg-secondary hover:bg-subtle"
+              className="px-2.5 py-1.5 text-meta rounded-md border border-line dark:border-slate-700 text-fg-secondary dark:text-fg-disabled hover:bg-subtle dark:hover:bg-slate-800"
             >
               {activeSort.label} {filters.dir === 'asc' ? '↑ Ascending' : '↓ Descending'}
             </button>

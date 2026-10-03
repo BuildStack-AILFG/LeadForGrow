@@ -5,7 +5,7 @@ export const metadata = {
   description: "Expert setup of your LeadForGrow capture and management infrastructure. We connect your ads, forms, and CRM for 100% lead trackability. Start today.",
   keywords: ["lead system setup service", "sales infrastructure audit India", "lead capture setup", "crm implementation services", "marketing system specialist"],
   alternates: {
-    canonical: 'https://leadforgrow.online/services/lead-setup'
+    canonical: 'https://www.leadforgrow.com/services/lead-setup'
   }
 };
 
@@ -151,8 +151,8 @@ export default function LeadSetupPage() {
         "@type": "Service",
         "serviceType": "Lead Management System Implementation",
         "provider": {
-          "@type": "LocalBusiness",
-          "name": "LeadForGrow Tech Ops"
+          "@type": "Organization",
+          "name": "ScaleDesk Technology Private Limited"
         },
         "areaServed": "India",
         "description": "Professional setup and calibration of sales lead tracking and management systems for agencies and SMEs."

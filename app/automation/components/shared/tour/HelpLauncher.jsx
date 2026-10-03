@@ -74,11 +74,11 @@ export default function HelpLauncher() {
       {open && (
         <div
           ref={panelRef}
-          className="lfg-tour-pop glass-panel fixed z-[9996] bottom-[172px] right-6 w-72 rounded-lg p-4 shadow-modal"
+          className="lfg-tour-pop glass-panel fixed z-[9996] bottom-[148px] right-6 w-72 rounded-lg p-4 shadow-modal"
         >
           <div className="flex items-center justify-between mb-3">
             <p className="text-sm font-semibold text-fg dark:text-slate-100 flex items-center gap-1.5">
-              <Compass className="w-4 h-4 text-accent-fg" /> Need help?
+              <Compass className="w-4 h-4 text-accent-fg dark:text-accent-fg" /> Need help?
             </p>
             <button type="button" onClick={() => setOpen(false)} className="p-1 rounded-lg text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800">
               <X className="w-3.5 h-3.5" />
@@ -133,7 +133,7 @@ export default function HelpLauncher() {
         onClick={() => setOpen((v) => !v)}
         aria-label="Open help"
         aria-expanded={open}
-        className="fixed z-[9995] bottom-[104px] right-6 w-11 h-11 rounded-full glass-dark text-white flex items-center justify-center shadow-popover hover:scale-105 active:scale-95 transition-transform"
+        className="fixed z-[9995] bottom-[80px] right-6 w-11 h-11 rounded-full glass-dark text-white hidden lg:flex items-center justify-center shadow-popover hover:scale-105 active:scale-95 transition-transform"
         title="Need help?"
       >
         <Compass className="w-[18px] h-[18px]" />

@@ -43,7 +43,7 @@ export default function CustomFieldBuilder({ fields: initialFields, onChange }) 
               <p className="text-sm font-medium text-fg dark:text-slate-100">{field.name}</p>
               <p className="text-meta text-fg-tertiary capitalize">{field.type} · {field.entity}{field.required ? ' · Required' : ''}</p>
             </div>
-            <button type="button" onClick={() => removeField(field.id)} className="opacity-0 group-hover:opacity-100 p-1 text-danger hover:text-danger">
+            <button type="button" onClick={() => removeField(field.id)} className="opacity-0 group-hover:opacity-100 p-1 text-danger hover:text-danger dark:hover:text-red-400">
               <Trash2 className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -64,11 +64,11 @@ export default function CustomFieldBuilder({ fields: initialFields, onChange }) 
           </div>
           <div className="flex gap-2">
             <button type="button" onClick={addField} className="px-3 py-1.5 text-xs font-medium text-white bg-accent rounded-md">Add field</button>
-            <button type="button" onClick={() => setShowAdd(false)} className="px-3 py-1.5 text-xs font-medium text-fg-secondary">Cancel</button>
+            <button type="button" onClick={() => setShowAdd(false)} className="px-3 py-1.5 text-xs font-medium text-fg-secondary dark:text-fg-disabled">Cancel</button>
           </div>
         </div>
       ) : (
-        <button type="button" onClick={() => setShowAdd(true)} className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium text-accent-fg hover:text-accent-fg">
+        <button type="button" onClick={() => setShowAdd(true)} className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium text-accent-fg dark:text-accent-fg hover:text-accent-fg dark:hover:text-accent-fg">
           <Plus className="w-3.5 h-3.5" /> Add custom field
         </button>
       )}

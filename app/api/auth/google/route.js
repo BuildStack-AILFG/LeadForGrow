@@ -9,16 +9,15 @@ export const dynamic = 'force-dynamic';
  */
 export async function GET(req) {
   try {
-    if (!getGoogleClientId() || !getGoogleClientSecret()) {
-      return NextResponse.json(
-        { success: false, error: 'Google Sign-In is not configured' },
-        { status: 503 }
-      );
-    }
-
     const { searchParams } = new URL(req.url);
     const mode = searchParams.get('mode') === 'register' ? 'register' : 'login';
     const isAgency = searchParams.get('isAgency') === '1' ? '1' : '0';
+
+    if (!getGoogleClientId() || !getGoogleClientSecret()) {
+      const base = (process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000').replace(/\/$/, '');
+      const dest = mode === 'register' ? 'register' : 'login';
+      return NextResponse.redirect(`${base}/${dest}?error=google_config`);
+    }
 
     // Random nonce bound to the browser via httpOnly cookie (login CSRF protection)
     const nonce = globalThis.crypto.randomUUID();

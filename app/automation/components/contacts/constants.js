@@ -1,6 +1,6 @@
 export const CONTACT_TYPES = [
-  { key: 'personal', label: 'Personal', badge: 'bg-accent-subtle text-accent-fg border-line' },
-  { key: 'business', label: 'Business', badge: 'bg-accent-subtle text-accent-fg border-line' },
+  { key: 'personal', label: 'Personal', badge: 'bg-accent-subtle dark:bg-violet-950/30 text-accent-fg dark:text-accent-fg border-line dark:border-violet-800' },
+  { key: 'business', label: 'Business', badge: 'bg-accent-subtle dark:bg-teal-950/30 text-accent-fg dark:text-accent-fg border-line dark:border-teal-800' },
 ];
 
 export const TABLE_COLUMNS = [
@@ -30,6 +30,7 @@ export const DEFAULT_FILTERS = {
   ownerId: '',
   hasOpenDeals: '',
   recentlyAdded: false,
+  archived: false,
   sort: 'updatedAt',
   dir: 'desc',
   page: 1,

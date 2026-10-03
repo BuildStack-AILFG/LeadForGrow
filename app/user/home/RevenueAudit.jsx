@@ -1,5 +1,6 @@
 "use client"
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowRight, MessageCircle, Globe, GitBranch, BarChart3, ChevronRight, ChevronLeft, Check, Command, Layers } from "lucide-react"
@@ -286,7 +287,7 @@ const RoutingVisual = () => (
 const features = [
   {
     id: "whatsapp",
-    icon: MessageCircle,
+    icon: WhatsAppIcon,
     title: "WhatsApp",
     badge: "WhatsApp",
     headline: "Capture leads from WhatsApp messages",
@@ -530,7 +531,7 @@ export default function RevenueAudit() {
             <div className="flex items-center justify-center space-x-8 md:space-x-16 w-[85%] md:w-auto overflow-hidden">
               <img 
                 src="/scaledesk_technology_logo.jpg" 
-                alt="Scaledesk Technology" 
+                alt="ScaleDesk" 
                 className="h-8 md:h-10 object-contain mix-blend-multiply opacity-80 hover:opacity-100 transition-opacity duration-300" 
               />
               <img 

@@ -54,7 +54,7 @@ export default function FormsWorkspace() {
   /* ── HOME ── */
   if (ws.workspaceMode === 'home') {
     return (
-      <div className="min-h-full bg-canvas">
+      <div className="min-h-full bg-subtle dark:bg-slate-950">
         <FormsHomeView
           forms={ws.forms}
           stats={ws.stats}
@@ -70,7 +70,7 @@ export default function FormsWorkspace() {
   /* ── WIZARD ── */
   if (ws.workspaceMode === 'wizard') {
     return (
-      <div className="min-h-full bg-canvas">
+      <div className="min-h-full bg-subtle dark:bg-slate-950">
         <FormCreationWizard
           step={ws.wizardStep}
           draft={ws.wizardDraft}
@@ -90,13 +90,13 @@ export default function FormsWorkspace() {
   return (
     <div className="flex flex-col h-full min-h-[calc(100vh-0px)] bg-subtle dark:bg-slate-950">
       {/* Top bar */}
-      <header className="flex-shrink-0 bg-canvas sticky top-0 z-30 border-b border-line">
+      <header className="flex-shrink-0 bg-white/80 dark:bg-slate-900/80 sticky top-0 z-30">
         <div className="flex items-center justify-between gap-3 px-4 sm:px-6 h-14">
           <div className="flex items-center gap-3 min-w-0">
             <button
               type="button"
               onClick={ws.backToHome}
-              className="p-2 -ml-2 text-fg-tertiary hover:text-fg dark:hover:text-slate-200 rounded-lg hover:bg-muted dark:hover:bg-slate-800 transition-colors"
+              className="p-2 -ml-2 text-fg-tertiary dark:text-fg-tertiary hover:text-fg dark:hover:text-slate-200 rounded-lg hover:bg-muted dark:hover:bg-slate-800 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
             </button>
@@ -118,7 +118,7 @@ export default function FormsWorkspace() {
                   type="button"
                   onClick={() => ws.setView(tab.id)}
                   className={`relative inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium rounded-lg transition-colors ${
-                    active ? 'text-fg dark:text-slate-50' : 'text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled'
+                    active ? 'text-fg dark:text-slate-50' : 'text-fg-tertiary dark:text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled'
                   }`}
                 >
                   {active && (
@@ -174,7 +174,7 @@ export default function FormsWorkspace() {
               <button
                 type="button"
                 onClick={() => setShowMenu(!showMenu)}
-                className="p-2 text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled rounded-lg hover:bg-muted dark:hover:bg-slate-800"
+                className="p-2 text-fg-tertiary dark:text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled rounded-lg hover:bg-muted dark:hover:bg-slate-800"
                 aria-label="More options"
               >
                 <MoreHorizontal className="w-4 h-4" />
@@ -193,7 +193,7 @@ export default function FormsWorkspace() {
                     <button
                       type="button"
                       onClick={confirmDelete}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-xs text-danger hover:bg-danger-subtle dark:hover:bg-red-950/30"
+                      className="w-full flex items-center gap-2 px-3 py-2 text-xs text-danger dark:text-red-400 hover:bg-danger-subtle dark:hover:bg-red-950/30"
                     >
                       <Trash2 className="w-3.5 h-3.5" /> Delete form
                     </button>
@@ -212,7 +212,7 @@ export default function FormsWorkspace() {
               type="button"
               onClick={() => ws.setView(tab.id)}
               className={`flex-shrink-0 px-3 py-1.5 text-xs font-medium rounded-lg ${
-                ws.view === tab.id ? 'bg-accent text-white' : 'bg-muted dark:bg-slate-800 text-fg-secondary'
+                ws.view === tab.id ? 'bg-accent text-white' : 'bg-muted dark:bg-slate-800 text-fg-secondary dark:text-fg-disabled'
               }`}
             >
               {tab.label}
@@ -277,7 +277,7 @@ export default function FormsWorkspace() {
                       type="button"
                       onClick={() => setPreviewDevice(id)}
                       className={`inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-lg transition-all ${
-                        previewDevice === id ? 'bg-accent text-white' : 'text-fg-tertiary hover:text-fg-secondary'
+                        previewDevice === id ? 'bg-accent text-white' : 'text-fg-tertiary dark:text-fg-tertiary hover:text-fg-secondary dark:hover:text-slate-200'
                       }`}
                     >
                       <Icon className="w-3.5 h-3.5" /> {label}
@@ -302,14 +302,22 @@ export default function FormsWorkspace() {
               </div>
             )}
 
-            {ws.view === 'publish' && ws.selectedForm && (
-              <PublishPanel
-                form={ws.selectedForm}
-                styling={ws.draftStyling}
-                onStylingChange={ws.setDraftStyling}
-                onPublish={(active) => ws.togglePublish(active)}
-                isPublished={ws.selectedForm.active !== false}
-              />
+            {ws.view === 'publish' && (
+              ws.selectedForm ? (
+                <PublishPanel
+                  form={ws.selectedForm}
+                  styling={ws.draftStyling}
+                  onStylingChange={ws.setDraftStyling}
+                  onPublish={(active) => ws.togglePublish(active)}
+                  isPublished={ws.selectedForm.active !== false}
+                />
+              ) : (
+                <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
+                  <Rocket className="w-10 h-10 text-fg-disabled mb-3" />
+                  <p className="text-sm font-medium text-fg-secondary dark:text-fg-disabled">Save your form to publish it</p>
+                  <p className="text-xs text-fg-tertiary mt-1 max-w-sm">Publishing options appear once this form has been saved for the first time.</p>
+                </div>
+              )
             )}
 
             {ws.view === 'analytics' && (

@@ -26,8 +26,8 @@ export default function PageLoader({
     return (
       <div className={`p-6 space-y-3 ${className}`}>
         {label && (
-          <div className="flex items-center justify-center gap-2 py-2 text-xs font-medium text-fg-tertiary">
-            <Loader2 className="w-4 h-4 animate-spin text-accent-fg" />
+          <div className="flex items-center justify-center gap-2 py-2 text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">
+            <Loader2 className="w-4 h-4 animate-spin text-accent-fg dark:text-accent-fg" />
             <span>{label}</span>
           </div>
         )}
@@ -44,8 +44,8 @@ export default function PageLoader({
 
   if (inline) {
     return (
-      <span className={`inline-flex items-center gap-2 text-xs text-fg-tertiary ${className}`}>
-        <Loader2 className="w-3.5 h-3.5 animate-spin text-accent-fg" />
+      <span className={`inline-flex items-center gap-2 text-xs text-fg-tertiary dark:text-fg-tertiary ${className}`}>
+        <Loader2 className="w-3.5 h-3.5 animate-spin text-accent-fg dark:text-accent-fg" />
         {label || 'Loading…'}
       </span>
     );

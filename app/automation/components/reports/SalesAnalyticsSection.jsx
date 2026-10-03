@@ -26,7 +26,7 @@ export default function SalesAnalyticsSection({ reports, metrics }) {
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {items.map((item) => (
           <div key={item.label} className="p-3 rounded-lg bg-subtle dark:bg-slate-800/50 border border-line dark:border-slate-800">
-            <p className="text-meta font-medium text-fg-tertiary mb-1">{item.label}</p>
+            <p className="text-meta font-medium text-fg-tertiary dark:text-fg-tertiary mb-1">{item.label}</p>
             <p className="text-lg font-semibold text-fg dark:text-slate-50 tabular-nums">{item.value}</p>
           </div>
         ))}

@@ -5,7 +5,7 @@ export const metadata = {
   description: "Expert implementation of your LeadForGrow automation sequences. We build your WhatsApp, Email, and team alerts for zero-latency lead response.",
   keywords: ["sales automation setup", "WhatsApp automation expert India", "lead workflow design", "automated email sequences", "sales operations consulting"],
   alternates: {
-    canonical: 'https://leadforgrow.online/services/automation-setup'
+    canonical: 'https://www.leadforgrow.com/services/automation-setup'
   }
 };
 
@@ -152,8 +152,8 @@ export default function AutomationSetupPage() {
         "@type": "Service",
         "serviceType": "Sales and Marketing Automation Setup",
         "provider": {
-          "@type": "LocalBusiness",
-          "name": "LeadForGrow Automation Lab"
+          "@type": "Organization",
+          "name": "ScaleDesk Technology Private Limited"
         },
         "areaServed": "India",
         "description": "Expert design and implementation of lead follow-up sequences, WhatsApp automation, and automated sales routing."

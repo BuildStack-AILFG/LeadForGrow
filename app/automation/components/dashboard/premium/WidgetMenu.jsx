@@ -61,7 +61,7 @@ export default function WidgetMenu({ onRefresh, onToggleCollapse, collapsed, ext
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className={`inline-flex items-center justify-center w-8 h-8 rounded-md text-[#98A2B3] transition-all duration-200 hover:bg-[#F2F4F3] hover:text-[#344054] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1D4B3E]/25 ${open ? 'bg-muted text-fg-secondary' : ''
+        className={`inline-flex items-center justify-center w-8 h-8 rounded-none text-[#98A2B3] dark:text-slate-400 transition-all duration-200 hover:bg-[#F2F4F3] dark:hover:bg-slate-800 hover:text-[#344054] dark:hover:text-slate-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/25 ${open ? 'bg-muted dark:bg-slate-900 text-fg-secondary dark:text-slate-200' : ''
           }`}
         aria-label="Widget options"
         aria-haspopup="menu"
@@ -73,7 +73,7 @@ export default function WidgetMenu({ onRefresh, onToggleCollapse, collapsed, ext
       {open && (
         <div
           role="menu"
-          className="lfg-scale-in absolute right-0 top-full mt-1.5 z-30 min-w-[168px] py-1.5 bg-canvas border border-line rounded-md"
+          className="lfg-scale-in absolute right-0 top-full mt-1.5 z-30 min-w-[168px] py-1.5 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-none"
         >
           {items.map((item) => {
             const Icon = item.icon;
@@ -83,9 +83,9 @@ export default function WidgetMenu({ onRefresh, onToggleCollapse, collapsed, ext
                 type="button"
                 role="menuitem"
                 onClick={item.onClick}
-                className="flex w-full items-center gap-2.5 px-3 py-2 text-dense font-medium text-fg-secondary transition-colors hover:bg-subtle"
+                className="flex w-full items-center gap-2.5 px-3 py-2 text-dense font-medium text-fg-secondary dark:text-slate-200 transition-colors hover:bg-subtle dark:hover:bg-slate-800"
               >
-                {Icon && <Icon className="w-4 h-4 text-fg-tertiary" />}
+                {Icon && <Icon className="w-4 h-4 text-fg-tertiary dark:text-fg-tertiary" />}
                 {item.label}
               </button>
             );

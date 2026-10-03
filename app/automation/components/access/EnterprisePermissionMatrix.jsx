@@ -24,7 +24,7 @@ export default function EnterprisePermissionMatrix({ roles, onToggle, readOnly }
       <table className="w-full text-xs min-w-[900px]">
         <thead>
           <tr className="bg-subtle dark:bg-slate-900/80 border-b border-line dark:border-slate-800">
-            <th className="text-left px-4 py-3 font-semibold text-fg-secondary sticky left-0 bg-subtle dark:bg-slate-900 z-10 min-w-[180px]">
+            <th className="text-left px-4 py-3 font-semibold text-fg-secondary dark:text-fg-disabled sticky left-0 bg-subtle dark:bg-slate-900 z-10 min-w-[180px]">
               Module
             </th>
             {editableRoles.map((role) => (
@@ -33,7 +33,7 @@ export default function EnterprisePermissionMatrix({ roles, onToggle, readOnly }
               </th>
             ))}
           </tr>
-          <tr className="bg-subtle dark:bg-slate-900/60 border-b border-line">
+          <tr className="bg-subtle dark:bg-slate-900/60 border-b border-line dark:border-slate-800">
             <th className="sticky left-0 bg-subtle dark:bg-slate-900/60 z-10" />
             {editableRoles.map((role) =>
               ACTIONS.map((a) => (
@@ -66,7 +66,7 @@ export default function EnterprisePermissionMatrix({ roles, onToggle, readOnly }
                         className={`w-6 h-6 rounded-md transition-colors ${
                           on
                             ? 'bg-accent text-white'
-                            : 'bg-muted dark:bg-slate-800 text-transparent hover:bg-muted'
+                            : 'bg-muted dark:bg-slate-800 text-transparent hover:bg-muted dark:hover:bg-slate-700'
                         } ${readOnly ? 'opacity-60 cursor-not-allowed' : ''}`}
                         title={`${role.name}: ${ACTION_LABELS[action]} ${mod.label}`}
                       >

@@ -36,7 +36,7 @@ export default function QualifiedAmountModal({ open, leadName, onConfirm, onCanc
             type="button"
             onClick={onCancel}
             disabled={saving}
-            className="p-1.5 rounded-md text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800 disabled:opacity-50"
+            className="p-1.5 rounded-md text-fg-tertiary dark:text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800 disabled:opacity-50"
           >
             <X className="w-4 h-4" />
           </button>
@@ -47,7 +47,7 @@ export default function QualifiedAmountModal({ open, leadName, onConfirm, onCanc
             A deal will be created and this lead will move to your Deals pipeline.
           </p>
           <div>
-            <label className="text-xs font-medium text-fg-tertiary">Amount (INR)</label>
+            <label className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">Amount (INR)</label>
             <input
               type="number"
               min="1"

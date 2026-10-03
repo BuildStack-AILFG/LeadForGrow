@@ -52,7 +52,7 @@ export default function AutomationSettingsPage() {
   };
 
   if (!config) {
-    return <div className="p-8 text-center text-fg-tertiary">Loading automation settings…</div>;
+    return <div className="p-8 text-center text-fg-tertiary dark:text-fg-tertiary">Loading automation settings…</div>;
   }
 
   return (
@@ -89,7 +89,7 @@ export default function AutomationSettingsPage() {
               <button key={d} type="button" onClick={() => {
                 const days = (config.businessHours?.days || []).includes(d) ? config.businessHours.days.filter((x) => x !== d) : [...(config.businessHours?.days || []), d];
                 setConfig({ ...config, businessHours: { ...config.businessHours, days } });
-              }} className={`px-3 py-1.5 text-xs font-medium rounded-lg capitalize ${(config.businessHours?.days || []).includes(d) ? 'bg-accent text-white' : 'bg-muted dark:bg-slate-800 text-fg-secondary'}`}>{d}</button>
+              }} className={`px-3 py-1.5 text-xs font-medium rounded-lg capitalize ${(config.businessHours?.days || []).includes(d) ? 'bg-accent text-white' : 'bg-muted dark:bg-slate-800 text-fg-secondary dark:text-fg-disabled'}`}>{d}</button>
             ))}
           </div>
         </SettingsCard>

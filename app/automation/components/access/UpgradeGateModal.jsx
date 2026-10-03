@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Lock, Bot as Sparkles, X } from 'lucide-react';
+import { Lock, Sparkles, X } from 'lucide-react';
 import Link from 'next/link';
 import { useAccess } from '../../context/AccessContext';
 
@@ -35,17 +35,17 @@ export default function UpgradeGateModal() {
             <button
               type="button"
               onClick={closeUpgrade}
-              className="absolute top-4 right-4 p-2 text-fg-tertiary hover:text-fg-secondary rounded-lg"
+              className="absolute top-4 right-4 p-2 text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled rounded-lg"
             >
               <X className="w-4 h-4" />
             </button>
             <div className="w-14 h-14 rounded-lg bg-accent-subtle dark:bg-indigo-950/50 flex items-center justify-center mb-5">
-              <Lock className="w-7 h-7 text-accent-fg" />
+              <Lock className="w-7 h-7 text-accent-fg dark:text-accent-fg" />
             </div>
             <h2 className="text-title font-semibold text-fg dark:text-slate-50 mb-2">
               Upgrade to {tier.name}
             </h2>
-            <p className="text-sm text-fg-tertiary mb-6">
+            <p className="text-sm text-fg-tertiary dark:text-fg-tertiary mb-6">
               {upgradeModal.feature
                 ? `"${upgradeModal.feature}" requires a higher plan.`
                 : 'This feature is not included in your current plan.'}

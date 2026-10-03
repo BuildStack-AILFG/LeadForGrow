@@ -12,7 +12,7 @@ export default function SequenceAnalytics({ analytics, loading }) {
   }
 
   if (!analytics) {
-    return <p className="text-sm text-fg-tertiary text-center py-12">No analytics yet — activate your sequence to start tracking.</p>;
+    return <p className="text-sm text-fg-tertiary dark:text-fg-tertiary text-center py-12">No analytics yet — activate your sequence to start tracking.</p>;
   }
 
   const cards = [
@@ -38,7 +38,7 @@ export default function SequenceAnalytics({ analytics, loading }) {
           >
             <c.icon className={`w-4 h-4 ${c.iconClass} mb-2`} />
             <p className="text-2xl font-semibold text-fg dark:text-white">{c.value}</p>
-            <p className="text-xs text-fg-tertiary">{c.label}</p>
+            <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">{c.label}</p>
           </motion.div>
         ))}
       </div>
@@ -54,7 +54,7 @@ export default function SequenceAnalytics({ analytics, loading }) {
             <div key={c.label} className="p-4 rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800">
               <c.icon className="w-4 h-4 text-accent-fg mb-2" />
               <p className="text-xl font-semibold text-fg dark:text-white">{c.value}</p>
-              <p className="text-xs text-fg-tertiary">{c.label}</p>
+              <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">{c.label}</p>
             </div>
           ))}
         </div>
@@ -64,7 +64,7 @@ export default function SequenceAnalytics({ analytics, loading }) {
         <div className="p-4 rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800">
           <h4 className="text-sm font-semibold text-fg dark:text-white mb-3">A/B test results</h4>
           {analytics.abTest.comparison?.winnerName && (
-            <p className="text-xs text-accent-fg mb-3">
+            <p className="text-xs text-accent-fg dark:text-accent-fg mb-3">
               Leading variant: {analytics.abTest.comparison.winnerName}
               {analytics.abTest.comparison.liftPercent > 0 && ` (+${analytics.abTest.comparison.liftPercent}% lift)`}
             </p>
@@ -73,7 +73,7 @@ export default function SequenceAnalytics({ analytics, loading }) {
             {analytics.abTest.variants.map((v) => (
               <div key={v.variantId} className="flex items-center justify-between text-xs p-2 rounded-lg bg-subtle dark:bg-slate-800/50">
                 <span className="font-medium">{v.name}</span>
-                <span className="text-fg-tertiary">
+                <span className="text-fg-tertiary dark:text-fg-tertiary">
                   {v.enrolled} enrolled · {v.replies} replies · ₹{(v.revenue || 0).toLocaleString('en-IN')}
                 </span>
               </div>

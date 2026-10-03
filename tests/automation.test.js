@@ -138,8 +138,15 @@ describe('A/B testing', () => {
       nodes: [],
       edges: [],
     };
-    const picked = pickAbVariant(seq);
-    assert.equal(picked.variantId, 'a');
+    // A 0% variant must never be picked (it used to get ~1% of sends).
+    for (let i = 0; i < 2000; i += 1) assert.equal(pickAbVariant(seq).variantId, 'a');
+  });
+
+  it('treats a missing weight as 1 and splits traffic roughly by weight', () => {
+    const seq = { abTest: { enabled: true, variants: [{ id: 'a', weight: 3 }, { id: 'b' }] }, nodes: [], edges: [] };
+    let a = 0;
+    for (let i = 0; i < 4000; i += 1) if (pickAbVariant(seq).variantId === 'a') a += 1;
+    assert.ok(a > 2700 && a < 3300, 'about 75% for weight 3 vs 1');
   });
 
   it('compares variant performance', () => {

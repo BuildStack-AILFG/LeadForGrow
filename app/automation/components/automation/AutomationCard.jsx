@@ -21,11 +21,11 @@ function Toggle({ enabled, onChange }) {
         onChange();
       }}
       className={`relative w-10 h-5 rounded-full transition-colors flex-shrink-0 ${
-        enabled ? 'bg-accent' : 'bg-line-strong dark:bg-slate-600'
+        enabled ? 'bg-accent' : 'bg-slate-300 dark:bg-slate-600'
       }`}
     >
       <span
-        className={`absolute top-0.5 left-0.5 w-4 h-4 bg-canvas rounded-full shadow-sm transition-transform ${
+        className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow-sm transition-transform ${
           enabled ? 'translate-x-5' : 'translate-x-0'
         }`}
       />
@@ -82,7 +82,7 @@ function AutomationCard({ rule, selected, onSelect, onToggle }) {
               </span>
             )}
             <span className="text-meta text-fg-tertiary">·</span>
-            <span className="text-meta text-fg-tertiary">{getTriggerLabel(rule)}</span>
+            <span className="text-meta text-fg-tertiary dark:text-fg-tertiary">{getTriggerLabel(rule)}</span>
           </div>
 
           <div className="flex items-center gap-3 mt-2 text-meta text-fg-tertiary">

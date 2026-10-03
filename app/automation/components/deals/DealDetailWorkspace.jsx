@@ -48,16 +48,16 @@ export default function DealDetailWorkspace() {
 
   if (loading) return <LeadsSkeleton />;
   if (!deal && error === 'not_found') {
-    return <div className="p-8 text-center text-fg-tertiary">Deal not found</div>;
+    return <div className="p-8 text-center text-fg-tertiary dark:text-fg-tertiary">Deal not found</div>;
   }
   if (!deal) {
     return (
-      <div className="p-8 text-center text-fg-tertiary">
+      <div className="p-8 text-center text-fg-tertiary dark:text-fg-tertiary">
         <p className="mb-3">Failed to load this deal.</p>
         <button
           type="button"
           onClick={fetchDeal}
-          className="px-3 py-1.5 text-meta font-medium text-white bg-accent hover:bg-accent-hover rounded-md"
+          className="px-3 py-1.5 text-meta font-medium text-white bg-accent dark:bg-slate-700 hover:bg-accent-hover dark:hover:bg-slate-600 rounded-md"
         >
           Retry
         </button>
@@ -72,7 +72,7 @@ export default function DealDetailWorkspace() {
   const payments = (deal.customFields?.payments) || (typeof deal.customFields?.get === 'function' ? deal.customFields.get('payments') : null) || [];
 
   return (
-    <div className="min-h-full bg-canvas">
+    <div className="min-h-full bg-subtle dark:bg-slate-950">
       <DemoScheduledModal
         open={!!detail.demoPrompt}
         entityName={detail.demoPrompt?.dealName}
@@ -96,19 +96,19 @@ export default function DealDetailWorkspace() {
         onConfirm={detail.confirmLostReason}
       />
       <div className="px-4 sm:px-6 py-5 max-w-[1400px] mx-auto">
-        <Link href="/automation/deals" className="inline-flex items-center gap-1 text-sm text-fg-tertiary hover:text-accent-fg mb-4">
+        <Link href="/automation/deals" className="inline-flex items-center gap-1 text-sm text-fg-tertiary dark:text-fg-tertiary hover:text-accent-fg dark:hover:text-accent-fg mb-4">
           <ArrowLeft className="w-4 h-4" /> Deals
         </Link>
 
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-5">
           <div className="flex items-start gap-3">
             <div className="w-12 h-12 rounded-lg bg-canvas border border-line dark:bg-accent-pressed/30 flex items-center justify-center">
-              <Briefcase className="w-6 h-6 text-fg-secondary" />
+              <Briefcase className="w-6 h-6 text-fg-secondary dark:text-accent-fg" />
             </div>
             <div>
               <h1 className="text-page font-semibold text-fg">{deal.title}</h1>
               <p className="text-xl font-semibold text-accent-fg dark:text-accent-fg mt-1">{formatCurrency(deal.amount, currency)}</p>
-              <p className="text-sm text-fg-tertiary mt-1">{stageLabel} · {deal.probability}% probability</p>
+              <p className="text-sm text-fg-tertiary dark:text-fg-tertiary mt-1">{stageLabel} · {deal.probability}% probability</p>
             </div>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -122,7 +122,7 @@ export default function DealDetailWorkspace() {
                 <option key={s.key} value={s.key}>{s.label}</option>
               ))}
             </select>
-            <button onClick={archiveDeal} className="px-3 py-2 text-sm border border-line rounded-lg hover:bg-canvas">Archive</button>
+            <button onClick={archiveDeal} className="px-3 py-2 text-sm border border-line dark:border-slate-700 rounded-lg hover:bg-canvas dark:hover:bg-slate-800">Archive</button>
           </div>
         </div>
 
@@ -136,15 +136,15 @@ export default function DealDetailWorkspace() {
                   <div className="flex items-center gap-2"><Calendar className="w-4 h-4 text-fg-tertiary" /><span>{new Date(deal.expectedCloseDate).toLocaleDateString()}</span></div>
                 )}
                 {deal.leadId && (
-                  <div>Lead: <Link href={`/automation/leads/${deal.leadId._id || deal.leadId}`} className="text-accent-fg hover:underline">{deal.leadId.name || 'View'}</Link></div>
+                  <div>Lead: <Link href={`/automation/leads/${deal.leadId._id || deal.leadId}`} className="text-accent-fg dark:text-accent-fg hover:underline">{deal.leadId.name || 'View'}</Link></div>
                 )}
                 {deal.contactId && (
-                  <div>Contact: <Link href={`/automation/contacts/${deal.contactId._id || deal.contactId}`} className="text-accent-fg hover:underline">{deal.contactId.fullName || 'View'}</Link></div>
+                  <div>Contact: <Link href={`/automation/contacts/${deal.contactId._id || deal.contactId}`} className="text-accent-fg dark:text-accent-fg hover:underline">{deal.contactId.fullName || 'View'}</Link></div>
                 )}
                 {deal.companyId && (
-                  <div>Company: <Link href={`/automation/companies/${deal.companyId._id || deal.companyId}`} className="text-accent-fg hover:underline">{deal.companyId.name || 'View'}</Link></div>
+                  <div>Company: <Link href={`/automation/companies/${deal.companyId._id || deal.companyId}`} className="text-accent-fg dark:text-accent-fg hover:underline">{deal.companyId.name || 'View'}</Link></div>
                 )}
-                {deal.lostReason && <div className="text-danger">Lost: {deal.lostReason}</div>}
+                {deal.lostReason && <div className="text-danger dark:text-red-400">Lost: {deal.lostReason}</div>}
               </dl>
             </div>
 
@@ -153,7 +153,7 @@ export default function DealDetailWorkspace() {
                 <h3 className="text-xs font-semibold text-fg-tertiary mb-3">Records</h3>
                 {quotations.length > 0 && (
                   <div className="mb-3">
-                    <p className="text-xs text-fg-tertiary mb-1">Quotations</p>
+                    <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mb-1">Quotations</p>
                     {quotations.map((q) => (
                       <p key={q.id} className="text-sm">{formatCurrency(q.amount, q.currency || currency)} · {q.status}</p>
                     ))}
@@ -161,7 +161,7 @@ export default function DealDetailWorkspace() {
                 )}
                 {payments.length > 0 && (
                   <div>
-                    <p className="text-xs text-fg-tertiary mb-1">Payments</p>
+                    <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mb-1">Payments</p>
                     {payments.map((p) => (
                       <p key={p.id} className="text-sm">{formatCurrency(p.amount, p.currency || currency)} · {p.status}</p>
                     ))}
@@ -173,7 +173,7 @@ export default function DealDetailWorkspace() {
 
           <div className="xl:col-span-4 space-y-4">
             <div className="bg-canvas dark:bg-slate-900 border border-line/80 dark:border-slate-800 rounded-lg p-4">
-              <h3 className="text-sm font-semibold flex items-center gap-2 mb-3"><CheckSquare className="w-4 h-4 text-accent-fg" /> Tasks ({deal.tasks?.length || 0})</h3>
+              <h3 className="text-sm font-semibold flex items-center gap-2 mb-3"><CheckSquare className="w-4 h-4 text-accent-fg dark:text-accent-fg" /> Tasks ({deal.tasks?.length || 0})</h3>
               {(deal.tasks || []).length ? deal.tasks.map((t) => (
                 <div key={t._id} className="text-sm py-2 border-b last:border-0 border-line dark:border-slate-800">
                   <p className="font-medium">{t.title}</p>
@@ -182,7 +182,7 @@ export default function DealDetailWorkspace() {
               )) : <p className="text-sm text-fg-tertiary">No tasks linked</p>}
             </div>
             <div className="bg-canvas dark:bg-slate-900 border border-line/80 dark:border-slate-800 rounded-lg p-4">
-              <h3 className="text-sm font-semibold flex items-center gap-2 mb-3"><StickyNote className="w-4 h-4 text-accent-fg" /> Notes ({deal.notes?.length || 0})</h3>
+              <h3 className="text-sm font-semibold flex items-center gap-2 mb-3"><StickyNote className="w-4 h-4 text-accent-fg dark:text-accent-fg" /> Notes ({deal.notes?.length || 0})</h3>
               {(deal.notes || []).length ? deal.notes.map((n) => (
                 <div key={n._id} className="text-sm py-2 border-b last:border-0 border-line dark:border-slate-800">
                   <p className="whitespace-pre-wrap">{n.content}</p>
@@ -193,10 +193,10 @@ export default function DealDetailWorkspace() {
 
           <div className="xl:col-span-4">
             <div className="bg-canvas dark:bg-slate-900 border border-line/80 dark:border-slate-800 rounded-lg p-4">
-              <h3 className="text-sm font-semibold flex items-center gap-2 mb-3"><Activity className="w-4 h-4 text-accent-fg" /> Activity Timeline</h3>
+              <h3 className="text-sm font-semibold flex items-center gap-2 mb-3"><Activity className="w-4 h-4 text-accent-fg dark:text-accent-fg" /> Activity Timeline</h3>
               <div className="space-y-3 max-h-[520px] overflow-y-auto">
                 {(deal.timeline || []).map((a) => (
-                  <div key={a._id} className="text-sm border-l-2 border-line pl-3 py-1">
+                  <div key={a._id} className="text-sm border-l-2 border-line dark:border-emerald-800 pl-3 py-1">
                     <p>{a.description}</p>
                     <p className="text-xs text-fg-tertiary">{new Date(a.performedAt).toLocaleString()}</p>
                   </div>

@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import Lead from '@/models/automation/Lead';
 import WhatsAppTemplate from '@/models/automation/WhatsAppTemplate';
+import EmailAccount from '@/models/omnichannel/EmailAccount';
+import Business from '@/models/Business';
 import { withPlanAccess } from '@/lib/accessControl';
 import { resolveTemplateVariables } from '@/lib/broadcasts/engine';
 
@@ -45,9 +47,14 @@ export const POST = withPlanAccess('automation', async (req) => {
 
     const resolvedVars = resolveTemplateVariables(content.variableMapping, lead) || [];
 
+    // {{business.name}} is the sender's business — same value the send engine uses.
+    const business = await Business.findById(businessId).select('businessName').lean();
+    const businessName = business?.businessName || '';
+
     const applyLeadVars = (text) => {
       if (!text) return '';
       return String(text)
+        .replace(/\{\{business\.name\}\}/gi, businessName)
         .replace(/\{\{name\}\}/gi, lead.name || '')
         .replace(/\{\{email\}\}/gi, lead.email || '')
         .replace(/\{\{phone\}\}/gi, lead.phone || '')
@@ -62,6 +69,7 @@ export const POST = withPlanAccess('automation', async (req) => {
     };
 
     const rendered = {
+      businessName,
       to: {
         name: lead.name,
         phone: lead.phone,
@@ -109,9 +117,22 @@ export const POST = withPlanAccess('automation', async (req) => {
       };
     }
     if (channel === 'email' || channel === 'both') {
+      // Resolve the exact signature the send will append, so the preview shows
+      // recipients what they'll actually receive. Same code path as the engine
+      // (account.resolveSignatureHtml), so preview and send never diverge.
+      let signatureHtml = '';
+      if (content.emailAccountId) {
+        const account = await EmailAccount.findOne({ _id: content.emailAccountId, businessId });
+        if (account?.resolveSignatureHtml) {
+          signatureHtml = account.resolveSignatureHtml(content.signatureId) || '';
+        }
+      }
       rendered.email = {
         subject: applyLeadVars(content.subject || ''),
         body: applyLeadVars(content.body || ''),
+        // Rich HTML body (vars applied) when the WYSIWYG editor was used.
+        bodyHtml: content.bodyHtml ? applyLeadVars(content.bodyHtml) : '',
+        signatureHtml,
       };
     }
 

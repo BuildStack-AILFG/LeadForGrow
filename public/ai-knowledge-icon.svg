@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40" fill="none">
+  <defs>
+    <linearGradient id="kbTile" x1="4" y1="2" x2="36" y2="38" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#34C9B5"/>
+      <stop offset="0.55" stop-color="#12A08E"/>
+      <stop offset="1" stop-color="#0B6F60"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="40" height="40" rx="11" fill="url(#kbTile)"/>
+  <path d="M20 13.6c-3.3-2-7.8-2-11 -.4a1 1 0 0 0-.55.9v12.9c0 .73.77 1.19 1.42.86 2.8-1.4 6.72-1.36 10.13.52V13.6z" fill="#ffffff" fill-opacity="0.96"/>
+  <path d="M20 13.6c3.3-2 7.8-2 11-.4a1 1 0 0 1 .55.9v12.9c0 .73-.77 1.19-1.42.86-2.8-1.4-6.72-1.36-10.13.52V13.6z" fill="#ffffff" fill-opacity="0.82"/>
+  <path d="M20 14v13.4" stroke="#0B6F60" stroke-opacity="0.45" stroke-width="1" stroke-linecap="round"/>
+  <path d="M29.4 6.4l.95 2.35 2.35.95-2.35.95-.95 2.35-.95-2.35-2.35-.95 2.35-.95z" fill="#FFE08A"/>
+</svg>

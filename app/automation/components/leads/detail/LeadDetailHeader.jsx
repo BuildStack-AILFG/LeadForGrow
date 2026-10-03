@@ -1,10 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { ChevronLeft, Phone, MessageSquare, ArrowRightLeft, XCircle, Trash2, MoreHorizontal } from 'lucide-react';
+import { ChevronLeft, Phone, ArrowRightLeft, XCircle, Trash2, MoreHorizontal } from 'lucide-react';
 import StatusBadge from '../StatusBadge';
 import LeadScoreBadge from '../LeadScoreBadge';
 import WhatsAppIndicator from '../WhatsAppIndicator';
+import { WhatsAppIcon } from '../../chat/BrandIcons';
+import { getWhatsAppStatus } from '../utils';
+import { canOpenWhatsApp, getPrimaryChannel } from './leadChannels';
 import Button from '@/app/components/ui/Button';
 import DropdownMenu from '@/app/components/ui/DropdownMenu';
 import cx, { focusRing } from '@/app/components/ui/cx';
@@ -16,6 +19,9 @@ import cx, { focusRing } from '@/app/components/ui/cx';
  */
 export default function LeadDetailHeader({ lead, intelligence, updating, onCall, onWhatsApp, onConvert, onLost, onDelete }) {
   const converted = lead.status === 'converted';
+  // Instagram / Messenger / email leads have no phone: only show WhatsApp when it can actually open.
+  const primaryChannel = getPrimaryChannel(lead, lead.messages || []);
+  const showWhatsAppButton = canOpenWhatsApp(lead) || primaryChannel === 'whatsapp';
 
   return (
     <header className="sticky top-0 z-20 -mx-4 mb-6 border-b border-line bg-canvas px-4 py-3 sm:-mx-6 sm:px-6">
@@ -25,11 +31,11 @@ export default function LeadDetailHeader({ lead, intelligence, updating, onCall,
             <ChevronLeft className="h-4 w-4" strokeWidth={1.5} aria-hidden /> Leads
           </Link>
           <div className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1">
-            <h1 className="truncate text-page font-semibold text-fg">{lead.name}</h1>
+            <h1 className="text-page font-semibold text-fg truncate">{lead.name}</h1>
             <div className="flex flex-wrap items-center gap-2">
               <StatusBadge status={lead.status} />
-              <WhatsAppIndicator lead={lead} />
-              <LeadScoreBadge intelligence={intelligence} />
+              {getWhatsAppStatus(lead).key !== 'none' && <WhatsAppIndicator lead={lead} />}
+              <LeadScoreBadge intelligence={intelligence} showLabel />
             </div>
           </div>
         </div>
@@ -38,9 +44,11 @@ export default function LeadDetailHeader({ lead, intelligence, updating, onCall,
           <Button icon={Phone} onClick={onCall} disabled={updating}>
             Call
           </Button>
-          <Button variant={converted ? 'primary' : 'secondary'} icon={MessageSquare} onClick={onWhatsApp}>
-            WhatsApp
-          </Button>
+          {showWhatsAppButton && (
+            <Button variant={converted ? 'primary' : 'secondary'} onClick={onWhatsApp}>
+              <WhatsAppIcon className="h-4 w-4" /> WhatsApp
+            </Button>
+          )}
           {!converted && (
             <Button variant="primary" icon={ArrowRightLeft} onClick={onConvert} disabled={updating} className="hidden sm:inline-flex">
               Convert lead

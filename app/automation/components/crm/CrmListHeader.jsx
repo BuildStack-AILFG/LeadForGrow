@@ -19,7 +19,7 @@ export default function CrmListHeader({
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-page font-semibold text-fg">{title}</h1>
-          {subtitle && <p className="text-sm text-fg-tertiary mt-1">{subtitle}</p>}
+          {subtitle && <p className="text-sm text-fg-tertiary dark:text-fg-tertiary mt-1">{subtitle}</p>}
           {total !== undefined && (
             <p className="text-xs text-fg-tertiary mt-1">{total.toLocaleString()} records</p>
           )}
@@ -38,14 +38,14 @@ export default function CrmListHeader({
           <button
             onClick={onRefresh}
             disabled={refreshing}
-            className="p-2 text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled border border-line dark:border-slate-700 rounded-lg"
+            className="p-2 text-fg-tertiary dark:text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled border border-line dark:border-slate-700 rounded-lg"
           >
             <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
           </button>
           {onExport && (
             <button
               onClick={onExport}
-              className="p-2 text-fg-tertiary hover:text-fg-secondary border border-line dark:border-slate-700 rounded-lg"
+              className="p-2 text-fg-tertiary dark:text-fg-tertiary hover:text-fg-secondary dark:hover:text-slate-200 border border-line dark:border-slate-700 rounded-lg"
             >
               <Download className="w-4 h-4" />
             </button>

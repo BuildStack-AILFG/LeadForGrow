@@ -16,11 +16,11 @@ import { formatCurrency } from '@/lib/crm/formatCurrency';
 
 function FocusItem({ icon: Icon, title, subtitle, href, actionLabel, accent = 'slate' }) {
   const accents = {
-    slate: 'text-fg-tertiary bg-muted dark:bg-slate-800',
-    amber: 'text-warning bg-warning-subtle dark:bg-amber-950/30',
-    emerald: 'text-accent-fg bg-accent-subtle dark:bg-emerald-950/30',
-    red: 'text-danger bg-danger-subtle dark:bg-red-950/30',
-    violet: 'text-accent-fg bg-accent-subtle dark:bg-violet-950/30',
+    slate: 'text-fg-tertiary dark:text-fg-tertiary bg-muted dark:bg-slate-800',
+    amber: 'text-warning dark:text-amber-400 bg-warning-subtle dark:bg-amber-950/30',
+    emerald: 'text-accent-fg dark:text-accent-fg bg-accent-subtle dark:bg-emerald-950/30',
+    red: 'text-danger dark:text-red-400 bg-danger-subtle dark:bg-red-950/30',
+    violet: 'text-accent-fg dark:text-accent-fg bg-accent-subtle dark:bg-violet-950/30',
   };
 
   return (
@@ -30,12 +30,12 @@ function FocusItem({ icon: Icon, title, subtitle, href, actionLabel, accent = 's
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium text-fg dark:text-slate-100 truncate">{title}</p>
-        {subtitle && <p className="text-xs text-fg-tertiary truncate">{subtitle}</p>}
+        {subtitle && <p className="text-xs text-fg-tertiary dark:text-fg-tertiary truncate">{subtitle}</p>}
       </div>
       {href && (
         <Link
           href={href}
-          className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-accent-fg bg-accent-subtle dark:bg-emerald-950/30 rounded-md hover:bg-accent-subtle"
+          className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-accent-fg dark:text-accent-fg bg-accent-subtle dark:bg-emerald-950/30 rounded-md hover:bg-accent-subtle dark:hover:bg-accent-pressed/30"
         >
           {actionLabel || 'Open'} <ArrowRight className="w-3 h-3" />
         </Link>
@@ -138,14 +138,14 @@ export default function TodaysFocus({ focus, currency = 'INR' }) {
       <div className="flex items-center justify-between mb-4">
         <div>
           <h2 className="text-base font-semibold text-fg dark:text-white">Today&apos;s Focus</h2>
-          <p className="text-xs text-fg-tertiary mt-0.5">What needs your attention right now</p>
+          <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-0.5">What needs your attention right now</p>
         </div>
         <span className="text-xs font-medium px-2 py-1 rounded-full bg-accent-subtle text-accent-fg dark:bg-emerald-950/30 dark:text-accent-fg">
           {items.length} items
         </span>
       </div>
       {items.length === 0 ? (
-        <p className="text-sm text-fg-tertiary py-8 text-center">You&apos;re all caught up — great work!</p>
+        <p className="text-sm text-fg-tertiary dark:text-fg-tertiary py-8 text-center">You&apos;re all caught up — great work!</p>
       ) : (
         <div className="space-y-2 max-h-[420px] overflow-y-auto pr-1">
           {items.slice(0, 12).map((item) => (

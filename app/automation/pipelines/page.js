@@ -122,7 +122,7 @@ function PipelinesContent() {
 
   if (loadError) {
     return (
-      <div className="min-h-full bg-canvas px-4 sm:px-6 py-6 max-w-4xl mx-auto">
+      <div className="min-h-full bg-subtle dark:bg-slate-950 px-4 sm:px-6 py-6 max-w-4xl mx-auto">
         <div className="bg-danger-subtle dark:bg-red-950/30 border border-danger/30 dark:border-red-900 rounded-lg p-6 text-center">
           <p className="text-sm font-medium text-danger dark:text-red-300 mb-3">{loadError}</p>
           <button
@@ -138,9 +138,9 @@ function PipelinesContent() {
   }
 
   return (
-    <div className="min-h-full bg-canvas px-4 sm:px-6 py-6 max-w-4xl mx-auto">
+    <div className="min-h-full bg-subtle dark:bg-slate-950 px-4 sm:px-6 py-6 max-w-4xl mx-auto">
       <h1 className="text-page font-semibold text-fg">Deal Pipeline</h1>
-      <p className="text-sm text-fg-tertiary mt-1 mb-6">
+      <p className="text-sm text-fg-tertiary dark:text-fg-tertiary mt-1 mb-6">
         Customize stage names, win probability scores, and colors. Changes appear instantly across Kanban, deals table, and deal detail.
       </p>
 
@@ -163,7 +163,7 @@ function PipelinesContent() {
             <button
               type="button"
               onClick={addStage}
-              className="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-fg-secondary border border-line rounded-lg hover:bg-canvas"
+              className="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-fg-secondary dark:text-slate-200 border border-line dark:border-slate-700 rounded-lg hover:bg-canvas dark:hover:bg-slate-800"
             >
               <Plus className="w-3.5 h-3.5" /> Add stage
             </button>
@@ -178,20 +178,21 @@ function PipelinesContent() {
           </div>
         </div>
 
-        <div className="px-4 py-2 border-b border-line dark:border-slate-800 grid grid-cols-[auto_1fr_72px_56px_auto_auto] gap-3 text-meta font-semibold text-fg-tertiary">
+        <div className="px-4 py-2 border-b border-line dark:border-slate-800 hidden sm:grid grid-cols-[auto_1fr_72px_56px_auto_auto] gap-3 text-meta font-semibold text-fg-tertiary">
           <span className="w-4" />
           <span>Stage name</span>
           <span className="text-center">Score %</span>
           <span>Color</span>
-          <span>Won</span>
+          <span>Won / Lost</span>
           <span />
         </div>
 
         <div className="divide-y divide-line dark:divide-slate-800">
           {stages.map((s, i) => (
-            <div key={s.key || i} className="grid grid-cols-[auto_1fr_72px_56px_auto_auto] gap-3 items-center px-4 py-3">
+            <div key={s.key || i} className="flex flex-wrap sm:grid sm:grid-cols-[auto_1fr_72px_56px_auto_auto] gap-3 items-center px-4 py-3">
               <GripVertical className="w-4 h-4 text-fg-disabled flex-shrink-0" />
-              <div className="min-w-0">
+              {/* Phones: the name gets its own line; the rest wraps below. */}
+              <div className="min-w-0 flex-1 basis-[calc(100%-2rem)] sm:basis-auto">
                 <input
                   value={s.label}
                   onChange={(e) => updateStage(i, { label: e.target.value })}
@@ -206,16 +207,17 @@ function PipelinesContent() {
                 max={100}
                 value={s.probability}
                 onChange={(e) => updateStage(i, { probability: Number(e.target.value) })}
-                className="w-full px-2 py-1.5 text-sm border border-line dark:border-slate-700 rounded dark:bg-slate-800 text-center"
+                className="w-20 sm:w-full px-2 py-1.5 text-sm border border-line dark:border-slate-700 rounded dark:bg-slate-800 text-center"
                 title="Win probability %"
+                aria-label="Win probability %"
               />
               <input
                 type="color"
                 value={s.color || '#6366f1'}
                 onChange={(e) => updateStage(i, { color: e.target.value })}
-                className="w-10 h-9 rounded border border-line cursor-pointer"
+                className="w-10 h-9 rounded border border-line dark:border-slate-700 cursor-pointer"
               />
-              <div className="flex flex-col gap-1 text-meta">
+              <div className="flex sm:flex-col gap-2 sm:gap-1 text-meta">
                 <label className="flex items-center gap-1 cursor-pointer">
                   <input
                     type="checkbox"
@@ -233,14 +235,14 @@ function PipelinesContent() {
                   Lost
                 </label>
               </div>
-              <div className="flex items-center gap-0.5">
-                <button type="button" onClick={() => moveStage(i, -1)} className="p-1 text-fg-tertiary hover:text-fg-secondary" title="Move up">
+              <div className="flex items-center gap-0.5 ml-auto sm:ml-0">
+                <button type="button" onClick={() => moveStage(i, -1)} className="p-1 text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled" title="Move up">
                   <ChevronUp className="w-4 h-4" />
                 </button>
-                <button type="button" onClick={() => moveStage(i, 1)} className="p-1 text-fg-tertiary hover:text-fg-secondary" title="Move down">
+                <button type="button" onClick={() => moveStage(i, 1)} className="p-1 text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled" title="Move down">
                   <ChevronDown className="w-4 h-4" />
                 </button>
-                <button type="button" onClick={() => removeStage(i)} className="p-1 text-red-400 hover:text-danger" title="Remove">
+                <button type="button" onClick={() => removeStage(i)} className="p-1 text-red-400 hover:text-danger dark:hover:text-red-400" title="Remove">
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>

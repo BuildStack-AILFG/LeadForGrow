@@ -6,11 +6,11 @@ import { AUTOMATION_TEMPLATES, RULE_ICONS, RULE_ICON_FALLBACK } from './constant
 import HelpHint from '@/app/components/ui/HelpHint';
 
 const TONE_CLASSES = {
-  emerald: { chip: 'bg-accent-subtle dark:bg-emerald-950/40 text-accent-fg dark:text-accent-fg', ring: 'hover:border-line dark:hover:border-emerald-800', badge: 'bg-accent-subtle text-accent-fg' },
-  blue:    { chip: 'bg-accent-subtle dark:bg-teal-950/40 text-accent-fg dark:text-accent-fg', ring: 'hover:border-line dark:hover:border-teal-800', badge: 'bg-accent-subtle text-accent-fg' },
-  violet:  { chip: 'bg-accent-subtle dark:bg-violet-950/40 text-accent-fg dark:text-accent-fg', ring: 'hover:border-line dark:hover:border-violet-800', badge: 'bg-accent-subtle text-accent-fg' },
-  amber:   { chip: 'bg-warning-subtle dark:bg-amber-950/40 text-warning dark:text-amber-400', ring: 'hover:border-warning/30 dark:hover:border-amber-800', badge: 'bg-warning-subtle text-warning' },
-  rose:    { chip: 'bg-danger-subtle dark:bg-rose-950/40 text-danger dark:text-rose-400', ring: 'hover:border-rose-300 dark:hover:border-rose-800', badge: 'bg-danger-subtle text-danger' },
+  emerald: { chip: 'bg-accent-subtle dark:bg-emerald-950/40 text-accent-fg dark:text-accent-fg', ring: 'hover:border-line dark:hover:border-emerald-800', badge: 'bg-accent-subtle dark:bg-accent-pressed/30 text-accent-fg dark:text-accent-fg' },
+  blue:    { chip: 'bg-accent-subtle dark:bg-teal-950/40 text-accent-fg dark:text-accent-fg', ring: 'hover:border-line dark:hover:border-teal-800', badge: 'bg-accent-subtle dark:bg-accent-pressed/30 text-accent-fg dark:text-accent-fg' },
+  violet:  { chip: 'bg-accent-subtle dark:bg-violet-950/40 text-accent-fg dark:text-accent-fg', ring: 'hover:border-line dark:hover:border-violet-800', badge: 'bg-accent-subtle dark:bg-accent-pressed/30 text-accent-fg dark:text-accent-fg' },
+  amber:   { chip: 'bg-warning-subtle dark:bg-amber-950/40 text-warning dark:text-amber-400', ring: 'hover:border-warning/30 dark:hover:border-amber-800', badge: 'bg-warning-subtle dark:bg-amber-900/30 text-warning dark:text-amber-300' },
+  rose:    { chip: 'bg-danger-subtle dark:bg-rose-950/40 text-danger dark:text-rose-400', ring: 'hover:border-rose-300 dark:hover:border-rose-800', badge: 'bg-danger-subtle dark:bg-rose-900/30 text-danger dark:text-rose-300' },
 };
 
 export default function CreateAutomationModal({ open, form, onChange, onClose, onSubmit }) {
@@ -56,7 +56,7 @@ export default function CreateAutomationModal({ open, form, onChange, onClose, o
           <div className="flex items-start justify-between mb-1">
             <div>
               <h3 className="text-lg font-semibold text-fg dark:text-slate-50">Let's build an automation</h3>
-              <p className="text-sm text-fg-tertiary mt-1">Pick a ready-made starting point, or build one from scratch.</p>
+              <p className="text-sm text-fg-tertiary dark:text-fg-tertiary mt-1">Pick a ready-made starting point, or build one from scratch.</p>
             </div>
             <button type="button" onClick={onClose} className="p-1.5 rounded-lg text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800 shrink-0" aria-label="Close">
               <X className="w-5 h-5" />
@@ -95,7 +95,7 @@ export default function CreateAutomationModal({ open, form, onChange, onClose, o
               className="group text-left rounded-lg border border-dashed border-line-strong dark:border-slate-700 bg-subtle/60 dark:bg-slate-900/40 p-4 flex flex-col items-center justify-center text-center hover:border-line-strong hover:bg-subtle dark:hover:bg-slate-900 transition-all"
             >
               <div className="w-9 h-9 rounded-lg bg-muted dark:bg-slate-800 flex items-center justify-center mb-2.5 group-hover:scale-105 transition-transform">
-                <Wand2 className="w-4.5 h-4.5 text-fg-tertiary" />
+                <Wand2 className="w-4.5 h-4.5 text-fg-tertiary dark:text-fg-tertiary" />
               </div>
               <p className="text-sm font-semibold text-fg-secondary dark:text-slate-200">Build from scratch</p>
               <p className="text-xs text-fg-tertiary mt-1">Pick your own type, name it yourself.</p>
@@ -107,7 +107,7 @@ export default function CreateAutomationModal({ open, form, onChange, onClose, o
           <button
             type="button"
             onClick={() => setStep('gallery')}
-            className="inline-flex items-center gap-1 text-xs font-medium text-fg-tertiary hover:text-fg dark:hover:text-slate-200 mb-4"
+            className="inline-flex items-center gap-1 text-xs font-medium text-fg-tertiary dark:text-fg-tertiary hover:text-fg dark:hover:text-slate-200 mb-4"
           >
             <ArrowLeft className="w-3.5 h-3.5" /> Back to templates
           </button>

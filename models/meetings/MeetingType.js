@@ -74,6 +74,12 @@ const MeetingTypeSchema = new mongoose.Schema(
       whatsappReminderTemplateLanguage: { type: String, default: 'en' },
 
       emailReminder: { type: Boolean, default: true },
+
+      // Message sent when a booking is marked no-show (with a rebook link).
+      noShowRecovery: { type: Boolean, default: true },
+      noShowRecoveryTemplate: { type: String, trim: true },
+      noShowRecoveryTemplateName: { type: String, trim: true },
+      noShowRecoveryTemplateLanguage: { type: String, default: 'en' },
       emailConfirmationTemplate: { type: String, trim: true },
       emailReminderTemplate: { type: String, trim: true },
 

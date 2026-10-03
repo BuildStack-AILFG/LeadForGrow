@@ -13,14 +13,14 @@ export default function BillingCard({ billing }) {
         <div className="flex items-start justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <CreditCard className="w-4 h-4 text-accent-fg" />
-              <span className="text-xs font-medium text-fg-tertiary">Current plan</span>
+              <CreditCard className="w-4 h-4 text-accent-fg dark:text-accent-fg" />
+              <span className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">Current plan</span>
             </div>
             <p className="text-xl font-semibold text-fg dark:text-slate-50">{plan}</p>
             <p className="text-sm text-fg-secondary dark:text-fg-tertiary mt-0.5">{price}</p>
             <p className="text-xs text-fg-tertiary mt-1">Renews {renewsAt}</p>
           </div>
-          <button type="button" className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-accent-fg bg-accent-subtle dark:bg-teal-950/40 rounded-lg hover:bg-accent-subtle">
+          <button type="button" className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-accent-fg dark:text-accent-fg bg-accent-subtle dark:bg-teal-950/40 rounded-lg hover:bg-accent-subtle dark:hover:bg-accent-pressed/30">
             Upgrade <ArrowUpRight className="w-3 h-3" />
           </button>
         </div>

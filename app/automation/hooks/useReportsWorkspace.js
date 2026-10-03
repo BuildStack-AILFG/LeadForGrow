@@ -10,7 +10,8 @@ import {
   computeFollowUpStats,
   computeTrend,
   computeWhatsAppStats,
-  filterSources
+  filterSources,
+  filterStatusCounts
 } from '../components/reports/utils';
 import { SAVED_VIEWS_KEY } from '../components/reports/constants';
 
@@ -142,6 +143,11 @@ export function useReportsWorkspace() {
     [reports, sourceFilter]
   );
 
+  const filteredStatusCounts = useMemo(
+    () => filterStatusCounts(reports?.statusCounts || {}, stageFilter),
+    [reports, stageFilter]
+  );
+
   const filteredTeam = useMemo(() => {
     let list = reports?.teamPerformance || [];
     if (assigneeFilter !== 'all') {
@@ -189,6 +195,7 @@ export function useReportsWorkspace() {
     kpis,
     insights,
     filteredSources,
+    filteredStatusCounts,
     filteredTeam,
     trend,
     savedViews,

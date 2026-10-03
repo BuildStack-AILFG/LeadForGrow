@@ -13,7 +13,7 @@ export default function TeamLeaderboard({ team = [] }) {
       label: '#',
       render: (row) => (
         <span className={`inline-flex w-6 h-6 items-center justify-center rounded-full text-xs font-bold ${
-          row.rank === 1 ? 'bg-warning-subtle text-warning' : 'bg-muted text-fg-secondary'
+          row.rank === 1 ? 'bg-warning-subtle dark:bg-amber-900/30 text-warning dark:text-amber-300' : 'bg-muted dark:bg-slate-800 text-fg-secondary dark:text-fg-disabled'
         }`}>
           {row.rank === 1 ? <Trophy className="w-3 h-3" /> : row.rank}
         </span>
@@ -21,7 +21,7 @@ export default function TeamLeaderboard({ team = [] }) {
     },
     { key: 'name', label: 'Agent' },
     { key: 'total', label: 'Assigned', render: (r) => <span className="tabular-nums">{r.total}</span> },
-    { key: 'converted', label: 'Closed', render: (r) => <span className="tabular-nums text-accent-fg">{r.converted}</span> },
+    { key: 'converted', label: 'Closed', render: (r) => <span className="tabular-nums text-accent-fg dark:text-accent-fg">{r.converted}</span> },
     {
       key: 'rate',
       label: 'Conversion',
@@ -37,7 +37,7 @@ export default function TeamLeaderboard({ team = [] }) {
     {
       key: 'response',
       label: 'Avg response',
-      render: (r) => <span className="text-xs text-fg-tertiary">{r.response}</span>
+      render: (r) => <span className="text-xs text-fg-tertiary dark:text-fg-tertiary">{r.response}</span>
     }
   ];
 

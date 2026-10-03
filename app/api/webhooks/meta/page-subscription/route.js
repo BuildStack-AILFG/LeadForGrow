@@ -6,9 +6,10 @@ import { decryptCredentials } from '@/lib/integrations/credentials';
 import { resolveMetaAdsCredentials } from '@/lib/meta/credentials';
 import { metaLog, metaError } from '@/lib/meta/logger';
 import { getRecentWebhookIngress } from '@/lib/meta/webhookIngress';
+import { withPlanAccess } from '@/lib/accessControl';
 
 const GRAPH_VERSION = 'v25.0';
-const EXPECTED_APP_ID = '2089887098254828';
+const EXPECTED_APP_ID = process.env.META_APP_ID || '2089887098254828';
 const LEADGEN_FIELD = 'leadgen';
 
 async function graphGet(path, accessToken) {
@@ -39,17 +40,15 @@ function appInSubscriptionList(apps, appId) {
 }
 
 /**
- * GET /api/webhooks/meta/page-subscription?businessId=...&subscribe=1
- * Uses CRM Page Access Token to inspect / fix page ↔ app subscription (subscribed_apps).
+ * GET  /api/webhooks/meta/page-subscription — inspect page ↔ app subscription (subscribed_apps)
+ * POST /api/webhooks/meta/page-subscription — same, and subscribes the Page if it is missing
+ * Uses the CRM Page Access Token. Signed-in users only, always for their own business.
  */
-export async function GET(request) {
-  const { searchParams } = new URL(request.url);
-  const businessId = searchParams.get('businessId');
-  const subscribe = searchParams.get('subscribe') === '1';
+export const GET = withPlanAccess('integrations', (req) => inspect(req, { subscribe: false }));
+export const POST = withPlanAccess('integrations', (req) => inspect(req, { subscribe: true }));
 
-  if (!businessId) {
-    return NextResponse.json({ success: false, error: 'businessId query param required' }, { status: 400 });
-  }
+async function inspect(req, { subscribe }) {
+  const businessId = String(req.user.businessId);
 
   try {
     await dbConnect();
@@ -103,14 +102,12 @@ export async function GET(request) {
     const afterApps = (getAfter ?? getBefore).data?.data ?? [];
     const afterExpectedPresent = Boolean(appInSubscriptionList(afterApps, EXPECTED_APP_ID));
 
-    const ingressForPage = await getRecentWebhookIngress({ pageId: String(pageId), limit: 20 });
-    const ingressAll = await getRecentWebhookIngress({ limit: 30 });
+    const ingressForPage = await getRecentWebhookIngress({ businessId, pageId: String(pageId), limit: 20 });
 
     return NextResponse.json({
       success: true,
       businessId,
       pageId: String(pageId),
-      pageName: 'Leadforgrow',
       crmAppId: crmAppId ? String(crmAppId) : null,
       expectedAppId: EXPECTED_APP_ID,
       crmAppIdMatchesExpected: crmAppId ? String(crmAppId) === EXPECTED_APP_ID : null,
@@ -150,7 +147,7 @@ export async function GET(request) {
         : {
             required: false,
             reason: !subscribe
-              ? 'Pass ?subscribe=1 to attempt POST /subscribed_apps'
+              ? 'POST to this endpoint to attempt POST /subscribed_apps'
               : getBefore.ok && expectedPresent
                 ? `App ${EXPECTED_APP_ID} already in subscribed_apps`
                 : 'POST not attempted'
@@ -187,7 +184,6 @@ export async function GET(request) {
           generic: 'https://leadforgrow.com/api/webhooks/meta'
         },
         metaPostsReceived: ingressForPage.length,
-        metaPostsReceivedGlobal: ingressAll.length,
         zeroMetaPostsFromLeadgen: ingressForPage.filter((r) => r.parsed?.leadgen_id).length === 0,
         lastIngress: ingressForPage[0]
           ? {
@@ -212,6 +208,6 @@ export async function GET(request) {
     });
   } catch (error) {
     metaError('Page Subscription', 'Diagnostic failed', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: 'Diagnostic failed' }, { status: 500 });
   }
 }

@@ -37,6 +37,11 @@ export const POST = withTenantAuth(async (request) => {
         modified = res.modifiedCount;
         break;
       }
+      case 'restore': {
+        const res = await Company.updateMany(query, { archived: false, updatedBy: tenant.user._id });
+        modified = res.modifiedCount;
+        break;
+      }
       case 'assignOwner': {
         if (!data?.ownerId) {
           return NextResponse.json({ success: false, error: 'ownerId required' }, { status: 400 });

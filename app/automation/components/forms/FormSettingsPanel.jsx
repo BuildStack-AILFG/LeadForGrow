@@ -13,13 +13,13 @@ export default function FormSettingsPanel({ field, fieldIndex, onChange, mobile 
           animate={{ opacity: 1, y: 0 }}
           className="text-center max-w-[220px]"
         >
-          <div className="w-16 h-16 rounded-lg bg-accent-subtle dark:from-teal-950/40 dark:to-indigo-950/40 flex items-center justify-center mx-auto mb-5">
-            <MousePointerClick className="w-7 h-7 text-accent-fg" />
+          <div className="w-16 h-16 rounded-lg bg-accent-subtle dark:bg-teal-950/30 dark:from-teal-950/40 dark:to-indigo-950/40 flex items-center justify-center mx-auto mb-5">
+            <MousePointerClick className="w-7 h-7 text-accent-fg dark:text-accent-fg" />
           </div>
           <h3 className="text-sm font-semibold text-fg dark:text-slate-200">Select a field</h3>
-          <p className="text-xs text-fg-tertiary mt-2 leading-relaxed">Click any field on the canvas to customize its label, validation, and appearance.</p>
+          <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-2 leading-relaxed">Click any field on the canvas to customize its label, validation, and appearance.</p>
           <div className="mt-6 flex items-start gap-2 text-left p-3 bg-warning-subtle/80 dark:bg-amber-950/20 rounded-lg">
-            <Lightbulb className="w-4 h-4 text-warning flex-shrink-0 mt-0.5" />
+            <Lightbulb className="w-4 h-4 text-warning dark:text-amber-400 flex-shrink-0 mt-0.5" />
             <p className="text-meta text-warning dark:text-amber-200 leading-relaxed">Tip: Hover a field block for quick duplicate and required toggles.</p>
           </div>
         </motion.div>
@@ -42,7 +42,7 @@ export default function FormSettingsPanel({ field, fieldIndex, onChange, mobile 
         className={mobile ? 'flex flex-col' : 'hidden xl:flex w-72 flex-shrink-0 flex-col'}
       >
         <div className="mb-4">
-          <p className="text-meta font-semibold text-accent-fg">{field.type}</p>
+          <p className="text-meta font-semibold text-accent-fg dark:text-accent-fg">{field.type}</p>
           <h3 className="text-sm font-semibold text-fg dark:text-slate-50 mt-0.5">Field settings</h3>
         </div>
 
@@ -59,7 +59,7 @@ export default function FormSettingsPanel({ field, fieldIndex, onChange, mobile 
 
           <label className="flex items-center justify-between p-3 bg-subtle dark:bg-slate-800/50 rounded-lg cursor-pointer">
             <span className="text-xs font-medium text-fg-secondary dark:text-fg-disabled">Required field</span>
-            <div className={`relative w-9 h-5 rounded-full transition-colors ${field.required ? 'bg-accent' : 'bg-line-strong dark:bg-slate-600'}`}>
+            <div className={`relative w-9 h-5 rounded-full transition-colors ${field.required ? 'bg-accent' : 'bg-slate-300 dark:bg-slate-600'}`}>
               <input type="checkbox" checked={!!field.required} onChange={(e) => update('required', e.target.checked)} className="sr-only" />
               <div className={`absolute top-0.5 w-4 h-4 bg-canvas rounded-full transition-transform ${field.required ? 'translate-x-4' : 'translate-x-0.5'}`} onClick={() => update('required', !field.required)} />
             </div>
@@ -84,7 +84,7 @@ export default function FormSettingsPanel({ field, fieldIndex, onChange, mobile 
                   type="button"
                   onClick={() => update('width', w)}
                   className={`flex-1 py-2 text-xs font-medium rounded-lg transition-colors ${
-                    (field.width || 'full') === w ? 'bg-accent text-white' : 'bg-muted dark:bg-slate-800 text-fg-secondary'
+                    (field.width || 'full') === w ? 'bg-accent text-white' : 'bg-muted dark:bg-slate-800 text-fg-secondary dark:text-fg-disabled'
                   }`}
                 >
                   {w === 'full' ? 'Full' : 'Half'}
@@ -112,7 +112,7 @@ const inputClass = 'w-full px-3 py-2.5 text-sm bg-subtle dark:bg-slate-800/80 bo
 function SettingField({ label, children }) {
   return (
     <div>
-      <label className="block text-xs font-medium text-fg-tertiary mb-1.5">{label}</label>
+      <label className="block text-xs font-medium text-fg-tertiary dark:text-fg-tertiary mb-1.5">{label}</label>
       {children}
     </div>
   );

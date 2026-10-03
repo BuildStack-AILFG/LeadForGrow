@@ -42,12 +42,12 @@ const TEMPLATES = [
 export default function MeetingsTemplatesView() {
   return (
     <div className="p-4 sm:p-6 max-w-[1000px] mx-auto space-y-6">
-      <Link href="/automation/meetings" className="inline-flex items-center gap-2 text-sm text-fg-tertiary hover:text-fg">
+      <Link href="/automation/meetings" className="inline-flex items-center gap-2 text-sm text-fg-tertiary dark:text-fg-tertiary hover:text-fg dark:hover:text-slate-100">
         <ArrowLeft className="w-4 h-4" /> Revenue Scheduling
       </Link>
       <header>
         <h1 className="text-page font-semibold text-fg">Meeting templates</h1>
-        <p className="text-sm text-fg-tertiary mt-1">Pre-configured revenue scheduling types — start from a template in Create flow.</p>
+        <p className="text-sm text-fg-tertiary dark:text-fg-tertiary mt-1">Pre-configured revenue scheduling types — start from a template in Create flow.</p>
       </header>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {TEMPLATES.map((t) => {
@@ -56,15 +56,15 @@ export default function MeetingsTemplatesView() {
             <DashboardCard key={t.id} padding="p-5" hover>
               <div className="flex gap-4">
                 <div className="w-11 h-11 rounded-lg bg-canvas border border-line dark:bg-indigo-950/40 flex items-center justify-center">
-                  <Icon className="w-5 h-5 text-fg-secondary" />
+                  <Icon className="w-5 h-5 text-fg-secondary dark:text-accent-fg" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-fg dark:text-slate-50">{t.title}</h3>
-                  <p className="text-xs text-fg-tertiary mt-0.5">{t.duration} min · {t.category.replace('_', ' ')}</p>
+                  <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-0.5">{t.duration} min · {t.category.replace('_', ' ')}</p>
                   <p className="text-sm text-fg-secondary dark:text-fg-tertiary mt-2">{t.description}</p>
                   <Link
                     href="/automation/meetings/create"
-                    className="inline-block mt-3 text-xs font-semibold text-accent-fg hover:underline"
+                    className="inline-block mt-3 text-xs font-semibold text-accent-fg dark:text-accent-fg hover:underline"
                   >
                     Use template →
                   </Link>

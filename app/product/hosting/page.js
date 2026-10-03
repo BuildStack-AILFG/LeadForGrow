@@ -5,7 +5,7 @@ export const metadata = {
   description: "Launch secure, fast, and branded agency websites with LeadForGrow. Global edge hosting, free SSL, and one-click custom domain setup. Build trust instantly.",
   keywords: ["agency website hosting", "custom domain for SaaS", "secure lead capture hosting India", "unlimited website hosting", "fast edge hosting for funnels"],
   alternates: {
-    canonical: 'https://leadforgrow.online/product/hosting'
+    canonical: 'https://www.leadforgrow.com/product/hosting'
   }
 };
 
@@ -70,7 +70,7 @@ export default function HostingPage() {
     <MarketingLayout 
       title="Professional Brands Belong on Professional Domains." 
       subtitle="Security and speed shouldn't be technical hurdles. Launch secure, fast, and branded websites without ever touching a server."
-      heroImage="/images/hero/builder.png"
+      heroImage="/images/hero/builder.webp"
       benefits={benefits}
       whoIsThisFor={whoIsThisFor}
       whyItMatters={whyItMatters}
@@ -120,7 +120,7 @@ export default function HostingPage() {
             </div>
             <div>
               <h4 className="font-bold text-indigo-600 dark:text-indigo-400">4. High-Availability Reliability</h4>
-              <p className="text-xl">Your business never sleeps, and neither does your website. We maintain 99.9% uptime across our global network to ensure your leads can always find you.</p>
+              <p className="text-xl">Your business never sleeps, and neither does your website. We host your site on managed cloud infrastructure so your leads can find you.</p>
             </div>
           </div>
         </div>

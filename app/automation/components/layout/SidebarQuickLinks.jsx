@@ -11,7 +11,7 @@ export default function SidebarQuickLinks({ items, activeId, getBadge, onNavigat
   if (!items.length) return null;
   return (
     <div className="bg-accent-subtle/50 pb-1">
-      <p className="px-4 pb-1 pt-2.5 text-[11px] font-semibold uppercase tracking-wider text-fg-tertiary">Quick links</p>
+      <p className="px-4 pb-1 pt-2.5 text-meta font-semibold text-fg-tertiary">Quick links</p>
       {items.map((item) => (
         <SidebarItem
           key={`quick-${item.id}`}

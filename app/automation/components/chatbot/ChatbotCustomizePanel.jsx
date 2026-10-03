@@ -3,7 +3,7 @@
 import { Plus, Trash2, GripVertical } from 'lucide-react';
 import { COLOR_PRESETS } from './constants';
 
-const inputClass = 'w-full text-sm px-3 py-2.5 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-focus focus:border-accent outline-none transition-all';
+const inputClass = 'w-full text-sm px-3 py-2.5 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded focus:ring-2 focus:ring-focus focus:border-accent outline-none transition-all';
 const labelClass = 'text-meta font-semibold text-fg-tertiary mb-1.5 block';
 
 export default function ChatbotCustomizePanel({ config, onChange }) {
@@ -123,7 +123,7 @@ export default function ChatbotCustomizePanel({ config, onChange }) {
             { key: 'askSupportType', label: 'Ask sales vs support' },
             { key: 'aiEnabled', label: 'Answer their final message with AI (using your Knowledge Base) instead of a canned "thank you"' },
           ].map(({ key, label }) => (
-            <label key={key} className="flex items-center gap-3 p-3 rounded-lg bg-subtle dark:bg-slate-900/50 border border-line dark:border-slate-800 cursor-pointer">
+            <label key={key} className="flex items-center gap-3 p-3 rounded bg-subtle dark:bg-slate-900/50 border border-line dark:border-slate-800 cursor-pointer">
               <input
                 type="checkbox"
                 checked={!!flow[key]}
@@ -159,7 +159,7 @@ export default function ChatbotCustomizePanel({ config, onChange }) {
           <button
             type="button"
             onClick={addQuestion}
-            className="inline-flex items-center gap-1.5 text-xs font-medium text-accent-fg hover:text-accent-fg mt-1"
+            className="inline-flex items-center gap-1.5 text-xs font-medium text-accent-fg dark:text-accent-fg hover:text-accent-fg dark:hover:text-teal-200 mt-1"
           >
             <Plus className="w-3.5 h-3.5" /> Add question
           </button>

@@ -49,7 +49,7 @@ export default function SidebarItem({ item, active, collapsed, badgeCount, onNav
         onClick={onNavigate}
         aria-current={active ? 'page' : undefined}
         aria-label={collapsed ? item.name : undefined}
-        className={cx(row, active ? 'bg-accent text-white' : 'text-fg hover:bg-[#BAE0CF]')}
+        className={cx(row, active ? 'bg-accent text-white' : 'text-fg hover:bg-accent-subtle')}
       >
         <span className="relative inline-flex shrink-0">
           <Icon className={cx('h-[18px] w-[18px]', active ? 'text-white' : 'text-accent')} strokeWidth={1.75} aria-hidden />

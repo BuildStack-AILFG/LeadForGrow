@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Check, ArrowRight } from 'lucide-react';
 import { MARKETING } from '@/lib/marketing/designTokens';
+import { goToGetStarted, openBookDemo } from './homeActions';
 
 const AI_POINTS = [
   { label: 'Write, Launch, and Optimize with AI Copilot', image: '/images/interakt-clone/AI-copilot-3.webp' },
@@ -12,8 +13,19 @@ const AI_POINTS = [
   { label: 'Ready-to-Send Templates, Powered by AI', image: '/images/interakt-clone/Templates-2.webp' },
 ];
 
-export default function AICapabilitiesSection({ onGetStarted, onBookDemo }) {
+export default function AICapabilitiesSection({ onGetStarted = goToGetStarted, onBookDemo = openBookDemo } = {}) {
   const [active, setActive] = useState(0);
+
+  // Warm the other tabs' images once the page is idle so switching tabs shows them instantly.
+  useEffect(() => {
+    const warm = () => AI_POINTS.slice(1).forEach(({ image }) => { new Image().src = image; });
+    if ('requestIdleCallback' in window) {
+      const id = window.requestIdleCallback(warm, { timeout: 4000 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const t = setTimeout(warm, 2000);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
     <section id="ai-suite" className={`${MARKETING.section} bg-[#FAFDFA]`}>

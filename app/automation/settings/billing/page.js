@@ -12,12 +12,12 @@ function UsageBar({ label, used, max }) {
   return (
     <div className="space-y-1">
       <div className="flex justify-between text-sm">
-        <span className="text-fg-secondary">{label}</span>
-        <span className={warn ? 'text-warning font-medium' : 'text-fg-tertiary'}>
+        <span className="text-fg-secondary dark:text-fg-disabled">{label}</span>
+        <span className={warn ? 'text-warning dark:text-amber-400 font-medium' : 'text-fg-tertiary dark:text-fg-tertiary'}>
           {used} / {max >= 999999 ? '∞' : max}
         </span>
       </div>
-      <div className="h-2 bg-muted rounded-full overflow-hidden">
+      <div className="h-2 bg-muted dark:bg-slate-800 rounded-full overflow-hidden">
         <div
           className={`h-full rounded-full transition-all ${warn ? 'bg-warning' : 'bg-accent'}`}
           style={{ width: `${pct}%` }}
@@ -101,23 +101,23 @@ export default function BillingSettingsPage() {
     <div className="max-w-4xl mx-auto p-6 space-y-8">
       <div>
         <h1 className="text-page font-semibold text-fg">Billing & Subscription</h1>
-        <p className="text-fg-tertiary mt-1">Manage your plan, usage, and invoices</p>
+        <p className="text-fg-tertiary dark:text-fg-tertiary mt-1">Manage your plan, usage, and invoices</p>
       </div>
 
-      <div className="bg-canvas border border-line rounded-lg p-6">
+      <div className="bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg p-6">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
-            <p className="text-sm text-fg-tertiary">Current plan</p>
-            <p className="text-xl font-semibold capitalize text-fg">{plan}</p>
+            <p className="text-sm text-fg-tertiary dark:text-fg-tertiary">Current plan</p>
+            <p className="text-xl font-semibold capitalize text-fg dark:text-slate-50">{plan}</p>
             {billing?.subscription?.status && (
-              <p className="text-sm text-fg-tertiary mt-1">Status: {billing.subscription.status}</p>
+              <p className="text-sm text-fg-tertiary dark:text-fg-tertiary mt-1">Status: {billing.subscription.status}</p>
             )}
           </div>
           {billing?.subscription?.stripeCustomerId && (
             <button
               type="button"
               onClick={openPortal}
-              className="px-4 py-2 text-sm font-medium border border-line rounded-md hover:bg-subtle"
+              className="px-4 py-2 text-sm font-medium border border-line dark:border-slate-700 rounded-md hover:bg-subtle dark:hover:bg-slate-800/50"
             >
               Manage subscription
             </button>
@@ -125,31 +125,31 @@ export default function BillingSettingsPage() {
         </div>
       </div>
 
-      <div className="bg-canvas border border-line rounded-lg p-6 space-y-4">
-        <h2 className="font-semibold text-fg">Usage this month</h2>
+      <div className="bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg p-6 space-y-4">
+        <h2 className="font-semibold text-fg dark:text-slate-50">Usage this month</h2>
         <UsageBar label="Leads" used={usage.leads || 0} max={quotas.maxLeadsPerMonth || 50} />
         <UsageBar label="Forms" used={usage.formsCreated || 0} max={quotas.maxForms || 1} />
         <UsageBar label="Team seats" used={usage.teamMembers || 1} max={quotas.maxTeamMembers || 1} />
         {(usage.leads || 0) / (quotas.maxLeadsPerMonth || 50) >= 0.85 && (
-          <p className="text-sm text-warning bg-warning-subtle border border-warning/30 rounded-lg p-3">
+          <p className="text-sm text-warning dark:text-amber-300 bg-warning-subtle dark:bg-amber-950/30 border border-warning/30 dark:border-amber-900/50 rounded-lg p-3">
             You&apos;re approaching your lead limit. Upgrade to avoid ingestion blocks.
           </p>
         )}
       </div>
 
       <div>
-        <h2 className="font-semibold text-fg mb-4">Upgrade plan</h2>
+        <h2 className="font-semibold text-fg dark:text-slate-50 mb-4">Upgrade plan</h2>
         <div className="grid md:grid-cols-3 gap-4">
           {Object.values(BILLING_PLANS)
             .filter((p) => p.id !== 'free')
             .map((p) => (
-              <div key={p.id} className="bg-canvas border border-line rounded-lg p-5 flex flex-col">
+              <div key={p.id} className="bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg p-5 flex flex-col">
                 <h3 className="font-semibold text-lg">{p.name}</h3>
                 <p className="text-2xl font-semibold mt-2">
                   ₹{p.priceInr.toLocaleString('en-IN')}
-                  <span className="text-sm font-normal text-fg-tertiary">/mo</span>
+                  <span className="text-sm font-normal text-fg-tertiary dark:text-fg-tertiary">/mo</span>
                 </p>
-                <ul className="text-sm text-fg-secondary mt-4 space-y-1 flex-1">
+                <ul className="text-sm text-fg-secondary dark:text-fg-disabled mt-4 space-y-1 flex-1">
                   <li>{p.quotas.maxLeadsPerMonth >= 999999 ? 'Unlimited' : p.quotas.maxLeadsPerMonth} leads/mo</li>
                   <li>{p.quotas.maxTeamMembers} team seats</li>
                   <li>{p.quotas.maxWhatsappConversations >= 999999 ? 'Unlimited' : p.quotas.maxWhatsappConversations} WA chats</li>
@@ -167,7 +167,7 @@ export default function BillingSettingsPage() {
                     type="button"
                     disabled={plan === p.id || checkoutLoading}
                     onClick={() => startCheckout(p.id, 'stripe')}
-                    className="w-full py-2.5 border border-line text-sm font-medium rounded-lg hover:bg-subtle disabled:opacity-50"
+                    className="w-full py-2.5 border border-line dark:border-slate-700 text-sm font-medium rounded-lg hover:bg-subtle dark:hover:bg-slate-800/50 disabled:opacity-50"
                   >
                     Pay with Stripe
                   </button>
@@ -178,16 +178,16 @@ export default function BillingSettingsPage() {
       </div>
 
       {billing?.invoices?.length > 0 && (
-        <div className="bg-canvas border border-line rounded-lg p-6">
-          <h2 className="font-semibold text-fg mb-4">Invoice history</h2>
-          <div className="divide-y divide-line">
+        <div className="bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg p-6">
+          <h2 className="font-semibold text-fg dark:text-slate-50 mb-4">Invoice history</h2>
+          <div className="divide-y divide-line dark:divide-slate-800">
             {billing.invoices.map((inv) => (
               <div key={inv._id} className="py-3 flex justify-between items-center text-sm">
                 <div>
                   <p className="font-medium">{inv.currency} {inv.amount}</p>
-                  <p className="text-fg-tertiary">{new Date(inv.createdAt).toLocaleDateString()}</p>
+                  <p className="text-fg-tertiary dark:text-fg-tertiary">{new Date(inv.createdAt).toLocaleDateString()}</p>
                 </div>
-                <span className="capitalize px-2 py-1 rounded bg-muted text-fg-secondary">{inv.status}</span>
+                <span className="capitalize px-2 py-1 rounded bg-muted dark:bg-slate-800 text-fg-secondary dark:text-slate-200">{inv.status}</span>
               </div>
             ))}
           </div>

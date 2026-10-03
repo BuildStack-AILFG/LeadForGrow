@@ -11,12 +11,12 @@ function ConvertForm({ lead, teamMembers, form, setForm, pipelines, stages }) {
   return (
     <div className="space-y-3">
       <div className="p-3 rounded-lg bg-subtle dark:bg-slate-800/50 border border-line dark:border-slate-800 text-sm">
-        <p className="text-xs text-fg-tertiary">Lead</p>
+        <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">Lead</p>
         <p className="font-medium text-fg dark:text-white">{lead?.name || '—'}</p>
       </div>
 
       <div>
-        <label className="text-xs font-medium text-fg-tertiary">Company</label>
+        <label className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">Company</label>
         <input
           className={`${inputCls} mt-1`}
           value={form.companyName}
@@ -26,7 +26,7 @@ function ConvertForm({ lead, teamMembers, form, setForm, pipelines, stages }) {
       </div>
 
       <div>
-        <label className="text-xs font-medium text-fg-tertiary">Deal Name *</label>
+        <label className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">Deal Name *</label>
         <input
           className={`${inputCls} mt-1`}
           value={form.dealTitle}
@@ -36,7 +36,7 @@ function ConvertForm({ lead, teamMembers, form, setForm, pipelines, stages }) {
       </div>
 
       <div>
-        <label className="text-xs font-medium text-fg-tertiary">Deal Amount</label>
+        <label className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">Deal Amount</label>
         <input
           type="number"
           className={`${inputCls} mt-1`}
@@ -47,7 +47,7 @@ function ConvertForm({ lead, teamMembers, form, setForm, pipelines, stages }) {
       </div>
 
       <div>
-        <label className="text-xs font-medium text-fg-tertiary">Expected Close Date</label>
+        <label className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">Expected Close Date</label>
         <input
           type="date"
           className={`${inputCls} mt-1`}
@@ -57,7 +57,7 @@ function ConvertForm({ lead, teamMembers, form, setForm, pipelines, stages }) {
       </div>
 
       <div>
-        <label className="text-xs font-medium text-fg-tertiary">Pipeline</label>
+        <label className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">Pipeline</label>
         <select
           className={`${inputCls} mt-1`}
           value={form.pipelineId}
@@ -77,7 +77,7 @@ function ConvertForm({ lead, teamMembers, form, setForm, pipelines, stages }) {
       </div>
 
       <div>
-        <label className="text-xs font-medium text-fg-tertiary">Starting Stage</label>
+        <label className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">Starting Stage</label>
         <select
           className={`${inputCls} mt-1`}
           value={form.dealStage}
@@ -90,7 +90,7 @@ function ConvertForm({ lead, teamMembers, form, setForm, pipelines, stages }) {
       </div>
 
       <div>
-        <label className="text-xs font-medium text-fg-tertiary">Owner *</label>
+        <label className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">Owner *</label>
         <select
           className={`${inputCls} mt-1`}
           value={form.assignedTo}
@@ -211,9 +211,9 @@ export default function ConvertLeadDialog({
         <div className="flex items-center justify-between px-4 py-3 border-b border-line dark:border-slate-800">
           <div>
             <h3 className="font-semibold text-fg dark:text-white">Convert to Deal</h3>
-            <p className="text-xs text-fg-tertiary mt-0.5">Creates contact, company & deal — lead moves to Deals</p>
+            <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-0.5">Creates contact, company & deal — lead moves to Deals</p>
           </div>
-          <button type="button" onClick={onClose} className="p-2 rounded-md text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800">
+          <button type="button" onClick={onClose} className="p-2 rounded-md text-fg-tertiary dark:text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -232,7 +232,7 @@ export default function ConvertLeadDialog({
       <div className="bg-canvas dark:bg-slate-900 rounded-lg shadow-modal w-full max-w-md max-h-[90vh] flex flex-col">
         <div className="px-5 py-4 border-b border-line dark:border-slate-800">
           <h3 className="font-semibold text-fg dark:text-white">Convert to Deal</h3>
-          <p className="text-xs text-fg-tertiary mt-1">
+          <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-1">
             This lead will be marked converted and removed from your active leads list.
           </p>
         </div>

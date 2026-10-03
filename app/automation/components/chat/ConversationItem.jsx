@@ -1,37 +1,35 @@
 'use client';
 
+import { cleanEmailPreview } from '@/lib/omnichannel/preview';
+import { isAutomatedSender } from '@/lib/omnichannel/automatedSender';
 import { memo } from 'react';
 import {
-  Pin, Star, Mail,
+  Pin, Star,
   ArrowLeft, ArrowRight,
   FileText, Image as ImageIcon, Mic, Video, MapPin, Phone,
-  Check, CheckCheck, Clock,
+  Check, CheckCheck, CheckCircle2, Clock,
 } from 'lucide-react';
-import { WhatsAppIcon, InstagramIcon } from './BrandIcons';
+import AssignMenu from './AssignMenu';
+import { WhatsAppIcon, InstagramIcon, FacebookIcon, GmailIcon } from './BrandIcons';
 
 const CHANNEL_ICON = {
   whatsapp: WhatsAppIcon,
-  email: Mail,
+  email: GmailIcon,
   instagram: InstagramIcon,
-};
-
-const CHANNEL_ICON_COLOR = {
-  whatsapp: 'text-[#25D366]',        // official WhatsApp brand green
-  email: 'text-[#4285F4]',
-  instagram: 'text-[#E1306C]',       // official Instagram brand pink
+  facebook: FacebookIcon,
 };
 
 // Stable per-name color for avatar backgrounds — feels alive without being random
-// Soft per-contact colours (stable by name) — makes the list easy to scan
-// without loud fills. Pastel background + dark text, all AA readable.
+// Soft per-contact colours (stable by name) — easy to scan without loud
+// fills. Hex classes on purpose: the token codemod must not flatten them.
 export const AVATAR_TONES = [
-  { bg: 'bg-[#E6F4EE]', fg: 'text-[#1D4B3E]' },
-  { bg: 'bg-[#E6EEF6]', fg: 'text-[#2D5F8A]' },
-  { bg: 'bg-[#FBF1DF]', fg: 'text-[#8F5A0E]' },
-  { bg: 'bg-[#F6E8F3]', fg: 'text-[#8A3F78]' },
-  { bg: 'bg-[#ECEAF8]', fg: 'text-[#4E4A9A]' },
-  { bg: 'bg-[#E3F2F4]', fg: 'text-[#256A73]' },
-  { bg: 'bg-[#FBE9E7]', fg: 'text-[#A23A2F]' },
+  { bg: 'bg-[#E6F4EE] dark:bg-accent-pressed/40', fg: 'text-accent-fg dark:text-accent-fg' },
+  { bg: 'bg-[#E6EEF6] dark:bg-sky-900/40', fg: 'text-[#2D5F8A] dark:text-sky-300' },
+  { bg: 'bg-[#FBF1DF] dark:bg-amber-900/40', fg: 'text-[#8F5A0E] dark:text-amber-300' },
+  { bg: 'bg-[#F6E8F3] dark:bg-pink-900/40', fg: 'text-[#8A3F78] dark:text-pink-300' },
+  { bg: 'bg-[#ECEAF8] dark:bg-accent-pressed/40', fg: 'text-[#4E4A9A] dark:text-accent-fg' },
+  { bg: 'bg-[#E3F2F4] dark:bg-accent-pressed/40', fg: 'text-[#256A73] dark:text-accent-fg' },
+  { bg: 'bg-[#FBE9E7] dark:bg-rose-900/40', fg: 'text-[#A23A2F] dark:text-rose-300' },
 ];
 export function toneForName(name) {
   const s = String(name || '');
@@ -71,9 +69,11 @@ function messagePreviewMeta(chat) {
   const hasInbound = !!chat.lastInboundPreview;
   const showInbound = hasInbound && outboundIsLatest;
 
-  const preview = showInbound
+  const previewRaw = showInbound
     ? String(chat.lastInboundPreview || '').trim()
     : rawOutbound;
+  // Email previews are often a wall of tracking URLs (newsletters): show readable text only.
+  const preview = chat.channel === 'email' ? cleanEmailPreview(previewRaw) : previewRaw;
   const previewIsInbound = showInbound || chat.lastMessageDirection === 'incoming';
 
   if (/^\[Template[:\s]/i.test(preview) || /Automated message sent/i.test(preview)) {
@@ -94,13 +94,12 @@ function messagePreviewMeta(chat) {
   return { Icon: null, label: previewIsInbound ? preview : `You: ${preview}`, isInboundPreview: previewIsInbound };
 }
 
-function ConversationItem({ chat, active, onClick }) {
+function ConversationItem({ chat, active, onClick, onDone, onAssignToMe, onAssignTo, teamMembers, currentUserId, showAssignToMe = false, selected = false, onToggleSelect, selectionMode = false }) {
   const lead = chat.leadId || {};
   const unread = chat.unreadCount > 0 || chat.inboxStatus === 'unread' || chat.status === 'unread';
   const displayName = lead.name || chat.participantName || lead.phone || chat.participantEmail || 'Unknown';
   const channel = chat.channel || 'whatsapp';
   const ChannelIcon = CHANNEL_ICON[channel] || WhatsAppIcon;
-  const channelClass = CHANNEL_ICON_COLOR[channel] || 'text-accent-fg';
 
   const { Icon: PreviewIcon, label: previewLabel, isInboundPreview } = messagePreviewMeta(chat);
   // Direction arrow reflects the preview we're actually rendering, not the
@@ -116,15 +115,17 @@ function ConversationItem({ chat, active, onClick }) {
   // and no human has replied since. Buckets escalate visually — grey <1h,
   // amber 1-4h, red >4h — so agents can prioritize at a glance.
   let waitingBadge = null;
-  if (chat.lastMessageDirection === 'incoming' && chat.lastInboundAt) {
+  // Newsletters / no-reply / notification senders can't be replied to, so a red "6d waiting" on them is only noise.
+  const automated = isAutomatedSender({ channel: chat.channel, email: chat.participantEmail || chat.leadId?.email });
+  if (!automated && chat.lastMessageDirection === 'incoming' && chat.lastInboundAt) {
     const waitMs = Date.now() - new Date(chat.lastInboundAt).getTime();
     const waitH = waitMs / (60 * 60 * 1000);
     if (waitH >= 0.25) {  // Only show after 15 min — before that it's just "recent"
       let label, cls;
-      if (waitH < 1) { label = `${Math.round(waitH * 60)}m`; cls = 'bg-muted text-fg-secondary'; }
-      else if (waitH < 4) { label = `${Math.round(waitH)}h`; cls = 'bg-warning-subtle text-warning'; }
-      else if (waitH < 24) { label = `${Math.round(waitH)}h`; cls = 'bg-danger-subtle text-danger'; }
-      else { label = `${Math.round(waitH / 24)}d`; cls = 'bg-rose-200 text-rose-800'; }
+      if (waitH < 1) { label = `${Math.round(waitH * 60)}m`; cls = 'bg-muted dark:bg-slate-800 text-fg-secondary dark:text-fg-disabled'; }
+      else if (waitH < 4) { label = `${Math.round(waitH)}h`; cls = 'bg-warning-subtle dark:bg-amber-900/30 text-warning dark:text-amber-300'; }
+      else if (waitH < 24) { label = `${Math.round(waitH)}h`; cls = 'bg-danger-subtle dark:bg-rose-900/30 text-danger dark:text-rose-300'; }
+      else { label = `${Math.round(waitH / 24)}d`; cls = 'bg-rose-200 dark:bg-rose-900/40 text-rose-800 dark:text-rose-200'; }
       waitingBadge = { label, cls };
     }
   }
@@ -136,20 +137,53 @@ function ConversationItem({ chat, active, onClick }) {
   if (showingOutgoing) {
     const s = String(chat.lastMessageStatus || '').toLowerCase();
     if (s === 'read')          { DeliveryIcon = CheckCheck; deliveryClass = 'text-accent-fg'; }
-    else if (s === 'delivered'){ DeliveryIcon = CheckCheck; deliveryClass = unread ? 'text-fg-tertiary' : 'text-fg-tertiary'; }
-    else if (s === 'sent' || s === 'accepted') { DeliveryIcon = Check; deliveryClass = unread ? 'text-fg-tertiary' : 'text-fg-tertiary'; }
+    else if (s === 'delivered'){ DeliveryIcon = CheckCheck; deliveryClass = unread ? 'text-fg-tertiary dark:text-fg-tertiary' : 'text-fg-tertiary'; }
+    else if (s === 'sent' || s === 'accepted') { DeliveryIcon = Check; deliveryClass = unread ? 'text-fg-tertiary dark:text-fg-tertiary' : 'text-fg-tertiary'; }
   }
 
+  // Quick actions live OUTSIDE the row button (a button inside a button is invalid HTML) and are always visible: hover-only
+  // controls never appear on touchscreen laptops. "Done" only for a conversation that is waiting on us.
+  const canDone = Boolean(onDone) && chat.status !== 'closed' && chat.lastMessageDirection === 'incoming' && !automated;
+  const canAssign = Boolean(onAssignToMe) && showAssignToMe;
+  const hasActions = canDone || canAssign;
+
   return (
+    <div className="relative group/row">
+    {/* Bulk-select checkbox — overlays the avatar (Gmail-style) so selecting
+        never shifts the layout. Appears on hover, or stays while a selection
+        is active; stops propagation so it never opens the conversation. */}
+    {onToggleSelect && (
+      <button
+        type="button"
+        onClick={(e) => { e.stopPropagation(); onToggleSelect(chat._id); }}
+        aria-label={selected ? 'Deselect conversation' : 'Select conversation'}
+        className={`absolute left-[15px] top-1/2 -translate-y-1/2 z-10 w-[18px] h-[18px] rounded border flex items-center justify-center transition-opacity ${
+          selected
+            ? 'bg-accent border-accent text-white opacity-100'
+            : `bg-canvas dark:bg-slate-900 border-line-strong dark:border-slate-600 ${selectionMode ? 'opacity-100' : 'opacity-0 group-hover/row:opacity-100'}`
+        }`}
+      >
+        {selected && <Check className="w-3 h-3" strokeWidth={3} />}
+      </button>
+    )}
     <button
       type="button"
       onClick={onClick}
-      className={`group w-full text-left flex items-center gap-3 pl-2 pr-3 py-2.5 border-b border-line dark:border-slate-800/80 border-l-[3px] transition-colors ${
-        active
-          ? 'bg-accent-subtle border-l-accent'
-          : 'border-l-transparent hover:bg-subtle'
+      className={`group w-full text-left flex items-center gap-3 pl-2 pr-3 py-2.5 border-b border-slate-100 dark:border-slate-800/80 border-l-[3px] transition-colors ${
+        selected
+          ? 'bg-accent-subtle dark:bg-teal-950/30 border-l-teal-500'
+          : active
+          ? 'bg-brand-tint dark:bg-teal-950/30 border-accent'
+          : unread
+            ? 'border-l-transparent hover:bg-subtle dark:hover:bg-slate-800/40'
+            : 'hover:bg-subtle dark:hover:bg-slate-800/40 border-l-transparent'
       }`}
     >
+      {/* Unread dot — a fixed-width rail so read/unread rows stay aligned, and
+          unread ones are instantly scannable down the left edge (Gmail-style).
+          Hidden while the select checkbox is showing so they don't overlap. */}
+      <span className={`w-1.5 h-1.5 rounded-full self-center flex-shrink-0 ${unread && !selected && !selectionMode ? 'bg-accent' : 'bg-transparent'}`} />
+
       {/* Avatar */}
       <div className={`flex-shrink-0 w-9 h-9 rounded-full ${tone.bg} ${tone.fg} flex items-center justify-center text-sm font-semibold`}>
         {displayName.charAt(0)?.toUpperCase() || '?'}
@@ -163,7 +197,7 @@ function ConversationItem({ chat, active, onClick }) {
           </span>
           <div className="flex items-center gap-1.5 flex-shrink-0">
             {chat.isPinned && <Pin className="w-3 h-3 text-accent-fg" />}
-            {chat.isFavorite && <Star className="w-3 h-3 text-accent-fg fill-accent" />}
+            {chat.isFavorite && <Star className="w-3 h-3 text-accent-fg dark:text-accent-fg fill-accent" />}
             {intervened && (
               <span className="text-meta font-semibold px-1.5 py-[1px] rounded-full bg-accent-subtle dark:bg-teal-950/40 text-accent-fg dark:text-accent-fg">Live</span>
             )}
@@ -179,7 +213,7 @@ function ConversationItem({ chat, active, onClick }) {
                 {waitingBadge.label}
               </span>
             )}
-            <ChannelIcon className={`w-3.5 h-3.5 ${channelClass}`} />
+            <ChannelIcon colored className="w-3.5 h-3.5 shrink-0" />
             <span className={`text-meta tabular-nums ${unread ? 'text-fg-secondary dark:text-fg-disabled font-medium' : 'text-fg-tertiary'}`}>
               {formatTime(chat.lastMessageAt)}
             </span>
@@ -192,9 +226,9 @@ function ConversationItem({ chat, active, onClick }) {
         </div>
 
         {/* Row 2 — direction arrow · type icon · delivery tick · preview */}
-        <div className="flex items-center gap-1 mt-0.5 min-w-0">
+        <div className={`flex items-center gap-1 mt-0.5 min-w-0 ${canAssign ? 'pr-44' : canDone ? 'pr-8' : ''}`}>
           {isInboundPreview ? (
-            <ArrowLeft className={`w-3 h-3 flex-shrink-0 ${unread ? 'text-accent-fg' : 'text-fg-tertiary'}`} />
+            <ArrowLeft className={`w-3 h-3 flex-shrink-0 ${unread ? 'text-accent-fg dark:text-accent-fg' : 'text-fg-tertiary'}`} />
           ) : (
             <ArrowRight className="w-3 h-3 flex-shrink-0 text-fg-tertiary" />
           )}
@@ -210,6 +244,26 @@ function ConversationItem({ chat, active, onClick }) {
         </div>
       </div>
     </button>
+    {hasActions && (
+      <div className="absolute right-2 bottom-1.5 flex items-center gap-1">
+        {canAssign && (
+          <AssignMenu chat={chat} teamMembers={teamMembers} currentUserId={currentUserId} onAssignToMe={onAssignToMe} onAssignTo={onAssignTo} />
+        )}
+        {canDone && (
+          <button
+            type="button"
+            data-row-action="done"
+            title="Mark done: nothing more to reply. It comes back if the customer writes again."
+            aria-label="Mark done"
+            onClick={() => onDone(chat)}
+            className="inline-flex items-center justify-center w-6 h-6 rounded border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-fg-secondary dark:text-fg-disabled hover:bg-brand-tint dark:hover:bg-slate-800 hover:text-brand-ink"
+          >
+            <CheckCircle2 className="w-3.5 h-3.5" />
+          </button>
+        )}
+      </div>
+    )}
+    </div>
   );
 }
 

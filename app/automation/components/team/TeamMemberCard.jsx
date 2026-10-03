@@ -33,10 +33,10 @@ function TeamMemberCard({ member, index, onRemove }) {
               className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold flex-shrink-0 ${
                 active
                   ? 'bg-accent-subtle text-accent-fg dark:bg-emerald-950/30 dark:text-accent-fg'
-                  : 'bg-muted text-fg-tertiary dark:bg-slate-800'
+                  : 'bg-muted text-fg-tertiary dark:text-fg-tertiary dark:bg-slate-800'
               }`}
             >
-              <span className={`w-1.5 h-1.5 rounded-full ${active ? 'bg-accent' : 'bg-fg-disabled'}`} />
+              <span className={`w-1.5 h-1.5 rounded-full ${active ? 'bg-accent' : 'bg-slate-400'}`} />
               {active ? 'Active' : 'Away'}
             </span>
           </div>
@@ -57,12 +57,12 @@ function TeamMemberCard({ member, index, onRemove }) {
       {(email || phone) && (
         <div className="mt-3 flex flex-wrap gap-2">
           {email && (
-            <span className="inline-flex items-center gap-1 text-meta text-fg-tertiary bg-subtle dark:bg-slate-800 px-2 py-1 rounded-md">
+            <span className="inline-flex items-center gap-1 text-meta text-fg-tertiary dark:text-fg-tertiary bg-subtle dark:bg-slate-800 px-2 py-1 rounded-md">
               <Mail className="w-3 h-3" /> {email}
             </span>
           )}
           {phone && (
-            <span className="inline-flex items-center gap-1 text-meta text-fg-tertiary bg-subtle dark:bg-slate-800 px-2 py-1 rounded-md">
+            <span className="inline-flex items-center gap-1 text-meta text-fg-tertiary dark:text-fg-tertiary bg-subtle dark:bg-slate-800 px-2 py-1 rounded-md">
               <Phone className="w-3 h-3" /> {phone}
             </span>
           )}
@@ -74,7 +74,7 @@ function TeamMemberCard({ member, index, onRemove }) {
           <button
             type="button"
             onClick={() => onRemove(member._id)}
-            className="inline-flex items-center gap-1 text-xs font-medium text-danger hover:text-danger dark:text-red-400"
+            className="inline-flex items-center gap-1 text-xs font-medium text-danger hover:text-danger dark:hover:text-red-300 dark:text-red-400"
           >
             <Trash2 className="w-3.5 h-3.5" /> Remove member
           </button>

@@ -21,18 +21,18 @@ export default function SecurityPanel({ security, onToggle2FA }) {
             <div key={session.id} className="flex items-center justify-between gap-3 py-2 border-b border-line dark:border-slate-800 last:border-0">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-lg bg-muted dark:bg-slate-800 flex items-center justify-center">
-                  <Smartphone className="w-4 h-4 text-fg-tertiary" />
+                  <Smartphone className="w-4 h-4 text-fg-tertiary dark:text-fg-tertiary" />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-fg dark:text-slate-100">
                     {session.device}
-                    {session.current && <span className="ml-2 text-meta font-semibold text-accent-fg bg-accent-subtle dark:bg-emerald-950/30 px-1.5 py-0.5 rounded">Current</span>}
+                    {session.current && <span className="ml-2 text-meta font-semibold text-accent-fg dark:text-accent-fg bg-accent-subtle dark:bg-emerald-950/30 px-1.5 py-0.5 rounded">Current</span>}
                   </p>
-                  <p className="text-xs text-fg-tertiary">{session.location} · {session.lastActive}</p>
+                  <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">{session.location} · {session.lastActive}</p>
                 </div>
               </div>
               {!session.current && (
-                <button type="button" className="text-xs font-medium text-danger hover:text-danger flex items-center gap-1">
+                <button type="button" className="text-xs font-medium text-danger dark:text-red-400 hover:text-danger dark:hover:text-red-300 flex items-center gap-1">
                   <LogOut className="w-3 h-3" /> Revoke
                 </button>
               )}
@@ -49,13 +49,13 @@ export default function SecurityPanel({ security, onToggle2FA }) {
                 <Key className="w-4 h-4 text-fg-tertiary" />
                 <div>
                   <p className="text-sm font-medium text-fg dark:text-slate-100">{token.name}</p>
-                  <p className="text-xs text-fg-tertiary font-mono">{token.prefix} · Created {token.created}</p>
+                  <p className="text-xs text-fg-tertiary dark:text-fg-tertiary font-mono">{token.prefix} · Created {token.created}</p>
                 </div>
               </div>
               <span className="text-meta text-fg-tertiary">Used {token.lastUsed}</span>
             </div>
           ))}
-          <button type="button" className="text-xs font-medium text-accent-fg hover:text-accent-fg">+ Generate new token</button>
+          <button type="button" className="text-xs font-medium text-accent-fg dark:text-accent-fg hover:text-accent-fg dark:hover:text-accent-fg">+ Generate new token</button>
         </div>
       </SettingsCard>
 
@@ -66,7 +66,7 @@ export default function SecurityPanel({ security, onToggle2FA }) {
               <FileText className="w-3.5 h-3.5 text-fg-tertiary mt-0.5 flex-shrink-0" />
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-fg dark:text-slate-200">{log.action}</p>
-                <p className="text-fg-tertiary">{log.user} · {log.time} · {log.ip}</p>
+                <p className="text-fg-tertiary dark:text-fg-tertiary">{log.user} · {log.time} · {log.ip}</p>
               </div>
             </div>
           ))}

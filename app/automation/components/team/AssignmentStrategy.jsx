@@ -29,7 +29,7 @@ export default function AssignmentStrategy({ value, onChange, onSave, saving }) 
               }`}
             >
               <div className="flex items-start gap-3">
-                <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${selected ? s.iconClass : 'bg-muted text-fg-tertiary dark:bg-slate-800'}`}>
+                <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${selected ? s.iconClass : 'bg-muted text-fg-tertiary dark:text-fg-tertiary dark:bg-slate-800'}`}>
                   <Icon className="w-5 h-5" />
                 </div>
                 <div className="flex-1 min-w-0">

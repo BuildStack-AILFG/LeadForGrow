@@ -54,7 +54,7 @@ export default function QualityRatingBanner({ audienceCount, className = '' }) {
 
   if (loading) {
     return (
-      <div className={`rounded-lg border border-line dark:border-slate-800 p-3 text-xs text-fg-tertiary flex items-center gap-2 ${className}`}>
+      <div className={`rounded-lg border border-line dark:border-slate-800 p-3 text-xs text-fg-tertiary dark:text-fg-tertiary flex items-center gap-2 ${className}`}>
         <Loader2 className="w-3.5 h-3.5 animate-spin" /> Checking Meta quality rating…
       </div>
     );
@@ -62,7 +62,7 @@ export default function QualityRatingBanner({ audienceCount, className = '' }) {
 
   if (error) {
     return (
-      <div className={`rounded-lg border border-line dark:border-slate-800 p-3 text-xs text-fg-tertiary ${className}`}>
+      <div className={`rounded-lg border border-line dark:border-slate-800 p-3 text-xs text-fg-tertiary dark:text-fg-tertiary ${className}`}>
         Could not fetch quality rating: {error}
       </div>
     );
@@ -78,7 +78,7 @@ export default function QualityRatingBanner({ audienceCount, className = '' }) {
   const overLimit = audienceCount && audienceCount > tierCap;
 
   return (
-    <div className={`rounded-lg border p-3 space-y-2 ${TONE_CLASSES[meta.tone]} ${className}`}>
+    <div className={`rounded border p-3 space-y-2 ${TONE_CLASSES[meta.tone]} ${className}`}>
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-2 min-w-0">
           <Icon className="w-4 h-4 shrink-0 mt-0.5" />
@@ -96,7 +96,7 @@ export default function QualityRatingBanner({ audienceCount, className = '' }) {
           type="button"
           onClick={() => load(true)}
           disabled={refreshing}
-          className="p-1 rounded hover:bg-canvas/40 dark:hover:bg-slate-800/40 shrink-0"
+          className="p-1 rounded hover:bg-white/40 dark:hover:bg-slate-800/40 shrink-0"
           title="Re-check quality from Meta"
         >
           <RefreshCw className={`w-3 h-3 ${refreshing ? 'animate-spin' : ''}`} />

@@ -1,6 +1,7 @@
 'use client';
 
-import { Suspense, useCallback } from 'react';
+import { Suspense, useCallback, useState } from 'react';
+import SendTemplateModal from '../components/leads/SendTemplateModal';
 import { SMART_VIEWS } from '../components/leads/constants';
 import { useLeadsWorkspace } from '../hooks/useLeadsWorkspace';
 import LeadsHeader from '../components/leads/LeadsHeader';
@@ -26,6 +27,7 @@ import Link from 'next/link';
 
 function LeadsWorkspaceContent() {
   const ws = useLeadsWorkspace();
+  const [templateLead, setTemplateLead] = useState(null); // lead whose WhatsApp template picker is open
   useAutoStartTour(TOURS.leads, !ws.loading);
 
   const handleSearch = useCallback((value) => ws.setSearchInput(value), [ws]);
@@ -90,6 +92,7 @@ function LeadsWorkspaceContent() {
                 onAssign={ws.assignLead}
                 onStatusChange={ws.updateLeadStatus}
                 onCall={ws.initiateCall}
+                onSendTemplate={setTemplateLead}
                 onRowColorChange={ws.updateLeadRowColor}
                 sortField={ws.sortField}
                 sortDir={ws.sortDir}
@@ -188,6 +191,8 @@ function LeadsWorkspaceContent() {
         onCancel={ws.cancelQuotationPrompt}
         onConfirm={ws.confirmQuotationSent}
       />
+
+      {templateLead && <SendTemplateModal lead={templateLead} onClose={() => setTemplateLead(null)} />}
 
       <ConvertLeadDialog
         open={!!ws.convertLeadId && !ws.drawerLeadId && !!ws.convertLeadMeta}

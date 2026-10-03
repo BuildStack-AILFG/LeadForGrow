@@ -54,34 +54,34 @@ export const DASHBOARD_THEME = {
 
 // Chart palette — matches the teal brand primary above.
 export const CHART = {
-  line: '#1D4B3E',
-  lineSoft: '#1D4B3E',
-  gradTop: 'rgba(29,75,62,0.06)',
-  gradBottom: 'rgba(29,75,62,0.06)',
-  grid: '#EEF1F0',
-  segments: ['#1D4B3E', '#2F6B58', '#8FC4AE'],
+  line: 'var(--brand-ink)',
+  lineSoft: 'var(--brand-ink)',
+  gradTop: 'rgba(29,75,62,0.20)',
+  gradBottom: 'rgba(29,75,62,0)',
+  grid: 'var(--chart-grid)',
+  segments: ['var(--chart-1)', 'var(--chart-2)', 'var(--chart-3)'],
 };
 
 // Typography — premium SaaS: Inter, regular/medium only, no bold.
 export const FONT = {
-  pageTitle: 'text-hero sm:text-hero font-medium tracking-[-0.02em] text-fg leading-tight',
-  sectionTitle: 'text-body font-medium tracking-[-0.01em] text-fg',
-  cardTitle: 'text-dense font-medium text-fg',
-  cardLabel: 'text-dense font-normal text-fg-secondary',
-  metric: 'text-page font-medium text-fg leading-none tracking-[-0.02em] tabular-nums',
-  metricSm: 'text-title font-medium text-fg leading-none tracking-[-0.02em] tabular-nums',
-  sub: 'text-dense font-normal text-fg-tertiary',
-  muted: 'text-dense font-normal text-fg-secondary',
+  pageTitle: 'text-hero sm:text-hero font-medium tracking-[-0.02em] text-fg dark:text-slate-100 leading-tight',
+  sectionTitle: 'text-body font-medium tracking-[-0.01em] text-fg dark:text-slate-100',
+  cardTitle: 'text-dense font-medium text-fg dark:text-slate-100',
+  cardLabel: 'text-dense font-normal text-fg-secondary dark:text-fg-disabled',
+  metric: 'text-page font-medium text-fg dark:text-slate-100 leading-none tracking-[-0.02em] tabular-nums',
+  metricSm: 'text-title font-medium text-fg dark:text-slate-100 leading-none tracking-[-0.02em] tabular-nums',
+  sub: 'text-dense font-normal text-fg-tertiary dark:text-fg-tertiary',
+  muted: 'text-dense font-normal text-fg-secondary dark:text-fg-disabled',
 };
 
 // Shared class recipes so every widget shares one language.
 export const UI = {
   btnPrimary:
-    'inline-flex items-center justify-center gap-2 h-10 px-4 text-dense font-medium text-white bg-accent rounded-md transition-all duration-200 hover:bg-accent-hover hover:shadow-popover active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-focus',
+    'inline-flex items-center justify-center gap-2 h-10 px-4 text-dense font-semibold text-white bg-brand rounded-none transition-all duration-200 hover:bg-brand-hover hover:shadow-popover active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40',
   btnDark:
-    'inline-flex items-center justify-center gap-2 h-10 px-4 text-dense font-medium text-white bg-accent rounded-md transition-all duration-200 hover:bg-accent-hover hover:shadow-popover active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#101828]/30',
+    'inline-flex items-center justify-center gap-2 h-10 px-4 text-dense font-medium text-white bg-accent dark:bg-slate-700 rounded-none transition-all duration-200 hover:bg-accent-hover dark:hover:bg-slate-600 hover:shadow-popover active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#101828]/30',
   btnGhost:
-    'inline-flex items-center justify-center gap-2 h-10 px-3.5 text-dense font-medium text-fg-secondary bg-canvas border border-line rounded-md transition-all duration-200 hover:bg-subtle hover:border-line active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-focus',
+    'inline-flex items-center justify-center gap-2 h-10 px-3.5 text-dense font-medium text-fg-secondary dark:text-slate-200 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-none transition-all duration-200 hover:bg-subtle dark:hover:bg-slate-800 hover:border-line dark:hover:border-slate-700 active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/20',
   iconBtn:
-    'inline-flex items-center justify-center w-10 h-10 text-fg-tertiary bg-canvas border border-line rounded-md transition-all duration-200 hover:bg-subtle hover:text-fg hover:border-line active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-focus',
+    'inline-flex items-center justify-center w-10 h-10 text-fg-tertiary dark:text-fg-disabled bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-none transition-all duration-200 hover:bg-subtle dark:hover:bg-slate-800 hover:text-fg dark:hover:text-slate-100 hover:border-line dark:hover:border-slate-700 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/20',
 };

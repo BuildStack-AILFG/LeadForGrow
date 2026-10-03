@@ -1,12 +1,13 @@
 'use client';
 
-import { Phone, MessageSquare, Mail, UserPlus, RefreshCw, CheckCircle2, XCircle, Zap, ListChecks } from 'lucide-react';
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
+import { Phone, Mail, UserPlus, RefreshCw, CheckCircle2, XCircle, Zap, ListChecks } from 'lucide-react';
 
 const TYPE_ICONS = {
-  whatsapp_received: MessageSquare,
-  whatsapp_sent: MessageSquare,
-  whatsapp_failed: MessageSquare,
-  whatsapp: MessageSquare,
+  whatsapp_received: WhatsAppIcon,
+  whatsapp_sent: WhatsAppIcon,
+  whatsapp_failed: WhatsAppIcon,
+  whatsapp: WhatsAppIcon,
   call: Phone,
   email_sent: Mail,
   email_failed: Mail,

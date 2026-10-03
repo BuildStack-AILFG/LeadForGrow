@@ -22,13 +22,13 @@ function KpiCard({
     <PremiumCard
       padding="px-3 py-3"
       interactive={!!href}
-      className="h-full min-h-[96px] flex flex-col justify-between"
+      className="lfg-fade-up h-full min-h-[96px] flex flex-col justify-between"
       style={{ animationDelay: `${index * 50}ms` }}
     >
-      <p className="text-meta font-normal text-fg-secondary leading-none truncate">{label}</p>
+      <p className="text-meta font-normal text-fg-secondary dark:text-fg-disabled leading-none truncate">{label}</p>
 
       <div className="mt-2 flex items-center gap-1 min-w-0 flex-wrap">
-        <p className="text-title font-medium text-fg leading-none tracking-[-0.02em] tabular-nums truncate">
+        <p className="text-title font-medium text-fg dark:text-slate-100 leading-none tracking-[-0.02em] tabular-nums truncate">
           <CountUp
             value={value}
             decimals={decimals}
@@ -40,8 +40,8 @@ function KpiCard({
       </div>
 
       {delta != null && (
-        <p className="mt-1.5 text-meta font-normal text-fg-tertiary leading-none truncate">
-          <span className={delta >= 0 ? 'text-accent-fg' : 'text-danger'}>
+        <p className="mt-1.5 text-meta font-normal text-fg-tertiary dark:text-fg-tertiary leading-none truncate">
+          <span className={delta >= 0 ? 'text-accent-fg dark:text-accent-fg' : 'text-danger'}>
             {delta >= 0 ? '+' : ''}{delta}
           </span>
           {' '}{deltaLabel}
@@ -54,7 +54,7 @@ function KpiCard({
     return (
       <Link
         href={href}
-        className="block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-focus rounded-md"
+        className="block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/30 rounded-none"
       >
         {inner}
       </Link>

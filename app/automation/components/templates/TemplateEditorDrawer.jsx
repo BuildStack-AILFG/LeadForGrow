@@ -43,9 +43,9 @@ export default function TemplateEditorDrawer({ open, template, onClose, onSave, 
             <h2 className="text-base font-semibold text-fg dark:text-slate-50">
               {isReadOnly ? 'View template' : 'Edit template'}
             </h2>
-            <p className="text-xs text-fg-tertiary">{isReadOnly ? 'Meta templates are read-only' : 'Customize your message'}</p>
+            <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">{isReadOnly ? 'Meta templates are read-only' : 'Customize your message'}</p>
           </div>
-          <button type="button" onClick={onClose} className="p-2 text-fg-tertiary hover:text-fg-secondary rounded">
+          <button type="button" onClick={onClose} className="p-2 text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled rounded">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -53,7 +53,7 @@ export default function TemplateEditorDrawer({ open, template, onClose, onSave, 
         <div className="flex-1 overflow-y-auto px-6 py-5 space-y-5">
           {!isReadOnly && (
             <div>
-              <label className="block text-xs font-medium text-fg-tertiary mb-1.5">Template name</label>
+              <label className="block text-xs font-medium text-fg-tertiary dark:text-fg-tertiary mb-1.5">Template name</label>
               <input
                 value={draft.name}
                 onChange={(e) => update({ name: e.target.value })}
@@ -64,7 +64,7 @@ export default function TemplateEditorDrawer({ open, template, onClose, onSave, 
 
           {!isReadOnly && (
             <div>
-              <label className="block text-xs font-medium text-fg-tertiary mb-1.5">Channel</label>
+              <label className="block text-xs font-medium text-fg-tertiary dark:text-fg-tertiary mb-1.5">Channel</label>
               <div className="flex gap-2">
                 {CHANNELS.map((ch) => {
                   const Icon = ch.icon;
@@ -75,7 +75,7 @@ export default function TemplateEditorDrawer({ open, template, onClose, onSave, 
                       type="button"
                       onClick={() => update({ channel: ch.id })}
                       className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs font-medium rounded transition-all ${
-                        active ? 'text-white' : 'bg-muted dark:bg-slate-800 text-fg-secondary'
+                        active ? 'text-white' : 'bg-muted dark:bg-slate-800 text-fg-secondary dark:text-fg-disabled'
                       }`}
                       style={active ? { backgroundColor: ch.color } : undefined}
                     >
@@ -89,7 +89,7 @@ export default function TemplateEditorDrawer({ open, template, onClose, onSave, 
 
           {draft.channel === 'email' && (
             <div>
-              <label className="block text-xs font-medium text-fg-tertiary mb-1.5">Subject line</label>
+              <label className="block text-xs font-medium text-fg-tertiary dark:text-fg-tertiary mb-1.5">Subject line</label>
               <input
                 value={draft.subject || ''}
                 onChange={(e) => update({ subject: e.target.value })}
@@ -101,11 +101,11 @@ export default function TemplateEditorDrawer({ open, template, onClose, onSave, 
 
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-medium text-fg-tertiary">Message</label>
+              <label className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">Message</label>
               <button
                 type="button"
                 onClick={() => setShowPreview(!showPreview)}
-                className="inline-flex items-center gap-1 text-xs text-accent-fg font-medium"
+                className="inline-flex items-center gap-1 text-xs text-brand-ink font-medium"
               >
                 <Eye className="w-3.5 h-3.5" /> {showPreview ? 'Edit' : 'Preview'}
               </button>
@@ -130,11 +130,11 @@ export default function TemplateEditorDrawer({ open, template, onClose, onSave, 
         </div>
 
         <div className="px-6 py-4 border-t border-line dark:border-slate-800 flex gap-2">
-          <button type="button" onClick={onClose} className="flex-1 py-2.5 text-sm font-medium text-fg-secondary bg-muted dark:bg-slate-800 rounded">
+          <button type="button" onClick={onClose} className="flex-1 py-2.5 text-sm font-medium text-fg-secondary dark:text-fg-disabled bg-muted dark:bg-slate-800 rounded">
             Cancel
           </button>
           {!isReadOnly && (
-            <button type="button" onClick={handleSave} className="flex-1 py-2.5 text-sm font-semibold text-white bg-accent hover:bg-accent-hover rounded">
+            <button type="button" onClick={handleSave} className="flex-1 py-2.5 text-sm font-semibold text-white bg-brand hover:bg-brand-hover rounded">
               Done
             </button>
           )}
@@ -144,4 +144,4 @@ export default function TemplateEditorDrawer({ open, template, onClose, onSave, 
   );
 }
 
-const inputClass = 'w-full px-4 py-2.5 text-sm bg-subtle dark:bg-slate-800/80 border-0 rounded focus:outline-none focus:ring-2 focus:ring-focus disabled:opacity-60';
+const inputClass = 'w-full px-4 py-2.5 text-sm bg-subtle dark:bg-slate-800/80 border-0 rounded focus:outline-none focus:ring-2 focus:ring-brand/25 disabled:opacity-60';

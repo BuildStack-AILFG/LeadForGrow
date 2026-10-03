@@ -24,10 +24,10 @@ const EMPTY_DRAFT = {
   automationRules: {
     whatsappConfirmation: true,
     whatsappReminder: true,
-    whatsappReminderMinutes: 30,
     emailReminder: true,
+    noShowRecovery: true,
     triggerAutomationOnBook: true,
-    leadStatusOnBook: 'interested',
+    leadStatusOnBook: 'qualified',
   },
   branding: { accentColor: '#4338ca' },
 };
@@ -40,6 +40,8 @@ export function useMeetingsWorkspace() {
   const [draft, setDraft] = useState(EMPTY_DRAFT);
   const [saving, setSaving] = useState(false);
   const [mode, setMode] = useState('dashboard');
+  // Set while editing an existing meeting type (the wizard then saves with PATCH).
+  const [editingId, setEditingId] = useState(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -60,7 +62,20 @@ export function useMeetingsWorkspace() {
   }, [load, pathname]);
 
   const startCreate = () => {
+    setEditingId(null);
     setDraft({ ...EMPTY_DRAFT, title: '', bookingSlug: '' });
+    setWizardStep(1);
+    setMode('create');
+  };
+
+  const startEdit = (meetingType) => {
+    setEditingId(String(meetingType._id));
+    setDraft({
+      ...EMPTY_DRAFT,
+      ...meetingType,
+      availabilityRules: { ...EMPTY_DRAFT.availabilityRules, ...(meetingType.availabilityRules || {}) },
+      automationRules: { ...EMPTY_DRAFT.automationRules, ...(meetingType.automationRules || {}) },
+    });
     setWizardStep(1);
     setMode('create');
   };
@@ -75,13 +90,29 @@ export function useMeetingsWorkspace() {
           .replace(/[^a-z0-9]+/g, '-')
           .replace(/^-|-$/g, '');
 
-      const res = await authJson('/api/automation/meetings', {
-        method: 'POST',
-        body: JSON.stringify({ ...draft, bookingSlug: slug, status: 'published' }),
-      });
+      const res = editingId
+        ? await authJson(`/api/automation/meetings/${editingId}`, {
+          method: 'PATCH',
+          body: JSON.stringify({
+            title: draft.title,
+            description: draft.description,
+            category: draft.category,
+            durationMinutes: draft.durationMinutes,
+            bookingSlug: slug,
+            assignmentMode: draft.assignmentMode,
+            availabilityRules: draft.availabilityRules,
+            automationRules: draft.automationRules,
+            branding: draft.branding,
+          }),
+        })
+        : await authJson('/api/automation/meetings', {
+          method: 'POST',
+          body: JSON.stringify({ ...draft, bookingSlug: slug, status: 'published' }),
+        });
 
       if (res.success) {
-        toast.success('Revenue scheduling link published');
+        toast.success(editingId ? 'Meeting settings saved' : 'Revenue scheduling link published');
+        setEditingId(null);
         setMode('dashboard');
         load();
       } else {
@@ -101,7 +132,7 @@ export function useMeetingsWorkspace() {
         body: JSON.stringify({ status: 'no_show' }),
       });
       if (res.success) {
-        toast.success('No-show recovery triggered via WhatsApp');
+        toast.success('Marked as no-show');
         load();
       }
     } catch (e) {
@@ -135,6 +166,8 @@ export function useMeetingsWorkspace() {
     setDraft,
     saving,
     startCreate,
+    startEdit,
+    editingId,
     publishMeeting,
     markNoShow,
     completeBooking,

@@ -18,6 +18,14 @@ const WhatsAppFlowSchema = new mongoose.Schema({
   },
   name: { type: String, required: true, trim: true },
   description: { type: String, trim: true, default: '' },
+  // Which channel this flow runs on. Defaults to 'whatsapp' so every existing
+  // flow keeps its exact behaviour; the engine only diverges when 'instagram'.
+  channel: {
+    type: String,
+    enum: ['whatsapp', 'instagram', 'facebook'],
+    default: 'whatsapp',
+    index: true,
+  },
   status: {
     type: String,
     enum: ['draft', 'published', 'archived'],
@@ -33,6 +41,12 @@ const WhatsAppFlowSchema = new mongoose.Schema({
       'lead_created',
       'manual',
       'webhook',
+      // Instagram triggers
+      'instagram_dm',
+      'instagram_comment',
+      // Facebook triggers
+      'facebook_dm',
+      'facebook_comment',
     ],
     default: 'incoming_message',
     index: true,

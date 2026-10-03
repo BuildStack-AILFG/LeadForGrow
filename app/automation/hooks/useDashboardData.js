@@ -46,7 +46,7 @@ export function useDashboardData() {
 
   useEffect(() => {
     fetchAll();
-    const interval = setInterval(() => fetchAll(true), 60000);
+    const interval = setInterval(() => { if (document.visibilityState === 'visible') fetchAll(true); }, 60000);
     const onCrmRefresh = () => fetchAll(true);
     window.addEventListener('lfg-crm-refresh', onCrmRefresh);
     return () => {

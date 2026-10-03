@@ -11,7 +11,7 @@ export default function RecentActivity({ activities = [] }) {
       title="Recent Activity"
       subtitle="Latest team actions across leads"
       action={
-        <Link href="/automation/leads" className="text-xs font-medium text-accent-fg hover:text-accent-fg flex items-center gap-1">
+        <Link href="/automation/leads" className="text-xs font-medium text-accent-fg dark:text-accent-fg hover:text-accent-fg dark:hover:text-accent-fg flex items-center gap-1">
           View leads <ArrowRight className="w-3 h-3" />
         </Link>
       }

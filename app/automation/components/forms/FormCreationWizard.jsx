@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Bot as Sparkles } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Sparkles } from 'lucide-react';
 import { FORM_TYPES, FORM_TEMPLATES, LEAD_SOURCES, PIPELINE_STAGES } from './constants';
 
 const slide = {
@@ -20,7 +20,7 @@ export default function FormCreationWizard({ step, draft, onChange, onNext, onBa
           {[1, 2].map((s) => (
             <div key={s} className="flex items-center gap-2">
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-all ${
-                step >= s ? 'bg-accent text-white' : 'bg-muted dark:bg-slate-700 text-fg-tertiary'
+                step >= s ? 'bg-accent text-white' : 'bg-muted dark:bg-slate-700 text-fg-tertiary dark:text-fg-tertiary'
               }`}>
                 {s}
               </div>
@@ -34,10 +34,10 @@ export default function FormCreationWizard({ step, draft, onChange, onNext, onBa
             <motion.div key="step1" {...slide} className="bg-canvas dark:bg-slate-900 rounded-lg dark:shadow-none p-8 sm:p-10">
               <div className="text-center mb-8">
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-accent-subtle dark:bg-teal-950/50 mb-4">
-                  <Sparkles className="w-6 h-6 text-accent-fg" />
+                  <Sparkles className="w-6 h-6 text-accent-fg dark:text-accent-fg" />
                 </div>
                 <h1 className="text-page font-semibold text-fg">Form basics</h1>
-                <p className="text-sm text-fg-tertiary mt-2 max-w-sm mx-auto">Tell us about your form. You can change everything later.</p>
+                <p className="text-sm text-fg-tertiary dark:text-fg-tertiary mt-2 max-w-sm mx-auto">Tell us about your form. You can change everything later.</p>
               </div>
 
               <div className="space-y-5 max-w-md mx-auto">
@@ -99,7 +99,7 @@ export default function FormCreationWizard({ step, draft, onChange, onNext, onBa
             <motion.div key="step2" {...slide}>
               <div className="text-center mb-8">
                 <h1 className="text-page font-semibold text-fg">Choose a template</h1>
-                <p className="text-sm text-fg-tertiary mt-2">Start with a proven layout — customize every field after.</p>
+                <p className="text-sm text-fg-tertiary dark:text-fg-tertiary mt-2">Start with a proven layout — customize every field after.</p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -125,7 +125,7 @@ export default function FormCreationWizard({ step, draft, onChange, onNext, onBa
                       </div>
                       <div className="bg-canvas dark:bg-slate-900 p-4">
                         <p className="text-sm font-semibold text-fg dark:text-slate-50">{tpl.name}</p>
-                        <p className="text-xs text-fg-tertiary mt-1">{tpl.desc}</p>
+                        <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-1">{tpl.desc}</p>
                       </div>
                     </button>
                   );
@@ -144,7 +144,7 @@ export default function FormCreationWizard({ step, draft, onChange, onNext, onBa
 function WizardActions({ onCancel, onBack, onNext, nextLabel, nextDisabled }) {
   return (
     <div className="flex items-center justify-between mt-10 pt-6 border-t border-line dark:border-slate-800 max-w-md mx-auto">
-      <button type="button" onClick={onBack || onCancel} className="inline-flex items-center gap-1.5 text-sm text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled">
+      <button type="button" onClick={onBack || onCancel} className="inline-flex items-center gap-1.5 text-sm text-fg-tertiary dark:text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled">
         <ArrowLeft className="w-4 h-4" /> {onBack ? 'Back' : 'Cancel'}
       </button>
       <button

@@ -62,13 +62,13 @@ export default function SubmissionsTable({ submissions, loading, formName }) {
 
       {filtered.length === 0 ? (
         <div className="py-16 text-center border border-dashed border-line dark:border-slate-700 rounded-lg">
-          <p className="text-sm text-fg-tertiary">No submissions yet for this form</p>
+          <p className="text-sm text-fg-tertiary dark:text-fg-tertiary">No submissions yet for this form</p>
           <p className="text-xs text-fg-tertiary mt-1">Leads from this form appear here automatically</p>
         </div>
       ) : (
         <div className="overflow-x-auto border border-line dark:border-slate-800 rounded-lg">
           <table className="w-full text-left text-xs">
-            <thead className="bg-subtle dark:bg-slate-800/50 text-fg-tertiary">
+            <thead className="bg-subtle dark:bg-slate-800/50 text-fg-tertiary dark:text-fg-tertiary">
               <tr>
                 <th className="px-4 py-3 font-semibold">Lead</th>
                 <th className="px-4 py-3 font-semibold">Contact</th>
@@ -87,9 +87,9 @@ export default function SubmissionsTable({ submissions, loading, formName }) {
                   <td className="px-4 py-3">
                     <span className="px-2 py-0.5 rounded-full bg-muted dark:bg-slate-800 text-fg-secondary dark:text-fg-tertiary capitalize">{s.status}</span>
                   </td>
-                  <td className="px-4 py-3 text-fg-tertiary">{new Date(s.receivedAt).toLocaleString()}</td>
+                  <td className="px-4 py-3 text-fg-tertiary dark:text-fg-tertiary">{new Date(s.receivedAt).toLocaleString()}</td>
                   <td className="px-4 py-3">
-                    <Link href={`/automation/leads/${s._id}`} className="text-accent-fg hover:underline inline-flex items-center gap-1">
+                    <Link href={`/automation/leads/${s._id}`} className="text-accent-fg dark:text-accent-fg hover:underline inline-flex items-center gap-1">
                       View <ExternalLink className="w-3 h-3" />
                     </Link>
                   </td>

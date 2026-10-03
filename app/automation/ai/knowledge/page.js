@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
-  ArrowLeft, Plus, Sparkles, Loader2, RefreshCw, Trash2, Search,
+  ArrowLeft, Plus, Loader2, RefreshCw, Trash2, Search,
   Globe, FileText, HelpCircle, Package, Building2, BookOpen,
 } from 'lucide-react';
 import { authFetch } from '@/lib/apiClient';
@@ -24,10 +24,10 @@ const TYPE_META = {
 };
 
 const STATUS_COLORS = {
-  ready: 'text-accent-fg bg-accent-subtle',
-  indexing: 'text-accent-fg bg-accent-subtle',
-  pending: 'text-warning bg-warning-subtle',
-  error: 'text-danger bg-danger-subtle',
+  ready: 'text-accent-fg dark:text-accent-fg bg-accent-subtle dark:bg-teal-950/30',
+  indexing: 'text-accent-fg dark:text-accent-fg bg-accent-subtle dark:bg-teal-950/30',
+  pending: 'text-warning dark:text-amber-400 bg-warning-subtle dark:bg-amber-950/30',
+  error: 'text-danger dark:text-red-400 bg-danger-subtle dark:bg-red-950/30',
 };
 
 export default function KnowledgeBasePage() {
@@ -39,6 +39,45 @@ export default function KnowledgeBasePage() {
   const [searchResults, setSearchResults] = useState(null);
   const [form, setForm] = useState({ name: '', type: 'company', category: '', content: '', url: '' });
   const [submitting, setSubmitting] = useState(false);
+  // Type-specific inputs.
+  const [faqs, setFaqs] = useState([{ question: '', answer: '' }]);
+  const [catalog, setCatalog] = useState([{ name: '', price: '', sku: '', description: '' }]);
+  const [file, setFile] = useState(null); // { url, name, mimeType }
+  const [uploading, setUploading] = useState(false);
+
+  const resetForm = () => {
+    setForm({ name: '', type: 'company', category: '', content: '', url: '' });
+    setFaqs([{ question: '', answer: '' }]);
+    setCatalog([{ name: '', price: '', sku: '', description: '' }]);
+    setFile(null);
+  };
+
+  const handleFileUpload = async (f) => {
+    if (!f) return;
+    if (f.size > 15 * 1024 * 1024) { toast.error('Max 15 MB'); return; }
+    setUploading(true);
+    try {
+      const signRes = await authFetch('/api/cloudinary-sign', { method: 'POST' });
+      const sign = await signRes.json();
+      if (!sign.success) throw new Error(sign.error || 'Could not sign upload');
+      const fd = new FormData();
+      fd.append('file', f);
+      fd.append('api_key', sign.apiKey);
+      fd.append('timestamp', sign.timestamp);
+      fd.append('signature', sign.signature);
+      if (sign.folder) fd.append('folder', sign.folder);
+      // /auto/ handles PDFs, docs, etc. (not just images).
+      const cdn = await fetch(`https://api.cloudinary.com/v1_1/${sign.cloudName}/auto/upload`, { method: 'POST', body: fd });
+      const data = await cdn.json();
+      if (!data.secure_url) throw new Error(data.error?.message || 'Upload failed');
+      setFile({ url: data.secure_url, name: f.name, mimeType: f.type });
+      toast.success('File uploaded');
+    } catch (e) {
+      toast.error(e.message || 'Upload failed');
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const load = async () => {
     setLoading(true);
@@ -57,19 +96,42 @@ export default function KnowledgeBasePage() {
 
   const createSource = async (e) => {
     e.preventDefault();
+
+    // Build a payload with only the fields that matter for this type, and
+    // validate the type-specific input before hitting the server.
+    const payload = { name: form.name, type: form.type, category: form.category, autoIndex: true };
+    if (form.type === 'website') {
+      if (!form.url.trim()) { toast.error('Enter a website URL'); return; }
+      payload.url = form.url.trim();
+    } else if (form.type === 'pdf' || form.type === 'docx') {
+      if (!file?.url) { toast.error('Upload a file first'); return; }
+      payload.fileUrl = file.url; payload.fileName = file.name; payload.mimeType = file.mimeType;
+    } else if (form.type === 'faq') {
+      const clean = faqs.filter((f) => f.question.trim() && f.answer.trim());
+      if (!clean.length) { toast.error('Add at least one question and answer'); return; }
+      payload.faqs = clean;
+    } else if (form.type === 'catalog') {
+      const clean = catalog.filter((p) => p.name.trim());
+      if (!clean.length) { toast.error('Add at least one product'); return; }
+      payload.catalog = clean;
+    } else {
+      if (!form.content.trim()) { toast.error('Paste some content'); return; }
+      payload.content = form.content;
+    }
+
     setSubmitting(true);
     try {
       const res = await authFetch('/api/ai/knowledge/sources', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, autoIndex: true }),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
       if (!data.success) throw new Error(data.error);
       if (data.warning) toast.error(data.warning);
       else toast.success('Source added and indexed');
       setShowForm(false);
-      setForm({ name: '', type: 'company', category: '', content: '', url: '' });
+      resetForm();
       load();
     } catch (err) {
       toast.error(err.message || 'Failed to create');
@@ -126,8 +188,8 @@ export default function KnowledgeBasePage() {
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <div>
-            <h1 className="text-page font-semibold text-fg">AI knowledge</h1>
-            <p className="mt-0.5 text-body text-fg-secondary">Sources Grovia answers from. It won’t answer outside them.</p>
+            <h1 className="text-page font-semibold text-fg">AI Knowledge Base</h1>
+            <p className="text-sm text-fg-tertiary dark:text-fg-tertiary">Train Grovia with your business knowledge — AI answers only from these sources</p>
           </div>
         </div>
         <button
@@ -150,17 +212,17 @@ export default function KnowledgeBasePage() {
           className="flex-1 text-sm px-3 py-2 border rounded-lg bg-canvas dark:bg-slate-900"
           onKeyDown={(e) => e.key === 'Enter' && testSearch()}
         />
-        <button type="button" onClick={testSearch} className="px-3 py-2 border rounded-md text-sm hover:bg-subtle">
+        <button type="button" onClick={testSearch} className="px-3 py-2 border rounded-md text-sm hover:bg-subtle dark:hover:bg-slate-800/50">
           <Search className="w-4 h-4" />
         </button>
       </div>
 
       {searchResults && (
-        <div className="p-4 rounded-lg bg-accent-subtle dark:bg-violet-950/20 border border-line space-y-2">
-          <p className="text-xs font-semibold text-accent-fg">{searchResults.length} results</p>
+        <div className="p-4 rounded-lg bg-accent-subtle dark:bg-teal-950/20 border border-line dark:border-teal-800 space-y-2">
+          <p className="text-xs font-semibold text-accent-fg dark:text-accent-fg">{searchResults.length} results</p>
           {searchResults.map((r, i) => (
-            <div key={i} className="text-xs text-fg-secondary dark:text-fg-tertiary p-2 bg-canvas/60 dark:bg-slate-900/60 rounded-lg">
-              <span className="font-medium text-accent-fg">{r.sourceName}</span>
+            <div key={i} className="text-xs text-fg-secondary dark:text-fg-tertiary p-2 bg-white/60 dark:bg-slate-900/60 rounded-lg">
+              <span className="font-medium text-accent-fg dark:text-accent-fg">{r.sourceName}</span>
               <p className="mt-1 line-clamp-3">{r.content}</p>
             </div>
           ))}
@@ -170,30 +232,105 @@ export default function KnowledgeBasePage() {
       {showForm && (
         <form onSubmit={createSource} className="p-5 rounded-lg border border-line dark:border-slate-800 bg-canvas dark:bg-slate-900 space-y-3">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <input required placeholder="Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="text-sm px-3 py-2 border rounded-lg" />
-            <select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })} className="text-sm px-3 py-2 border rounded-lg">
+            <input required placeholder="Name (e.g. Pricing 2026, Product FAQ)" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="text-sm px-3 py-2 border border-line dark:border-slate-700 rounded-lg bg-canvas dark:bg-slate-900" />
+            <select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })} className="text-sm px-3 py-2 border border-line dark:border-slate-700 rounded-lg bg-canvas dark:bg-slate-900">
               {Object.entries(TYPE_META).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
             </select>
-            <input placeholder="Category (optional)" value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="text-sm px-3 py-2 border rounded-lg" />
-            {form.type === 'website' && (
-              <input placeholder="Website URL" value={form.url} onChange={(e) => setForm({ ...form, url: e.target.value })} className="text-sm px-3 py-2 border rounded-lg" />
-            )}
+            <input placeholder="Category (optional)" value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="text-sm px-3 py-2 border border-line dark:border-slate-700 rounded-lg bg-canvas dark:bg-slate-900 sm:col-span-2" />
           </div>
+
+          {/* ── Website ── */}
+          {form.type === 'website' && (
+            <input placeholder="https://yourbusiness.com/about" value={form.url} onChange={(e) => setForm({ ...form, url: e.target.value })} className="w-full text-sm px-3 py-2 border border-line dark:border-slate-700 rounded-lg bg-canvas dark:bg-slate-900" />
+          )}
+
+          {/* ── PDF / DOCX upload ── */}
+          {(form.type === 'pdf' || form.type === 'docx') && (
+            <div>
+              <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-line-strong dark:border-slate-700 rounded-lg py-6 cursor-pointer hover:border-teal-400 transition-colors">
+                {uploading ? <Loader2 className="w-6 h-6 animate-spin text-fg-tertiary" /> : <FileText className="w-6 h-6 text-fg-tertiary" />}
+                <span className="text-sm text-fg-secondary dark:text-fg-disabled">
+                  {file ? file.name : `Click to upload ${form.type.toUpperCase()} — max 15 MB`}
+                </span>
+                <input type="file" className="hidden"
+                  accept={form.type === 'pdf' ? '.pdf' : '.doc,.docx'}
+                  onChange={(e) => { handleFileUpload(e.target.files?.[0]); e.target.value = ''; }} disabled={uploading} />
+              </label>
+              {file && <p className="text-meta text-accent-fg dark:text-accent-fg mt-1.5">✓ {file.name} uploaded — click Add &amp; Index to process</p>}
+            </div>
+          )}
+
+          {/* ── FAQ builder ── */}
+          {form.type === 'faq' && (
+            <div className="space-y-2">
+              {faqs.map((f, i) => (
+                <div key={i} className="rounded-lg border border-line dark:border-slate-700 p-3 space-y-2 relative">
+                  <input placeholder={`Question ${i + 1}`} value={f.question}
+                    onChange={(e) => setFaqs(faqs.map((x, j) => j === i ? { ...x, question: e.target.value } : x))}
+                    className="w-full text-sm px-3 py-2 border border-line dark:border-slate-700 rounded-lg bg-canvas dark:bg-slate-900" />
+                  <textarea placeholder="Answer" rows={2} value={f.answer}
+                    onChange={(e) => setFaqs(faqs.map((x, j) => j === i ? { ...x, answer: e.target.value } : x))}
+                    className="w-full text-sm px-3 py-2 border border-line dark:border-slate-700 rounded-lg bg-canvas dark:bg-slate-900" />
+                  {faqs.length > 1 && (
+                    <button type="button" onClick={() => setFaqs(faqs.filter((_, j) => j !== i))} className="absolute top-2 right-2 text-fg-tertiary hover:text-danger"><Trash2 className="w-3.5 h-3.5" /></button>
+                  )}
+                </div>
+              ))}
+              <button type="button" onClick={() => setFaqs([...faqs, { question: '', answer: '' }])} className="inline-flex items-center gap-1 text-xs font-medium text-accent-fg dark:text-accent-fg hover:underline">
+                <Plus className="w-3.5 h-3.5" /> Add another Q&amp;A
+              </button>
+            </div>
+          )}
+
+          {/* ── Catalog builder ── */}
+          {form.type === 'catalog' && (
+            <div className="space-y-2">
+              {catalog.map((p, i) => (
+                <div key={i} className="rounded-lg border border-line dark:border-slate-700 p-3 space-y-2 relative">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <input placeholder="Product / service name" value={p.name}
+                      onChange={(e) => setCatalog(catalog.map((x, j) => j === i ? { ...x, name: e.target.value } : x))}
+                      className="sm:col-span-2 text-sm px-3 py-2 border border-line dark:border-slate-700 rounded-lg bg-canvas dark:bg-slate-900" />
+                    <input placeholder="Price (e.g. Rs. 999)" value={p.price}
+                      onChange={(e) => setCatalog(catalog.map((x, j) => j === i ? { ...x, price: e.target.value } : x))}
+                      className="text-sm px-3 py-2 border border-line dark:border-slate-700 rounded-lg bg-canvas dark:bg-slate-900" />
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <input placeholder="SKU (optional)" value={p.sku}
+                      onChange={(e) => setCatalog(catalog.map((x, j) => j === i ? { ...x, sku: e.target.value } : x))}
+                      className="text-sm px-3 py-2 border border-line dark:border-slate-700 rounded-lg bg-canvas dark:bg-slate-900" />
+                    <input placeholder="Short description" value={p.description}
+                      onChange={(e) => setCatalog(catalog.map((x, j) => j === i ? { ...x, description: e.target.value } : x))}
+                      className="sm:col-span-2 text-sm px-3 py-2 border border-line dark:border-slate-700 rounded-lg bg-canvas dark:bg-slate-900" />
+                  </div>
+                  {catalog.length > 1 && (
+                    <button type="button" onClick={() => setCatalog(catalog.filter((_, j) => j !== i))} className="absolute top-2 right-2 text-fg-tertiary hover:text-danger"><Trash2 className="w-3.5 h-3.5" /></button>
+                  )}
+                </div>
+              ))}
+              <button type="button" onClick={() => setCatalog([...catalog, { name: '', price: '', sku: '', description: '' }])} className="inline-flex items-center gap-1 text-xs font-medium text-accent-fg dark:text-accent-fg hover:underline">
+                <Plus className="w-3.5 h-3.5" /> Add another product
+              </button>
+            </div>
+          )}
+
+          {/* ── Pasted text (company / custom / txt) ── */}
           {(form.type === 'company' || form.type === 'custom' || form.type === 'txt') && (
             <textarea
-              required
               rows={6}
-              placeholder="Paste your business information, policies, pricing, FAQs..."
+              placeholder="Paste your business information, policies, pricing, hours, refund policy, FAQs…"
               value={form.content}
               onChange={(e) => setForm({ ...form, content: e.target.value })}
-              className="w-full text-sm px-3 py-2 border rounded-lg"
+              className="w-full text-sm px-3 py-2 border border-line dark:border-slate-700 rounded-lg bg-canvas dark:bg-slate-900"
             />
           )}
-          <div className="flex gap-2">
-            <button type="submit" disabled={submitting} className="px-4 py-2 bg-accent text-white rounded-md text-sm disabled:opacity-50">
-              {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Add & Index'}
+
+          <div className="flex gap-2 pt-1">
+            <button type="submit" disabled={submitting || uploading} className="px-4 py-2 bg-accent hover:bg-accent-hover text-white rounded-md text-sm font-medium disabled:opacity-50 inline-flex items-center gap-1.5">
+              {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
+              {submitting ? 'Indexing…' : 'Add & Index'}
             </button>
-            <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 border rounded-lg text-sm">Cancel</button>
+            <button type="button" onClick={() => { setShowForm(false); resetForm(); }} className="px-4 py-2 border border-line dark:border-slate-700 rounded-lg text-sm">Cancel</button>
           </div>
         </form>
       )}
@@ -201,7 +338,7 @@ export default function KnowledgeBasePage() {
       {loading ? (
         <PageLoader label="Loading knowledge sources…" height="12rem" />
       ) : sources.length === 0 ? (
-        <div className="text-center py-12 text-fg-tertiary">
+        <div className="text-center py-12 text-fg-tertiary dark:text-fg-tertiary">
           <BookOpen className="w-10 h-10 mx-auto mb-3 opacity-40" />
           <p className="text-fg-secondary dark:text-fg-disabled font-medium">No knowledge sources yet</p>
           <p className="text-sm mt-1 mb-4">Add company info, FAQs, or crawl your website — your AI can only answer from what's here.</p>
@@ -220,8 +357,8 @@ export default function KnowledgeBasePage() {
             const Icon = meta.icon;
             return (
               <div key={s._id} className="flex items-center gap-3 p-4 rounded-lg border border-line dark:border-slate-800 bg-canvas dark:bg-slate-900">
-                <div className="w-10 h-10 rounded-lg bg-canvas border border-line dark:bg-violet-950/30 flex items-center justify-center shrink-0">
-                  <Icon className="w-5 h-5 text-fg-secondary" />
+                <div className="w-10 h-10 rounded-lg bg-canvas border border-line dark:bg-teal-950/30 flex items-center justify-center shrink-0">
+                  <Icon className="w-5 h-5 text-fg-secondary dark:text-accent-fg" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
@@ -231,17 +368,17 @@ export default function KnowledgeBasePage() {
                     </span>
                     {s.category && <span className="text-meta text-fg-tertiary">{s.category}</span>}
                   </div>
-                  <p className="text-xs text-fg-tertiary mt-0.5">
+                  <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-0.5">
                     {meta.label} · v{s.version || 1} · {s.chunkCount || 0} chunks
                     {s.lastIndexedAt && ` · indexed ${new Date(s.lastIndexedAt).toLocaleDateString()}`}
                   </p>
                   {s.lastError && <p className="text-xs text-danger mt-0.5">{s.lastError}</p>}
                 </div>
                 <div className="flex gap-1 shrink-0">
-                  <button type="button" onClick={() => reindex(s._id)} title="Re-index" className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800 text-fg-tertiary">
+                  <button type="button" onClick={() => reindex(s._id)} title="Re-index" className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800 text-fg-tertiary dark:text-fg-tertiary">
                     <RefreshCw className="w-4 h-4" />
                   </button>
-                  <button type="button" onClick={() => remove(s._id)} title="Delete" className="p-2 rounded-lg hover:bg-danger-subtle text-danger">
+                  <button type="button" onClick={() => remove(s._id)} title="Delete" className="p-2 rounded-lg hover:bg-danger-subtle dark:hover:bg-red-950/30 text-danger">
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>

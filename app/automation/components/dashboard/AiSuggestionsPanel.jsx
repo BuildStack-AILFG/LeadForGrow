@@ -1,7 +1,8 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import Link from 'next/link';
-import { Bot as Sparkles, Phone, MessageSquare, UserPlus, ChevronRight } from 'lucide-react';
+import { Sparkles, Phone, UserPlus, ChevronRight } from 'lucide-react';
 import DashboardCard from './primitives/DashboardCard';
 
 function Suggestion({ icon: Icon, title, description, href, accent }) {
@@ -47,7 +48,7 @@ export default function AiSuggestionsPanel({ notContacted = 0, overdueTasks = 0,
 
   if (unreadChats > 0) {
     suggestions.push({
-      icon: MessageSquare,
+      icon: WhatsAppIcon,
       title: `${unreadChats} unread WhatsApp chat${unreadChats > 1 ? 's' : ''}`,
       description: 'Respond quickly to improve conversion.',
       href: '/automation/chat?status=unread',
@@ -68,7 +69,7 @@ export default function AiSuggestionsPanel({ notContacted = 0, overdueTasks = 0,
   return (
     <DashboardCard padding="p-5">
       <div className="flex items-center gap-2 mb-4">
-        <Sparkles className="w-4 h-4 text-accent-fg" />
+        <Sparkles className="w-4 h-4 text-accent-fg dark:text-accent-fg" />
         <h3 className="text-sm font-semibold text-fg dark:text-slate-100">Suggested Actions</h3>
         <span className="text-meta font-medium text-fg-tertiary ml-auto">Smart</span>
       </div>

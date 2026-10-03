@@ -22,7 +22,7 @@ export default function APIDocumentation({ form, baseUrl }) {
       <section>
         <h4 className="text-xs font-semibold text-fg-tertiary mb-2">Load form config (GET)</h4>
         <div className="flex items-center gap-2 bg-subtle dark:bg-slate-800 rounded-lg p-3">
-          <span className="px-2 py-0.5 bg-info-subtle text-info text-meta font-semibold rounded">GET</span>
+          <span className="px-2 py-0.5 bg-info-subtle dark:bg-sky-900/30 text-info dark:text-sky-300 text-meta font-semibold rounded">GET</span>
           <code className="text-xs flex-1 break-all">{configUrl}</code>
           <button type="button" onClick={() => copy(configUrl)}><Copy className="w-3.5 h-3.5 text-fg-tertiary" /></button>
         </div>
@@ -31,7 +31,7 @@ export default function APIDocumentation({ form, baseUrl }) {
       <section>
         <h4 className="text-xs font-semibold text-fg-tertiary mb-2">Submit lead (POST)</h4>
         <div className="flex items-center gap-2 bg-subtle dark:bg-slate-800 rounded-lg p-3">
-          <span className="px-2 py-0.5 bg-accent-subtle text-accent-fg text-meta font-semibold rounded">POST</span>
+          <span className="px-2 py-0.5 bg-accent-subtle dark:bg-accent-pressed/30 text-accent-fg dark:text-accent-fg text-meta font-semibold rounded">POST</span>
           <code className="text-xs flex-1 break-all">{submissionUrl}</code>
           <button type="button" onClick={() => copy(submissionUrl)}><Copy className="w-3.5 h-3.5 text-fg-tertiary" /></button>
         </div>
@@ -49,7 +49,7 @@ export default function APIDocumentation({ form, baseUrl }) {
       <section>
         <h4 className="text-xs font-semibold text-fg-tertiary mb-2">Request body</h4>
         <pre className="bg-slate-900 text-accent-fg p-4 rounded-lg text-xs overflow-x-auto"><code>{sampleBody}</code></pre>
-        <p className="text-meta text-fg-tertiary mt-2">Fields match your form builder. Always include <code className="bg-muted px-1 rounded">token</code>. Submissions create CRM leads automatically.</p>
+        <p className="text-meta text-fg-tertiary dark:text-fg-tertiary mt-2">Fields match your form builder. Always include <code className="bg-muted dark:bg-slate-800 px-1 rounded">token</code>. Submissions create CRM leads automatically.</p>
       </section>
 
       <section>
@@ -60,7 +60,7 @@ export default function APIDocumentation({ form, baseUrl }) {
       <section>
         <h4 className="text-xs font-semibold text-fg-tertiary mb-2">cURL</h4>
         <pre className="bg-slate-900 text-slate-100 p-4 rounded-lg text-xs overflow-x-auto"><code>{curl}</code></pre>
-        <button type="button" onClick={() => copy(curl)} className="mt-2 text-xs text-accent-fg font-medium">Copy cURL</button>
+        <button type="button" onClick={() => copy(curl)} className="mt-2 text-xs text-accent-fg dark:text-accent-fg font-medium">Copy cURL</button>
       </section>
 
       <section>

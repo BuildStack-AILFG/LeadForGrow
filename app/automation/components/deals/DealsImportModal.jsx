@@ -126,11 +126,11 @@ export default function DealsImportModal({ open, onClose, stages = [], pipelineI
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-slate-900/40" onClick={status === 'processing' ? undefined : handleClose} />
-      <div className="relative w-full max-w-lg bg-canvas rounded-lg shadow-modal border border-line max-h-[85vh] overflow-y-auto">
-        <div className="flex items-center justify-between px-5 py-4 border-b border-line">
-          <h3 className="text-body font-semibold text-fg">Import Deals from CSV</h3>
+      <div className="relative w-full max-w-lg bg-canvas dark:bg-slate-900 rounded-lg shadow-modal border border-line dark:border-slate-700 max-h-[85vh] overflow-y-auto">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-line dark:border-slate-700">
+          <h3 className="text-body font-semibold text-fg dark:text-slate-100">Import Deals from CSV</h3>
           {status !== 'processing' && (
-            <button type="button" onClick={handleClose} className="p-1.5 rounded text-fg-tertiary hover:bg-muted">
+            <button type="button" onClick={handleClose} className="p-1.5 rounded text-fg-tertiary hover:bg-muted dark:hover:bg-slate-700">
               <X className="w-4 h-4" />
             </button>
           )}
@@ -139,36 +139,36 @@ export default function DealsImportModal({ open, onClose, stages = [], pipelineI
         <div className="p-5 space-y-4">
           {status === 'idle' && (
             <>
-              <p className="text-dense text-fg-tertiary">
+              <p className="text-dense text-fg-tertiary dark:text-fg-disabled">
                 Upload a CSV with a <span className="font-medium">Title</span> column (required), plus any of
                 Amount, Currency, Stage, Close Date, Source. Column names are matched automatically, case-insensitive.
               </p>
               <input ref={fileInputRef} type="file" accept=".csv" className="hidden" onChange={handleFile} id="deals-csv-input" />
               <label
                 htmlFor="deals-csv-input"
-                className="flex flex-col items-center justify-center gap-2 py-10 border-2 border-dashed border-line rounded-lg cursor-pointer hover:bg-subtle transition-colors"
+                className="flex flex-col items-center justify-center gap-2 py-10 border-2 border-dashed border-line dark:border-slate-700 rounded-lg cursor-pointer hover:bg-subtle dark:hover:bg-slate-800 transition-colors"
               >
-                <Upload className="w-6 h-6 text-fg-tertiary" />
-                <span className="text-dense font-medium text-fg-secondary">Choose CSV file</span>
+                <Upload className="w-6 h-6 text-fg-tertiary dark:text-fg-tertiary" />
+                <span className="text-dense font-medium text-fg-secondary dark:text-slate-200">Choose CSV file</span>
               </label>
             </>
           )}
 
           {status === 'ready' && (
             <>
-              <div className="flex items-center gap-2 p-3 bg-accent-subtle border border-line rounded-lg">
-                <FileSpreadsheet className="w-4 h-4 text-accent-fg shrink-0" />
-                <span className="text-dense text-accent-fg font-medium">{rows.length} row{rows.length === 1 ? '' : 's'} ready to import</span>
+              <div className="flex items-center gap-2 p-3 bg-brand-tint border border-brand-tint-strong rounded-lg">
+                <FileSpreadsheet className="w-4 h-4 text-brand-ink shrink-0" />
+                <span className="text-dense text-brand-ink font-medium">{rows.length} row{rows.length === 1 ? '' : 's'} ready to import</span>
               </div>
               <div className="flex gap-2">
                 <button
                   type="button"
                   onClick={startImport}
-                  className="flex-1 py-2.5 text-dense font-semibold text-white bg-accent hover:bg-accent-hover rounded"
+                  className="flex-1 py-2.5 text-dense font-semibold text-white bg-brand hover:bg-brand-hover rounded"
                 >
                   Start Import
                 </button>
-                <button type="button" onClick={reset} className="px-4 py-2.5 text-dense font-medium text-fg-secondary border border-line rounded-md hover:bg-subtle">
+                <button type="button" onClick={reset} className="px-4 py-2.5 text-dense font-medium text-fg-secondary dark:text-fg-disabled border border-line dark:border-slate-700 rounded-md hover:bg-subtle dark:hover:bg-slate-800">
                   Choose different file
                 </button>
               </div>
@@ -178,31 +178,31 @@ export default function DealsImportModal({ open, onClose, stages = [], pipelineI
           {(status === 'processing' || status === 'done') && (
             <>
               <div className="grid grid-cols-3 gap-3">
-                <div className="p-3 bg-subtle rounded-lg border border-line">
-                  <p className="text-meta text-fg-tertiary font-medium">Progress</p>
-                  <p className="text-lg font-semibold text-fg tabular-nums">{index}/{rows.length}</p>
+                <div className="p-3 bg-subtle dark:bg-slate-900 rounded-lg border border-line dark:border-slate-700">
+                  <p className="text-meta text-fg-tertiary dark:text-fg-tertiary font-medium">Progress</p>
+                  <p className="text-lg font-semibold text-fg dark:text-slate-100 tabular-nums">{index}/{rows.length}</p>
                 </div>
-                <div className="p-3 bg-accent-subtle rounded-lg border border-line">
-                  <p className="text-meta text-accent-fg font-medium">Success</p>
-                  <p className="text-lg font-semibold text-accent-fg tabular-nums">{results.success}</p>
+                <div className="p-3 bg-brand-tint rounded-lg border border-brand-tint-strong">
+                  <p className="text-meta text-brand-ink font-medium">Success</p>
+                  <p className="text-lg font-semibold text-brand-ink tabular-nums">{results.success}</p>
                 </div>
-                <div className="p-3 bg-danger-subtle rounded-lg border border-danger/30">
-                  <p className="text-meta text-danger font-medium">Failed</p>
-                  <p className="text-lg font-semibold text-danger tabular-nums">{results.failed}</p>
+                <div className="p-3 bg-danger-subtle dark:bg-red-950/30 rounded-lg border border-danger/30 dark:border-red-900/50">
+                  <p className="text-meta text-danger dark:text-red-400 font-medium">Failed</p>
+                  <p className="text-lg font-semibold text-danger dark:text-red-300 tabular-nums">{results.failed}</p>
                 </div>
               </div>
 
               {status === 'processing' && (
-                <div className="flex items-center gap-2 text-meta text-fg-tertiary">
+                <div className="flex items-center gap-2 text-meta text-fg-tertiary dark:text-fg-disabled">
                   <Loader2 className="w-3.5 h-3.5 animate-spin" /> Importing…
                 </div>
               )}
 
-              <div className="bg-subtle border border-line rounded-lg p-3 max-h-52 overflow-y-auto font-mono text-meta space-y-1">
+              <div className="bg-subtle dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg p-3 max-h-52 overflow-y-auto font-mono text-meta space-y-1">
                 {logs.length === 0 ? (
                   <p className="text-fg-tertiary italic">Starting…</p>
                 ) : (
-                  logs.map((log, i) => <div key={i} className="text-fg-secondary">{log}</div>)
+                  logs.map((log, i) => <div key={i} className="text-fg-secondary dark:text-slate-200">{log}</div>)
                 )}
               </div>
 
@@ -210,7 +210,7 @@ export default function DealsImportModal({ open, onClose, stages = [], pipelineI
                 <button
                   type="button"
                   onClick={handleClose}
-                  className="w-full inline-flex items-center justify-center gap-2 py-2.5 text-dense font-semibold text-white bg-accent hover:bg-accent-hover rounded"
+                  className="w-full inline-flex items-center justify-center gap-2 py-2.5 text-dense font-semibold text-white bg-brand hover:bg-brand-hover rounded"
                 >
                   <CheckCircle2 className="w-4 h-4" /> Done
                 </button>

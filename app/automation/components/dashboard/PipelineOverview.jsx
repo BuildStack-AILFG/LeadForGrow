@@ -9,7 +9,7 @@ const STAGES = [
   { key: 'contacted', label: 'Contacted', color: 'bg-accent' },
   { key: 'follow-up', label: 'Follow-up', color: 'bg-accent' },
   { key: 'converted', label: 'Won', color: 'bg-accent' },
-  { key: 'lost', label: 'Lost', color: 'bg-fg-disabled' }
+  { key: 'lost', label: 'Lost', color: 'bg-slate-400' }
 ];
 
 export default function PipelineOverview({ statusCounts = {} }) {
@@ -26,7 +26,7 @@ export default function PipelineOverview({ statusCounts = {} }) {
       action={
         <Link
           href="/automation/leads"
-          className="text-xs font-medium text-accent-fg hover:text-accent-fg flex items-center gap-1"
+          className="text-xs font-medium text-accent-fg dark:text-accent-fg hover:text-accent-fg dark:hover:text-accent-fg flex items-center gap-1"
         >
           View all <ArrowRight className="w-3 h-3" />
         </Link>

@@ -48,25 +48,25 @@ export default function LostReasonModal({ open, leadName, entityName, variant = 
         <div className="flex items-center justify-between px-4 py-3 border-b border-line dark:border-slate-800 sticky top-0 bg-canvas dark:bg-slate-900">
           <div>
             <h3 className="text-sm font-semibold text-fg dark:text-slate-100">{title}</h3>
-            <p className="text-xs text-fg-tertiary mt-0.5">{name}</p>
+            <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-0.5">{name}</p>
           </div>
           <button
             type="button"
             onClick={onCancel}
             disabled={saving}
-            className="p-1.5 rounded-md text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800 disabled:opacity-50"
+            className="p-1.5 rounded-md text-fg-tertiary dark:text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800 disabled:opacity-50"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
         <form onSubmit={handleSubmit} className="p-4 space-y-4">
-          <p className="text-xs text-fg-tertiary">
+          <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">
             {variant === 'unqualified'
               ? 'Select why this lead is not a fit. This helps improve lead quality and reporting.'
               : 'Select why this lead was lost. A reason is required for pipeline reporting.'}
           </p>
           <fieldset className="space-y-2">
-            <legend className="text-xs font-medium text-fg-tertiary mb-1">Reason *</legend>
+            <legend className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary mb-1">Reason *</legend>
             <div className="space-y-1.5">
               {reasons.map((r) => (
                 <label
@@ -83,7 +83,7 @@ export default function LostReasonModal({ open, leadName, entityName, variant = 
                     value={r.key}
                     checked={reason === r.key}
                     onChange={() => setReason(r.key)}
-                    className="text-accent-fg focus:ring-focus"
+                    className="text-accent-fg dark:text-accent-fg focus:ring-focus"
                   />
                   <span className="text-sm text-fg dark:text-slate-200">{r.label}</span>
                 </label>
@@ -91,7 +91,7 @@ export default function LostReasonModal({ open, leadName, entityName, variant = 
             </div>
           </fieldset>
           <div>
-            <label className="text-xs font-medium text-fg-tertiary">
+            <label className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">
               {isOther ? 'Details *' : 'Additional notes'}
             </label>
             <textarea

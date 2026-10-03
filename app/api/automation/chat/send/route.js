@@ -47,10 +47,12 @@ async function handler(req) {
       templateLanguage || 'en',
       null,
       Array.isArray(variables) ? variables : null,
+      null,
+      { origin: 'user' }, // an agent typed this
     );
 
     if (!result.success) {
-      return NextResponse.json({ success: false, error: result.error || 'Failed to send message' }, { status: 500 });
+      return NextResponse.json({ success: false, error: result.error || 'Failed to send message' }, { status: result.reason === 'opted_out' ? 403 : 500 });
     }
 
     await emitChatMessage(user.businessId, {

@@ -4,7 +4,7 @@ import { UserPlus, RefreshCw } from 'lucide-react';
 
 export default function TeamHeader({ total, active, onAdd, onRefresh, refreshing }) {
   return (
-    <header className="sticky top-0 z-30 bg-canvas border-b border-line dark:border-slate-800 -mx-4 sm:-mx-6 px-4 sm:px-6 py-4">
+    <header className="sticky top-0 z-30 bg-subtle/95 dark:bg-slate-950/95 border-b border-line/80 dark:border-slate-800 -mx-4 sm:-mx-6 px-4 sm:px-6 py-4">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-page font-semibold text-fg">Team</h1>
@@ -17,7 +17,7 @@ export default function TeamHeader({ total, active, onAdd, onRefresh, refreshing
             type="button"
             onClick={onRefresh}
             disabled={refreshing}
-            className="p-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-fg-secondary hover:bg-subtle disabled:opacity-50"
+            className="p-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-fg-secondary dark:text-fg-disabled hover:bg-subtle dark:hover:bg-slate-800/50 disabled:opacity-50"
           >
             <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
           </button>

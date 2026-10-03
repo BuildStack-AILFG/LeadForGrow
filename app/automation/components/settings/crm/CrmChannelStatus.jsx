@@ -15,7 +15,7 @@ function ChannelCard({ label, connected, href, icon, variant }) {
       className={`group relative flex items-center gap-4 p-5 rounded-2xl border transition-all duration-200 ${
         connected
           ? 'bg-canvas dark:bg-slate-900/80 border-line/90 dark:border-slate-800 hover:border-line-strong dark:hover:border-slate-700 hover:shadow-popover dark:hover:shadow-none'
-          : 'bg-canvas border-warning/30 dark:border-amber-900/30 hover:border-warning/30'
+          : 'bg-canvas border-warning/30 dark:border-amber-900/30 hover:border-warning/30 dark:hover:border-amber-700'
       }`}
     >
       <CrmIconBadge variant={variant} size="lg" ring>
@@ -37,7 +37,7 @@ function ChannelCard({ label, connected, href, icon, variant }) {
         </div>
       </div>
       {!connected && (
-        <ChevronRight className="w-4 h-4 text-fg-tertiary group-hover:text-fg-secondary group-hover:translate-x-0.5 transition-all shrink-0" />
+        <ChevronRight className="w-4 h-4 text-fg-tertiary group-hover:text-fg-secondary dark:group-hover:text-fg-disabled group-hover:translate-x-0.5 transition-all shrink-0" />
       )}
     </div>
   );
@@ -73,10 +73,10 @@ export default function CrmChannelStatus({ integrations, activeAutomations = 0 }
         </CrmIconBadge>
         <div>
           <p className="text-dense font-semibold text-fg dark:text-slate-100 tracking-tight">Message automations</p>
-          <p className="text-xs text-fg-tertiary mt-1">
+          <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-1">
             <span className="text-lg font-semibold text-fg dark:text-slate-50 tabular-nums tracking-tight">{activeAutomations}</span>
             <span className="text-fg-tertiary mx-1">/</span>
-            <span className="text-fg-tertiary">8 channels active</span>
+            <span className="text-fg-tertiary dark:text-fg-tertiary">8 channels active</span>
           </p>
         </div>
       </div>

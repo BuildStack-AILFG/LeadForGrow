@@ -34,7 +34,7 @@ export default function ContactDetailPage() {
   if (error) {
     return (
       <div className="p-8 text-center">
-        <p className="text-sm text-danger mb-3">{error}</p>
+        <p className="text-sm text-danger dark:text-red-400 mb-3">{error}</p>
         <button
           type="button"
           onClick={() => setReloadKey((k) => k + 1)}
@@ -45,29 +45,29 @@ export default function ContactDetailPage() {
       </div>
     );
   }
-  if (!contact) return <div className="p-8 text-center text-fg-tertiary">Contact not found</div>;
+  if (!contact) return <div className="p-8 text-center text-fg-tertiary dark:text-fg-tertiary">Contact not found</div>;
 
   return (
-    <div className="min-h-full bg-canvas px-4 sm:px-6 py-6">
-      <Link href="/automation/contacts" className="inline-flex items-center gap-1 text-sm text-fg-tertiary hover:text-accent-fg mb-4">
+    <div className="min-h-full bg-subtle dark:bg-slate-950 px-4 sm:px-6 py-6">
+      <Link href="/automation/contacts" className="inline-flex items-center gap-1 text-sm text-fg-tertiary dark:text-fg-tertiary hover:text-accent-fg dark:hover:text-accent-fg mb-4">
         <ArrowLeft className="w-4 h-4" /> Back to Contacts
       </Link>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-1 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 rounded-lg p-6">
           <h1 className="text-page font-semibold text-fg">{contact.fullName}</h1>
-          {contact.jobTitle && <p className="text-sm text-fg-tertiary mt-1">{contact.jobTitle}</p>}
+          {contact.jobTitle && <p className="text-sm text-fg-tertiary dark:text-fg-tertiary mt-1">{contact.jobTitle}</p>}
           <div className="mt-4 space-y-2 text-sm">
             {contact.emails?.map((e) => (
-              <div key={e._id} className="flex items-center gap-2 text-fg-secondary"><Mail className="w-4 h-4" />{e.address}</div>
+              <div key={e._id} className="flex items-center gap-2 text-fg-secondary dark:text-fg-disabled"><Mail className="w-4 h-4" />{e.address}</div>
             ))}
             {contact.phones?.map((p) => (
-              <div key={p._id} className="flex items-center gap-2 text-fg-secondary"><Phone className="w-4 h-4" />{p.number}</div>
+              <div key={p._id} className="flex items-center gap-2 text-fg-secondary dark:text-fg-disabled"><Phone className="w-4 h-4" />{p.number}</div>
             ))}
             {contact.companyId && (
-              <div className="flex items-center gap-2 text-fg-secondary">
+              <div className="flex items-center gap-2 text-fg-secondary dark:text-fg-disabled">
                 <Building2 className="w-4 h-4" />
-                <Link href={`/automation/companies/${contact.companyId._id || contact.companyId}`} className="text-accent-fg hover:underline">
+                <Link href={`/automation/companies/${contact.companyId._id || contact.companyId}`} className="text-accent-fg dark:text-accent-fg hover:underline">
                   {contact.companyId.name || 'Company'}
                 </Link>
               </div>
@@ -80,7 +80,7 @@ export default function ContactDetailPage() {
             <div className="bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 rounded-lg p-6">
               <h2 className="font-semibold mb-3">Deals</h2>
               {contact.deals.map((d) => (
-                <Link key={d._id} href={`/automation/deals/${d._id}`} className="block py-2 border-b last:border-0 text-sm hover:text-accent-fg">
+                <Link key={d._id} href={`/automation/deals/${d._id}`} className="block py-2 border-b last:border-0 text-sm hover:text-accent-fg dark:hover:text-accent-fg">
                   {d.title} — {d.currency} {d.amount?.toLocaleString()}
                 </Link>
               ))}
@@ -91,7 +91,7 @@ export default function ContactDetailPage() {
             <h2 className="font-semibold mb-3">Timeline</h2>
             <div className="space-y-3">
               {(contact.timeline || []).map((a) => (
-                <div key={a._id} className="text-sm border-l-2 border-line pl-3 py-1">
+                <div key={a._id} className="text-sm border-l-2 border-line dark:border-indigo-800 pl-3 py-1">
                   <p className="text-fg-secondary dark:text-fg-disabled">{a.description}</p>
                   <p className="text-xs text-fg-tertiary mt-0.5">{new Date(a.performedAt).toLocaleString()}</p>
                 </div>

@@ -22,10 +22,10 @@ export default function CrmActivityFeed({ activities = [] }) {
     <DashboardCard padding="p-5">
       <div className="mb-4">
         <h2 className="text-base font-semibold text-fg dark:text-white">Recent Activity</h2>
-        <p className="text-xs text-fg-tertiary mt-0.5">Live CRM timeline</p>
+        <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-0.5">Live CRM timeline</p>
       </div>
       {activities.length === 0 ? (
-        <p className="text-sm text-fg-tertiary py-6 text-center">No activity yet</p>
+        <p className="text-sm text-fg-tertiary dark:text-fg-tertiary py-6 text-center">No activity yet</p>
       ) : (
         <ul className="space-y-3 max-h-[360px] overflow-y-auto">
           {activities.map((a) => (

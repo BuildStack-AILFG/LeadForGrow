@@ -19,7 +19,8 @@ export default function WorkspaceBootLoader({ complete = false, onFinished }) {
       last = now;
       setProgress((p) => {
         const cap = complete ? 100 : 92;
-        const speed = complete ? 0.35 : 0.04;
+        // Once the access check is back, finish the bar in ~250 ms instead of ~3.5 s.
+        const speed = complete ? 5 : 0.04;
         return Math.min(cap, p + delta * speed * 0.08);
       });
       raf = requestAnimationFrame(tick);
@@ -32,7 +33,7 @@ export default function WorkspaceBootLoader({ complete = false, onFinished }) {
     if (finishedRef.current) return;
     finishedRef.current = true;
     setExiting(true);
-    setTimeout(() => onFinished?.(), 400);
+    setTimeout(() => onFinished?.(), 300);
   }, [onFinished]);
 
   useEffect(() => {

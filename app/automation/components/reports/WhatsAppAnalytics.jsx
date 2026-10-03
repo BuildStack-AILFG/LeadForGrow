@@ -22,7 +22,7 @@ export default function WhatsAppAnalytics({ stats }) {
                 : 'bg-subtle dark:bg-slate-800/50 border-line dark:border-slate-800'
             }`}
           >
-            <p className="text-meta font-medium text-fg-tertiary mb-1">{item.label}</p>
+            <p className="text-meta font-medium text-fg-tertiary dark:text-fg-tertiary mb-1">{item.label}</p>
             <p className={`text-xl font-semibold tabular-nums ${item.alert ? 'text-danger dark:text-red-400' : 'text-fg dark:text-slate-50'}`}>
               {item.value}
             </p>

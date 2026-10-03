@@ -1,5 +1,6 @@
 "use client";
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import {
@@ -24,11 +25,9 @@ import {
   Network,
   Database,
   Smartphone,
-  MessageSquare,
   Globe,
   TrendingUp,
-  LayoutDashboard
-} from 'lucide-react';
+  LayoutDashboard } from 'lucide-react';
 import Link from 'next/link';
 import UserNavbar from '../../user/Header';
 import Footer from '../../components/Footer';
@@ -352,7 +351,7 @@ export default function UseCases() {
                   { text: "Lead submits website form", icon: <Globe className="w-5 h-5" /> },
                   { text: "Lead captured instantly", icon: <Database className="w-5 h-5" /> },
                   { text: "Assigned to sales rep", icon: <Users className="w-5 h-5" /> },
-                  { text: "Sales rep notified on WhatsApp", icon: <MessageSquare className="w-5 h-5" /> },
+                  { text: "Sales rep notified on WhatsApp", icon: <WhatsAppIcon className="w-5 h-5" /> },
                   { text: "Follow-up reminder triggered", icon: <Clock className="w-5 h-5" /> },
                   { text: "Lead converted", icon: <CheckCircle2 className="w-5 h-5 text-emerald-600" />, focus: true },
                 ].map((step, idx, arr) => (

@@ -39,7 +39,7 @@ function PipelineStagesOverview() {
               <span className="w-2 h-2 rounded-full shrink-0 ring-2 ring-white dark:ring-slate-900" style={{ backgroundColor: s.color }} />
               <span className="text-sm font-medium text-fg dark:text-slate-200 flex-1">{s.label}</span>
               {s.isLost && (
-                <span className="text-meta font-semibold text-danger bg-danger-subtle dark:bg-red-950/40 px-2 py-0.5 rounded-md">
+                <span className="text-meta font-semibold text-danger dark:text-red-400 bg-danger-subtle dark:bg-red-950/40 px-2 py-0.5 rounded-md">
                   Lost
                 </span>
               )}
@@ -54,7 +54,7 @@ function PipelineStagesOverview() {
         action={
           <a
             href="/automation/pipelines"
-            className="inline-flex items-center gap-1 text-xs font-semibold text-accent-fg hover:text-accent-fg"
+            className="inline-flex items-center gap-1 text-xs font-semibold text-accent-fg dark:text-accent-fg hover:text-accent-fg dark:hover:text-accent-fg"
           >
             Edit pipeline <ExternalLink className="w-3 h-3" />
           </a>
@@ -70,7 +70,7 @@ function PipelineStagesOverview() {
             </div>
           ))}
           {dealStages.length === 0 && (
-            <p className="text-sm text-fg-tertiary py-4">Loading deal stages…</p>
+            <p className="text-sm text-fg-tertiary dark:text-fg-tertiary py-4">Loading deal stages…</p>
           )}
         </div>
       </CrmPanel>
@@ -133,7 +133,7 @@ export default function CRMSettingsPage() {
     return (
       <div className="flex flex-col items-center justify-center py-24 gap-4">
         <div className="w-10 h-10 border-2 border-accent border-t-transparent rounded-full animate-spin" />
-        <p className="text-sm text-fg-tertiary">Loading CRM settings…</p>
+        <p className="text-sm text-fg-tertiary dark:text-fg-tertiary">Loading CRM settings…</p>
       </div>
     );
   }
@@ -235,7 +235,7 @@ export default function CRMSettingsPage() {
 
             {tab === 'reminders' && (
               <CrmPanel title="Reminders" description="Internal reminders for salespeople">
-                <p className="text-xs text-fg-tertiary mb-2 pb-4 border-b border-line dark:border-slate-800">
+                <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mb-2 pb-4 border-b border-line dark:border-slate-800">
                   Customer-facing payment messages are configured under Automation → Payment reminder.
                 </p>
                 <CrmSettingRow label="24 hours before meeting" description="Creates an internal prep reminder for the assignee.">

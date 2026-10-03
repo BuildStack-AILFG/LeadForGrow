@@ -85,7 +85,7 @@ export default function IntegrationConfigForm({ integration, onSubmit, submittin
                 {field.label}{field.required ? ' *' : ''}
               </label>
               {alreadySaved && (
-                <span className="text-meta font-medium text-accent-fg flex items-center gap-1">
+                <span className="text-meta font-medium text-accent-fg dark:text-accent-fg flex items-center gap-1">
                   <CheckCircle2 className="w-3 h-3" /> Saved
                 </span>
               )}
@@ -109,9 +109,9 @@ export default function IntegrationConfigForm({ integration, onSubmit, submittin
                   placeholder={placeholder}
                   required={effectiveRequired}
                   disabled={submitting}
-                  className={`w-full px-3 py-2 text-xs border rounded-lg bg-canvas dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500/20 pr-9 ${
+                  className={`w-full px-3 py-2 text-xs border rounded-lg bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500/20 pr-9 ${
                     alreadySaved
-                      ? 'border-line dark:border-emerald-900 placeholder:text-accent-fg/60'
+                      ? 'border-line dark:border-emerald-900 placeholder:text-accent-fg/60 dark:placeholder:text-accent-fg/60'
                       : 'border-line dark:border-slate-700'
                   }`}
                 />
@@ -119,7 +119,7 @@ export default function IntegrationConfigForm({ integration, onSubmit, submittin
                   <button
                     type="button"
                     onClick={() => setShowSecrets((s) => ({ ...s, [field.key]: !s[field.key] }))}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-fg-tertiary hover:text-fg-secondary"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled"
                   >
                     {showSecrets[field.key] ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                   </button>

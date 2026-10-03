@@ -3,6 +3,17 @@ import CookieConsentManager from "./components/consent/CookieConsentManager";
 import LeadForGrowWidget from "./Enquiry";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import { Inter, Inter_Tight, Plus_Jakarta_Sans, Barlow, Libre_Baskerville } from "next/font/google";
+
+// Self-hosted by Next at build time: no render-blocking request to Google on
+// page load, and size-matched fallbacks so text doesn't jump when fonts arrive.
+// globals.css reads these through --font-sans / --font-* tokens.
+const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--nf-inter" });
+const interTight = Inter_Tight({ subsets: ["latin"], weight: ["700", "800"], display: "swap", variable: "--nf-inter-tight", preload: false });
+const plusJakarta = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], display: "swap", variable: "--nf-plus-jakarta", preload: false });
+const barlow = Barlow({ subsets: ["latin"], weight: ["400", "500", "600", "700"], display: "swap", variable: "--nf-barlow", preload: false });
+const libreBaskerville = Libre_Baskerville({ subsets: ["latin"], weight: ["400", "700"], display: "swap", variable: "--nf-libre-baskerville", preload: false });
+const fontVariables = [inter, interTight, plusJakarta, barlow, libreBaskerville].map((f) => f.variable).join(" ");
 
 // FIXED: Clean metadata without conflicts
 export const metadata = {
@@ -32,14 +43,8 @@ import { ConfirmProvider } from "./components/ConfirmProvider";
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={fontVariables} suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&family=Inter+Tight:wght@700;800&family=Libre+Baskerville:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-          rel="stylesheet"
-        />
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem('theme')||'light';document.documentElement.classList.toggle('dark',t==='dark');document.documentElement.classList.toggle('light',t==='light');}catch(e){}})();`

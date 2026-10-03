@@ -36,9 +36,9 @@ const TABS = [
 
 function Avatar({ name, src, size = 'md' }) {
   const sz = size === 'sm' ? 'w-8 h-8 text-meta' : 'w-10 h-10 text-meta';
-  if (src) return <img src={src} alt={name} className={`${sz} rounded-full object-cover border border-line`} />;
+  if (src) return <img src={src} alt={name} className={`${sz} rounded-full object-cover border border-line dark:border-slate-700`} />;
   return (
-    <span className={`${sz} rounded-full bg-muted border border-line text-fg-secondary font-semibold inline-flex items-center justify-center`}>
+    <span className={`${sz} rounded-full bg-muted dark:bg-slate-900 border border-line dark:border-slate-700 text-fg-secondary dark:text-fg-disabled font-semibold inline-flex items-center justify-center`}>
       {initials(name)}
     </span>
   );
@@ -81,7 +81,7 @@ export default function ContactDrawer({ contactId, onClose, onUpdated }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-[#101828]/30 z-[60]"
+            className="fixed inset-0 bg-[#101828]/30 dark:bg-slate-700 z-[60]"
             onClick={onClose}
           />
           <motion.aside
@@ -89,20 +89,20 @@ export default function ContactDrawer({ contactId, onClose, onUpdated }) {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 28, stiffness: 320 }}
-            className="fixed top-0 right-0 h-full w-full max-w-[720px] bg-canvas border-l border-line shadow-modal z-[70] flex flex-col"
+            className="fixed top-0 right-0 h-full w-full max-w-[720px] bg-canvas dark:bg-slate-900 border-l border-line dark:border-slate-700 shadow-modal z-[70] flex flex-col"
           >
-            <div className="flex items-start justify-between gap-4 px-5 py-4 border-b border-line shrink-0">
+            <div className="flex items-start justify-between gap-4 px-5 py-4 border-b border-line dark:border-slate-700 shrink-0">
               {loading ? (
-                <div className="h-12 w-48 bg-muted rounded-lg animate-pulse" />
+                <div className="h-12 w-48 bg-muted dark:bg-slate-900 rounded-lg animate-pulse" />
               ) : contact ? (
                 <div className="flex items-center gap-3 min-w-0">
                   <Avatar name={name} src={contact.avatar} />
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h2 className="text-title font-semibold text-fg truncate">{name}</h2>
+                      <h2 className="text-title font-semibold text-fg dark:text-slate-100 truncate">{name}</h2>
                       <ContactTypeBadge type={contact.type || 'personal'} size="xs" />
                     </div>
-                    <p className="text-meta text-fg-tertiary">
+                    <p className="text-meta text-fg-tertiary dark:text-fg-disabled">
                       {contact.jobTitle || 'No title'} · {ownerName(contact.ownerId)}
                     </p>
                   </div>
@@ -112,26 +112,26 @@ export default function ContactDrawer({ contactId, onClose, onUpdated }) {
                 {contact && (
                   <Link
                     href={`/automation/contacts/${contact._id}`}
-                    className="p-2 rounded-lg text-fg-tertiary hover:bg-muted hover:text-fg-secondary"
+                    className="p-2 rounded-lg text-fg-tertiary dark:text-fg-disabled hover:bg-muted dark:hover:bg-slate-800 hover:text-fg-secondary dark:hover:text-slate-200"
                     title="Open full page"
                   >
                     <ExternalLink className="w-4 h-4" />
                   </Link>
                 )}
-                <button type="button" onClick={onClose} className="p-2 rounded-lg text-fg-tertiary hover:bg-muted">
+                <button type="button" onClick={onClose} className="p-2 rounded-lg text-fg-tertiary dark:text-fg-disabled hover:bg-muted dark:hover:bg-slate-800">
                   <X className="w-4 h-4" />
                 </button>
               </div>
             </div>
 
-            <div className="flex gap-1 px-5 py-2 border-b border-line overflow-x-auto shrink-0">
+            <div className="flex gap-1 px-5 py-2 border-b border-line dark:border-slate-700 overflow-x-auto shrink-0">
               {TABS.map((t) => (
                 <button
                   key={t.id}
                   type="button"
                   onClick={() => setTab(t.id)}
                   className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-[12px] font-medium rounded-lg whitespace-nowrap transition-colors ${
-                    tab === t.id ? 'bg-accent text-white' : 'text-fg-tertiary hover:bg-muted'
+                    tab === t.id ? 'bg-accent dark:bg-slate-700 text-white' : 'text-fg-tertiary dark:text-fg-disabled hover:bg-muted dark:hover:bg-slate-800'
                   }`}
                 >
                   <t.icon className="w-3.5 h-3.5" /> {t.label}
@@ -150,7 +150,7 @@ export default function ContactDrawer({ contactId, onClose, onUpdated }) {
                   {tab === 'notes' && <NotesTab notes={contact.notes || []} />}
                 </>
               ) : (
-                <p className="text-dense text-fg-tertiary text-center py-12">Contact not found</p>
+                <p className="text-dense text-fg-tertiary dark:text-fg-disabled text-center py-12">Contact not found</p>
               )}
             </div>
           </motion.aside>
@@ -179,46 +179,46 @@ function OverviewTab({ contact }) {
           { label: 'Pipeline', value: formatCurrency(pipelineValue, currency) },
           { label: 'Pending Tasks', value: (contact.tasks || []).filter((t) => t.status === 'pending').length },
         ].map((k) => (
-          <div key={k.label} className="p-3 rounded-lg border border-line bg-subtle">
-            <p className="text-meta font-medium text-fg-tertiary">{k.label}</p>
-            <p className="text-title font-semibold text-fg mt-1 tabular-nums">{k.value}</p>
+          <div key={k.label} className="p-3 rounded-lg border border-line dark:border-slate-700 bg-subtle dark:bg-slate-900">
+            <p className="text-meta font-medium text-fg-tertiary dark:text-fg-tertiary">{k.label}</p>
+            <p className="text-title font-semibold text-fg dark:text-slate-100 mt-1 tabular-nums">{k.value}</p>
           </div>
         ))}
       </div>
 
-      <div className="rounded-lg border border-line p-4 space-y-3">
-        <h3 className="text-meta font-semibold text-fg-tertiary">Contact Details</h3>
+      <div className="rounded-lg border border-line dark:border-slate-700 p-4 space-y-3">
+        <h3 className="text-meta font-semibold text-fg-tertiary dark:text-fg-tertiary">Contact Details</h3>
         <dl className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-dense">
           {email && (
             <div>
-              <dt className="text-fg-tertiary text-meta mb-0.5">Email</dt>
-              <dd className="flex items-center gap-1 text-fg-secondary"><Mail className="w-3.5 h-3.5" />{email}</dd>
+              <dt className="text-fg-tertiary dark:text-fg-tertiary text-meta mb-0.5">Email</dt>
+              <dd className="flex items-center gap-1 text-fg-secondary dark:text-slate-200"><Mail className="w-3.5 h-3.5" />{email}</dd>
             </div>
           )}
           {phone && (
             <div>
-              <dt className="text-fg-tertiary text-meta mb-0.5">Phone</dt>
-              <dd className="flex items-center gap-1 text-fg-secondary"><Phone className="w-3.5 h-3.5" />{phone}</dd>
+              <dt className="text-fg-tertiary dark:text-fg-tertiary text-meta mb-0.5">Phone</dt>
+              <dd className="flex items-center gap-1 text-fg-secondary dark:text-slate-200"><Phone className="w-3.5 h-3.5" />{phone}</dd>
             </div>
           )}
           {contact.jobTitle && (
             <div>
-              <dt className="text-fg-tertiary text-meta mb-0.5">Job Title</dt>
-              <dd className="text-fg-secondary">{contact.jobTitle}</dd>
+              <dt className="text-fg-tertiary dark:text-fg-tertiary text-meta mb-0.5">Job Title</dt>
+              <dd className="text-fg-secondary dark:text-slate-200">{contact.jobTitle}</dd>
             </div>
           )}
           {contact.department && (
             <div>
-              <dt className="text-fg-tertiary text-meta mb-0.5">Department</dt>
-              <dd className="text-fg-secondary">{contact.department}</dd>
+              <dt className="text-fg-tertiary dark:text-fg-tertiary text-meta mb-0.5">Department</dt>
+              <dd className="text-fg-secondary dark:text-slate-200">{contact.department}</dd>
             </div>
           )}
           {company?.name && (
             <div>
-              <dt className="text-fg-tertiary text-meta mb-0.5">Company</dt>
-              <dd className="flex items-center gap-1 text-fg-secondary">
+              <dt className="text-fg-tertiary dark:text-fg-tertiary text-meta mb-0.5">Company</dt>
+              <dd className="flex items-center gap-1 text-fg-secondary dark:text-slate-200">
                 <Building2 className="w-3.5 h-3.5" />
-                <Link href={`/automation/companies/${company._id || company}`} className="text-accent-fg hover:underline">
+                <Link href={`/automation/companies/${company._id || company}`} className="text-accent-fg dark:text-accent-fg hover:underline">
                   {company.name}
                 </Link>
               </dd>
@@ -226,8 +226,8 @@ function OverviewTab({ contact }) {
           )}
           {contact.addresses?.[0]?.city && (
             <div className="sm:col-span-2">
-              <dt className="text-fg-tertiary text-meta mb-0.5">Address</dt>
-              <dd className="flex items-start gap-1 text-fg-secondary">
+              <dt className="text-fg-tertiary dark:text-fg-tertiary text-meta mb-0.5">Address</dt>
+              <dd className="flex items-start gap-1 text-fg-secondary dark:text-slate-200">
                 <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0" />
                 {[contact.addresses[0].street, contact.addresses[0].city, contact.addresses[0].state, contact.addresses[0].country].filter(Boolean).join(', ')}
               </dd>
@@ -237,12 +237,12 @@ function OverviewTab({ contact }) {
         {contact.tags?.length > 0 && (
           <div className="flex flex-wrap gap-1.5 pt-2">
             {contact.tags.map((t) => (
-              <span key={t} className="text-meta px-2 py-0.5 rounded-full bg-muted border border-line text-fg-secondary">{t}</span>
+              <span key={t} className="text-meta px-2 py-0.5 rounded-full bg-muted dark:bg-slate-900 border border-line dark:border-slate-700 text-fg-secondary dark:text-fg-disabled">{t}</span>
             ))}
           </div>
         )}
         {contact.notes && typeof contact.notes === 'string' && (
-          <p className="text-dense text-fg-secondary leading-relaxed pt-2 border-t border-line">{contact.notes}</p>
+          <p className="text-dense text-fg-secondary dark:text-fg-disabled leading-relaxed pt-2 border-t border-line dark:border-slate-700">{contact.notes}</p>
         )}
       </div>
     </div>
@@ -254,30 +254,30 @@ function DealsTab({ deals }) {
     return (
       <div className="text-center py-12">
         <Briefcase className="w-10 h-10 text-fg-disabled mx-auto mb-3" />
-        <p className="text-dense text-fg-tertiary">No deals yet</p>
+        <p className="text-dense text-fg-tertiary dark:text-fg-disabled">No deals yet</p>
       </div>
     );
   }
   return (
-    <div className="rounded-lg border border-line overflow-hidden">
+    <div className="rounded-lg border border-line dark:border-slate-700 overflow-x-auto">
       <table className="w-full text-left text-meta">
-        <thead className="bg-subtle border-b border-line">
+        <thead className="bg-subtle dark:bg-slate-900 border-b border-line dark:border-slate-700">
           <tr>
             {['Deal', 'Stage', 'Amount', 'Close Date', 'Probability'].map((h) => (
-              <th key={h} className="py-2.5 px-3 font-semibold text-fg-tertiary text-meta">{h}</th>
+              <th key={h} className="py-2.5 px-3 font-semibold text-fg-tertiary dark:text-fg-disabled text-meta">{h}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {deals.map((d) => (
-            <tr key={d._id} className="border-b border-line hover:bg-subtle">
-              <td className="py-3 px-3 font-medium text-fg">{d.title}</td>
+            <tr key={d._id} className="border-b border-line dark:border-slate-700 hover:bg-subtle dark:hover:bg-slate-800">
+              <td className="py-3 px-3 font-medium text-fg dark:text-slate-100">{d.title}</td>
               <td className="py-3 px-3">
-                <span className="px-2 py-0.5 rounded-md bg-muted text-fg-secondary text-meta font-medium">{stageLabel(d.stage)}</span>
+                <span className="px-2 py-0.5 rounded-md bg-muted dark:bg-slate-900 text-fg-secondary dark:text-fg-disabled text-meta font-medium">{stageLabel(d.stage)}</span>
               </td>
-              <td className="py-3 px-3 tabular-nums text-fg">{formatCurrency(d.amount, d.currency)}</td>
-              <td className="py-3 px-3 text-fg-tertiary">{d.expectedCloseDate ? new Date(d.expectedCloseDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'}</td>
-              <td className="py-3 px-3 tabular-nums text-fg-tertiary">{d.probability ?? '—'}%</td>
+              <td className="py-3 px-3 tabular-nums text-fg dark:text-slate-100">{formatCurrency(d.amount, d.currency)}</td>
+              <td className="py-3 px-3 text-fg-tertiary dark:text-fg-disabled">{d.expectedCloseDate ? new Date(d.expectedCloseDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'}</td>
+              <td className="py-3 px-3 tabular-nums text-fg-tertiary dark:text-fg-disabled">{d.probability ?? '—'}%</td>
             </tr>
           ))}
         </tbody>
@@ -288,17 +288,17 @@ function DealsTab({ deals }) {
 
 function ActivitiesTab({ timeline }) {
   if (!timeline.length) {
-    return <p className="text-dense text-fg-tertiary text-center py-12">No activity yet</p>;
+    return <p className="text-dense text-fg-tertiary dark:text-fg-disabled text-center py-12">No activity yet</p>;
   }
   return (
     <div className="space-y-0">
       {timeline.map((item, i) => (
         <div key={item._id || i} className="flex gap-3 pb-4 relative">
-          {i < timeline.length - 1 && <div className="absolute left-[7px] top-4 bottom-0 w-px bg-muted" />}
-          <div className="w-3.5 h-3.5 rounded-full bg-accent border-2 border-white shrink-0 mt-1 z-10" />
+          {i < timeline.length - 1 && <div className="absolute left-[7px] top-4 bottom-0 w-px bg-muted dark:bg-slate-800" />}
+          <div className="w-3.5 h-3.5 rounded-full bg-accent dark:bg-slate-700 border-2 border-white dark:border-slate-700 shrink-0 mt-1 z-10" />
           <div className="min-w-0 flex-1 pb-1">
-            <p className="text-dense text-fg-secondary">{item.description}</p>
-            <p className="text-meta text-fg-tertiary mt-0.5">{formatRelative(item.performedAt || item.createdAt)}</p>
+            <p className="text-dense text-fg-secondary dark:text-slate-200">{item.description}</p>
+            <p className="text-meta text-fg-tertiary dark:text-fg-tertiary mt-0.5">{formatRelative(item.performedAt || item.createdAt)}</p>
           </div>
         </div>
       ))}
@@ -308,15 +308,15 @@ function ActivitiesTab({ timeline }) {
 
 function NotesTab({ notes }) {
   if (!notes.length) {
-    return <p className="text-dense text-fg-tertiary text-center py-12">No notes yet</p>;
+    return <p className="text-dense text-fg-tertiary dark:text-fg-disabled text-center py-12">No notes yet</p>;
   }
   return (
     <div className="space-y-3">
       {notes.map((n) => (
-        <div key={n._id} className={`p-4 rounded-lg border ${n.pinned ? 'border-warning/30 bg-warning-subtle' : 'border-line bg-canvas'}`}>
-          {n.pinned && <span className="text-meta font-semibold text-warning">Pinned</span>}
-          <p className="text-dense text-fg-secondary mt-1 whitespace-pre-wrap">{n.content || n.text}</p>
-          <p className="text-meta text-fg-tertiary mt-2">{formatRelative(n.createdAt)}</p>
+        <div key={n._id} className={`p-4 rounded-lg border ${n.pinned ? 'border-warning/30 dark:border-amber-800 bg-warning-subtle dark:bg-amber-950/50' : 'border-line dark:border-slate-700 bg-canvas dark:bg-slate-900'}`}>
+          {n.pinned && <span className="text-meta font-semibold text-warning dark:text-amber-300">Pinned</span>}
+          <p className="text-dense text-fg-secondary dark:text-slate-200 mt-1 whitespace-pre-wrap">{n.content || n.text}</p>
+          <p className="text-meta text-fg-tertiary dark:text-fg-tertiary mt-2">{formatRelative(n.createdAt)}</p>
         </div>
       ))}
     </div>
@@ -327,9 +327,9 @@ function DrawerSkeleton() {
   return (
     <div className="space-y-4 animate-pulse">
       <div className="grid grid-cols-4 gap-3">
-        {[1, 2, 3, 4].map((i) => <div key={i} className="h-16 rounded-lg bg-muted" />)}
+        {[1, 2, 3, 4].map((i) => <div key={i} className="h-16 rounded-lg bg-muted dark:bg-slate-900" />)}
       </div>
-      <div className="h-48 rounded-lg bg-muted" />
+      <div className="h-48 rounded-lg bg-muted dark:bg-slate-900" />
     </div>
   );
 }

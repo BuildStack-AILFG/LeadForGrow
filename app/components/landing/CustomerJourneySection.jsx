@@ -1,5 +1,6 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { useLayoutEffect, useRef } from 'react';
 import {
   ArrowRight,
@@ -547,7 +548,7 @@ export default function CustomerJourneySection({ onGetStarted, onBookDemo }) {
                   className="mx-auto mt-6 max-w-sm scale-95 rounded-2xl border border-emerald-200 bg-white p-4 opacity-0 shadow-lg"
                 >
                   <div className="mb-3 flex items-center gap-2 text-emerald-700">
-                    <MessageCircle className="h-4 w-4" />
+                    <WhatsAppIcon colored className="h-4 w-4" />
                     <span className="text-xs font-semibold">WhatsApp · Priya Sharma</span>
                   </div>
                   <div data-s1-msg data-animate className="rounded-xl rounded-tl-sm bg-[#ECE5DD] p-3">

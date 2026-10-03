@@ -57,12 +57,12 @@ export default function SequenceWorkflowSettings({ draftMeta, setDraftMeta, sequ
     <div className="p-4 space-y-6 max-w-2xl">
       <section className="p-4 rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800">
         <h4 className="text-sm font-semibold text-fg dark:text-white mb-3">Trigger configuration</h4>
-        <p className="text-xs text-fg-tertiary mb-4">Type: <span className="font-medium">{draftMeta.triggerType}</span></p>
+        <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mb-4">Type: <span className="font-medium">{draftMeta.triggerType}</span></p>
 
         {draftMeta.triggerType === 'recurring' && (
           <div className="space-y-3">
             <div>
-              <label className="text-xs font-medium text-fg-tertiary">Schedule type</label>
+              <label className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">Schedule type</label>
               <select
                 value={triggerConfig.scheduleType || 'daily'}
                 onChange={(e) => setTrigger({ scheduleType: e.target.value })}
@@ -75,7 +75,7 @@ export default function SequenceWorkflowSettings({ draftMeta, setDraftMeta, sequ
             </div>
             {(triggerConfig.scheduleType === 'minutes' || triggerConfig.scheduleType === 'hours') && (
               <div>
-                <label className="text-xs font-medium text-fg-tertiary">Interval</label>
+                <label className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">Interval</label>
                 <input
                   type="number"
                   min={1}
@@ -91,7 +91,7 @@ export default function SequenceWorkflowSettings({ draftMeta, setDraftMeta, sequ
             )}
             {['daily', 'weekly', 'monthly'].includes(triggerConfig.scheduleType || 'daily') && (
               <div>
-                <label className="text-xs font-medium text-fg-tertiary">Time (HH:MM)</label>
+                <label className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">Time (HH:MM)</label>
                 <input
                   value={triggerConfig.time || '09:00'}
                   onChange={(e) => setTrigger({ time: e.target.value })}
@@ -101,7 +101,7 @@ export default function SequenceWorkflowSettings({ draftMeta, setDraftMeta, sequ
             )}
             {triggerConfig.scheduleType === 'weekly' && (
               <div>
-                <label className="text-xs font-medium text-fg-tertiary">Weekday (0=Sun)</label>
+                <label className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">Weekday (0=Sun)</label>
                 <input
                   type="number"
                   min={0}
@@ -114,7 +114,7 @@ export default function SequenceWorkflowSettings({ draftMeta, setDraftMeta, sequ
             )}
             {triggerConfig.scheduleType === 'cron' && (
               <div>
-                <label className="text-xs font-medium text-fg-tertiary">Cron expression</label>
+                <label className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">Cron expression</label>
                 <input
                   value={triggerConfig.cron || '0 9 * * 1'}
                   onChange={(e) => setTrigger({ cron: e.target.value })}
@@ -123,7 +123,7 @@ export default function SequenceWorkflowSettings({ draftMeta, setDraftMeta, sequ
                 />
               </div>
             )}
-            <label className="flex items-center gap-2 text-xs text-fg-secondary">
+            <label className="flex items-center gap-2 text-xs text-fg-secondary dark:text-fg-disabled">
               <input
                 type="checkbox"
                 checked={triggerConfig.businessHoursOnly || false}
@@ -132,7 +132,7 @@ export default function SequenceWorkflowSettings({ draftMeta, setDraftMeta, sequ
               Only during business hours
             </label>
             <div>
-              <label className="text-xs font-medium text-fg-tertiary">Timezone</label>
+              <label className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">Timezone</label>
               <input
                 value={triggerConfig.timezone || 'Asia/Kolkata'}
                 onChange={(e) => setTrigger({ timezone: e.target.value })}
@@ -145,7 +145,7 @@ export default function SequenceWorkflowSettings({ draftMeta, setDraftMeta, sequ
         {draftMeta.triggerType === 'no_reply' && (
           <div className="space-y-3">
             <div>
-              <label className="text-xs font-medium text-fg-tertiary">No reply after (minutes)</label>
+              <label className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">No reply after (minutes)</label>
               <input
                 type="number"
                 min={1}
@@ -155,7 +155,7 @@ export default function SequenceWorkflowSettings({ draftMeta, setDraftMeta, sequ
               />
             </div>
             <div>
-              <label className="text-xs font-medium text-fg-tertiary">Context</label>
+              <label className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">Context</label>
               <select
                 value={triggerConfig.context || 'any'}
                 onChange={(e) => setTrigger({ context: e.target.value })}
@@ -174,14 +174,14 @@ export default function SequenceWorkflowSettings({ draftMeta, setDraftMeta, sequ
 
         {draftMeta.triggerType === 'webhook' && (
           <div className="space-y-3">
-            <p className="text-xs text-fg-tertiary">POST JSON to this URL. Use header <code className="text-meta">x-api-key</code> or <code className="text-meta">x-webhook-signature</code>.</p>
+            <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">POST JSON to this URL. Use header <code className="text-meta">x-api-key</code> or <code className="text-meta">x-webhook-signature</code>.</p>
             <div className="flex gap-2">
               <input
                 readOnly
                 value={webhookUrl || 'Save workflow to generate URL'}
                 className="flex-1 px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-subtle dark:bg-slate-800 text-xs font-mono"
               />
-              <button type="button" onClick={copyWebhook} className="p-2 rounded-lg border border-line text-fg-tertiary hover:bg-subtle">
+              <button type="button" onClick={copyWebhook} className="p-2 rounded-lg border border-line dark:border-slate-700 text-fg-tertiary dark:text-fg-tertiary hover:bg-subtle dark:hover:bg-slate-800/50">
                 <Copy className="w-4 h-4" />
               </button>
             </div>
@@ -198,7 +198,7 @@ export default function SequenceWorkflowSettings({ draftMeta, setDraftMeta, sequ
           <button
             type="button"
             onClick={enableAbTest}
-            className="text-xs font-medium text-accent-fg hover:underline"
+            className="text-xs font-medium text-accent-fg dark:text-accent-fg hover:underline"
           >
             {abTest.enabled ? 'Disable' : 'Enable'}
           </button>
@@ -208,7 +208,7 @@ export default function SequenceWorkflowSettings({ draftMeta, setDraftMeta, sequ
             {(abTest.variants || []).map((v, i) => (
               <div key={v.id} className="grid grid-cols-2 gap-2 p-3 rounded-lg bg-subtle dark:bg-slate-800/50">
                 <div>
-                  <label className="text-meta text-fg-tertiary">Variant name</label>
+                  <label className="text-meta text-fg-tertiary dark:text-fg-tertiary">Variant name</label>
                   <input
                     value={v.name}
                     onChange={(e) => {
@@ -220,7 +220,7 @@ export default function SequenceWorkflowSettings({ draftMeta, setDraftMeta, sequ
                   />
                 </div>
                 <div>
-                  <label className="text-meta text-fg-tertiary">Traffic %</label>
+                  <label className="text-meta text-fg-tertiary dark:text-fg-tertiary">Traffic %</label>
                   <input
                     type="number"
                     min={0}
@@ -236,7 +236,7 @@ export default function SequenceWorkflowSettings({ draftMeta, setDraftMeta, sequ
                 </div>
               </div>
             ))}
-            <label className="flex items-center gap-2 text-xs text-fg-secondary">
+            <label className="flex items-center gap-2 text-xs text-fg-secondary dark:text-fg-disabled">
               <input
                 type="checkbox"
                 checked={abTest.autoSelectWinner || false}

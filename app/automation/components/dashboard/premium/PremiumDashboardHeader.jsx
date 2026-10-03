@@ -91,7 +91,7 @@ export default function PremiumDashboardHeader({
     : 'now';
 
   return (
-    <header className="sticky top-0 z-20 -mx-4 sm:-mx-6 px-4 sm:px-6 pt-5 pb-4 mb-2 bg-canvas">
+    <header className="sticky top-0 z-20 -mx-4 sm:-mx-6 px-4 sm:px-6 pt-5 pb-4 mb-2 bg-subtle/95 dark:bg-slate-900">
       {/* Row 1 — Title + utilities */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4">
         <h1 className="text-page font-semibold text-fg">
@@ -101,15 +101,15 @@ export default function PremiumDashboardHeader({
         <div className="flex items-center gap-2.5">
           <Link
             href="/automation/chat"
-            className="relative inline-flex items-center justify-center w-9 h-9 text-fg-secondary bg-canvas border border-line rounded-md transition-all duration-200 hover:bg-subtle hover:border-line-strong active:scale-95"
+            className="relative inline-flex items-center justify-center w-9 h-9 text-fg-secondary dark:text-slate-200 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-none transition-all duration-200 hover:bg-subtle dark:hover:bg-slate-800 hover:border-line-strong dark:hover:border-slate-700 active:scale-95"
             title="Notifications"
           >
             <Bell className="w-4 h-4" />
-            <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-[#E5484D] ring-2 ring-white" />
+            <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-[#E5484D] ring-2 ring-white dark:ring-slate-900" />
           </Link>
 
           <div className="relative flex-1 sm:flex-none sm:w-[220px] group">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-fg-tertiary transition-colors group-focus-within:text-accent-fg" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-fg-tertiary dark:text-fg-tertiary transition-colors group-focus-within:text-brand-ink" />
             <input
               type="search"
               placeholder="Search something"
@@ -120,22 +120,22 @@ export default function PremiumDashboardHeader({
                   router.push(`/automation/leads?search=${encodeURIComponent(searchQuery.trim())}`);
                 }
               }}
-              className="w-full h-9 pl-9 pr-3 text-dense bg-canvas border border-line rounded-md text-fg placeholder:text-fg-tertiary transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-focus/15 focus:border-accent"
+              className="w-full h-9 pl-9 pr-3 text-dense bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-none text-fg dark:text-slate-100 placeholder:text-fg-tertiary dark:placeholder:text-fg-tertiary transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand/15 focus:border-brand"
             />
           </div>
 
           <button
             type="button"
-            className="inline-flex items-center gap-2 h-9 px-3.5 text-dense font-medium text-fg-secondary bg-canvas border border-line rounded-md transition-all duration-200 hover:bg-subtle hover:border-line-strong active:scale-[0.98]"
+            className="inline-flex items-center gap-2 h-9 px-3.5 text-dense font-medium text-fg-secondary dark:text-slate-200 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-none transition-all duration-200 hover:bg-subtle dark:hover:bg-slate-800 hover:border-line-strong dark:hover:border-slate-700 active:scale-[0.98]"
           >
-            <Share2 className="w-4 h-4 text-fg-secondary" />
+            <Share2 className="w-4 h-4 text-fg-secondary dark:text-slate-200" />
             Share
           </button>
         </div>
       </div>
 
       {/* Divider */}
-      <div className="border-t border-line" />
+      <div className="border-t border-line dark:border-slate-700" />
 
       {/* Row 2 — Actions + status / import-export */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-4">
@@ -144,7 +144,7 @@ export default function PremiumDashboardHeader({
             type="button"
             data-tour="dashboard-ask-ai"
             onClick={openAssistant}
-            className="inline-flex items-center gap-2 h-9 px-3.5 text-dense font-medium text-white bg-accent rounded-md transition-all duration-200 hover:bg-accent-hover hover:shadow-popover active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+            className="inline-flex items-center gap-2 h-9 px-3.5 text-dense font-medium text-white bg-brand rounded-none transition-all duration-200 hover:bg-brand-hover hover:shadow-popover active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
           >
             <GroviaIcon className="w-4 h-4" />
             Ask AI
@@ -156,18 +156,18 @@ export default function PremiumDashboardHeader({
               onClick={() => setCustomizeOpen((v) => !v)}
               aria-haspopup="menu"
               aria-expanded={customizeOpen}
-              className={`inline-flex items-center gap-2 h-9 px-3.5 text-dense font-medium text-fg-secondary bg-canvas border border-line rounded-md transition-all duration-200 hover:bg-subtle hover:border-line-strong active:scale-[0.98] ${customizeOpen ? 'bg-subtle border-line-strong' : ''}`}
+              className={`inline-flex items-center gap-2 h-9 px-3.5 text-dense font-medium text-fg-secondary dark:text-slate-200 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-none transition-all duration-200 hover:bg-subtle dark:hover:bg-slate-800 hover:border-line-strong dark:hover:border-slate-700 active:scale-[0.98] ${customizeOpen ? 'bg-subtle dark:bg-slate-900 border-line-strong dark:border-slate-700' : ''}`}
             >
-              <LayoutGrid className="w-4 h-4 text-fg-secondary" />
+              <LayoutGrid className="w-4 h-4 text-fg-secondary dark:text-slate-200" />
               Customize Widget
             </button>
 
             {customizeOpen && (
               <div
                 role="menu"
-                className="absolute left-0 top-full mt-1.5 z-30 min-w-[220px] py-1.5 bg-canvas border border-line rounded-md"
+                className="absolute left-0 top-full mt-1.5 z-30 min-w-[220px] py-1.5 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-none"
               >
-                <div className="px-3 py-1.5 text-meta font-semibold text-fg-tertiary">
+                <div className="px-3 py-1.5 text-meta font-semibold text-fg-tertiary dark:text-fg-tertiary">
                   Show / hide widgets
                 </div>
                 {DASHBOARD_WIDGETS.map((widget) => {
@@ -179,11 +179,11 @@ export default function PremiumDashboardHeader({
                       role="menuitemcheckbox"
                       aria-checked={checked}
                       onClick={() => onToggleWidget?.(widget.key)}
-                      className="flex w-full items-center justify-between gap-2.5 px-3 py-2 text-dense font-medium text-fg-secondary transition-colors hover:bg-subtle"
+                      className="flex w-full items-center justify-between gap-2.5 px-3 py-2 text-dense font-medium text-fg-secondary dark:text-slate-200 transition-colors hover:bg-subtle dark:hover:bg-slate-800"
                     >
                       {widget.label}
                       <span
-                        className={`inline-flex items-center justify-center w-4 h-4 border ${checked ? 'bg-accent border-accent' : 'border-line-strong'}`}
+                        className={`inline-flex items-center justify-center w-4 h-4 border ${checked ? 'bg-brand border-brand' : 'border-line-strong dark:border-slate-700'}`}
                       >
                         {checked && <Check className="w-3 h-3 text-white" />}
                       </span>
@@ -200,47 +200,47 @@ export default function PremiumDashboardHeader({
             type="button"
             onClick={onRefresh}
             disabled={refreshing}
-            className="inline-flex items-center gap-1.5 text-dense font-medium text-accent-fg hover:text-accent-fg transition-colors disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 text-dense font-medium text-brand-ink hover:text-brand-ink transition-colors disabled:opacity-50"
             title="Refresh"
           >
             <CheckCircle2 className={`w-4 h-4 ${refreshing ? 'animate-pulse' : ''}`} />
             Last updated {updatedLabel}
           </button>
 
-          <div className="inline-flex items-stretch rounded-md border border-line bg-canvas overflow-hidden">
+          <div className="inline-flex items-stretch rounded-none border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 overflow-hidden">
             <Link
               href="/automation/leads/bulk"
-              className="inline-flex items-center gap-2 h-9 px-3.5 text-dense font-medium text-fg-secondary transition-colors hover:bg-subtle"
+              className="inline-flex items-center gap-2 h-9 px-3.5 text-dense font-medium text-fg-secondary dark:text-slate-200 transition-colors hover:bg-subtle dark:hover:bg-slate-800"
             >
-              <CloudDownload className="w-4 h-4 text-fg-secondary" />
+              <CloudDownload className="w-4 h-4 text-fg-secondary dark:text-slate-200" />
               Imports
             </Link>
-            <span className="w-px self-stretch bg-muted" />
+            <span className="w-px self-stretch bg-muted dark:bg-slate-800" />
             <button
               type="button"
-              className="inline-flex items-center justify-center w-8 h-9 text-fg-tertiary transition-colors hover:bg-subtle"
+              className="inline-flex items-center justify-center w-8 h-9 text-fg-tertiary dark:text-fg-disabled transition-colors hover:bg-subtle dark:hover:bg-slate-800"
               aria-label="Import options"
             >
               <ChevronDown className="w-3.5 h-3.5" />
             </button>
           </div>
 
-          <div className="inline-flex items-stretch rounded-md bg-accent overflow-hidden">
+          <div className="inline-flex items-stretch rounded-none bg-accent dark:bg-slate-700 overflow-hidden">
             <button
               type="button"
               onClick={handleExport}
               disabled={exporting}
-              className="inline-flex items-center gap-2 h-9 px-3.5 text-dense font-medium text-white transition-colors hover:bg-accent-hover disabled:opacity-60"
+              className="inline-flex items-center gap-2 h-9 px-3.5 text-dense font-medium text-white transition-colors hover:bg-accent-hover dark:hover:bg-slate-600 disabled:opacity-60"
             >
               {exporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <CloudUpload className="w-4 h-4" />}
               Exports
             </button>
-            <span className="w-px self-stretch bg-canvas/20" />
+            <span className="w-px self-stretch bg-white/20 dark:bg-slate-900/20" />
             <button
               type="button"
               onClick={handleExport}
               disabled={exporting}
-              className="inline-flex items-center justify-center w-8 h-9 text-white/80 transition-colors hover:bg-accent-hover disabled:opacity-60"
+              className="inline-flex items-center justify-center w-8 h-9 text-white/80 transition-colors hover:bg-accent-hover dark:hover:bg-slate-600 disabled:opacity-60"
               aria-label="Export options"
             >
               <ChevronDown className="w-3.5 h-3.5" />

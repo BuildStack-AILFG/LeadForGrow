@@ -26,7 +26,7 @@ export default function CrmSettingsNav({ active, onChange }) {
             className={`relative w-full flex items-center gap-3 pl-3 pr-3 py-3 rounded-xl text-left transition-all duration-150 ${
               isActive
                 ? 'bg-canvas dark:bg-slate-900 border border-line/90 dark:border-slate-800'
-                : 'border border-transparent hover:bg-canvas/60 dark:hover:bg-slate-900/40 hover:border-line/60 dark:hover:border-slate-800/60'
+                : 'border border-transparent hover:bg-white/60 dark:hover:bg-slate-900/40 hover:border-line/60 dark:hover:border-slate-800/60'
             }`}
           >
             {isActive && (
@@ -75,7 +75,7 @@ export function CrmSettingsSaveBar({ dirty, saving, onSave }) {
             type="button"
             onClick={onSave}
             disabled={saving}
-            className="px-6 py-2.5 text-sm font-semibold rounded-lg bg-canvas text-slate-950 hover:bg-muted disabled:opacity-60 transition-all"
+            className="px-6 py-2.5 text-sm font-semibold rounded-lg bg-canvas dark:bg-slate-900 text-slate-950 dark:text-slate-50 hover:bg-muted dark:hover:bg-slate-700 disabled:opacity-60 transition-all"
           >
             {saving ? 'Saving…' : 'Save changes'}
           </button>

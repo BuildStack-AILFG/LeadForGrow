@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useState, useMemo } from 'react';
+import { memo, useState, useMemo, useRef, useEffect } from 'react';
 import {
   Check, CheckCheck, Clock, StickyNote, Download, FileText, AlertCircle,
   Star, Trash2, RotateCcw, Image as ImageIcon, Film, Music, File as FileIcon,
@@ -9,6 +9,8 @@ import {
 import { formatFileSize } from '@/lib/omnichannel/mediaTypes';
 import { decodeMetaError, extractErrorCode } from '@/lib/whatsapp/metaErrors';
 import { ORIGIN_META } from './constants';
+import { splitQuotedBody } from '@/lib/omnichannel/emailThread';
+import { buildEmailDocument, EMAIL_FRAME_SANDBOX } from '@/lib/omnichannel/emailFrame';
 
 /**
  * Rewrite a Cloudinary URL so the file downloads instead of trying to
@@ -36,17 +38,17 @@ function toDownloadUrl(url) {
  */
 function iconForMime(mimeType = '') {
   const t = mimeType.toLowerCase();
-  if (t.startsWith('image/')) return { Icon: ImageIcon, color: 'text-accent-fg' };
-  if (t.startsWith('video/')) return { Icon: Film, color: 'text-accent-fg' };
-  if (t.startsWith('audio/')) return { Icon: Music, color: 'text-warning' };
-  if (t.includes('pdf')) return { Icon: FileText, color: 'text-danger' };
+  if (t.startsWith('image/')) return { Icon: ImageIcon, color: 'text-accent-fg dark:text-accent-fg' };
+  if (t.startsWith('video/')) return { Icon: Film, color: 'text-accent-fg dark:text-accent-fg' };
+  if (t.startsWith('audio/')) return { Icon: Music, color: 'text-warning dark:text-amber-400' };
+  if (t.includes('pdf')) return { Icon: FileText, color: 'text-danger dark:text-rose-400' };
   if (t.includes('word') || t.includes('officedocument.word')) {
-    return { Icon: FileText, color: 'text-info' };
+    return { Icon: FileText, color: 'text-info dark:text-blue-400' };
   }
   if (t.includes('sheet') || t.includes('excel') || t.includes('officedocument.spreadsheet')) {
-    return { Icon: FileText, color: 'text-accent-fg' };
+    return { Icon: FileText, color: 'text-accent-fg dark:text-accent-fg' };
   }
-  return { Icon: FileIcon, color: 'text-fg-tertiary' };
+  return { Icon: FileIcon, color: 'text-fg-tertiary dark:text-fg-tertiary' };
 }
 
 /**
@@ -57,7 +59,7 @@ function iconForMime(mimeType = '') {
  * Images use an inline thumbnail preview; everything else is a filename + size
  * download card. The click always opens/downloads via the Cloudinary URL.
  */
-function AttachmentCards({ attachments }) {
+export function AttachmentCards({ attachments }) {
   if (!Array.isArray(attachments) || attachments.length === 0) return null;
   return (
     <div className="flex flex-col gap-1.5 mb-1.5">
@@ -102,14 +104,14 @@ function AttachmentCards({ attachments }) {
             key={att.url || i}
             href={href}
             download={att.fileName}
-            className="flex items-center gap-2 p-2.5 rounded-lg bg-muted/80 dark:bg-slate-900/50 border border-line dark:border-slate-700 hover:bg-muted/80 transition-colors max-w-[320px]"
+            className="flex items-center gap-2 p-2.5 rounded-lg bg-muted/80 dark:bg-slate-900/50 border border-line dark:border-slate-700 hover:bg-muted/80 dark:hover:bg-slate-700/80 transition-colors max-w-[320px]"
             title={`Download ${att.fileName}`}
           >
             <Icon className={`w-5 h-5 flex-shrink-0 ${color}`} />
             <div className="min-w-0 flex-1">
               <p className="text-xs font-medium truncate">{att.fileName}</p>
               {att.size ? (
-                <p className="text-meta text-fg-tertiary">{formatFileSize(att.size)}</p>
+                <p className="text-meta text-fg-tertiary dark:text-fg-tertiary">{formatFileSize(att.size)}</p>
               ) : null}
             </div>
             <Download className="w-4 h-4 text-fg-tertiary flex-shrink-0" />
@@ -157,12 +159,12 @@ function MediaContent({ message }) {
         download={fileName}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-2 p-2.5 mb-1 rounded-lg bg-muted/80 dark:bg-slate-900/50 border border-line dark:border-slate-700 hover:bg-muted/80 transition-colors"
+        className="flex items-center gap-2 p-2.5 mb-1 rounded-lg bg-muted/80 dark:bg-slate-900/50 border border-line dark:border-slate-700 hover:bg-muted/80 dark:hover:bg-slate-700/80 transition-colors"
       >
-        <FileText className="w-5 h-5 text-accent-fg flex-shrink-0" />
+        <FileText className="w-5 h-5 text-accent-fg dark:text-accent-fg flex-shrink-0" />
         <div className="min-w-0 flex-1">
           <p className="text-xs font-medium truncate">{fileName}</p>
-          {content?.fileSize && <p className="text-meta text-fg-tertiary">{formatFileSize(content.fileSize)}</p>}
+          {content?.fileSize && <p className="text-meta text-fg-tertiary dark:text-fg-tertiary">{formatFileSize(content.fileSize)}</p>}
         </div>
         <Download className="w-4 h-4 text-fg-tertiary flex-shrink-0" />
       </a>
@@ -179,20 +181,20 @@ function MediaContent({ message }) {
  * Same name always produces the same color — deterministic hash of the
  * first character.
  */
-function InitialAvatar({ name = '?', size = 'sm' }) {
+export function InitialAvatar({ name = '?', size = 'sm' }) {
   const ch = (name.trim()[0] || '?').toUpperCase();
   // Palette rotated by char code — matches Gmail's approach of "same
   // sender = same tile color forever," which agents rely on for quick
   // visual scan of a thread.
   const palette = [
-    'bg-accent-subtle text-accent-fg',
-    'bg-info-subtle text-blue-800',
-    'bg-accent-subtle text-accent-fg',
-    'bg-danger-subtle text-rose-800',
-    'bg-warning-subtle text-warning',
-    'bg-accent-subtle text-accent-fg',
-    'bg-fuchsia-100 text-fuchsia-800',
-    'bg-accent-subtle text-accent-fg',
+    'bg-accent-subtle dark:bg-accent-pressed/30 text-accent-fg dark:text-emerald-200',
+    'bg-info-subtle dark:bg-blue-900/30 text-blue-800 dark:text-blue-200',
+    'bg-accent-subtle dark:bg-accent-pressed/30 text-accent-fg dark:text-violet-200',
+    'bg-danger-subtle dark:bg-rose-900/30 text-rose-800 dark:text-rose-200',
+    'bg-warning-subtle dark:bg-amber-900/30 text-warning dark:text-amber-200',
+    'bg-accent-subtle dark:bg-accent-pressed/30 text-accent-fg dark:text-cyan-200',
+    'bg-fuchsia-100 dark:bg-fuchsia-900/30 text-fuchsia-800 dark:text-fuchsia-200',
+    'bg-accent-subtle dark:bg-accent-pressed/30 text-accent-fg dark:text-teal-200',
   ];
   const color = palette[ch.charCodeAt(0) % palette.length];
   const dim = size === 'sm' ? 'w-6 h-6 text-meta' : 'w-8 h-8 text-xs';
@@ -270,21 +272,66 @@ function EmailSenderHeader({ message, outgoing, conversation }) {
 }
 
 /**
- * Renders sanitized email HTML body inside a bubble. Isolates the HTML
- * from bleeding into the surrounding chat layout by wrapping in a
- * constrained container with reset styles. All external images inside
- * are given loading=lazy and max-width so a marketing email with 10 huge
- * hero images doesn't tank scroll performance.
+ * Renders sanitized email HTML in its own sandboxed document, the way webmail
+ * clients do: the email's own <style> and table layout apply exactly as
+ * designed, and neither the app's CSS nor the email's can affect the other.
+ * No scripts run inside (see lib/omnichannel/emailFrame.js). The frame grows
+ * to fit its content so it reads like part of the thread, not a scroll box.
  */
-function EmailHtmlBody({ html }) {
+export function EmailHtmlBody({ html }) {
+  const frameRef = useRef(null);
+  const [height, setHeight] = useState(80);
+  const srcDoc = useMemo(() => buildEmailDocument(html), [html]);
+
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame) return undefined;
+    const timers = [];
+    let widthObserver;
+
+    const measure = () => {
+      const doc = frame.contentDocument;
+      if (!doc?.body) return;
+      const next = Math.max(doc.documentElement.scrollHeight, doc.body.scrollHeight);
+      if (next > 0) setHeight((prev) => (Math.abs(prev - next) > 1 ? next : prev));
+    };
+    const onLoad = () => {
+      measure();
+      // Images and web fonts change the height after load.
+      frame.contentDocument?.querySelectorAll('img').forEach((img) => {
+        if (!img.complete) {
+          img.addEventListener('load', measure, { once: true });
+          img.addEventListener('error', measure, { once: true });
+        }
+      });
+      [300, 1000, 2500].forEach((ms) => timers.push(setTimeout(measure, ms)));
+    };
+
+    frame.addEventListener('load', onLoad);
+    // The document may already have loaded before this effect attached.
+    if (frame.contentDocument?.readyState === 'complete' && frame.contentDocument.body?.childNodes.length) onLoad();
+    // Re-flow when the thread panel is resized (sidebar toggle, window resize).
+    if (typeof ResizeObserver !== 'undefined') {
+      widthObserver = new ResizeObserver(measure);
+      widthObserver.observe(frame);
+    }
+    return () => {
+      frame.removeEventListener('load', onLoad);
+      widthObserver?.disconnect();
+      timers.forEach(clearTimeout);
+    };
+  }, [srcDoc]);
+
   return (
-    <div
-      className="email-html-body max-w-full overflow-hidden text-sm leading-relaxed"
-      // eslint-disable-next-line react/no-danger
-      dangerouslySetInnerHTML={{ __html: html }}
-      style={{
-        wordBreak: 'break-word',
-      }}
+    <iframe
+      ref={frameRef}
+      title="Email content"
+      srcDoc={srcDoc}
+      sandbox={EMAIL_FRAME_SANDBOX}
+      referrerPolicy="no-referrer"
+      loading="lazy"
+      className="block w-full border-0 bg-canvas"
+      style={{ height }}
     />
   );
 }
@@ -311,7 +358,7 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
   if (message.direction === 'system') {
     return (
       <div className="flex justify-center my-3">
-        <span className="px-3 py-1 text-meta text-fg-tertiary bg-canvas/80 dark:bg-slate-800/80 border border-line/60 dark:border-slate-700 rounded-full">
+        <span className="px-3 py-1 text-meta text-fg-tertiary dark:text-fg-tertiary bg-white/80 dark:bg-slate-800/80 border border-line/60 dark:border-slate-700 rounded-full">
           {message.content?.body}
         </span>
       </div>
@@ -331,7 +378,7 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
             type="button"
             onClick={() => onAction(message._id, 'restore')}
             title="Restore message"
-            className="ml-1 p-0.5 rounded text-fg-tertiary hover:text-accent-fg hover:bg-canvas dark:hover:bg-slate-700 opacity-0 group-hover:opacity-100 transition-opacity"
+            className="ml-1 p-0.5 rounded text-fg-tertiary hover:text-accent-fg dark:hover:text-accent-fg hover:bg-canvas dark:hover:bg-slate-700 opacity-0 group-hover:opacity-100 transition-opacity"
           >
             <RotateCcw className="w-3.5 h-3.5" />
           </button>
@@ -352,45 +399,10 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
   // a "..." toggle so agents can peek at prior thread context without it
   // dominating the bubble. `newBody` is what shows by default; `quotedBody`
   // is the collapsed section revealed on click.
-  const { newBody, quotedBody } = useMemo(() => {
-    if (message.type !== 'email' || !rawBody) return { newBody: rawBody, quotedBody: '' };
-
-    // Find where the quoted section starts. Priority order matches how the
-    // three major mail clients wrap replies:
-    //   - Gmail:   "On <date>, <name> <email> wrote:"
-    //   - Outlook: "-----Original Message-----" divider
-    //   - Outlook: "From: X\nSent: Y" header block
-    //   - Everyone: leading ">" line prefixes (older clients)
-    const markers = [
-      /(^|\n)\s*On\s[\s\S]+?wrote:/i,
-      /(^|\n)\s*-----\s*Original Message\s*-----/i,
-      /(^|\n)\s*From:\s.+\r?\nSent:\s/i,
-    ];
-    let splitAt = -1;
-    for (const m of markers) {
-      const match = rawBody.match(m);
-      if (match) {
-        splitAt = match.index + (match[1] ? match[1].length : 0);
-        break;
-      }
-    }
-    // Fallback — if no explicit marker, look for the first run of ">" quoted
-    // lines and split there. Catches older mail clients that don't emit a
-    // "wrote:" preamble.
-    if (splitAt < 0) {
-      const lines = rawBody.split('\n');
-      const quoteStartIdx = lines.findIndex((line) => /^\s*>/.test(line));
-      if (quoteStartIdx > 0) {
-        splitAt = lines.slice(0, quoteStartIdx).join('\n').length;
-      }
-    }
-    if (splitAt < 0) return { newBody: rawBody, quotedBody: '' };
-
-    return {
-      newBody: rawBody.slice(0, splitAt).trim(),
-      quotedBody: rawBody.slice(splitAt).trim(),
-    };
-  }, [rawBody, message.type]);
+  const { newBody, quotedBody } = useMemo(
+    () => (message.type !== 'email' ? { newBody: rawBody, quotedBody: '' } : splitQuotedBody(rawBody)),
+    [rawBody, message.type]
+  );
   const bodyText = newBody;
   const [quoteExpanded, setQuoteExpanded] = useState(false);
 
@@ -436,7 +448,7 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
             <button
               type="button"
               onClick={() => onAction(message._id, 'reply')}
-              className="p-1 rounded hover:bg-muted dark:hover:bg-slate-800 text-fg-tertiary hover:text-info"
+              className="p-1 rounded hover:bg-muted dark:hover:bg-slate-800 text-fg-tertiary hover:text-info dark:hover:text-blue-400"
               title="Reply to this message"
             >
               <CornerUpLeft className="w-3.5 h-3.5" />
@@ -445,7 +457,7 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
           <button
             type="button"
             onClick={() => onAction(message._id, message.starred ? 'unstar' : 'star')}
-            className={`p-1 rounded hover:bg-muted dark:hover:bg-slate-800 ${message.starred ? 'text-accent-fg' : 'text-fg-tertiary'}`}
+            className={`p-1 rounded hover:bg-muted dark:hover:bg-slate-800 ${message.starred ? 'text-accent-fg dark:text-accent-fg' : 'text-fg-tertiary'}`}
             title={message.starred ? 'Remove star' : 'Star message'}
           >
             <Star className="w-3.5 h-3.5" fill={message.starred ? 'currentColor' : 'none'} />
@@ -453,7 +465,7 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
           <button
             type="button"
             onClick={() => onAction(message._id, 'trash')}
-            className="p-1 rounded text-fg-tertiary hover:text-danger hover:bg-muted dark:hover:bg-slate-800"
+            className="p-1 rounded text-fg-tertiary hover:text-danger dark:hover:text-rose-400 hover:bg-muted dark:hover:bg-slate-800"
             title="Delete message"
             aria-label="Delete message"
           >
@@ -514,7 +526,7 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
             <button
               type="button"
               onClick={() => setQuoteExpanded((v) => !v)}
-              className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-fg-tertiary hover:text-fg hover:bg-muted/60 dark:hover:bg-slate-800/60 transition-colors leading-none"
+              className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-fg-tertiary dark:text-fg-tertiary hover:text-fg dark:hover:text-slate-100 hover:bg-muted/60 dark:hover:bg-slate-800/60 transition-colors leading-none"
               title={quoteExpanded ? 'Hide quoted history' : 'Show quoted history'}
               aria-expanded={quoteExpanded}
             >
@@ -567,7 +579,7 @@ function MessageBubble({ message, onAction, showSenderHeader = false, groupedWit
   );
 }
 
-function FailedIndicator({ message }) {
+export function FailedIndicator({ message }) {
   const [open, setOpen] = useState(false);
   const err = message.rawMetadata?.deliveryError || message.error;
   const raw = typeof err === 'string' ? err : (err?.details || err?.message || '');
@@ -583,7 +595,7 @@ function FailedIndicator({ message }) {
       <button
         type="button"
         onClick={(e) => { e.stopPropagation(); setOpen((v) => !v); }}
-        className="inline-flex items-center gap-1 text-meta font-semibold text-danger hover:text-danger cursor-pointer"
+        className="inline-flex items-center gap-1 text-meta font-semibold text-danger hover:text-danger dark:hover:text-red-300 cursor-pointer"
         title="Click to see why it failed"
       >
         <AlertCircle className="w-3 h-3" /> Failed
@@ -595,7 +607,7 @@ function FailedIndicator({ message }) {
         >
           <div className="flex items-start gap-2 mb-1.5">
             {decoded?.code && (
-              <span className="text-meta font-mono px-1.5 py-0.5 rounded bg-danger-subtle border border-danger/30 text-danger shrink-0">
+              <span className="text-meta font-mono px-1.5 py-0.5 rounded bg-danger-subtle dark:bg-red-950/30 border border-danger/30 dark:border-red-800 text-danger dark:text-red-300 shrink-0">
                 {decoded.code}
               </span>
             )}
@@ -614,12 +626,12 @@ function FailedIndicator({ message }) {
             </p>
           )}
           {raw && !decoded?.isKnown && (
-            <p className="text-meta text-fg-tertiary font-mono break-words">{String(raw).slice(0, 240)}</p>
+            <p className="text-meta text-fg-tertiary dark:text-fg-tertiary font-mono break-words">{String(raw).slice(0, 240)}</p>
           )}
           <button
             type="button"
             onClick={() => setOpen(false)}
-            className="mt-2 text-meta text-fg-tertiary hover:underline"
+            className="mt-2 text-meta text-fg-tertiary dark:text-fg-tertiary hover:underline"
           >
             Close
           </button>

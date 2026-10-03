@@ -1,12 +1,14 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import Link from 'next/link';
-import { Plus, Upload, MessageSquare, UserCheck, ListFilter } from 'lucide-react';
+import { Plus, Upload, UserCheck, ListFilter } from 'lucide-react';
 
+const WhatsAppColored = (props) => <WhatsAppIcon colored {...props} />;
 const actions = [
   { label: 'New Lead', href: '/automation/leads/new', icon: Plus },
   { label: 'Import', href: '/automation/leads?import=1', icon: Upload },
-  { label: 'WhatsApp', href: '/automation/chat', icon: MessageSquare },
+  { label: 'WhatsApp', href: '/automation/chat', icon: WhatsAppColored },
   { label: 'Assign', href: '/automation/leads?action=assign', icon: UserCheck },
   { label: 'Filter Leads', href: '/automation/leads', icon: ListFilter }
 ];

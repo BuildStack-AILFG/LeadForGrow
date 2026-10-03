@@ -24,7 +24,7 @@ export default function TaskTable({ tasks, onMarkDone, onReschedule, onCommunica
           <tbody>
             {tasks.length === 0 ? (
               <tr>
-                <td colSpan={TABLE_COLUMNS.length} className="py-16 text-center text-sm text-fg-tertiary">
+                <td colSpan={TABLE_COLUMNS.length} className="py-16 text-center text-sm text-fg-tertiary dark:text-fg-tertiary">
                   No tasks match this filter.
                 </td>
               </tr>

@@ -7,8 +7,8 @@ import cx from '@/app/components/ui/cx';
  */
 export default function LogoMark({ size = 20, className }) {
   const mask = {
-    WebkitMaskImage: 'url(/image.png)',
-    maskImage: 'url(/image.png)',
+    WebkitMaskImage: 'url(/logo-mark.webp)',
+    maskImage: 'url(/logo-mark.webp)',
     WebkitMaskSize: 'contain',
     maskSize: 'contain',
     WebkitMaskRepeat: 'no-repeat',

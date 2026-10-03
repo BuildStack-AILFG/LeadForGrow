@@ -6,6 +6,7 @@ import AdminSidebar, { AdminMobileHeader } from './components/AdminSidebar';
 import AdminDashboard from './components/AdminDashboard';
 import AdminModelView from './components/AdminModelView';
 import AdminRecordModal from './components/AdminRecordModal';
+import LeakAudit from './components/leak/LeakAudit';
 
 export default function LFGAdminPage() {
   const admin = useAdminPanel();
@@ -23,21 +24,22 @@ export default function LFGAdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f4f6fa] dark:bg-slate-950 flex">
+    <div className="min-h-screen bg-[#f4f6fa] dark:bg-slate-950 flex print:bg-white print:block">
       <AdminSidebar
         models={admin.models}
         activeView={admin.activeView}
         selectedModel={admin.selectedModel}
         onOverview={admin.goToOverview}
+        onLeakAudit={admin.goToLeakAudit}
         onSelectModel={admin.selectModel}
         onLogout={admin.logout}
         open={admin.sidebarOpen}
         onClose={() => admin.setSidebarOpen(false)}
       />
 
-      <main className="flex-1 flex flex-col min-h-screen overflow-hidden">
+      <main className="flex-1 flex flex-col min-h-screen overflow-hidden print:overflow-visible print:block">
         {/* Top bar */}
-        <header className="sticky top-0 z-20 bg-white/80 dark:bg-slate-950/80 backdrop-blur border-b border-slate-200 dark:border-slate-800 px-4 sm:px-6 py-3 flex items-center gap-3">
+        <header className="print:hidden sticky top-0 z-20 bg-white/80 dark:bg-slate-950/80 backdrop-blur border-b border-slate-200 dark:border-slate-800 px-4 sm:px-6 py-3 flex items-center gap-3">
           <AdminMobileHeader onMenuOpen={() => admin.setSidebarOpen(true)} />
           <div className="flex-1 min-w-0">
             <p className="text-xs text-slate-400 hidden sm:block">LeadForGrow · Production database</p>
@@ -47,8 +49,10 @@ export default function LFGAdminPage() {
           </span>
         </header>
 
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
-          {admin.activeView === 'overview' ? (
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 print:overflow-visible print:p-0">
+          {admin.activeView === 'leakAudit' ? (
+            <LeakAudit password={admin.password} />
+          ) : admin.activeView === 'overview' ? (
             <AdminDashboard
               dashboard={admin.dashboard}
               loading={admin.loading}

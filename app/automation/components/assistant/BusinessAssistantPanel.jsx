@@ -20,7 +20,7 @@ function renderMarkdown(text) {
 
 function MetricPill({ icon: Icon, label, value, color }) {
   return (
-    <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-canvas/5 border border-white/10">
+    <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 dark:bg-slate-900/5 border border-white/10">
       <Icon className={`w-3.5 h-3.5 ${color}`} />
       <div>
         <p className="text-meta text-fg-tertiary">{label}</p>
@@ -89,12 +89,12 @@ export default function BusinessAssistantPanel() {
                     <button
                       type="button"
                       onClick={() => chat.reset()}
-                      className="p-2 rounded-lg text-fg-tertiary hover:text-white hover:bg-canvas/10 transition-colors"
+                      className="p-2 rounded-lg text-fg-tertiary hover:text-white hover:bg-white/10 dark:hover:bg-slate-800/10 transition-colors"
                       title="Reset chat"
                     >
                       <RotateCcw className="w-4 h-4" />
                     </button>
-                    <button type="button" onClick={close} className="p-2 rounded-lg text-fg-tertiary hover:text-white hover:bg-canvas/10 transition-colors">
+                    <button type="button" onClick={close} className="p-2 rounded-lg text-fg-tertiary hover:text-white hover:bg-white/10 dark:hover:bg-slate-800/10 transition-colors">
                       <X className="w-4 h-4" />
                     </button>
                   </div>
@@ -126,12 +126,12 @@ export default function BusinessAssistantPanel() {
                           ? 'bg-accent text-white rounded-br-md'
                           : msg.error
                             ? 'bg-danger/10 text-red-300 border border-danger/20 rounded-bl-md'
-                            : 'bg-white/[0.06] text-slate-200 border border-white/[0.08] rounded-bl-md'
+                            : 'bg-canvas dark:bg-slate-900/[0.06] text-slate-200 border border-white dark:border-slate-700/[0.08] rounded-bl-md'
                       }`}
                       dangerouslySetInnerHTML={{ __html: renderMarkdown(msg.content) }}
                     />
                     {msg.source && msg.role === 'assistant' && (
-                      <p className="text-meta text-fg-secondary mt-1 ml-1">{msg.source === 'ai' ? 'Live data' : 'Insights'}</p>
+                      <p className="text-meta text-fg-secondary dark:text-fg-disabled mt-1 ml-1">{msg.source === 'ai' ? 'Live data' : 'Insights'}</p>
                     )}
                     {msg.suggestions && (
                       <div className="mt-3 flex flex-col gap-1.5">
@@ -140,7 +140,7 @@ export default function BusinessAssistantPanel() {
                             key={s}
                             type="button"
                             onClick={() => chat.sendMessage(s)}
-                            className="group flex items-center justify-between px-3 py-2.5 rounded-lg bg-white/[0.04] border border-white/[0.08] text-left text-xs text-fg-disabled hover:bg-accent/10 hover:border-accent/30 hover:text-accent-fg transition-all"
+                            className="group flex items-center justify-between px-3 py-2.5 rounded-lg bg-canvas dark:bg-slate-900/[0.04] border border-white dark:border-slate-700/[0.08] text-left text-xs text-fg-disabled hover:bg-accent/10 hover:border-accent/30 hover:text-accent-fg transition-all"
                           >
                             {s}
                             <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -157,7 +157,7 @@ export default function BusinessAssistantPanel() {
                   <div className="w-7 h-7 rounded-lg bg-canvas border border-line border border-accent/25 flex items-center justify-center text-fg-secondary">
                     <GroviaIcon className="w-3.5 h-3.5" />
                   </div>
-                  <div className="px-4 py-3 rounded-lg bg-white/[0.04] border border-white/[0.08] flex items-center gap-2">
+                  <div className="px-4 py-3 rounded-lg bg-canvas dark:bg-slate-900/[0.04] border border-white dark:border-slate-700/[0.08] flex items-center gap-2">
                     <Loader2 className="w-4 h-4 text-accent-fg animate-spin" />
                     <span className="text-xs text-fg-tertiary">Checking your numbers…</span>
                   </div>
@@ -167,7 +167,7 @@ export default function BusinessAssistantPanel() {
             </div>
 
             {/* Input */}
-            <div className="shrink-0 p-4 border-t border-white/[0.06] bg-[#0a0f1a]/80">
+            <div className="shrink-0 p-4 border-t border-white dark:border-slate-700/[0.06] bg-[#0a0f1a]/80">
               <form
                 onSubmit={(e) => { e.preventDefault(); chat.sendMessage(); }}
                 className="flex items-end gap-2"
@@ -183,7 +183,7 @@ export default function BusinessAssistantPanel() {
                   }}
                   rows={1}
                   placeholder="Ask about pipeline, leads, automations…"
-                  className="flex-1 resize-none px-4 py-3 rounded-lg bg-white/[0.06] border border-white/10 text-sm text-white placeholder:text-fg-tertiary focus:outline-none focus:ring-2 focus:ring-focus max-h-28"
+                  className="flex-1 resize-none px-4 py-3 rounded-lg bg-canvas dark:bg-slate-900/[0.06] border border-white/10 text-sm text-white placeholder:text-fg-tertiary dark:placeholder:text-fg-tertiary focus:outline-none focus:ring-2 focus:ring-focus max-h-28"
                 />
                 <button
                   type="submit"
@@ -193,7 +193,7 @@ export default function BusinessAssistantPanel() {
                   <Send className="w-4 h-4" />
                 </button>
               </form>
-              <p className="text-meta text-fg-secondary text-center mt-2">
+              <p className="text-meta text-fg-secondary dark:text-fg-disabled text-center mt-2">
                 {ASSISTANT_NAME} · Private to your team · Not visible to leads
               </p>
             </div>

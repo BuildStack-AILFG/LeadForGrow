@@ -14,15 +14,15 @@ export default function CreateFormModal({ onClose, onCreate }) {
         <h2 className="text-title font-semibold text-fg dark:text-slate-50 mb-4">Create lead capture form</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-fg-tertiary mb-1">Form name</label>
+            <label className="block text-xs font-semibold text-fg-tertiary dark:text-fg-tertiary mb-1">Form name</label>
             <input name="name" required placeholder="Contact form, Quote request…" className="w-full px-3 py-2.5 text-sm border border-line dark:border-slate-700 rounded-lg bg-canvas dark:bg-slate-900" />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-fg-tertiary mb-1">Description</label>
+            <label className="block text-xs font-semibold text-fg-tertiary dark:text-fg-tertiary mb-1">Description</label>
             <textarea name="description" rows={2} placeholder="What is this form for?" className="w-full px-3 py-2.5 text-sm border border-line dark:border-slate-700 rounded-lg bg-canvas dark:bg-slate-900" />
           </div>
           <div className="flex gap-2 pt-2">
-            <button type="button" onClick={onClose} className="flex-1 py-2.5 text-sm font-medium text-fg-secondary bg-muted dark:bg-slate-800 rounded-lg">Cancel</button>
+            <button type="button" onClick={onClose} className="flex-1 py-2.5 text-sm font-medium text-fg-secondary dark:text-fg-disabled bg-muted dark:bg-slate-800 rounded-lg">Cancel</button>
             <button type="submit" className="flex-1 py-2.5 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-lg">Create</button>
           </div>
         </form>

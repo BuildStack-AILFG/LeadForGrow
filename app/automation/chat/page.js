@@ -1,11 +1,11 @@
 'use client';
 
+import { htmlToPlainText } from '@/lib/omnichannel/draftFields';
 import { Suspense, useState, useMemo, useEffect } from 'react';
-import { MessageSquare, FileText, Trash2, PanelLeftOpen, PanelRightOpen, ChevronUp, ChevronDown, PenLine } from 'lucide-react';
+import { MessageSquare, FileText, Trash2, PanelLeftOpen, ChevronUp, ChevronDown, PenLine } from 'lucide-react';
 import { authFetch } from '@/lib/apiClient';
 import { useChatInbox } from '../hooks/useChatInbox';
 import ChatSidebar from '../components/chat/ChatSidebar';
-import EmailFolderBar from '../components/chat/EmailFolderBar';
 import ChatHeader from '../components/chat/ChatHeader';
 import MessageList from '../components/chat/MessageList';
 import ChatInput from '../components/chat/ChatInput';
@@ -13,41 +13,83 @@ import AiReplyBar from '../components/ai/AiReplyBar';
 import CRMProfilePanel from '../components/chat/CRMProfilePanel';
 import OutOfWindowTemplateBar, { useIsWithin24hWindow } from '../components/chat/OutOfWindowTemplateBar';
 import LostReasonModal from '../components/leads/LostReasonModal';
+import { makeNewChat, isNewChat } from '@/lib/omnichannel/newChat';
+import { toast } from 'react-hot-toast';
 import { useConfirm } from '@/app/components/ConfirmProvider';
+import PostContextCard from '../components/chat/PostContextCard';
+
+const PROFILE_COLLAPSED_KEY = 'lfg_ui_inbox_profile_collapsed';
 
 function ChatInboxContent() {
-  const inbox = useChatInbox();
+  // Email folder (Inbox/Sent/Drafts/Trash/Spam/Starred) — declared before the
+  // inbox hook so it can drive the conversation-list query for the email tab.
+  const [emailFolder, setEmailFolder] = useState('inbox');
+  const [socialFilter, setSocialFilter] = useState('all');
+  const inbox = useChatInbox({ emailFolder, socialFilter });
   const confirm = useConfirm();
   const [mobileView, setMobileView] = useState('list');
+  // Customer profile panel. Below the xl breakpoint it is an overlay (profileOpen); from xl up it is a right column that is
+  // open by default and can be closed with the X / the header button — the choice is remembered per browser (lfg_ui_ keys
+  // also survive logout, see lib/clientStorage.js).
   const [profileOpen, setProfileOpen] = useState(false);
-  const [emailFolder, setEmailFolder] = useState('inbox');
+  const [profileCollapsed, setProfileCollapsed] = useState(false);
+  useEffect(() => {
+    try { if (localStorage.getItem(PROFILE_COLLAPSED_KEY) === '1') setProfileCollapsed(true); } catch { /* storage blocked: stay open */ }
+  }, []);
+  const setCollapsed = (collapsed) => {
+    setProfileCollapsed(collapsed);
+    try { localStorage.setItem(PROFILE_COLLAPSED_KEY, collapsed ? '1' : '0'); } catch { /* not remembered */ }
+  };
+  const handleProfileToggle = () => {
+    const wide = typeof window !== 'undefined' && window.matchMedia('(min-width: 1280px)').matches;
+    if (wide) setCollapsed(!profileCollapsed);
+    else setProfileOpen(true);
+  };
+  // The fixed Help / Grovia buttons live in the bottom-right corner (~72px). Reserve that strip on the message list and the
+  // composer whenever they would sit over the chat: always below xl (profile is an overlay), and at xl when the profile panel
+  // is closed. With the panel open they float over the panel instead (which reserves its own space).
+  const listGutter = profileCollapsed ? 'pr-[76px]' : 'pr-[76px] xl:pr-4';
+  const composerGutter = profileCollapsed ? 'pr-[76px]' : 'pr-[76px] xl:pr-0';
 
   const [aiReplyText, setAiReplyText] = useState(null);
 
-  // Layout preferences (remembered per browser): hide the conversation list
-  // or the customer panel to give the thread more room, and keep the reply
-  // composer folded down until the agent asks for it.
+  // Conversation list can be hidden to give the thread more room (remembered).
   const [listCollapsed, setListCollapsed] = useState(false);
-  const [profileCollapsed, setProfileCollapsed] = useState(false);
-  const [composerOpen, setComposerOpen] = useState(false);
   useEffect(() => {
-    try {
-      setListCollapsed(localStorage.getItem('lfg.inbox.listCollapsed') === '1');
-      setProfileCollapsed(localStorage.getItem('lfg.inbox.profileCollapsed') === '1');
-    } catch {}
+    try { if (localStorage.getItem('lfg_ui_inbox_list_collapsed') === '1') setListCollapsed(true); } catch { /* storage blocked */ }
   }, []);
-  const persist = (key, value) => {
-    try { localStorage.setItem(key, value ? '1' : '0'); } catch {}
+  const toggleList = (collapsed) => {
+    setListCollapsed(collapsed);
+    try { localStorage.setItem('lfg_ui_inbox_list_collapsed', collapsed ? '1' : '0'); } catch { /* not remembered */ }
   };
-  const toggleList = (v) => { setListCollapsed(v); persist('lfg.inbox.listCollapsed', v); };
-  const toggleProfile = (v) => { setProfileCollapsed(v); persist('lfg.inbox.profileCollapsed', v); };
-  // Fold the composer back down whenever a different conversation opens, and
-  // pop it open when something is inserted into it (AI reply, draft).
-  useEffect(() => { setComposerOpen(false); }, [inbox.selectedChat?._id]);
+  // Chat (non-email) composer starts folded into a one-line "Reply to …" bar;
+  // ▲ opens it, ▼ folds it again. Email has its own collapse-on-open composer.
+  const [chatComposerOpen, setChatComposerOpen] = useState(false);
+  useEffect(() => { setChatComposerOpen(false); }, [inbox.selectedChat?._id]);
   useEffect(() => {
-    const open = () => setComposerOpen(true);
+    const open = () => setChatComposerOpen(true);
     window.addEventListener('lfg:insert-reply', open);
     return () => window.removeEventListener('lfg:insert-reply', open);
+  }, []);
+  // Whether the email reply composer is open. Drives the AI-reply tone bar's
+  // visibility so an opened email thread stays clean until the user clicks Reply.
+  const [emailComposerOpen, setEmailComposerOpen] = useState(false);
+
+  // AI reply assist is a paid/important feature — the tone bar appears only when
+  // it's enabled AND a provider is configured. Fetched once per mount; defaults
+  // to hidden until confirmed so it never flashes for tenants without it.
+  const [aiReplyEnabled, setAiReplyEnabled] = useState(false);
+  useEffect(() => {
+    let alive = true;
+    authFetch('/api/ai/settings')
+      .then((r) => r.json())
+      .then((d) => {
+        if (!alive || !d?.success) return;
+        const s = d.data || {};
+        setAiReplyEnabled(!!s.configured && s.enabled !== false && s.replyAssistEnabled !== false);
+      })
+      .catch(() => {});
+    return () => { alive = false; };
   }, []);
 
   // Drafts folder was a hardcoded-empty stub — this actually fetches from the
@@ -79,7 +121,13 @@ function ChatInboxContent() {
   }, [emailFolder, isEmailChat, conversationId]);
 
   const continueDraft = (draft) => {
-    window.dispatchEvent(new CustomEvent('lfg:insert-reply', { detail: { text: draft.bodyText || '' } }));
+    // Older drafts were saved as HTML only (no bodyText), so fall back to the HTML.
+    const text = draft.bodyText || htmlToPlainText(draft.bodyHtml);
+    const emails = (list) => (list || []).map((c) => c?.email).filter(Boolean).join(', ');
+    if (draft.subject) inbox.setEmailSubject(draft.subject);
+    inbox.setEmailCc(emails(draft.cc));
+    inbox.setEmailBcc(emails(draft.bcc));
+    window.dispatchEvent(new CustomEvent('lfg:insert-reply', { detail: { text } }));
     setEmailFolder('inbox');
   };
 
@@ -89,8 +137,11 @@ function ChatInboxContent() {
     setEmailDrafts((prev) => prev.filter((d) => d._id !== draft._id));
   };
 
+  const newChat = isNewChat(inbox.selectedChat);
+  // A new chat needs no take-over: its composer is the template picker (the only thing WhatsApp allows as a first message).
   const canReply =
-    inbox.selectedChat?.channel === 'whatsapp'
+    newChat ? true
+    : inbox.selectedChat?.channel === 'whatsapp'
       ? inbox.selectedChat?.inboxStatus === 'intervened' || inbox.selectedChat?.status === 'intervened'
       : !!inbox.selectedChat;
 
@@ -165,38 +216,19 @@ function ChatInboxContent() {
     if (inbox.selectedChat?.channel !== 'email') {
       return { visibleMessages: inbox.messages, emptyLabel: null };
     }
-    switch (emailFolder) {
-      case 'sent':
-        return {
-          visibleMessages: inbox.messages.filter(
-            (m) => m.direction === 'outgoing' && !m.isDeleted
-          ),
-          emptyLabel: 'No sent messages in this conversation yet.',
-        };
-      case 'drafts':
-        // Drafts live in the EmailDraft collection — not the Message list.
-        // Wire it to /api/automation/inbox/email/folders?folder=drafts later.
-        return {
-          visibleMessages: [],
-          emptyLabel: 'Scheduled drafts appear here. Use "Save draft" in the composer to add one.',
-        };
-      case 'starred':
-        return {
-          visibleMessages: inbox.messages.filter((m) => m.starred && !m.isDeleted),
-          emptyLabel: 'No starred messages. Hover any message and click the ★ to star it.',
-        };
-      case 'trash':
-        return {
-          visibleMessages: inbox.messages.filter((m) => m.isDeleted),
-          emptyLabel: 'Trash is empty. Deleted messages appear here.',
-        };
-      case 'inbox':
-      default:
-        return {
-          visibleMessages: inbox.messages.filter((m) => !m.isDeleted),
-          emptyLabel: 'No messages yet in this conversation.',
-        };
+    // Drafts are a special right-pane view (EmailDraft, not thread messages).
+    if (emailFolder === 'drafts') {
+      return {
+        visibleMessages: [],
+        emptyLabel: 'Saved drafts appear here. Use "Save draft" in the composer to add one.',
+      };
     }
+    // Folders now filter the conversation LIST (in the sidebar), so an open
+    // thread always shows its full history — not a per-folder slice.
+    return {
+      visibleMessages: inbox.messages.filter((m) => !m.isDeleted),
+      emptyLabel: 'No messages yet in this conversation.',
+    };
   }, [inbox.messages, emailFolder, inbox.selectedChat?.channel]);
 
   const aiSuggestion = inbox.intelligence?.nextAction?.action
@@ -209,21 +241,42 @@ function ChatInboxContent() {
       inbox.selectChat(match);
       setMobileView('chat');
     } else if (result.type === 'lead') {
-      const match = inbox.conversations.find(
-        (c) => c.leadId?._id === result.item._id || c.leadId === result.item._id
-      );
-      if (match) {
-        inbox.selectChat(match);
+      const lead = result.item;
+      // The search API says which conversation (WhatsApp first) belongs to the lead; prefer the loaded copy of it.
+      const known = lead.conversation
+        ? inbox.conversations.find((c) => c._id === lead.conversation._id) || lead.conversation
+        : null;
+      if (known) {
+        inbox.selectChat(known);
         setMobileView('chat');
+      } else if (lead.phone) {
+        // Never messaged: there is no conversation yet. Open a NEW CHAT in the normal layout (header, thread, CRM panel);
+        // WhatsApp only allows an approved template as the first message, so the composer is the template picker.
+        inbox.selectChat(makeNewChat(lead));
+        setMobileView('chat');
+      } else {
+        toast.error(`${lead.name || 'This lead'} has no phone number, so there is no WhatsApp chat to start. Open the lead and add one.`);
       }
     }
     inbox.setSearch('');
   };
 
+  // The conversation a new chat creates (its first template) is not in the current list view (e.g. Needs reply: we wrote last),
+  // so ask the server for it instead of waiting for it to appear in the list.
+  const findLeadConversation = async (lead) => {
+    try {
+      const res = await authFetch(`/api/automation/inbox/search?type=leads&q=${encodeURIComponent(lead.phone || lead.name || '')}`);
+      const data = await res.json();
+      return (data.data?.leads || []).find((l) => String(l._id) === String(lead._id))?.conversation || null;
+    } catch {
+      return null;
+    }
+  };
+
   return (
     <div className="flex h-[calc(100vh-0px)] bg-subtle dark:bg-slate-950 overflow-hidden font-[family-name:var(--font-whatsapp)]">
       {listCollapsed && (
-        <div className="hidden lg:flex h-full w-11 flex-shrink-0 flex-col items-center gap-2 border-r border-line bg-canvas py-3">
+        <div className="hidden lg:flex h-full w-11 flex-shrink-0 flex-col items-center border-r border-line bg-canvas py-3">
           <button
             type="button"
             onClick={() => toggleList(false)}
@@ -236,7 +289,7 @@ function ChatInboxContent() {
         </div>
       )}
       <div
-        className={`${mobileView === 'list' ? 'flex' : 'hidden'} ${listCollapsed ? 'lg:hidden' : 'lg:flex'} h-full flex-shrink-0 w-full lg:w-[360px] xl:w-[380px]`}
+        className={`${mobileView === 'list' ? 'flex' : 'hidden'} ${listCollapsed ? 'lg:hidden' : 'lg:flex'} h-full flex-shrink-0 w-full lg:w-[320px] xl:w-[360px] 2xl:w-[380px]`}
       >
         <ChatSidebar
           conversations={inbox.conversations}
@@ -245,10 +298,20 @@ function ChatInboxContent() {
           onFilterChange={inbox.setFilter}
           channelFilter={inbox.channelFilter}
           onChannelFilterChange={inbox.setChannelFilter}
+          emailFolder={emailFolder}
+          onEmailFolderChange={setEmailFolder}
+          socialFilter={socialFilter}
+          onSocialFilterChange={setSocialFilter}
           search={inbox.search}
           onSearchChange={inbox.setSearch}
           searchResults={inbox.searchResults}
           onSelectSearchResult={handleSearchResult}
+          viewCounts={inbox.viewCounts}
+          onMarkDone={inbox.markDone}
+          onAssignToMe={inbox.assignToMe}
+          onAssignTo={inbox.assignTo}
+          teamMembers={inbox.teamMembers}
+          currentUserId={inbox.currentUserId}
           onSelect={(chat) => {
             inbox.selectChat(chat);
             setMobileView('chat');
@@ -257,6 +320,7 @@ function ChatInboxContent() {
           hasMoreConversations={inbox.hasMoreConversations}
           loadingMoreConversations={inbox.loadingMoreConversations}
           onLoadMoreConversations={inbox.loadMoreConversations}
+          onRefresh={inbox.refresh}
           realtimeConnected={inbox.realtimeConnected}
           onCollapse={() => toggleList(true)}
         />
@@ -276,7 +340,8 @@ function ChatInboxContent() {
           onSchedule={() => {}}
           onWon={() => inbox.updateLeadStatus('converted')}
           onLost={() => inbox.updateLeadStatus('lost')}
-          onProfile={() => setProfileOpen(true)}
+          onProfile={handleProfileToggle}
+          profileOpen={!profileCollapsed}
           onIntervene={inbox.intervene}
           onReleaseIntervene={inbox.releaseIntervene}
           onUpdateConversation={inbox.updateConversation}
@@ -287,9 +352,17 @@ function ChatInboxContent() {
 
         {inbox.selectedChat ? (
           <>
-            {inbox.selectedChat?.channel === 'email' && (
-              <EmailFolderBar active={emailFolder} onChange={setEmailFolder} />
-            )}
+            {/* Folder navigation now lives in the sidebar (it filters the list),
+                so the per-thread folder bar was removed to avoid duplication. */}
+            {/* Post context — for an Instagram/Facebook comment thread, show
+                which post the comment came from (thumbnail + caption + link). */}
+            {(() => {
+              const c = inbox.selectedChat;
+              const isComment = (c.channel === 'instagram' || c.channel === 'facebook')
+                && /^(ig|fb)_comment:/.test(String(c.participantId || ''));
+              const postId = c.metadata?.lastMediaId || c.metadata?.lastPostId;
+              return isComment && postId ? <PostContextCard channel={c.channel} postId={postId} /> : null;
+            })()}
             {/* Sticky email subject bar — frozen at the top of the pane so
                 agents don't lose thread context when scrolling through a
                 long conversation. Only shown for email channel where the
@@ -300,7 +373,7 @@ function ChatInboxContent() {
               const cleanSubject = subject.replace(/^(Re:|Fwd?:|Fw:)\s*/i, '');
               const msgCount = visibleMessages.filter((m) => m.type === 'email').length;
               return (
-                <div className="sticky top-0 z-10 bg-canvas dark:bg-slate-900/95 border-b border-line dark:border-slate-700 px-4 py-2 flex items-baseline gap-2">
+                <div className="sticky top-0 z-10 bg-white/95 dark:bg-slate-900/95 border-b border-line dark:border-slate-700 px-4 py-2 flex items-baseline gap-2">
                   <p className="text-sm font-semibold text-fg dark:text-slate-100 truncate flex-1" title={subject}>
                     {cleanSubject}
                   </p>
@@ -326,7 +399,7 @@ function ChatInboxContent() {
                         <p className="text-sm font-medium text-fg dark:text-slate-100 truncate">
                           {draft.subject || '(no subject)'}
                         </p>
-                        <p className="text-xs text-fg-tertiary truncate mt-0.5">
+                        <p className="text-xs text-fg-tertiary dark:text-fg-tertiary truncate mt-0.5">
                           {draft.bodyText || 'Empty draft'}
                         </p>
                         <p className="text-meta text-fg-tertiary mt-1">
@@ -334,10 +407,10 @@ function ChatInboxContent() {
                         </p>
                       </div>
                       <div className="flex items-center gap-1 shrink-0">
-                        <button type="button" onClick={() => continueDraft(draft)} className="px-2.5 py-1.5 text-xs font-semibold text-accent-fg bg-accent-subtle hover:bg-accent-subtle rounded">
+                        <button type="button" onClick={() => continueDraft(draft)} className="px-2.5 py-1.5 text-xs font-semibold text-brand-ink bg-brand-tint hover:bg-accent-subtle dark:hover:bg-slate-700 rounded">
                           Continue editing
                         </button>
-                        <button type="button" onClick={() => deleteDraft(draft)} className="p-1.5 rounded text-fg-tertiary hover:text-danger hover:bg-danger-subtle" title="Delete draft">
+                        <button type="button" onClick={() => deleteDraft(draft)} className="p-1.5 rounded text-fg-tertiary hover:text-danger dark:hover:text-red-400 hover:bg-danger-subtle dark:hover:bg-red-950/30" title="Delete draft">
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
@@ -353,7 +426,8 @@ function ChatInboxContent() {
                 onLoadMore={inbox.loadOlderMessages}
                 loadingMore={inbox.loadingMore}
                 onMessageAction={inbox.messageAction}
-                emptyLabel={emptyLabel}
+                emptyLabel={newChat ? 'No messages yet. Send an approved template below to start the conversation.' : emptyLabel}
+                gutterClass={listGutter}
                 // Passed so MessageBubble's EmailSenderHeader can fall back
                 // to the conversation's participant when a specific Message's
                 // content.participantName/Email aren't populated (older rows
@@ -361,75 +435,11 @@ function ChatInboxContent() {
                 conversation={inbox.selectedChat}
               />
             )}
-            {composerOpen || showTemplateBar ? (
-              <div className="relative border-t border-line bg-canvas">
-                {!showTemplateBar && (
-                  <button
-                    type="button"
-                    onClick={() => setComposerOpen(false)}
-                    title="Hide reply box"
-                    aria-label="Hide reply box"
-                    className="absolute right-3 top-2 z-10 inline-flex h-7 w-7 items-center justify-center rounded-md text-fg-tertiary hover:bg-muted hover:text-fg"
-                  >
-                    <ChevronDown className="h-4 w-4" strokeWidth={1.75} />
-                  </button>
-                )}
-                {canReply && !showTemplateBar && (
-                  <AiReplyBar
-                    channel={inbox.selectedChat?.channel || 'whatsapp'}
-                    customerName={inbox.selectedChat?.leadId?.name}
-                    lastMessage={inbox.messages.filter((m) => m.direction === 'incoming').pop()?.content?.body}
-                    leadId={inbox.selectedChat?.leadId?._id || inbox.selectedChat?.leadId}
-                    conversationId={inbox.selectedChat?._id}
-                    onApply={(text) => {
-                      setAiReplyText(text);
-                      // Push the text straight into the composer instead of only
-                      // populating the passive suggestion tile (which needed a
-                      // second click). ChatInput listens for this and fills the
-                      // active reply box (textarea or email editor).
-                      window.dispatchEvent(new CustomEvent('lfg:insert-reply', { detail: { text } }));
-                    }}
-                    onSend={async (text) => inbox.sendMessage(text)}
-                  />
-                )}
-                {showTemplateBar ? (
-                  <OutOfWindowTemplateBar
-                    leadName={inbox.selectedChat?.leadId?.name}
-                    lead={inbox.selectedChat?.leadId}
-                    onSend={(template) =>
-                      inbox.sendMessage('', { template })
-                    }
-                  />
-                ) : (
-                  <ChatInput
-                    canSend={canReply}
-                    hasSelection={!!inbox.selectedChat}
-                    channel={inbox.selectedChat?.channel || 'whatsapp'}
-                    conversationId={inbox.selectedChat?._id}
-                    templates={inbox.templates}
-                    aiSuggestion={aiReplyText || aiSuggestion}
-                    onSend={inbox.sendMessage}
-                    onIntervene={inbox.intervene}
-                    onSaveDraft={inbox.selectedChat?.channel === 'email' ? inbox.saveEmailDraft : undefined}
-                    emailSubject={inbox.emailSubject}
-                    onEmailSubjectChange={inbox.setEmailSubject}
-                    emailCc={inbox.emailCc}
-                    onEmailCcChange={inbox.setEmailCc}
-                    emailBcc={inbox.emailBcc}
-                    onEmailBccChange={inbox.setEmailBcc}
-                    // Pin sender identity when replying on an existing thread.
-                    // The Conversation carries its own emailAccountId (Step 4);
-                    // ChatInput uses this to lock the From-picker so replies
-                    // always send from the mailbox that started the thread.
-                    pinnedEmailAccountId={inbox.selectedChat?.emailAccountId || null}
-                  />
-                )}
-              </div>
-            ) : (
-              <div className="flex-shrink-0 border-t border-line bg-canvas px-4 py-2.5">
+            {!showTemplateBar && inbox.selectedChat?.channel !== 'email' && !chatComposerOpen ? (
+              <div className={`flex-shrink-0 border-t border-line bg-canvas px-4 py-2.5 ${composerGutter}`}>
                 <button
                   type="button"
-                  onClick={() => setComposerOpen(true)}
+                  onClick={() => setChatComposerOpen(true)}
                   className="flex h-10 w-full items-center gap-2 rounded-lg border border-line bg-subtle px-3 text-left text-body text-fg-tertiary hover:border-accent hover:bg-accent-subtle hover:text-accent-fg"
                 >
                   <PenLine className="h-4 w-4 shrink-0" strokeWidth={1.75} />
@@ -439,32 +449,96 @@ function ChatInboxContent() {
                   <ChevronUp className="h-4 w-4 shrink-0" strokeWidth={1.75} aria-hidden />
                 </button>
               </div>
+            ) : (<>
+            {!showTemplateBar && inbox.selectedChat?.channel !== 'email' && (
+              <div className="flex justify-end border-t border-line bg-canvas px-3 pt-1">
+                <button
+                  type="button"
+                  onClick={() => setChatComposerOpen(false)}
+                  title="Hide reply box"
+                  aria-label="Hide reply box"
+                  className="inline-flex h-7 w-7 items-center justify-center rounded-md text-fg-tertiary hover:bg-muted hover:text-fg"
+                >
+                  <ChevronDown className="h-4 w-4" strokeWidth={1.75} />
+                </button>
+              </div>
             )}
+            {aiReplyEnabled && canReply && !showTemplateBar && (inbox.selectedChat?.channel !== 'email' || emailComposerOpen) && (
+              <AiReplyBar
+                channel={inbox.selectedChat?.channel || 'whatsapp'}
+                customerName={inbox.selectedChat?.leadId?.name}
+                lastMessage={inbox.messages.filter((m) => m.direction === 'incoming').pop()?.content?.body}
+                leadId={inbox.selectedChat?.leadId?._id || inbox.selectedChat?.leadId}
+                conversationId={inbox.selectedChat?._id}
+                onApply={(text) => {
+                  setAiReplyText(text);
+                  // Push the text straight into the composer instead of only
+                  // populating the passive suggestion tile (which needed a
+                  // second click). ChatInput listens for this and fills the
+                  // active reply box (textarea or email editor).
+                  window.dispatchEvent(new CustomEvent('lfg:insert-reply', { detail: { text } }));
+                }}
+                onSend={async (text) => inbox.sendMessage(text)}
+              />
+            )}
+            {showTemplateBar ? (
+              <OutOfWindowTemplateBar
+                firstContact={newChat}
+                leadName={inbox.selectedChat?.leadId?.name}
+                lead={inbox.selectedChat?.leadId}
+                onSend={async (template) => {
+                  const lead = inbox.selectedChat?.leadId;
+                  const ok = await inbox.sendMessage('', { template });
+                  if (ok === false) throw new Error('Could not send the template');
+                  if (newChat && lead) {
+                    // The server created the conversation with that message: refresh the list and switch to the real one.
+                    inbox.refresh();
+                    const conversation = await findLeadConversation(lead);
+                    if (conversation) inbox.selectChat(conversation);
+                  }
+                  return ok;
+                }}
+              />
+            ) : (
+              <ChatInput
+                canSend={canReply}
+                hasSelection={!!inbox.selectedChat}
+                channel={inbox.selectedChat?.channel || 'whatsapp'}
+                fabGutter={composerGutter}
+                conversationId={inbox.selectedChat?._id}
+                templates={inbox.templates}
+                aiSuggestion={aiReplyText || aiSuggestion}
+                onSend={inbox.sendMessage}
+                onIntervene={inbox.intervene}
+                onSaveDraft={inbox.selectedChat?.channel === 'email' ? inbox.saveEmailDraft : undefined}
+                emailSubject={inbox.emailSubject}
+                onEmailSubjectChange={inbox.setEmailSubject}
+                emailCc={inbox.emailCc}
+                onEmailCcChange={inbox.setEmailCc}
+                emailBcc={inbox.emailBcc}
+                onEmailBccChange={inbox.setEmailBcc}
+                // Pin sender identity when replying on an existing thread.
+                // The Conversation carries its own emailAccountId (Step 4);
+                // ChatInput uses this to lock the From-picker so replies
+                // always send from the mailbox that started the thread.
+                pinnedEmailAccountId={inbox.selectedChat?.emailAccountId || null}
+                onExpandedChange={setEmailComposerOpen}
+              />
+            )}
+            </>)}
           </>
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center text-center p-8">
             <div className="w-16 h-16 rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 flex items-center justify-center mb-4">
               <MessageSquare className="w-8 h-8 text-fg-disabled" />
             </div>
-            <h2 className="text-title font-semibold text-fg dark:text-slate-200">Unified Inbox</h2>
-            <p className="text-sm text-fg-tertiary mt-1 max-w-sm">WhatsApp, Instagram & Email — select a conversation to reply.</p>
+            <h2 className="text-title font-semibold text-fg">Inbox</h2>
+            <p className="mt-1 max-w-sm text-body text-fg-secondary">Pick a conversation on the left to read and reply.</p>
           </div>
         )}
       </main>
 
-      {profileCollapsed ? (
-        <div className="hidden xl:flex h-full w-11 flex-shrink-0 flex-col items-center gap-2 border-l border-line bg-canvas py-3">
-          <button
-            type="button"
-            onClick={() => toggleProfile(false)}
-            title="Show customer panel"
-            aria-label="Show customer panel"
-            className="rounded-md p-2 text-fg-secondary hover:bg-accent-subtle hover:text-accent-fg"
-          >
-            <PanelRightOpen className="h-4 w-4" strokeWidth={1.75} />
-          </button>
-        </div>
-      ) : (
+      {!profileCollapsed && (
         <CRMProfilePanel
           chat={inbox.selectedChat}
           leadDetail={inbox.leadDetail}
@@ -477,7 +551,7 @@ function ChatInboxContent() {
           onAddNote={inbox.addNote}
           onToggleLabel={inbox.toggleLabel}
           onUpdateFollowUp={inbox.updateLeadFollowUp}
-          onCollapse={() => toggleProfile(true)}
+          onClose={() => setCollapsed(true)}
         />
       )}
 
@@ -513,7 +587,7 @@ function ChatInboxContent() {
 
 export default function ChatInboxPage() {
   return (
-    <Suspense fallback={<div className="h-screen flex items-center justify-center"><div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" /></div>}>
+    <Suspense fallback={<div className="h-screen flex items-center justify-center"><div className="w-8 h-8 border-2 border-brand border-t-transparent rounded-full animate-spin" /></div>}>
       <ChatInboxContent />
     </Suspense>
   );

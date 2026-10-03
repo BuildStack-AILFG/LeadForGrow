@@ -7,8 +7,9 @@ import KnowledgeSource from '@/models/ai/KnowledgeSource';
 export const POST = withAuth()(async (req, { params }) => {
   try {
     await dbConnect();
-    const result = await ingestSource(params.id, req.user.businessId);
-    const source = await KnowledgeSource.findById(params.id).lean();
+    const { id } = await params;
+    const result = await ingestSource(id, req.user.businessId);
+    const source = await KnowledgeSource.findById(id).lean();
     return NextResponse.json({ success: true, data: { ...result, source } });
   } catch (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

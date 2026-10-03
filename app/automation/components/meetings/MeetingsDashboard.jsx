@@ -5,12 +5,14 @@ import { motion } from 'framer-motion';
 import {
   Plus,
   Link2,
-  Bot as Sparkles,
+  Sparkles,
   Calendar,
   ArrowRight,
   MessageCircle,
   Copy,
   ExternalLink,
+  Pencil,
+  ClipboardCheck,
 } from 'lucide-react';
 import MeetingsKpiRow from './MeetingsKpiRow';
 import DashboardCard from '../dashboard/primitives/DashboardCard';
@@ -29,7 +31,7 @@ function formatTime(d) {
   });
 }
 
-export default function MeetingsDashboard({ dashboard, onCreate, onNoShow, onComplete }) {
+export default function MeetingsDashboard({ dashboard, onCreate, onEdit, onNoShow, onComplete }) {
   const copyLink = (slug) => {
     const url = `${window.location.origin}/book/${slug}`;
     navigator.clipboard.writeText(url);
@@ -37,7 +39,7 @@ export default function MeetingsDashboard({ dashboard, onCreate, onNoShow, onCom
   };
 
   return (
-    <div className="space-y-6 p-4 sm:p-6">
+    <div className="space-y-6 p-4 sm:p-6 max-w-[1600px] mx-auto">
       <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-page font-semibold text-fg">Meetings</h1>
@@ -46,7 +48,7 @@ export default function MeetingsDashboard({ dashboard, onCreate, onNoShow, onCom
         <div className="flex flex-wrap gap-2">
           <Link
             href="/automation/meetings/analytics"
-            className="px-4 py-2 text-sm font-medium text-fg-secondary dark:text-slate-200 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-md hover:bg-subtle transition-colors"
+            className="px-4 py-2 text-sm font-medium text-fg-secondary dark:text-slate-200 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-md hover:bg-subtle dark:hover:bg-slate-800/50 transition-colors"
           >
             Analytics
           </Link>
@@ -65,17 +67,54 @@ export default function MeetingsDashboard({ dashboard, onCreate, onNoShow, onCom
 
       <MeetingsKpiRow kpis={dashboard?.kpis} />
 
+      {(dashboard?.awaitingOutcome || []).length > 0 && (
+        <DashboardCard padding="p-0">
+          <div className="px-5 py-4 border-b border-warning/30 dark:border-amber-900/40 bg-warning-subtle/60 dark:bg-amber-950/20 flex items-center justify-between gap-3 rounded-t-xl">
+            <div>
+              <h2 className="text-sm font-semibold text-fg dark:text-slate-50 flex items-center gap-2">
+                <ClipboardCheck className="w-4 h-4 text-warning dark:text-amber-400" />
+                Awaiting outcome ({dashboard.awaitingOutcome.length})
+              </h2>
+              <p className="text-meta text-fg-secondary dark:text-fg-tertiary mt-0.5">
+                These meetings have ended. Mark each one so follow-ups run — no-shows get a rebook message automatically.
+              </p>
+            </div>
+          </div>
+          <div className="divide-y divide-line dark:divide-slate-800">
+            {dashboard.awaitingOutcome.map((b) => (
+              <div key={b._id} className="px-5 py-3 flex flex-wrap items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-fg dark:text-slate-100 truncate">{b.guest?.name || 'Guest'}</p>
+                  <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">
+                    {b.meetingTypeId?.title || 'Meeting'} · ended {formatTime(b.endTime)}
+                    {b.assignedTo?.name ? ` · ${b.assignedTo.name}` : ''}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <button type="button" onClick={() => onComplete(String(b._id))} className="px-2.5 py-1 rounded-md text-xs font-semibold text-accent-fg dark:text-accent-fg bg-accent-subtle dark:bg-emerald-950/30 hover:bg-accent-subtle">
+                    Completed
+                  </button>
+                  <button type="button" onClick={() => onNoShow(String(b._id))} className="px-2.5 py-1 rounded-md text-xs font-semibold text-warning dark:text-amber-300 bg-warning-subtle dark:bg-amber-950/30 hover:bg-warning-subtle">
+                    No-show
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </DashboardCard>
+      )}
+
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
         <DashboardCard className="xl:col-span-2" padding="p-0">
           <div className="px-5 py-4 border-b border-line dark:border-slate-800 flex items-center justify-between">
             <div>
               <h2 className="text-sm font-semibold text-fg dark:text-slate-50 flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-accent-fg" />
+                <Calendar className="w-4 h-4 text-accent-fg dark:text-accent-fg" />
                 Upcoming appointments
               </h2>
-              <p className="text-meta text-fg-tertiary mt-0.5">Guest bookings from your /book links</p>
+              <p className="text-meta text-fg-tertiary dark:text-fg-tertiary mt-0.5">Guest bookings from your /book links</p>
             </div>
-            <Link href="/automation/meetings/team" className="text-xs text-accent-fg hover:underline flex items-center gap-1">
+            <Link href="/automation/meetings/team" className="text-xs text-accent-fg dark:text-accent-fg hover:underline flex items-center gap-1">
               Team schedules <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
@@ -93,16 +132,16 @@ export default function MeetingsDashboard({ dashboard, onCreate, onNoShow, onCom
                     {dashboard.bookingLinks.slice(0, 3).map((m) => (
                       <div
                         key={m._id}
-                        className="flex items-center justify-between rounded-lg border border-line p-3"
+                        className="flex items-center justify-between p-3 rounded-lg bg-accent-subtle dark:bg-indigo-950/20 border border-line dark:border-indigo-900/40"
                       >
                         <div>
                           <p className="text-sm font-medium text-fg dark:text-slate-100">{m.title}</p>
-                          <p className="text-xs text-fg-tertiary">/book/{m.bookingSlug}</p>
+                          <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">/book/{m.bookingSlug}</p>
                         </div>
                         <button
                           type="button"
                           onClick={() => copyLink(m.bookingSlug)}
-                          className="text-xs font-semibold text-accent-fg hover:underline"
+                          className="text-xs font-semibold text-accent-fg dark:text-accent-fg hover:underline"
                         >
                           Copy
                         </button>
@@ -110,7 +149,7 @@ export default function MeetingsDashboard({ dashboard, onCreate, onNoShow, onCom
                     ))}
                   </div>
                 ) : (
-                  <p className="text-sm text-fg-tertiary text-center">Publish a booking link to start accepting meetings.</p>
+                  <p className="text-sm text-fg-tertiary dark:text-fg-tertiary text-center">Publish a booking link to start accepting meetings.</p>
                 )}
               </div>
             ) : (
@@ -123,7 +162,7 @@ export default function MeetingsDashboard({ dashboard, onCreate, onNoShow, onCom
                     <p className="text-sm font-medium text-fg dark:text-slate-100 truncate">
                       {b.guest?.name || 'Guest'}
                     </p>
-                    <p className="text-xs text-fg-tertiary">
+                    <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">
                       {b.meetingTypeId?.title || 'Meeting'} · {formatTime(b.startTime)}
                       {b.assignedTo?.name ? ` · ${b.assignedTo.name}` : ''}
                     </p>
@@ -135,14 +174,14 @@ export default function MeetingsDashboard({ dashboard, onCreate, onNoShow, onCom
                     <button
                       type="button"
                       onClick={() => onComplete(String(b._id))}
-                      className="text-meta font-medium text-accent-fg hover:underline"
+                      className="text-meta font-medium text-accent-fg dark:text-accent-fg hover:underline"
                     >
                       Complete
                     </button>
                     <button
                       type="button"
                       onClick={() => onNoShow(String(b._id))}
-                      className="text-meta font-medium text-warning hover:underline"
+                      className="text-meta font-medium text-warning dark:text-amber-400 hover:underline"
                     >
                       No-show
                     </button>
@@ -155,16 +194,17 @@ export default function MeetingsDashboard({ dashboard, onCreate, onNoShow, onCom
 
         <DashboardCard padding="p-5">
           <div className="flex items-center gap-2 mb-4">
+            <Sparkles className="w-4 h-4 text-accent-fg dark:text-accent-fg" />
             <h2 className="text-body font-semibold text-fg">Insights</h2>
           </div>
           <ul className="space-y-3 text-sm text-fg-secondary dark:text-fg-tertiary">
-            <li className="rounded-lg border border-line p-3">
+            <li className="p-3 rounded-lg bg-accent-subtle dark:bg-indigo-950/20 border border-line dark:border-indigo-900/40">
               Peak booking window: <strong className="text-fg dark:text-slate-200">10am–12pm</strong> drives highest show rates.
             </li>
-            <li className="rounded-lg border border-line p-3">
+            <li className="p-3 rounded-lg bg-accent-subtle dark:bg-cyan-950/20 border border-line">
               WhatsApp reminders reduce no-shows by up to <strong>35%</strong> vs email-only.
             </li>
-            <li className="rounded-lg bg-subtle p-3 text-meta text-fg-tertiary">
+            <li className="p-3 rounded-lg bg-subtle dark:bg-slate-800/50 text-xs">
               AI summaries & transcripts — architecture ready. Enable in meeting settings when available.
             </li>
           </ul>
@@ -177,10 +217,10 @@ export default function MeetingsDashboard({ dashboard, onCreate, onNoShow, onCom
         <DashboardCard padding="p-5">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-sm font-semibold text-fg dark:text-slate-50 flex items-center gap-2">
-              <Link2 className="w-4 h-4 text-accent-fg" />
+              <Link2 className="w-4 h-4 text-accent-fg dark:text-accent-fg" />
               Booking links
             </h2>
-            <Link href="/automation/meetings/templates" className="text-xs text-accent-fg hover:underline">
+            <Link href="/automation/meetings/templates" className="text-xs text-accent-fg dark:text-accent-fg hover:underline">
               Templates
             </Link>
           </div>
@@ -192,37 +232,42 @@ export default function MeetingsDashboard({ dashboard, onCreate, onNoShow, onCom
               >
                 <div>
                   <p className="text-sm font-medium text-fg dark:text-slate-100">{m.title}</p>
-                  <p className="text-xs text-fg-tertiary">/book/{m.bookingSlug}</p>
+                  <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">/book/{m.bookingSlug}</p>
                 </div>
                 <div className="flex gap-1 opacity-80 group-hover:opacity-100">
+                  {onEdit && (
+                    <button type="button" onClick={() => onEdit(m)} className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800" title="Edit settings & automations" aria-label={`Edit ${m.title}`}>
+                      <Pencil className="w-3.5 h-3.5 text-fg-tertiary dark:text-fg-tertiary" />
+                    </button>
+                  )}
                   <button type="button" onClick={() => copyLink(m.bookingSlug)} className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800" title="Copy link">
-                    <Copy className="w-3.5 h-3.5 text-fg-tertiary" />
+                    <Copy className="w-3.5 h-3.5 text-fg-tertiary dark:text-fg-tertiary" />
                   </button>
                   <a href={`/book/${m.bookingSlug}`} target="_blank" rel="noreferrer" className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800">
-                    <ExternalLink className="w-3.5 h-3.5 text-fg-tertiary" />
+                    <ExternalLink className="w-3.5 h-3.5 text-fg-tertiary dark:text-fg-tertiary" />
                   </a>
                 </div>
               </div>
             ))}
             {!dashboard?.bookingLinks?.length && (
-              <p className="text-sm text-fg-tertiary py-4 text-center">Publish a meeting type to get your booking link.</p>
+              <p className="text-sm text-fg-tertiary dark:text-fg-tertiary py-4 text-center">Publish a meeting type to get your booking link.</p>
             )}
           </div>
         </DashboardCard>
 
         <DashboardCard padding="p-5">
           <h2 className="text-sm font-semibold text-fg dark:text-slate-50 flex items-center gap-2 mb-4">
-            <MessageCircle className="w-4 h-4 text-accent-fg" />
+            <MessageCircle className="w-4 h-4 text-accent-fg dark:text-accent-fg" />
             Recent activity
           </h2>
           <div className="space-y-2 max-h-[280px] overflow-y-auto">
             {(dashboard?.recentBookings || []).map((b) => (
               <div key={b._id} className="text-sm py-2 border-b border-slate-50 dark:border-slate-800 last:border-0">
                 <span className="font-medium text-fg dark:text-slate-200">{b.guest?.name}</span>
-                <span className="text-fg-tertiary"> booked </span>
+                <span className="text-fg-tertiary dark:text-fg-tertiary"> booked </span>
                 <span className="text-fg-secondary dark:text-fg-disabled">{b.meetingTypeId?.title}</span>
                 {b.whatsappConfirmationSent && (
-                  <span className="ml-2 text-meta font-semibold text-accent-fg bg-accent-subtle dark:bg-emerald-950/30 px-1.5 py-0.5 rounded">
+                  <span className="ml-2 text-meta font-semibold text-accent-fg dark:text-accent-fg bg-accent-subtle dark:bg-emerald-950/30 px-1.5 py-0.5 rounded">
                     WA sent
                   </span>
                 )}

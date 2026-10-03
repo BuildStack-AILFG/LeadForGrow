@@ -31,7 +31,7 @@ export default function TeamSettingsPage() {
             {roles.map((role) => (
               <div key={role.id} className="p-3 rounded-lg border border-line dark:border-slate-700">
                 <span className="inline-block px-2 py-0.5 rounded text-meta font-semibold bg-accent-subtle text-accent-fg dark:bg-teal-950/30 dark:text-accent-fg mb-1">{role.name}</span>
-                <p className="text-xs text-fg-tertiary">{role.description}</p>
+                <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">{role.description}</p>
               </div>
             ))}
           </div>

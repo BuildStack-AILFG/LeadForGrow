@@ -4,14 +4,14 @@ import { FileInput, TrendingUp, Eye, Percent } from 'lucide-react';
 
 export default function FormsAnalyticsBar({ stats }) {
   const cards = [
-    { label: 'Active forms', value: stats.activeForms, icon: FileInput, accent: 'text-accent-fg bg-accent-subtle dark:bg-teal-950/40' },
-    { label: 'Total submissions', value: stats.totalSubmissions, icon: TrendingUp, accent: 'text-accent-fg bg-accent-subtle dark:bg-emerald-950/40' },
-    { label: 'Forms with leads', value: stats.withLeads, icon: Eye, accent: 'text-accent-fg bg-accent-subtle dark:bg-violet-950/40' },
-    { label: 'Avg conversion', value: `${stats.avgConversion}%`, icon: Percent, accent: 'text-warning bg-warning-subtle dark:bg-amber-950/40' },
+    { label: 'Active forms', value: stats.activeForms, icon: FileInput, accent: 'text-accent-fg dark:text-accent-fg bg-accent-subtle dark:bg-teal-950/40' },
+    { label: 'Total submissions', value: stats.totalSubmissions, icon: TrendingUp, accent: 'text-accent-fg dark:text-accent-fg bg-accent-subtle dark:bg-emerald-950/40' },
+    { label: 'Forms with leads', value: stats.withLeads, icon: Eye, accent: 'text-accent-fg dark:text-accent-fg bg-accent-subtle dark:bg-violet-950/40' },
+    { label: 'Avg conversion', value: `${stats.avgConversion}%`, icon: Percent, accent: 'text-warning dark:text-amber-400 bg-warning-subtle dark:bg-amber-950/40' },
   ];
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 p-4 border-b border-line dark:border-slate-800 bg-canvas/80 dark:bg-slate-900/80">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 p-4 border-b border-line dark:border-slate-800 bg-white/80 dark:bg-slate-900/80">
       {cards.map((c) => {
         const Icon = c.icon;
         return (

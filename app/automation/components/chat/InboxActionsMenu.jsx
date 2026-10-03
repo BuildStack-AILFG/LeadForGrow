@@ -68,7 +68,7 @@ export default function InboxActionsMenu({ chat, onUpdate, onClaim, onAction, cu
 
   return (
     <div className="relative" ref={ref}>
-      <button type="button" onClick={() => setOpen(!open)} className="p-2 rounded text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800" title="More actions">
+      <button type="button" onClick={() => setOpen(!open)} className="p-2 rounded text-fg-tertiary dark:text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800" title="More actions">
         <MoreVertical className="w-4 h-4" />
       </button>
       {open && (
@@ -82,10 +82,10 @@ export default function InboxActionsMenu({ chat, onUpdate, onClaim, onAction, cu
                   onClick={() => { action.onClick(); if (!action.keepOpen) setOpen(false); }}
                   className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left rounded transition-colors ${
                     action.danger
-                      ? 'text-danger hover:bg-danger-subtle dark:hover:bg-red-950/30'
+                      ? 'text-danger dark:text-red-400 hover:bg-danger-subtle dark:hover:bg-red-950/30'
                       : action.active
-                        ? 'text-accent-fg hover:bg-accent-subtle dark:hover:bg-green-950/30'
-                        : 'text-fg-secondary dark:text-fg-disabled hover:bg-accent-subtle dark:hover:bg-slate-800'
+                        ? 'text-accent-fg dark:text-accent-fg hover:bg-accent-subtle dark:hover:bg-green-950/30'
+                        : 'text-fg-secondary dark:text-fg-disabled hover:bg-brand-tint dark:hover:bg-slate-800'
                   }`}
                 >
                   <span className="w-4 h-4 flex items-center justify-center flex-shrink-0">
@@ -106,7 +106,7 @@ export default function InboxActionsMenu({ chat, onUpdate, onClaim, onAction, cu
                           setOpen(false);
                           setSnoozeOpen(false);
                         }}
-                        className="w-full text-left px-2.5 py-1.5 text-meta text-fg-secondary dark:text-fg-tertiary hover:bg-accent-subtle dark:hover:bg-slate-800 rounded transition-colors"
+                        className="w-full text-left px-2.5 py-1.5 text-meta text-fg-secondary dark:text-fg-tertiary hover:bg-brand-tint dark:hover:bg-slate-800 rounded transition-colors"
                       >
                         {p.label}
                       </button>

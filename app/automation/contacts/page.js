@@ -1,8 +1,7 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { UserCircle } from 'lucide-react';
-import { toast } from 'react-hot-toast';
 import { useContactsWorkspace } from '../hooks/useContactsWorkspace';
 import ContactsHeader from '../components/contacts/ContactsHeader';
 import ContactsKpiCards from '../components/contacts/ContactsKpiCards';
@@ -11,6 +10,7 @@ import ContactTable from '../components/contacts/ContactTable';
 import ContactsBulkBar from '../components/contacts/ContactsBulkBar';
 import ContactsPagination from '../components/contacts/ContactsPagination';
 import ContactCreateModal from '../components/contacts/ContactCreateModal';
+import ContactsImportModal from '../components/contacts/ContactsImportModal';
 import ContactDrawer from '../components/contacts/ContactDrawer';
 import ContactsSkeleton from '../components/contacts/ContactsSkeleton';
 import AutoPageIntro from '@/app/automation/components/shared/tour/AutoPageIntro';
@@ -18,17 +18,17 @@ import AutoPageIntro from '@/app/automation/components/shared/tour/AutoPageIntro
 function ContactsEmptyState({ onCreate }) {
   return (
     <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
-      <div className="w-16 h-16 rounded-lg bg-subtle border border-line flex items-center justify-center mb-5">
-        <UserCircle className="w-8 h-8 text-fg-tertiary" strokeWidth={1.5} />
+      <div className="w-16 h-16 rounded-lg bg-subtle dark:bg-slate-900 border border-line dark:border-slate-700 flex items-center justify-center mb-5">
+        <UserCircle className="w-8 h-8 text-fg-tertiary dark:text-fg-tertiary" strokeWidth={1.5} />
       </div>
-      <h3 className="text-title font-semibold text-fg mb-1">No contacts yet</h3>
-      <p className="text-dense text-fg-tertiary max-w-sm mb-6">
+      <h3 className="text-title font-semibold text-fg dark:text-slate-100 mb-1">No contacts yet</h3>
+      <p className="text-dense text-fg-tertiary dark:text-fg-disabled max-w-sm mb-6">
         Add your first contact to track relationships, deals, and activity in one place.
       </p>
       <button
         type="button"
         onClick={onCreate}
-        className="px-5 py-2.5 text-dense font-medium text-white bg-accent hover:bg-[#1F2937] rounded-md transition-colors"
+        className="px-5 py-2.5 text-dense font-medium text-white bg-accent dark:bg-slate-700 hover:bg-[#1F2937] rounded-md transition-colors"
       >
         Add First Contact
       </button>
@@ -38,14 +38,15 @@ function ContactsEmptyState({ onCreate }) {
 
 function ContactsContent() {
   const ws = useContactsWorkspace();
+  const [showImport, setShowImport] = useState(false);
 
   if (ws.loading && !ws.contacts.length) return <ContactsSkeleton />;
 
   const hasFilters = ws.filters.search || ws.filters.type || ws.filters.ownerId || ws.filters.hasOpenDeals;
 
   return (
-    <div className="min-h-full bg-canvas">
-      <div className="px-4 pb-8 pt-6 sm:px-6">
+    <div className="min-h-full bg-canvas dark:bg-slate-900">
+      <div className="px-4 sm:px-6 pb-8 max-w-[1600px] mx-auto pt-6">
         <ContactsHeader
           search={ws.searchInput}
           onSearchChange={ws.setSearchInput}
@@ -54,7 +55,7 @@ function ContactsContent() {
           onRefresh={() => { ws.fetchContacts(true); }}
           onCreate={() => ws.setShowModal(true)}
           onExport={ws.exportContacts}
-          onImport={() => toast('Import coming soon')}
+          onImport={() => setShowImport(true)}
           showFilters={ws.showFilters}
           onToggleFilters={() => ws.setShowFilters((v) => !v)}
           showSort={ws.showSort}
@@ -123,6 +124,12 @@ function ContactsContent() {
         contactId={ws.drawerId}
         onClose={() => ws.setDrawerId(null)}
         onUpdated={() => ws.fetchContacts(true)}
+      />
+
+      <ContactsImportModal
+        open={showImport}
+        onClose={() => setShowImport(false)}
+        onImported={() => ws.fetchContacts(true)}
       />
     </div>
   );

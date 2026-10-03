@@ -331,7 +331,7 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
             <h1 className="text-page font-semibold text-fg truncate">
               {isNew ? 'New WhatsApp template' : template.name}
             </h1>
-            <div className="flex items-center gap-2 text-xs text-fg-tertiary">
+            <div className="flex items-center gap-2 text-xs text-fg-tertiary dark:text-fg-tertiary">
               <StatusBadge status={template.status} />
               {template.metaLastCheckedAt && (
                 <span>Last checked {new Date(template.metaLastCheckedAt).toLocaleString()}</span>
@@ -372,7 +372,7 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
               {submitting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
               Submit for approval
               {!validation.valid && (
-                <span className="ml-1 px-1.5 py-0.5 rounded bg-canvas/20 text-meta font-semibold">
+                <span className="ml-1 px-1.5 py-0.5 rounded bg-white/20 dark:bg-slate-900/20 text-meta font-semibold">
                   {validation.totalCount}
                 </span>
               )}
@@ -383,7 +383,7 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
 
       {template.status === 'REJECTED' && template.metaRejectionReason && (
         <div className="mb-4 p-4 rounded-lg bg-danger-subtle dark:bg-red-950/30 border border-danger/30 dark:border-red-900 flex gap-3">
-          <AlertCircle className="w-5 h-5 text-danger shrink-0" />
+          <AlertCircle className="w-5 h-5 text-danger dark:text-red-400 shrink-0" />
           <div>
             <p className="text-sm font-semibold text-red-800 dark:text-red-200">Meta rejected this template</p>
             <p className="text-xs text-danger dark:text-red-300 mt-1">{template.metaRejectionReason}</p>
@@ -393,7 +393,7 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
       )}
       {readOnly && (
         <div className="mb-4 p-3 rounded-lg bg-warning-subtle dark:bg-amber-950/30 border border-warning/30 dark:border-amber-900 flex gap-2">
-          <Info className="w-4 h-4 text-warning shrink-0 mt-0.5" />
+          <Info className="w-4 h-4 text-warning dark:text-amber-300 shrink-0 mt-0.5" />
           <p className="text-xs text-warning dark:text-amber-200">
             This template is {template.status.toLowerCase()} — edits are locked. Duplicate it to make changes.
           </p>
@@ -407,14 +407,14 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
         }`}>
           {validation.valid ? (
             <>
-              <CheckCircle2 className="w-4 h-4 text-accent-fg shrink-0" />
+              <CheckCircle2 className="w-4 h-4 text-accent-fg dark:text-accent-fg shrink-0" />
               <p className="text-xs font-medium text-accent-fg dark:text-accent-fg">
                 Ready to submit for Meta approval
               </p>
             </>
           ) : (
             <>
-              <AlertCircle className="w-4 h-4 text-fg-tertiary shrink-0" />
+              <AlertCircle className="w-4 h-4 text-fg-tertiary dark:text-fg-tertiary shrink-0" />
               <p className="text-xs text-fg-secondary dark:text-fg-tertiary">
                 Fix <span className="font-semibold text-fg dark:text-white">{validation.totalCount}</span> issue{validation.totalCount === 1 ? '' : 's'} in the sections below before submitting to Meta
               </p>
@@ -453,10 +453,10 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
                       className={`text-left p-3 rounded-lg border text-xs ${
                         template.category === c.id
                           ? 'border-accent bg-accent-subtle dark:bg-emerald-950/20'
-                          : 'border-line dark:border-slate-700 hover:border-line-strong'
+                          : 'border-line dark:border-slate-700 hover:border-line-strong dark:hover:border-slate-600'
                       }`}>
                       <p className="font-semibold">{c.label}</p>
-                      <p className="text-fg-tertiary mt-0.5 leading-tight">{c.desc}</p>
+                      <p className="text-fg-tertiary dark:text-fg-tertiary mt-0.5 leading-tight">{c.desc}</p>
                     </button>
                   ))}
                 </div>
@@ -527,7 +527,7 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
                 placeholder="Hi {{1}}, your order #{{2}} has been confirmed."
                 className="w-full px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm font-mono" />
               <button type="button" disabled={readOnly} onClick={insertBodyVar}
-                className="mt-2 inline-flex items-center gap-1 text-xs text-accent-fg hover:underline">
+                className="mt-2 inline-flex items-center gap-1 text-xs text-accent-fg dark:text-accent-fg hover:underline">
                 <Plus className="w-3 h-3" /> Add variable
               </button>
             </Field>
@@ -571,7 +571,7 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
             <div className="space-y-2">
               {(buttons?.buttons || []).map((b, i) => (
                 <div key={i} className="grid grid-cols-[80px_1fr_auto] gap-2 items-center p-2 rounded-lg bg-subtle dark:bg-slate-900/50">
-                  <span className="text-meta font-semibold text-fg-tertiary px-2">{b.type.replace('_', ' ')}</span>
+                  <span className="text-meta font-semibold text-fg-tertiary dark:text-fg-tertiary px-2">{b.type.replace('_', ' ')}</span>
                   <div className="flex gap-2">
                     <input disabled={readOnly}
                       maxLength={25}
@@ -608,7 +608,7 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
                   </div>
                   <button type="button" disabled={readOnly}
                     onClick={() => updateComponent('BUTTONS', { buttons: buttons.buttons.filter((_, x) => x !== i) })}
-                    className="p-1.5 rounded hover:bg-danger-subtle text-danger">
+                    className="p-1.5 rounded hover:bg-danger-subtle dark:hover:bg-red-900/30 text-danger dark:text-red-400">
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -629,12 +629,12 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
 function Section({ title, optional, required, children, issues }) {
   const hasIssues = issues?.length > 0;
   return (
-    <div className={`p-5 rounded-2xl bg-canvas dark:bg-slate-900 border shadow-sm space-y-4 ${
+    <div className={`p-5 rounded-2xl bg-white dark:bg-slate-900 border shadow-sm space-y-4 ${
       hasIssues ? 'border-warning/30 dark:border-amber-800' : 'border-line dark:border-slate-800'
     }`}>
       <div className="flex items-center gap-2">
         <h3 className="text-sm font-semibold text-fg dark:text-white">{title}</h3>
-        {required && <span className="text-meta font-medium text-danger">Required</span>}
+        {required && <span className="text-meta font-medium text-danger dark:text-red-400">Required</span>}
         {optional && <span className="text-meta font-medium text-fg-tertiary">Optional</span>}
         {hasIssues && (
           <span className="text-meta font-semibold text-warning dark:text-amber-400 flex items-center gap-1">
@@ -662,7 +662,7 @@ function Field({ label, hint, children, full }) {
     <div className={full ? 'sm:col-span-2' : ''}>
       <label className="block text-xs font-medium text-fg-secondary dark:text-fg-disabled mb-1.5">{label}</label>
       {children}
-      {hint && <p className="text-meta text-fg-tertiary mt-1">{hint}</p>}
+      {hint && <p className="text-meta text-fg-tertiary dark:text-fg-tertiary mt-1">{hint}</p>}
     </div>
   );
 }
@@ -674,7 +674,7 @@ function SampleValueEditor({ label, count, values, onChange, disabled }) {
       <div className="grid gap-2 sm:grid-cols-2">
         {Array.from({ length: count }, (_, i) => (
           <div key={i} className="flex items-center gap-2">
-            <span className="text-meta font-mono text-fg-tertiary shrink-0">{`{{${i + 1}}}`}</span>
+            <span className="text-meta font-mono text-fg-tertiary dark:text-fg-tertiary shrink-0">{`{{${i + 1}}}`}</span>
             <input disabled={disabled}
               value={values[i] || ''}
               onChange={(e) => {
@@ -758,7 +758,7 @@ function MediaSampleField({ format, handle, filename, onChange, disabled }) {
               type="button"
               disabled={disabled}
               onClick={() => onChange({ handle: '', filename: '', publicUrl: '' })}
-              className="inline-flex items-center gap-1 px-2 py-2 rounded-md text-xs text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800"
+              className="inline-flex items-center gap-1 px-2 py-2 rounded-md text-xs text-fg-tertiary dark:text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800"
             >
               <X className="w-3.5 h-3.5" /> Clear
             </button>
@@ -776,13 +776,13 @@ function MediaSampleField({ format, handle, filename, onChange, disabled }) {
           <div className="text-meta text-accent-fg dark:text-accent-fg flex items-center gap-1.5 bg-accent-subtle dark:bg-emerald-950/30 border border-line dark:border-emerald-900 rounded-md px-2 py-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-accent" />
             <span className="font-medium">Sample uploaded to Meta</span>
-            {filename && <span className="text-fg-tertiary">· {filename}</span>}
+            {filename && <span className="text-fg-tertiary dark:text-fg-tertiary">· {filename}</span>}
             <span className="text-fg-tertiary font-mono truncate" title={handle}>
               · {isHandle ? `${String(handle).slice(0, 14)}…` : handle}
             </span>
           </div>
         ) : (
-          <p className="text-meta text-fg-tertiary">
+          <p className="text-meta text-fg-tertiary dark:text-fg-tertiary">
             Meta accepts {format === 'IMAGE' ? 'JPEG/PNG up to 5MB' : format === 'VIDEO' ? 'MP4/3GP up to 16MB' : 'PDF up to 100MB'}.
             The file is used only during Meta's review; real messages can attach any compliant file.
           </p>
@@ -794,12 +794,12 @@ function MediaSampleField({ format, handle, filename, onChange, disabled }) {
 
 function StatusBadge({ status }) {
   const styles = {
-    DRAFT: 'bg-muted text-fg-secondary',
-    PENDING: 'bg-warning-subtle text-warning',
-    APPROVED: 'bg-accent-subtle text-accent-fg',
-    REJECTED: 'bg-danger-subtle text-red-800',
-    DISABLED: 'bg-muted text-fg-tertiary',
-    PAUSED: 'bg-accent-subtle text-accent-fg',
+    DRAFT: 'bg-muted dark:bg-slate-800 text-fg-secondary dark:text-slate-200',
+    PENDING: 'bg-warning-subtle dark:bg-amber-900/30 text-warning dark:text-amber-200',
+    APPROVED: 'bg-accent-subtle dark:bg-accent-pressed/30 text-accent-fg dark:text-emerald-200',
+    REJECTED: 'bg-danger-subtle dark:bg-red-900/30 text-red-800 dark:text-red-200',
+    DISABLED: 'bg-muted dark:bg-slate-800 text-fg-tertiary dark:text-fg-tertiary',
+    PAUSED: 'bg-accent-subtle dark:bg-accent-pressed/30 text-accent-fg dark:text-accent-fg',
   };
   return (
     <span className={`text-meta font-semibold px-2 py-0.5 rounded-full ${styles[status] || styles.DRAFT}`}>

@@ -101,8 +101,8 @@ function DealsContent() {
   if (ws.loading && !ws.deals.length) return <DealsSkeleton />;
 
   return (
-    <div className="min-h-full bg-canvas">
-      <div className="px-4 pb-8 pt-6 sm:px-6">
+    <div className="min-h-full bg-canvas dark:bg-slate-900">
+      <div className="px-4 sm:px-6 pb-8 max-w-[1600px] mx-auto pt-6">
         <DealsHeader
           search={ws.searchInput}
           onSearchChange={ws.setSearchInput}
@@ -136,7 +136,7 @@ function DealsContent() {
         />
 
         {ws.viewMode === 'kanban' ? (
-          <div>
+          <div className="bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg p-4">
             <DealsKanban
               stages={stages}
               deals={kanbanList}

@@ -24,6 +24,7 @@ export default function MeetingsWorkspace() {
           onCancel={() => ws.setMode('dashboard')}
           onPublish={ws.publishMeeting}
           saving={ws.saving}
+          editing={!!ws.editingId}
         />
       </div>
     );
@@ -34,6 +35,7 @@ export default function MeetingsWorkspace() {
       <MeetingsDashboard
         dashboard={ws.dashboard}
         onCreate={ws.startCreate}
+        onEdit={ws.startEdit}
         onNoShow={ws.markNoShow}
         onComplete={ws.completeBooking}
       />

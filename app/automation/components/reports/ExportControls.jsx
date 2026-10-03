@@ -12,7 +12,7 @@ export default function ExportControls({ reports, metrics }) {
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-fg-secondary dark:text-slate-200 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-md hover:bg-subtle"
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-fg-secondary dark:text-slate-200 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-md hover:bg-subtle dark:hover:bg-slate-800/50"
       >
         <Download className="w-3.5 h-3.5" /> Export <ChevronDown className="w-3 h-3" />
       </button>

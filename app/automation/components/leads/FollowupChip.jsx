@@ -5,23 +5,23 @@ import { getFollowUpMeta } from './utils';
 
 const TONE_STYLES = {
   muted: {
-    pill: 'bg-subtle text-fg-tertiary border-line',
-    sub: 'text-fg-tertiary',
+    pill: 'bg-subtle dark:bg-slate-900 text-fg-tertiary dark:text-fg-tertiary border-[#EAECF0] dark:border-slate-700',
+    sub: 'text-fg-tertiary dark:text-fg-tertiary',
     icon: Calendar,
   },
   overdue: {
-    pill: 'bg-danger-subtle text-danger border-danger/30',
+    pill: 'bg-danger-subtle dark:bg-slate-900 text-danger border-danger/30',
     sub: 'text-danger',
     icon: AlertCircle,
   },
   today: {
-    pill: 'bg-warning-subtle text-warning border-warning/30',
-    sub: 'text-warning',
+    pill: 'bg-[#FFFAEB] dark:bg-slate-900 text-warning dark:text-amber-400 border-[#FEDF89]',
+    sub: 'text-warning dark:text-amber-400',
     icon: Clock,
   },
   upcoming: {
-    pill: 'bg-info-subtle text-info border-info/30',
-    sub: 'text-info',
+    pill: 'bg-info-subtle dark:bg-slate-900 text-info dark:text-blue-400 border-[#B2DDFF]',
+    sub: 'text-info dark:text-blue-400',
     icon: Calendar,
   },
 };
@@ -34,10 +34,10 @@ export default function FollowupChip({ date }) {
   if (meta.key === 'none') {
     return (
       <div className="flex flex-col items-center justify-center gap-1 min-w-[96px]">
-        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-muted text-fg-tertiary">
+        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-muted dark:bg-slate-900 text-fg-tertiary dark:text-fg-tertiary">
           <Calendar className="w-3.5 h-3.5" strokeWidth={2} />
         </span>
-        <span className="text-meta font-medium text-fg-tertiary leading-none">Not set</span>
+        <span className="text-meta font-medium text-fg-tertiary dark:text-fg-tertiary leading-none">Not set</span>
       </div>
     );
   }

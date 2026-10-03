@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   Bot, Loader2, Save, Eye, Rocket, Users, MessageSquare,
@@ -18,6 +18,13 @@ export default function ChatbotWorkspace() {
   const ws = useChatbotWorkspace();
   const [tab, setTab] = useState('customize');
 
+  // Loading→loaded swaps a short skeleton for much taller real content — if the browser
+  // carried over a scroll position from wherever the user navigated from, that same
+  // scrollTop now lands partway down the real page instead of at its top.
+  useEffect(() => {
+    if (!ws.loading) window.scrollTo(0, 0);
+  }, [ws.loading]);
+
   if (ws.loading) {
     return <PageLoader label="Loading chatbot…" />;
   }
@@ -25,17 +32,17 @@ export default function ChatbotWorkspace() {
   const isLive = ws.config.published && ws.config.enabled;
 
   return (
-    <div className="min-h-full bg-canvas">
+    <div className="min-h-full bg-subtle dark:bg-slate-950">
       {/* Top bar */}
-      <div className="sticky top-0 z-20 bg-canvas dark:bg-slate-950/90 border-b border-line dark:border-slate-800">
+      <div className="sticky top-0 z-20 bg-white/90 dark:bg-slate-950/90 border-b border-line dark:border-slate-800">
         <div className="max-w-[1400px] mx-auto px-6 py-4 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="w-10 h-10 rounded-lg bg-canvas border border-line flex items-center justify-center shadow-popover flex-shrink-0">
+            <div className="w-10 h-10 rounded bg-canvas border border-line flex items-center justify-center shadow-popover flex-shrink-0">
               <Bot className="w-5 h-5 text-fg-secondary" strokeWidth={2} />
             </div>
             <div className="min-w-0">
               <h1 className="text-page font-semibold text-fg truncate">Website Chatbot</h1>
-              <p className="text-xs text-fg-tertiary truncate">Capture & qualify leads from your website — source tagged as Bot</p>
+              <p className="text-xs text-fg-tertiary dark:text-fg-tertiary truncate">Capture & qualify leads from your website — source tagged as Bot</p>
             </div>
           </div>
 
@@ -56,7 +63,7 @@ export default function ChatbotWorkspace() {
                 type="button"
                 onClick={ws.unpublish}
                 disabled={ws.saving}
-                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-lg bg-canvas dark:bg-slate-900 text-fg-secondary dark:text-slate-200 border border-line dark:border-slate-700"
+                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded bg-canvas dark:bg-slate-900 text-fg-secondary dark:text-slate-200 border border-line dark:border-slate-700"
               >
                 <PauseCircle className="w-3.5 h-3.5" /> Unpublish
               </button>
@@ -91,7 +98,7 @@ export default function ChatbotWorkspace() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 p-1 bg-canvas dark:bg-slate-900 rounded-lg border border-line dark:border-slate-800 w-fit mb-6">
+        <div className="flex gap-1 p-1 bg-canvas dark:bg-slate-900 rounded border border-line dark:border-slate-800 w-fit mb-6">
           {WORKSPACE_TABS.map(({ id, label }) => (
             <button
               key={id}
@@ -109,9 +116,9 @@ export default function ChatbotWorkspace() {
         </div>
 
         {tab === 'leads' ? (
-          <div className="bg-canvas dark:bg-slate-900 rounded-lg border border-line dark:border-slate-800 p-8">
+          <div className="bg-canvas dark:bg-slate-900 rounded border border-line dark:border-slate-800 p-8">
             <h2 className="text-title font-semibold text-fg dark:text-slate-50">Leads from your chatbot</h2>
-            <p className="text-sm text-fg-tertiary mt-1 mb-6">
+            <p className="text-sm text-fg-tertiary dark:text-fg-tertiary mt-1 mb-6">
               Every submission is saved with source <span className="font-medium text-fg-secondary dark:text-fg-disabled">Bot</span> and includes the full conversation transcript.
             </p>
             <div className="flex flex-wrap gap-3">
@@ -126,7 +133,7 @@ export default function ChatbotWorkspace() {
         ) : (
           <div className="grid grid-cols-1 xl:grid-cols-5 gap-8">
             <div className="xl:col-span-2">
-              <div className="bg-canvas dark:bg-slate-900 rounded-lg border border-line dark:border-slate-800 p-6">
+              <div className="bg-canvas dark:bg-slate-900 rounded border border-line dark:border-slate-800 p-6">
                 {tab === 'customize' && (
                   <ChatbotCustomizePanel config={ws.config} onChange={ws.patchConfig} />
                 )}
@@ -141,7 +148,7 @@ export default function ChatbotWorkspace() {
             </div>
 
             <div className="xl:col-span-3">
-              <div className="bg-canvas dark:bg-slate-900 rounded-lg border border-line dark:border-slate-800 p-4">
+              <div className="bg-canvas dark:bg-slate-900 rounded border border-line dark:border-slate-800 p-4">
                 <div className="flex items-center justify-between px-2 pb-3">
                   <p className="text-xs font-semibold text-fg-tertiary flex items-center gap-1.5">
                     <Eye className="w-3.5 h-3.5" /> Live preview
@@ -171,7 +178,7 @@ function StatCard({ label, value, icon: Icon, accent }) {
     slate: 'text-fg-secondary bg-muted dark:bg-slate-800',
   };
   return (
-    <div className="bg-canvas dark:bg-slate-900 rounded-lg border border-line dark:border-slate-800 p-4">
+    <div className="bg-canvas dark:bg-slate-900 rounded border border-line dark:border-slate-800 p-4">
       <div className="flex items-center justify-between">
         <p className="text-meta font-semibold text-fg-tertiary">{label}</p>
         <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${colors[accent]}`}>

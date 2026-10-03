@@ -27,28 +27,28 @@ export default function VariableMapping({ template, mapping, onChange }) {
   };
 
   return (
-    <div className="rounded-lg border border-line dark:border-slate-800 bg-canvas dark:bg-slate-900 p-4">
+    <div className="rounded border border-line dark:border-slate-800 bg-canvas dark:bg-slate-900 p-4">
       <p className="text-xs font-semibold text-fg-secondary dark:text-fg-disabled mb-1">
         Personalise template variables
       </p>
-      <p className="text-meta text-fg-tertiary mb-3">
+      <p className="text-meta text-fg-tertiary dark:text-fg-tertiary mb-3">
         Each <code>{'{{n}}'}</code> in the template body gets replaced per recipient.
       </p>
       <div className="space-y-2">
         {rows.map((row) => (
           <div key={row.index} className="grid grid-cols-[60px_1fr_1fr] gap-2 items-center">
-            <span className="text-xs font-mono text-fg-tertiary">{`{{${row.index}}}`}</span>
+            <span className="text-xs font-mono text-fg-tertiary dark:text-fg-tertiary">{`{{${row.index}}}`}</span>
             <select value={row.source} onChange={(e) => updateRow(row.index, { source: e.target.value })}
-              className="w-full px-2 py-1.5 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-xs">
+              className="w-full px-2 py-1.5 rounded border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-xs">
               {SOURCES.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
             </select>
             {row.source === 'literal' ? (
               <input value={row.literalValue || ''}
                 onChange={(e) => updateRow(row.index, { literalValue: e.target.value })}
                 placeholder="Same value for everyone"
-                className="w-full px-2 py-1.5 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-xs" />
+                className="w-full px-2 py-1.5 rounded border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-xs" />
             ) : (
-              <span className="text-meta text-fg-tertiary truncate">
+              <span className="text-meta text-fg-tertiary dark:text-fg-tertiary truncate">
                 Preview: {previewValue(row.source)}
               </span>
             )}

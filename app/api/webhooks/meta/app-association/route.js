@@ -6,6 +6,7 @@ import { decryptCredentials } from '@/lib/integrations/credentials';
 import { resolveMetaAdsCredentials } from '@/lib/meta/credentials';
 import { metaError } from '@/lib/meta/logger';
 import { getRecentWebhookIngress } from '@/lib/meta/webhookIngress';
+import { withPlanAccess } from '@/lib/accessControl';
 import {
   getAppWebhookSubscriptions,
   getAppMetadata,
@@ -15,21 +16,19 @@ import {
   analyzeAppSubscriptions
 } from '@/lib/meta/appAssociation';
 
-const EXPECTED_APP_ID = '2089887098254828';
-const PAGE_ID = '1130878270106336';
+const EXPECTED_APP_ID = process.env.META_APP_ID || '2089887098254828';
 
 /**
- * GET /api/webhooks/meta/app-association?businessId=...&forceSubscribe=1
+ * GET  /api/webhooks/meta/app-association  — read-only diagnostic
+ * POST /api/webhooks/meta/app-association  — same, and subscribes the Page to leadgen
  * Meta App ↔ Page association only (why Meta never POSTs webhooks).
+ * Signed-in users only, always for their own business.
  */
-export async function GET(request) {
-  const { searchParams } = new URL(request.url);
-  const businessId = searchParams.get('businessId');
-  const forceSubscribe = searchParams.get('forceSubscribe') === '1';
+export const GET = withPlanAccess('integrations', (req) => diagnose(req, { forceSubscribe: false }));
+export const POST = withPlanAccess('integrations', (req) => diagnose(req, { forceSubscribe: true }));
 
-  if (!businessId) {
-    return NextResponse.json({ success: false, error: 'businessId required' }, { status: 400 });
-  }
+async function diagnose(req, { forceSubscribe }) {
+  const businessId = String(req.user.businessId);
 
   try {
     await dbConnect();
@@ -45,7 +44,10 @@ export async function GET(request) {
       ? decryptCredentials('meta-ads', integration.credentials)
       : null;
 
-    const pageId = String(metaCreds.pageId || PAGE_ID);
+    if (!metaCreds.pageId) {
+      return NextResponse.json({ success: false, error: 'No Facebook Page connected' }, { status: 400 });
+    }
+    const pageId = String(metaCreds.pageId);
     const pageAccessToken = metaCreds.accessToken;
     const appId = String(metaCreds.appId || decrypted?.appId || EXPECTED_APP_ID);
     const appSecret = metaCreds.appSecret || decrypted?.appSecret;
@@ -80,7 +82,7 @@ export async function GET(request) {
         : null;
     }
 
-    const ingress = await getRecentWebhookIngress({ pageId, limit: 10 });
+    const ingress = await getRecentWebhookIngress({ businessId, pageId, limit: 10 });
 
     const connectLogMessage = integration?.lastTestResult?.message ?? null;
     const connectRanSubscribe = connectLogMessage?.includes('Instant lead webhooks subscribed') ?? false;
@@ -183,7 +185,16 @@ export async function GET(request) {
         realMetaPostsObserved: ingress.some(
           (r) => r.parsed?.leadgen_id && !['123', 'test', '999888777666'].includes(String(r.parsed.leadgen_id))
         ),
-        lastIngress: ingress[0] ?? null,
+        lastIngress: ingress[0]
+          ? {
+              route: ingress[0].route,
+              outcome: ingress[0].outcome,
+              createdAt: ingress[0].createdAt,
+              leadgen_id: ingress[0].parsed?.leadgen_id,
+              processingStep: ingress[0].processing?.step,
+              signatureVerified: ingress[0].signature?.verified
+            }
+          : null,
         conclusion:
           ingress.length === 0 ||
           !ingress.some((r) => r.outcome === 'success' && r.parsed?.leadgen_id)
@@ -191,22 +202,22 @@ export async function GET(request) {
             : 'At least one webhook reached server'
       },
 
-      requiredActions: buildRequiredActions(subscriptionAnalysis, postSubscribe, subscribedAppsBefore, connectRanSubscribe)
+      requiredActions: buildRequiredActions(subscriptionAnalysis, postSubscribe, subscribedAppsBefore, connectRanSubscribe, perBusinessCallback)
     });
   } catch (error) {
     metaError('App Association', 'Diagnostic failed', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: 'Diagnostic failed' }, { status: 500 });
   }
 }
 
-function buildRequiredActions(analysis, postSubscribe, subscribedBefore, connectRanSubscribe) {
+function buildRequiredActions(analysis, postSubscribe, subscribedBefore, connectRanSubscribe, callbackUrl) {
   const actions = [];
 
   if (!analysis?.hasPageLeadgenSubscription) {
     actions.push({
       priority: 1,
       action: 'Meta Developer Console → your App → Webhooks → Page → Add subscription',
-      details: 'Set callback URL to https://leadforgrow.com/api/webhooks/meta/696956dde910b99089019e29 and subscribe to leadgen field'
+      details: `Set callback URL to ${callbackUrl} and subscribe to leadgen field`
     });
   }
 
@@ -222,7 +233,7 @@ function buildRequiredActions(analysis, postSubscribe, subscribedBefore, connect
     actions.push({
       priority: 2,
       action: 'Reconnect Meta Ads in CRM to run POST /subscribed_apps',
-      details: 'lib/integrations/service.js:273 — or call ?forceSubscribe=1 on this endpoint'
+      details: 'lib/integrations/service.js:273 — or POST to this endpoint'
     });
   }
 
@@ -238,7 +249,7 @@ function buildRequiredActions(analysis, postSubscribe, subscribedBefore, connect
     actions.push({
       priority: 3,
       action: 'POST /subscribed_apps returned success — page should be linked to app',
-      details: 'If Testing Tool still fails, verify same App ID 2089887098254828 is selected in the tool'
+      details: `If Testing Tool still fails, verify same App ID ${EXPECTED_APP_ID} is selected in the tool`
     });
   }
 

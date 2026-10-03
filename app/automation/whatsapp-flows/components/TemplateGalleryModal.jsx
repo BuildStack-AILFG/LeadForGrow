@@ -27,12 +27,12 @@ export default function TemplateGalleryModal({ onClose, onSelect }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
       <div
-        className="w-full max-w-lg max-h-[80vh] flex flex-col rounded-lg bg-canvas shadow-modal overflow-hidden"
+        className="w-full max-w-lg max-h-[80vh] flex flex-col rounded-lg bg-canvas dark:bg-slate-900 shadow-modal overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="px-4 py-3 border-b border-line flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-fg">Template gallery</h3>
-          <button type="button" onClick={onClose} className="p-1 rounded hover:bg-muted text-fg-tertiary">
+        <div className="px-4 py-3 border-b border-line dark:border-slate-800 flex items-center justify-between">
+          <h3 className="text-sm font-semibold text-fg dark:text-slate-50">Template gallery</h3>
+          <button type="button" onClick={onClose} className="p-1 rounded hover:bg-muted dark:hover:bg-slate-700 text-fg-tertiary">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -43,7 +43,7 @@ export default function TemplateGalleryModal({ onClose, onSelect }) {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search templates…"
-              className="w-full pl-8 pr-3 py-2 rounded-lg border border-line text-sm focus:outline-none focus:ring-2 focus:ring-focus focus:border-accent"
+              className="w-full pl-8 pr-3 py-2 rounded-lg border border-line dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand"
             />
           </div>
         </div>
@@ -58,11 +58,11 @@ export default function TemplateGalleryModal({ onClose, onSelect }) {
                 key={t.id || t.name}
                 type="button"
                 onClick={() => onSelect(t)}
-                className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-line hover:border-line hover:bg-accent-subtle text-left transition-colors"
+                className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-line dark:border-slate-800 hover:border-brand-tint-strong hover:bg-brand-tint text-left transition-colors"
               >
                 <FileText className="w-4 h-4 text-fg-tertiary shrink-0" />
                 <div className="min-w-0">
-                  <div className="text-sm font-medium text-fg truncate">{t.name}</div>
+                  <div className="text-sm font-medium text-fg dark:text-slate-100 truncate">{t.name}</div>
                   <div className="text-meta text-fg-tertiary">{t.language || 'en'}</div>
                 </div>
               </button>

@@ -12,17 +12,17 @@ const TABS = [
   { id: 'tags', label: 'By tag', icon: Tag, hint: 'Send to everyone with a given tag' },
 ];
 
-export default function AudiencePicker({ audience, onChange, campaignName = 'broadcast' }) {
+export default function AudiencePicker({ audience, onChange, campaignName = 'broadcast', channel = 'whatsapp' }) {
   const [tab, setTab] = useState(audience?.type || 'manual');
   useEffect(() => { onChange({ type: tab, ...normalize(tab, audience) }); /* eslint-disable-next-line */ }, [tab]);
 
   return (
-    <div className="rounded-lg border border-line dark:border-slate-800 bg-canvas dark:bg-slate-900">
+    <div className="rounded border border-line dark:border-slate-800 bg-canvas dark:bg-slate-900">
       <div className="grid grid-cols-4 border-b border-line dark:border-slate-800">
         {TABS.map((t) => (
           <button key={t.id} type="button" onClick={() => setTab(t.id)}
             className={`flex flex-col items-center gap-1 py-3 text-xs font-medium border-b-2 transition-colors ${
-              tab === t.id ? 'border-accent text-accent-fg dark:text-accent-fg bg-accent-subtle dark:bg-emerald-950/20' : 'border-transparent text-fg-tertiary hover:text-fg-secondary'
+              tab === t.id ? 'border-accent text-accent-fg dark:text-accent-fg bg-accent-subtle dark:bg-emerald-950/20' : 'border-transparent text-fg-tertiary dark:text-fg-tertiary hover:text-fg-secondary dark:hover:text-slate-200'
             }`}>
             <t.icon className="w-4 h-4" />
             {t.label}
@@ -32,7 +32,7 @@ export default function AudiencePicker({ audience, onChange, campaignName = 'bro
 
       <div className="p-4">
         {tab === 'manual' && <ManualPicker audience={audience} onChange={onChange} />}
-        {tab === 'csv' && <CsvImporter campaignName={campaignName} onChange={onChange} audience={audience} />}
+        {tab === 'csv' && <CsvImporter campaignName={campaignName} onChange={onChange} audience={audience} channel={channel} />}
         {tab === 'filter' && <FilterPicker audience={audience} onChange={onChange} />}
         {tab === 'tags' && <TagPicker audience={audience} onChange={onChange} />}
       </div>
@@ -86,27 +86,27 @@ function ManualPicker({ audience, onChange }) {
       <div className="relative mb-3">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-fg-tertiary" />
         <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search leads by name or phone…"
-          className="w-full pl-10 pr-4 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm" />
+          className="w-full pl-10 pr-4 py-2 rounded border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm" />
       </div>
       <div className="flex items-center justify-between mb-2 text-xs">
-        <span className="text-fg-tertiary">{selected.size} selected</span>
+        <span className="text-fg-tertiary dark:text-fg-tertiary">{selected.size} selected</span>
         <div className="flex gap-2">
-          <button type="button" onClick={selectAll} className="text-accent-fg hover:underline">Select all visible</button>
-          {selected.size > 0 && <button type="button" onClick={clearAll} className="text-fg-tertiary hover:underline">Clear</button>}
+          <button type="button" onClick={selectAll} className="text-accent-fg dark:text-accent-fg hover:underline">Select all visible</button>
+          {selected.size > 0 && <button type="button" onClick={clearAll} className="text-fg-tertiary dark:text-fg-tertiary hover:underline">Clear</button>}
         </div>
       </div>
-      <div className="max-h-72 overflow-y-auto rounded-lg border border-line dark:border-slate-800 divide-y divide-line dark:divide-slate-800">
+      <div className="max-h-72 overflow-y-auto rounded border border-line dark:border-slate-800 divide-y divide-line dark:divide-slate-800">
         {loading ? (
           <div className="p-6 flex items-center justify-center"><Loader2 className="w-4 h-4 animate-spin text-fg-tertiary" /></div>
         ) : leads.length === 0 ? (
-          <p className="p-6 text-center text-xs text-fg-tertiary">No leads found</p>
+          <p className="p-6 text-center text-xs text-fg-tertiary dark:text-fg-tertiary">No leads found</p>
         ) : leads.map((l) => (
           <label key={l._id} className="flex items-center gap-3 px-3 py-2 hover:bg-subtle dark:hover:bg-slate-800/50 cursor-pointer text-sm">
             <input type="checkbox" checked={selected.has(l._id)} onChange={() => toggle(l._id)}
-              className="rounded text-accent-fg focus:ring-focus" />
+              className="rounded text-accent-fg dark:text-accent-fg focus:ring-focus" />
             <div className="flex-1 min-w-0">
               <p className="font-medium text-fg dark:text-white truncate">{l.name}</p>
-              <p className="text-meta text-fg-tertiary truncate">
+              <p className="text-meta text-fg-tertiary dark:text-fg-tertiary truncate">
                 {l.phone || l.whatsapp || 'no phone'} · {l.status || 'new'} {l.source ? `· ${l.source}` : ''}
               </p>
             </div>
@@ -117,12 +117,16 @@ function ManualPicker({ audience, onChange }) {
   );
 }
 
-function CsvImporter({ campaignName, onChange, audience }) {
+function CsvImporter({ campaignName, onChange, audience, channel = 'whatsapp' }) {
   const inputRef = useRef(null);
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState(null);
   const [result, setResult] = useState(null);
   const [fileToImport, setFileToImport] = useState(null);
+
+  // Email-only campaigns key on the email column; WhatsApp / both key on phone.
+  const emailOnly = channel === 'email';
+  const keyLabel = emailOnly ? 'email' : 'phone';
 
   const runUpload = async (dryRun) => {
     if (!fileToImport) return;
@@ -132,6 +136,7 @@ function CsvImporter({ campaignName, onChange, audience }) {
       const fd = new FormData();
       fd.append('file', fileToImport);
       fd.append('campaignName', campaignName);
+      fd.append('channel', channel);
       if (dryRun) fd.append('dryRun', '1');
       const res = await fetch('/api/automation/broadcasts/import-csv', {
         method: 'POST',
@@ -163,7 +168,7 @@ function CsvImporter({ campaignName, onChange, audience }) {
   return (
     <div className="space-y-3">
       <div
-        className="border-2 border-dashed border-line-strong dark:border-slate-700 rounded-lg p-6 text-center hover:border-emerald-400 transition-colors cursor-pointer"
+        className="border-2 border-dashed border-line-strong dark:border-slate-700 rounded p-6 text-center hover:border-emerald-400 transition-colors cursor-pointer"
         onClick={() => inputRef.current?.click()}
         onDragOver={(e) => e.preventDefault()}
         onDrop={(e) => { e.preventDefault(); handlePick(e.dataTransfer.files[0]); }}
@@ -172,7 +177,11 @@ function CsvImporter({ campaignName, onChange, audience }) {
         <p className="text-sm font-medium text-fg-secondary dark:text-fg-disabled">
           {fileToImport?.name || 'Drop CSV or Excel file here, or click to browse'}
         </p>
-        <p className="text-meta text-fg-tertiary mt-1">Must have a column named phone / mobile / whatsapp / number</p>
+        <p className="text-meta text-fg-tertiary dark:text-fg-tertiary mt-1">
+          {emailOnly
+            ? 'Must have a column named email / e-mail / mail (phone optional)'
+            : 'Must have a column named phone / mobile / whatsapp / number'}
+        </p>
         <input ref={inputRef} type="file" className="hidden" accept=".csv,.xlsx,.xlsm"
           onChange={(e) => handlePick(e.target.files?.[0])} />
       </div>
@@ -180,7 +189,7 @@ function CsvImporter({ campaignName, onChange, audience }) {
       {fileToImport && !result && (
         <div className="flex gap-2">
           <button type="button" disabled={uploading} onClick={() => runUpload(true)}
-            className="px-3 py-2 rounded-lg text-xs font-medium bg-muted dark:bg-slate-800 hover:bg-muted dark:hover:bg-slate-700">
+            className="px-3 py-2 rounded text-xs font-medium bg-muted dark:bg-slate-800 hover:bg-muted dark:hover:bg-slate-700">
             {uploading ? 'Checking…' : 'Preview'}
           </button>
           <button type="button" disabled={uploading} onClick={() => runUpload(false)}
@@ -191,11 +200,11 @@ function CsvImporter({ campaignName, onChange, audience }) {
       )}
 
       {preview && (
-        <div className="rounded-lg border border-line dark:border-slate-800 p-3 text-xs space-y-2">
+        <div className="rounded border border-line dark:border-slate-800 p-3 text-xs space-y-2">
           <div className="flex flex-wrap gap-3">
             <Badge tone="emerald">✓ {preview.valid} valid</Badge>
             {preview.duplicates > 0 && <Badge tone="amber">⚠ {preview.duplicates} duplicates</Badge>}
-            {preview.invalid > 0 && <Badge tone="red">✗ {preview.invalid} invalid phone</Badge>}
+            {preview.invalid > 0 && <Badge tone="red">✗ {preview.invalid} invalid {keyLabel}</Badge>}
           </div>
           {preview.preview?.length > 0 && (
             <table className="w-full text-meta mt-2">
@@ -211,16 +220,16 @@ function CsvImporter({ campaignName, onChange, audience }) {
       )}
 
       {result && (
-        <div className="rounded-lg bg-accent-subtle dark:bg-emerald-950/30 border border-line dark:border-emerald-900 p-3 text-xs">
+        <div className="rounded bg-accent-subtle dark:bg-emerald-950/30 border border-line dark:border-emerald-900 p-3 text-xs">
           <p className="flex items-center gap-1.5 text-accent-fg dark:text-accent-fg font-semibold">
             <CheckCircle2 className="w-4 h-4" /> {result.created + result.updated} recipients loaded
           </p>
-          <p className="text-fg-secondary mt-1">Created {result.created}, updated {result.updated}. Tagged as <code className="bg-canvas dark:bg-slate-900 px-1 rounded">{result.tag}</code></p>
+          <p className="text-fg-secondary dark:text-fg-disabled mt-1">Created {result.created}, updated {result.updated}. Tagged as <code className="bg-canvas dark:bg-slate-900 px-1 rounded">{result.tag}</code></p>
         </div>
       )}
 
       {audience?.leadIds?.length > 0 && !result && (
-        <p className="text-meta text-fg-tertiary">Current audience: {audience.leadIds.length} recipients</p>
+        <p className="text-meta text-fg-tertiary dark:text-fg-tertiary">Current audience: {audience.leadIds.length} recipients</p>
       )}
     </div>
   );
@@ -232,9 +241,9 @@ function FilterPicker({ audience, onChange }) {
   return (
     <div className="grid gap-3 sm:grid-cols-2">
       <label className="text-xs">
-        <span className="text-fg-tertiary block mb-1">Status</span>
+        <span className="text-fg-tertiary dark:text-fg-tertiary block mb-1">Status</span>
         <select value={f.status || ''} onChange={(e) => set('status', e.target.value || undefined)}
-          className="w-full px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm">
+          className="w-full px-3 py-2 rounded border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm">
           <option value="">Any status</option>
           <option value="new_lead">New</option>
           <option value="first_contact">First contact</option>
@@ -244,15 +253,15 @@ function FilterPicker({ audience, onChange }) {
         </select>
       </label>
       <label className="text-xs">
-        <span className="text-fg-tertiary block mb-1">Source</span>
+        <span className="text-fg-tertiary dark:text-fg-tertiary block mb-1">Source</span>
         <input value={f.source || ''} onChange={(e) => set('source', e.target.value || undefined)}
-          placeholder="e.g. facebook_ad" className="w-full px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm" />
+          placeholder="e.g. facebook_ad" className="w-full px-3 py-2 rounded border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm" />
       </label>
       <label className="text-xs sm:col-span-2">
-        <span className="text-fg-tertiary block mb-1">Tags (comma-separated)</span>
+        <span className="text-fg-tertiary dark:text-fg-tertiary block mb-1">Tags (comma-separated)</span>
         <input value={(f.tags || []).join(', ')}
           onChange={(e) => set('tags', e.target.value.split(',').map((t) => t.trim()).filter(Boolean))}
-          placeholder="vip, hot_lead" className="w-full px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm" />
+          placeholder="vip, hot_lead" className="w-full px-3 py-2 rounded border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm" />
       </label>
     </div>
   );
@@ -262,11 +271,11 @@ function TagPicker({ audience, onChange }) {
   const tags = audience?.tags || [];
   return (
     <label className="text-xs block">
-      <span className="text-fg-tertiary block mb-1">Audience tags (comma-separated)</span>
+      <span className="text-fg-tertiary dark:text-fg-tertiary block mb-1">Audience tags (comma-separated)</span>
       <input value={tags.join(', ')}
         onChange={(e) => onChange({ type: 'tags', tags: e.target.value.split(',').map((t) => t.trim()).filter(Boolean) })}
         placeholder="e.g. newsletter, hot_lead"
-        className="w-full px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm" />
+        className="w-full px-3 py-2 rounded border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm" />
     </label>
   );
 }
@@ -274,8 +283,8 @@ function TagPicker({ audience, onChange }) {
 function Badge({ tone, children }) {
   const map = {
     emerald: 'bg-accent-subtle text-accent-fg dark:bg-accent-pressed/30 dark:text-accent-fg',
-    amber: 'bg-warning-subtle text-warning',
-    red: 'bg-danger-subtle text-red-800',
+    amber: 'bg-warning-subtle dark:bg-amber-900/30 text-warning dark:text-amber-200',
+    red: 'bg-danger-subtle dark:bg-red-900/30 text-red-800 dark:text-red-200',
   };
   return <span className={`px-2 py-1 rounded font-medium ${map[tone] || map.emerald}`}>{children}</span>;
 }

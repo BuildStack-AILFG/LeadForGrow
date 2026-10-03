@@ -1,3 +1,4 @@
+import { workingDraftFilter } from '@/lib/omnichannel/draftFields';
 import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/mongodb';
 import Business from '@/models/Business';
@@ -9,6 +10,7 @@ import { sendAutoWhatsApp } from '@/lib/integrations/whatsapp';
 import { sendMetaMediaMessage } from '@/lib/integrations/whatsappMedia';
 import { recordChannelMessage } from '@/lib/omnichannel/conversationService';
 import { sendChannelEmail } from '@/lib/omnichannel/emailService';
+import { normalizeRecipients } from '@/lib/omnichannel/recipients';
 import { mimeToMessageType } from '@/lib/omnichannel/mediaTypes';
 
 async function handler(req) {
@@ -24,8 +26,8 @@ async function handler(req) {
       subject,
       replyToMessageId,
       replyAll = false,
-      cc,
-      bcc,
+      cc: rawCc,
+      bcc: rawBcc,
       mediaUrl,
       mimeType,
       fileName,
@@ -46,7 +48,15 @@ async function handler(req) {
       // sender appends the specific signature the user chose. When absent,
       // sendChannelEmail falls back to the mailbox's default signature.
       signatureId,
+      // "Compose email" — a raw recipient address (+ optional name) when there
+      // is no existing lead/conversation yet. The lead is created on the fly.
+      toEmail,
+      toName,
     } = body;
+    // The New Email window sends Cc/Bcc as a comma-separated string, the
+    // thread composer as [{ email }]. Normalise once so every path gets an array.
+    const cc = normalizeRecipients(rawCc);
+    const bcc = normalizeRecipients(rawBcc);
 
     const hasMedia = !!mediaUrl;
     const hasTemplate = !!templateName;
@@ -65,9 +75,22 @@ async function handler(req) {
       : null;
 
     const resolvedLeadId = leadId || conversation?.leadId;
-    const lead = resolvedLeadId
+    let lead = resolvedLeadId
       ? await Lead.findOne({ _id: resolvedLeadId, businessId: user.businessId })
       : null;
+
+    // "Compose email": no existing lead/conversation, just a recipient address.
+    // Find or create the lead so every email recipient is a tracked CRM contact.
+    if (!lead && !isInternal && channel === 'email' && toEmail?.trim()) {
+      const { matchCustomer } = await import('@/lib/omnichannel/customerMatching');
+      const matched = await matchCustomer(user.businessId, {
+        email: toEmail.trim(),
+        name: (toName || '').trim() || undefined,
+        channel: 'email',
+        createIfMissing: true,
+      });
+      lead = matched.lead;
+    }
 
     if (!lead && !isInternal) {
       return NextResponse.json({ success: false, error: 'Lead not found' }, { status: 404 });
@@ -116,6 +139,7 @@ async function handler(req) {
     }
 
     let externalMessageId;
+    let sentEmailHtml;
 
     if (activeChannel === 'whatsapp') {
       if (hasMedia) {
@@ -125,6 +149,7 @@ async function handler(req) {
           fileName,
           caption: message.trim() || undefined,
           messageType: resolvedType,
+          origin: 'user', // an agent attached this
         });
         if (!result.success) {
           return NextResponse.json({ success: false, error: result.error || 'Media send failed' }, { status: 500 });
@@ -141,9 +166,11 @@ async function handler(req) {
           templateLanguage || 'en',
           null,
           Array.isArray(templateVariables) ? templateVariables : null,
+          null,
+          { origin: 'user' }, // an agent typed this
         );
         if (!result.success) {
-          return NextResponse.json({ success: false, error: result.error || 'Send failed' }, { status: 500 });
+          return NextResponse.json({ success: false, error: result.error || 'Send failed' }, { status: result.reason === 'opted_out' ? 403 : 500 });
         }
         externalMessageId = result.messageId;
       }
@@ -167,6 +194,7 @@ async function handler(req) {
         return NextResponse.json({ success: false, error: emailResult.error }, { status: 500 });
       }
       externalMessageId = emailResult.messageId;
+      sentEmailHtml = emailResult.sentHtml;
     } else if (activeChannel === 'instagram') {
       const { sendInstagramMessage, sendInstagramMedia, sendInstagramCommentReply } = await import('@/lib/instagram/send');
       const { IG_COMMENT_PARTICIPANT_PREFIX } = await import('@/lib/instagram/handler');
@@ -193,9 +221,38 @@ async function handler(req) {
       }
 
       if (!igResult.success) {
+        // A human's reply isn't limited, but a platform block seen here must still pause automation + alert.
+        const { recordSendResult } = await import('@/lib/social/sendSafety');
+        await recordSendResult(business, 'instagram', igResult);
         return NextResponse.json({ success: false, error: igResult.error }, { status: 500 });
       }
       externalMessageId = igResult.messageId;
+    } else if (activeChannel === 'facebook') {
+      const { sendMessengerMessage, sendMessengerMedia, sendFacebookCommentReply } = await import('@/lib/facebook/send');
+      const { FB_COMMENT_PARTICIPANT_PREFIX } = await import('@/lib/facebook/handler');
+      const participantId = conversation?.participantId || '';
+      const isCommentThread = participantId.startsWith(FB_COMMENT_PARTICIPANT_PREFIX);
+
+      let fbResult;
+      if (isCommentThread) {
+        const targetCommentId = conversation?.metadata?.get?.('lastCommentId')
+          || conversation?.metadata?.lastCommentId;
+        if (!targetCommentId) {
+          return NextResponse.json({ success: false, error: 'No comment to reply to on this thread' }, { status: 400 });
+        }
+        fbResult = await sendFacebookCommentReply(business, targetCommentId, message.trim());
+      } else {
+        fbResult = hasMedia
+          ? await sendMessengerMedia(business, participantId, { mediaUrl, messageType: resolvedType })
+          : await sendMessengerMessage(business, participantId, message.trim());
+      }
+
+      if (!fbResult.success) {
+        const { recordSendResult } = await import('@/lib/social/sendSafety');
+        await recordSendResult(business, 'facebook', fbResult);
+        return NextResponse.json({ success: false, error: fbResult.error }, { status: 500 });
+      }
+      externalMessageId = fbResult.messageId;
     } else {
       return NextResponse.json({ success: false, error: 'Unsupported channel' }, { status: 400 });
     }
@@ -212,12 +269,15 @@ async function handler(req) {
       type: hasMedia ? resolvedType : (activeChannel === 'email' ? 'email' : 'text'),
       content: {
         body: message.trim() || fileName || '',
-        html: activeChannel === 'email' && bodyHtml ? bodyHtml : undefined,
+        html: activeChannel === 'email' ? (sentEmailHtml || bodyHtml || undefined) : undefined,
         mediaUrl,
         mimeType,
         fileName,
         caption: message.trim() || undefined,
         participantId: conversation?.participantId,
+        // Email file attachments — persisted so the sent message renders its
+        // attachment cards in the thread, matching how inbound mail shows them.
+        attachments: activeChannel === 'email' && Array.isArray(attachments) && attachments.length ? attachments : undefined,
       },
       status: 'sent',
       performedBy: user.userId,
@@ -235,11 +295,15 @@ async function handler(req) {
     if (draftId) {
       await EmailDraft.findOneAndDelete({ _id: draftId, businessId: user.businessId });
     }
+    // The auto-saved working draft of this thread is obsolete once the reply is sent (drafts used to pile up forever).
+    if (activeChannel === 'email' && conversation?._id) {
+      await EmailDraft.deleteMany(workingDraftFilter({ businessId: user.businessId, conversationId: conversation._id, userId: user.userId }));
+    }
 
     return NextResponse.json({ success: true, data: result.message, messageId: externalMessageId });
   } catch (error) {
     console.error('[Inbox API] send:', error);
-    return NextResponse.json({ success: false, error: error.message || 'Send failed' }, { status: 500 });
+    return NextResponse.json({ success: false, error: error.message || 'Send failed' }, { status: error.code === 'OPTED_OUT' ? 403 : 500 });
   }
 }
 

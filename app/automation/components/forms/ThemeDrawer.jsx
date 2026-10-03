@@ -26,14 +26,14 @@ export default function ThemeDrawer({ open, styling, onChange, onClose }) {
         <div className="flex items-center justify-between px-6 py-5">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-lg bg-canvas border border-line dark:bg-teal-950/50 flex items-center justify-center">
-              <Palette className="w-4 h-4 text-fg-secondary" />
+              <Palette className="w-4 h-4 text-fg-secondary dark:text-accent-fg" />
             </div>
             <div>
               <h2 className="text-base font-semibold text-fg dark:text-slate-50">Theme & design</h2>
-              <p className="text-xs text-fg-tertiary">Customize how your form looks</p>
+              <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">Customize how your form looks</p>
             </div>
           </div>
-          <button type="button" onClick={onClose} className="p-2 text-fg-tertiary hover:text-fg-secondary rounded-lg hover:bg-muted dark:hover:bg-slate-800">
+          <button type="button" onClick={onClose} className="p-2 text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled rounded-lg hover:bg-muted dark:hover:bg-slate-800">
             <X className="w-5 h-5" />
           </button>
         </div>

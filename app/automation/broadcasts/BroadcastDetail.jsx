@@ -8,16 +8,20 @@ import { decodeMetaError, extractErrorCode } from '@/lib/whatsapp/metaErrors';
 import PageLoader from '../components/PageLoader';
 
 const STATUS_META = {
-  sent: { label: 'Sent', color: 'text-fg-secondary', bg: 'bg-muted', Icon: Send },
-  delivered: { label: 'Delivered', color: 'text-accent-fg', bg: 'bg-accent-subtle', Icon: CheckCircle2 },
-  read: { label: 'Read', color: 'text-accent-fg', bg: 'bg-accent-subtle', Icon: Eye },
-  failed: { label: 'Failed', color: 'text-danger', bg: 'bg-danger-subtle', Icon: AlertCircle },
-  pending: { label: 'Pending', color: 'text-warning', bg: 'bg-warning-subtle', Icon: Loader2 },
-  skipped: { label: 'Skipped', color: 'text-fg-tertiary', bg: 'bg-muted', Icon: UserX },
-  opted_out: { label: 'Opted out', color: 'text-accent-fg', bg: 'bg-accent-subtle', Icon: UserX },
+  sent: { label: 'Sent', color: 'text-fg-secondary dark:text-slate-200', bg: 'bg-muted dark:bg-slate-800', Icon: Send },
+  delivered: { label: 'Delivered', color: 'text-accent-fg dark:text-accent-fg', bg: 'bg-accent-subtle dark:bg-accent-pressed/30', Icon: CheckCircle2 },
+  read: { label: 'Read', color: 'text-accent-fg dark:text-accent-fg', bg: 'bg-accent-subtle dark:bg-accent-pressed/30', Icon: Eye },
+  failed: { label: 'Failed', color: 'text-danger dark:text-red-300', bg: 'bg-danger-subtle dark:bg-red-900/30', Icon: AlertCircle },
+  pending: { label: 'Pending', color: 'text-warning dark:text-amber-300', bg: 'bg-warning-subtle dark:bg-amber-900/30', Icon: Loader2 },
+  skipped: { label: 'Skipped', color: 'text-fg-tertiary dark:text-fg-tertiary', bg: 'bg-muted dark:bg-slate-800', Icon: UserX },
+  opted_out: { label: 'Opted out', color: 'text-accent-fg dark:text-accent-fg', bg: 'bg-accent-subtle dark:bg-accent-pressed/30', Icon: UserX },
 };
 
-const FILTERS = ['all', 'delivered', 'read', 'failed', 'pending', 'sent'];
+// WhatsApp gives a sent → delivered → read funnel via Meta status webhooks.
+// Email over SMTP has no delivery/read receipt, so its only truthful states
+// are Sent (accepted by the mail server) vs Failed (rejected).
+const FILTERS_WHATSAPP = ['all', 'delivered', 'read', 'failed', 'pending', 'sent'];
+const FILTERS_EMAIL = ['all', 'sent', 'failed', 'pending'];
 
 export default function BroadcastDetail({ broadcastId, onClose }) {
   const [broadcast, setBroadcast] = useState(null);
@@ -51,22 +55,28 @@ export default function BroadcastDetail({ broadcastId, onClose }) {
     return counts;
   }, [broadcast]);
 
+  const isEmail = broadcast?.channel === 'email';
+  const FILTERS = isEmail ? FILTERS_EMAIL : FILTERS_WHATSAPP;
+  // If the persisted filter isn't valid for this channel (e.g. "delivered" on an
+  // email broadcast), fall back to All so the list never looks empty-by-accident.
+  const activeFilter = FILTERS.includes(filter) ? filter : 'all';
+
   const filtered = useMemo(() => {
     const recipients = broadcast?.recipients || [];
     return recipients
-      .filter((r) => filter === 'all' || r.status === filter)
+      .filter((r) => activeFilter === 'all' || r.status === activeFilter)
       .filter((r) => {
         if (!query.trim()) return true;
         const q = query.toLowerCase();
-        return (r.name || '').toLowerCase().includes(q) || (r.phone || '').includes(q);
+        return (r.name || '').toLowerCase().includes(q) || (r.phone || '').includes(q) || (r.email || '').toLowerCase().includes(q);
       });
-  }, [broadcast, filter, query]);
+  }, [broadcast, activeFilter, query]);
 
   const exportFailedCsv = () => {
     const failed = (broadcast?.recipients || []).filter((r) => r.status === 'failed');
-    const rows = [['Name', 'Phone', 'Reason', 'Code', 'When']];
+    const rows = [['Name', 'Phone', 'Email', 'Reason', 'Code', 'When']];
     for (const r of failed) {
-      rows.push([r.name || '', r.phone || '', r.error || '', r.failureCode || '', r.failedAt ? new Date(r.failedAt).toISOString() : '']);
+      rows.push([r.name || '', r.phone || '', r.email || '', r.error || '', r.failureCode || '', r.failedAt ? new Date(r.failedAt).toISOString() : '']);
     }
     const csv = rows.map((row) => row.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
@@ -93,17 +103,17 @@ export default function BroadcastDetail({ broadcastId, onClose }) {
               </h2>
             </div>
             {broadcast?.content?.whatsappTemplateName && (
-              <p className="text-xs text-fg-tertiary mt-1">
+              <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-1">
                 Template: <span className="font-mono">{broadcast.content.whatsappTemplateName}</span>
                 {broadcast.content.whatsappTemplateLanguage ? ` · ${broadcast.content.whatsappTemplateLanguage}` : ''}
               </p>
             )}
           </div>
           <div className="flex items-center gap-2">
-            <button type="button" onClick={load} className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800" title="Refresh">
+            <button type="button" onClick={load} className="p-2 rounded hover:bg-muted dark:hover:bg-slate-800" title="Refresh">
               <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
             </button>
-            <button type="button" onClick={onClose} className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800" title="Close">
+            <button type="button" onClick={onClose} className="p-2 rounded hover:bg-muted dark:hover:bg-slate-800" title="Close">
               <X className="w-4 h-4" />
             </button>
           </div>
@@ -116,20 +126,36 @@ export default function BroadcastDetail({ broadcastId, onClose }) {
             {/* Stat tiles */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-5">
               <StatTile label="Total" value={stats.total} />
-              <StatTile label="Delivered" value={stats.delivered + stats.read} tone="blue" hint={stats.total ? `${Math.round(((stats.delivered + stats.read) / stats.total) * 100)}%` : null} />
-              <StatTile label="Read" value={stats.read} tone="emerald" hint={stats.total ? `${Math.round((stats.read / stats.total) * 100)}%` : null} />
-              <StatTile label="Failed" value={stats.failed} tone="red" hint={stats.total ? `${Math.round((stats.failed / stats.total) * 100)}%` : null} />
+              {isEmail ? (
+                <>
+                  <StatTile label="Sent" value={stats.sent} tone="blue" hint={stats.total ? `${Math.round((stats.sent / stats.total) * 100)}%` : null} />
+                  <StatTile label="Failed" value={stats.failed} tone="red" hint={stats.total ? `${Math.round((stats.failed / stats.total) * 100)}%` : null} />
+                  <StatTile label="Opens" value="—" hint="not tracked" />
+                </>
+              ) : (
+                <>
+                  <StatTile label="Delivered" value={stats.delivered + stats.read} tone="blue" hint={stats.total ? `${Math.round(((stats.delivered + stats.read) / stats.total) * 100)}%` : null} />
+                  <StatTile label="Read" value={stats.read} tone="emerald" hint={stats.total ? `${Math.round((stats.read / stats.total) * 100)}%` : null} />
+                  <StatTile label="Failed" value={stats.failed} tone="red" hint={stats.total ? `${Math.round((stats.failed / stats.total) * 100)}%` : null} />
+                </>
+              )}
             </div>
 
+            {isEmail && (
+              <div className="mx-5 -mt-2 mb-1 text-meta text-fg-tertiary dark:text-fg-tertiary">
+                Email shows Sent vs Failed — delivery &amp; open receipts aren&apos;t available over standard email.
+              </div>
+            )}
+
             {stats.opted_out > 0 && (
-              <div className="mx-5 mb-3 rounded-lg bg-accent-subtle dark:bg-purple-950/30 border border-line dark:border-purple-900 p-2 text-xs text-accent-fg dark:text-accent-fg flex items-center gap-2">
+              <div className="mx-5 mb-3 rounded bg-accent-subtle dark:bg-purple-950/30 border border-line dark:border-purple-900 p-2 text-xs text-accent-fg dark:text-accent-fg flex items-center gap-2">
                 <UserX className="w-3.5 h-3.5" />
                 {stats.opted_out} recipients skipped — previously opted out
               </div>
             )}
 
             {broadcast?.abortReason && (
-              <div className="mx-5 mb-3 rounded-lg bg-warning-subtle dark:bg-amber-950/30 border border-warning/30 dark:border-amber-900 p-3 text-xs text-warning dark:text-amber-300 flex items-start gap-2">
+              <div className="mx-5 mb-3 rounded bg-warning-subtle dark:bg-amber-950/30 border border-warning/30 dark:border-amber-900 p-3 text-xs text-warning dark:text-amber-300 flex items-start gap-2">
                 <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
                 <div>
                   <p className="font-semibold">Broadcast auto-paused by quality guardrail</p>
@@ -140,13 +166,13 @@ export default function BroadcastDetail({ broadcastId, onClose }) {
 
             {/* Toolbar */}
             <div className="px-5 pb-3 flex flex-wrap gap-2 items-center">
-              <div className="flex gap-1 p-1 bg-muted dark:bg-slate-900 rounded-lg">
+              <div className="flex gap-1 p-1 bg-muted dark:bg-slate-900 rounded">
                 {FILTERS.map((f) => {
                   const count = f === 'all' ? stats.total : (stats[f] || 0);
                   return (
                     <button key={f} type="button" onClick={() => setFilter(f)}
                       className={`px-2.5 py-1 text-[11px] font-medium rounded-md ${
-                        filter === f ? 'bg-canvas dark:bg-slate-800' : 'text-fg-tertiary hover:text-fg-secondary'
+                        activeFilter === f ? 'bg-canvas dark:bg-slate-800' : 'text-fg-tertiary dark:text-fg-tertiary hover:text-fg-secondary dark:hover:text-slate-200'
                       }`}>
                       {f.charAt(0).toUpperCase() + f.slice(1)} {count > 0 && <span className="text-fg-tertiary">{count}</span>}
                     </button>
@@ -156,12 +182,12 @@ export default function BroadcastDetail({ broadcastId, onClose }) {
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search name / phone"
-                className="flex-1 min-w-[160px] px-3 py-1.5 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-xs"
+                placeholder={isEmail ? 'Search name / email' : 'Search name / phone'}
+                className="flex-1 min-w-[160px] px-3 py-1.5 rounded border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-xs"
               />
               {stats.failed > 0 && (
                 <button type="button" onClick={exportFailedCsv}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-danger bg-danger-subtle hover:bg-danger-subtle">
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-danger dark:text-red-300 bg-danger-subtle dark:bg-red-950/30 hover:bg-danger-subtle dark:hover:bg-red-900/30">
                   <Download className="w-3.5 h-3.5" /> Export failed
                 </button>
               )}
@@ -170,11 +196,11 @@ export default function BroadcastDetail({ broadcastId, onClose }) {
             {/* Table */}
             <div className="flex-1 overflow-y-auto px-5 pb-5">
               {filtered.length === 0 ? (
-                <p className="text-center text-sm text-fg-tertiary py-16">No recipients match this view</p>
+                <p className="text-center text-sm text-fg-tertiary dark:text-fg-tertiary py-16">No recipients match this view</p>
               ) : (
-                <div className="rounded-lg border border-line dark:border-slate-800 overflow-hidden">
+                <div className="rounded border border-line dark:border-slate-800 overflow-x-auto">
                   <table className="w-full text-xs">
-                    <thead className="bg-subtle dark:bg-slate-900 text-fg-tertiary">
+                    <thead className="bg-subtle dark:bg-slate-900 text-fg-tertiary dark:text-fg-tertiary">
                       <tr>
                         <th className="text-left p-2 font-medium">Recipient</th>
                         <th className="text-left p-2 font-medium">Status</th>
@@ -190,21 +216,21 @@ export default function BroadcastDetail({ broadcastId, onClose }) {
                           <tr key={r.leadId ? `${r.leadId}-${i}` : i} className="hover:bg-subtle/60 dark:hover:bg-slate-900/40">
                             <td className="p-2">
                               <p className="font-medium text-fg dark:text-white truncate max-w-[180px]">{r.name || 'Unnamed'}</p>
-                              <p className="text-meta text-fg-tertiary">{r.phone || r.email}</p>
+                              <p className="text-meta text-fg-tertiary dark:text-fg-tertiary">{isEmail ? (r.email || r.phone) : (r.phone || r.email)}</p>
                             </td>
                             <td className="p-2">
                               <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-meta font-semibold ${meta.bg} ${meta.color}`}>
                                 <Icon className="w-3 h-3" /> {meta.label}
                               </span>
                             </td>
-                            <td className="p-2 text-fg-tertiary whitespace-nowrap">
+                            <td className="p-2 text-fg-tertiary dark:text-fg-tertiary whitespace-nowrap">
                               {r.readAt ? relTime(r.readAt) : r.deliveredAt ? relTime(r.deliveredAt) : r.failedAt ? relTime(r.failedAt) : r.sentAt ? relTime(r.sentAt) : '—'}
                             </td>
-                            <td className="p-2 text-fg-tertiary max-w-[280px]">
+                            <td className="p-2 text-fg-tertiary dark:text-fg-tertiary max-w-[280px]">
                               {r.error ? (
                                 <FailureCell error={r.error} failureCode={r.failureCode} failureTitle={r.failureTitle} />
                               ) : r.status === 'opted_out' ? (
-                                <span className="text-accent-fg">Previously opted out</span>
+                                <span className="text-accent-fg dark:text-accent-fg">Previously opted out</span>
                               ) : '—'}
                             </td>
                           </tr>
@@ -229,27 +255,27 @@ function FailureCell({ error, failureCode, failureTitle }) {
 
   if (!decoded?.isKnown) {
     return (
-      <span className="text-danger" title={error}>
+      <span className="text-danger dark:text-red-400" title={error}>
         {failureTitle ? `${failureTitle}: ` : ''}{truncate(error, 80)}
       </span>
     );
   }
 
   return (
-    <div className="text-danger">
+    <div className="text-danger dark:text-red-300">
       <button type="button"
         onClick={() => setExpanded((v) => !v)}
         className="flex items-start gap-1 text-left hover:underline">
-        <span className="text-meta font-mono px-1.5 py-0.5 rounded bg-danger-subtle border border-danger/30 shrink-0 mt-0.5">
+        <span className="text-meta font-mono px-1.5 py-0.5 rounded bg-danger-subtle dark:bg-red-950/30 border border-danger/30 dark:border-red-800 shrink-0 mt-0.5">
           {decoded.code}
         </span>
         <span className="font-medium">{decoded.title}</span>
       </button>
       {expanded && (
-        <div className="mt-1.5 bg-danger-subtle border border-danger/30 rounded-md p-2 space-y-1 text-meta text-fg-secondary">
-          <p><span className="font-semibold text-fg">Why:</span> {decoded.explanation}</p>
-          <p><span className="font-semibold text-fg">Fix:</span> {decoded.actionable}</p>
-          {error && <p className="text-meta text-fg-tertiary font-mono truncate" title={error}>Raw: {error}</p>}
+        <div className="mt-1.5 bg-danger-subtle dark:bg-red-950/30 border border-danger/30 dark:border-red-800 rounded-md p-2 space-y-1 text-meta text-fg-secondary dark:text-slate-200">
+          <p><span className="font-semibold text-fg dark:text-slate-50">Why:</span> {decoded.explanation}</p>
+          <p><span className="font-semibold text-fg dark:text-slate-50">Fix:</span> {decoded.actionable}</p>
+          {error && <p className="text-meta text-fg-tertiary dark:text-fg-tertiary font-mono truncate" title={error}>Raw: {error}</p>}
         </div>
       )}
     </div>
@@ -259,13 +285,13 @@ function FailureCell({ error, failureCode, failureTitle }) {
 function StatTile({ label, value, tone = 'slate', hint }) {
   const toneMap = {
     slate: 'text-fg dark:text-white',
-    blue: 'text-accent-fg',
-    emerald: 'text-accent-fg',
-    red: 'text-danger',
+    blue: 'text-accent-fg dark:text-accent-fg',
+    emerald: 'text-accent-fg dark:text-accent-fg',
+    red: 'text-danger dark:text-red-400',
   };
   return (
     <div className="rounded-lg border border-line dark:border-slate-800 p-3 bg-canvas dark:bg-slate-900">
-      <p className="text-meta font-medium text-fg-tertiary">{label}</p>
+      <p className="text-meta font-medium text-fg-tertiary dark:text-fg-tertiary">{label}</p>
       <p className={`text-2xl font-semibold ${toneMap[tone]}`}>{value}</p>
       {hint && <p className="text-meta text-fg-tertiary mt-0.5">{hint}</p>}
     </div>

@@ -1,17 +1,16 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { memo } from 'react';
 import Link from 'next/link';
 import {
   CheckCircle2,
   Calendar,
   Phone,
-  MessageCircle,
   Mail,
   ExternalLink,
   AlertCircle,
-  Trash2
-} from 'lucide-react';
+  Trash2 } from 'lucide-react';
 import TaskTypeBadge from './TaskTypeBadge';
 import { assigneeName } from '../leads/utils';
 import { formatDueDate, getTimeUntil, isOverdue } from './utils';
@@ -47,7 +46,7 @@ function TaskRow({ task, onMarkDone, onReschedule, onCommunicate, onDelete }) {
             <p className="text-meta text-fg-tertiary tabular-nums">{lead.phone || '—'}</p>
           </div>
         ) : (
-          <span className="inline-flex items-center gap-1 text-meta font-medium text-warning bg-warning-subtle dark:bg-amber-950/30 px-2 py-0.5 rounded">
+          <span className="inline-flex items-center gap-1 text-meta font-medium text-warning dark:text-amber-300 bg-warning-subtle dark:bg-amber-950/30 px-2 py-0.5 rounded">
             <AlertCircle className="w-3 h-3" /> Lead deleted
           </span>
         )}
@@ -77,7 +76,7 @@ function TaskRow({ task, onMarkDone, onReschedule, onCommunicate, onDelete }) {
               type="button"
               disabled={!lead}
               onClick={() => onCommunicate(task, 'call')}
-              className="p-1.5 rounded text-fg-tertiary hover:text-accent-fg hover:bg-muted dark:hover:bg-slate-800 disabled:opacity-40"
+              className="p-1.5 rounded text-fg-tertiary hover:text-brand-ink hover:bg-muted dark:hover:bg-slate-800 disabled:opacity-40"
               title="Call"
             >
               <Phone className="w-3.5 h-3.5" />
@@ -88,10 +87,10 @@ function TaskRow({ task, onMarkDone, onReschedule, onCommunicate, onDelete }) {
               type="button"
               disabled={!lead}
               onClick={() => onCommunicate(task, 'whatsapp')}
-              className="p-1.5 rounded text-fg-tertiary hover:text-accent-fg hover:bg-muted dark:hover:bg-slate-800 disabled:opacity-40"
+              className="p-1.5 rounded text-fg-tertiary hover:text-accent-fg dark:hover:text-accent-fg hover:bg-muted dark:hover:bg-slate-800 disabled:opacity-40"
               title="WhatsApp"
             >
-              <MessageCircle className="w-3.5 h-3.5" />
+              <WhatsAppIcon className="w-3.5 h-3.5" />
             </button>
           )}
           {task.type === 'email' && (
@@ -99,7 +98,7 @@ function TaskRow({ task, onMarkDone, onReschedule, onCommunicate, onDelete }) {
               type="button"
               disabled={!lead}
               onClick={() => onCommunicate(task, 'email')}
-              className="p-1.5 rounded text-fg-tertiary hover:text-info hover:bg-muted dark:hover:bg-slate-800 disabled:opacity-40"
+              className="p-1.5 rounded text-fg-tertiary hover:text-info dark:hover:text-sky-400 hover:bg-muted dark:hover:bg-slate-800 disabled:opacity-40"
               title="Email"
             >
               <Mail className="w-3.5 h-3.5" />
@@ -108,7 +107,7 @@ function TaskRow({ task, onMarkDone, onReschedule, onCommunicate, onDelete }) {
           <button
             type="button"
             onClick={() => onMarkDone(task._id)}
-            className="p-1.5 rounded text-fg-tertiary hover:text-accent-fg hover:bg-muted dark:hover:bg-slate-800 transition-opacity"
+            className="p-1.5 rounded text-fg-tertiary hover:text-accent-fg dark:hover:text-accent-fg hover:bg-muted dark:hover:bg-slate-800 transition-opacity"
             title="Mark done"
           >
             <CheckCircle2 className="w-3.5 h-3.5" />
@@ -116,7 +115,7 @@ function TaskRow({ task, onMarkDone, onReschedule, onCommunicate, onDelete }) {
           <button
             type="button"
             onClick={() => onReschedule(task)}
-            className="p-1.5 rounded text-fg-tertiary hover:text-accent-fg hover:bg-muted dark:hover:bg-slate-800 transition-opacity"
+            className="p-1.5 rounded text-fg-tertiary hover:text-brand-ink hover:bg-muted dark:hover:bg-slate-800 transition-opacity"
             title="Reschedule"
           >
             <Calendar className="w-3.5 h-3.5" />
@@ -124,7 +123,7 @@ function TaskRow({ task, onMarkDone, onReschedule, onCommunicate, onDelete }) {
           {lead?._id && (
             <Link
               href={`/automation/leads/${lead._id}`}
-              className="p-1.5 rounded text-fg-tertiary hover:text-accent-fg hover:bg-muted dark:hover:bg-slate-800 transition-opacity"
+              className="p-1.5 rounded text-fg-tertiary hover:text-brand-ink hover:bg-muted dark:hover:bg-slate-800 transition-opacity"
               title="Open lead"
             >
               <ExternalLink className="w-3.5 h-3.5" />
@@ -134,7 +133,7 @@ function TaskRow({ task, onMarkDone, onReschedule, onCommunicate, onDelete }) {
             <button
               type="button"
               onClick={handleDelete}
-              className="p-1.5 rounded text-fg-tertiary hover:text-danger hover:bg-muted dark:hover:bg-slate-800 transition-opacity"
+              className="p-1.5 rounded text-fg-tertiary hover:text-danger dark:hover:text-red-400 hover:bg-muted dark:hover:bg-slate-800 transition-opacity"
               title="Delete task"
             >
               <Trash2 className="w-3.5 h-3.5" />

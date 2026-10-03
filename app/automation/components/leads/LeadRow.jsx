@@ -6,6 +6,8 @@ import StatusBadge from './StatusBadge';
 import LeadScoreBadge from './LeadScoreBadge';
 import LeadActionsMenu from './LeadActionsMenu';
 import LeadColorPicker from './LeadColorPicker';
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
+import { hasWhatsAppHistory } from '@/lib/whatsapp/waPhone';
 import { assigneeName, formatRelative, formatSource, formatDate, getLeadRowBackgroundStyle, getStatusRowColor, statusLabel } from './utils';
 import { Td } from '@/app/components/ui/DataTable';
 import Checkbox from '@/app/components/ui/Checkbox';
@@ -14,7 +16,7 @@ import cx, { focusRing } from '@/app/components/ui/cx';
 
 const actionBtn = cx('inline-flex h-7 w-7 items-center justify-center rounded-md text-fg-tertiary hover:bg-muted hover:text-fg', focusRing);
 
-function LeadRow({ lead, selected, onSelect, onOpenDrawer, onConvert, teamMembers, onAssign, onStatusChange, onCall, onRowColorChange }) {
+function LeadRow({ lead, selected, onSelect, onOpenDrawer, onConvert, teamMembers, onAssign, onStatusChange, onCall, onSendTemplate, onRowColorChange }) {
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
   const paletteRef = useRef(null);
   // User-chosen row colours are a real feature — keep them as the row's background.
@@ -103,9 +105,16 @@ function LeadRow({ lead, selected, onSelect, onOpenDrawer, onConvert, teamMember
           <button type="button" aria-label={`Call ${lead.name}`} title="Call" onClick={() => onCall(lead)} className={actionBtn}>
             <Phone className="h-4 w-4" strokeWidth={1.5} />
           </button>
-          <a href={`/automation/chat?leadId=${lead._id}`} aria-label={`Message ${lead.name}`} title="Message" onClick={(e) => e.stopPropagation()} className={actionBtn}>
-            <MessageSquare className="h-4 w-4" strokeWidth={1.5} />
-          </a>
+          {lead.phone && !hasWhatsAppHistory(lead) && onSendTemplate ? (
+            // Never messaged on WhatsApp: no Inbox conversation exists yet, and only an approved template may start one.
+            <button type="button" aria-label={`Send a WhatsApp template to ${lead.name}`} title="Send a WhatsApp template" onClick={() => onSendTemplate(lead)} className={actionBtn}>
+              <WhatsAppIcon colored className="h-4 w-4" />
+            </button>
+          ) : (
+            <a href={`/automation/chat?leadId=${lead._id}`} aria-label={`Message ${lead.name}`} title={lead.phone ? 'Open the WhatsApp chat' : 'Open the conversation'} onClick={(e) => e.stopPropagation()} className={actionBtn}>
+              {lead.phone ? <WhatsAppIcon colored className="h-4 w-4" /> : <MessageSquare className="h-4 w-4" strokeWidth={1.5} />}
+            </a>
+          )}
           <LeadActionsMenu
             lead={lead}
             teamMembers={teamMembers}

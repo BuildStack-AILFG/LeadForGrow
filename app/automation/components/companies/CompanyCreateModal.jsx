@@ -6,17 +6,17 @@ import { INDUSTRIES, COMPANY_STATUSES, EMPTY_FORM } from './constants';
 export default function CompanyCreateModal({ open, form, onChange, onClose, onSubmit, saving, teamMembers = [] }) {
   if (!open) return null;
 
-  const inputCls = 'w-full px-3 py-2 text-dense border border-line rounded-lg bg-canvas focus:outline-none focus:ring-2 focus:ring-line focus:border-line-strong';
+  const inputCls = 'w-full px-3 py-2 text-dense border border-line dark:border-slate-700 rounded-lg bg-canvas dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-line focus:border-line-strong dark:focus:border-slate-700';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#101828]/40 p-4">
-      <div className="bg-canvas rounded-lg w-full max-w-lg border border-line overflow-hidden">
-        <div className="flex items-center justify-between px-5 py-4 border-b border-line">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#101828]/40 dark:bg-slate-700 p-4">
+      <div className="bg-canvas dark:bg-slate-900 rounded-lg w-full max-w-lg border border-line dark:border-slate-700 overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-line dark:border-slate-700">
           <div>
-            <h2 className="text-title font-semibold text-fg">Add Company</h2>
-            <p className="text-meta text-fg-tertiary mt-0.5">Create a new business account</p>
+            <h2 className="text-title font-semibold text-fg dark:text-slate-100">Add Company</h2>
+            <p className="text-meta text-fg-tertiary dark:text-fg-disabled mt-0.5">Create a new business account</p>
           </div>
-          <button type="button" onClick={onClose} className="p-2 rounded-lg text-fg-tertiary hover:bg-muted">
+          <button type="button" onClick={onClose} className="p-2 rounded-lg text-fg-tertiary dark:text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -37,9 +37,9 @@ export default function CompanyCreateModal({ open, form, onChange, onClose, onSu
           <textarea placeholder="Description" rows={3} value={form.description || ''} onChange={(e) => onChange({ ...form, description: e.target.value })} className={inputCls} />
         </div>
 
-        <div className="px-5 py-4 border-t border-line flex justify-end gap-2">
-          <button type="button" onClick={onClose} className="px-4 py-2 text-dense font-medium border border-line rounded-md hover:bg-subtle">Cancel</button>
-          <button type="button" onClick={onSubmit} disabled={saving} className="px-4 py-2 text-dense font-medium text-white bg-accent hover:bg-[#1F2937] rounded-md disabled:opacity-50">
+        <div className="px-5 py-4 border-t border-line dark:border-slate-700 flex justify-end gap-2">
+          <button type="button" onClick={onClose} className="px-4 py-2 text-dense font-medium border border-line dark:border-slate-700 rounded-md hover:bg-subtle dark:hover:bg-slate-800">Cancel</button>
+          <button type="button" onClick={onSubmit} disabled={saving} className="px-4 py-2 text-dense font-medium text-white bg-accent dark:bg-slate-700 hover:bg-[#1F2937] rounded-md disabled:opacity-50">
             {saving ? 'Creating…' : 'Create Company'}
           </button>
         </div>

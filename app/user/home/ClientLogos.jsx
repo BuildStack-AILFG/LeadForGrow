@@ -16,7 +16,7 @@ export default function ClientLogos() {
       <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
         <div className="bg-white dark:bg-slate-800 py-3 px-8 rounded-sm shadow-sm inline-block mb-10 border border-gray-100 dark:border-slate-700">
           <p className="text-gray-700 dark:text-gray-200 text-sm font-medium tracking-wide">
-            Join 500+ teams growing faster with LeadForGrow
+            Teams growing with LeadForGrow
           </p>
         </div>
         
@@ -28,7 +28,7 @@ export default function ClientLogos() {
           <div className="flex items-center space-x-12 md:space-x-24">
             <img 
               src="/scaledesk_technology_logo.jpg" 
-              alt="Scaledesk Technology" 
+              alt="ScaleDesk" 
               className="h-10 md:h-12 object-contain grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-300" 
             />
             <img 

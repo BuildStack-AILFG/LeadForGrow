@@ -25,12 +25,12 @@ export default function FormField({ field, index, isSelected, onSelect, onRemove
       className={`group relative flex items-start gap-3 p-4 rounded-2xl cursor-pointer transition-shadow duration-200 ${
         isSelected
           ? 'bg-canvas dark:bg-slate-900 shadow-popover ring-2 ring-focus'
-          : 'bg-canvas/80 dark:bg-slate-900/80 hover:shadow-popover hover:bg-canvas dark:hover:bg-slate-900'
+          : 'bg-white/80 dark:bg-slate-900/80 hover:shadow-popover hover:bg-canvas dark:hover:bg-slate-900'
       }`}
     >
       <button
         type="button"
-        className="mt-0.5 p-1 text-fg-disabled hover:text-fg-tertiary cursor-grab active:cursor-grabbing rounded-md hover:bg-muted dark:hover:bg-slate-800 transition-colors"
+        className="mt-0.5 p-1 text-fg-disabled hover:text-fg-tertiary dark:hover:text-fg-tertiary cursor-grab active:cursor-grabbing rounded-md hover:bg-muted dark:hover:bg-slate-800 transition-colors"
         {...attributes}
         {...listeners}
       >
@@ -58,7 +58,7 @@ export default function FormField({ field, index, isSelected, onSelect, onRemove
           type="button"
           title={field.required ? 'Make optional' : 'Make required'}
           onClick={(e) => { e.stopPropagation(); onToggleRequired(index); }}
-          className={`p-1.5 rounded-lg transition-colors ${field.required ? 'text-danger bg-danger-subtle dark:bg-red-950/30' : 'text-fg-tertiary hover:text-fg-secondary hover:bg-muted dark:hover:bg-slate-800'}`}
+          className={`p-1.5 rounded-lg transition-colors ${field.required ? 'text-danger bg-danger-subtle dark:bg-red-950/30' : 'text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled hover:bg-muted dark:hover:bg-slate-800'}`}
         >
           <Asterisk className="w-3.5 h-3.5" />
         </button>
@@ -66,7 +66,7 @@ export default function FormField({ field, index, isSelected, onSelect, onRemove
           type="button"
           title="Duplicate"
           onClick={(e) => { e.stopPropagation(); onDuplicate(index); }}
-          className="p-1.5 text-fg-tertiary hover:text-accent-fg hover:bg-accent-subtle dark:hover:bg-teal-950/30 rounded-lg transition-colors"
+          className="p-1.5 text-fg-tertiary hover:text-accent-fg dark:hover:text-accent-fg hover:bg-accent-subtle dark:hover:bg-teal-950/30 rounded-lg transition-colors"
         >
           <Copy className="w-3.5 h-3.5" />
         </button>

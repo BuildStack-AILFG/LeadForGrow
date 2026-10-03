@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useRef, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
 
@@ -8,6 +8,9 @@ function CompleteInner() {
   const router = useRouter();
   const params = useSearchParams();
   const [error, setError] = useState('');
+  // The exchange code is single-use. React StrictMode runs effects twice in dev,
+  // so guard with a ref — a second call would hit "expired" after the first consumed it.
+  const started = useRef(false);
 
   useEffect(() => {
     const exchangeCode = params.get('code');
@@ -17,7 +20,8 @@ function CompleteInner() {
       return;
     }
 
-    let cancelled = false;
+    if (started.current) return;
+    started.current = true;
 
     (async () => {
       try {
@@ -27,7 +31,6 @@ function CompleteInner() {
           body: JSON.stringify({ code: exchangeCode }),
         });
         const result = await res.json();
-        if (cancelled) return;
 
         if (!result.success || !result.data?.token) {
           setError(result.error || 'Google sign-in incomplete. Please try again.');
@@ -55,13 +58,9 @@ function CompleteInner() {
           router.replace('/automation/leads');
         }
       } catch {
-        if (!cancelled) setError('Session failed. Please try again.');
+        setError('Session failed. Please try again.');
       }
     })();
-
-    return () => {
-      cancelled = true;
-    };
   }, [params, router]);
 
   if (error) {

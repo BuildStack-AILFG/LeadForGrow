@@ -14,6 +14,7 @@ import SequenceWorkflowSettings from './SequenceWorkflowSettings';
 import ApprovalQueue from './ApprovalQueue';
 import SimpleEditView from './SimpleEditView';
 import ConfirmDialog from '../shared/ConfirmDialog';
+import { nextNodePosition, defaultAnchorId } from '@/lib/sequences/canvasMath';
 
 // Simple edit is FIRST — most non-technical SMB customers want to edit 3
 // messages, not build a graph. Advanced users can still switch to Builder.
@@ -35,7 +36,7 @@ export default function SequencesWorkspace() {
 
   if (ws.workspaceMode === 'home') {
     return (
-      <div className="min-h-full bg-canvas">
+      <div className="min-h-full bg-subtle dark:bg-slate-950">
         <SequencesHomeView
           sequences={ws.sequences}
           stats={ws.stats}
@@ -62,7 +63,7 @@ export default function SequencesWorkspace() {
 
   if (ws.workspaceMode === 'wizard') {
     return (
-      <div className="min-h-full bg-canvas">
+      <div className="min-h-full bg-subtle dark:bg-slate-950">
         <SequenceCreationWizard
           step={ws.wizardStep}
           draft={ws.wizardDraft}
@@ -78,12 +79,12 @@ export default function SequencesWorkspace() {
   }
 
   return (
-    <div className="min-h-full bg-canvas flex flex-col">
+    <div className="min-h-full bg-subtle dark:bg-slate-950 flex flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-canvas dark:bg-slate-950/80 border-b border-line dark:border-slate-800">
+      <header className="sticky top-0 z-40 bg-white/80 dark:bg-slate-950/80 border-b border-line dark:border-slate-800">
         <div className="px-4 py-3 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3 min-w-0">
-            <button type="button" onClick={() => ws.setWorkspaceMode('home')} className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800 text-fg-tertiary">
+            <button type="button" onClick={() => ws.setWorkspaceMode('home')} className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800 text-fg-tertiary dark:text-fg-tertiary">
               <ArrowLeft className="w-4 h-4" />
             </button>
             <div className="min-w-0">
@@ -92,12 +93,12 @@ export default function SequencesWorkspace() {
                 onChange={(e) => ws.setDraftMeta((m) => ({ ...m, name: e.target.value }))}
                 className="text-lg font-semibold bg-transparent border-none outline-none text-fg dark:text-white w-full truncate"
               />
-              <p className="text-xs text-fg-tertiary truncate">{ws.draftMeta.description || 'Workflow sequence'}</p>
+              <p className="text-xs text-fg-tertiary dark:text-fg-tertiary truncate">{ws.draftMeta.description || 'Workflow sequence'}</p>
             </div>
           </div>
           <div className="flex items-center gap-2 shrink-0">
             <span className={`hidden sm:inline text-[10px] font-semibold uppercase px-2 py-1 rounded-full ${
-              ws.draftMeta.status === 'active' ? 'bg-accent-subtle text-accent-fg' : 'bg-warning-subtle text-warning'
+              ws.draftMeta.status === 'active' ? 'bg-accent-subtle dark:bg-accent-pressed/30 text-accent-fg dark:text-accent-fg' : 'bg-warning-subtle dark:bg-amber-900/30 text-warning dark:text-amber-300'
             }`}>{ws.draftMeta.status}</span>
             <button
               type="button"
@@ -113,18 +114,30 @@ export default function SequencesWorkspace() {
                 type="button"
                 onClick={ws.openTestMode}
                 disabled={ws.saving}
-                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-warning/30 text-warning text-sm font-medium hover:bg-warning-subtle disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded border border-warning/30 text-warning text-sm font-medium hover:bg-warning-subtle disabled:opacity-50"
               >
                 <FlaskConical className="w-4 h-4" /> Test
               </button>
             )}
-            <button type="button" onClick={ws.copySelection} className="p-2 rounded-lg border border-line dark:border-slate-700 text-fg-tertiary" title="Copy"><Copy className="w-4 h-4" /></button>
-            <button type="button" onClick={ws.pasteSelection} className="p-2 rounded-lg border border-line dark:border-slate-700 text-fg-tertiary" title="Paste"><ClipboardPaste className="w-4 h-4" /></button>
+            <button
+              type="button"
+              onClick={ws.copySelection}
+              disabled={!ws.selectedNodeId}
+              className="p-2 rounded border border-line dark:border-slate-700 text-fg-tertiary disabled:opacity-40 disabled:cursor-not-allowed"
+              title={ws.selectedNodeId ? 'Copy selected node' : 'Select a node first'}
+            ><Copy className="w-4 h-4" /></button>
+            <button
+              type="button"
+              onClick={ws.pasteSelection}
+              disabled={!ws.hasClipboard}
+              className="p-2 rounded border border-line dark:border-slate-700 text-fg-tertiary disabled:opacity-40 disabled:cursor-not-allowed"
+              title={ws.hasClipboard ? 'Paste copied node' : 'Nothing copied yet'}
+            ><ClipboardPaste className="w-4 h-4" /></button>
             <button
               type="button"
               onClick={() => ws.saveSequence(true)}
               disabled={ws.saving}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md bg-accent text-white text-sm font-medium disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md bg-accent hover:bg-accent-hover text-white text-sm font-medium disabled:opacity-50"
             >
               <Play className="w-4 h-4" /> Activate
             </button>
@@ -165,13 +178,23 @@ export default function SequencesWorkspace() {
         )}
         {ws.builderTab === 'builder' && (
           <div className="flex gap-3 h-[calc(100vh-180px)] min-h-[480px]">
-            <NodeSidebar onAddNode={ws.addNode} />
+            {/* Click: add after the selected node, wired into its path. Drag: drop where released, unconnected. */}
+            <NodeSidebar
+              onAddNode={(type) => {
+                const anchor = ws.selectedNodeId || defaultAnchorId(ws.draftNodes, ws.draftEdges);
+                return anchor ? ws.addNodeAfter(type, anchor) : ws.addNode(type, nextNodePosition(ws.draftNodes, null));
+              }}
+            />
             <WorkflowCanvas
               nodes={ws.draftNodes}
               edges={ws.draftEdges}
               selectedNodeId={ws.selectedNodeId}
               onSelectNode={ws.setSelectedNodeId}
               onMoveNode={ws.moveNode}
+              onBeginMove={ws.beginMove}
+              onDropNode={(type, position) => ws.addNode(type, position)}
+              onDeleteEdge={ws.removeEdge}
+              onFlipEdgeLabel={ws.flipEdgeLabel}
               onConnect={ws.connectNodes}
               onDuplicate={ws.duplicateNode}
               onDelete={ws.removeNode}

@@ -4,7 +4,7 @@ import { memo } from 'react';
 
 export const SettingsCard = memo(function SettingsCard({ title, description, children, footer, className = '', accent }) {
   return (
-    <div className={`bg-canvas/90 dark:bg-slate-900/90 border border-line/90 dark:border-slate-800 rounded-lg ${className}`}>
+    <div className={`bg-white/90 dark:bg-slate-900/90 border border-line/90 dark:border-slate-800 rounded-lg ${className}`}>
       {(title || description) && (
         <div className={`px-5 py-4 border-b border-line dark:border-slate-800 ${accent ? 'bg-subtle dark:bg-slate-800/30' : ''}`}>
           {title && <h3 className="text-sm font-semibold text-fg dark:text-slate-50">{title}</h3>}
@@ -75,7 +75,7 @@ export function SettingsToggle({ enabled, onChange, label, description }) {
         onClick={() => onChange(!enabled)}
         className={`relative w-10 h-5 rounded-full transition-colors flex-shrink-0 ${enabled ? 'bg-accent' : 'bg-muted dark:bg-slate-700'}`}
       >
-        <span className={`absolute top-0.5 w-4 h-4 bg-canvas rounded-full transition-transform ${enabled ? 'translate-x-5' : 'translate-x-0.5'}`} />
+        <span className={`absolute top-0.5 left-0 w-4 h-4 bg-canvas rounded-full transition-transform ${enabled ? 'translate-x-5' : 'translate-x-0.5'}`} />
       </button>
     </div>
   );
@@ -83,7 +83,7 @@ export function SettingsToggle({ enabled, onChange, label, description }) {
 
 export function SettingsTabs({ tabs, active, onChange }) {
   return (
-    <div className="flex flex-wrap gap-1 p-1 bg-canvas/70 dark:bg-slate-900/70 rounded-lg border border-line/80 dark:border-slate-700">
+    <div className="flex flex-wrap gap-1 p-1 bg-white/70 dark:bg-slate-900/70 rounded-lg border border-line/80 dark:border-slate-700">
       {tabs.map((tab) => (
         <button
           key={tab.id}

@@ -1,5 +1,6 @@
 'use client';
 
+import { WhatsAppIcon } from '@/app/automation/components/chat/BrandIcons';
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -27,9 +28,9 @@ import { authFetch } from '@/lib/apiClient';
 import { useConfirm } from '@/app/components/ConfirmProvider';
 
 const STATUS_STYLES = {
-  draft: 'bg-warning-subtle text-warning',
-  published: 'bg-accent-subtle text-accent-fg',
-  archived: 'bg-muted text-fg-secondary',
+  draft: 'bg-warning-subtle dark:bg-amber-900/30 text-warning dark:text-amber-300',
+  published: 'bg-accent-subtle dark:bg-accent-pressed/30 text-accent-fg dark:text-accent-fg',
+  archived: 'bg-muted dark:bg-slate-800 text-fg-secondary dark:text-fg-disabled',
 };
 
 export default function WhatsAppFlowsPage() {
@@ -42,6 +43,8 @@ export default function WhatsAppFlowsPage() {
   const [creating, setCreating] = useState(false);
   const [nameModalOpen, setNameModalOpen] = useState(false);
   const [newFlowName, setNewFlowName] = useState('');
+  const [newFlowChannel, setNewFlowChannel] = useState('whatsapp');
+  const [newFlowTrigger, setNewFlowTrigger] = useState('instagram_dm');
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -67,16 +70,24 @@ export default function WhatsAppFlowsPage() {
 
   function openCreateModal() {
     setNewFlowName('');
+    setNewFlowChannel('whatsapp');
+    setNewFlowTrigger('instagram_dm');
     setNameModalOpen(true);
   }
 
   async function createFlow(name) {
     setCreating(true);
     try {
+      const usesTriggerPicker = newFlowChannel === 'instagram' || newFlowChannel === 'facebook';
+      const channelName = { whatsapp: 'WhatsApp', instagram: 'Instagram', facebook: 'Facebook' }[newFlowChannel] || 'WhatsApp';
       const res = await authFetch('/api/automation/whatsapp-flows', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name?.trim() || 'New WhatsApp Flow', triggerType: 'incoming_message' }),
+        body: JSON.stringify({
+          name: name?.trim() || `New ${channelName} Flow`,
+          channel: newFlowChannel,
+          triggerType: usesTriggerPicker ? newFlowTrigger : 'incoming_message',
+        }),
       });
       const data = await res.json();
       if (!data.success) throw new Error(data.error);
@@ -159,19 +170,15 @@ export default function WhatsAppFlowsPage() {
   ];
 
   return (
-    <div className="min-h-full bg-canvas text-fg" data-theme="light">
-      <div className="px-4 py-6 sm:px-6">
-        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
+    <div className="min-h-full bg-subtle dark:bg-slate-900 text-fg dark:text-slate-50" data-theme="light">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-page font-semibold text-fg">
-              WhatsApp Flows
-            </h1>
-            <p className="mt-0.5 text-body text-fg-secondary">
-              Interactive WhatsApp conversations triggered by incoming messages.
-            </p>
+            <h1 className="text-page font-semibold text-fg">WhatsApp flows</h1>
+            <p className="mt-0.5 text-body text-fg-secondary">Interactive WhatsApp conversations triggered by incoming messages.</p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <label className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md border border-line bg-canvas text-sm font-medium text-fg-secondary hover:bg-subtle cursor-pointer transition-colors">
+            <label className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm font-medium text-fg-secondary dark:text-slate-200 hover:bg-subtle dark:hover:bg-slate-800/50 cursor-pointer transition-colors">
               <Upload className="w-4 h-4 text-fg-tertiary" />
               Import
               <input
@@ -202,13 +209,13 @@ export default function WhatsAppFlowsPage() {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04 }}
-              className="p-4 rounded-lg bg-canvas/80 border border-line/80"
+              className="p-4 rounded-lg bg-white/80 dark:bg-slate-900/80 border border-line/80 dark:border-slate-700/80"
             >
               <div className="flex items-center justify-between mb-2">
                 <s.icon className={`w-4 h-4 ${s.iconClass}`} />
               </div>
-              <div className="text-2xl font-semibold text-fg tracking-tight">{s.value}</div>
-              <div className="text-xs text-fg-tertiary mt-0.5">{s.label}</div>
+              <div className="text-2xl font-semibold text-fg dark:text-slate-50 tracking-tight">{s.value}</div>
+              <div className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-0.5">{s.label}</div>
             </motion.div>
           ))}
         </div>
@@ -219,23 +226,23 @@ export default function WhatsAppFlowsPage() {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search flows…"
-            className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-line bg-canvas/80 text-sm text-fg placeholder:text-fg-tertiary focus:outline-none focus:ring-2 focus:ring-focus focus:border-teal-400"
+            className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-line dark:border-slate-700 bg-white/80 dark:bg-slate-900/80 text-sm text-fg dark:text-slate-50 placeholder:text-fg-tertiary focus:outline-none focus:ring-2 focus:ring-focus focus:border-teal-400"
           />
         </div>
 
         {loading ? (
           <div className="grid sm:grid-cols-2 gap-4">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-36 rounded-lg bg-canvas border border-line lfg-skeleton" />
+              <div key={i} className="h-36 rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 lfg-skeleton" />
             ))}
           </div>
         ) : flows.length === 0 ? (
-          <div className="text-center py-16 px-6 rounded-lg border-2 border-dashed border-line bg-canvas/50">
+          <div className="text-center py-16 px-6 rounded-lg border-2 border-dashed border-line dark:border-slate-700 bg-white/50 dark:bg-slate-900/50">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-lg bg-accent mb-4">
               <Workflow className="w-8 h-8 text-white" />
             </div>
-            <p className="text-fg font-semibold text-lg">No flows yet</p>
-            <p className="text-fg-tertiary text-sm mt-1 mb-5 max-w-sm mx-auto">
+            <p className="text-fg dark:text-slate-50 font-semibold text-lg">No flows yet</p>
+            <p className="text-fg-tertiary dark:text-fg-tertiary text-sm mt-1 mb-5 max-w-sm mx-auto">
               Create your first WhatsApp automation flow — keywords, buttons, lists, and smart routing.
             </p>
             <button
@@ -254,25 +261,28 @@ export default function WhatsAppFlowsPage() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.03 }}
-                className="group p-5 rounded-lg bg-canvas border border-line hover:border-line hover:shadow-popover transition-all"
+                className="group p-5 rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 hover:border-line dark:hover:border-accent hover:shadow-popover transition-all"
               >
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-canvas border border-line flex items-center justify-center shrink-0">
-                    <MessageCircle className="w-5 h-5 text-fg-secondary" />
+                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${flow.channel === 'instagram' ? 'bg-canvas' : flow.channel === 'facebook' ? 'bg-info' : 'bg-accent'}`}>
+                    <MessageCircle className="w-5 h-5 text-white" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <Link
                         href={`/automation/whatsapp-flows/${flow._id}`}
-                        className="font-semibold text-fg group-hover:text-accent-fg truncate transition-colors"
+                        className="font-semibold text-fg dark:text-slate-50 group-hover:text-accent-fg dark:group-hover:text-accent-fg truncate transition-colors"
                       >
                         {flow.name}
                       </Link>
+                      <span className={`text-meta font-semibold px-2 py-0.5 rounded-full ${flow.channel === 'instagram' ? 'bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300' : flow.channel === 'facebook' ? 'bg-info-subtle dark:bg-blue-900/30 text-info dark:text-blue-300' : 'bg-accent-subtle dark:bg-accent-pressed/30 text-accent-fg dark:text-accent-fg'}`}>
+                        {flow.channel === 'instagram' ? 'Instagram' : flow.channel === 'facebook' ? 'Facebook' : 'WhatsApp'}
+                      </span>
                       <span className={`text-meta font-semibold px-2 py-0.5 rounded-full ${STATUS_STYLES[flow.status] || STATUS_STYLES.draft}`}>
                         {flow.status}
                       </span>
                     </div>
-                    <p className="text-xs text-fg-tertiary mt-1 line-clamp-2">
+                    <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-1 line-clamp-2">
                       {flow.description || `Trigger: ${String(flow.triggerType || '').replace(/_/g, ' ')}`}
                     </p>
                     <div className="flex items-center gap-3 mt-3 text-meta text-fg-tertiary">
@@ -285,17 +295,17 @@ export default function WhatsAppFlowsPage() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1 mt-4 pt-3 border-t border-line">
+                <div className="flex items-center gap-1 mt-4 pt-3 border-t border-line dark:border-slate-800">
                   <Link
                     href={`/automation/whatsapp-flows/${flow._id}`}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-accent-fg hover:bg-accent-subtle transition-colors"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-accent-fg dark:text-accent-fg hover:bg-accent-subtle dark:hover:bg-teal-950/30 transition-colors"
                   >
                     <Play className="w-3.5 h-3.5" /> Open
                   </Link>
                   <button
                     type="button"
                     onClick={() => exportFlow(flow._id, flow.name)}
-                    className="p-1.5 rounded-lg text-fg-tertiary hover:text-fg-secondary hover:bg-subtle transition-colors"
+                    className="p-1.5 rounded-lg text-fg-tertiary hover:text-fg-secondary dark:hover:text-slate-200 hover:bg-subtle dark:hover:bg-slate-800/50 transition-colors"
                     title="Export"
                   >
                     <FileDown className="w-3.5 h-3.5" />
@@ -303,7 +313,7 @@ export default function WhatsAppFlowsPage() {
                   <button
                     type="button"
                     onClick={() => duplicateFlow(flow._id)}
-                    className="p-1.5 rounded-lg text-fg-tertiary hover:text-fg-secondary hover:bg-subtle transition-colors"
+                    className="p-1.5 rounded-lg text-fg-tertiary hover:text-fg-secondary dark:hover:text-slate-200 hover:bg-subtle dark:hover:bg-slate-800/50 transition-colors"
                     title="Duplicate"
                   >
                     <Copy className="w-3.5 h-3.5" />
@@ -311,7 +321,7 @@ export default function WhatsAppFlowsPage() {
                   <button
                     type="button"
                     onClick={() => deleteFlow(flow._id)}
-                    className="p-1.5 rounded-lg text-fg-tertiary hover:text-danger hover:bg-danger-subtle transition-colors ml-auto"
+                    className="p-1.5 rounded-lg text-fg-tertiary hover:text-danger dark:hover:text-red-400 hover:bg-danger-subtle dark:hover:bg-red-950/30 transition-colors ml-auto"
                     title="Delete"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -324,10 +334,10 @@ export default function WhatsAppFlowsPage() {
 
         {analytics?.nodeAnalytics?.length > 0 && (
           <div className="mt-10">
-            <h2 className="text-sm font-semibold text-fg mb-3">Node analytics</h2>
-            <div className="overflow-hidden rounded-lg border border-line bg-canvas">
-              <table className="w-full text-sm">
-                <thead className="bg-subtle text-fg-tertiary text-left">
+            <h2 className="text-sm font-semibold text-fg dark:text-slate-50 mb-3">Node analytics</h2>
+            <div className="overflow-x-auto rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900">
+              <table className="w-full min-w-[560px] text-sm">
+                <thead className="bg-subtle dark:bg-slate-800/50 text-fg-tertiary dark:text-fg-tertiary text-left">
                   <tr>
                     <th className="px-4 py-3 font-medium text-xs">Node</th>
                     <th className="px-4 py-3 font-medium text-xs">Type</th>
@@ -338,12 +348,12 @@ export default function WhatsAppFlowsPage() {
                 </thead>
                 <tbody>
                   {analytics.nodeAnalytics.slice(0, 12).map((n) => (
-                    <tr key={`${n.flowId}-${n.nodeKey}`} className="border-t border-line">
-                      <td className="px-4 py-2.5 font-medium text-fg">{n.label}</td>
-                      <td className="px-4 py-2.5 text-fg-tertiary">{n.type}</td>
-                      <td className="px-4 py-2.5 text-fg-secondary">{n.entered}</td>
-                      <td className="px-4 py-2.5 text-fg-secondary">{n.completed}</td>
-                      <td className="px-4 py-2.5 text-fg-secondary">{n.dropped}</td>
+                    <tr key={`${n.flowId}-${n.nodeKey}`} className="border-t border-line dark:border-slate-800">
+                      <td className="px-4 py-2.5 font-medium text-fg dark:text-slate-50">{n.label}</td>
+                      <td className="px-4 py-2.5 text-fg-tertiary dark:text-fg-tertiary">{n.type}</td>
+                      <td className="px-4 py-2.5 text-fg-secondary dark:text-slate-200">{n.entered}</td>
+                      <td className="px-4 py-2.5 text-fg-secondary dark:text-slate-200">{n.completed}</td>
+                      <td className="px-4 py-2.5 text-fg-secondary dark:text-slate-200">{n.dropped}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -359,33 +369,102 @@ export default function WhatsAppFlowsPage() {
           onClick={() => setNameModalOpen(false)}
         >
           <div
-            className="w-full max-w-sm rounded-lg bg-canvas shadow-modal p-5"
+            className="w-full max-w-sm rounded-lg bg-canvas dark:bg-slate-900 shadow-modal p-5"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-1">
-              <h3 className="text-base font-semibold text-fg">Create a new Workflow</h3>
+              <h3 className="text-base font-semibold text-fg dark:text-slate-50">Create a new Workflow</h3>
               <button
                 type="button"
                 onClick={() => setNameModalOpen(false)}
-                className="p-1 rounded hover:bg-muted text-fg-tertiary"
+                className="p-1 rounded hover:bg-muted dark:hover:bg-slate-700 text-fg-tertiary"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
-            <label className="block mt-4 mb-1.5 text-xs font-medium text-fg-tertiary">Workflow name</label>
+            <label className="block mt-4 mb-1.5 text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">Channel</label>
+            <div className="grid grid-cols-3 gap-2">
+              <button
+                type="button"
+                onClick={() => setNewFlowChannel('whatsapp')}
+                className={`py-2 rounded-lg border text-sm font-medium transition-colors ${
+                  newFlowChannel === 'whatsapp'
+                    ? 'border-accent bg-accent-subtle dark:bg-emerald-950/30 text-accent-fg dark:text-accent-fg'
+                    : 'border-line dark:border-slate-700 text-fg-secondary dark:text-fg-disabled hover:bg-subtle dark:hover:bg-slate-800/50'
+                }`}
+              >
+                WhatsApp
+              </button>
+              <button
+                type="button"
+                onClick={() => { setNewFlowChannel('instagram'); setNewFlowTrigger('instagram_dm'); }}
+                className={`py-2 rounded-lg border text-sm font-medium transition-colors ${
+                  newFlowChannel === 'instagram'
+                    ? 'border-pink-500 bg-pink-50 dark:bg-pink-950/30 text-pink-700 dark:text-pink-300'
+                    : 'border-line dark:border-slate-700 text-fg-secondary dark:text-fg-disabled hover:bg-subtle dark:hover:bg-slate-800/50'
+                }`}
+              >
+                Instagram
+              </button>
+              <button
+                type="button"
+                onClick={() => { setNewFlowChannel('facebook'); setNewFlowTrigger('facebook_dm'); }}
+                className={`py-2 rounded-lg border text-sm font-medium transition-colors ${
+                  newFlowChannel === 'facebook'
+                    ? 'border-blue-500 bg-info-subtle dark:bg-blue-950/30 text-info dark:text-blue-300'
+                    : 'border-line dark:border-slate-700 text-fg-secondary dark:text-fg-disabled hover:bg-subtle dark:hover:bg-slate-800/50'
+                }`}
+              >
+                Facebook
+              </button>
+            </div>
+
+            {newFlowChannel === 'instagram' && (
+              <>
+                <label className="block mt-4 mb-1.5 text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">Start this flow when…</label>
+                <div className="space-y-1.5">
+                  <label className="flex items-center gap-2 px-3 py-2 rounded-md border border-line dark:border-slate-700 text-sm cursor-pointer hover:bg-subtle dark:hover:bg-slate-800/50">
+                    <input type="radio" name="igtrigger" checked={newFlowTrigger === 'instagram_dm'} onChange={() => setNewFlowTrigger('instagram_dm')} className="accent-pink-500" />
+                    <span>Someone sends a <b>DM</b></span>
+                  </label>
+                  <label className="flex items-center gap-2 px-3 py-2 rounded-md border border-line dark:border-slate-700 text-sm cursor-pointer hover:bg-subtle dark:hover:bg-slate-800/50">
+                    <input type="radio" name="igtrigger" checked={newFlowTrigger === 'instagram_comment'} onChange={() => setNewFlowTrigger('instagram_comment')} className="accent-pink-500" />
+                    <span>Someone <b>comments</b> on a post/reel</span>
+                  </label>
+                </div>
+              </>
+            )}
+
+            {newFlowChannel === 'facebook' && (
+              <>
+                <label className="block mt-4 mb-1.5 text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">Start this flow when…</label>
+                <div className="space-y-1.5">
+                  <label className="flex items-center gap-2 px-3 py-2 rounded-md border border-line dark:border-slate-700 text-sm cursor-pointer hover:bg-subtle dark:hover:bg-slate-800/50">
+                    <input type="radio" name="fbtrigger" checked={newFlowTrigger === 'facebook_dm'} onChange={() => setNewFlowTrigger('facebook_dm')} className="accent-blue-500" />
+                    <span>Someone sends a <b>Messenger message</b></span>
+                  </label>
+                  <label className="flex items-center gap-2 px-3 py-2 rounded-md border border-line dark:border-slate-700 text-sm cursor-pointer hover:bg-subtle dark:hover:bg-slate-800/50">
+                    <input type="radio" name="fbtrigger" checked={newFlowTrigger === 'facebook_comment'} onChange={() => setNewFlowTrigger('facebook_comment')} className="accent-blue-500" />
+                    <span>Someone <b>comments</b> on a Page post</span>
+                  </label>
+                </div>
+              </>
+            )}
+
+            <label className="block mt-4 mb-1.5 text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">Workflow name</label>
             <input
               autoFocus
               value={newFlowName}
               onChange={(e) => setNewFlowName(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && createFlow(newFlowName)}
-              placeholder="e.g., Product Launch Survey"
-              className="w-full px-3 py-2 rounded-lg border border-line text-sm focus:outline-none focus:ring-2 focus:ring-focus focus:border-accent"
+              placeholder={newFlowChannel === 'instagram' ? 'e.g., Comment → DM funnel' : 'e.g., Product Launch Survey'}
+              className="w-full px-3 py-2 rounded-lg border border-line dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand"
             />
             <div className="flex items-center gap-2 mt-5">
               <button
                 type="button"
                 onClick={() => setNameModalOpen(false)}
-                className="flex-1 py-2.5 rounded-lg border border-line text-sm font-medium text-fg-secondary hover:bg-subtle"
+                className="flex-1 py-2.5 rounded-lg border border-line dark:border-slate-700 text-sm font-medium text-fg-secondary dark:text-fg-disabled hover:bg-subtle dark:hover:bg-slate-800/50"
               >
                 Cancel
               </button>
@@ -393,7 +472,7 @@ export default function WhatsAppFlowsPage() {
                 type="button"
                 disabled={creating}
                 onClick={() => createFlow(newFlowName)}
-                className="flex-1 py-2.5 rounded-lg bg-accent text-white text-sm font-semibold hover:bg-accent-hover disabled:opacity-50"
+                className="flex-1 py-2.5 rounded-lg bg-brand text-white text-sm font-semibold hover:bg-accent-hover disabled:opacity-50"
               >
                 Confirm
               </button>

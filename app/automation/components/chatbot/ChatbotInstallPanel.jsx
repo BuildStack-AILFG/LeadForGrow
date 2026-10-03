@@ -13,15 +13,15 @@ function CodeBlock({ label, code, onCopy }) {
     setTimeout(() => setCopied(false), 2000);
   };
   return (
-    <div className="bg-canvas dark:bg-slate-900 rounded-lg border border-line dark:border-slate-800 overflow-hidden">
+    <div className="bg-canvas dark:bg-slate-900 rounded border border-line dark:border-slate-800 overflow-hidden">
       <div className="flex items-center justify-between px-4 py-3 border-b border-line dark:border-slate-800">
         <p className="text-sm font-medium text-fg dark:text-slate-100">{label}</p>
         <button
           type="button"
           onClick={handleCopy}
-          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-fg-secondary hover:bg-muted dark:hover:bg-slate-800 rounded-md transition-colors"
+          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-fg-secondary dark:text-fg-disabled hover:bg-muted dark:hover:bg-slate-800 rounded-md transition-colors"
         >
-          {copied ? <Check className="w-3.5 h-3.5 text-accent-fg" /> : <Copy className="w-3.5 h-3.5" />}
+          {copied ? <Check className="w-3.5 h-3.5 text-accent-fg dark:text-accent-fg" /> : <Copy className="w-3.5 h-3.5" />}
           {copied ? 'Copied' : 'Copy'}
         </button>
       </div>
@@ -41,7 +41,7 @@ export default function ChatbotInstallPanel({ businessId, config, isPublished })
 
   if (!isPublished) {
     return (
-      <div className="rounded-lg border border-warning/30 bg-warning-subtle dark:bg-amber-950/20 dark:border-amber-900 p-6">
+      <div className="rounded border border-warning/30 bg-warning-subtle dark:bg-amber-950/20 dark:border-amber-900 p-6">
         <p className="text-sm font-semibold text-amber-900 dark:text-amber-200">Publish your chatbot first</p>
         <p className="text-xs text-warning/80 dark:text-amber-300/80 mt-1">
           Turn on the chatbot using the toggle above, then paste the embed code on your website.
@@ -52,7 +52,7 @@ export default function ChatbotInstallPanel({ businessId, config, isPublished })
 
   return (
     <div className="space-y-6">
-      <div className="flex items-start gap-3 p-4 rounded-lg bg-accent-subtle dark:bg-emerald-950/20 border border-line dark:border-emerald-900">
+      <div className="flex items-start gap-3 p-4 rounded bg-accent-subtle dark:bg-emerald-950/20 border border-line dark:border-emerald-900">
         <Globe className="w-5 h-5 text-accent-fg flex-shrink-0 mt-0.5" />
         <div>
           <p className="text-sm font-semibold text-accent-fg dark:text-emerald-200">Works on any website</p>
@@ -74,15 +74,15 @@ export default function ChatbotInstallPanel({ businessId, config, isPublished })
         onCopy={() => copy(snippets.iframe, 'Iframe code copied')}
       />
 
-      <div className="bg-canvas dark:bg-slate-900 rounded-lg border border-line dark:border-slate-800 p-5">
+      <div className="bg-canvas dark:bg-slate-900 rounded border border-line dark:border-slate-800 p-5">
         <div className="flex items-center gap-2 mb-2">
-          <FileCode className="w-4 h-4 text-fg-tertiary" />
+          <FileCode className="w-4 h-4 text-fg-tertiary dark:text-fg-tertiary" />
           <p className="text-sm font-medium text-fg dark:text-slate-100">WordPress & CMS</p>
         </div>
-        <p className="text-xs text-fg-tertiary leading-relaxed">{snippets.wordpress}</p>
+        <p className="text-xs text-fg-tertiary dark:text-fg-tertiary leading-relaxed">{snippets.wordpress}</p>
       </div>
 
-      <div className="flex items-start gap-3 p-4 rounded-lg bg-subtle dark:bg-slate-900/50 border border-line dark:border-slate-800">
+      <div className="flex items-start gap-3 p-4 rounded bg-subtle dark:bg-slate-900/50 border border-line dark:border-slate-800">
         <Code2 className="w-5 h-5 text-fg-tertiary flex-shrink-0 mt-0.5" />
         <div>
           <p className="text-sm font-medium text-fg dark:text-slate-100">Your Business ID</p>

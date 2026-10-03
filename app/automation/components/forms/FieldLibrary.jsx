@@ -12,7 +12,7 @@ export default function FieldLibrary({ onAddField }) {
     <div className="h-full flex flex-col">
       <div className="px-1 pb-3">
         <h3 className="text-sm font-semibold text-fg dark:text-slate-50">Fields</h3>
-        <p className="text-xs text-fg-tertiary mt-0.5">Click to add to your form</p>
+        <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-0.5">Click to add to your form</p>
       </div>
 
       <div className="flex-1 overflow-y-auto space-y-1 pr-1 -mr-1">
@@ -23,7 +23,7 @@ export default function FieldLibrary({ onAddField }) {
               <button
                 type="button"
                 onClick={() => setOpenCategory(isOpen ? null : cat.id)}
-                className="w-full flex items-center justify-between px-2 py-2 text-xs font-semibold text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled rounded-lg transition-colors"
+                className="w-full flex items-center justify-between px-2 py-2 text-xs font-semibold text-fg-tertiary dark:text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled rounded-lg transition-colors"
               >
                 {cat.label}
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
@@ -44,10 +44,10 @@ export default function FieldLibrary({ onAddField }) {
                           key={field.type + field.label}
                           type="button"
                           onClick={() => onAddField(field)}
-                          className="w-full group flex items-start gap-3 p-2.5 rounded-lg text-left bg-canvas/60 dark:bg-slate-800/40 hover:bg-canvas dark:hover:bg-slate-800 hover:shadow-popover transition-all duration-200"
+                          className="w-full group flex items-start gap-3 p-2.5 rounded-lg text-left bg-white/60 dark:bg-slate-800/40 hover:bg-canvas dark:hover:bg-slate-800 hover:shadow-popover transition-all duration-200"
                         >
                           <div className="w-8 h-8 rounded-lg bg-canvas border border-line dark:bg-teal-950/50 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
-                            <Icon className="w-4 h-4 text-fg-secondary" />
+                            <Icon className="w-4 h-4 text-fg-secondary dark:text-accent-fg" />
                           </div>
                           <div className="min-w-0">
                             <p className="text-xs font-medium text-fg dark:text-slate-200">{field.label}</p>

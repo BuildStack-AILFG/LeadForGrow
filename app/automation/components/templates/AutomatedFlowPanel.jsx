@@ -12,11 +12,11 @@ export default function AutomatedFlowPanel({ type, template, onChange, onCopyVar
     <div className="bg-canvas dark:bg-slate-900 rounded overflow-hidden">
       <div className="px-6 py-5 border-b border-line dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <p className="text-meta font-semibold text-accent-fg mb-1">Automated flow</p>
+          <p className="text-meta font-semibold text-brand-ink mb-1">Automated flow</p>
           <h2 className="text-title font-semibold text-fg dark:text-slate-50">
             {isWelcome ? 'Welcome message' : 'Follow-up message'}
           </h2>
-          <p className="text-sm text-fg-tertiary mt-1 max-w-lg">
+          <p className="text-sm text-fg-tertiary dark:text-fg-tertiary mt-1 max-w-lg">
             {isWelcome
               ? 'Sent instantly when a new lead enters your CRM.'
               : 'Sent automatically if there is no reply within the set time.'}
@@ -25,7 +25,7 @@ export default function AutomatedFlowPanel({ type, template, onChange, onCopyVar
         <label className="flex items-center gap-3 px-4 py-2 bg-subtle dark:bg-slate-800/50 rounded cursor-pointer">
           <span className="text-xs font-medium text-fg-secondary dark:text-fg-tertiary">Active</span>
           <div
-            className={`relative w-9 h-5 rounded-full transition-colors ${!template.enabled ? 'bg-line-strong dark:bg-slate-600' : ''}`}
+            className={`relative w-9 h-5 rounded-full transition-colors ${!template.enabled ? 'bg-slate-300 dark:bg-slate-600' : ''}`}
             style={{ backgroundColor: template.enabled ? '#1D4B3E' : undefined }}
             onClick={() => onChange({ ...template, enabled: !template.enabled })}
           >
@@ -37,7 +37,7 @@ export default function AutomatedFlowPanel({ type, template, onChange, onCopyVar
       <div className="p-6 space-y-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-medium text-fg-tertiary mb-1.5">Email subject</label>
+            <label className="block text-xs font-medium text-fg-tertiary dark:text-fg-tertiary mb-1.5">Email subject</label>
             <input
               value={template.subject}
               onChange={(e) => onChange({ ...template, subject: e.target.value })}
@@ -47,7 +47,7 @@ export default function AutomatedFlowPanel({ type, template, onChange, onCopyVar
           </div>
           {!isWelcome && (
             <div>
-              <label className="block text-xs font-medium text-fg-tertiary mb-1.5">Wait before sending (hours)</label>
+              <label className="block text-xs font-medium text-fg-tertiary dark:text-fg-tertiary mb-1.5">Wait before sending (hours)</label>
               <div className="relative">
                 <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-fg-tertiary" />
                 <input
@@ -64,8 +64,8 @@ export default function AutomatedFlowPanel({ type, template, onChange, onCopyVar
 
         <div>
           <div className="flex items-center justify-between mb-1.5">
-            <label className="text-xs font-medium text-fg-tertiary">Message body</label>
-            <button type="button" onClick={() => setShowPreview(!showPreview)} className="inline-flex items-center gap-1 text-xs text-accent-fg font-medium">
+            <label className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary">Message body</label>
+            <button type="button" onClick={() => setShowPreview(!showPreview)} className="inline-flex items-center gap-1 text-xs text-brand-ink font-medium">
               <Eye className="w-3.5 h-3.5" /> {showPreview ? 'Edit' : 'Preview'}
             </button>
           </div>
@@ -90,7 +90,7 @@ export default function AutomatedFlowPanel({ type, template, onChange, onCopyVar
               key={v}
               type="button"
               onClick={() => onCopyVar(v)}
-              className="px-2.5 py-1 text-meta font-mono bg-muted dark:bg-slate-800 text-fg-secondary dark:text-fg-tertiary rounded hover:bg-accent/10 dark:hover:bg-teal-950/30 hover:text-accent-fg transition-colors"
+              className="px-2.5 py-1 text-meta font-mono bg-muted dark:bg-slate-800 text-fg-secondary dark:text-fg-tertiary rounded hover:bg-brand/10 dark:hover:bg-teal-950/30 hover:text-brand-ink transition-colors"
             >
               {v}
             </button>
@@ -101,4 +101,4 @@ export default function AutomatedFlowPanel({ type, template, onChange, onCopyVar
   );
 }
 
-const inputClass = 'w-full px-4 py-2.5 text-sm bg-subtle dark:bg-slate-800/80 border-0 rounded focus:outline-none focus:ring-2 focus:ring-focus';
+const inputClass = 'w-full px-4 py-2.5 text-sm bg-subtle dark:bg-slate-800/80 border-0 rounded focus:outline-none focus:ring-2 focus:ring-brand/25';

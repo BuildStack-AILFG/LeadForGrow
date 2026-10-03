@@ -45,7 +45,7 @@ function IntegrationCard({ integration, onConnect, onSettings, onOpen }) {
             <button
               type="button"
               onClick={() => onSettings?.(integration.id)}
-              className="p-1.5 rounded-lg border border-line dark:border-slate-700 text-fg-tertiary hover:text-accent-fg"
+              className="p-1.5 rounded-lg border border-line dark:border-slate-700 text-fg-tertiary dark:text-fg-tertiary hover:text-accent-fg dark:hover:text-accent-fg"
             >
               <ExternalLink className="w-3.5 h-3.5" />
             </button>

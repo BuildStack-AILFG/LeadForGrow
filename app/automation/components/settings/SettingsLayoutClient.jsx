@@ -27,6 +27,13 @@ function SettingsLayoutInner({ children }) {
     return <div className="relative min-h-full">{children}</div>;
   }
 
+  // The AI Settings page owns its full-width header + layout, so skip the
+  // generic Settings header and width cap here to avoid a duplicate header
+  // and wasted side whitespace.
+  if (pathname.startsWith('/automation/settings/ai')) {
+    return <div className="relative min-h-full bg-subtle dark:bg-slate-950">{children}</div>;
+  }
+
   return (
     <div className="flex min-h-full flex-col bg-canvas">
       <SettingsHeader section={section} />

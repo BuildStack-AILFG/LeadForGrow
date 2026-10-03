@@ -33,7 +33,7 @@ export default function JourneysPage() {
   useEffect(() => { fetchJourneys(); }, [fetchJourneys]);
 
   useEffect(() => {
-    const interval = setInterval(fetchJourneys, 15000);
+    const interval = setInterval(() => { if (document.visibilityState === 'visible') fetchJourneys(); }, 15000);
     return () => clearInterval(interval);
   }, [fetchJourneys]);
 

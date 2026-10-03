@@ -30,6 +30,7 @@ import {
   Zap,
   Telescope,
   Briefcase,
+  Radar,
 } from 'lucide-react';
 import { resolveActiveNavId } from './navMatch.js';
 
@@ -57,6 +58,7 @@ export const NAV_GROUPS = [
     items: [
       { id: 'dashboard', name: 'Dashboard', href: '/automation', icon: LayoutDashboard, exact: true },
       { id: 'tasks', name: 'Tasks', href: '/automation/tasks', icon: CheckSquare, badgeKey: 'overdueTasks' },
+      { id: 'leak-radar', name: 'Leak radar', href: '/automation/leak-radar', icon: Radar },
     ],
   },
   {

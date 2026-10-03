@@ -30,13 +30,13 @@ export default function SimpleEditView({
     return (
       <div className="max-w-3xl mx-auto py-10 px-4">
         <div className="rounded-lg border border-line dark:border-slate-800 bg-canvas dark:bg-slate-900 p-8 text-center">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-subtle dark:bg-teal-950/40 text-accent-fg mb-3">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-subtle dark:bg-teal-950/40 text-accent-fg dark:text-accent-fg mb-3">
             <GitBranch className="w-6 h-6" />
           </div>
           <h3 className="text-base font-semibold text-fg dark:text-white mb-1">
             This sequence has advanced logic
           </h3>
-          <p className="text-sm text-fg-tertiary max-w-md mx-auto mb-4">
+          <p className="text-sm text-fg-tertiary dark:text-fg-tertiary max-w-md mx-auto mb-4">
             {linear.reason} Simple edit only supports straight-line drips
             (message → wait → message). Open the Builder to edit the full
             workflow visually.
@@ -149,7 +149,7 @@ export default function SimpleEditView({
         <button
           type="button"
           onClick={() => handleAddStep(steps.length - 1)}
-          className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-lg border-2 border-dashed border-line-strong dark:border-slate-700 text-fg-tertiary hover:text-accent-fg hover:border-teal-400 text-sm font-medium transition-colors"
+          className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-lg border-2 border-dashed border-line-strong dark:border-slate-700 text-fg-tertiary dark:text-fg-tertiary hover:text-accent-fg dark:hover:text-accent-fg hover:border-teal-400 text-sm font-medium transition-colors"
         >
           <Plus className="w-4 h-4" /> Add another step
         </button>
@@ -176,7 +176,7 @@ function StepCard({
         <span className="w-6 h-6 rounded-full bg-accent-subtle dark:bg-teal-950/40 text-accent-fg dark:text-accent-fg flex items-center justify-center text-meta font-semibold shrink-0">
           {index + 1}
         </span>
-        <div className="flex items-center gap-1.5 text-meta font-medium text-fg-tertiary">
+        <div className="flex items-center gap-1.5 text-meta font-medium text-fg-tertiary dark:text-fg-tertiary">
           <Clock className="w-3 h-3" /> {delayLabel}
         </div>
 
@@ -192,7 +192,7 @@ function StepCard({
             onClick={onMoveUp}
             disabled={isFirst}
             title="Move up"
-            className="p-1 rounded text-fg-tertiary hover:text-fg-secondary hover:bg-muted dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed"
+            className="p-1 rounded text-fg-tertiary hover:text-fg-secondary dark:hover:text-slate-200 hover:bg-muted dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed"
           >
             <ChevronUp className="w-3.5 h-3.5" />
           </button>
@@ -201,7 +201,7 @@ function StepCard({
             onClick={onMoveDown}
             disabled={isLast}
             title="Move down"
-            className="p-1 rounded text-fg-tertiary hover:text-fg-secondary hover:bg-muted dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed"
+            className="p-1 rounded text-fg-tertiary hover:text-fg-secondary dark:hover:text-slate-200 hover:bg-muted dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed"
           >
             <ChevronDown className="w-3.5 h-3.5" />
           </button>
@@ -210,7 +210,7 @@ function StepCard({
             onClick={onDelete}
             disabled={!canDelete}
             title={canDelete ? 'Delete step' : 'A sequence needs at least one step'}
-            className="p-1 rounded text-fg-tertiary hover:text-danger hover:bg-danger-subtle dark:hover:bg-red-950/30 disabled:opacity-30 disabled:cursor-not-allowed"
+            className="p-1 rounded text-fg-tertiary hover:text-danger dark:hover:text-red-400 hover:bg-danger-subtle dark:hover:bg-red-950/30 disabled:opacity-30 disabled:cursor-not-allowed"
           >
             <Trash2 className="w-3.5 h-3.5" />
           </button>
@@ -220,7 +220,7 @@ function StepCard({
       <div className="p-4 space-y-3">
         {step.delayNode && index > 0 && (
           <div className="flex items-center gap-2 text-xs">
-            <label className="text-fg-tertiary">Wait</label>
+            <label className="text-fg-tertiary dark:text-fg-tertiary">Wait</label>
             <input
               type="number"
               min="0"
@@ -229,13 +229,13 @@ function StepCard({
               onChange={(e) => onChangeDelayHours(Math.max(0, parseInt(e.target.value || '0', 10)) * 24)}
               className="w-16 px-2 py-1 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-800 text-sm tabular-nums text-center"
             />
-            <span className="text-fg-tertiary">day(s) after previous step</span>
+            <span className="text-fg-tertiary dark:text-fg-tertiary">day(s) after previous step</span>
           </div>
         )}
 
         {isEmail && (
           <div>
-            <label className="text-xs font-medium text-fg-tertiary mb-1 block">Subject</label>
+            <label className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary mb-1 block">Subject</label>
             <input
               type="text"
               value={subject}
@@ -247,7 +247,7 @@ function StepCard({
         )}
 
         <div>
-          <label className="text-xs font-medium text-fg-tertiary mb-1 flex items-center justify-between">
+          <label className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary mb-1 flex items-center justify-between">
             <span>Message</span>
             <span className="text-meta text-fg-tertiary font-normal">Variables: {'{{name}}, {{phone}}, {{business_name}}'}</span>
           </label>
@@ -274,7 +274,7 @@ function StepCard({
         <button
           type="button"
           onClick={onInsertAfter}
-          className="inline-flex items-center gap-1 text-meta text-fg-tertiary hover:text-accent-fg font-medium"
+          className="inline-flex items-center gap-1 text-meta text-fg-tertiary dark:text-fg-tertiary hover:text-accent-fg dark:hover:text-accent-fg font-medium"
         >
           <Plus className="w-3 h-3" /> Insert step below
         </button>
@@ -293,7 +293,7 @@ function BranchingBadges({ data }) {
     <div className="flex flex-wrap gap-1.5 pt-1">
       {isGoal && (
         <span className="inline-flex items-center gap-1 text-meta px-1.5 py-0.5 rounded bg-warning-subtle dark:bg-amber-950/40 text-warning dark:text-amber-300 font-medium">
-          Goal step
+          🎯 Goal step
         </span>
       )}
       {pauseOnReply && (
@@ -308,7 +308,7 @@ function BranchingBadges({ data }) {
       )}
       {exitKeywords.length > 0 && (
         <span className="inline-flex items-center gap-1 text-meta px-1.5 py-0.5 rounded bg-danger-subtle dark:bg-red-950/40 text-danger dark:text-red-300 font-medium">
-          Exits: {exitKeywords.slice(0, 3).join(', ')}{exitKeywords.length > 3 ? '…' : ''}
+          🛑 Exits: {exitKeywords.slice(0, 3).join(', ')}{exitKeywords.length > 3 ? '…' : ''}
         </span>
       )}
     </div>
@@ -379,7 +379,7 @@ function ChannelPicker({ channel, onChange }) {
               >
                 <OptIcon className={`w-3.5 h-3.5 ${selected ? '' : 'opacity-70'}`} />
                 <span className="flex-1">{optMeta.label}</span>
-                {selected && <Check className="w-3.5 h-3.5 text-accent-fg" />}
+                {selected && <Check className="w-3.5 h-3.5 text-accent-fg dark:text-accent-fg" />}
               </button>
             );
           })}

@@ -10,7 +10,7 @@ export default function MobileLeadCard({ lead, selected, onSelect, onOpen }) {
 
   return (
     <div
-      className={`p-4 border border-line dark:border-slate-800 rounded-xl shadow-sm active:scale-[0.99] transition-transform ${
+      className={`p-4 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm active:scale-[0.99] transition-transform ${
         selected ? 'ring-2 ring-focus' : ''
       } ${!rowBg ? 'bg-canvas dark:bg-slate-900' : ''}`}
       style={rowBg}
@@ -23,16 +23,16 @@ export default function MobileLeadCard({ lead, selected, onSelect, onOpen }) {
             checked={selected}
             onChange={() => onSelect(lead._id)}
             onClick={(e) => e.stopPropagation()}
-            className="rounded border-line-strong"
+            className="rounded border-line-strong dark:border-slate-600"
           />
           <div className="min-w-0">
             <p className="font-medium text-fg dark:text-slate-100 truncate">{lead.name}</p>
-            <p className="text-xs text-fg-tertiary tabular-nums">{lead.phone}</p>
+            <p className="text-xs text-fg-tertiary dark:text-fg-tertiary tabular-nums">{lead.phone}</p>
           </div>
         </div>
         <StatusBadge status={lead.status} size="xs" />
       </div>
-      <div className="flex flex-wrap items-center gap-2 text-xs text-fg-tertiary">
+      <div className="flex flex-wrap items-center gap-2 text-xs text-fg-tertiary dark:text-fg-tertiary">
         <WhatsAppIndicator lead={lead} />
         <span>·</span>
         <span>{formatSource(lead.source)}</span>

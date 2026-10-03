@@ -60,7 +60,7 @@ export default function WorkspaceSwitcher({ workspace, plan, displayName, email,
             <>
               <span className="min-w-0 flex-1 text-left">
                 <span className="block truncate text-body font-semibold text-fg">{workspace}</span>
-                <span className="block truncate text-[11px] font-semibold uppercase tracking-wider text-fg-tertiary">{plan ? `${plan} plan` : roleLabel}</span>
+                <span className="block truncate text-meta font-semibold text-fg-tertiary">{plan ? `${plan} plan` : roleLabel}</span>
               </span>
               <ChevronDown className="h-4 w-4 shrink-0 text-fg-tertiary" strokeWidth={1.75} aria-hidden />
             </>

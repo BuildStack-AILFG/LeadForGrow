@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { authFetch } from '@/lib/apiClient';
 import { useConfirm } from '@/app/components/ConfirmProvider';
+import { clearUserStorage } from '@/lib/clientStorage';
 
 export function useSidebar() {
   const confirm = useConfirm();
@@ -97,8 +98,18 @@ export function useSidebar() {
   useEffect(() => {
     fetchUser();
     fetchStats();
-    const interval = setInterval(fetchStats, 30000);
-    return () => clearInterval(interval);
+    // Skip refreshes while the tab is in the background; catch up when it's back.
+    const interval = setInterval(() => {
+      if (document.visibilityState === 'visible') fetchStats();
+    }, 30000);
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') fetchStats();
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
   }, [fetchUser, fetchStats]);
 
   const toggleCollapsed = useCallback(() => {
@@ -125,7 +136,7 @@ export function useSidebar() {
       danger: true,
     });
     if (!ok) return;
-    localStorage.clear();
+    clearUserStorage(); // keeps cookie-consent / theme / popup snooze — see lib/clientStorage.js
     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     window.location.href = '/';
   }, [confirm]);

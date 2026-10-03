@@ -1,24 +1,26 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Loader2, Plus, Send, Mail, MessageCircle, RefreshCw, CheckCircle2, AlertCircle, Users } from 'lucide-react';
+import { Loader2, Plus, Send, Mail, MessageCircle, RefreshCw, CheckCircle2, AlertCircle, Users, PenLine, LayoutTemplate, Code2 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { authFetch } from '@/lib/apiClient';
 import AudiencePicker from './AudiencePicker';
 import VariableMapping from './VariableMapping';
 import BroadcastDetail from './BroadcastDetail';
+import RichEmailBodyEditor from './RichEmailBodyEditor';
+import EmailDesignStudio from './EmailDesignStudio';
 import QualityRatingBanner from './QualityRatingBanner';
 import AutoPageIntro from '../components/shared/tour/AutoPageIntro';
 import PageLoader from '../components/PageLoader';
 import { useConfirm } from '@/app/components/ConfirmProvider';
 
 const STATUS_STYLES = {
-  draft: 'bg-warning-subtle text-warning',
-  scheduled: 'bg-accent-subtle text-accent-fg',
-  sending: 'bg-accent-subtle text-accent-fg',
-  sent: 'bg-accent-subtle text-accent-fg',
-  failed: 'bg-danger-subtle text-danger',
-  cancelled: 'bg-muted text-fg-secondary',
+  draft: 'bg-warning-subtle dark:bg-amber-900/30 text-warning dark:text-amber-300',
+  scheduled: 'bg-accent-subtle dark:bg-accent-pressed/30 text-accent-fg dark:text-accent-fg',
+  sending: 'bg-accent-subtle dark:bg-accent-pressed/30 text-accent-fg dark:text-accent-fg',
+  sent: 'bg-accent-subtle dark:bg-accent-pressed/30 text-accent-fg dark:text-accent-fg',
+  failed: 'bg-danger-subtle dark:bg-red-900/30 text-danger dark:text-red-300',
+  cancelled: 'bg-muted dark:bg-slate-800 text-fg-secondary dark:text-fg-disabled',
 };
 
 const emptyDraft = {
@@ -29,6 +31,15 @@ const emptyDraft = {
   headerMediaUrl: '',
   subject: '',
   body: '',
+  bodyHtml: '',
+  // How the email body is authored: 'rich' (editor), 'design' (template) or 'html' (pasted/uploaded).
+  bodyFormat: 'rich',
+  bodyDesign: { templateId: '', values: {} },
+  customHtml: '',
+  // The "My templates" entry currently loaded/saved ({ id, name }), so Save can update it.
+  savedDesign: null,
+  emailAccountId: '',
+  signatureId: '',
   audience: { type: 'manual', leadIds: [], engagementDays: 0 },
   variableMapping: [],
 };
@@ -39,9 +50,14 @@ export default function BroadcastsPage() {
   const [broadcasts, setBroadcasts] = useState([]);
   const [approvedTemplates, setApprovedTemplates] = useState([]);
   const [emailTemplates, setEmailTemplates] = useState([]);
+  const [emailAccounts, setEmailAccounts] = useState([]);
   const [showCreate, setShowCreate] = useState(false);
   const [saving, setSaving] = useState(false);
   const [draft, setDraft] = useState(emptyDraft);
+  // Bumped when a saved template loads, to remount the rich body editor so it
+  // adopts the new content (the editor otherwise ignores external value changes
+  // while non-empty, to avoid clobbering what the user is typing).
+  const [bodyEditorKey, setBodyEditorKey] = useState(0);
   const [audienceCount, setAudienceCount] = useState(null);
   const [countLoading, setCountLoading] = useState(false);
   const [samplePreview, setSamplePreview] = useState(null);
@@ -82,11 +98,57 @@ export default function BroadcastsPage() {
     }
   }, []);
 
+  const fetchEmailAccounts = useCallback(async () => {
+    try {
+      const res = await authFetch('/api/automation/inbox/email-accounts');
+      const data = await res.json();
+      if (data.success && Array.isArray(data.data)) setEmailAccounts(data.data);
+    } catch {
+      /* silent — picker is optional; engine falls back to the default mailbox */
+    }
+  }, []);
+
   useEffect(() => {
     fetchBroadcasts();
     fetchApprovedTemplates();
     fetchEmailTemplates();
-  }, [fetchBroadcasts, fetchApprovedTemplates, fetchEmailTemplates]);
+    fetchEmailAccounts();
+  }, [fetchBroadcasts, fetchApprovedTemplates, fetchEmailTemplates, fetchEmailAccounts]);
+
+  // When the email channel first turns on, default to the default mailbox.
+  const selectedEmailAccount = emailAccounts.find((a) => a._id === draft.emailAccountId) || null;
+  const emailSignatures = selectedEmailAccount?.signatures || [];
+  const isDesignedEmail = draft.bodyFormat === 'design' || draft.bodyFormat === 'html';
+  const designPreviewVars = useMemo(() => ({
+    name: samplePreview?.to?.name || '',
+    businessName: samplePreview?.businessName || selectedEmailAccount?.displayName || '',
+  }), [samplePreview?.to?.name, samplePreview?.businessName, selectedEmailAccount?.displayName]);
+
+  useEffect(() => {
+    const emailOn = draft.channel === 'email' || draft.channel === 'both';
+    if (!emailOn || draft.emailAccountId || emailAccounts.length === 0) return;
+    const def = emailAccounts.find((a) => a.isDefault) || emailAccounts[0];
+    if (def) setDraft((d) => ({ ...d, emailAccountId: def._id }));
+  }, [draft.channel, draft.emailAccountId, emailAccounts]);
+
+  // When the mailbox changes, default to that mailbox's default signature.
+  useEffect(() => {
+    if (!selectedEmailAccount) return;
+    const def = emailSignatures.find((s) => s.isDefault) || emailSignatures[0];
+    setDraft((d) => ({ ...d, signatureId: def?.id || '' }));
+  }, [draft.emailAccountId]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Editing signatures happens in a separate Email-settings tab. When the user
+  // switches back here, refetch accounts so the edited signature shows in the
+  // preview without a manual reload. Scoped to the open email form so we don't
+  // poll needlessly.
+  useEffect(() => {
+    const emailOn = draft.channel === 'email' || draft.channel === 'both';
+    if (!showCreate || !emailOn) return;
+    const onFocus = () => fetchEmailAccounts();
+    window.addEventListener('focus', onFocus);
+    return () => window.removeEventListener('focus', onFocus);
+  }, [showCreate, draft.channel, fetchEmailAccounts]);
 
   const selectedTemplate = approvedTemplates.find(
     (t) => t.name === draft.templateName && t.language === draft.templateLanguage
@@ -125,12 +187,15 @@ export default function BroadcastsPage() {
             audience: draft.audience,
             channel: draft.channel,
             content: {
-              body: bodyText,
+              body: isDesignedEmail ? '' : bodyText,
+              bodyHtml: isDesignedEmail ? undefined : (draft.bodyHtml || undefined),
               subject: draft.subject,
               whatsappTemplate: bodyText,
               whatsappTemplateName: draft.templateName,
               whatsappTemplateLanguage: draft.templateLanguage,
               variableMapping: draft.variableMapping,
+              emailAccountId: draft.emailAccountId || undefined,
+              signatureId: draft.signatureId || undefined,
             },
           }),
         });
@@ -139,7 +204,7 @@ export default function BroadcastsPage() {
       } catch { /* silent */ }
     }, 500);
     return () => clearTimeout(t);
-  }, [showCreate, draft.audience, draft.channel, draft.body, draft.subject, draft.templateName, draft.templateLanguage, draft.variableMapping, selectedTemplate]);
+  }, [showCreate, isDesignedEmail, draft.audience, draft.channel, draft.body, draft.bodyHtml, draft.subject, draft.templateName, draft.templateLanguage, draft.variableMapping, draft.emailAccountId, draft.signatureId, selectedTemplate]);
 
   const isWhatsApp = draft.channel === 'whatsapp' || draft.channel === 'both';
   const isEmail = draft.channel === 'email' || draft.channel === 'both';
@@ -147,6 +212,8 @@ export default function BroadcastsPage() {
   const canSend = useMemo(() => {
     if (!draft.name.trim()) return false;
     if (isWhatsApp && !draft.templateName) return false;
+    if (isEmail && draft.bodyFormat === 'design' && !draft.bodyDesign?.templateId) return false;
+    if (isEmail && draft.bodyFormat === 'html' && !draft.customHtml.trim()) return false;
     if (audienceCount?.count === 0) return false;
     // If the selected template has a media header, require a URL for the send
     const header = selectedTemplate?.components?.find((c) => c.type === 'HEADER');
@@ -154,11 +221,14 @@ export default function BroadcastsPage() {
       return false;
     }
     return true;
-  }, [draft, isWhatsApp, audienceCount, selectedTemplate]);
+  }, [draft, isWhatsApp, isEmail, audienceCount, selectedTemplate]);
 
   const createBroadcast = async (testSend = false) => {
     if (!draft.name.trim()) return toast.error('Campaign name required');
     if (isWhatsApp && !draft.templateName) return toast.error('Select an approved WhatsApp template');
+    if (isEmail && isDesignedEmail && !draft.emailAccountId) return toast.error('Designed emails are sent from a connected mailbox. Connect one in Email settings.');
+    if (isEmail && draft.bodyFormat === 'design' && !draft.bodyDesign?.templateId) return toast.error('Pick an email design');
+    if (isEmail && draft.bodyFormat === 'html' && !draft.customHtml.trim()) return toast.error('Paste or upload your email HTML');
     if (!testSend && audienceCount?.count === 0) return toast.error('Audience is empty');
 
     // Fix the previously-broken test send: ask user for a real destination
@@ -190,12 +260,18 @@ export default function BroadcastsPage() {
           channel: draft.channel,
           content: {
             body: bodyText,
+            // design: the server renders the HTML from bodyDesign; html: pasted/uploaded HTML.
+            bodyFormat: draft.bodyFormat,
+            bodyDesign: draft.bodyFormat === 'design' ? draft.bodyDesign : undefined,
+            bodyHtml: draft.bodyFormat === 'html' ? draft.customHtml : draft.bodyFormat === 'rich' ? (draft.bodyHtml || undefined) : undefined,
             subject: draft.subject,
             whatsappTemplate: bodyText,
             whatsappTemplateName: draft.templateName || undefined,
             whatsappTemplateLanguage: draft.templateLanguage || undefined,
             whatsappHeaderMediaUrl: draft.headerMediaUrl || undefined,
             variableMapping: draft.variableMapping,
+            emailAccountId: draft.emailAccountId || undefined,
+            signatureId: draft.signatureId || undefined,
           },
           audience: draft.audience,
           sendNow: !testSend,
@@ -248,12 +324,12 @@ export default function BroadcastsPage() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-page font-semibold text-fg">Broadcasts</h1>
-          <p className="text-sm text-fg-tertiary mt-1">Send WhatsApp and email campaigns to your audience</p>
+          <p className="text-sm text-fg-tertiary dark:text-fg-tertiary mt-1">Send WhatsApp and email campaigns to your audience</p>
         </div>
         <button
           type="button"
           onClick={() => setShowCreate(true)}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-accent text-white text-sm font-medium"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-accent text-white text-sm font-medium transition-colors hover:bg-accent-hover"
         >
           <Plus className="w-4 h-4" /> New broadcast
         </button>
@@ -262,11 +338,11 @@ export default function BroadcastsPage() {
       <AutoPageIntro />
 
       {showCreate && (
-        <div className="mb-8 p-6 rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 space-y-5">
+        <div className="mb-8 p-6 rounded bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 space-y-5">
           <div className="flex items-center justify-between">
             <h2 className="font-semibold text-fg dark:text-white">Create broadcast</h2>
             <button type="button" onClick={() => { setShowCreate(false); setDraft(emptyDraft); }}
-              className="text-xs text-fg-tertiary hover:underline">Cancel</button>
+              className="text-xs text-fg-tertiary dark:text-fg-tertiary hover:underline">Cancel</button>
           </div>
 
           {/* Step 1: name + channel */}
@@ -275,12 +351,12 @@ export default function BroadcastsPage() {
               value={draft.name}
               onChange={(e) => setDraft({ ...draft, name: e.target.value })}
               placeholder="Campaign name"
-              className="px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-transparent text-sm"
+              className="px-3 py-2 rounded border border-line dark:border-slate-700 bg-transparent text-sm"
             />
             <select
               value={draft.channel}
               onChange={(e) => setDraft({ ...draft, channel: e.target.value, templateName: '', templateLanguage: '' })}
-              className="px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-transparent text-sm"
+              className="px-3 py-2 rounded border border-line dark:border-slate-700 bg-transparent text-sm"
             >
               <option value="whatsapp">WhatsApp</option>
               <option value="email">Email</option>
@@ -303,10 +379,11 @@ export default function BroadcastsPage() {
               audience={draft.audience}
               onChange={(audience) => setDraft({ ...draft, audience: { ...audience, engagementDays: draft.audience.engagementDays || 0 } })}
               campaignName={draft.name || 'broadcast'}
+              channel={draft.channel}
             />
 
             {isWhatsApp && (
-              <div className="mt-3 rounded-lg border border-line dark:border-slate-800 bg-canvas dark:bg-slate-900 p-3 flex flex-wrap items-center gap-3">
+              <div className="mt-3 rounded border border-line dark:border-slate-800 bg-canvas dark:bg-slate-900 p-3 flex flex-wrap items-center gap-3">
                 <label className="flex items-center gap-2 text-xs text-fg-secondary dark:text-fg-disabled cursor-pointer">
                   <input
                     type="checkbox"
@@ -315,7 +392,7 @@ export default function BroadcastsPage() {
                       ...draft,
                       audience: { ...draft.audience, engagementDays: e.target.checked ? 30 : 0 },
                     })}
-                    className="rounded text-accent-fg focus:ring-focus"
+                    className="rounded text-accent-fg dark:text-accent-fg focus:ring-focus"
                   />
                   <span>Only include leads who messaged us recently</span>
                 </label>
@@ -326,7 +403,7 @@ export default function BroadcastsPage() {
                       ...draft,
                       audience: { ...draft.audience, engagementDays: Number(e.target.value) },
                     })}
-                    className="px-2 py-1 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-xs"
+                    className="px-2 py-1 rounded border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-xs"
                   >
                     <option value={7}>last 7 days</option>
                     <option value={30}>last 30 days</option>
@@ -344,16 +421,16 @@ export default function BroadcastsPage() {
           {/* Step 3: WhatsApp template */}
           {isWhatsApp && (
             <div className="space-y-4">
-              <div className="rounded-lg border border-line dark:border-emerald-900 bg-accent-subtle dark:bg-emerald-950/20 p-4 space-y-3">
+              <div className="rounded border border-line dark:border-emerald-900 bg-accent-subtle dark:bg-emerald-950/20 p-4 space-y-3">
                 <div className="flex items-center justify-between">
                   <p className="text-xs font-semibold text-accent-fg dark:text-accent-fg">Approved WhatsApp template</p>
                   <button type="button" onClick={fetchApprovedTemplates}
-                    className="inline-flex items-center gap-1 text-meta text-accent-fg hover:underline">
+                    className="inline-flex items-center gap-1 text-meta text-accent-fg dark:text-accent-fg hover:underline">
                     <RefreshCw className="w-3 h-3" /> Refresh
                   </button>
                 </div>
                 {approvedTemplates.length === 0 ? (
-                  <div className="flex items-start gap-2 text-xs text-warning bg-warning-subtle p-3 rounded-lg">
+                  <div className="flex items-start gap-2 text-xs text-warning dark:text-amber-200 bg-warning-subtle dark:bg-amber-950/30 p-3 rounded-lg">
                     <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
                     <div>
                       No approved templates yet.{' '}
@@ -376,7 +453,7 @@ export default function BroadcastsPage() {
                           headerMediaUrl: savedMediaUrl,
                         });
                       }}
-                      className="w-full px-3 py-2 rounded-lg border border-line bg-canvas dark:bg-slate-900 text-sm"
+                      className="w-full px-3 py-2 rounded-lg border border-line dark:border-accent bg-canvas dark:bg-slate-900 text-sm"
                     >
                       <option value="">— Choose a template —</option>
                       {approvedTemplates.map((t) => (
@@ -387,10 +464,10 @@ export default function BroadcastsPage() {
                     </select>
                     {selectedTemplate && (
                       <div className="text-xs bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 rounded-lg p-3 space-y-1">
-                        <p className="flex items-center gap-1 text-accent-fg font-semibold">
+                        <p className="flex items-center gap-1 text-accent-fg dark:text-accent-fg font-semibold">
                           <CheckCircle2 className="w-3.5 h-3.5" /> Meta approved
                         </p>
-                        <p className="text-fg-secondary whitespace-pre-wrap line-clamp-4">
+                        <p className="text-fg-secondary dark:text-fg-disabled whitespace-pre-wrap line-clamp-4">
                           {selectedTemplate.components?.find((c) => c.type === 'BODY')?.text}
                         </p>
                       </div>
@@ -410,7 +487,7 @@ export default function BroadcastsPage() {
                   ? 'border-line dark:border-emerald-900 bg-accent-subtle dark:bg-emerald-950/20'
                   : 'border-warning/30 dark:border-amber-900 bg-warning-subtle/60 dark:bg-amber-950/20';
                 return (
-                  <div className={`rounded-lg border ${tone} p-4 space-y-2`}>
+                  <div className={`rounded border ${tone} p-4 space-y-2`}>
                     <div className="flex items-center justify-between">
                       <p className="text-xs font-semibold text-fg-secondary dark:text-fg-disabled">
                         {header.format.charAt(0) + header.format.slice(1).toLowerCase()} for this campaign
@@ -418,7 +495,7 @@ export default function BroadcastsPage() {
                       {usingSaved && (
                         <span className="text-meta font-medium text-accent-fg dark:text-accent-fg flex items-center gap-1">
                           <CheckCircle2 className="w-3 h-3" /> Using template's file
-                          {filename && <span className="text-fg-tertiary">· {filename}</span>}
+                          {filename && <span className="text-fg-tertiary dark:text-fg-tertiary">· {filename}</span>}
                         </span>
                       )}
                     </div>
@@ -433,12 +510,12 @@ export default function BroadcastsPage() {
                         value={draft.headerMediaUrl}
                         onChange={(e) => setDraft({ ...draft, headerMediaUrl: e.target.value })}
                         placeholder={header.format === 'DOCUMENT' ? 'https://…/file.pdf' : header.format === 'VIDEO' ? 'https://…/video.mp4' : 'https://…/image.jpg'}
-                        className="flex-1 px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-xs font-mono"
+                        className="flex-1 px-3 py-2 rounded border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-xs font-mono"
                       />
                       {savedUrl && !usingSaved && (
                         <button type="button"
                           onClick={() => setDraft({ ...draft, headerMediaUrl: savedUrl })}
-                          className="px-3 py-2 text-meta font-medium rounded-lg bg-muted dark:bg-slate-800 hover:bg-muted dark:hover:bg-slate-700">
+                          className="px-3 py-2 text-meta font-medium rounded bg-muted dark:bg-slate-800 hover:bg-muted dark:hover:bg-slate-700">
                           Reset
                         </button>
                       )}
@@ -459,22 +536,87 @@ export default function BroadcastsPage() {
 
           {/* Email content */}
           {isEmail && (
-            <div className="space-y-3 rounded-lg border border-line dark:border-violet-900 bg-accent-subtle dark:bg-violet-950/20 p-4">
+            <div className="space-y-3 rounded border border-line dark:border-violet-900 bg-accent-subtle dark:bg-violet-950/20 p-4">
               <div className="flex items-center justify-between">
                 <p className="text-xs font-semibold text-accent-fg dark:text-accent-fg">Email content</p>
-                <a href="/automation/templates" className="text-meta text-accent-fg hover:underline">
+                <a href="/automation/templates" className="text-meta text-accent-fg dark:text-accent-fg hover:underline">
                   + Manage templates
                 </a>
               </div>
 
-              {emailTemplates.length > 0 && (
+              {/* From mailbox + signature — which inbox sends this and which saved
+                  signature gets appended to every email. */}
+              {emailAccounts.length > 0 ? (
+                <div className="grid gap-2 sm:grid-cols-2">
+                  <div>
+                    <label className="block text-meta font-medium text-fg-tertiary dark:text-fg-tertiary mb-1">Send from</label>
+                    <select
+                      value={draft.emailAccountId}
+                      onChange={(e) => setDraft({ ...draft, emailAccountId: e.target.value })}
+                      className="w-full px-3 py-2 rounded border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm"
+                    >
+                      {emailAccounts.map((a) => <option key={a._id} value={a._id}>{a.email}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="block text-meta font-medium text-fg-tertiary dark:text-fg-tertiary">Signature</label>
+                      {draft.emailAccountId && (
+                        <a
+                          href="/automation/settings/email"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-meta font-medium text-accent-fg dark:text-accent-fg hover:underline"
+                          title="Edit signatures in Email settings (opens in a new tab so your draft stays)"
+                        >
+                          Edit
+                        </a>
+                      )}
+                    </div>
+                    {isDesignedEmail ? (
+                      <p className="px-3 py-2 text-meta text-fg-tertiary dark:text-fg-tertiary border border-dashed border-line dark:border-slate-700 rounded">
+                        Designed emails have their own footer, so no signature is added.
+                      </p>
+                    ) : emailSignatures.length > 0 ? (
+                      <select
+                        value={draft.signatureId}
+                        onChange={(e) => setDraft({ ...draft, signatureId: e.target.value })}
+                        className="w-full px-3 py-2 rounded border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm"
+                      >
+                        <option value="">No signature</option>
+                        {emailSignatures.map((s) => (
+                          <option key={s.id} value={s.id}>{s.name || 'Signature'}{s.isDefault ? ' (default)' : ''}</option>
+                        ))}
+                      </select>
+                    ) : (
+                      <p className="px-3 py-2 text-meta text-fg-tertiary border border-dashed border-line dark:border-slate-700 rounded">
+                        No signatures on this mailbox —{' '}
+                        <a href="/automation/settings/email" className="text-accent-fg dark:text-accent-fg hover:underline">add one</a>
+                      </p>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <p className="text-meta text-warning dark:text-amber-300 bg-warning-subtle dark:bg-amber-950/30 rounded px-3 py-2">
+                  No mailbox connected — emails will send from the business default without a custom signature.{' '}
+                  <a href="/automation/settings/email" className="underline font-medium">Connect a mailbox</a>
+                </p>
+              )}
+
+              {emailTemplates.length > 0 && draft.bodyFormat === 'rich' && (
                 <select
                   value=""
                   onChange={(e) => {
                     const t = emailTemplates.find((x) => String(x.id) === e.target.value);
-                    if (t) setDraft({ ...draft, subject: t.subject || draft.subject, body: t.body || draft.body });
+                    if (!t) return;
+                    const raw = t.body || '';
+                    // A template body may be plain text or HTML — normalise to
+                    // HTML so it renders correctly in the WYSIWYG editor.
+                    const html = /<[a-z][\s\S]*>/i.test(raw) ? raw : raw.replace(/\n/g, '<br>');
+                    setDraft({ ...draft, subject: t.subject || draft.subject, body: raw, bodyHtml: html });
+                    setBodyEditorKey((k) => k + 1);
                   }}
-                  className="w-full px-3 py-2 rounded-lg border border-line bg-canvas dark:bg-slate-900 text-sm"
+                  className="w-full px-3 py-2 rounded-lg border border-line dark:border-accent bg-canvas dark:bg-slate-900 text-sm"
                 >
                   <option value="">— Load from saved email template (optional) —</option>
                   {emailTemplates.map((t) => (
@@ -487,16 +629,62 @@ export default function BroadcastsPage() {
                 value={draft.subject}
                 onChange={(e) => setDraft({ ...draft, subject: e.target.value })}
                 placeholder="Email subject — use {{name}} for personalization"
-                className="w-full px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm"
+                className="w-full px-3 py-2 rounded border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm"
               />
-              <textarea
-                value={draft.body}
-                onChange={(e) => setDraft({ ...draft, body: e.target.value })}
-                placeholder={'Email body — supports {{name}}, {{email}}, {{phone}}\n\nBasic HTML works too: <b>, <a>, <br>'}
-                rows={6}
-                className="w-full px-3 py-2 rounded-lg border border-line dark:border-slate-700 bg-canvas dark:bg-slate-900 text-sm font-mono"
-              />
-              <p className="text-meta text-fg-tertiary">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-meta font-medium text-fg-tertiary dark:text-fg-tertiary">Body</span>
+                <div className="inline-flex flex-wrap rounded-lg border border-line dark:border-violet-800 bg-canvas dark:bg-slate-900 p-0.5" role="group" aria-label="How to write this email">
+                  {[
+                    ['rich', PenLine, 'Write'],
+                    ['design', LayoutTemplate, 'Design template'],
+                    ['html', Code2, 'Custom HTML'],
+                  ].map(([id, Icon, label]) => (
+                    <button
+                      key={id}
+                      type="button"
+                      aria-pressed={draft.bodyFormat === id}
+                      onClick={() => setDraft((d) => ({ ...d, bodyFormat: id }))}
+                      className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors ${draft.bodyFormat === id ? 'bg-accent text-white' : 'text-fg-secondary dark:text-fg-disabled hover:bg-accent-subtle dark:hover:bg-violet-950/40'}`}
+                    >
+                      <Icon className="h-3.5 w-3.5" /> {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              {isDesignedEmail && !draft.emailAccountId && (
+                <p className="text-meta text-warning dark:text-amber-300 bg-warning-subtle dark:bg-amber-950/30 rounded px-3 py-2">
+                  Designed emails are sent from a connected mailbox.{' '}
+                  <a href="/automation/settings/email" className="underline font-medium">Connect a mailbox</a>
+                </p>
+              )}
+              {draft.bodyFormat === 'rich' ? (
+                <RichEmailBodyEditor
+                  key={bodyEditorKey}
+                  value={draft.bodyHtml}
+                  onChange={({ html, text }) => setDraft((d) => ({ ...d, bodyHtml: html, body: text }))}
+                />
+              ) : (
+                <EmailDesignStudio
+                  mode={draft.bodyFormat}
+                  design={draft.bodyDesign}
+                  onDesignChange={(bodyDesign) => setDraft((d) => ({ ...d, bodyDesign }))}
+                  html={draft.customHtml}
+                  onHtmlChange={(customHtml) => setDraft((d) => ({ ...d, customHtml }))}
+                  previewVars={designPreviewVars}
+                  subject={draft.subject}
+                  saved={draft.savedDesign}
+                  onSavedChange={(savedDesign) => setDraft((d) => ({ ...d, savedDesign }))}
+                  onLoadSaved={(t) => setDraft((d) => ({
+                    ...d,
+                    bodyFormat: t.format,
+                    bodyDesign: t.format === 'design' ? { templateId: t.baseTemplateId, values: t.values || {} } : d.bodyDesign,
+                    customHtml: t.format === 'html' ? (t.html || '') : d.customHtml,
+                    subject: d.subject || t.subject || '',
+                    savedDesign: { id: t._id, name: t.name },
+                  }))}
+                />
+              )}
+              <p className="text-meta text-fg-tertiary dark:text-fg-tertiary">
                 An unsubscribe link is auto-added to every email footer for compliance.
               </p>
             </div>
@@ -504,7 +692,7 @@ export default function BroadcastsPage() {
 
           {samplePreview?.to && (
             <div className="rounded-lg border border-line dark:border-slate-800 bg-subtle/60 dark:bg-slate-900/40 p-4 space-y-2">
-              <p className="text-meta font-semibold text-fg-tertiary">
+              <p className="text-meta font-semibold text-fg-tertiary dark:text-fg-tertiary">
                 Preview — first recipient will see:
               </p>
               <p className="text-xs text-fg-secondary dark:text-fg-tertiary">
@@ -514,7 +702,7 @@ export default function BroadcastsPage() {
               </p>
               {samplePreview.whatsapp && (
                 <div className="rounded-lg bg-accent-subtle dark:bg-emerald-950/30 border border-line dark:border-emerald-900 p-3 space-y-2">
-                  <p className="text-meta font-semibold text-accent-fg">WhatsApp</p>
+                  <p className="text-meta font-semibold text-accent-fg dark:text-accent-fg">WhatsApp</p>
 
                   {samplePreview.whatsapp.header && (
                     <div className="rounded bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 p-2">
@@ -523,7 +711,7 @@ export default function BroadcastsPage() {
                           {samplePreview.whatsapp.header.text}
                         </p>
                       ) : (
-                        <p className="text-meta text-fg-tertiary flex items-center gap-1.5">
+                        <p className="text-meta text-fg-tertiary dark:text-fg-tertiary flex items-center gap-1.5">
                           <span className="inline-block w-4 h-4 rounded bg-muted dark:bg-slate-700 flex-shrink-0" />
                           <span>{samplePreview.whatsapp.header.format} header</span>
                           {samplePreview.whatsapp.header.filename && (
@@ -541,7 +729,7 @@ export default function BroadcastsPage() {
                   </p>
 
                   {samplePreview.whatsapp.footer && (
-                    <p className="text-meta text-fg-tertiary italic">
+                    <p className="text-meta text-fg-tertiary dark:text-fg-tertiary italic">
                       {samplePreview.whatsapp.footer}
                     </p>
                   )}
@@ -550,7 +738,7 @@ export default function BroadcastsPage() {
                     <div className="space-y-1 pt-1 border-t border-line dark:border-emerald-900">
                       {samplePreview.whatsapp.buttons.map((btn, i) => (
                         <div key={i}
-                          className="flex items-center justify-center gap-1.5 py-1.5 text-meta text-accent-fg font-medium bg-canvas dark:bg-slate-900 rounded">
+                          className="flex items-center justify-center gap-1.5 py-1.5 text-meta text-accent-fg dark:text-accent-fg font-medium bg-canvas dark:bg-slate-900 rounded">
                           {btn.type === 'URL' && '🔗'}
                           {btn.type === 'PHONE_NUMBER' && '📞'}
                           {btn.type === 'QUICK_REPLY' && '↩️'}
@@ -563,9 +751,36 @@ export default function BroadcastsPage() {
               )}
               {samplePreview.email && (
                 <div className="rounded-lg bg-accent-subtle dark:bg-violet-950/30 border border-line dark:border-violet-900 p-3">
-                  <p className="text-meta font-semibold text-accent-fg mb-1">Email</p>
-                  <p className="text-xs font-semibold text-fg dark:text-white mb-1">{samplePreview.email.subject || '(no subject)'}</p>
-                  <p className="text-xs text-fg dark:text-slate-200 whitespace-pre-wrap">{samplePreview.email.body}</p>
+                  <p className="text-meta font-semibold text-accent-fg dark:text-accent-fg mb-1">Email</p>
+                  {/* A little inbox-style frame so the signature reads the way a
+                      recipient actually sees it — white card, left-aligned. */}
+                  <div className="rounded-md bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 p-3">
+                    <p className="text-xs font-semibold text-fg dark:text-white mb-2">{samplePreview.email.subject || '(no subject)'}</p>
+                    {isDesignedEmail ? (
+                      <p className="text-xs text-fg-secondary dark:text-fg-disabled">
+                        The full designed email is shown in the preview above, personalised for {samplePreview.to.name || 'this recipient'}.
+                      </p>
+                    ) : samplePreview.email.bodyHtml ? (
+                      <div
+                        className="text-xs text-fg dark:text-slate-200 [&_a]:text-accent-fg [&_img]:max-w-full [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5"
+                        dangerouslySetInnerHTML={{ __html: samplePreview.email.bodyHtml }}
+                      />
+                    ) : (
+                      <p className="text-xs text-fg dark:text-slate-200 whitespace-pre-wrap">{samplePreview.email.body}</p>
+                    )}
+                    {!isDesignedEmail && samplePreview.email.signatureHtml && (
+                      <div className="mt-3 pt-3 border-t border-line dark:border-slate-800">
+                        <div
+                          className="text-xs text-fg-secondary dark:text-fg-disabled [&_a]:text-accent-fg [&_img]:inline-block"
+                          dangerouslySetInnerHTML={{ __html: samplePreview.email.signatureHtml }}
+                        />
+                      </div>
+                    )}
+                    <p className="mt-3 text-meta text-fg-tertiary">Unsubscribe link is added automatically at the footer.</p>
+                  </div>
+                  {isDesignedEmail ? null : samplePreview.email.signatureHtml
+                    ? <p className="mt-1.5 text-meta text-accent-fg dark:text-accent-fg">✓ Your signature will be attached to every email</p>
+                    : <p className="mt-1.5 text-meta text-fg-tertiary">No signature selected — pick one above to attach it</p>}
                 </div>
               )}
             </div>
@@ -574,7 +789,7 @@ export default function BroadcastsPage() {
           {/* Review + send */}
           <div className="flex flex-wrap gap-2 items-center pt-2 border-t border-line dark:border-slate-800">
             <button type="button" onClick={() => createBroadcast(true)} disabled={saving}
-              className="px-4 py-2 rounded-lg border text-sm font-medium">
+              className="px-4 py-2 rounded border text-sm font-medium">
               Test send
             </button>
             <button type="button" onClick={() => createBroadcast(false)} disabled={saving || !canSend}
@@ -590,16 +805,16 @@ export default function BroadcastsPage() {
       )}
 
       {broadcasts.length === 0 ? (
-        <div className="text-center py-16 rounded-lg border-2 border-dashed border-line dark:border-slate-700">
+        <div className="text-center py-16 rounded border-2 border-dashed border-line dark:border-slate-700">
           <Send className="w-10 h-10 mx-auto text-fg-tertiary mb-3" />
           <p className="text-fg dark:text-white font-semibold">No broadcasts yet</p>
-          <p className="text-sm text-fg-tertiary mt-1 max-w-sm mx-auto mb-5">
+          <p className="text-sm text-fg-tertiary dark:text-fg-tertiary mt-1 max-w-sm mx-auto mb-5">
             Send an approved WhatsApp template to a filtered list — a promotion, an announcement, or a reminder.
           </p>
           <button
             type="button"
             onClick={() => setShowCreate(true)}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-accent text-white text-sm font-medium"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-accent text-white text-sm font-medium transition-colors hover:bg-accent-hover"
           >
             <Plus className="w-4 h-4" /> New broadcast
           </button>
@@ -617,18 +832,18 @@ export default function BroadcastsPage() {
               <div
                 key={b._id}
                 onClick={() => setDetailId(b._id)}
-                className="p-4 rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 flex items-center justify-between gap-4 cursor-pointer hover:border-line transition-all"
+                className="p-4 rounded-lg bg-canvas dark:bg-slate-900 border border-line dark:border-slate-800 flex items-center justify-between gap-4 cursor-pointer hover:border-line dark:hover:border-accent transition-all"
               >
                 <div className="flex items-center gap-3 min-w-0">
                   {b.channel === 'email' ? <Mail className="w-5 h-5 text-accent-fg shrink-0" /> : <MessageCircle className="w-5 h-5 text-accent-fg shrink-0" />}
                   <div className="min-w-0">
                     <p className="font-medium text-fg dark:text-white truncate">{b.name}</p>
-                    <p className="text-xs text-fg-tertiary">
+                    <p className="text-xs text-fg-tertiary dark:text-fg-tertiary">
                       <span className="text-fg-secondary dark:text-fg-disabled">{a.sent || 0}</span> sent
-                      {' · '}<span className="text-accent-fg">{reached}</span> delivered
-                      {a.read ? <> · <span className="text-accent-fg">{a.read}</span> read</> : null}
-                      {a.failed ? <> · <span className="text-danger">{a.failed}</span> failed</> : null}
-                      {a.optedOut ? <> · <span className="text-accent-fg">{a.optedOut}</span> opted-out</> : null}
+                      {' · '}<span className="text-accent-fg dark:text-accent-fg">{reached}</span> delivered
+                      {a.read ? <> · <span className="text-accent-fg dark:text-accent-fg">{a.read}</span> read</> : null}
+                      {a.failed ? <> · <span className="text-danger dark:text-red-400">{a.failed}</span> failed</> : null}
+                      {a.optedOut ? <> · <span className="text-accent-fg dark:text-accent-fg">{a.optedOut}</span> opted-out</> : null}
                       {successRate !== null && <> · <span className="text-fg-tertiary">{successRate}% reached</span></>}
                     </p>
                   </div>
@@ -638,12 +853,12 @@ export default function BroadcastsPage() {
                     {b.status}
                   </span>
                   {b.status === 'draft' && (
-                    <button type="button" onClick={() => runAction(b._id, 'send')} className="p-2 rounded-lg hover:bg-muted" title="Send">
+                    <button type="button" onClick={() => runAction(b._id, 'send')} className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-700" title="Send">
                       <Send className="w-4 h-4" />
                     </button>
                   )}
                   {a.failed > 0 && (
-                    <button type="button" onClick={() => runAction(b._id, 'retry_failed')} className="p-2 rounded-lg hover:bg-muted" title="Retry failed">
+                    <button type="button" onClick={() => runAction(b._id, 'retry_failed')} className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-700" title="Retry failed">
                       <RefreshCw className="w-4 h-4" />
                     </button>
                   )}
@@ -693,9 +908,9 @@ function AudienceIndicator({ count, loading, channel }) {
 
   if (count.count === 0) {
     return (
-      <div className="text-meta text-warning flex flex-col items-end gap-0.5">
+      <div className="text-meta text-warning dark:text-amber-300 flex flex-col items-end gap-0.5">
         <span className="flex items-center gap-1"><AlertCircle className="w-3 h-3" /> No recipients match</span>
-        {skips.length > 0 && <span className="text-fg-tertiary">Skipped: {skips.join(' · ')}</span>}
+        {skips.length > 0 && <span className="text-fg-tertiary dark:text-fg-tertiary">Skipped: {skips.join(' · ')}</span>}
       </div>
     );
   }
@@ -707,7 +922,7 @@ function AudienceIndicator({ count, loading, channel }) {
         {count.truncated ? ' (capped at 5000)' : ''}
       </span>
       {skips.length > 0 && (
-        <span className="text-fg-tertiary font-normal">
+        <span className="text-fg-tertiary dark:text-fg-tertiary font-normal">
           {count.matchedTotal} matched · skipped {skips.join(' · ')}
         </span>
       )}

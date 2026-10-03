@@ -13,7 +13,7 @@ export default function TemplateLibrary({ templates, searchQuery, onSearchChange
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder="Search templates…"
-          className="w-full pl-10 pr-4 py-2.5 text-sm bg-canvas dark:bg-slate-900 border-0 rounded focus:outline-none focus:ring-2 focus:ring-focus text-fg dark:text-slate-100 placeholder:text-fg-tertiary"
+          className="w-full pl-10 pr-4 py-2.5 text-sm bg-canvas dark:bg-slate-900 border-0 rounded focus:outline-none focus:ring-2 focus:ring-brand/25 text-fg dark:text-slate-100 placeholder:text-fg-tertiary"
         />
       </div>
 
@@ -21,7 +21,7 @@ export default function TemplateLibrary({ templates, searchQuery, onSearchChange
         <div className="text-center py-16 bg-canvas dark:bg-slate-900 rounded">
           <p className="text-sm font-medium text-fg-secondary dark:text-fg-tertiary">No templates found</p>
           <p className="text-xs text-fg-tertiary mt-1 mb-4">Create a template or sync from Meta</p>
-          <button type="button" onClick={onCreate} className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-white bg-accent rounded-md">
+          <button type="button" onClick={onCreate} className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-brand rounded">
             <Plus className="w-3.5 h-3.5" /> Create template
           </button>
         </div>
@@ -39,7 +39,7 @@ export default function TemplateLibrary({ templates, searchQuery, onSearchChange
           <button
             type="button"
             onClick={onCreate}
-            className="flex flex-col items-center justify-center min-h-[180px] rounded border-2 border-dashed border-line dark:border-slate-700 text-fg-tertiary hover:border-accent/40 hover:text-accent-fg hover:bg-canvas dark:hover:bg-slate-900 transition-all"
+            className="flex flex-col items-center justify-center min-h-[180px] rounded border-2 border-dashed border-line dark:border-slate-700 text-fg-tertiary hover:border-brand/40 hover:text-brand-ink hover:bg-canvas dark:hover:bg-slate-900 transition-all"
           >
             <Plus className="w-8 h-8 mb-2 opacity-50" />
             <span className="text-sm font-medium">Add template</span>

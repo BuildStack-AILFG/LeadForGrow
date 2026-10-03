@@ -24,6 +24,9 @@ export const SCORE_CONFIG = {
 export const SOURCE_OPTIONS = [
   { value: '', label: 'All Sources' },
   { value: 'whatsapp', label: 'WhatsApp' },
+  { value: 'instagram', label: 'Instagram' },
+  { value: 'facebook', label: 'Facebook' },
+  { value: 'email', label: 'Email' },
   { value: 'website', label: 'Website' },
   { value: 'form', label: 'Form' },
   { value: 'bot', label: 'Chatbot' },

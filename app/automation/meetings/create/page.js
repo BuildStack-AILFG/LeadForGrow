@@ -24,10 +24,10 @@ const EMPTY_DRAFT = {
   automationRules: {
     whatsappConfirmation: true,
     whatsappReminder: true,
-    whatsappReminderMinutes: 30,
     emailReminder: true,
+    noShowRecovery: true,
     triggerAutomationOnBook: true,
-    leadStatusOnBook: 'interested',
+    leadStatusOnBook: 'qualified',
   },
   branding: { accentColor: '#4338ca' },
 };

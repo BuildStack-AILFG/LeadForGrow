@@ -5,7 +5,7 @@ export const metadata = {
   description: "Transform your website visitors into quality enquiries with LeadForGrow's smart lead capture forms. Natively integrated, behavior-triggered, and conversion-optimized.",
   keywords: ["lead capture forms", "contact form automation", "website lead widgets India", "custom lead forms", "enquiry management system"],
   alternates: {
-    canonical: 'https://leadforgrow.online/product/forms'
+    canonical: 'https://www.leadforgrow.com/product/forms'
   }
 };
 
@@ -70,7 +70,7 @@ export default function ProductFormsPage() {
     <MarketingLayout 
       title="Stop Losing Enquiries to 'Normal' Contact Forms." 
       subtitle="LeadForGrow forms connect directly to your team, ensuring no inquiry ever falls through the cracks again."
-      heroImage="/images/hero/forms.png"
+      heroImage="/images/hero/forms.webp"
       benefits={benefits}
       whoIsThisFor={whoIsThisFor}
       whyItMatters={whyItMatters}
@@ -104,7 +104,7 @@ export default function ProductFormsPage() {
         <div className="bg-slate-50 dark:bg-slate-900/40 rounded-[3rem] p-12 border border-slate-100 dark:border-slate-800">
           <h3>LeadForGrow Capture Engine vs Legacy Alternatives</h3>
           <p>
-            Why do 500+ businesses trust LeadForGrow for their lead capture? It comes down to reliability and performance.
+            Why do businesses choose LeadForGrow for their lead capture? It comes down to reliability and performance.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
             <div>
