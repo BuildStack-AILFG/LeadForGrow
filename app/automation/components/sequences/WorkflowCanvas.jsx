@@ -76,7 +76,7 @@ export default function WorkflowCanvas({
   return (
     <div className="relative flex-1 flex flex-col min-h-0 rounded-lg overflow-hidden border border-line/80 dark:border-slate-800 bg-subtle dark:bg-slate-950">
       {/* Toolbar */}
-      <div className="absolute top-3 left-3 z-30 flex items-center gap-1 p-1 rounded-lg bg-canvas/90 dark:bg-slate-900/90 border border-line dark:border-slate-700 shadow-popover">
+      <div className="absolute top-3 left-3 z-30 flex items-center gap-1 p-1 rounded-lg bg-canvas dark:bg-slate-900/90 border border-line dark:border-slate-700 shadow-popover">
         <button type="button" onClick={() => setZoom((z) => Math.min(2, z + 0.1))} className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800 text-fg-secondary" title="Zoom in"><ZoomIn className="w-4 h-4" /></button>
         <button type="button" onClick={() => setZoom((z) => Math.max(0.4, z - 0.1))} className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800 text-fg-secondary" title="Zoom out"><ZoomOut className="w-4 h-4" /></button>
         <button type="button" onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }} className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800 text-fg-secondary" title="Reset"><Maximize2 className="w-4 h-4" /></button>
@@ -96,7 +96,7 @@ export default function WorkflowCanvas({
       </div>
 
       {/* Minimap */}
-      <div className="absolute bottom-3 right-3 z-30 w-32 h-24 rounded-lg bg-canvas/80 dark:bg-slate-900/80 border border-line dark:border-slate-700 shadow-popover overflow-hidden hidden md:block">
+      <div className="absolute bottom-3 right-3 z-30 w-32 h-24 rounded-lg bg-canvas dark:bg-slate-900/80 border border-line dark:border-slate-700 shadow-popover overflow-hidden hidden md:block">
         <div className="relative w-full h-full scale-[0.15] origin-top-left" style={{ width: 800, height: 600 }}>
           {nodes.map((n) => (
             <div key={n.id} className="absolute w-[220px] h-[20px] bg-teal-400/60 rounded" style={{ left: n.position?.x, top: n.position?.y }} />

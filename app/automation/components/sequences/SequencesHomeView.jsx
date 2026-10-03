@@ -27,16 +27,12 @@ export default function SequencesHomeView({
   const [deleteSeqTarget, setDeleteSeqTarget] = useState(null); // sequence object or null
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+    <div className="px-4 py-6 sm:px-6">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-subtle dark:bg-teal-950/40 text-accent-fg dark:text-accent-fg text-xs font-medium mb-3">
-            <GitBranch className="w-3.5 h-3.5" />
-            Workflow Automation
-          </div>
           <h1 className="text-page font-semibold text-fg">Sequences</h1>
-          <p className="text-fg-tertiary dark:text-fg-tertiary mt-1 text-sm max-w-lg">
-            WhatsApp-first sales automation — nurture leads, recover missed calls, and qualify with AI.
+          <p className="mt-0.5 text-body text-fg-secondary">
+            Multi-step follow-ups that run until a lead replies or converts.
           </p>
         </div>
         <button

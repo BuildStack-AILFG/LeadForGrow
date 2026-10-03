@@ -542,7 +542,7 @@ export default function NewLeadPage() {
       </div>
 
       {/* Sticky footer */}
-      <div className="fixed bottom-0 left-0 right-0 z-20 border-t border-line bg-canvas/95 px-4 sm:px-6 py-4">
+      <div className="fixed bottom-0 left-0 right-0 z-20 border-t border-line bg-canvas px-4 sm:px-6 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
           <p className="text-meta text-fg-tertiary hidden md:flex items-center gap-2">
             <Globe className="w-3.5 h-3.5" style={{ color: BLUE }} />

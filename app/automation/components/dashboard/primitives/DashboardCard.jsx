@@ -11,9 +11,9 @@ export default function DashboardCard({
     <div
       className={[
         'bg-canvas dark:bg-slate-900',
-        'border border-line/80 dark:border-slate-800',
+        'border border-line',
         'rounded-lg',
-        hover ? 'transition-shadow hover:shadow-popover' : '',
+        hover ? 'transition-colors hover:border-line-strong' : '',
         padding,
         className
       ].join(' ')}

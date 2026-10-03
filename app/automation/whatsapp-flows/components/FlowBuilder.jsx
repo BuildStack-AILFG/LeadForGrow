@@ -700,7 +700,7 @@ function FlowBuilderInner({ flowId }) {
           )}
 
           {versionsOpen && (
-            <div className="absolute top-14 right-3 w-72 max-h-80 overflow-y-auto rounded-lg border border-line bg-canvas/95 p-3 shadow-modal z-10">
+            <div className="absolute top-14 right-3 w-72 max-h-80 overflow-y-auto rounded-lg border border-line bg-canvas p-3 shadow-modal z-10">
               <h4 className="text-xs font-semibold text-fg-tertiary mb-2">Version history</h4>
               {(versions.length ? versions : []).map((v) => (
                 <button
@@ -720,7 +720,7 @@ function FlowBuilderInner({ flowId }) {
           )}
 
           {testOpen && (
-            <div className="absolute bottom-3 left-3 right-3 md:left-auto md:right-3 md:w-96 rounded-lg border border-line bg-canvas/95 p-4 shadow-modal z-10">
+            <div className="absolute bottom-3 left-3 right-3 md:left-auto md:right-3 md:w-96 rounded-lg border border-line bg-canvas p-4 shadow-modal z-10">
               <h4 className="text-xs font-semibold text-fg-tertiary mb-2">Test flow</h4>
               <p className="text-meta text-fg-tertiary mb-2">
                 Simulate an inbound WhatsApp message before publishing.

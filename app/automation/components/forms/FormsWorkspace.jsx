@@ -90,7 +90,7 @@ export default function FormsWorkspace() {
   return (
     <div className="flex flex-col h-full min-h-[calc(100vh-0px)] bg-subtle dark:bg-slate-950">
       {/* Top bar */}
-      <header className="flex-shrink-0 bg-canvas/80 dark:bg-slate-900/80 sticky top-0 z-30">
+      <header className="flex-shrink-0 bg-canvas sticky top-0 z-30 border-b border-line">
         <div className="flex items-center justify-between gap-3 px-4 sm:px-6 h-14">
           <div className="flex items-center gap-3 min-w-0">
             <button

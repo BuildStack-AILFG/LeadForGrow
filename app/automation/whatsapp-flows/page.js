@@ -160,18 +160,14 @@ export default function WhatsAppFlowsPage() {
 
   return (
     <div className="min-h-full bg-canvas text-fg" data-theme="light">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+      <div className="px-4 py-6 sm:px-6">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-subtle text-accent-fg text-xs font-medium mb-3">
-              <MessageCircle className="w-3.5 h-3.5" />
-              WhatsApp Automation
-            </div>
             <h1 className="text-page font-semibold text-fg">
               WhatsApp Flows
             </h1>
-            <p className="text-fg-tertiary mt-1 text-sm max-w-lg">
-              Build premium no-code WhatsApp journeys — triggers, interactive messages, logic, and analytics for any business.
+            <p className="mt-0.5 text-body text-fg-secondary">
+              Interactive WhatsApp conversations triggered by incoming messages.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">

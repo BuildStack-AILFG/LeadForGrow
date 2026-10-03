@@ -260,7 +260,7 @@ function ChatInboxContent() {
               const cleanSubject = subject.replace(/^(Re:|Fwd?:|Fw:)\s*/i, '');
               const msgCount = visibleMessages.filter((m) => m.type === 'email').length;
               return (
-                <div className="sticky top-0 z-10 bg-canvas/95 dark:bg-slate-900/95 border-b border-line dark:border-slate-700 px-4 py-2 flex items-baseline gap-2">
+                <div className="sticky top-0 z-10 bg-canvas dark:bg-slate-900/95 border-b border-line dark:border-slate-700 px-4 py-2 flex items-baseline gap-2">
                   <p className="text-sm font-semibold text-fg dark:text-slate-100 truncate flex-1" title={subject}>
                     {cleanSubject}
                   </p>

@@ -27,7 +27,7 @@ export default function ChatbotWorkspace() {
   return (
     <div className="min-h-full bg-canvas">
       {/* Top bar */}
-      <div className="sticky top-0 z-20 bg-canvas/90 dark:bg-slate-950/90 border-b border-line dark:border-slate-800">
+      <div className="sticky top-0 z-20 bg-canvas dark:bg-slate-950/90 border-b border-line dark:border-slate-800">
         <div className="max-w-[1400px] mx-auto px-6 py-4 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3 min-w-0">
             <div className="w-10 h-10 rounded-lg bg-canvas border border-line flex items-center justify-center shadow-popover flex-shrink-0">

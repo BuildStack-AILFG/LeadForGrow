@@ -80,7 +80,7 @@ export default function SequencesWorkspace() {
   return (
     <div className="min-h-full bg-canvas flex flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-canvas/80 dark:bg-slate-950/80 border-b border-line dark:border-slate-800">
+      <header className="sticky top-0 z-40 bg-canvas dark:bg-slate-950/80 border-b border-line dark:border-slate-800">
         <div className="px-4 py-3 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3 min-w-0">
             <button type="button" onClick={() => ws.setWorkspaceMode('home')} className="p-2 rounded-lg hover:bg-muted dark:hover:bg-slate-800 text-fg-tertiary">

@@ -51,14 +51,14 @@ function AutomationRulesContent() {
           </div>
           <Link
             href="/automation/settings/crm"
-            className="inline-flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-md bg-accent text-white hover:bg-accent-hover shrink-0"
+            className="inline-flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-md border border-line bg-canvas text-fg hover:bg-subtle hover:border-line-strong shrink-0"
           >
             <Settings2 className="w-3.5 h-3.5" />
             CRM automation settings
           </Link>
         </div>
 
-        <div className="mt-4 mb-4 p-4 bg-subtle dark:from-slate-900 dark:to-slate-800 border border-line dark:border-slate-700 rounded-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="mt-4 mb-4 p-4 bg-canvas border border-line rounded-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
             <p className="text-sm font-medium text-fg dark:text-slate-100">WhatsApp interactive flows</p>
             <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-0.5">
@@ -67,7 +67,7 @@ function AutomationRulesContent() {
           </div>
           <Link
             href="/automation/whatsapp-flows"
-            className="inline-flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-md bg-accent text-white hover:bg-accent-hover shrink-0"
+            className="inline-flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-md border border-line bg-canvas text-fg hover:bg-subtle hover:border-line-strong shrink-0"
           >
             <Settings2 className="w-3.5 h-3.5" />
             Manage flows

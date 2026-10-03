@@ -15,7 +15,7 @@ export default function DashboardHeader({
   const router = useRouter();
 
   return (
-    <header className="sticky top-0 z-20 -mx-4 sm:-mx-6 px-4 sm:px-6 py-4 mb-2 bg-subtle/90 dark:bg-slate-950/90 border-b border-line/60 dark:border-slate-800">
+    <header className="sticky top-0 z-20 -mx-4 sm:-mx-6 px-4 sm:px-6 py-4 mb-2 bg-subtle dark:bg-slate-950/90 border-b border-line/60 dark:border-slate-800">
       <div className="flex flex-col lg:flex-row lg:items-center gap-4">
         <div className="flex-1 min-w-0">
           <p className="text-xs font-medium text-fg-tertiary dark:text-fg-tertiary mb-0.5">Dashboard</p>

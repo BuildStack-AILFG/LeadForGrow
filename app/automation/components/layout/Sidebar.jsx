@@ -83,6 +83,15 @@ export default function Sidebar() {
     if (activeGroupId && !quickIds.has(activeId)) setOpenGroupId(activeGroupId);
   }, [activeGroupId, activeId, quickIds, pathname]);
 
+  // Keep the highlighted row visible when the sidebar scrolls (e.g. a page
+  // deep in Automation or Insights).
+  useEffect(() => {
+    const t = setTimeout(() => {
+      document.querySelector('aside[aria-label="Main"] [aria-current="page"]')?.scrollIntoView({ block: 'nearest' });
+    }, 50);
+    return () => clearTimeout(t);
+  }, [activeId, openGroupId]);
+
   const getBadge = useCallback((item) => (item.badgeKey ? sidebar.stats?.[item.badgeKey] || 0 : 0), [sidebar.stats]);
 
   const railMode = !sidebar.isMobile && sidebar.collapsed;

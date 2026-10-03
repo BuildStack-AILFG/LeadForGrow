@@ -37,18 +37,11 @@ export default function MeetingsDashboard({ dashboard, onCreate, onNoShow, onCom
   };
 
   return (
-    <div className="space-y-6 p-4 sm:p-6 max-w-[1600px] mx-auto">
+    <div className="space-y-6 p-4 sm:p-6">
       <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <p className="text-meta font-semibold text-accent-fg dark:text-accent-fg mb-1">
-            Revenue Scheduling
-          </p>
-          <h1 className="text-page font-semibold text-fg">
-            Smart Meeting Automation
-          </h1>
-          <p className="text-sm text-fg-tertiary dark:text-fg-tertiary mt-1 max-w-xl">
-            WhatsApp-first scheduling connected to your CRM, pipelines, and automations.
-          </p>
+          <h1 className="text-page font-semibold text-fg">Meetings</h1>
+          <p className="mt-0.5 text-body text-fg-secondary">Booking links, upcoming appointments and calendar sync.</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <Link
@@ -100,7 +93,7 @@ export default function MeetingsDashboard({ dashboard, onCreate, onNoShow, onCom
                     {dashboard.bookingLinks.slice(0, 3).map((m) => (
                       <div
                         key={m._id}
-                        className="flex items-center justify-between p-3 rounded-lg bg-accent-subtle dark:bg-indigo-950/20 border border-line dark:border-indigo-900/40"
+                        className="flex items-center justify-between rounded-lg border border-line p-3"
                       >
                         <div>
                           <p className="text-sm font-medium text-fg dark:text-slate-100">{m.title}</p>
@@ -122,11 +115,8 @@ export default function MeetingsDashboard({ dashboard, onCreate, onNoShow, onCom
               </div>
             ) : (
               dashboard.upcomingBookings.map((b, i) => (
-                <motion.div
+                <div
                   key={b._id}
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.04 }}
                   className="px-5 py-3 flex items-center justify-between gap-3 hover:bg-subtle dark:hover:bg-slate-800/30"
                 >
                   <div className="min-w-0">
@@ -157,7 +147,7 @@ export default function MeetingsDashboard({ dashboard, onCreate, onNoShow, onCom
                       No-show
                     </button>
                   </div>
-                </motion.div>
+                </div>
               ))
             )}
           </div>
@@ -165,17 +155,16 @@ export default function MeetingsDashboard({ dashboard, onCreate, onNoShow, onCom
 
         <DashboardCard padding="p-5">
           <div className="flex items-center gap-2 mb-4">
-            <Sparkles className="w-4 h-4 text-accent-fg" />
-            <h2 className="text-sm font-semibold text-fg dark:text-slate-50">AI insights</h2>
+            <h2 className="text-body font-semibold text-fg">Insights</h2>
           </div>
           <ul className="space-y-3 text-sm text-fg-secondary dark:text-fg-tertiary">
-            <li className="p-3 rounded-lg bg-accent-subtle dark:bg-indigo-950/20 border border-line dark:border-indigo-900/40">
+            <li className="rounded-lg border border-line p-3">
               Peak booking window: <strong className="text-fg dark:text-slate-200">10am–12pm</strong> drives highest show rates.
             </li>
-            <li className="p-3 rounded-lg bg-accent-subtle dark:bg-cyan-950/20 border border-line">
+            <li className="rounded-lg border border-line p-3">
               WhatsApp reminders reduce no-shows by up to <strong>35%</strong> vs email-only.
             </li>
-            <li className="p-3 rounded-lg bg-subtle dark:bg-slate-800/50 text-xs">
+            <li className="rounded-lg bg-subtle p-3 text-meta text-fg-tertiary">
               AI summaries & transcripts — architecture ready. Enable in meeting settings when available.
             </li>
           </ul>

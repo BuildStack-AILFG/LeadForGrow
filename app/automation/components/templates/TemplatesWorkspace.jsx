@@ -12,6 +12,7 @@ import AutomatedFlowPanel from './AutomatedFlowPanel';
 import VariablePanel from './VariablePanel';
 import AutoPageIntro from '../shared/tour/AutoPageIntro';
 import TemplateChannelTabs from './TemplateChannelTabs';
+import Tabs from '@/app/components/ui/Tabs';
 
 export default function TemplatesWorkspace() {
   const t = useTemplates();
@@ -32,40 +33,18 @@ export default function TemplatesWorkspace() {
         onCreate={t.openCreate}
       />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
+      <div className="px-4 py-6 sm:px-6">
         <AutoPageIntro />
 
         <TemplateStatsBar stats={t.stats} />
 
-        {/* Tabs */}
-        <nav className="flex gap-1 p-1 bg-canvas dark:bg-slate-900 rounded w-fit mb-6">
-          {TABS.map((tab) => {
-            const Icon = tab.icon;
-            const active = t.activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => t.setActiveTab(tab.id)}
-                className={`relative inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded transition-colors ${
-                  active ? 'text-white' : 'text-fg-tertiary hover:text-fg-secondary dark:hover:text-fg-disabled'
-                }`}
-              >
-                {active && (
-                  <motion.div
-                    layoutId="template-tab"
-                    className="absolute inset-0 rounded"
-                    style={{ backgroundColor: '#1D4B3E' }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                  />
-                )}
-                <span className="relative flex items-center gap-1.5">
-                  <Icon className="w-3.5 h-3.5" /> {tab.label}
-                </span>
-              </button>
-            );
-          })}
-        </nav>
+        <Tabs
+          className="mb-6"
+          ariaLabel="Template sections"
+          value={t.activeTab}
+          onChange={t.setActiveTab}
+          tabs={TABS.map((tab) => ({ value: tab.id, label: tab.label }))}
+        />
 
         <div className="flex flex-col lg:flex-row gap-6">
           <div className="flex-1 min-w-0">
