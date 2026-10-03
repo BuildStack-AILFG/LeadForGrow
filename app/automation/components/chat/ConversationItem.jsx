@@ -22,16 +22,18 @@ const CHANNEL_ICON_COLOR = {
 };
 
 // Stable per-name color for avatar backgrounds — feels alive without being random
-const AVATAR_TONES = [
-  { bg: 'bg-accent-subtle dark:bg-accent-pressed/40', fg: 'text-accent-fg dark:text-accent-fg' },
-  { bg: 'bg-accent-subtle dark:bg-accent-pressed/40',       fg: 'text-accent-fg dark:text-accent-fg' },
-  { bg: 'bg-accent-subtle dark:bg-accent-pressed/40',   fg: 'text-accent-fg dark:text-accent-fg' },
-  { bg: 'bg-warning-subtle dark:bg-amber-900/40',     fg: 'text-warning dark:text-amber-300' },
-  { bg: 'bg-pink-100 dark:bg-pink-900/40',       fg: 'text-pink-700 dark:text-pink-300' },
-  { bg: 'bg-accent-subtle dark:bg-accent-pressed/40',       fg: 'text-accent-fg dark:text-accent-fg' },
-  { bg: 'bg-accent-subtle dark:bg-accent-pressed/40',   fg: 'text-accent-fg dark:text-accent-fg' },
+// Soft per-contact colours (stable by name) — makes the list easy to scan
+// without loud fills. Pastel background + dark text, all AA readable.
+export const AVATAR_TONES = [
+  { bg: 'bg-[#E6F4EE]', fg: 'text-[#1D4B3E]' },
+  { bg: 'bg-[#E6EEF6]', fg: 'text-[#2D5F8A]' },
+  { bg: 'bg-[#FBF1DF]', fg: 'text-[#8F5A0E]' },
+  { bg: 'bg-[#F6E8F3]', fg: 'text-[#8A3F78]' },
+  { bg: 'bg-[#ECEAF8]', fg: 'text-[#4E4A9A]' },
+  { bg: 'bg-[#E3F2F4]', fg: 'text-[#256A73]' },
+  { bg: 'bg-[#FBE9E7]', fg: 'text-[#A23A2F]' },
 ];
-function toneForName(name) {
+export function toneForName(name) {
   const s = String(name || '');
   let h = 0;
   for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
@@ -177,7 +179,7 @@ function ConversationItem({ chat, active, onClick }) {
                 {waitingBadge.label}
               </span>
             )}
-            <ChannelIcon className={`w-3 h-3 ${unread ? channelClass : 'text-fg-tertiary'}`} />
+            <ChannelIcon className={`w-3.5 h-3.5 ${channelClass}`} />
             <span className={`text-meta tabular-nums ${unread ? 'text-fg-secondary dark:text-fg-disabled font-medium' : 'text-fg-tertiary'}`}>
               {formatTime(chat.lastMessageAt)}
             </span>

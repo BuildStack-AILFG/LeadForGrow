@@ -5,6 +5,7 @@ import Link from 'next/link';
 import {
   ChevronDown,
   ExternalLink,
+  PanelRightClose,
   X,
   Briefcase,
   Calendar,
@@ -176,6 +177,7 @@ export default function CRMProfilePanel({
   onToggleLabel,
   onUpdateFollowUp,
   onClose,
+  onCollapse,
   mobile = false,
 }) {
   const [note, setNote] = useState('');
@@ -193,7 +195,15 @@ export default function CRMProfilePanel({
   if (!lead) {
     return (
       <aside className={`flex flex-col h-full bg-canvas dark:bg-slate-900 border-l border-line dark:border-slate-800 ${mobile ? 'w-full' : 'flex-[0_0_25%] min-w-[240px] max-w-[340px] hidden xl:flex'}`}>
-        <div className="p-6 text-center text-sm text-fg-tertiary">Select a conversation to view CRM details.</div>
+        {onCollapse && !mobile && (
+          <div className="flex h-12 flex-shrink-0 items-center justify-between border-b border-line px-4">
+            <h3 className="text-body font-semibold text-fg">Customer profile</h3>
+            <button type="button" onClick={onCollapse} title="Hide customer panel" aria-label="Hide customer panel" className="rounded-md p-1.5 text-fg-tertiary hover:bg-muted hover:text-fg">
+              <PanelRightClose className="h-4 w-4" strokeWidth={1.75} />
+            </button>
+          </div>
+        )}
+        <div className="p-6 text-center text-body text-fg-tertiary">Select a conversation to see the customer’s details.</div>
       </aside>
     );
   }
@@ -204,11 +214,16 @@ export default function CRMProfilePanel({
   const panel = (
     <>
       <div className="flex-shrink-0 px-4 py-3 border-b border-line dark:border-slate-800 flex items-center justify-between">
-        <h3 className="text-sm font-semibold text-fg dark:text-slate-50">Customer profile</h3>
+        <h3 className="text-body font-semibold text-fg">Customer profile</h3>
         <div className="flex items-center gap-1">
           <Link href={`/automation/leads/${lead._id}`} className="p-1.5 rounded-md text-fg-tertiary hover:text-accent-fg">
             <ExternalLink className="w-4 h-4" />
           </Link>
+          {!mobile && onCollapse && (
+            <button type="button" onClick={onCollapse} title="Hide customer panel" aria-label="Hide customer panel" className="p-1.5 rounded-md text-fg-tertiary hover:bg-muted hover:text-fg">
+              <PanelRightClose className="w-4 h-4" strokeWidth={1.75} />
+            </button>
+          )}
           {mobile && onClose && (
             <button type="button" onClick={onClose} className="p-1.5 rounded-md text-fg-tertiary hover:bg-muted">
               <X className="w-4 h-4" />

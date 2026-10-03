@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Search, Inbox, MessageSquarePlus, Loader2, LayoutGrid, Volume2, VolumeX } from 'lucide-react';
+import { Search, Inbox, MessageSquarePlus, Loader2, LayoutGrid, Volume2, VolumeX, PanelLeftClose } from 'lucide-react';
 import EmptyState from '@/app/components/ui/EmptyState';
 import Link from 'next/link';
 import { INBOX_FILTERS, CHANNEL_FILTERS } from './constants';
@@ -47,6 +47,7 @@ export default function ChatSidebar({
   loadingMoreConversations,
   onLoadMoreConversations,
   realtimeConnected = false,
+  onCollapse,
 }) {
   // Sound preference lives in localStorage — persists per browser without
   // needing a backend column. Default off so we don't ambush users with
@@ -106,6 +107,17 @@ export default function ChatSidebar({
             >
               {soundOn ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
             </button>
+            {onCollapse && (
+              <button
+                type="button"
+                onClick={onCollapse}
+                className="hidden lg:inline-flex p-2 rounded-lg text-fg-tertiary hover:bg-muted hover:text-fg"
+                title="Hide conversation list"
+                aria-label="Hide conversation list"
+              >
+                <PanelLeftClose className="w-4 h-4" strokeWidth={1.75} />
+              </button>
+            )}
             <Link
               href="/automation/leads/new"
               className="p-2 rounded-lg text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800 hover:text-accent-fg"

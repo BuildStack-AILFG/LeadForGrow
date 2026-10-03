@@ -13,6 +13,14 @@ Related decisions: <link to DECISIONS.md entry, if any>
 
 ---
 
+## 2026-10-03 — Inbox: collapsible panes + folded composer + a little colour
+Branch: design/app-redesign
+Files: `app/automation/chat/page.js`, `components/chat/{ChatSidebar,CRMProfilePanel,ChatInput,ConversationItem,ChatHeader}.jsx`
+What changed: owner said the open conversation felt congested and asked for (1) collapse controls for the left list and right customer panel, (2) the bottom composer folded down by default and opened with an up-arrow, (3) a slightly more colourful Inbox. Added remembered (localStorage) collapse state for both side panes with 44px rails to reopen them (PanelLeftClose/PanelRightClose buttons in each pane header); the composer (AI reply row + ChatInput) now starts folded as a single "Reply to {name}…" bar with ▲, opens on click or when an AI reply/draft is inserted, folds again with ▼ and resets when switching conversations (ChatInput's own email-minimize button removed to avoid two controls). Colour: soft per-contact avatar palette (list + header), channel icons always in brand colours, mint-tinted thread background. Verified behaviour via DOM in Chrome (fold/unfold, both pane collapses + restore); screenshots blocked (window in background).
+Related decisions: none.
+
+---
+
 ## 2026-10-03 — Visual review pass (live screenshots) + Inbox data bug + enquiry popup
 Branch: design/app-redesign
 Files: `app/api/automation/inbox/conversations/route.js` (import Contact/Company/Deal/User for `.populate()` — on a fresh server the route 500'd with MissingSchemaError and the Inbox was empty); `app/Enquiry.jsx` (the marketing "Contact Us" popup's timer now skips `/automation`, embeds — `hidden` only hid the launcher before); Inbox (`chat/ChatSidebar`, `ConversationItem`, `ChatInput`, `ai/AiReplyBar`); Meetings (`MeetingsDashboard`, `MeetingsKpiRow`); `dashboard/primitives/{StatCard,DashboardCard}`; Templates (`TemplatesHeader`, `TemplatesWorkspace`); `automation-rules/page.js`; Sequences/WhatsApp flows/Journeys page headers; Call recovery (`call-integration/page.js`); Tasks (`TaskStatCards`); Reports (`ReportsHeader`, `KPIGrid`, `Sparkline`, `LeadAnalyticsSection`, `constants`, `utils`) + chart primitives (`dashboard/charts/*`); Insights page headers (analytics, events, AI knowledge, AI settings); `settings/{SettingsHeader,SettingsLayoutClient}`; `layout/Sidebar.jsx` (scroll active row into view); `globals.css` (`.scrollbar-hide` was referenced but undefined); ~56 decoration fixes via scratchpad codemod (entrance `animate-in/slide-in` classes, `rounded-[16-40px]`, blurred blobs).

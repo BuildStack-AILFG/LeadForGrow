@@ -10,6 +10,7 @@ import {
 import StatusBadge from '../leads/StatusBadge';
 import { assigneeName } from '../leads/utils';
 import InboxActionsMenu from './InboxActionsMenu';
+import { toneForName } from './ConversationItem';
 
 export default function ChatHeader({
   chat,
@@ -50,12 +51,12 @@ export default function ChatHeader({
             <ChevronLeft className="w-5 h-5 text-fg-secondary" />
           </button>
         )}
-        <div className="w-9 h-9 rounded-full bg-muted dark:bg-slate-800 flex items-center justify-center text-sm font-semibold text-fg-secondary dark:text-fg-disabled flex-shrink-0">
+        <div className={`w-9 h-9 rounded-full ${toneForName(lead.name).bg} ${toneForName(lead.name).fg} flex items-center justify-center text-sm font-semibold flex-shrink-0`}>
           {lead.name?.charAt(0)?.toUpperCase() || '?'}
         </div>
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <h2 className="text-sm font-semibold text-fg dark:text-slate-50 truncate">{lead.name}</h2>
+            <h2 className="text-body font-semibold text-fg truncate">{lead.name}</h2>
             <StatusBadge status={lead.status} size="xs" />
           </div>
           <p className="text-meta text-fg-tertiary truncate">

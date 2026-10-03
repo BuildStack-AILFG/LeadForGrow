@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense, useState, useMemo, useEffect } from 'react';
-import { MessageSquare, FileText, Trash2 } from 'lucide-react';
+import { MessageSquare, FileText, Trash2, PanelLeftOpen, PanelRightOpen, ChevronUp, ChevronDown, PenLine } from 'lucide-react';
 import { authFetch } from '@/lib/apiClient';
 import { useChatInbox } from '../hooks/useChatInbox';
 import ChatSidebar from '../components/chat/ChatSidebar';
@@ -23,6 +23,32 @@ function ChatInboxContent() {
   const [emailFolder, setEmailFolder] = useState('inbox');
 
   const [aiReplyText, setAiReplyText] = useState(null);
+
+  // Layout preferences (remembered per browser): hide the conversation list
+  // or the customer panel to give the thread more room, and keep the reply
+  // composer folded down until the agent asks for it.
+  const [listCollapsed, setListCollapsed] = useState(false);
+  const [profileCollapsed, setProfileCollapsed] = useState(false);
+  const [composerOpen, setComposerOpen] = useState(false);
+  useEffect(() => {
+    try {
+      setListCollapsed(localStorage.getItem('lfg.inbox.listCollapsed') === '1');
+      setProfileCollapsed(localStorage.getItem('lfg.inbox.profileCollapsed') === '1');
+    } catch {}
+  }, []);
+  const persist = (key, value) => {
+    try { localStorage.setItem(key, value ? '1' : '0'); } catch {}
+  };
+  const toggleList = (v) => { setListCollapsed(v); persist('lfg.inbox.listCollapsed', v); };
+  const toggleProfile = (v) => { setProfileCollapsed(v); persist('lfg.inbox.profileCollapsed', v); };
+  // Fold the composer back down whenever a different conversation opens, and
+  // pop it open when something is inserted into it (AI reply, draft).
+  useEffect(() => { setComposerOpen(false); }, [inbox.selectedChat?._id]);
+  useEffect(() => {
+    const open = () => setComposerOpen(true);
+    window.addEventListener('lfg:insert-reply', open);
+    return () => window.removeEventListener('lfg:insert-reply', open);
+  }, []);
 
   // Drafts folder was a hardcoded-empty stub — this actually fetches from the
   // EmailDraft collection (the GET endpoint already existed and worked, it just had
@@ -196,8 +222,21 @@ function ChatInboxContent() {
 
   return (
     <div className="flex h-[calc(100vh-0px)] bg-subtle dark:bg-slate-950 overflow-hidden font-[family-name:var(--font-whatsapp)]">
+      {listCollapsed && (
+        <div className="hidden lg:flex h-full w-11 flex-shrink-0 flex-col items-center gap-2 border-r border-line bg-canvas py-3">
+          <button
+            type="button"
+            onClick={() => toggleList(false)}
+            title="Show conversation list"
+            aria-label="Show conversation list"
+            className="rounded-md p-2 text-fg-secondary hover:bg-accent-subtle hover:text-accent-fg"
+          >
+            <PanelLeftOpen className="h-4 w-4" strokeWidth={1.75} />
+          </button>
+        </div>
+      )}
       <div
-        className={`${mobileView === 'list' ? 'flex' : 'hidden'} lg:flex h-full flex-shrink-0 w-full lg:w-[380px] xl:w-[420px] 2xl:w-[460px]`}
+        className={`${mobileView === 'list' ? 'flex' : 'hidden'} ${listCollapsed ? 'lg:hidden' : 'lg:flex'} h-full flex-shrink-0 w-full lg:w-[360px] xl:w-[380px]`}
       >
         <ChatSidebar
           conversations={inbox.conversations}
@@ -219,11 +258,12 @@ function ChatInboxContent() {
           loadingMoreConversations={inbox.loadingMoreConversations}
           onLoadMoreConversations={inbox.loadMoreConversations}
           realtimeConnected={inbox.realtimeConnected}
+          onCollapse={() => toggleList(true)}
         />
       </div>
 
       <main
-        className={`flex flex-col flex-1 min-w-0 bg-[#eef0f3] dark:bg-slate-900/50 ${
+        className={`flex flex-col flex-1 min-w-0 bg-[#EEF5F1] dark:bg-slate-900/50 ${
           mobileView === 'chat' ? 'flex' : 'hidden lg:flex'
         }`}
       >
@@ -321,55 +361,84 @@ function ChatInboxContent() {
                 conversation={inbox.selectedChat}
               />
             )}
-            {canReply && !showTemplateBar && (
-              <AiReplyBar
-                channel={inbox.selectedChat?.channel || 'whatsapp'}
-                customerName={inbox.selectedChat?.leadId?.name}
-                lastMessage={inbox.messages.filter((m) => m.direction === 'incoming').pop()?.content?.body}
-                leadId={inbox.selectedChat?.leadId?._id || inbox.selectedChat?.leadId}
-                conversationId={inbox.selectedChat?._id}
-                onApply={(text) => {
-                  setAiReplyText(text);
-                  // Push the text straight into the composer instead of only
-                  // populating the passive suggestion tile (which needed a
-                  // second click). ChatInput listens for this and fills the
-                  // active reply box (textarea or email editor).
-                  window.dispatchEvent(new CustomEvent('lfg:insert-reply', { detail: { text } }));
-                }}
-                onSend={async (text) => inbox.sendMessage(text)}
-              />
-            )}
-            {showTemplateBar ? (
-              <OutOfWindowTemplateBar
-                leadName={inbox.selectedChat?.leadId?.name}
-                lead={inbox.selectedChat?.leadId}
-                onSend={(template) =>
-                  inbox.sendMessage('', { template })
-                }
-              />
+            {composerOpen || showTemplateBar ? (
+              <div className="relative border-t border-line bg-canvas">
+                {!showTemplateBar && (
+                  <button
+                    type="button"
+                    onClick={() => setComposerOpen(false)}
+                    title="Hide reply box"
+                    aria-label="Hide reply box"
+                    className="absolute right-3 top-2 z-10 inline-flex h-7 w-7 items-center justify-center rounded-md text-fg-tertiary hover:bg-muted hover:text-fg"
+                  >
+                    <ChevronDown className="h-4 w-4" strokeWidth={1.75} />
+                  </button>
+                )}
+                {canReply && !showTemplateBar && (
+                  <AiReplyBar
+                    channel={inbox.selectedChat?.channel || 'whatsapp'}
+                    customerName={inbox.selectedChat?.leadId?.name}
+                    lastMessage={inbox.messages.filter((m) => m.direction === 'incoming').pop()?.content?.body}
+                    leadId={inbox.selectedChat?.leadId?._id || inbox.selectedChat?.leadId}
+                    conversationId={inbox.selectedChat?._id}
+                    onApply={(text) => {
+                      setAiReplyText(text);
+                      // Push the text straight into the composer instead of only
+                      // populating the passive suggestion tile (which needed a
+                      // second click). ChatInput listens for this and fills the
+                      // active reply box (textarea or email editor).
+                      window.dispatchEvent(new CustomEvent('lfg:insert-reply', { detail: { text } }));
+                    }}
+                    onSend={async (text) => inbox.sendMessage(text)}
+                  />
+                )}
+                {showTemplateBar ? (
+                  <OutOfWindowTemplateBar
+                    leadName={inbox.selectedChat?.leadId?.name}
+                    lead={inbox.selectedChat?.leadId}
+                    onSend={(template) =>
+                      inbox.sendMessage('', { template })
+                    }
+                  />
+                ) : (
+                  <ChatInput
+                    canSend={canReply}
+                    hasSelection={!!inbox.selectedChat}
+                    channel={inbox.selectedChat?.channel || 'whatsapp'}
+                    conversationId={inbox.selectedChat?._id}
+                    templates={inbox.templates}
+                    aiSuggestion={aiReplyText || aiSuggestion}
+                    onSend={inbox.sendMessage}
+                    onIntervene={inbox.intervene}
+                    onSaveDraft={inbox.selectedChat?.channel === 'email' ? inbox.saveEmailDraft : undefined}
+                    emailSubject={inbox.emailSubject}
+                    onEmailSubjectChange={inbox.setEmailSubject}
+                    emailCc={inbox.emailCc}
+                    onEmailCcChange={inbox.setEmailCc}
+                    emailBcc={inbox.emailBcc}
+                    onEmailBccChange={inbox.setEmailBcc}
+                    // Pin sender identity when replying on an existing thread.
+                    // The Conversation carries its own emailAccountId (Step 4);
+                    // ChatInput uses this to lock the From-picker so replies
+                    // always send from the mailbox that started the thread.
+                    pinnedEmailAccountId={inbox.selectedChat?.emailAccountId || null}
+                  />
+                )}
+              </div>
             ) : (
-              <ChatInput
-                canSend={canReply}
-                hasSelection={!!inbox.selectedChat}
-                channel={inbox.selectedChat?.channel || 'whatsapp'}
-                conversationId={inbox.selectedChat?._id}
-                templates={inbox.templates}
-                aiSuggestion={aiReplyText || aiSuggestion}
-                onSend={inbox.sendMessage}
-                onIntervene={inbox.intervene}
-                onSaveDraft={inbox.selectedChat?.channel === 'email' ? inbox.saveEmailDraft : undefined}
-                emailSubject={inbox.emailSubject}
-                onEmailSubjectChange={inbox.setEmailSubject}
-                emailCc={inbox.emailCc}
-                onEmailCcChange={inbox.setEmailCc}
-                emailBcc={inbox.emailBcc}
-                onEmailBccChange={inbox.setEmailBcc}
-                // Pin sender identity when replying on an existing thread.
-                // The Conversation carries its own emailAccountId (Step 4);
-                // ChatInput uses this to lock the From-picker so replies
-                // always send from the mailbox that started the thread.
-                pinnedEmailAccountId={inbox.selectedChat?.emailAccountId || null}
-              />
+              <div className="flex-shrink-0 border-t border-line bg-canvas px-4 py-2.5">
+                <button
+                  type="button"
+                  onClick={() => setComposerOpen(true)}
+                  className="flex h-10 w-full items-center gap-2 rounded-lg border border-line bg-subtle px-3 text-left text-body text-fg-tertiary hover:border-accent hover:bg-accent-subtle hover:text-accent-fg"
+                >
+                  <PenLine className="h-4 w-4 shrink-0" strokeWidth={1.75} />
+                  <span className="flex-1 truncate">
+                    {canReply ? `Reply to ${inbox.selectedChat?.leadId?.name || inbox.selectedChat?.participantName || 'customer'}…` : 'Open composer'}
+                  </span>
+                  <ChevronUp className="h-4 w-4 shrink-0" strokeWidth={1.75} aria-hidden />
+                </button>
+              </div>
             )}
           </>
         ) : (
@@ -383,19 +452,34 @@ function ChatInboxContent() {
         )}
       </main>
 
-      <CRMProfilePanel
-        chat={inbox.selectedChat}
-        leadDetail={inbox.leadDetail}
-        conversationDetail={inbox.conversationDetail}
-        intelligence={inbox.intelligence}
-        teamMembers={inbox.teamMembers}
-        labels={inbox.labels}
-        onStatusChange={inbox.updateLeadStatus}
-        onAssign={inbox.assignChat}
-        onAddNote={inbox.addNote}
-        onToggleLabel={inbox.toggleLabel}
-        onUpdateFollowUp={inbox.updateLeadFollowUp}
-      />
+      {profileCollapsed ? (
+        <div className="hidden xl:flex h-full w-11 flex-shrink-0 flex-col items-center gap-2 border-l border-line bg-canvas py-3">
+          <button
+            type="button"
+            onClick={() => toggleProfile(false)}
+            title="Show customer panel"
+            aria-label="Show customer panel"
+            className="rounded-md p-2 text-fg-secondary hover:bg-accent-subtle hover:text-accent-fg"
+          >
+            <PanelRightOpen className="h-4 w-4" strokeWidth={1.75} />
+          </button>
+        </div>
+      ) : (
+        <CRMProfilePanel
+          chat={inbox.selectedChat}
+          leadDetail={inbox.leadDetail}
+          conversationDetail={inbox.conversationDetail}
+          intelligence={inbox.intelligence}
+          teamMembers={inbox.teamMembers}
+          labels={inbox.labels}
+          onStatusChange={inbox.updateLeadStatus}
+          onAssign={inbox.assignChat}
+          onAddNote={inbox.addNote}
+          onToggleLabel={inbox.toggleLabel}
+          onUpdateFollowUp={inbox.updateLeadFollowUp}
+          onCollapse={() => toggleProfile(true)}
+        />
+      )}
 
       {profileOpen && inbox.selectedChat && (
         <CRMProfilePanel

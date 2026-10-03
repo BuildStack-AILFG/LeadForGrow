@@ -405,27 +405,18 @@ export default function ChatInput({
             <StickyNote className="h-3.5 w-3.5" strokeWidth={1.75} /> Note
           </button>
         </div>
-        {isEmail && (
-          <button
-            type="button"
-            onClick={() => { setEmailExpanded(false); setEmailMinimized(true); }}
-            className="ml-auto inline-flex items-center gap-1 px-2 py-1 text-meta text-fg-tertiary hover:text-fg-secondary hover:bg-muted rounded-md"
-            title="Minimize composer"
-          >
-            <ChevronDown className="w-3.5 h-3.5" />
-          </button>
-        )}
+        {/* Hiding the composer is handled by the Inbox page's own fold control. */}
         {isEmail && onSaveDraft && (
-          <>
+          <div className="ml-auto mr-8 flex items-center gap-1">
             {draftSavedAt && (
-              <span className="text-meta text-accent-fg mr-1" title={`Draft auto-saved at ${draftSavedAt.toLocaleTimeString()}`}>
-                ✓ Saved
+              <span className="text-meta text-success" title={`Draft auto-saved at ${draftSavedAt.toLocaleTimeString()}`}>
+                Saved
               </span>
             )}
             <button type="button" onClick={() => { onSaveDraft({ subject: emailSubject, body: editorRef.current?.innerHTML, cc: emailCc, bcc: emailBcc }); setDraftSavedAt(new Date()); }} className="inline-flex items-center gap-1 px-2 py-1 text-meta text-fg-tertiary hover:bg-muted rounded-md">
               <Save className="w-3 h-3" /> Save draft
             </button>
-          </>
+          </div>
         )}
       </div>
 
