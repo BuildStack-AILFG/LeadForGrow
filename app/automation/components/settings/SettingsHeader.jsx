@@ -13,7 +13,7 @@ export default function SettingsHeader({ section }) {
   const isCrm = section === 'crm';
 
   return (
-    <header className="sticky top-0 z-20 bg-subtle/95 dark:bg-slate-950/95 border-b border-line/80 dark:border-slate-800">
+    <header className="sticky top-0 z-20 bg-canvas border-b border-line dark:border-slate-800">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="pt-4 pb-1">
           <Link

@@ -137,7 +137,7 @@ export default function IntegrationsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-subtle">
+      <div className="flex items-center justify-center min-h-screen bg-canvas">
         <div className="flex flex-col items-center gap-3">
           <div className="w-10 h-10 border-3 border-accent border-t-transparent rounded-full animate-spin"></div>
           <p className="text-fg-tertiary text-sm font-medium">Loading sources...</p>
@@ -147,7 +147,7 @@ export default function IntegrationsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-subtle px-8 py-10">
+    <div className="min-h-screen bg-canvas px-8 py-10">
       <div className="w-full">
         {/* Mobile Header */}
         <div className="lg:hidden sticky top-0 z-50 bg-canvas border-b border-line px-4 py-3">

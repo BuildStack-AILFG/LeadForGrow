@@ -4,6 +4,7 @@ import { RefreshCw, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 import { PERIOD_OPTIONS } from './constants';
 import ExportControls from './ExportControls';
+import SegmentedControl from '@/app/components/ui/SegmentedControl';
 
 export default function ReportsHeader({
   period,
@@ -19,32 +20,17 @@ export default function ReportsHeader({
   const [viewsOpen, setViewsOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-30 bg-subtle/95 dark:bg-slate-950/95 border-b border-line/80 dark:border-slate-800 -mx-4 sm:-mx-6 px-4 sm:px-6 py-4">
+    <header className="sticky top-0 z-30 bg-canvas border-b border-line -mx-4 sm:-mx-6 px-4 sm:px-6 py-4">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <h1 className="text-page font-semibold text-fg">Reports & Analytics</h1>
-          <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-0.5">
-            Sales intelligence · Pipeline performance · Team insights
+          <p className="mt-0.5 text-body text-fg-secondary">
+            Pipeline, revenue and team performance.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <div className="flex rounded-lg border border-line dark:border-slate-700 overflow-hidden bg-canvas dark:bg-slate-900">
-            {PERIOD_OPTIONS.map((p) => (
-              <button
-                key={p.id}
-                type="button"
-                onClick={() => onPeriodChange(p.id)}
-                className={`px-3 py-1.5 text-xs font-medium transition-colors ${
-                  period === p.id
-                    ? 'bg-accent text-white'
-                    : 'text-fg-secondary dark:text-fg-tertiary hover:bg-subtle dark:hover:bg-slate-800'
-                }`}
-              >
-                {p.label}
-              </button>
-            ))}
-          </div>
+          <SegmentedControl ariaLabel="Period" value={period} onChange={onPeriodChange} options={PERIOD_OPTIONS.map((p) => ({ value: p.id, label: p.label }))} />
 
           <div className="relative">
             <button

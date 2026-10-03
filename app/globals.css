@@ -83,7 +83,7 @@
   --border: #E3E7E5;
   --border-strong: #CDD3D0;
 
-  --text-primary: #18201C;
+  --text-primary: #0A0B10;   /* owner asked for black text (2026-10-03) */
   --text-secondary: #4F5955;
   --text-tertiary: #656F6A;
   --text-disabled: #A9B1AD;

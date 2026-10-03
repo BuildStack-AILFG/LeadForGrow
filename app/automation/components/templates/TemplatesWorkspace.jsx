@@ -21,7 +21,7 @@ export default function TemplatesWorkspace() {
   }
 
   return (
-    <div className="min-h-full bg-subtle dark:bg-slate-950">
+    <div className="min-h-full bg-canvas">
       <TemplateChannelTabs />
       <TemplatesHeader
         stats={t.stats}

@@ -66,7 +66,7 @@ function ActivateToggle({ active, onChange, disabled }) {
         aria-checked={active}
         disabled={disabled}
         onClick={() => onChange(!active)}
-        className={`relative w-9 h-5 rounded-full transition-colors ${active ? 'bg-accent' : 'bg-slate-300'} disabled:opacity-50`}
+        className={`relative w-9 h-5 rounded-full transition-colors ${active ? 'bg-accent' : 'bg-line-strong'} disabled:opacity-50`}
       >
         <span
           className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-canvas transition-transform ${active ? 'translate-x-4' : ''}`}
@@ -474,7 +474,7 @@ function FlowBuilderInner({ flowId }) {
 
   if (loading) {
     return (
-      <div className="min-h-full bg-subtle flex items-center justify-center text-fg-tertiary text-sm">
+      <div className="min-h-full bg-canvas flex items-center justify-center text-fg-tertiary text-sm">
         Loading builder…
       </div>
     );

@@ -48,7 +48,7 @@ export default function ContactDetailPage() {
   if (!contact) return <div className="p-8 text-center text-fg-tertiary">Contact not found</div>;
 
   return (
-    <div className="min-h-full bg-subtle dark:bg-slate-950 px-4 sm:px-6 py-6">
+    <div className="min-h-full bg-canvas px-4 sm:px-6 py-6">
       <Link href="/automation/contacts" className="inline-flex items-center gap-1 text-sm text-fg-tertiary hover:text-accent-fg mb-4">
         <ArrowLeft className="w-4 h-4" /> Back to Contacts
       </Link>

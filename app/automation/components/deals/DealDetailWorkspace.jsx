@@ -72,7 +72,7 @@ export default function DealDetailWorkspace() {
   const payments = (deal.customFields?.payments) || (typeof deal.customFields?.get === 'function' ? deal.customFields.get('payments') : null) || [];
 
   return (
-    <div className="min-h-full bg-subtle dark:bg-slate-950">
+    <div className="min-h-full bg-canvas">
       <DemoScheduledModal
         open={!!detail.demoPrompt}
         entityName={detail.demoPrompt?.dealName}

@@ -111,7 +111,7 @@ export function statusLabel(status) {
 
 export function getWhatsAppStatus(lead) {
   const isWa = lead.source === 'whatsapp' || lead.whatsappId || lead.whatsapp;
-  if (!isWa) return { key: 'none', label: '—', dot: 'bg-slate-300' };
+  if (!isWa) return { key: 'none', label: '—', dot: 'bg-line-strong' };
 
   if (!lead.isRead) {
     return { key: 'unread', label: 'Unread', dot: 'bg-accent' };
@@ -122,7 +122,7 @@ export function getWhatsAppStatus(lead) {
   if (lead.status === 'new' || lead.status === 'new_lead' || lead.status === 'follow-up' || lead.status === 'follow_up') {
     return { key: 'pending', label: 'Pending', dot: 'bg-warning' };
   }
-  return { key: 'no-response', label: 'No reply', dot: 'bg-slate-400' };
+  return { key: 'no-response', label: 'No reply', dot: 'bg-fg-disabled' };
 }
 
 export function getLeadTags(lead) {

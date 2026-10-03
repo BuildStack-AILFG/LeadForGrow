@@ -28,7 +28,7 @@ export default function MobileTaskCard({ task, onMarkDone, onReschedule, onCommu
 
   return (
     <div
-      className={`bg-white dark:bg-slate-900 border rounded-xl p-4 shadow-sm ${
+      className={`bg-canvas dark:bg-slate-900 border rounded-xl p-4 shadow-sm ${
         overdue ? 'border-danger/30 dark:border-red-900/50' : 'border-line dark:border-slate-800'
       }`}
     >

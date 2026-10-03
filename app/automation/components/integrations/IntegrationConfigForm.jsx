@@ -109,7 +109,7 @@ export default function IntegrationConfigForm({ integration, onSubmit, submittin
                   placeholder={placeholder}
                   required={effectiveRequired}
                   disabled={submitting}
-                  className={`w-full px-3 py-2 text-xs border rounded-lg bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500/20 pr-9 ${
+                  className={`w-full px-3 py-2 text-xs border rounded-lg bg-canvas dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500/20 pr-9 ${
                     alreadySaved
                       ? 'border-line dark:border-emerald-900 placeholder:text-accent-fg/60'
                       : 'border-line dark:border-slate-700'

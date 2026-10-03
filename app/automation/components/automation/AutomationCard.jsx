@@ -21,11 +21,11 @@ function Toggle({ enabled, onChange }) {
         onChange();
       }}
       className={`relative w-10 h-5 rounded-full transition-colors flex-shrink-0 ${
-        enabled ? 'bg-accent' : 'bg-slate-300 dark:bg-slate-600'
+        enabled ? 'bg-accent' : 'bg-line-strong dark:bg-slate-600'
       }`}
     >
       <span
-        className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow-sm transition-transform ${
+        className={`absolute top-0.5 left-0.5 w-4 h-4 bg-canvas rounded-full shadow-sm transition-transform ${
           enabled ? 'translate-x-5' : 'translate-x-0'
         }`}
       />

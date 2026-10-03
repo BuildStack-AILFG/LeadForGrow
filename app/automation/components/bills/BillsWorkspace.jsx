@@ -13,6 +13,7 @@ import { authFetch } from '@/lib/apiClient';
 import PageLoader from '../PageLoader';
 import ConfirmDialog from '../shared/ConfirmDialog';
 import AutoPageIntro from '../shared/tour/AutoPageIntro';
+import MetricStrip from '@/app/components/ui/MetricStrip';
 
 /**
  * BillsWorkspace — list + editor + detail in a single component switched by
@@ -69,12 +70,12 @@ function BillsList({ onNew, onOpen }) {
   if (loading && !bills.length) return <PageLoader label="Loading bills…" />;
 
   return (
-    <div className="min-h-full bg-subtle dark:bg-slate-950 p-5">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-full bg-canvas px-4 py-6 sm:px-6">
+      <div>
         <div className="flex items-center justify-between mb-5">
           <div>
             <h1 className="text-page font-semibold text-fg">Bills</h1>
-            <p className="text-sm text-fg-tertiary mt-1">Send professional-looking bills to customers via WhatsApp.</p>
+            <p className="text-sm text-fg-tertiary mt-1">Bills you send to customers on WhatsApp.</p>
           </div>
           <button
             type="button"
@@ -87,12 +88,12 @@ function BillsList({ onNew, onOpen }) {
 
         <AutoPageIntro />
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
-          <StatCard label="Total billed"    value={`₹${summary.total.toLocaleString('en-IN')}`} tone="slate" />
-          <StatCard label="Paid"            value={`₹${summary.paid.toLocaleString('en-IN')}`}  tone="emerald" />
-          <StatCard label="Sent — awaiting" value={`₹${summary.sent.toLocaleString('en-IN')}`}  tone="amber" />
-          <StatCard label="Drafts"          value={summary.draft}                                 tone="slate" />
-        </div>
+        <MetricStrip className="mb-5" metrics={[
+          { label: 'Total billed', value: `₹${summary.total.toLocaleString('en-IN')}` },
+          { label: 'Paid', value: `₹${summary.paid.toLocaleString('en-IN')}` },
+          { label: 'Sent, awaiting payment', value: `₹${summary.sent.toLocaleString('en-IN')}` },
+          { label: 'Drafts', value: summary.draft },
+        ]} />
 
         <div className="flex items-center gap-2 mb-3">
           <div className="relative flex-1">
@@ -233,7 +234,7 @@ function BillEditor({ existingBill, onCancel, onSaved }) {
   };
 
   return (
-    <div className="min-h-full bg-subtle dark:bg-slate-950 p-5">
+    <div className="min-h-full bg-canvas p-5">
       <div className="max-w-4xl mx-auto">
         <button type="button" onClick={onCancel} className="inline-flex items-center gap-1.5 text-sm text-fg-tertiary hover:text-fg-secondary mb-4">
           <ArrowLeft className="w-4 h-4" /> Back to bills
@@ -429,7 +430,7 @@ function BillDetail({ billId, onBack }) {
   if (loading || !bill) return <PageLoader label="Loading bill…" />;
 
   return (
-    <div className="min-h-full bg-subtle dark:bg-slate-950 p-5">
+    <div className="min-h-full bg-canvas p-5">
       <div className="max-w-3xl mx-auto">
         <button type="button" onClick={onBack} className="inline-flex items-center gap-1.5 text-sm text-fg-tertiary hover:text-fg-secondary mb-4">
           <ArrowLeft className="w-4 h-4" /> Back to bills

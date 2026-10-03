@@ -14,7 +14,7 @@ export default function ChatbotPreviewFrame({ businessId, config, businessName }
           <div className="flex-1 mx-4 h-5 bg-muted dark:bg-slate-800 rounded-md max-w-xs" />
         </div>
         <div className="p-8 space-y-4 opacity-40">
-          <div className="h-8 w-2/3 bg-slate-300/50 dark:bg-slate-700/50 rounded-lg" />
+          <div className="h-8 w-2/3 bg-line-strong/50 dark:bg-slate-700/50 rounded-lg" />
           <div className="h-4 w-full bg-muted/60 dark:bg-slate-800/60 rounded" />
           <div className="h-4 w-5/6 bg-muted/60 dark:bg-slate-800/60 rounded" />
           <div className="h-32 w-full bg-muted/40 dark:bg-slate-800/40 rounded-lg mt-6" />

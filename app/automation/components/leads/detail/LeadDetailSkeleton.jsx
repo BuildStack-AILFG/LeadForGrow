@@ -2,7 +2,7 @@
 
 export default function LeadDetailSkeleton() {
   return (
-    <div className="min-h-full bg-subtle dark:bg-slate-950 p-4 sm:p-6 animate-pulse">
+    <div className="min-h-full bg-canvas p-4 sm:p-6 animate-pulse">
       <div className="h-14 bg-muted dark:bg-slate-800 rounded-lg mb-6 max-w-[1400px] mx-auto" />
       <div className="max-w-[1400px] mx-auto grid lg:grid-cols-[320px_1fr] gap-6">
         <div className="h-[520px] bg-muted dark:bg-slate-800 rounded-lg" />

@@ -1,66 +1,58 @@
 'use client';
 
-import { ChevronRight } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import SidebarItem from './SidebarItem';
 import cx, { focusRing } from '@/app/components/ui/cx';
 
 /**
- * Nav group — DESIGN_BRIEF §7 group headers: 12px/500 tertiary, 28px tall,
- * sentence case, chevron on the right, 16px top spacing, and NO background
- * tint when expanded. A group containing the active item is forced open by
- * the parent. In the collapsed rail, headers become a thin divider.
+ * Nav group — owner's reference style: the header is a full-size row (green
+ * icon + black label + chevron). An open group sits on a light mint panel.
+ * Click the chevron row to open/close — including the group of the current
+ * page. In the collapsed rail, groups become icon stacks with a divider.
  */
-export default function SidebarSection({ group, activeId, collapsed, open, onToggle, getBadge, onNavigate, onLockedClick }) {
+export default function SidebarSection({ group, activeId, hideActiveIds, collapsed, open, onToggle, getBadge, onNavigate, onLockedClick }) {
+  const GroupIcon = group.icon;
   const panelId = `nav-group-${group.id}`;
+  const isActive = (item) => item.id === activeId && !hideActiveIds?.has(item.id);
 
   if (collapsed) {
     return (
       <div className="flex flex-col items-center gap-0.5 border-t border-line pt-2">
         {group.items.map((item) => (
-          <SidebarItem
-            key={item.id}
-            item={item}
-            active={item.id === activeId}
-            collapsed
-            badgeCount={getBadge(item)}
-            onNavigate={onNavigate}
-            onLockedClick={onLockedClick}
-          />
+          <SidebarItem key={item.id} item={item} active={isActive(item)} collapsed badgeCount={getBadge(item)} onNavigate={onNavigate} onLockedClick={onLockedClick} />
         ))}
       </div>
     );
   }
 
   return (
-    <div className="pt-4">
+    <div className={open ? 'bg-accent-subtle/60 pb-1' : undefined}>
       <button
         type="button"
         onClick={onToggle}
         aria-expanded={open}
         aria-controls={panelId}
         className={cx(
-          'group/header flex h-7 w-full items-center gap-1 rounded-md px-2 text-meta font-medium text-fg-tertiary hover:text-fg-secondary',
+          'flex h-11 w-full items-center gap-3 px-4 text-body font-medium text-fg transition-colors duration-[var(--duration-fast)]',
+          !open && 'hover:bg-accent-subtle',
           focusRing
         )}
       >
-        <span className="flex-1 text-left">{group.label}</span>
-        <ChevronRight
+        {GroupIcon && <GroupIcon className="h-[18px] w-[18px] shrink-0 text-accent" strokeWidth={1.75} aria-hidden />}
+        <span className="flex-1 truncate text-left">{group.label}</span>
+        <ChevronDown
           aria-hidden
-          strokeWidth={1.5}
-          className={cx(
-            'h-3.5 w-3.5 transition-transform duration-[var(--duration-fast)] ease-standard',
-            open ? 'rotate-90' : 'rotate-0',
-            open && '[@media(hover:hover)]:opacity-0 group-hover/header:opacity-100 group-focus-visible/header:opacity-100'
-          )}
+          strokeWidth={1.75}
+          className={cx('h-4 w-4 shrink-0 text-accent transition-transform duration-[var(--duration-base)] ease-standard', open && 'rotate-180')}
         />
       </button>
       {open && (
-        <div id={panelId} className="mt-0.5 flex flex-col gap-0.5">
+        <div id={panelId}>
           {group.items.map((item) => (
             <SidebarItem
               key={item.id}
               item={item}
-              active={item.id === activeId}
+              active={isActive(item)}
               collapsed={false}
               badgeCount={getBadge(item)}
               onNavigate={onNavigate}

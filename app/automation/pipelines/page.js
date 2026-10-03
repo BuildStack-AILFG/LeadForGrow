@@ -122,7 +122,7 @@ function PipelinesContent() {
 
   if (loadError) {
     return (
-      <div className="min-h-full bg-subtle dark:bg-slate-950 px-4 sm:px-6 py-6 max-w-4xl mx-auto">
+      <div className="min-h-full bg-canvas px-4 sm:px-6 py-6 max-w-4xl mx-auto">
         <div className="bg-danger-subtle dark:bg-red-950/30 border border-danger/30 dark:border-red-900 rounded-lg p-6 text-center">
           <p className="text-sm font-medium text-danger dark:text-red-300 mb-3">{loadError}</p>
           <button
@@ -138,7 +138,7 @@ function PipelinesContent() {
   }
 
   return (
-    <div className="min-h-full bg-subtle dark:bg-slate-950 px-4 sm:px-6 py-6 max-w-4xl mx-auto">
+    <div className="min-h-full bg-canvas px-4 sm:px-6 py-6 max-w-4xl mx-auto">
       <h1 className="text-page font-semibold text-fg">Deal Pipeline</h1>
       <p className="text-sm text-fg-tertiary mt-1 mb-6">
         Customize stage names, win probability scores, and colors. Changes appear instantly across Kanban, deals table, and deal detail.

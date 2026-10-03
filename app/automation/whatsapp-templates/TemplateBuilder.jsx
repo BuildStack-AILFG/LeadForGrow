@@ -629,7 +629,7 @@ export default function TemplateBuilder({ templateId, onBack, onSaved }) {
 function Section({ title, optional, required, children, issues }) {
   const hasIssues = issues?.length > 0;
   return (
-    <div className={`p-5 rounded-2xl bg-white dark:bg-slate-900 border shadow-sm space-y-4 ${
+    <div className={`p-5 rounded-2xl bg-canvas dark:bg-slate-900 border shadow-sm space-y-4 ${
       hasIssues ? 'border-warning/30 dark:border-amber-800' : 'border-line dark:border-slate-800'
     }`}>
       <div className="flex items-center gap-2">

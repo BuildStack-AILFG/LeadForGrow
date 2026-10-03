@@ -9,7 +9,7 @@ const STAGES = [
   { key: 'contacted', label: 'Contacted', color: 'bg-accent' },
   { key: 'follow-up', label: 'Follow-up', color: 'bg-accent' },
   { key: 'converted', label: 'Won', color: 'bg-accent' },
-  { key: 'lost', label: 'Lost', color: 'bg-slate-400' }
+  { key: 'lost', label: 'Lost', color: 'bg-fg-disabled' }
 ];
 
 export default function PipelineOverview({ statusCounts = {} }) {

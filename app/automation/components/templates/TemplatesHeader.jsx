@@ -5,7 +5,7 @@ import { WhatsAppIcon } from '../chat/BrandIcons';
 
 export default function TemplatesHeader({ stats, saving, syncing, onSave, onSync, onCreate }) {
   return (
-    <header className="sticky top-0 z-30 bg-subtle/95 dark:bg-slate-950/95 border-b border-line/80 dark:border-slate-800">
+    <header className="sticky top-0 z-30 bg-canvas border-b border-line dark:border-slate-800">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>

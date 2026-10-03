@@ -65,7 +65,7 @@ export default function SequenceNode({
 
       {/* Connection handles */}
       {!isTrigger && (
-        <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-slate-300 border-2 border-white dark:border-slate-900" />
+        <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-line-strong border-2 border-white dark:border-slate-900" />
       )}
       <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-accent border-2 border-white dark:border-slate-900" />
 

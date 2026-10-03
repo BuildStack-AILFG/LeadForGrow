@@ -121,7 +121,7 @@ export default function CreateTaskModal({
                 <button
                   type="button"
                   onClick={() => onChange({ ...task, autoSend: !task.autoSend })}
-                  className={`w-9 h-5 rounded-full relative transition-colors ${task.autoSend ? 'bg-accent' : 'bg-slate-300 dark:bg-slate-600'}`}
+                  className={`w-9 h-5 rounded-full relative transition-colors ${task.autoSend ? 'bg-accent' : 'bg-line-strong dark:bg-slate-600'}`}
                 >
                   <span className={`absolute top-0.5 left-0.5 w-4 h-4 bg-canvas rounded-full transition-transform ${task.autoSend ? 'translate-x-4' : ''}`} />
                 </button>

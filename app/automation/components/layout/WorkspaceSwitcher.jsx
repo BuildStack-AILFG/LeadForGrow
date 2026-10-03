@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { ChevronsUpDown, Settings, Plus, User, CreditCard, LogOut, Sun, Moon } from 'lucide-react';
+import { ChevronDown, Settings, Plus, User, CreditCard, LogOut, Sun, Moon } from 'lucide-react';
 import { useTheme } from '@/app/components/ThemeContext';
 import Popover from '@/app/components/ui/Popover';
 import SegmentedControl from '@/app/components/ui/SegmentedControl';
@@ -48,21 +48,21 @@ export default function WorkspaceSwitcher({ workspace, plan, displayName, email,
           type="button"
           aria-label={collapsed ? `${workspace} — workspace menu` : undefined}
           className={cx(
-            'flex items-center gap-2 rounded-md hover:bg-muted',
-            collapsed ? 'h-10 w-10 justify-center' : 'h-11 w-full px-2',
+            'flex items-center gap-3 rounded-lg hover:bg-accent-subtle',
+            collapsed ? 'h-11 w-11 justify-center' : 'h-14 w-full px-2',
             focusRing
           )}
         >
-          <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-line bg-canvas text-dense font-semibold text-fg-secondary">
+          <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent text-body font-semibold text-white">
             {initial}
           </span>
           {!collapsed && (
             <>
               <span className="min-w-0 flex-1 text-left">
-                <span className="block truncate text-dense font-medium text-fg">{workspace}</span>
-                <span className="block truncate text-meta text-fg-tertiary">{plan ? `${plan} plan` : roleLabel}</span>
+                <span className="block truncate text-body font-semibold text-fg">{workspace}</span>
+                <span className="block truncate text-[11px] font-semibold uppercase tracking-wider text-fg-tertiary">{plan ? `${plan} plan` : roleLabel}</span>
               </span>
-              <ChevronsUpDown className="h-4 w-4 shrink-0 text-fg-tertiary" strokeWidth={1.5} aria-hidden />
+              <ChevronDown className="h-4 w-4 shrink-0 text-fg-tertiary" strokeWidth={1.75} aria-hidden />
             </>
           )}
         </button>

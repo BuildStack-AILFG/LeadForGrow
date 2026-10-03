@@ -91,7 +91,7 @@ export default function PremiumDashboardHeader({
     : 'now';
 
   return (
-    <header className="sticky top-0 z-20 -mx-4 sm:-mx-6 px-4 sm:px-6 pt-5 pb-4 mb-2 bg-subtle/95">
+    <header className="sticky top-0 z-20 -mx-4 sm:-mx-6 px-4 sm:px-6 pt-5 pb-4 mb-2 bg-canvas">
       {/* Row 1 — Title + utilities */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4">
         <h1 className="text-page font-semibold text-fg">

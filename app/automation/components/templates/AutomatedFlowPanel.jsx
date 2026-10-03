@@ -25,7 +25,7 @@ export default function AutomatedFlowPanel({ type, template, onChange, onCopyVar
         <label className="flex items-center gap-3 px-4 py-2 bg-subtle dark:bg-slate-800/50 rounded cursor-pointer">
           <span className="text-xs font-medium text-fg-secondary dark:text-fg-tertiary">Active</span>
           <div
-            className={`relative w-9 h-5 rounded-full transition-colors ${!template.enabled ? 'bg-slate-300 dark:bg-slate-600' : ''}`}
+            className={`relative w-9 h-5 rounded-full transition-colors ${!template.enabled ? 'bg-line-strong dark:bg-slate-600' : ''}`}
             style={{ backgroundColor: template.enabled ? '#1D4B3E' : undefined }}
             onClick={() => onChange({ ...template, enabled: !template.enabled })}
           >

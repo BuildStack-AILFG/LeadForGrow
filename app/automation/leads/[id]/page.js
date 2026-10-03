@@ -39,7 +39,7 @@ function LeadDetailPageContent({ params }) {
 
   if (!detail.lead) {
     return (
-      <div className="min-h-full bg-subtle dark:bg-slate-950 flex items-center justify-center p-8">
+      <div className="min-h-full bg-canvas flex items-center justify-center p-8">
         <div className="text-center">
           <h2 className="text-title font-semibold text-fg dark:text-slate-50">Lead not found</h2>
           <Link href="/automation/leads" className="inline-flex items-center gap-1 mt-4 text-sm text-accent-fg hover:underline">

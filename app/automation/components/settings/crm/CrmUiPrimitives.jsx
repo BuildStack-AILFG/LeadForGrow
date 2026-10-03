@@ -14,7 +14,7 @@ export function CrmSwitch({ enabled, onChange, disabled }) {
       }`}
     >
       <span
-        className={`inline-block h-5 w-5 transform rounded-full bg-white dark:bg-slate-900 shadow-sm transition duration-200 ${
+        className={`inline-block h-5 w-5 transform rounded-full bg-canvas dark:bg-slate-900 shadow-sm transition duration-200 ${
           enabled ? 'translate-x-5' : 'translate-x-0.5'
         }`}
       />

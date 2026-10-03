@@ -186,7 +186,7 @@ export default function BulkUploadPage() {
   const progress = data.length > 0 ? (currentIndex / data.length) * 100 : 0;
 
   return (
-    <div className="min-h-screen bg-subtle p-8">
+    <div className="min-h-screen bg-canvas p-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <button 

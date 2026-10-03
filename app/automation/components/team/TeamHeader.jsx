@@ -4,7 +4,7 @@ import { UserPlus, RefreshCw } from 'lucide-react';
 
 export default function TeamHeader({ total, active, onAdd, onRefresh, refreshing }) {
   return (
-    <header className="sticky top-0 z-30 bg-subtle/95 dark:bg-slate-950/95 border-b border-line/80 dark:border-slate-800 -mx-4 sm:-mx-6 px-4 sm:px-6 py-4">
+    <header className="sticky top-0 z-30 bg-canvas border-b border-line dark:border-slate-800 -mx-4 sm:-mx-6 px-4 sm:px-6 py-4">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-page font-semibold text-fg">Team</h1>

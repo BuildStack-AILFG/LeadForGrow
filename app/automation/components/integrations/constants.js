@@ -36,8 +36,8 @@ export const HEALTH_STYLES = {
   healthy: { label: 'Healthy', dot: 'bg-accent', text: 'text-accent-fg dark:text-accent-fg', bg: 'bg-accent-subtle dark:bg-emerald-950/30' },
   warning: { label: 'Needs attention', dot: 'bg-warning', text: 'text-warning dark:text-amber-400', bg: 'bg-warning-subtle dark:bg-amber-950/30' },
   error: { label: 'Error', dot: 'bg-danger', text: 'text-danger dark:text-red-400', bg: 'bg-danger-subtle dark:bg-red-950/30' },
-  unknown: { label: 'Unknown', dot: 'bg-slate-400', text: 'text-fg-tertiary dark:text-fg-tertiary', bg: 'bg-subtle dark:bg-slate-800/50' },
-  disconnected: { label: 'Not connected', dot: 'bg-slate-400', text: 'text-fg-tertiary dark:text-fg-tertiary', bg: 'bg-subtle dark:bg-slate-800/50' }
+  unknown: { label: 'Unknown', dot: 'bg-fg-disabled', text: 'text-fg-tertiary dark:text-fg-tertiary', bg: 'bg-subtle dark:bg-slate-800/50' },
+  disconnected: { label: 'Not connected', dot: 'bg-fg-disabled', text: 'text-fg-tertiary dark:text-fg-tertiary', bg: 'bg-subtle dark:bg-slate-800/50' }
 };
 
 export const STATUS_LABELS = {

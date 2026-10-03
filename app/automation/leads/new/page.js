@@ -55,7 +55,7 @@ function Section({ step, title, subtitle, children, activeStep }) {
   const isActive = step === activeStep;
   return (
     <section
-      className={`bg-white border rounded-xl overflow-hidden transition-shadow duration-200 ${
+      className={`bg-canvas border rounded-xl overflow-hidden transition-shadow duration-200 ${
         isActive
           ? 'border-accent/30'
           : 'border-line'
@@ -274,7 +274,7 @@ export default function NewLeadPage() {
   };
 
   return (
-    <div className="min-h-full bg-subtle">
+    <div className="min-h-full bg-canvas">
       {/* Top bar */}
       <div className="border-b border-line bg-canvas sticky top-0 z-30">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">

@@ -212,7 +212,7 @@ export default function MultiSignatureEditor({
                       setSelectedId(s.id);
                       setPickerOpen(false);
                     }}
-                    className={`flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-sm hover:bg-slate-50 ${
+                    className={`flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-sm hover:bg-subtle ${
                       s.id === selectedId ? 'bg-subtle' : ''
                     }`}
                   >

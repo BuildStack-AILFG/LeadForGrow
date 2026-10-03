@@ -25,7 +25,7 @@ export default function ChatbotWorkspace() {
   const isLive = ws.config.published && ws.config.enabled;
 
   return (
-    <div className="min-h-full bg-subtle dark:bg-slate-950">
+    <div className="min-h-full bg-canvas">
       {/* Top bar */}
       <div className="sticky top-0 z-20 bg-canvas/90 dark:bg-slate-950/90 border-b border-line dark:border-slate-800">
         <div className="max-w-[1400px] mx-auto px-6 py-4 flex items-center justify-between gap-4">

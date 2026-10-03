@@ -84,7 +84,7 @@ export default function BillHeaderSettingsPage() {
   }
 
   return (
-    <div className="min-h-full bg-subtle dark:bg-slate-950 p-5">
+    <div className="min-h-full bg-canvas p-5">
       <div className="max-w-3xl mx-auto">
         <Link href="/automation/bills" className="inline-flex items-center gap-1.5 text-sm text-fg-tertiary hover:text-fg-secondary mb-4">
           <ArrowLeft className="w-4 h-4" /> Back to bills

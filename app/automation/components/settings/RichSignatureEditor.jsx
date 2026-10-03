@@ -119,7 +119,7 @@ function ToolbarButton({ active, disabled, title, onClick, children }) {
       onClick={onClick}
       disabled={disabled}
       title={title}
-      className={`inline-flex h-8 w-8 items-center justify-center rounded-md text-slate-600 transition-colors hover:bg-slate-100 disabled:opacity-40 disabled:hover:bg-transparent ${
+      className={`inline-flex h-8 w-8 items-center justify-center rounded-md text-fg-secondary transition-colors hover:bg-muted disabled:opacity-40 disabled:hover:bg-transparent ${
         active ? 'bg-accent-subtle text-accent-fg' : ''
       }`}
     >

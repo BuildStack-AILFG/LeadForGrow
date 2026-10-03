@@ -36,7 +36,7 @@ function TeamMemberCard({ member, index, onRemove }) {
                   : 'bg-muted text-fg-tertiary dark:bg-slate-800'
               }`}
             >
-              <span className={`w-1.5 h-1.5 rounded-full ${active ? 'bg-accent' : 'bg-slate-400'}`} />
+              <span className={`w-1.5 h-1.5 rounded-full ${active ? 'bg-accent' : 'bg-fg-disabled'}`} />
               {active ? 'Active' : 'Away'}
             </span>
           </div>

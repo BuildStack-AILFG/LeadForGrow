@@ -1,5 +1,5 @@
 import {
-  Home,
+  LayoutDashboard,
   Inbox,
   CheckSquare,
   Users,
@@ -24,38 +24,45 @@ import {
   Cpu,
   Settings,
   LifeBuoy,
+  LayoutGrid,
+  TrendingUp,
+  MessagesSquare,
+  Zap,
+  Telescope,
+  Briefcase,
 } from 'lucide-react';
 import { resolveActiveNavId } from './navMatch.js';
 
 export const SIDEBAR_WIDTH = {
-  expanded: 240,
-  collapsed: 56,
+  expanded: 260,
+  collapsed: 72,
 };
 
 /*
- * Information architecture approved by the owner on 2026-10-03
- * (DESIGN_BRIEF §7, DECISIONS.md). Rules:
- *  - every destination appears exactly once;
- *  - views of an object live inside its page (Leads/Deals have List | Board
- *    switchers), not in the nav;
- *  - item `id`s are the keys per-tenant `navAccess` locks are stored under —
- *    never rename an id. Ids removed from the nav ('pipeline',
- *    'deal-pipeline', 'whatsapp-templates', 'team', 'integrations') still
- *    have working routes, reachable from inside their parent page/Settings;
- *    `match` makes the parent item active on those routes.
+ * Sidebar structure — owner asked (2026-10-03, with a screenshot) to go back
+ * to the Quick Links + grouped-row sidebar: Overview · Sales · Communication ·
+ * Automation · Insights & AI · Workspace. Kept from the redesign:
+ *  - each destination is defined once (Quick Links re-uses items by id);
+ *  - views of an object live inside its page (Leads/Deals List | Board), so
+ *    'pipeline' / 'deal-pipeline' / 'whatsapp-templates' stay out of the nav;
+ *  - item `id`s are the keys per-tenant `navAccess` locks use — never rename.
  */
-
-/** Top-level items, no section header. */
-export const NAV_PRIMARY = [
-  { id: 'dashboard', name: 'Home', href: '/automation', icon: Home, exact: true },
-  { id: 'inbox', name: 'Inbox', href: '/automation/chat', icon: Inbox, badgeKey: 'unreadChats', permission: ['dashboard_access', 'reports_access'] },
-  { id: 'tasks', name: 'Tasks', href: '/automation/tasks', icon: CheckSquare, badgeKey: 'overdueTasks' },
-];
+export const QUICK_LINK_IDS = ['dashboard', 'leads', 'inbox'];
 
 export const NAV_GROUPS = [
   {
+    id: 'overview',
+    label: 'Overview',
+    icon: LayoutGrid,
+    items: [
+      { id: 'dashboard', name: 'Dashboard', href: '/automation', icon: LayoutDashboard, exact: true },
+      { id: 'tasks', name: 'Tasks', href: '/automation/tasks', icon: CheckSquare, badgeKey: 'overdueTasks' },
+    ],
+  },
+  {
     id: 'sales',
     label: 'Sales',
+    icon: TrendingUp,
     items: [
       { id: 'leads', name: 'Leads', href: '/automation/leads', icon: Users, badgeKey: 'unreadLeads' },
       { id: 'deals', name: 'Deals', href: '/automation/deals', icon: Handshake },
@@ -65,9 +72,11 @@ export const NAV_GROUPS = [
     ],
   },
   {
-    id: 'engage',
-    label: 'Engage',
+    id: 'communication',
+    label: 'Communication',
+    icon: MessagesSquare,
     items: [
+      { id: 'inbox', name: 'Inbox', href: '/automation/chat', icon: Inbox, badgeKey: 'unreadChats', permission: ['dashboard_access', 'reports_access'] },
       { id: 'broadcasts', name: 'Broadcasts', href: '/automation/broadcasts', icon: Send },
       { id: 'meetings', name: 'Meetings', href: '/automation/meetings', icon: CalendarClock },
       { id: 'templates', name: 'Templates', href: '/automation/templates', icon: FileText, match: ['/automation/whatsapp-templates'] },
@@ -75,8 +84,9 @@ export const NAV_GROUPS = [
     ],
   },
   {
-    id: 'automate',
-    label: 'Automate',
+    id: 'automation',
+    label: 'Automation',
+    icon: Zap,
     items: [
       { id: 'rules', name: 'Automations', href: '/automation/automation-rules', icon: SlidersHorizontal, badgeKey: 'activeAutomations' },
       { id: 'sequences', name: 'Sequences', href: '/automation/sequences', icon: Route },
@@ -88,7 +98,8 @@ export const NAV_GROUPS = [
   },
   {
     id: 'insights',
-    label: 'Insights',
+    label: 'Insights & AI',
+    icon: Telescope,
     role: 'owner',
     items: [
       { id: 'reports', name: 'Reports', href: '/automation/reports', icon: BarChart3 },
@@ -98,19 +109,22 @@ export const NAV_GROUPS = [
       { id: 'ai-settings', name: 'AI settings', href: '/automation/settings/ai', icon: Cpu, role: 'owner' },
     ],
   },
-];
-
-/** Pinned to the bottom of the sidebar, above the workspace switcher. */
-export const NAV_FOOTER = [
   {
-    id: 'crm-settings',
-    name: 'Settings',
-    href: '/automation/settings',
-    icon: Settings,
-    role: 'owner',
-    match: ['/automation/pipelines', '/automation/integrations', '/automation/team'],
+    id: 'workspace',
+    label: 'Workspace',
+    icon: Briefcase,
+    items: [
+      {
+        id: 'crm-settings',
+        name: 'Settings',
+        href: '/automation/settings',
+        icon: Settings,
+        role: 'owner',
+        match: ['/automation/pipelines', '/automation/integrations', '/automation/team'],
+      },
+      { id: 'help-center', name: 'Help center', href: '/help', icon: LifeBuoy },
+    ],
   },
-  { id: 'help-center', name: 'Help', href: '/help', icon: LifeBuoy },
 ];
 
 function isAdminRole({ userRole, isOwner }) {
@@ -144,6 +158,6 @@ export function filterNavGroups(groups, ctx) {
 }
 
 /** Single active item id across the whole (filtered) nav. */
-export function getActiveNavId({ primary, groups, footer }, pathname, searchParams) {
-  return resolveActiveNavId([...primary, ...groups.flatMap((g) => g.items), ...footer], pathname, searchParams);
+export function getActiveNavId(groups, pathname, searchParams) {
+  return resolveActiveNavId(groups.flatMap((g) => g.items), pathname, searchParams);
 }

@@ -570,7 +570,7 @@ export default function ChatInput({
             <button
               type="button"
               onClick={() => setSignaturePickerOpen((v) => !v)}
-              className={`p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800 ${
+              className={`p-2 rounded hover:bg-muted dark:hover:bg-slate-800 ${
                 selectedSignatureId &&
                 !accountSignatures.find((s) => s.id === selectedSignatureId)?.isDefault
                   ? 'text-accent-fg'

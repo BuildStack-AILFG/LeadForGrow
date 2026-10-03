@@ -104,7 +104,7 @@ export default function CompanyDetailWorkspace({ companyId }) {
   const currency = summary.currency || 'INR';
 
   return (
-    <div className="min-h-full bg-subtle dark:bg-slate-950">
+    <div className="min-h-full bg-canvas">
       <div className="px-4 sm:px-6 py-5 max-w-[1600px] mx-auto">
         {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-5">

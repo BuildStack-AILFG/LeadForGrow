@@ -35,7 +35,7 @@ export default function SequencesWorkspace() {
 
   if (ws.workspaceMode === 'home') {
     return (
-      <div className="min-h-full bg-subtle dark:bg-slate-950">
+      <div className="min-h-full bg-canvas">
         <SequencesHomeView
           sequences={ws.sequences}
           stats={ws.stats}
@@ -62,7 +62,7 @@ export default function SequencesWorkspace() {
 
   if (ws.workspaceMode === 'wizard') {
     return (
-      <div className="min-h-full bg-subtle dark:bg-slate-950">
+      <div className="min-h-full bg-canvas">
         <SequenceCreationWizard
           step={ws.wizardStep}
           draft={ws.wizardDraft}
@@ -78,7 +78,7 @@ export default function SequencesWorkspace() {
   }
 
   return (
-    <div className="min-h-full bg-subtle dark:bg-slate-950 flex flex-col">
+    <div className="min-h-full bg-canvas flex flex-col">
       {/* Header */}
       <header className="sticky top-0 z-40 bg-canvas/80 dark:bg-slate-950/80 border-b border-line dark:border-slate-800">
         <div className="px-4 py-3 flex items-center justify-between gap-4">

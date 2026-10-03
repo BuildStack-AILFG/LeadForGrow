@@ -54,7 +54,7 @@ export default function FormsWorkspace() {
   /* ── HOME ── */
   if (ws.workspaceMode === 'home') {
     return (
-      <div className="min-h-full bg-subtle dark:bg-slate-950">
+      <div className="min-h-full bg-canvas">
         <FormsHomeView
           forms={ws.forms}
           stats={ws.stats}
@@ -70,7 +70,7 @@ export default function FormsWorkspace() {
   /* ── WIZARD ── */
   if (ws.workspaceMode === 'wizard') {
     return (
-      <div className="min-h-full bg-subtle dark:bg-slate-950">
+      <div className="min-h-full bg-canvas">
         <FormCreationWizard
           step={ws.wizardStep}
           draft={ws.wizardDraft}

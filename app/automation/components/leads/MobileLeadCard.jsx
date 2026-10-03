@@ -10,7 +10,7 @@ export default function MobileLeadCard({ lead, selected, onSelect, onOpen }) {
 
   return (
     <div
-      className={`p-4 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm active:scale-[0.99] transition-transform ${
+      className={`p-4 border border-line dark:border-slate-800 rounded-xl shadow-sm active:scale-[0.99] transition-transform ${
         selected ? 'ring-2 ring-focus' : ''
       } ${!rowBg ? 'bg-canvas dark:bg-slate-900' : ''}`}
       style={rowBg}

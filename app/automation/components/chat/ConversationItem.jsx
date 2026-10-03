@@ -142,7 +142,7 @@ function ConversationItem({ chat, active, onClick }) {
     <button
       type="button"
       onClick={onClick}
-      className={`group w-full text-left flex items-center gap-3 pl-2 pr-3 py-2.5 border-b border-slate-100 dark:border-slate-800/80 border-l-[3px] transition-colors ${
+      className={`group w-full text-left flex items-center gap-3 pl-2 pr-3 py-2.5 border-b border-line dark:border-slate-800/80 border-l-[3px] transition-colors ${
         active
           ? 'bg-accent-subtle dark:bg-teal-950/30 border-accent'
           : unread

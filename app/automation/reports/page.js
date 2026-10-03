@@ -33,7 +33,7 @@ function ReportsContent() {
   const statusCounts = ws.reports?.statusCounts || {};
 
   return (
-    <div className="min-h-full bg-subtle dark:bg-slate-950">
+    <div className="min-h-full bg-canvas">
       <div className="px-4 sm:px-6 pb-8 max-w-[1600px] mx-auto">
         <ReportsHeader
           period={ws.period}

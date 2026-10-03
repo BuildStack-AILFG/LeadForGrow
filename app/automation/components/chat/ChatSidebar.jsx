@@ -92,7 +92,7 @@ export default function ChatSidebar({
               title={realtimeConnected ? 'Live — receiving new messages in real time' : 'Reconnecting…'}
               className="inline-flex items-center"
             >
-              <span className={`relative inline-flex w-2 h-2 rounded-full ${realtimeConnected ? 'bg-accent' : 'bg-slate-300'}`}>
+              <span className={`relative inline-flex w-2 h-2 rounded-full ${realtimeConnected ? 'bg-accent' : 'bg-line-strong'}`}>
                 {realtimeConnected && (
                   <span className="absolute inline-flex w-full h-full rounded-full bg-accent opacity-60 animate-ping" />
                 )}

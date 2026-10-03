@@ -314,7 +314,7 @@ function ToggleRow({ icon: Icon, label, description, checked, onChange }) {
         role="switch"
         aria-checked={checked}
         onClick={() => onChange(!checked)}
-        className={`w-11 h-6 rounded-full transition-colors relative ${checked ? 'bg-accent' : 'bg-slate-300 dark:bg-slate-600'}`}
+        className={`w-11 h-6 rounded-full transition-colors relative ${checked ? 'bg-accent' : 'bg-line-strong dark:bg-slate-600'}`}
       >
         <span
           className={`absolute top-0.5 w-5 h-5 rounded-full bg-canvas transition-transform ${checked ? 'left-[22px]' : 'left-0.5'}`}

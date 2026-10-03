@@ -733,11 +733,11 @@ export default function CallIntegrationPage() {
 
               <div className="p-6 border-t border-slate-50 bg-subtle/30 relative z-10 flex items-center justify-center gap-6">
                 <p className="text-meta font-semibold text-fg-tertiary flex items-center gap-1.5">
-                  <div className="w-1 h-1 bg-slate-400 rounded-full"></div>
+                  <div className="w-1 h-1 bg-fg-disabled rounded-full"></div>
                   No calls are recorded
                 </p>
                 <p className="text-meta font-semibold text-fg-tertiary flex items-center gap-1.5">
-                  <div className="w-1 h-1 bg-slate-400 rounded-full"></div>
+                  <div className="w-1 h-1 bg-fg-disabled rounded-full"></div>
                   Secure by default
                 </p>
               </div>

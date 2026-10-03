@@ -159,7 +159,7 @@ export default function WhatsAppFlowsPage() {
   ];
 
   return (
-    <div className="min-h-full bg-subtle text-fg" data-theme="light">
+    <div className="min-h-full bg-canvas text-fg" data-theme="light">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
           <div>

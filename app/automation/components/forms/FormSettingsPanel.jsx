@@ -59,7 +59,7 @@ export default function FormSettingsPanel({ field, fieldIndex, onChange, mobile 
 
           <label className="flex items-center justify-between p-3 bg-subtle dark:bg-slate-800/50 rounded-lg cursor-pointer">
             <span className="text-xs font-medium text-fg-secondary dark:text-fg-disabled">Required field</span>
-            <div className={`relative w-9 h-5 rounded-full transition-colors ${field.required ? 'bg-accent' : 'bg-slate-300 dark:bg-slate-600'}`}>
+            <div className={`relative w-9 h-5 rounded-full transition-colors ${field.required ? 'bg-accent' : 'bg-line-strong dark:bg-slate-600'}`}>
               <input type="checkbox" checked={!!field.required} onChange={(e) => update('required', e.target.checked)} className="sr-only" />
               <div className={`absolute top-0.5 w-4 h-4 bg-canvas rounded-full transition-transform ${field.required ? 'translate-x-4' : 'translate-x-0.5'}`} onClick={() => update('required', !field.required)} />
             </div>
