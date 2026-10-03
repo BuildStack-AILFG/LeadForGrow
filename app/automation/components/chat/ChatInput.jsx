@@ -397,12 +397,14 @@ export default function ChatInput({
   return composerShell(
     <>
       <div className="flex items-center gap-1 px-3 pt-2">
-        <button type="button" onClick={() => setMode('message')} className={`inline-flex items-center gap-1 px-2.5 py-1 text-meta font-medium rounded-md ${!isNote ? 'bg-accent text-white' : 'text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800'}`}>
-          <MessageSquare className="w-3 h-3" /> Reply
-        </button>
-        <button type="button" onClick={() => setMode('note')} className={`inline-flex items-center gap-1 px-2.5 py-1 text-meta font-medium rounded-md ${isNote ? 'bg-accent text-white' : 'text-fg-tertiary hover:bg-muted dark:hover:bg-slate-800'}`}>
-          <StickyNote className="w-3 h-3" /> Note
-        </button>
+        <div role="radiogroup" aria-label="Composer mode" className="inline-flex h-7 items-center gap-0.5 rounded-md bg-muted p-0.5">
+          <button type="button" role="radio" aria-checked={!isNote} onClick={() => setMode('message')} className={`inline-flex h-full items-center gap-1 rounded-[5px] px-2.5 text-meta font-medium ${!isNote ? 'bg-canvas text-fg shadow-[0_1px_2px_rgba(16,24,20,0.08)]' : 'text-fg-secondary hover:text-fg'}`}>
+            <MessageSquare className="h-3.5 w-3.5" strokeWidth={1.75} /> Reply
+          </button>
+          <button type="button" role="radio" aria-checked={isNote} onClick={() => setMode('note')} className={`inline-flex h-full items-center gap-1 rounded-[5px] px-2.5 text-meta font-medium ${isNote ? 'bg-canvas text-fg shadow-[0_1px_2px_rgba(16,24,20,0.08)]' : 'text-fg-secondary hover:text-fg'}`}>
+            <StickyNote className="h-3.5 w-3.5" strokeWidth={1.75} /> Note
+          </button>
+        </div>
         {isEmail && (
           <button
             type="button"
@@ -500,9 +502,9 @@ export default function ChatInput({
 
       {aiSuggestion && !isNote && (
         <div className="px-4 pt-2">
-          <button type="button" onClick={() => { setText(aiSuggestion); if (editorRef.current) editorRef.current.innerText = aiSuggestion; }} className="w-full text-left px-3 py-2 text-xs rounded-lg bg-accent-subtle/80 dark:bg-teal-950/20 border border-line text-fg-secondary hover:border-line">
-            <span className="font-medium text-accent-fg flex items-center gap-1 mb-0.5"><Sparkles className="w-3 h-3" /> Suggested reply</span>
-            {aiSuggestion.slice(0, 120)}{aiSuggestion.length > 120 ? '…' : ''}
+          <button type="button" onClick={() => { setText(aiSuggestion); if (editorRef.current) editorRef.current.innerText = aiSuggestion; }} title="Use suggested reply" className="flex w-full items-center gap-2 rounded-md border border-line px-3 py-1.5 text-left text-meta text-fg-secondary hover:border-line-strong hover:bg-subtle">
+            <span className="shrink-0 font-medium text-accent-fg">Suggested:</span>
+            <span className="truncate">{aiSuggestion}</span>
           </button>
         </div>
       )}

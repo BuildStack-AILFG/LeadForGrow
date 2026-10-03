@@ -194,6 +194,10 @@
   --shadow-drag: 0 8px 24px rgba(0, 0, 0, 0.45);
 }
 
+/* Horizontal chip/tab rows scroll without showing a scrollbar. */
+.scrollbar-hide { scrollbar-width: none; -ms-overflow-style: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
 /* Tabular figures helper for money, counts, dates. */
 .tabular { font-variant-numeric: tabular-nums; }
 

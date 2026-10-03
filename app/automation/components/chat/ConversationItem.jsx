@@ -144,10 +144,8 @@ function ConversationItem({ chat, active, onClick }) {
       onClick={onClick}
       className={`group w-full text-left flex items-center gap-3 pl-2 pr-3 py-2.5 border-b border-line dark:border-slate-800/80 border-l-[3px] transition-colors ${
         active
-          ? 'bg-accent-subtle dark:bg-teal-950/30 border-accent'
-          : unread
-            ? 'bg-accent-subtle/30 dark:bg-emerald-950/10 border-l-emerald-500 hover:bg-accent-subtle'
-            : 'hover:bg-subtle dark:hover:bg-slate-800/40 border-l-transparent'
+          ? 'bg-accent-subtle border-l-accent'
+          : 'border-l-transparent hover:bg-subtle'
       }`}
     >
       {/* Avatar */}

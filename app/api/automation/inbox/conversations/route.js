@@ -3,6 +3,14 @@ import { escapeRegex } from '@/lib/crm/queryBuilder';
 import { dbConnect } from '@/lib/mongodb';
 import Conversation from '@/models/omnichannel/Conversation';
 import Lead from '@/models/automation/Lead';
+// Registered for the .populate() calls below. Without these imports the
+// route only worked if some other route had already loaded the models in
+// the same server process — on a fresh server it 500'd with
+// MissingSchemaError: Schema hasn't been registered for model "Contact".
+import '@/models/automation/Contact';
+import '@/models/automation/Company';
+import '@/models/automation/Deal';
+import '@/models/User';
 import { withPermissions } from '@/lib/rbac';
 import { syncLegacyWhatsAppConversations } from '@/lib/omnichannel/conversationService';
 

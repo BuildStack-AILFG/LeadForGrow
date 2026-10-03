@@ -77,31 +77,29 @@ export default function AiReplyBar({
 
   return (
     <div className="px-3 pt-2">
-      <div className="flex items-center gap-1.5 flex-wrap">
+      {/* One compact line: generate + tone. Changing the tone regenerates. */}
+      <div className="flex items-center gap-1.5">
         <button
           type="button"
           onClick={() => generate()}
           disabled={loading}
-          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-meta font-medium rounded-lg bg-accent-subtle dark:bg-violet-950/30 text-accent-fg dark:text-accent-fg border border-line dark:border-violet-800 hover:bg-accent-subtle disabled:opacity-50"
+          className="inline-flex h-7 items-center gap-1.5 rounded-md border border-line bg-canvas px-2.5 text-meta font-medium text-fg-secondary hover:bg-subtle hover:text-fg disabled:opacity-50"
         >
-          {loading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
-          AI Reply
+          {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Sparkles className="h-3.5 w-3.5" strokeWidth={1.75} />}
+          AI reply
         </button>
-        {STYLES.map((s) => (
-          <button
-            key={s.id}
-            type="button"
-            onClick={() => { setStyle(s.id); generate(s.id); }}
-            disabled={loading}
-            className={`px-2 py-1 text-[10px] rounded-md border transition-colors ${
-              style === s.id
-                ? 'bg-accent text-white border-accent'
-                : 'text-fg-tertiary border-line dark:border-slate-700 hover:bg-subtle dark:hover:bg-slate-800'
-            }`}
-          >
-            {s.label}
-          </button>
-        ))}
+        <label className="sr-only" htmlFor="ai-reply-tone">Reply tone</label>
+        <select
+          id="ai-reply-tone"
+          value={style}
+          disabled={loading}
+          onChange={(e) => { setStyle(e.target.value); generate(e.target.value); }}
+          className="h-7 rounded-md border border-line bg-canvas px-2 text-meta text-fg-secondary hover:border-line-strong focus:outline-none focus-visible:ring-2 focus-visible:ring-focus disabled:opacity-50"
+        >
+          {STYLES.map((s) => (
+            <option key={s.id} value={s.id}>{s.label}</option>
+          ))}
+        </select>
       </div>
 
       {reply && open && (
