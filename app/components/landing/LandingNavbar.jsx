@@ -89,7 +89,8 @@ export default function LandingNavbar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 px-4 pt-5 sm:px-6">
       <div className="mx-auto flex max-w-[1100px] items-center justify-between gap-4 rounded-xl border border-white/70 bg-white/55 px-4 py-2.5 shadow-[0_4px_24px_rgba(15,23,42,0.06)] backdrop-blur-xl sm:px-5 lg:px-6">
-        <a href="/" className="shrink-0 ml-5">
+        <a href="/" className="shrink-0 ml-5 inline-flex items-center gap-2" aria-label="LeadForGrow home">
+          <img src="/logo-mark.webp" alt="" aria-hidden="true" width={22} height={22} className="h-[22px] w-[22px] object-contain" />
           <span className="landing-logo text-[17px] sm:text-[18px]">
             LeadForGrow<span className="text-[9px] align-super text-[#1a1a1a]/60">™</span>
           </span>

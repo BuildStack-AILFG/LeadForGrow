@@ -13,6 +13,14 @@ Related decisions: <link to DECISIONS.md entry, if any>
 
 ---
 
+## 2026-10-04 — Small logo mark on the public navbar
+Branch: main (UNCOMMITTED)
+Files: `app/components/landing/LandingNavbar.jsx`
+What changed: owner asked for a small LeadForGrow logo on the left of the navbar. The brand link now shows `/logo-mark.webp` (22px, decorative, `aria-hidden`) before the "LeadForGrow™" wordmark; link gets `aria-label`. The CRM sidebar already had the logo, so it was not changed. Saved as a standing preference in memory. Asset confirmed served (200). Not viewed in a browser.
+Related decisions: none.
+
+---
+
 ## 2026-10-03 — Audit round 3: API latency (region, round trips, aggregations)
 Branch: main (UNCOMMITTED)
 Files: `vercel.json` (new — `regions: ["bom1"]`), `lib/auth.js` (15 s per-process plan cache in `enrichUserContext` + `invalidateBusinessPlanCache`; `resolveTenant` reads user + business in parallel, tenant check unchanged), `app/api/business/activate-trial/route.js` (invalidates the cache), `app/api/auth/me/route.js` (role permissions read alongside the tenant, role regex escaped, lean), `app/api/automation/dashboard/route.js` (pipeline + today's meeting count moved into the main parallel batch; deals no longer populate owners / load unused fields), `app/api/automation/reports/route.js` (9 sequential queries → one `Promise.all`), `app/api/automation/leads/route.js` (deal amounts, follow-ups, last messages in one batch), `app/api/automation/leads/[id]/route.js` (history, deal, messages, follow-up in one batch), `app/api/automation/companies/route.js` (page + count together), `lib/crm/companyService.js` (contact count + primary contact and deal stats grouped in MongoDB instead of loading every contact/deal of the page's companies), new `lib/crm/revenueMetricStats.js` + `app/api/business/revenue-metric/route.js` (one `$facet` aggregation instead of downloading every lead; unused projection function removed), `app/api/automation/inbox/conversations/route.js` (search's lead-id lookup capped at 1,000, lean), `tests/api-latency.test.js` (new, 12 tests).
