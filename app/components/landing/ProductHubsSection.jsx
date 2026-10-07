@@ -9,7 +9,7 @@ const HUBS = [
     description:
       'Automate customer engagement on WhatsApp & Instagram to drive leads and conversions.',
     href: '/products/automation',
-    image: '/images/interakt-clone/Marketing-CRM_Image-1.webp',
+    image: '/images/site/product/hub-marketing.svg',
     alt: 'Marketing Hub campaign dashboard',
   },
   {
@@ -18,7 +18,7 @@ const HUBS = [
     description:
       'Stay on top of every customer query with a unified team inbox built for WhatsApp, Instagram, and Email.',
     href: '/products/unified-inbox',
-    image: '/images/interakt-clone/Support_Image.webp',
+    image: '/images/site/product/hub-support.svg',
     alt: 'Support Hub unified inbox',
   },
   {
@@ -27,7 +27,7 @@ const HUBS = [
     description:
       'Capture leads, engage prospects, and close deals faster with a WhatsApp-first Sales CRM.',
     href: '/products/crm',
-    image: '/images/interakt-clone/Sales-CRM_Image-1.webp',
+    image: '/images/site/product/hub-sales.svg',
     alt: 'Sales CRM pipeline dashboard',
   },
 ];

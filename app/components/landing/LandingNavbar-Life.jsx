@@ -35,11 +35,11 @@ const productItems = [
 
 const solutionItems = [
   { label: 'Startups', desc: 'Move fast without a sales ops team', href: '/solutions/startups', icon: Rocket },
-  { label: 'Agencies', desc: 'White-label CRM for client management', href: '/solutions/agencies', iconSrc: '/images/interakt-clone/nav-icons/marketing-agency.svg' },
-  { label: 'Restaurants', desc: 'Reservations, catering & delivery enquiries', href: '/solutions/restaurants', iconSrc: '/images/interakt-clone/nav-icons/restaurants-food.svg' },
-  { label: 'Real Estate', desc: 'Qualify enquiries and nurture buyers', href: '/solutions/real-estate', iconSrc: '/images/interakt-clone/nav-icons/real-estate.svg' },
-  { label: 'Healthcare', desc: 'Appointment booking and patient follow-up', href: '/solutions/healthcare', iconSrc: '/images/interakt-clone/nav-icons/health-wellness.svg' },
-  { label: 'Education', desc: 'Admissions enquiry management & nurture', href: '/solutions/education', iconSrc: '/images/interakt-clone/nav-icons/edutech.svg' },
+  { label: 'Agencies', desc: 'White-label CRM for client management', href: '/solutions/agencies', iconSrc: '/images/site/nav-icons/marketing-agency.svg' },
+  { label: 'Restaurants', desc: 'Reservations, catering & delivery enquiries', href: '/solutions/restaurants', iconSrc: '/images/site/nav-icons/restaurants-food.svg' },
+  { label: 'Real Estate', desc: 'Qualify enquiries and nurture buyers', href: '/solutions/real-estate', iconSrc: '/images/site/nav-icons/real-estate.svg' },
+  { label: 'Healthcare', desc: 'Appointment booking and patient follow-up', href: '/solutions/healthcare', iconSrc: '/images/site/nav-icons/health-wellness.svg' },
+  { label: 'Education', desc: 'Admissions enquiry management & nurture', href: '/solutions/education', iconSrc: '/images/site/nav-icons/edutech.svg' },
   { label: 'Enterprise', desc: 'Security, SSO, and dedicated support', href: '/solutions/enterprise', icon: Building2 },
 ];
 
@@ -53,8 +53,8 @@ const solutionItems = [
  * interakt.shop's own nested-menu markup.
  */
 const CHANNELS = [
-  { key: 'whatsapp', label: 'WhatsApp', iconSrc: '/images/interakt-clone/nav-icons/channel-whatsapp.svg' },
-  { key: 'instagram', label: 'Instagram', iconSrc: '/images/interakt-clone/nav-icons/channel-instagram.svg' },
+  { key: 'whatsapp', label: 'WhatsApp', iconSrc: '/images/site/nav-icons/channel-whatsapp.svg' },
+  { key: 'instagram', label: 'Instagram', iconSrc: '/images/site/nav-icons/channel-instagram.svg' },
 ];
 
 const CHANNEL_FEATURES = {

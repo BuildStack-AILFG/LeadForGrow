@@ -29,7 +29,7 @@ export default function RestaurantsPage() {
     <MarketingShell>
       {/* Photo-led hero */}
       <section className="relative overflow-hidden pt-16 sm:pt-20">
-        <img src="/images/interakt-clone/industries/restaurant-food.webp" alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <img src="/images/site/industries/restaurant-food.svg" alt="" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0B1712]/95 via-[#0B1712]/80 to-[#0B1712]/30" aria-hidden />
         <div className={`${SITE.wrap} relative grid items-center gap-12 py-20 text-white lg:grid-cols-[1.1fr_0.9fr] lg:py-28`}>
           <div>

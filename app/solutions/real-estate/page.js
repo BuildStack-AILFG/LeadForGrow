@@ -38,7 +38,7 @@ export default function RealEstatePage() {
           </div>
           <div className="order-1 lg:order-2">
             <div className="relative">
-              <img src="/images/interakt-clone/industries/real-estate.webp" alt="Real estate team reviewing property leads" className="w-full rounded-2xl object-cover" />
+              <img src="/images/site/industries/real-estate.svg" alt="Real estate team reviewing property leads" className="w-full rounded-2xl object-cover" />
               <div className="absolute -bottom-6 left-6 right-6 rounded-xl bg-white p-4 shadow-xl sm:left-auto sm:w-72">
                 <p className="text-xs font-semibold uppercase tracking-wider text-[#6B7280]">New lead · Meta ad</p>
                 <p className="mt-1 font-semibold text-[#0B1712]">3 BHK enquiry — Whitefield</p>

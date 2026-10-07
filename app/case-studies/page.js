@@ -12,7 +12,7 @@ export const metadata = {
 const CASES = [
   {
     kind: 'Automotive service centre',
-    img: '/images/interakt-clone/industries/automotive.webp',
+    img: '/images/site/industries/automotive.svg',
     title: 'A garage that books services straight from WhatsApp',
     problem: 'Customers message to ask for a service slot. During a busy day nobody replies for hours, and the same questions — price, pick-up, timings — come in again and again.',
     setup: [
@@ -25,7 +25,7 @@ const CASES = [
   },
   {
     kind: 'Coaching institute',
-    img: '/images/interakt-clone/industries/education.webp',
+    img: '/images/site/industries/education.svg',
     title: 'An institute that runs admissions season without a spreadsheet',
     problem: 'Enquiries from ads, the website and walk-ins land in different places. Counsellors call the same parent twice, or not at all.',
     setup: [
@@ -38,7 +38,7 @@ const CASES = [
   },
   {
     kind: 'Real estate team',
-    img: '/images/interakt-clone/industries/real-estate.webp',
+    img: '/images/site/industries/real-estate.svg',
     title: 'A property team that answers ad leads while showing sites',
     problem: 'Ad leads arrive while the team is on site visits. By the time someone calls back, the buyer has spoken to another builder.',
     setup: [

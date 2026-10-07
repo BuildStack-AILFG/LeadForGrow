@@ -456,7 +456,7 @@ export default function AutomationInActionSection() {
               compact
             >
               <img
-                src="/images/interakt-clone/whatsapp-intent-matching.webp"
+                src="/images/site/product/whatsapp-intent.svg"
                 alt="WhatsApp AI detecting customer intent and triggering an automated reply"
                 className="max-h-[300px] w-full object-contain"
                 loading="lazy"
@@ -473,7 +473,7 @@ export default function AutomationInActionSection() {
               compact
             >
               <img
-                src="/images/interakt-clone/instagram-dm-automation-large.webp"
+                src="/images/site/product/instagram-dm.svg"
                 alt="Instagram DM automatically replying to a comment with a reward"
                 className="max-h-[300px] w-full object-contain"
                 loading="lazy"

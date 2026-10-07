@@ -20,7 +20,7 @@ const CAPABILITIES = [
     href: '/products/ai',
     bg: '#FCE7F3',
     tagColor: '#DB2777',
-    image: '/images/interakt-clone/Group-1430106369.webp',
+    image: '/images/site/product/ai-agent.svg',
   },
   {
     tag: 'Support',
@@ -30,7 +30,7 @@ const CAPABILITIES = [
     href: '/products/automation',
     bg: '#D1FAE5',
     tagColor: '#059669',
-    image: '/images/interakt-clone/chatbot-builder.webp',
+    image: '/images/site/product/flow-builder.svg',
   },
   {
     tag: 'Marketing',
@@ -40,7 +40,7 @@ const CAPABILITIES = [
     href: '/products/crm',
     bg: '#FEF3C7',
     tagColor: '#D97706',
-    image: '/images/interakt-clone/Maximize-Leads-Optimize-Sales3x_-1.webp',
+    image: '/images/site/product/maximize-leads.svg',
   },
   {
     tag: 'Marketing',
@@ -50,7 +50,7 @@ const CAPABILITIES = [
     href: '/products/unified-inbox',
     bg: '#EDE9FE',
     tagColor: '#7C3AED',
-    image: '/images/interakt-clone/Group-1430106237.webp',
+    image: '/images/site/product/instagram-automation.svg',
   },
   {
     tag: 'Support',
@@ -60,7 +60,7 @@ const CAPABILITIES = [
     href: '/products/unified-inbox',
     bg: '#DBEAFE',
     tagColor: '#2563EB',
-    image: '/images/interakt-clone/Manage-Customer-Interactions-with-Ease-2.webp',
+    image: '/images/site/product/unified-inbox.svg',
   },
   {
     tag: 'Sales CRM',
@@ -70,7 +70,7 @@ const CAPABILITIES = [
     href: '/products/crm',
     bg: '#CCFBF1',
     tagColor: '#0D9488',
-    image: '/images/interakt-clone/Organize-Leads-Track-Success-1-1024x693.webp',
+    image: '/images/site/product/pipeline.svg',
   },
   {
     tag: 'Marketing',
@@ -80,7 +80,7 @@ const CAPABILITIES = [
     href: '/products/automation',
     bg: '#FEF9C3',
     tagColor: '#CA8A04',
-    image: '/images/interakt-clone/Broadcast-WhatsApp-Messages-to-1000s-in-a-single-click3x_-1.webp',
+    image: '/images/site/product/broadcast.svg',
   },
   {
     tag: 'Commerce',
@@ -90,7 +90,7 @@ const CAPABILITIES = [
     href: '/pricing',
     bg: '#FFE4E6',
     tagColor: '#E11D48',
-    image: '/images/interakt-clone/Launch-WhatsApp-Store-Payments-1.webp',
+    image: '/images/site/product/payments-meetings.svg',
   },
   {
     tag: 'Analytics',
@@ -100,7 +100,7 @@ const CAPABILITIES = [
     href: '/products/automation',
     bg: '#E0E7FF',
     tagColor: '#4338CA',
-    image: '/images/interakt-clone/Campaign-Team-Analytics-3.webp',
+    image: '/images/site/product/analytics.svg',
   },
 ];
 

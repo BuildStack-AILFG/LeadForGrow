@@ -6,73 +6,73 @@ const INDUSTRIES = [
   {
     title: 'Banking & Finance',
     description: 'Leverage powerful automation features and grow your business using LeadForGrow.',
-    image: '/images/interakt-clone/industries/banking-finance.webp',
+    image: '/images/site/industries/banking-finance.svg',
     href: '/contact',
   },
   {
     title: 'Travel & Tourism',
     description: 'Fast-track bookings, share details, and set up 24/7 automated FAQs using LeadForGrow.',
-    image: '/images/interakt-clone/industries/travel-tourism.webp',
+    image: '/images/site/industries/travel-tourism.svg',
     href: '/contact',
   },
   {
     title: 'Beauty & Cosmetics',
     description: 'See how top brands acquire, convert, and engage shoppers in a competitive market.',
-    image: '/images/interakt-clone/industries/beauty-cosmetics.webp',
+    image: '/images/site/industries/beauty-cosmetics.svg',
     href: '/contact',
   },
   {
     title: 'Education',
     description: 'Get more enrollments for your courses and keep students informed automatically.',
-    image: '/images/interakt-clone/industries/education.webp',
+    image: '/images/site/industries/education.svg',
     href: '/solutions/education',
   },
   {
     title: 'Spas & Salons',
     description: 'Grow your spa & salon business through scheduling, payments, and reminders.',
-    image: '/images/interakt-clone/industries/spas-salons.webp',
+    image: '/images/site/industries/spas-salons.svg',
     href: '/contact',
   },
   {
     title: 'E-commerce',
     description: 'Scale up your D2C brand with end-to-end commerce and catalog sharing.',
-    image: '/images/interakt-clone/industries/ecommerce.webp',
+    image: '/images/site/industries/ecommerce.svg',
     href: '/contact',
   },
   {
     title: 'Restaurant & Food Businesses',
     description: 'Streamline orders, payments, menu sharing, and more for faster customer interactions.',
-    image: '/images/interakt-clone/industries/restaurant-food.webp',
+    image: '/images/site/industries/restaurant-food.svg',
     href: '/solutions/restaurants',
   },
   {
     title: 'Health & Wellness',
     description: 'Improve patient experiences with automated appointment bookings, updates, and offers.',
-    image: '/images/interakt-clone/industries/health-wellness.webp',
+    image: '/images/site/industries/health-wellness.svg',
     href: '/solutions/healthcare',
   },
   {
     title: 'Home Decor & Furnishing',
     description: 'Boost your home decor and furnishing business through end-to-end commerce.',
-    image: '/images/interakt-clone/industries/home-decor.webp',
+    image: '/images/site/industries/home-decor.svg',
     href: '/contact',
   },
   {
     title: 'Automotive Industry',
     description: 'From promotions to service bookings, make customer communication simple and seamless.',
-    image: '/images/interakt-clone/industries/automotive.webp',
+    image: '/images/site/industries/automotive.svg',
     href: '/contact',
   },
   {
     title: 'Real Estate',
     description: 'Acquire, engage, convert prospects, and retain customers effortlessly.',
-    image: '/images/interakt-clone/industries/real-estate.webp',
+    image: '/images/site/industries/real-estate.svg',
     href: '/solutions/real-estate',
   },
   {
     title: 'Freelancers & Consultants',
     description: 'Create personalized customer journeys and manage every client effortlessly.',
-    image: '/images/interakt-clone/industries/freelancer-consultants.webp',
+    image: '/images/site/industries/freelancer-consultants.svg',
     href: '/solutions/startups',
   },
 ];
@@ -93,7 +93,7 @@ export default function IndustriesGridSection() {
               href={href}
               className={`group ${MARKETING.card} ${MARKETING.cardHover} overflow-hidden flex flex-col`}
             >
-              <div className="w-full overflow-hidden bg-[#FAFDFA]" style={{ aspectRatio: '1024 / 507' }}>
+              <div className="w-full overflow-hidden bg-[#FAFDFA]" style={{ aspectRatio: '800 / 396' }}>
                 <img src={image} alt={title} className="h-full w-full object-cover" loading="lazy" />
               </div>
               <div className="min-w-0 flex-1 p-5">

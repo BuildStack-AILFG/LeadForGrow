@@ -13,12 +13,12 @@ export const metadata = {
 const NAMES = ['Homies4u', 'Pistons Garage', 'PMKR', 'CXO', 'Moodli'];
 
 const INDUSTRIES = [
-  { name: 'Automotive & garages', note: 'Service bookings over WhatsApp', img: '/images/interakt-clone/industries/automotive.webp', href: '/case-studies' },
-  { name: 'Real estate', note: 'Ad leads, site visits, long follow-up', img: '/images/interakt-clone/industries/real-estate.webp', href: '/solutions/real-estate' },
-  { name: 'Education & coaching', note: 'Admissions and demo classes', img: '/images/interakt-clone/industries/education.webp', href: '/solutions/education' },
-  { name: 'Clinics & wellness', note: 'Appointments and reminders', img: '/images/interakt-clone/industries/health-wellness.webp', href: '/solutions/healthcare' },
-  { name: 'Restaurants & food', note: 'Table bookings and offers', img: '/images/interakt-clone/industries/restaurant-food.webp', href: '/solutions/restaurants' },
-  { name: 'Marketing agencies', note: 'Client lead handling and reporting', img: '/images/interakt-clone/industries/marketing-agencies.webp', href: '/solutions/agencies' },
+  { name: 'Automotive & garages', note: 'Service bookings over WhatsApp', img: '/images/site/industries/automotive.svg', href: '/case-studies' },
+  { name: 'Real estate', note: 'Ad leads, site visits, long follow-up', img: '/images/site/industries/real-estate.svg', href: '/solutions/real-estate' },
+  { name: 'Education & coaching', note: 'Admissions and demo classes', img: '/images/site/industries/education.svg', href: '/solutions/education' },
+  { name: 'Clinics & wellness', note: 'Appointments and reminders', img: '/images/site/industries/health-wellness.svg', href: '/solutions/healthcare' },
+  { name: 'Restaurants & food', note: 'Table bookings and offers', img: '/images/site/industries/restaurant-food.svg', href: '/solutions/restaurants' },
+  { name: 'Marketing agencies', note: 'Client lead handling and reporting', img: '/images/site/industries/marketing-agencies.svg', href: '/solutions/agencies' },
 ];
 
 export default function CustomersPage() {
