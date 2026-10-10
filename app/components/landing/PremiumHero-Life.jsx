@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import { Anton } from 'next/font/google';
-import { ArrowUpRight, MessageCircle, MousePointer2 } from 'lucide-react';
-import { WhatsAppIcon, InstagramIcon, GmailIcon } from '@/app/automation/components/chat/BrandIcons';
-import { MetaIcon, ZapierIcon, ShopifyIcon, SlackColorIcon } from '@/app/components/pricing/IntegrationBrandIcons';
+import { ArrowUpRight, MessageCircle, MousePointer2, Megaphone, Heart } from 'lucide-react';
+import { WhatsAppIcon, GmailIcon } from '@/app/automation/components/chat/BrandIcons';
+import { ZapierIcon, ShopifyIcon, SlackColorIcon } from '@/app/components/pricing/IntegrationBrandIcons';
 
 const anton = Anton({ subsets: ['latin'], weight: '400' });
 
@@ -13,10 +13,10 @@ const anton = Anton({ subsets: ['latin'], weight: '400' });
 // has no official brand mark, so it inverts with the theme like plain text
 // would.
 const LEFT_CARDS = [
-  { key: 'meta', left: '5%', top: '5.2%', rotate: -6, color: '#1877F2', icon: <MetaIcon className="h-full w-full" /> },
+  { key: 'meta', left: '5%', top: '5.2%', rotate: -6, color: '#7C3AED', icon: <Megaphone className="h-full w-full" /> },
   { key: 'web', left: '12.8%', top: '11.2%', rotate: -5, color: '#111827', darkColor: '#F5F6F2', icon: <MessageCircle className="h-full w-full" /> },
   { key: 'wa', left: '20.6%', top: '17.2%', rotate: -4, color: '#25D366', icon: <WhatsAppIcon className="h-full w-full" /> },
-  { key: 'ig', left: '28.4%', top: '21.2%', rotate: -2, color: '#E1306C', icon: <InstagramIcon className="h-full w-full" /> },
+  { key: 'ig', left: '28.4%', top: '21.2%', rotate: -2, color: '#E1306C', icon: <Heart className="h-full w-full" /> },
   // Fans back the other way, so the stack opens out at the end. Gmail's mark
   // is already multi-color (no currentColor), so it needs no color override.
   { key: 'email', left: '36.2%', top: '24.2%', rotate: 24, color: null, icon: <GmailIcon className="h-full w-full" /> },
@@ -243,10 +243,10 @@ function MobileHero({ onGetStarted, onBookDemo }) {
   const [isDark, setIsDark] = useState(true);
 
   const mobileCards = [
-    { key: 'meta', left: '0%', top: '6%', rotate: -10, color: '#1877F2', icon: <MetaIcon className="h-full w-full" /> },
+    { key: 'meta', left: '0%', top: '6%', rotate: -10, color: '#7C3AED', icon: <Megaphone className="h-full w-full" /> },
     { key: 'web', left: '19%', top: '0%', rotate: -5, color: '#111827', darkColor: '#F5F6F2', icon: <MessageCircle className="h-full w-full" /> },
     { key: 'wa', left: '38%', top: '4%', rotate: 3, color: '#25D366', icon: <WhatsAppIcon className="h-full w-full" /> },
-    { key: 'ig', left: '57%', top: '2%', rotate: 8, color: '#E1306C', icon: <InstagramIcon className="h-full w-full" /> },
+    { key: 'ig', left: '57%', top: '2%', rotate: 8, color: '#E1306C', icon: <Heart className="h-full w-full" /> },
     { key: 'email', left: '76%', top: '8%', rotate: 16, color: null, icon: <GmailIcon className="h-full w-full" /> },
   ];
 
