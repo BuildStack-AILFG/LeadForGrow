@@ -12,6 +12,13 @@ export default function StatsSection() {
     <section id="why-us" className={MARKETING.section}>
       <div className={MARKETING.container}>
         <div className="mx-auto max-w-2xl text-center">
+          <img
+            src="/images/site/3d/finance-report.webp"
+            alt=""
+            aria-hidden="true"
+            className="mx-auto mb-4 h-32 w-auto object-contain drop-shadow-[0_14px_22px_rgba(15,23,42,0.18)] sm:h-36"
+            loading="lazy"
+          />
           <p className={MARKETING.overline}>What Sets Us Apart?</p>
           <h2 className={`${MARKETING.h2} mt-3`}>
             Built to Help You Respond Faster and Follow Up Better

@@ -6,73 +6,73 @@ const INDUSTRIES = [
   {
     title: 'Banking & Finance',
     description: 'Leverage powerful automation features and grow your business using LeadForGrow.',
-    image: '/images/site/industries/banking-finance.svg',
+    image: '/images/site/3d/bank.webp',
     href: '/contact',
   },
   {
     title: 'Travel & Tourism',
     description: 'Fast-track bookings, share details, and set up 24/7 automated FAQs using LeadForGrow.',
-    image: '/images/site/industries/travel-tourism.svg',
+    image: '/images/site/3d/suitcase.webp',
     href: '/contact',
   },
   {
     title: 'Beauty & Cosmetics',
     description: 'See how top brands acquire, convert, and engage shoppers in a competitive market.',
-    image: '/images/site/industries/beauty-cosmetics.svg',
+    image: '/images/site/3d/mirror.webp',
     href: '/contact',
   },
   {
     title: 'Education',
     description: 'Get more enrollments for your courses and keep students informed automatically.',
-    image: '/images/site/industries/education.svg',
+    image: '/images/site/3d/graduated.webp',
     href: '/solutions/education',
   },
   {
     title: 'Spas & Salons',
     description: 'Grow your spa & salon business through scheduling, payments, and reminders.',
-    image: '/images/site/industries/spas-salons.svg',
+    image: '/images/site/3d/hair-dryer.webp',
     href: '/contact',
   },
   {
     title: 'E-commerce',
     description: 'Scale up your D2C brand with end-to-end commerce and catalog sharing.',
-    image: '/images/site/industries/ecommerce.svg',
+    image: '/images/site/3d/online-shopping.webp',
     href: '/contact',
   },
   {
     title: 'Restaurant & Food Businesses',
     description: 'Streamline orders, payments, menu sharing, and more for faster customer interactions.',
-    image: '/images/site/industries/restaurant-food.svg',
+    image: '/images/site/3d/cheese-burger.webp',
     href: '/solutions/restaurants',
   },
   {
     title: 'Health & Wellness',
     description: 'Improve patient experiences with automated appointment bookings, updates, and offers.',
-    image: '/images/site/industries/health-wellness.svg',
+    image: '/images/site/3d/medical-kit.webp',
     href: '/solutions/healthcare',
   },
   {
     title: 'Home Decor & Furnishing',
     description: 'Boost your home decor and furnishing business through end-to-end commerce.',
-    image: '/images/site/industries/home-decor.svg',
+    image: '/images/site/3d/home.webp',
     href: '/contact',
   },
   {
     title: 'Automotive Industry',
     description: 'From promotions to service bookings, make customer communication simple and seamless.',
-    image: '/images/site/industries/automotive.svg',
+    image: '/images/site/3d/car-repair.webp',
     href: '/contact',
   },
   {
     title: 'Real Estate',
     description: 'Acquire, engage, convert prospects, and retain customers effortlessly.',
-    image: '/images/site/industries/real-estate.svg',
+    image: '/images/site/3d/apartment.webp',
     href: '/solutions/real-estate',
   },
   {
     title: 'Freelancers & Consultants',
     description: 'Create personalized customer journeys and manage every client effortlessly.',
-    image: '/images/site/industries/freelancer-consultants.svg',
+    image: '/images/site/3d/working-desk.webp',
     href: '/solutions/startups',
   },
 ];
@@ -93,8 +93,16 @@ export default function IndustriesGridSection() {
               href={href}
               className={`group ${MARKETING.card} ${MARKETING.cardHover} overflow-hidden flex flex-col`}
             >
-              <div className="w-full overflow-hidden bg-[#FAFDFA]" style={{ aspectRatio: '800 / 396' }}>
-                <img src={image} alt={title} className="h-full w-full object-cover" loading="lazy" />
+              <div
+                className="flex w-full items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_50%_55%,rgba(16,185,129,0.16),transparent_62%)] p-6"
+                style={{ aspectRatio: '800 / 396' }}
+              >
+                <img
+                  src={image}
+                  alt={title}
+                  className="h-full w-auto max-w-full object-contain drop-shadow-[0_14px_22px_rgba(15,23,42,0.18)] transition-transform duration-300 group-hover:-translate-y-1"
+                  loading="lazy"
+                />
               </div>
               <div className="min-w-0 flex-1 p-5">
                 <h3 className="text-[15px] font-bold text-[#111827]">{title}</h3>

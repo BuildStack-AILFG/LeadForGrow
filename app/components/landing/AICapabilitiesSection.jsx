@@ -6,11 +6,11 @@ import { MARKETING } from '@/lib/marketing/designTokens';
 import { goToGetStarted, openBookDemo } from './homeActions';
 
 const AI_POINTS = [
-  { label: 'Write, Launch, and Optimize with AI Copilot', image: '/images/site/product/ai-copilot.svg' },
-  { label: 'AI Chatbots That Drive Conversions', image: '/images/site/product/ai-chatbot.svg' },
-  { label: 'Forms That Convert Conversations into Leads', image: '/images/site/product/ai-forms.svg' },
-  { label: 'Go Beyond Keywords with Intent-Based Automation', image: '/images/site/product/ai-intent.svg' },
-  { label: 'Ready-to-Send Templates, Powered by AI', image: '/images/site/product/ai-templates.svg' },
+  { label: 'Write, Launch, and Optimize with AI Copilot', image: '/images/site/3d/ai-vr.webp' },
+  { label: 'AI Chatbots That Drive Conversions', image: '/images/site/3d/smiling-robot.webp' },
+  { label: 'Forms That Convert Conversations into Leads', image: '/images/site/3d/clipboard.webp' },
+  { label: 'Go Beyond Keywords with Intent-Based Automation', image: '/images/site/3d/target.webp' },
+  { label: 'Ready-to-Send Templates, Powered by AI', image: '/images/site/3d/chat-bubble.webp' },
 ];
 
 export default function AICapabilitiesSection({ onGetStarted = goToGetStarted, onBookDemo = openBookDemo } = {}) {
@@ -77,14 +77,20 @@ export default function AICapabilitiesSection({ onGetStarted = goToGetStarted, o
           </div>
 
           <div className="order-1 lg:order-2">
-            <div className="relative mx-auto max-w-md">
-              <div className="absolute -inset-4 -z-10 rounded-[2rem] bg-gradient-to-br from-emerald-400/15 via-cyan-400/10 to-violet-400/15 blur-2xl" />
-              <img
-                src={AI_POINTS[active].image}
-                alt={AI_POINTS[active].label}
-                className="w-full rounded-2xl bg-white object-contain shadow-[0_20px_48px_rgba(15,23,42,0.12)]"
-                loading="lazy"
-              />
+            <div className="relative isolate mx-auto flex aspect-square max-w-md items-center justify-center rounded-[2rem] border border-emerald-100 bg-white p-12 shadow-[0_20px_48px_rgba(15,23,42,0.08)]">
+              <div className="absolute inset-6 -z-10 rounded-full bg-gradient-to-br from-emerald-400/20 via-cyan-400/10 to-violet-400/15 blur-3xl" />
+              {AI_POINTS.map((point, i) => (
+                <img
+                  key={point.label}
+                  src={point.image}
+                  alt={i === active ? point.label : ''}
+                  aria-hidden={i !== active}
+                  className={`absolute inset-12 m-auto max-h-[calc(100%-6rem)] max-w-[calc(100%-6rem)] object-contain drop-shadow-[0_24px_36px_rgba(15,23,42,0.2)] transition-all duration-500 ${
+                    i === active ? 'scale-100 opacity-100' : 'pointer-events-none scale-90 opacity-0'
+                  }`}
+                  loading="lazy"
+                />
+              ))}
             </div>
           </div>
         </div>

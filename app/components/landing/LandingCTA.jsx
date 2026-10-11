@@ -7,6 +7,13 @@ export default function LandingCTA({ onGetStarted = goToGetStarted, onBookDemo =
   return (
     <section className="bg-white-400 py-14 sm:py-16 lg:py-20">
       <div className="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
+        <img
+          src="/images/site/3d/cta-character.webp"
+          alt=""
+          aria-hidden="true"
+          className="mx-auto mb-4 h-40 w-auto object-contain drop-shadow-[0_14px_22px_rgba(15,23,42,0.18)] sm:h-44"
+          loading="lazy"
+        />
         <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-emerald-700">Get started</p>
         <h2
           className="mt-3 text-[1.75rem] font-extrabold leading-[1.12] tracking-[-0.03em] text-[#111827] sm:text-[2.15rem]"

@@ -75,6 +75,18 @@ export default function EnterpriseFooter({ forceShow = false }) {
         <div className="mt-14 flex flex-col gap-6 border-t border-white/10 pt-8 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <p className="text-xs text-white/60">© {year} LeadForGrow — a product of ScaleDesk Technology Private Limited. All rights reserved.</p>
+            <p className="mt-1 text-xs text-white/40">
+              3D illustrations from{' '}
+              <a
+                href="https://iconscout.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2 hover:text-white transition-colors"
+              >
+                IconScout
+              </a>
+              .
+            </p>
             <div className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
               {FOOTER_LEGAL.map((l) => (
                 <Link key={l.href} href={l.href} className="text-xs text-white/60 hover:text-white transition-colors">

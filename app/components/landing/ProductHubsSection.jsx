@@ -9,7 +9,7 @@ const HUBS = [
     description:
       'Automate customer engagement on WhatsApp & Instagram to drive leads and conversions.',
     href: '/products/automation',
-    image: '/images/site/product/hub-marketing.svg',
+    image: '/images/site/3d/marketing-mail.webp',
     alt: 'Marketing Hub campaign dashboard',
   },
   {
@@ -18,7 +18,7 @@ const HUBS = [
     description:
       'Stay on top of every customer query with a unified team inbox built for WhatsApp, Instagram, and Email.',
     href: '/products/unified-inbox',
-    image: '/images/site/product/hub-support.svg',
+    image: '/images/site/3d/notification-bell.webp',
     alt: 'Support Hub unified inbox',
   },
   {
@@ -27,7 +27,7 @@ const HUBS = [
     description:
       'Capture leads, engage prospects, and close deals faster with a WhatsApp-first Sales CRM.',
     href: '/products/crm',
-    image: '/images/site/product/hub-sales.svg',
+    image: '/images/site/3d/finance-report.webp',
     alt: 'Sales CRM pipeline dashboard',
   },
 ];
@@ -52,11 +52,11 @@ export default function ProductHubsSection() {
               key={hub.tag}
               className={`${MARKETING.card} ${MARKETING.cardHover} overflow-hidden flex flex-col`}
             >
-              <div className="h-44 w-full overflow-hidden bg-emerald-50">
+              <div className="flex h-44 w-full items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_50%_60%,rgba(16,185,129,0.16),transparent_65%)] p-5">
                 <img
                   src={hub.image}
                   alt={hub.alt}
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-contain drop-shadow-[0_14px_22px_rgba(15,23,42,0.18)]"
                   loading="lazy"
                 />
               </div>

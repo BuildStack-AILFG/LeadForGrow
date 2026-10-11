@@ -20,7 +20,7 @@ const CAPABILITIES = [
     href: '/products/ai',
     bg: '#FCE7F3',
     tagColor: '#DB2777',
-    image: '/images/site/product/ai-agent.svg',
+    image: '/images/site/3d/growth-graph.webp',
   },
   {
     tag: 'Support',
@@ -30,7 +30,7 @@ const CAPABILITIES = [
     href: '/products/automation',
     bg: '#D1FAE5',
     tagColor: '#059669',
-    image: '/images/site/product/flow-builder.svg',
+    image: '/images/site/3d/smiling-robot.webp',
   },
   {
     tag: 'Marketing',
@@ -40,7 +40,7 @@ const CAPABILITIES = [
     href: '/products/crm',
     bg: '#FEF3C7',
     tagColor: '#D97706',
-    image: '/images/site/product/maximize-leads.svg',
+    image: '/images/site/3d/target.webp',
   },
   {
     tag: 'Marketing',
@@ -50,7 +50,7 @@ const CAPABILITIES = [
     href: '/products/unified-inbox',
     bg: '#EDE9FE',
     tagColor: '#7C3AED',
-    image: '/images/site/product/instagram-automation.svg',
+    image: '/images/site/3d/agency-discussion.webp',
   },
   {
     tag: 'Support',
@@ -60,7 +60,7 @@ const CAPABILITIES = [
     href: '/products/unified-inbox',
     bg: '#DBEAFE',
     tagColor: '#2563EB',
-    image: '/images/site/product/unified-inbox.svg',
+    image: '/images/site/3d/chat-bubbles.webp',
   },
   {
     tag: 'Sales CRM',
@@ -70,7 +70,7 @@ const CAPABILITIES = [
     href: '/products/crm',
     bg: '#CCFBF1',
     tagColor: '#0D9488',
-    image: '/images/site/product/pipeline.svg',
+    image: '/images/site/3d/clipboard.webp',
   },
   {
     tag: 'Marketing',
@@ -80,7 +80,7 @@ const CAPABILITIES = [
     href: '/products/automation',
     bg: '#FEF9C3',
     tagColor: '#CA8A04',
-    image: '/images/site/product/broadcast.svg',
+    image: '/images/site/3d/paper-plane.webp',
   },
   {
     tag: 'Commerce',
@@ -90,7 +90,7 @@ const CAPABILITIES = [
     href: '/pricing',
     bg: '#FFE4E6',
     tagColor: '#E11D48',
-    image: '/images/site/product/payments-meetings.svg',
+    image: '/images/site/3d/credit-card.webp',
   },
   {
     tag: 'Analytics',
@@ -100,7 +100,7 @@ const CAPABILITIES = [
     href: '/products/automation',
     bg: '#E0E7FF',
     tagColor: '#4338CA',
-    image: '/images/site/product/analytics.svg',
+    image: '/images/site/3d/dashboard-growth.webp',
   },
 ];
 
@@ -149,8 +149,14 @@ export default function CapabilitiesGridSection() {
                   <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
                 </span>
               </div>
-              <div className="mt-4 flex h-44 w-full items-end justify-center overflow-hidden px-5 pb-5">
-                <img src={image} alt={title} className="max-h-full max-w-full object-contain" loading="lazy" />
+              <div className="mt-4 flex h-40 w-full items-center justify-center overflow-hidden px-8 pb-6 pt-2">
+                <img
+                  src={image}
+                  alt=""
+                  aria-hidden="true"
+                  className="max-h-full max-w-full object-contain drop-shadow-[0_14px_22px_rgba(15,23,42,0.18)] transition-transform duration-300 group-hover:-translate-y-1"
+                  loading="lazy"
+                />
               </div>
             </Link>
           ))}
