@@ -39,7 +39,7 @@ function WebhookEvents({ connected }) {
     try {
       const res = await authFetch('/api/business/settings/instagram-webhooks');
       const data = await res.json();
-      setState({ loading: false, fields: data.data?.fields || [], error: data.data?.success === false ? data.data.error : '', required: data.data?.required || ['comments', 'messages'] });
+      setState({ loading: false, fields: data.data?.fields || [], error: data.data?.success === false ? data.data.error : '', required: data.data?.required || ['comments', 'messages'], events: data.data?.recentEvents || [] });
     } catch {
       setState((s) => ({ ...s, loading: false, error: 'Could not check Meta' }));
     }
@@ -87,6 +87,14 @@ function WebhookEvents({ connected }) {
             return <StatusRow key={f} label={f === 'comments' ? 'Comments on your posts' : 'Direct messages'} value={on ? 'Subscribed' : 'Not subscribed'} ok={on} />;
           })}
         </div>
+      )}
+
+      {!state.loading && (
+        <p className="mt-2 text-meta text-fg-tertiary dark:text-fg-tertiary">
+          {state.events?.length
+            ? `Last event received: ${new Date(state.events[0].at).toLocaleString()} (${state.events[0].kind}, ${state.events[0].outcome === 'success' ? 'processed' : (state.events[0].step || state.events[0].outcome)})`
+            : 'No comment or message event has reached LeadForGrow from Meta yet. If your Meta app is in Development mode, only accounts added as testers trigger events.'}
+        </p>
       )}
 
       {state.error && <p className="mt-2 text-meta text-warning dark:text-amber-300 bg-warning-subtle dark:bg-amber-950/30 border border-warning/30 dark:border-amber-800 rounded-md p-2">{unknown ? `Couldn't read the current subscription (${state.error}). You can still enable it below.` : state.error}</p>}

@@ -13,6 +13,14 @@ Related decisions: <link to DECISIONS.md entry, if any>
 
 ---
 
+## 2026-11-11 — Instagram settings: "last event received" line
+Branch: main
+Files: `app/api/business/settings/instagram-webhooks/route.js`, `app/automation/settings/instagram/page.js`
+What changed: owner commented "price" from another account after the igUserId fix; rule still triggeredCount 0, no Instagram conversation, and no way to see unattributed shared-route webhook rows without DB access (blocked). The "Events from Instagram" card now shows the last Instagram webhook Meta sent for this account's own ids (igUserId / pageId), with kind and outcome, or a "nothing received yet — Development mode only delivers tester accounts" note. Query scoped to the business's own ids.
+Related decisions: none.
+
+---
+
 ## 2026-11-11 — Fonts self-hosted from local files (random build failure "next/font/google queries have exactly one entry")
 Branch: main
 Files: `app/fonts/index.js` (new, `next/font/local`), `app/fonts/*.woff2` (10 files, latin subset, ~300 KB, Google Fonts / SIL OFL), `app/layout.js`, `app/automation/layout.js`, `app/components/landing/PremiumHero.jsx`, `tests/load-performance.test.js`
