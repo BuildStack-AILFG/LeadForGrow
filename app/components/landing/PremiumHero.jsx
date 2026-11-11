@@ -1,13 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { Anton } from 'next/font/google';
+import { anton } from '@/app/fonts';
 import { ArrowUpRight, MessageCircle, MousePointer2, Megaphone, Heart } from 'lucide-react';
 import { WhatsAppIcon, GmailIcon } from '@/app/automation/components/chat/BrandIcons';
 import { ZapierIcon, ShopifyIcon, SlackColorIcon } from '@/app/components/pricing/IntegrationBrandIcons';
 import { goToGetStarted, openBookDemo } from './homeActions';
 
-const anton = Anton({ subsets: ['latin'], weight: '400' });
 
 // Bare platform logos (no card chrome), cascading right-and-down with only a
 // slight lean. Real brands keep their real color in both themes; "Web Chat"

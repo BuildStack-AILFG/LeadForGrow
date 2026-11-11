@@ -96,8 +96,14 @@ describe('fonts', () => {
   const layout = read('app/layout.js');
   const css = read('app/globals.css');
 
-  it('self-hosts fonts with next/font instead of a render-blocking Google stylesheet', () => {
-    assert.match(layout, /from "next\/font\/google"/);
+  it('self-hosts fonts from local files (no Google request at page load or build time)', () => {
+    assert.match(layout, /from "\.\/fonts"/);
+    const fonts = read('app/fonts/index.js');
+    assert.match(fonts, /from 'next\/font\/local'/);
+    assert.doesNotMatch(fonts, /from 'next\/font\/google'/);
+    for (const f of fonts.match(/'\.\/[a-z0-9-]+\.woff2'/g)) {
+      assert.ok(sizeKb(`app/fonts/${f.slice(3, -1)}`) > 5, `${f} exists`);
+    }
     assert.doesNotMatch(layout, /fonts\.googleapis\.com/);
     assert.match(layout, /<html lang="en" className=\{fontVariables\}/);
   });
@@ -106,7 +112,7 @@ describe('fonts', () => {
     assert.match(css, /--font-sans: var\(--nf-inter\), system-ui, sans-serif;/);
     for (const v of ['--nf-inter-tight', '--nf-plus-jakarta', '--nf-barlow', '--nf-libre-baskerville']) {
       assert.ok(css.includes(`var(${v})`), v);
-      assert.ok(layout.includes(`variable: "${v}"`), `${v} defined in layout`);
+      assert.ok(read('app/fonts/index.js').includes(`variable: '${v}'`), `${v} defined in app/fonts`);
     }
     assert.doesNotMatch(css, /font-family: 'Inter'|'Inter Tight'|'Plus Jakarta Sans'|'Barlow'|'Libre Baskerville'/);
   });

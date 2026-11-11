@@ -1,4 +1,4 @@
-import { IBM_Plex_Sans } from 'next/font/google';
+import { plexSans } from '../fonts';
 import AccessControl from './components/AccessControl';
 import { AccessProvider } from './context/AccessContext';
 import UpgradeGateModal from './components/access/UpgradeGateModalLazy';
@@ -12,12 +12,6 @@ import HelpLauncher from './components/shared/tour/HelpLauncher';
 
 // App typeface (owner decision 2026-10-03, docs/design/research.md). Exposed
 // as --font-plex-sans; consumed by the `font-app` token in globals.css.
-const plexSans = IBM_Plex_Sans({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  display: 'swap',
-  variable: '--font-plex-sans',
-});
 
 export const metadata = {
   title: 'Automation - LeadForGrow',

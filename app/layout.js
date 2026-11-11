@@ -3,16 +3,11 @@ import CookieConsentManager from "./components/consent/CookieConsentManager";
 import LeadForGrowWidget from "./EnquiryLazy";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
-import { Inter, Inter_Tight, Plus_Jakarta_Sans, Barlow, Libre_Baskerville } from "next/font/google";
+import { inter, interTight, plusJakarta, barlow, libreBaskerville } from "./fonts";
 
 // Self-hosted by Next at build time: no render-blocking request to Google on
 // page load, and size-matched fallbacks so text doesn't jump when fonts arrive.
 // globals.css reads these through --font-sans / --font-* tokens.
-const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--nf-inter" });
-const interTight = Inter_Tight({ subsets: ["latin"], weight: ["700", "800"], display: "swap", variable: "--nf-inter-tight", preload: false });
-const plusJakarta = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], display: "swap", variable: "--nf-plus-jakarta", preload: false });
-const barlow = Barlow({ subsets: ["latin"], weight: ["400", "500", "600", "700"], display: "swap", variable: "--nf-barlow", preload: false });
-const libreBaskerville = Libre_Baskerville({ subsets: ["latin"], weight: ["400", "700"], display: "swap", variable: "--nf-libre-baskerville", preload: false });
 const fontVariables = [inter, interTight, plusJakarta, barlow, libreBaskerville].map((f) => f.variable).join(" ");
 
 // FIXED: Clean metadata without conflicts

@@ -13,6 +13,14 @@ Related decisions: <link to DECISIONS.md entry, if any>
 
 ---
 
+## 2026-11-11 — Fonts self-hosted from local files (random build failure "next/font/google queries have exactly one entry")
+Branch: main
+Files: `app/fonts/index.js` (new, `next/font/local`), `app/fonts/*.woff2` (10 files, latin subset, ~300 KB, Google Fonts / SIL OFL), `app/layout.js`, `app/automation/layout.js`, `app/components/landing/PremiumHero.jsx`, `tests/load-performance.test.js`
+What changed: owner pasted a build error `Module not found: Can't resolve '@vercel/turbopack-next/internal/font/google/font'` … `next/font/google queries have exactly one entry` (Plus Jakarta Sans). No local Next process was running, so it was the Vercel build of 8345a3c (the Instagram fix didn't go live). Cause: next/font/google downloads fonts on every build; Google sometimes returns `/l/font?kit=…&skey=…` links and Turbopack's font loader can't parse the `&` — intermittent (a fetch just after showed normal `/s/` links). All 7 families (Inter, Inter Tight, Plus Jakarta Sans, Barlow, Libre Baskerville, IBM Plex Sans, Anton) now load from repo files with the same CSS variable names, so no CSS/className changes. Local `next build` passes (364/364 pages). Unreferenced `PremiumHero-Life.jsx` still imports next/font/google but isn't built.
+Related decisions: none.
+
+---
+
 ## 2026-11-11 — Instagram comment→DM never ran: webhook couldn't find the business
 Branch: main
 Files: `lib/instagram/account.js` (new), `app/api/webhooks/meta/route.js`, `app/api/business/settings/instagram-status/route.js`, `tests/instagram-verify-token.test.js`
