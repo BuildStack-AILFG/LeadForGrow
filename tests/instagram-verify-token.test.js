@@ -44,3 +44,18 @@ test('settings API returns the token; page shows URL with ?business= and a copya
   assert.doesNotMatch(page, /META_VERIFY_TOKEN<\/code> value set on the server/);
   assert.match(src('models/Business.js'), /verifyToken: \{ type: String \},\r?\n    profilePicture/);
 });
+
+test('Instagram account id: read from /me, stored, and used to match webhooks', async () => {
+  const { accountFieldsFromMe, fetchInstagramAccount } = await import('../lib/instagram/account.js');
+  assert.deepEqual(accountFieldsFromMe({ user_id: '17841400000000001', username: 'leadforgrow', id: '999' }), { igUserId: '17841400000000001', username: 'leadforgrow' });
+  assert.deepEqual(accountFieldsFromMe({}), {});
+  const saved = globalThis.fetch;
+  globalThis.fetch = async () => ({ ok: false, status: 400, json: async () => ({ error: { message: 'Invalid OAuth access token' } }) });
+  assert.equal((await fetchInstagramAccount('t')).error, 'Invalid OAuth access token');
+  globalThis.fetch = saved;
+  assert.equal((await fetchInstagramAccount('')).error, 'no token');
+  assert.match(src('app/api/webhooks/meta/route.js'), /'integrationCredentials\.instagram\.igUserId': pageId/);
+  const status = src('app/api/business/settings/instagram-status/route.js');
+  assert.match(status, /backfillInstagramAccount\(business, getInstagramToken\(business\)\)/);
+  assert.match(status, /igUserId: account\.igUserId \|\|/);
+});

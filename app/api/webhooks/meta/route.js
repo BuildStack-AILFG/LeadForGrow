@@ -270,6 +270,8 @@ export async function POST(req) {
         const business = await Business.findOne({
           $or: [
             { 'integrationCredentials.instagram.pageId': pageId },
+            // Instagram Login sends the Instagram account id (user_id), not a Facebook Page ID.
+            { 'integrationCredentials.instagram.igUserId': pageId },
             { 'integrationCredentials.facebookAds.pageId': pageId },
           ],
         });

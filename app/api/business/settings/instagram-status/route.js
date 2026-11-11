@@ -1,6 +1,8 @@
 import { disconnectInstagram } from '@/lib/social/disconnect';
 import { NextResponse } from 'next/server';
 import { ensureInstagramVerifyToken } from '@/lib/instagram/verifyToken';
+import { fetchInstagramAccount, backfillInstagramAccount } from '@/lib/instagram/account';
+import { getInstagramToken } from '@/lib/instagram/send';
 import { dbConnect } from '@/lib/mongodb';
 import Business from '@/models/Business';
 import { withPlanAccess } from '@/lib/accessControl';
@@ -17,6 +19,10 @@ export const GET = withPlanAccess('settings', async (req) => {
 
     const ig = business.integrationCredentials?.instagram || {};
     const fb = business.integrationCredentials?.facebookAds || {};
+    // Accounts connected before we read the account id from Meta: fill it in once so webhooks match.
+    if (ig.enabled && !ig.igUserId && !ig.disconnectedAt) {
+      Object.assign(ig, await backfillInstagramAccount(business, getInstagramToken(business)));
+    }
 
     const enabled = ig.enabled || (fb.enabled && fb.pageId);
     const instagram = {
@@ -90,6 +96,9 @@ export const PUT = withPlanAccess('settings', async (req) => {
     const business = await Business.findById(req.user.businessId);
     if (!business) return NextResponse.json({ success: false, error: 'Not found' }, { status: 404 });
 
+    // The webhook identifies the account by its Instagram account id; read it (and the username) from Meta.
+    const account = await fetchInstagramAccount(accessToken);
+
     business.integrationCredentials = business.integrationCredentials || {};
     business.integrationCredentials.instagram = {
       ...(business.integrationCredentials.instagram || {}),
@@ -99,8 +108,8 @@ export const PUT = withPlanAccess('settings', async (req) => {
       appSecret: appSecret
         ? encryptOnce(appSecret)
         : business.integrationCredentials.instagram?.appSecret || null,
-      igUserId: igUserId || business.integrationCredentials.instagram?.igUserId || null,
-      username: username || business.integrationCredentials.instagram?.username || null,
+      igUserId: account.igUserId || igUserId || business.integrationCredentials.instagram?.igUserId || null,
+      username: account.username || username || business.integrationCredentials.instagram?.username || null,
       webhookStatus: 'active',
       disconnectedAt: null,
       lastVerified: new Date(),

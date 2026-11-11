@@ -13,6 +13,14 @@ Related decisions: <link to DECISIONS.md entry, if any>
 
 ---
 
+## 2026-11-11 — Instagram comment→DM never ran: webhook couldn't find the business
+Branch: main
+Files: `lib/instagram/account.js` (new), `app/api/webhooks/meta/route.js`, `app/api/business/settings/instagram-status/route.js`, `tests/instagram-verify-token.test.js`
+What changed: owner reported comment→DM automation not working (Scaledesk; rule keyword "price" on one post, triggeredCount 0). Instagram was connected manually with a Page ID (1165751485787733); `igUserId` and `username` were empty ("@Not connected"). The shared webhook matched Instagram entries only by `instagram.pageId` / `facebookAds.pageId`, but Instagram Login webhooks carry the Instagram account id (`user_id` from graph.instagram.com/me) in `entry.id`, so events were dropped as `instagram_business_not_found` before any rule ran (no Instagram ingress row was attributed to the business; 13 WhatsApp rows were, all success — the earlier WhatsApp fix works). Now: manual connect reads `user_id` + `username` from `/me` and stores them; the status GET backfills them once for already-connected accounts; the webhook also matches `instagram.igUserId`. Not verified against a real comment yet (needs deploy + a comment from a different account than the business's own).
+Related decisions: none.
+
+---
+
 ## 2026-11-11 — Instagram: per-business webhook verify token + callback URL shown on settings
 Branch: main
 Files: `lib/instagram/verifyToken.js` (new), `models/Business.js` (`integrationCredentials.instagram.verifyToken`, encrypted), `app/api/webhooks/meta/route.js` (GET also accepts `?business=<id>` + that business's token; META_VERIFY_TOKEN still works), `app/api/business/settings/instagram-status/route.js` (GET returns `webhook: { businessId, verifyToken }`, generating the token on first view via a targeted updateOne), `app/automation/settings/instagram/page.js` (Callback URL `…/api/webhooks/meta?business=<id>` + copyable Verify token, instructions to subscribe messages + comments), `tests/instagram-verify-token.test.js` (new), `tests/webhook-urls.test.js` (anchor updated)
