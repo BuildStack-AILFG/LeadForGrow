@@ -13,6 +13,22 @@ Related decisions: <link to DECISIONS.md entry, if any>
 
 ---
 
+## 2026-11-11 — Instagram: per-business webhook verify token + callback URL shown on settings
+Branch: main
+Files: `lib/instagram/verifyToken.js` (new), `models/Business.js` (`integrationCredentials.instagram.verifyToken`, encrypted), `app/api/webhooks/meta/route.js` (GET also accepts `?business=<id>` + that business's token; META_VERIFY_TOKEN still works), `app/api/business/settings/instagram-status/route.js` (GET returns `webhook: { businessId, verifyToken }`, generating the token on first view via a targeted updateOne), `app/automation/settings/instagram/page.js` (Callback URL `…/api/webhooks/meta?business=<id>` + copyable Verify token, instructions to subscribe messages + comments), `tests/instagram-verify-token.test.js` (new), `tests/webhook-urls.test.js` (anchor updated)
+What changed: owner wanted a callback URL + verify token for Instagram like WhatsApp has. Instagram's token was only the server env `META_VERIFY_TOKEN`, invisible to clients. Each business now gets its own random token (`lfg_ig_…`, constant-time compare). POST handling is unchanged (still the shared route, events matched by Instagram account id; `?business=` is ignored there). Facebook page still uses META_VERIFY_TOKEN. Suite 783/785 (same 2 unrelated failures).
+Related decisions: none.
+
+---
+
+## 2026-11-11 — 8 LeadForGrow sales templates submitted to Meta; template sync clears stale rejection reasons
+Branch: main (UNCOMMITTED)
+Files: `app/api/automation/whatsapp-templates/sync/route.js`; data: 8 WhatsAppTemplate docs in the Scaledesk business (created via the app's own API as the logged-in owner)
+What changed: owner asked for follow-up templates for the LeadForGrow product (days 0/1/3/5/8/13 + post-demo + re-engage). Created `lfg_welcome_enquiry`, `lfg_followup_day1/3/5/8/13`, `lfg_post_demo_followup`, `lfg_reengage_lead` — MARKETING, language `en` (sequences send with `en`), only `{{1}}` = name (sequences fill unknown vars with lead name), footer with STOP opt-out, quick replies + URL buttons to /contact, /register, /pricing. Owner approved submission. The first submit loop was interrupted in the browser but kept running server-side, so a retry got Meta's "There is already English content" for 6 of them and stored it as a rejection reason; "Sync from Meta" showed all 8 PENDING at Meta. Fix: sync now clears `metaRejectionReason` when Meta reports none ('NONE'/empty). Suite 778/780 (same 2 unrelated failures).
+Related decisions: none.
+
+---
+
 ## 2026-11-11 — WhatsApp: "Sync status" now subscribes the WABA to webhooks (inbound + ticks never arrived)
 Branch: main (UNCOMMITTED)
 Files: `lib/whatsapp/webhookSubscription.js` (new), `app/api/business/settings/test-whatsapp/route.js`, `app/automation/settings/whatsapp/page.js`, `tests/whatsapp-webhook-subscription.test.js` (new)

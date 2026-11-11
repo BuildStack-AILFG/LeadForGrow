@@ -1,5 +1,6 @@
 import { disconnectInstagram } from '@/lib/social/disconnect';
 import { NextResponse } from 'next/server';
+import { ensureInstagramVerifyToken } from '@/lib/instagram/verifyToken';
 import { dbConnect } from '@/lib/mongodb';
 import Business from '@/models/Business';
 import { withPlanAccess } from '@/lib/accessControl';
@@ -37,7 +38,10 @@ export const GET = withPlanAccess('settings', async (req) => {
       commentAutomations: (ig.commentAutomations || []).map(serializeCommentRule),
     };
 
-    return NextResponse.json({ success: true, data: { instagram } });
+    // What the client pastes into Meta → Instagram → Webhooks (only users with settings access get here).
+    const webhook = { businessId: String(business._id), verifyToken: await ensureInstagramVerifyToken(business) };
+
+    return NextResponse.json({ success: true, data: { instagram, webhook } });
   } catch (error) {
     return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
   }

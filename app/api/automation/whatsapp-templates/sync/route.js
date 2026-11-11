@@ -46,7 +46,9 @@ export const POST = withPlanAccess('automation', async (req) => {
         source: existing?.source || 'imported',
         metaLastCheckedAt: new Date(),
       };
-      if (m.rejected_reason) doc.metaRejectionReason = m.rejected_reason;
+      // Meta reports 'NONE' (or nothing) when the template isn't rejected: clear a stale reason
+      // (e.g. "already English content" left by a duplicate submit) instead of showing it forever.
+      doc.metaRejectionReason = m.rejected_reason && m.rejected_reason !== 'NONE' ? m.rejected_reason : undefined;
 
       if (existing) {
         Object.assign(existing, doc);

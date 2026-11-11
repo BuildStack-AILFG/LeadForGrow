@@ -90,7 +90,7 @@ describe('pages wire the field up', () => {
   it('the Instagram and Facebook pages show the full shared URL, not a bare path', () => {
     for (const p of ['app/automation/settings/instagram/page.js', 'app/automation/settings/facebook/page.js']) {
       const src = read(p);
-      assert.ok(src.includes('<WebhookUrlField path={SHARED_WEBHOOK_PATH}'), p);
+      assert.ok(/<WebhookUrlField\s+path=\{[^}]*SHARED_WEBHOOK_PATH/.test(src), p);
       assert.ok(!/<code[^>]*>\/api\/webhooks\/meta<\/code>/.test(src), `${p} still shows a bare relative path`);
     }
   });

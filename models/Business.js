@@ -339,6 +339,8 @@ const IntegrationCredentialsSchema = new mongoose.Schema({
     // app's webhooks with it; without it inbound Instagram events are rejected.
     // ENCRYPTED at rest, never returned to the client.
     appSecret: { type: String },
+    // Per-business webhook verify token (lib/instagram/verifyToken.js), ENCRYPTED at rest.
+    verifyToken: { type: String },
     profilePicture: { type: String },
     lastSyncAt: { type: Date },
     lastVerified: { type: Date },

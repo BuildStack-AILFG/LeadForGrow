@@ -8,6 +8,7 @@ import { leadManager } from '@/lib/automation/leadManager';
 import { processLeadgenPayload, findBusinessByMetaPageId } from '@/lib/meta/leadgenHandler';
 import { resolveMetaAdsCredentials } from '@/lib/meta/credentials';
 import { metaLog } from '@/lib/meta/logger';
+import { matchesBusinessInstagramToken } from '@/lib/instagram/verifyToken';
 import {
   recordMetaWebhookIngress,
   finalizeMetaWebhookIngress,
@@ -55,6 +56,16 @@ export async function GET(req) {
   if (mode === 'subscribe' && token === process.env.META_VERIFY_TOKEN) {
     metaLog('Webhook Generic', 'Verification successful (META_VERIFY_TOKEN)');
     return new Response(challenge, { status: 200 });
+  }
+
+  // Per-business token: the callback URL shown on Settings → Instagram carries ?business=<id>.
+  const businessId = searchParams.get('business');
+  if (mode === 'subscribe' && businessId) {
+    await dbConnect();
+    if (await matchesBusinessInstagramToken(businessId, token)) {
+      metaLog('Webhook Generic', `Verification successful (business ${businessId} Instagram token)`);
+      return new Response(challenge, { status: 200 });
+    }
   }
 
   return new Response('Forbidden', { status: 403 });

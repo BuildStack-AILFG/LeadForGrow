@@ -100,6 +100,43 @@ function WebhookEvents({ connected }) {
   );
 }
 
+/** Read-only value with a Copy button (the business's own webhook verify token). */
+function CopyValueField({ label, value }) {
+  const [copied, setCopied] = useState(false);
+  const copy = async () => {
+    if (!value) return;
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {
+      // Clipboard blocked: the value is selectable in the box.
+    }
+  };
+  return (
+    <div className="space-y-2">
+      <label className="block text-xs font-medium text-fg-secondary dark:text-fg-tertiary">{label}</label>
+      <div className="flex items-stretch gap-2">
+        <input
+          readOnly
+          value={value || 'Loading…'}
+          onFocus={(e) => e.target.select()}
+          aria-label={label}
+          className="flex-1 min-w-0 px-3 py-2 text-xs font-mono border border-line dark:border-slate-700 rounded bg-subtle dark:bg-slate-800 text-fg dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-focus"
+        />
+        <button
+          type="button"
+          onClick={copy}
+          disabled={!value}
+          className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium border border-line dark:border-slate-700 rounded-md bg-canvas dark:bg-slate-900 text-fg-secondary dark:text-slate-200 hover:bg-subtle dark:hover:bg-slate-800 disabled:opacity-50"
+        >
+          {copied ? 'Copied' : 'Copy'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function InstagramSettingsPage() {
   const confirm = useConfirm();
   const [status, setStatus] = useState(null);
@@ -245,9 +282,17 @@ export default function InstagramSettingsPage() {
               <li>Instagram connected to a Facebook Page</li>
             </ul>
             <div className="mt-3">
-              <WebhookUrlField path={SHARED_WEBHOOK_PATH} label="Webhook Callback URL">
-                <p className="text-meta">Paste it in Meta → Instagram → Webhooks. Verify token: the <code className="text-meta">META_VERIFY_TOKEN</code> value set on the server.</p>
-              </WebhookUrlField>
+              <WebhookUrlField
+                path={status?.webhook?.businessId ? `${SHARED_WEBHOOK_PATH}?business=${status.webhook.businessId}` : SHARED_WEBHOOK_PATH}
+                label="Webhook Callback URL"
+              />
+              <div className="mt-3">
+                <CopyValueField label="Verify token" value={status?.webhook?.verifyToken || ''} />
+                <p className="text-meta mt-2">
+                  In Meta → your app → Instagram → Webhooks, paste the Callback URL and this Verify token, click
+                  Verify and save, then subscribe to <code className="text-meta">messages</code> and <code className="text-meta">comments</code>.
+                </p>
+              </div>
             </div>
           </div>
 
