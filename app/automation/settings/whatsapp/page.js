@@ -58,7 +58,11 @@ export default function WhatsAppSettingsPage() {
         body: JSON.stringify({ verifyOnly: true }),
       });
       const data = await res.json();
-      if (data.success) { toast.success('Sync complete'); load(); }
+      if (data.success) {
+        toast.success(data.message || 'Sync complete');
+        if (data.warning) toast.error(data.warning, { duration: 10000 });
+        load();
+      }
       else toast.error(data.error || 'Sync failed');
     } catch {
       toast.error('Sync failed');

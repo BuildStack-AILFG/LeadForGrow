@@ -4,6 +4,8 @@ import Business from '@/models/Business';
 import { withPlanAccess } from '@/lib/accessControl';
 import { decryptMaybe } from '@/lib/encryption';
 import { resolveVerifySettings, metaPhoneFields } from '@/lib/whatsapp/verifySettings';
+import { ensureWabaSubscription } from '@/lib/whatsapp/webhookSubscription';
+import { businessWebhookPath, joinWebhookUrl, isPublicHttpsOrigin } from '@/lib/meta/webhookUrls';
 
 /**
  * POST /api/business/settings/test-whatsapp
@@ -128,8 +130,11 @@ export const POST = withPlanAccess('settings', async (req) => {
           }, { status: response.status });
         }
 
+        // Without a WABA subscription Meta never sends incoming messages or delivery ticks.
+        const webhook = await subscribeWebhooks(req, user.businessId, whatsappSettings);
+
         // Refresh what Meta reports about the number (quality rating, display number) together with the verification.
-        return await markSuccess(user.businessId, { ...whatsappSettings, ...metaPhoneFields(data) }, 'meta');
+        return await markSuccess(user.businessId, { ...whatsappSettings, ...metaPhoneFields(data) }, 'meta', webhook);
 
       } catch (fetchError) {
         return NextResponse.json({ success: false, error: 'CONNECTION ERROR: Unable to reach Meta API.' }, { status: 500 });
@@ -175,7 +180,31 @@ export const POST = withPlanAccess('settings', async (req) => {
   }
 });
 
-async function markSuccess(businessId, settings, provider) {
+/** Public origin of this deployment. The apex domain answers 308 and Meta does not follow redirects. */
+function publicOrigin(req) {
+  const host = (req.headers.get('x-forwarded-host') || req.headers.get('host') || '').split(',')[0].trim();
+  const proto = (req.headers.get('x-forwarded-proto') || 'https').split(',')[0].trim();
+  const fixedHost = host === 'leadforgrow.com' ? 'www.leadforgrow.com' : host;
+  return `${proto}://${fixedHost}`;
+}
+
+async function subscribeWebhooks(req, businessId, settings) {
+  const origin = publicOrigin(req);
+  // Never point a live WABA at a dev machine: syncing from localhost would steal production's events.
+  if (!isPublicHttpsOrigin(origin)) {
+    return { state: 'skipped', error: `Webhooks not subscribed: Meta cannot reach ${origin}.` };
+  }
+  const result = await ensureWabaSubscription({
+    wabaId: settings.businessAccountId,
+    token: decryptMaybe(settings.apiKey),
+    callbackUrl: joinWebhookUrl(origin, businessWebhookPath(businessId)),
+    verifyToken: settings.verifyToken ? decryptMaybe(settings.verifyToken) : '',
+  });
+  console.log(`[TestWhatsApp] WABA webhook subscription for ${businessId}: ${result.state}${result.error ? ` - ${result.error}` : ''}`);
+  return result;
+}
+
+async function markSuccess(businessId, settings, provider, webhook = null) {
   const business = await Business.findById(businessId);
   if (business) {
     business.set('integrationHealth.whatsapp', {
@@ -198,8 +227,12 @@ async function markSuccess(businessId, settings, provider) {
     await business.save();
   }
 
+  const webhookOk = !webhook || webhook.state === 'ok' || webhook.state === 'subscribed';
   return NextResponse.json({
     success: true,
     message: `${provider === 'meta' ? 'Meta' : 'Interakt'} connection verified successfully!`
+      + (webhook?.state === 'subscribed' ? ' Incoming messages are now switched on.' : ''),
+    webhook,
+    warning: webhookOk ? null : webhook.error
   });
 }

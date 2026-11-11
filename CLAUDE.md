@@ -13,6 +13,14 @@ Related decisions: <link to DECISIONS.md entry, if any>
 
 ---
 
+## 2026-11-11 — WhatsApp: "Sync status" now subscribes the WABA to webhooks (inbound + ticks never arrived)
+Branch: main (UNCOMMITTED)
+Files: `lib/whatsapp/webhookSubscription.js` (new), `app/api/business/settings/test-whatsapp/route.js`, `app/automation/settings/whatsapp/page.js`, `tests/whatsapp-webhook-subscription.test.js` (new)
+What changed: owner reported (Scaledesk workspace, +91 63064 59752, business 6af3533089edcd6ae76581f3) that inbox messages don't reach the customer and customer replies never show up. Checked live in Chrome as the owner: the only message (template `3p_direct_integration_test_template`, 10 Nov 18:45 UTC) was accepted by Meta (has a wamid) but stayed at "sent" — no delivered/read status ever arrived — and `/api/integrations/meta-ads/webhook-debug` shows 0 ingress rows for this business (the per-business route records every POST, even bad signatures), so Meta has never called `/api/webhooks/meta/<businessId>`. Nothing in the code ever called `POST /{waba-id}/subscribed_apps`; WhatsApp only delivers webhooks for a WABA that subscribed the app, so this was a manual Meta step clients miss. "Sync status" (test-whatsapp, meta branch) now checks `GET /{waba}/subscribed_apps` and, unless it already points here, POSTs with `override_callback_uri` = this business's webhook URL (www host — apex answers 308) + its saved verify token, so several clients can share one Meta app. Skipped when the request origin isn't public https (syncing from localhost must not steal production events). Failures are returned as `warning` and shown as a toast; connection check itself still succeeds. Not verified against Meta: a direct read-only DB/Meta check was blocked by the permission classifier, so the WABA's actual subscription state and whether `businessAccountId` is saved were not confirmed. Needs deploy, then press Sync status on Settings → WhatsApp. 6 new tests; suite 778/780 (2 failures are unrelated landing-image/WhatsApp-icon tests from recent site commits).
+Related decisions: none.
+
+---
+
 ## 2026-10-04 — Small logo mark on the public navbar
 Branch: main (UNCOMMITTED)
 Files: `app/components/landing/LandingNavbar.jsx`
