@@ -362,7 +362,8 @@ const IntegrationCredentialsSchema = new mongoose.Schema({
       id: { type: String },
       name: { type: String },                                   // optional label
       keywords: [{ type: String }],                             // any-of match
-      matchType: { type: String, enum: ['contains', 'exact'], default: 'contains' },
+      // 'any' = every comment triggers (no keyword needed)
+      matchType: { type: String, enum: ['contains', 'exact', 'any'], default: 'contains' },
       // Post scope: 'all' | 'specific' | 'next'. Deliberately NO schema default —
       // rules saved before scopes existed derive it (mediaId set ⇒ specific). See
       // lib/automation/postScope.js.
@@ -382,6 +383,25 @@ const IntegrationCredentialsSchema = new mongoose.Schema({
       enabled: { type: Boolean, default: true },
       triggeredCount: { type: Number, default: 0 },
       createdAt: { type: Date, default: Date.now },
+    }],
+    // DM auto-reply rules: when someone DMs the account, reply automatically —
+    // to a keyword, or to any message (with a per-conversation cool-down so a chatty
+    // customer gets one auto-reply, not one per message). Fixed text or AI-written.
+    // See lib/instagram/dmAutomation.js and lib/automation/dmRules.js.
+    dmAutomations: [{
+      id: { type: String },
+      name: { type: String },
+      trigger: { type: String, enum: ['keyword', 'any'], default: 'keyword' },
+      keywords: [{ type: String }],
+      matchType: { type: String, enum: ['contains', 'exact'], default: 'contains' },
+      replyMode: { type: String, enum: ['static', 'ai'], default: 'static' },
+      message: { type: String },                                // fixed reply ({a|b} / ||| variations)
+      aiInstruction: { type: String },                          // guidance for AI replies
+      cooldownMinutes: { type: Number, default: 720 },          // 'any' rules: min gap per conversation
+      enabled: { type: Boolean, default: true },
+      triggeredCount: { type: Number, default: 0 },
+      createdAt: { type: Date, default: Date.now },
+      updatedAt: { type: Date },
     }],
   },
 
