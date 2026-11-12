@@ -7,7 +7,16 @@ import cx from './cx';
  */
 export default function PageHeader({ title, description, actions, tabs, meta, className }) {
   return (
-    <header className={cx('border-b border-line bg-canvas px-6', tabs ? 'pt-5' : 'py-5', className)}>
+    <header
+      className={cx(
+        'relative border-b border-line bg-canvas px-6',
+        // faint gold glow top-right + green→gold hairline at the bottom
+        'bg-[radial-gradient(420px_140px_at_100%_0%,var(--gold-subtle),transparent_70%)]',
+        'after:absolute after:inset-x-0 after:-bottom-px after:h-px after:bg-[linear-gradient(90deg,var(--accent)_0%,var(--gold)_35%,transparent_80%)] after:opacity-60 after:content-[""]',
+        tabs ? 'pt-5' : 'py-5',
+        className
+      )}
+    >
       <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
         <div className="min-w-0">
           <div className="flex items-center gap-2">

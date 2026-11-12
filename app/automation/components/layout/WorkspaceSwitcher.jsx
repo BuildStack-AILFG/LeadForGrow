@@ -53,14 +53,14 @@ export default function WorkspaceSwitcher({ workspace, plan, displayName, email,
             focusRing
           )}
         >
-          <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent text-body font-semibold text-white">
+          <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[linear-gradient(135deg,#2F7D66_0%,#1D4B3E_70%)] text-body font-semibold text-white ring-2 ring-gold/70 ring-offset-1 ring-offset-canvas">
             {initial}
           </span>
           {!collapsed && (
             <>
               <span className="min-w-0 flex-1 text-left">
                 <span className="block truncate text-body font-semibold text-fg">{workspace}</span>
-                <span className="block truncate text-meta font-semibold text-fg-tertiary">{plan ? `${plan} plan` : roleLabel}</span>
+                <span className={cx('block truncate text-meta font-semibold', plan ? 'text-gold-fg' : 'text-fg-tertiary')}>{plan ? `${plan} plan` : roleLabel}</span>
               </span>
               <ChevronDown className="h-4 w-4 shrink-0 text-fg-tertiary" strokeWidth={1.75} aria-hidden />
             </>

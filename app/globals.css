@@ -127,6 +127,16 @@
   --danger:  #B4372F;  --danger-subtle:  #FBE9E7;
   --info:    #2D5F8A;  --info-subtle:    #E6EEF6;
 
+  /* Gold — the brand's second colour (owner, 2026-11-12: "green + gold").
+     Used sparingly for highlights: active-nav marker, plan/premium badges, key
+     numbers, accents on headers and metric strips. Never a large fill.
+     gold-text #8A6114 is 6.1:1 on white and 5.4:1 on gold-subtle. */
+  --gold: #C8922E;
+  --gold-hover: #B5821F;
+  --gold-subtle: #FBF3E2;
+  --gold-line: #EED9AE;
+  --gold-text: #8A6114;
+
   /* Pipeline stage chips — muted, ordered; small dots/chips only, never fills. */
   --stage-1: #6B7A8F;  --stage-2: #4F7CA8;  --stage-3: #5C8F8A;  --stage-4: #7A8B4F;
   --stage-5: #A08040;  --stage-6: #A0664F;  --stage-7: #8A5F86;  --stage-8: #6F6A9A;
@@ -167,6 +177,12 @@
   --color-danger-subtle: var(--danger-subtle);
   --color-info: var(--info);
   --color-info-subtle: var(--info-subtle);
+
+  --color-gold: var(--gold);
+  --color-gold-hover: var(--gold-hover);
+  --color-gold-subtle: var(--gold-subtle);
+  --color-gold-line: var(--gold-line);
+  --color-gold-fg: var(--gold-text);
 
   --color-stage-1: var(--stage-1); --color-stage-2: var(--stage-2);
   --color-stage-3: var(--stage-3); --color-stage-4: var(--stage-4);
@@ -213,6 +229,12 @@
   --warning: #E0A852;  --warning-subtle: #33270F;
   --danger:  #F08A80;  --danger-subtle:  #3A1A17;
   --info:    #7FB1DE;  --info-subtle:    #152535;
+
+  --gold: #D9A441;
+  --gold-hover: #E4B45A;
+  --gold-subtle: #2E2412;
+  --gold-line: #5A4520;
+  --gold-text: #E8C27A;
 
   --shadow-popover: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--border);
   --shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--border);

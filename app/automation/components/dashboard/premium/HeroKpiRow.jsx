@@ -25,7 +25,10 @@ function KpiCard({
       className="lfg-fade-up h-full min-h-[96px] flex flex-col justify-between"
       style={{ animationDelay: `${index * 50}ms` }}
     >
-      <p className="text-meta font-normal text-fg-secondary dark:text-fg-disabled leading-none truncate">{label}</p>
+      <p className="flex items-center gap-1.5 text-meta font-normal text-fg-secondary dark:text-fg-disabled leading-none truncate">
+        <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${index % 2 ? 'bg-gold' : 'bg-accent'}`} aria-hidden />
+        {label}
+      </p>
 
       <div className="mt-2 flex items-center gap-1 min-w-0 flex-wrap">
         <p className="text-title font-medium text-fg dark:text-slate-100 leading-none tracking-[-0.02em] tabular-nums truncate">

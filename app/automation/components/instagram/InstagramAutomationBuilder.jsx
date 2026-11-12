@@ -23,7 +23,7 @@ const NEW_DM = {
 };
 
 const AI_BADGE = (
-  <span className="ml-1 inline-flex items-center gap-0.5 rounded-full bg-[#F3EEFF] px-1.5 py-px text-[10px] font-semibold text-[#6D3FD1]">
+  <span className="ml-1 inline-flex items-center gap-0.5 rounded-full bg-gold-subtle px-1.5 py-px text-[10px] font-semibold text-gold-fg">
     <Sparkles className="h-2.5 w-2.5" /> AI
   </span>
 );

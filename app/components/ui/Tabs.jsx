@@ -25,7 +25,7 @@ export default function Tabs({ tabs, value, onChange, className, ariaLabel }) {
         const selected = t.value === value;
         const cls = cx(
           '-mb-px inline-flex h-9 items-center gap-1.5 border-b-2 text-body transition-colors duration-[var(--duration-fast)]',
-          selected ? 'border-accent font-medium text-fg' : 'border-transparent text-fg-secondary hover:text-fg',
+          selected ? 'border-gold font-medium text-fg' : 'border-transparent text-fg-secondary hover:text-fg',
           focusRing
         );
         const content = (

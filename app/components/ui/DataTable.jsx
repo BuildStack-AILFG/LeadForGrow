@@ -49,7 +49,7 @@ export function Th({ align = 'left', sticky = false, sort, onSort, width, classN
       aria-sort={sort === 'asc' ? 'ascending' : sort === 'desc' ? 'descending' : undefined}
       style={width ? { width } : undefined}
       className={cx(
-        'h-9 whitespace-nowrap border-b border-line bg-subtle px-3 text-dense font-medium text-fg-secondary first:pl-6 last:pr-6',
+        'h-9 whitespace-nowrap border-b border-line bg-[color-mix(in_srgb,var(--accent-subtle)_70%,var(--bg-app))] px-3 text-dense font-medium text-fg-secondary first:pl-6 last:pr-6',
         align === 'right' ? 'text-right' : align === 'center' ? 'text-center' : 'text-left',
         sticky && 'sticky left-0 z-[3] shadow-[inset_-1px_0_0_var(--color-line)]',
         className

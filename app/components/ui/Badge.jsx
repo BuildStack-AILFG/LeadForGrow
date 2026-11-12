@@ -2,7 +2,7 @@ import cx from './cx';
 
 /**
  * Badge / Chip — small status label. Colour always paired with text.
- * tone: neutral · accent · success · warning · danger · info
+ * tone: neutral · accent · gold · success · warning · danger · info
  * `dot` shows a leading dot (status chips); `stageColor` overrides the dot
  * with a pipeline stage colour (e.g. 'var(--stage-3)' or a stage's own hex).
  * `count` style = tertiary on muted, for nav/tab counts.
@@ -10,6 +10,7 @@ import cx from './cx';
 const TONES = {
   neutral: 'bg-muted text-fg-secondary',
   accent: 'bg-accent-subtle text-accent-fg',
+  gold: 'bg-gold-subtle text-gold-fg',
   success: 'bg-success-subtle text-success',
   warning: 'bg-warning-subtle text-warning',
   danger: 'bg-danger-subtle text-danger',
@@ -19,6 +20,7 @@ const TONES = {
 const DOTS = {
   neutral: 'bg-fg-tertiary',
   accent: 'bg-accent',
+  gold: 'bg-gold',
   success: 'bg-success',
   warning: 'bg-warning',
   danger: 'bg-danger',

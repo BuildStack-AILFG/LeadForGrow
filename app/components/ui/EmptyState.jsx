@@ -11,7 +11,7 @@ export default function EmptyState({ icon: Icon, title, description, action, sec
   return (
     <div className={cx('flex flex-col items-center justify-center text-center', compact ? 'px-4 py-8' : 'px-6 py-16', className)}>
       {Icon && (
-        <span className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-md border border-line text-fg-tertiary">
+        <span className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg border border-accent/15 bg-accent-subtle text-accent-fg">
           <Icon className="h-4 w-4" strokeWidth={1.5} aria-hidden />
         </span>
       )}

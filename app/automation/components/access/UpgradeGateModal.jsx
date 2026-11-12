@@ -39,8 +39,8 @@ export default function UpgradeGateModal() {
             >
               <X className="w-4 h-4" />
             </button>
-            <div className="w-14 h-14 rounded-lg bg-accent-subtle dark:bg-indigo-950/50 flex items-center justify-center mb-5">
-              <Lock className="w-7 h-7 text-accent-fg dark:text-accent-fg" />
+            <div className="w-14 h-14 rounded-lg bg-gold-subtle border border-gold-line flex items-center justify-center mb-5">
+              <Lock className="w-7 h-7 text-gold-fg" />
             </div>
             <h2 className="text-title font-semibold text-fg dark:text-slate-50 mb-2">
               Upgrade to {tier.name}
@@ -53,7 +53,7 @@ export default function UpgradeGateModal() {
             <ul className="space-y-2 mb-8">
               {tier.perks.map((p) => (
                 <li key={p} className="flex items-center gap-2 text-sm text-fg-secondary dark:text-fg-disabled">
-                  <Sparkles className="w-4 h-4 text-accent-fg flex-shrink-0" />
+                  <Sparkles className="w-4 h-4 text-gold flex-shrink-0" />
                   {p}
                 </li>
               ))}

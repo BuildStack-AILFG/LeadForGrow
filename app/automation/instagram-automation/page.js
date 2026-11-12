@@ -193,7 +193,7 @@ export default function InstagramAutomationsPage() {
             icon={Zap}
             accent="bg-[linear-gradient(135deg,#2F7D66_0%,#1D4B3E_100%)]"
             title="DM auto-reply"
-            badge={<span className="inline-flex items-center gap-0.5 rounded-full bg-[#F3EEFF] px-1.5 py-px text-[10px] font-semibold text-[#6D3FD1]"><Sparkles className="h-2.5 w-2.5" /> AI</span>}
+            badge={<span className="inline-flex items-center gap-0.5 rounded-full bg-gold-subtle px-1.5 py-px text-[10px] font-semibold text-gold-fg"><Sparkles className="h-2.5 w-2.5" /> AI</span>}
             desc="Answer DMs instantly, by keyword or AI"
             points={['Reply to keywords like “price” or “booking”', 'Or answer every new DM, once per person', 'Pauses when your team takes over the chat']}
           />
@@ -212,7 +212,7 @@ export default function InstagramAutomationsPage() {
               >
                 {label}
                 <span className="ml-1.5 rounded-full bg-muted px-1.5 text-[11px] tabular-nums text-fg-secondary">{data?.[id]?.length ?? 0}</span>
-                {tab === id && <span className="absolute inset-x-2 -bottom-px h-0.5 rounded-full bg-brand" />}
+                {tab === id && <span className="absolute inset-x-2 -bottom-px h-0.5 rounded-full bg-gold" />}
               </button>
             ))}
           </div>

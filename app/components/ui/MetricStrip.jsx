@@ -31,7 +31,9 @@ export default function MetricStrip({ metrics, loading = false, className }) {
   return (
     <dl
       className={cx(
-        'grid overflow-hidden rounded-lg border border-line bg-canvas',
+        'relative grid overflow-hidden rounded-lg border border-line bg-canvas',
+        // thin brand edge: green → gold
+        'before:absolute before:inset-x-0 before:top-0 before:h-[2px] before:bg-[linear-gradient(90deg,var(--accent),var(--gold))] before:content-[""]',
         'grid-cols-2 sm:grid-cols-3 xl:[grid-template-columns:repeat(var(--cols),minmax(0,1fr))]',
         '[&>div]:border-line [&>div]:px-4 [&>div]:py-3 xl:[&>div:not(:first-child)]:border-l',
         className
@@ -46,7 +48,10 @@ export default function MetricStrip({ metrics, loading = false, className }) {
           </div>
         ) : (
           <div key={m.label} className="min-w-0">
-            <dt className="truncate text-meta text-fg-tertiary">{m.label}</dt>
+            <dt className="flex items-center gap-1.5 truncate text-meta text-fg-tertiary">
+              <span className={cx('h-1.5 w-1.5 shrink-0 rounded-full', i % 2 ? 'bg-gold' : 'bg-accent')} aria-hidden />
+              {m.label}
+            </dt>
             <dd className="mt-1 flex items-baseline gap-2">
               <span className="text-page font-semibold text-fg tabular">{m.value}</span>
               {m.delta && (

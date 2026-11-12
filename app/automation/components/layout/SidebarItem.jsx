@@ -10,7 +10,7 @@ import cx, { focusRing } from '@/app/components/ui/cx';
  * Nav item — owner's reference style (2026-10-03 screenshot):
  *   rest:   black text, green icon, full-width row
  *   hover:  mint row
- *   active: solid brand green row edge-to-edge, white text + icon
+ *   active: solid brand green row edge-to-edge, white text, gold icon + gold edge marker
  * Exactly one row is active at a time (resolved centrally, passed as `active`).
  */
 export default function SidebarItem({ item, active, collapsed, badgeCount, onNavigate, onLockedClick }) {
@@ -28,13 +28,13 @@ export default function SidebarItem({ item, active, collapsed, badgeCount, onNav
           type="button"
           onClick={() => onLockedClick?.(item.name, item.requiredTier || 'growth')}
           aria-label={collapsed ? `${item.name} (upgrade to unlock)` : undefined}
-          className={cx(row, 'text-fg-disabled hover:bg-accent-subtle')}
+          className={cx(row, 'text-fg-disabled hover:bg-gold-subtle')}
         >
           <Icon className="h-[18px] w-[18px] shrink-0" strokeWidth={1.75} aria-hidden />
           {!collapsed && (
             <>
               <span className="flex-1 truncate text-left">{item.name}</span>
-              <Lock className="h-3.5 w-3.5 shrink-0" strokeWidth={1.75} aria-label="Locked" />
+              <Lock className="h-3.5 w-3.5 shrink-0 text-gold" strokeWidth={1.75} aria-label="Locked" />
             </>
           )}
         </button>
@@ -51,8 +51,9 @@ export default function SidebarItem({ item, active, collapsed, badgeCount, onNav
         aria-label={collapsed ? item.name : undefined}
         className={cx(row, active ? 'bg-accent text-white' : 'text-fg hover:bg-accent-subtle')}
       >
+        {active && !collapsed && <span className="absolute inset-y-0 left-0 w-[3px] bg-gold" aria-hidden />}
         <span className="relative inline-flex shrink-0">
-          <Icon className={cx('h-[18px] w-[18px]', active ? 'text-white' : 'text-accent')} strokeWidth={1.75} aria-hidden />
+          <Icon className={cx('h-[18px] w-[18px]', active ? 'text-[#E8C27A]' : 'text-accent')} strokeWidth={1.75} aria-hidden />
           {collapsed && <NotificationBadge count={badgeCount} collapsed />}
         </span>
         {!collapsed && (
