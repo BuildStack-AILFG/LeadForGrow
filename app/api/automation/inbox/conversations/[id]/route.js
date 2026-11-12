@@ -6,6 +6,7 @@ import Task from '@/models/automation/Task';
 import MeetingBooking from '@/models/meetings/MeetingBooking';
 import Activity from '@/models/automation/Activity';
 import { withPermissions } from '@/lib/rbac';
+import { resolveTaskScopeForUser, taskOwnerFilter } from '@/lib/crm/taskVisibility';
 import { markConversationRead } from '@/lib/omnichannel/conversationService';
 
 async function getHandler(req, { params }) {
@@ -31,7 +32,7 @@ async function getHandler(req, { params }) {
     const [messages, tasks, meetings, activities, previousConversations] = await Promise.all([
       Message.find({ conversationId: id }).sort({ timestamp: 1 }).limit(200).lean(),
       leadId
-        ? Task.find({ businessId: user.businessId, leadId, status: { $ne: 'completed' } }).limit(10).lean()
+        ? Task.find({ businessId: user.businessId, ...taskOwnerFilter(await resolveTaskScopeForUser(user)), leadId, status: { $ne: 'completed' } }).limit(10).lean()
         : [],
       leadId
         ? MeetingBooking.find({

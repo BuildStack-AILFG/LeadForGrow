@@ -30,6 +30,8 @@ export function useTasksWorkspace() {
   const [search, setSearch] = useState('');
   const [leads, setLeads] = useState([]);
   const [teamMembers, setTeamMembers] = useState([]);
+  // Agents (sales / support) only see and create their own tasks — the server says which.
+  const [ownOnly, setOwnOnly] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showRescheduleModal, setShowRescheduleModal] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
@@ -43,7 +45,10 @@ export function useTasksWorkspace() {
       setError('');
       const res = await authFetch(`/api/automation/tasks?filter=${filter}`);
       const data = await res.json();
-      if (data.success) setTasks(data.data || []);
+      if (data.success) {
+        setTasks(data.data || []);
+        setOwnOnly(!!data.scope?.ownOnly);
+      }
       else setError(data.error || 'Failed to load tasks');
     } catch {
       setError('Failed to load tasks');
@@ -58,7 +63,10 @@ export function useTasksWorkspace() {
     try {
       const res = await authFetch('/api/automation/tasks?counts=1');
       const data = await res.json();
-      if (data.success) setCounts(data.data);
+      if (data.success) {
+        setCounts(data.data);
+        setOwnOnly(!!data.scope?.ownOnly);
+      }
     } catch {
       /* non-critical */
     }
@@ -107,6 +115,14 @@ export function useTasksWorkspace() {
       }));
     }
   }, [showCreateModal, fetchLeads, fetchTeam]);
+
+  // An agent can only assign a task to themselves, so the picker shows just them.
+  const assignableMembers = useMemo(() => {
+    if (!ownOnly) return teamMembers;
+    const me = typeof window !== 'undefined' ? localStorage.getItem('userid') : null;
+    const self = teamMembers.filter((m) => String(m._id) === String(me));
+    return self.length ? self : me ? [{ _id: me, firstName: 'Me', lastName: '', email: '' }] : [];
+  }, [ownOnly, teamMembers]);
 
   const refresh = useCallback(async () => {
     await Promise.all([fetchTasks(true), fetchCounts()]);
@@ -250,7 +266,8 @@ export function useTasksWorkspace() {
     search,
     setSearch,
     leads,
-    teamMembers,
+    teamMembers: assignableMembers,
+    ownOnly,
     showCreateModal,
     setShowCreateModal,
     showRescheduleModal,

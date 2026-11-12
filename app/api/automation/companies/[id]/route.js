@@ -9,6 +9,7 @@ import Task from '@/models/automation/Task';
 import Lead from '@/models/automation/Lead';
 import MeetingBooking from '@/models/meetings/MeetingBooking';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
+import { resolveTaskScopeForTenant, taskOwnerFilter } from '@/lib/crm/taskVisibility';
 import { logTimelineEvent, getEntityTimeline } from '@/lib/crm/timeline';
 import { buildCompanySummary } from '@/lib/crm/companyService';
 import { serverErrorMessage } from '@/lib/api/serverError';
@@ -50,7 +51,7 @@ export const GET = withTenantAuth(async (request, { params }) => {
         { $match: { businessId: tenant.business._id, companyId: company._id, archived: false } },
         { $group: { _id: '$stage', count: { $sum: 1 }, totalValue: { $sum: '$amount' } } },
       ]),
-      Task.find({ businessId: tenant.business._id, companyId: id, status: 'pending' })
+      Task.find({ businessId: tenant.business._id, ...taskOwnerFilter(await resolveTaskScopeForTenant(tenant)), companyId: id, status: 'pending' })
         .populate('assignedTo', 'firstName lastName email')
         .sort({ dueDate: 1 })
         .limit(20)

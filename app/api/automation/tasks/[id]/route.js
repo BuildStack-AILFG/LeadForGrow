@@ -4,6 +4,7 @@ import Task from '@/models/automation/Task';
 import Activity from '@/models/automation/Activity';
 import mongoose from 'mongoose';
 import { withPlanAccess } from '@/lib/accessControl';
+import { resolveTaskScopeForUser, taskOwnerFilter } from '@/lib/crm/taskVisibility';
 
 // PUT - Update task
 export const PUT = withPlanAccess('tasks', async (req, { params }) => {
@@ -15,7 +16,8 @@ export const PUT = withPlanAccess('tasks', async (req, { params }) => {
     const body = await req.json();
     const { performedBy, status, dueDate, notes, autoSend, messageContent } = body;
 
-    const task = await Task.findOne({ _id: id, businessId });
+    const scope = await resolveTaskScopeForUser(user);
+    const task = await Task.findOne({ _id: id, businessId, ...taskOwnerFilter(scope) });
     if (!task) {
       return NextResponse.json({ success: false, error: 'Task not found' }, { status: 404 });
     }
@@ -63,7 +65,8 @@ export const DELETE = withPlanAccess('tasks', async (req, { params }) => {
     const user = req.user;
     const businessId = user.businessId;
 
-    const task = await Task.findOneAndDelete({ _id: id, businessId });
+    const scope = await resolveTaskScopeForUser(user);
+    const task = await Task.findOneAndDelete({ _id: id, businessId, ...taskOwnerFilter(scope) });
     if (!task) return NextResponse.json({ success: false, error: 'Not found' }, { status: 404 });
 
     return NextResponse.json({ success: true, message: 'Task deleted' });

@@ -6,6 +6,7 @@ import Task from '@/models/automation/Task';
 import CrmNote from '@/models/automation/CrmNote';
 import CrmAttachment from '@/models/automation/CrmAttachment';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
+import { resolveTaskScopeForTenant, taskOwnerFilter } from '@/lib/crm/taskVisibility';
 import { logTimelineEvent } from '@/lib/crm/timeline';
 import { getEntityTimeline } from '@/lib/crm/timeline';
 import { findDuplicateContacts } from '@/lib/crm/duplicateDetection';
@@ -31,7 +32,7 @@ export const GET = withTenantAuth(async (request, { params }) => {
     const [timeline, deals, tasks, notes, attachments] = await Promise.all([
       getEntityTimeline(tenant.business._id, 'contact', id, { limit: 30 }),
       Deal.find({ businessId: tenant.business._id, contactId: id, archived: false }).limit(10).lean(),
-      Task.find({ businessId: tenant.business._id, contactId: id, status: { $ne: 'cancelled' } }).sort({ dueDate: 1 }).limit(10).lean(),
+      Task.find({ businessId: tenant.business._id, ...taskOwnerFilter(await resolveTaskScopeForTenant(tenant)), contactId: id, status: { $ne: 'cancelled' } }).sort({ dueDate: 1 }).limit(10).lean(),
       CrmNote.find({ businessId: tenant.business._id, entityType: 'contact', entityId: id, deletedAt: null }).sort({ pinned: -1, createdAt: -1 }).lean(),
       CrmAttachment.find({ businessId: tenant.business._id, entityType: 'contact', entityId: id, deletedAt: null }).sort({ createdAt: -1 }).lean(),
     ]);

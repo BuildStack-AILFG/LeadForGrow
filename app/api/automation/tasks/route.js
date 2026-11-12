@@ -3,6 +3,7 @@ import Task from '@/models/automation/Task';
 import Lead from '@/models/automation/Lead';
 import { NextResponse } from 'next/server';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
+import { resolveTaskScopeForTenant } from '@/lib/crm/taskVisibility';
 
 /** Pending tasks returned per request — enough for any screen, bounded for big teams. */
 const TASK_LIST_LIMIT = 500;
@@ -26,9 +27,11 @@ export const GET = withTenantAuth(async (request) => {
 
     const query = { businessId: business._id, status: 'pending' };
 
-    // Role-based filtering: members only see their own tasks
-    if (user.role === 'member') {
-      query.assignedTo = user._id;
+    // Agents (sales / support) only ever see tasks assigned to them; owner, admin and
+    // manager see everyone's and may filter by assignee.
+    const scope = await resolveTaskScopeForTenant(tenant);
+    if (scope.ownOnly) {
+      query.assignedTo = scope.userId;
     } else if (assignedTo) {
       query.assignedTo = assignedTo;
     }
@@ -53,6 +56,7 @@ export const GET = withTenantAuth(async (request) => {
       return NextResponse.json({
         success: true,
         data: { today: todayCount, overdue: overdueCount, upcoming: upcomingCount, all: allCount },
+        scope: { ownOnly: scope.ownOnly },
       });
     }
 
@@ -88,7 +92,7 @@ export const GET = withTenantAuth(async (request) => {
       );
     }
 
-    return NextResponse.json({ success: true, data: valid });
+    return NextResponse.json({ success: true, data: valid, scope: { ownOnly: scope.ownOnly } });
   } catch (error) {
     console.error('Error fetching tasks:', error);
     return NextResponse.json({ success: false, error: 'Failed to fetch tasks' }, { status: 500 });
@@ -112,6 +116,12 @@ export const POST = withTenantAuth(async (request) => {
 
     if (!leadId && !contactId && !dealId && !companyId) {
       return NextResponse.json({ success: false, error: 'Link task to a lead, contact, deal, or company' }, { status: 400 });
+    }
+
+    // An agent can only create tasks for themselves (they could not see a task given to someone else).
+    const scope = await resolveTaskScopeForTenant(tenant);
+    if (scope.ownOnly && String(assignedTo) !== String(scope.userId)) {
+      return NextResponse.json({ success: false, error: 'You can only create tasks assigned to yourself' }, { status: 403 });
     }
 
     const task = await Task.create({

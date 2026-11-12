@@ -5,6 +5,7 @@ import CrmNote from '@/models/automation/CrmNote';
 import CrmAttachment from '@/models/automation/CrmAttachment';
 import Task from '@/models/automation/Task';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
+import { resolveTaskScopeForTenant, taskOwnerFilter } from '@/lib/crm/taskVisibility';
 import { logTimelineEvent, getEntityTimeline } from '@/lib/crm/timeline';
 import { ensureDefaultPipeline, getStageByKey } from '@/lib/crm/pipelines';
 import { runDealStageAutomations } from '@/lib/crm/stageAutomations';
@@ -36,7 +37,7 @@ export const GET = withTenantAuth(async (request, { params }) => {
 
     const [timeline, tasks, notes, attachments] = await Promise.all([
       getEntityTimeline(tenant.business._id, 'deal', id, { limit: 50 }),
-      Task.find({ businessId: tenant.business._id, dealId: id }).sort({ dueDate: 1 }).lean(),
+      Task.find({ businessId: tenant.business._id, ...taskOwnerFilter(await resolveTaskScopeForTenant(tenant)), dealId: id }).sort({ dueDate: 1 }).lean(),
       CrmNote.find({ businessId: tenant.business._id, entityType: 'deal', entityId: id, deletedAt: null }).sort({ pinned: -1, createdAt: -1 }).lean(),
       CrmAttachment.find({ businessId: tenant.business._id, entityType: 'deal', entityId: id, deletedAt: null }).lean(),
     ]);

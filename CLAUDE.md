@@ -13,6 +13,14 @@ Related decisions: <link to DECISIONS.md entry, if any>
 
 ---
 
+## 2026-11-12 — Tasks: agents (sales / support) see only their own tasks
+Branch: main
+Files: `lib/crm/taskVisibility.js` (new — `isOwnTasksOnlyRole`, `pickRoleSlug`, `resolveTaskScope`, `resolveTaskScopeForUser`, `resolveTaskScopeForTenant`, `taskOwnerFilter`), `app/api/automation/tasks/route.js` (GET list + counts filtered, returns `scope.ownOnly`; POST: agents may only assign to themselves → 403), `app/api/automation/tasks/[id]/route.js` (PUT/DELETE only own task for agents → 404 otherwise), `app/api/automation/dashboard/route.js` (today / overdue / completed task cards), `app/api/automation/sidebar-stats/route.js` (overdue badge), `app/api/automation/{companies,contacts,deals}/[id]/route.js` + `inbox/conversations/[id]/route.js` (task lists on those pages), `app/automation/hooks/useTasksWorkspace.js` (assignee picker shows only the agent themselves), `tests/task-visibility.test.js` (new)
+What changed: owner asked that agent / sales team members see only their own tasks. The old rule (`user.role === 'member'`) never matched anyone — stored roles are `team_member`, `TEAM_MEMBER`, `user`, … — so every team member saw every task. Role is now resolved like `lib/access/resolver.js`: business owner → owner; else the Team & Access role (`UserAccess.roleSlug`); else TeamMember/User role (admin → admin, manager → manager, everyone else → sales_agent). Owner, admin and manager (incl. any role containing admin/manager) see all; Sales Agent, Support, Viewer, custom agent roles and unknown roles see only tasks assigned to them. Suite 797/799 (same 2 unrelated failures); all changed files compile with SWC. A read-only check of how real users resolve was blocked by the permission classifier, so it is not verified against production data; not viewed in a browser.
+Related decisions: none.
+
+---
+
 ## 2026-11-12 — Leads: "Strong" row colours added
 Branch: main (UNCOMMITTED)
 Files: `app/automation/components/leads/constants.js` (`LEAD_ROW_COLORS_LIGHT`, new `LEAD_ROW_COLORS_STRONG` (10 Tailwind-300 shades), `LEAD_ROW_COLOR_GROUPS`, `LEAD_ROW_COLORS` = both, `STRONG_ROW_COLOR_VALUES`), `utils.js` (`darkRowTint` exported; strong colours get a 0.32 wash in dark mode instead of 0.15), new `RowColorSwatches.jsx` (grouped Light / Strong grid, aria-label + aria-pressed), `LeadColorPicker.jsx` + `BulkActionsBar.jsx` (use it; panel 236px), `tests/lead-row-colors.test.js` (new)

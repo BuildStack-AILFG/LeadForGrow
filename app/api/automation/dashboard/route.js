@@ -8,6 +8,7 @@ import Task from '@/models/automation/Task';
 import Activity from '@/models/automation/Activity';
 import MeetingBooking from '@/models/meetings/MeetingBooking';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
+import { resolveTaskScopeForTenant, taskOwnerFilter } from '@/lib/crm/taskVisibility';
 import { CLOSED_STAGES } from '@/lib/crm/stageKeys';
 import { ensureDefaultPipeline } from '@/lib/crm/pipelines';
 import {
@@ -46,6 +47,8 @@ export const GET = withTenantAuth(async (request) => {
 
     await dbConnect();
     const businessId = tenant.business._id;
+    // Agents see only their own tasks in the dashboard's task cards.
+    const mine = taskOwnerFilter(await resolveTaskScopeForTenant(tenant));
     const today = startOfDay();
     const tomorrow = startOfDay(new Date(today.getTime() + 86400000));
     const dayAfterTomorrow = startOfDay(new Date(tomorrow.getTime() + 86400000));
@@ -98,11 +101,11 @@ export const GET = withTenantAuth(async (request) => {
         .sort({ startTime: 1 })
         .populate('assignedTo', 'firstName lastName email')
         .lean(),
-      Task.find({ businessId, status: 'pending', dueDate: { $gte: today, $lte: endOfDay() } })
+      Task.find({ businessId, ...mine, status: 'pending', dueDate: { $gte: today, $lte: endOfDay() } })
         .sort({ dueDate: 1 }).limit(12).lean(),
-      Task.find({ businessId, status: 'pending', dueDate: { $lt: today } })
+      Task.find({ businessId, ...mine, status: 'pending', dueDate: { $lt: today } })
         .sort({ dueDate: 1 }).limit(12).lean(),
-      Task.find({ businessId, status: 'completed', completedAt: { $gte: today } })
+      Task.find({ businessId, ...mine, status: 'completed', completedAt: { $gte: today } })
         .sort({ completedAt: -1 }).limit(8).lean(),
       Lead.find({
         businessId,
