@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Phone, PhoneOff, Mic, MicOff, Volume2, X, Minus, Calendar } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { authFetch } from '@/lib/apiClient';
+import { localInputToISO } from '@/lib/dates/localDateTime';
 
 export default function LiveDialer({ callData, onHangup }) {
     const [status, setStatus] = useState('connecting'); // connecting, live, ended
@@ -132,7 +133,7 @@ export default function LiveDialer({ callData, onHangup }) {
                     userId: uId,
                     leadId: callData.leadId || callData.config?.leadId || window.location.pathname.split('/').pop(),
                     notes: notes,
-                    followUpTime: followUpTime,
+                    followUpTime: localInputToISO(followUpTime),
                     duration: duration,
                     provider: callData.provider
                 })

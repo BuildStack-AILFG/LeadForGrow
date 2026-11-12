@@ -15,6 +15,7 @@ import { leadActivityFields } from '@/lib/crm/activityHelpers';
 import { runLeadStagePipelineActions } from '@/lib/crm/pipelineAutomation';
 import { formatTimelineItems } from '@/lib/crm/timelinePresentation';
 import { buildContactUpdates, phoneClashFilter } from '@/lib/crm/leadContactUpdate';
+import { formatInTimeZone } from '@/lib/dates/localDateTime';
 
 const DETAIL_HISTORY_LIMIT = 500;
 
@@ -206,7 +207,7 @@ export const PUT = withPlanAccess('leads', async (req, { params }) => {
       updates.nextFollowUpAt = new Date(nextFollowUpAt);
       activities.push(leadActivityFields({ businessId }, id, {
         type: 'follow_up_scheduled',
-        description: `Follow-up scheduled for ${new Date(nextFollowUpAt).toLocaleString()}`,
+        description: `Follow-up scheduled for ${formatInTimeZone(nextFollowUpAt)}`,
         performedBy: performedBy || user.userId,
       }));
     }

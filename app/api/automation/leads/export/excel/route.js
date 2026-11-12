@@ -4,6 +4,7 @@
 import { NextResponse } from 'next/server';
 import ExcelJS from 'exceljs';
 import { withTenantAuth } from '@/lib/auth';
+import { formatInTimeZone } from '@/lib/dates/localDateTime';
 
 export const POST = withTenantAuth(async (request) => {
   try {
@@ -81,7 +82,7 @@ export const POST = withTenantAuth(async (request) => {
         assignedTo: lead.assignedTo?.email || 'Unassigned',
         source: lead.source || 'Direct',
         status: lead.status.charAt(0).toUpperCase() + lead.status.slice(1),
-        receivedAt: new Date(lead.receivedAt).toLocaleString()
+        receivedAt: formatInTimeZone(lead.receivedAt)
       });
 
       // Style data rows with alternating colors

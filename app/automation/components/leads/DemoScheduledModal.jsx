@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
+import { localInputToISO } from '@/lib/dates/localDateTime';
 
 const inputCls =
   'w-full px-3 py-2 text-sm border border-line dark:border-slate-700 rounded-lg bg-canvas dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-focus focus:border-accent';
@@ -45,6 +46,8 @@ export default function DemoScheduledModal({ open, leadName, entityName, onConfi
     if (!form.meetingDate || !form.meetingTime) return;
     onConfirm({
       ...form,
+      // Exact instant in the user's own timezone (the server runs in UTC).
+      meetingAt: localInputToISO(`${form.meetingDate}T${form.meetingTime}`),
       meetingDuration: `${form.meetingDuration} min`,
     });
   };

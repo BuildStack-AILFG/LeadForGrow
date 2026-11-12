@@ -104,16 +104,16 @@ describe('Business hours', () => {
 
   it('checks business hours window', () => {
     const business = { settings: { automation: { businessHours: { start: '09:00', end: '18:00', days: ['mon'] } } } };
-    const monday10am = new Date('2026-06-22T10:00:00');
+    const monday10am = new Date('2026-06-22T10:00:00+05:30');
     assert.equal(isWithinBusinessHours(business, monday10am), true);
-    const monday8am = new Date('2026-06-22T08:00:00');
+    const monday8am = new Date('2026-06-22T08:00:00+05:30');
     assert.equal(isWithinBusinessHours(business, monday8am), false);
   });
 });
 
 describe('Schedule evaluator', () => {
   it('matches cron expressions', () => {
-    const date = new Date('2026-06-22T09:30:00');
+    const date = new Date('2026-06-22T09:30:00+05:30');
     assert.equal(matchesCronExpression('30 9 * * 1', date), true);
     assert.equal(matchesCronExpression('0 8 * * 1', date), false);
   });

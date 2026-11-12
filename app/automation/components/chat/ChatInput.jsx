@@ -11,6 +11,7 @@ import MediaAttachmentStrip from './MediaAttachmentStrip';
 import RecipientRow from './RecipientRow';
 import { useMediaUpload } from '@/app/automation/hooks/useMediaUpload';
 import { authFetch } from '@/lib/apiClient';
+import { localInputToISO } from '@/lib/dates/localDateTime';
 import { useConfirm } from '@/app/components/ConfirmProvider';
 
 export default function ChatInput({
@@ -322,7 +323,7 @@ export default function ChatInput({
       subject: isEmail ? emailSubject : undefined,
       cc: isEmail && emailCc ? emailCc.split(',').map((e) => ({ email: e.trim() })).filter((c) => c.email) : undefined,
       bcc: isEmail && emailBcc ? emailBcc.split(',').map((e) => ({ email: e.trim() })).filter((c) => c.email) : undefined,
-      scheduledAt: scheduleOpen && scheduledAt ? scheduledAt : undefined,
+      scheduledAt: scheduleOpen && scheduledAt ? localInputToISO(scheduledAt) : undefined,
       attachments: readyUploads.map((u) => ({
         url: u.url,
         fileName: u.name,

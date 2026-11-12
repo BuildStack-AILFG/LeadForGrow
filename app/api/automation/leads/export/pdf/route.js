@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { withTenantAuth } from '@/lib/auth';
+import { formatInTimeZone } from '@/lib/dates/localDateTime';
 
 const MAX_EXPORT_ROWS = 5000;
 
@@ -58,7 +59,7 @@ export const POST = withTenantAuth(async (request) => {
     // Subtitle
     doc.setFontSize(10);
     doc.setTextColor(100, 116, 139);
-    doc.text(`Generated: ${new Date().toLocaleString()}`, 148, 22, { align: 'center' });
+    doc.text(`Generated: ${formatInTimeZone(new Date())}`, 148, 22, { align: 'center' });
     doc.text(
       `Filter: ${(filter || 'all').toUpperCase()} | Total Leads: ${leads.length}`,
       148,

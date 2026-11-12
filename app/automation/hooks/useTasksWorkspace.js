@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import { authFetch, getUserId } from '@/lib/apiClient';
+import { localInputToISO, browserTzParam } from '@/lib/dates/localDateTime';
 
 const EMPTY_TASK = {
   leadId: '',
@@ -43,7 +44,7 @@ export function useTasksWorkspace() {
       if (!silent) setLoading(true);
       else setRefreshing(true);
       setError('');
-      const res = await authFetch(`/api/automation/tasks?filter=${filter}`);
+      const res = await authFetch(`/api/automation/tasks?filter=${filter}&${browserTzParam()}`);
       const data = await res.json();
       if (data.success) {
         setTasks(data.data || []);
@@ -61,7 +62,7 @@ export function useTasksWorkspace() {
 
   const fetchCounts = useCallback(async () => {
     try {
-      const res = await authFetch('/api/automation/tasks?counts=1');
+      const res = await authFetch(`/api/automation/tasks?counts=1&${browserTzParam()}`);
       const data = await res.json();
       if (data.success) {
         setCounts(data.data);
@@ -175,7 +176,7 @@ export function useTasksWorkspace() {
       const res = await authFetch(`/api/automation/tasks/${selectedTask._id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ dueDate }),
+        body: JSON.stringify({ dueDate: localInputToISO(dueDate) }),
       });
       const data = await res.json();
       if (data.success) {
@@ -201,7 +202,11 @@ export function useTasksWorkspace() {
       const res = await authFetch('/api/automation/tasks', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          ...payload,
+          dueDate: localInputToISO(payload.dueDate),
+          reminderAt: localInputToISO(payload.reminderAt),
+        }),
       });
       const data = await res.json();
       if (data.success) {

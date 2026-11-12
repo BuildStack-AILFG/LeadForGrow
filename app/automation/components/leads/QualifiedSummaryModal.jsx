@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
+import { localInputToISO } from '@/lib/dates/localDateTime';
 
 const inputCls =
   'w-full px-3 py-2 text-sm border border-line dark:border-slate-700 rounded-lg bg-canvas dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-focus focus:border-accent';
@@ -42,7 +43,7 @@ export default function QualifiedSummaryModal({ open, leadName, onConfirm, onCan
       expectedTimeline: form.expectedTimeline.trim(),
       requirements: form.requirements.trim(),
       decisionMaker: form.decisionMaker.trim(),
-      nextFollowUpAt: form.nextFollowUpAt || undefined,
+      nextFollowUpAt: localInputToISO(form.nextFollowUpAt),
     });
   };
 

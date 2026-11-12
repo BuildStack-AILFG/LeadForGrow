@@ -4,6 +4,7 @@ import Business from '@/models/Business';
 import { withPlanAccess } from '@/lib/accessControl';
 import { verifyBusinessSMTP, sendBusinessEmail } from '@/lib/businessMailer';
 import { encrypt } from '@/lib/encryption';
+import { formatInTimeZone } from '@/lib/dates/localDateTime';
 
 /**
  * POST /api/business/settings/test-email
@@ -107,11 +108,11 @@ export const POST = withPlanAccess('settings', async (req) => {
           </div>
           <p style="font-size: 14px; color: #64748b;">Your lead communications will now be sent from your own business email address.</p>
           <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 32px 0;" />
-          <p style="font-size: 12px; color: #94a3b8; text-align: center;">Verified at: ${new Date().toLocaleString()}</p>
+          <p style="font-size: 12px; color: #94a3b8; text-align: center;">Verified at: ${formatInTimeZone(new Date())}</p>
           <p style="font-size: 12px; color: #94a3b8; text-align: center;">Powered by <strong>LeadForGrow</strong></p>
         </div>
       `,
-      text: `✅ Hostinger SMTP Connection Verified!\n\nYour email credentials have been successfully verified.\n\nVerified Account: ${username}\nSMTP Host: ${emailSettings.host || 'smtp.hostinger.com'}\nStatus: Active\n\nVerified at: ${new Date().toLocaleString()}`
+      text: `✅ Hostinger SMTP Connection Verified!\n\nYour email credentials have been successfully verified.\n\nVerified Account: ${username}\nSMTP Host: ${emailSettings.host || 'smtp.hostinger.com'}\nStatus: Active\n\nVerified at: ${formatInTimeZone(new Date())}`
     });
 
     if (emailResult.success) {

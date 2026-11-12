@@ -4,6 +4,7 @@ import Lead from '@/models/automation/Lead';
 import { NextResponse } from 'next/server';
 import { withTenantAuth, resolveTenant } from '@/lib/auth';
 import { resolveTaskScopeForTenant } from '@/lib/crm/taskVisibility';
+import { startOfDayInOffset } from '@/lib/dates/localDateTime';
 
 /** Pending tasks returned per request — enough for any screen, bounded for big teams. */
 const TASK_LIST_LIMIT = 500;
@@ -40,9 +41,10 @@ export const GET = withTenantAuth(async (request) => {
     if (companyId) query.companyId = companyId;
 
     const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
+    // Day boundaries in the viewer's timezone (?tz = browser getTimezoneOffset(), e.g. -330 for
+    // IST); the server runs in UTC, so its own midnight would put the day break at 05:30 IST.
+    const today = startOfDayInOffset(now, searchParams.get('tz'));
+    const tomorrow = new Date(today.getTime() + 86400000);
 
     // Tab badges: four index-backed counts instead of downloading every task four times.
     if (searchParams.get('counts') === '1') {
