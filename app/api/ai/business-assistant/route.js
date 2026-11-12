@@ -82,6 +82,7 @@ export const POST = withAuth()(async (req) => {
 
     if (!answer && toolResult && !toolResult.error) {
       const llm = await chatCompletion({
+      businessId: user?.businessId || req.user?.businessId,
         messages: [
           { role: 'system', content: `You are Grovia, CRM copilot for ${ctx.businessName}. Summarize CRM tool results clearly for the sales team. Be concise.` },
           { role: 'user', content: `Question: ${question}\n\nTool data:\n${JSON.stringify(toolResult, null, 2)}` },
@@ -101,6 +102,7 @@ export const POST = withAuth()(async (req) => {
     // LLM call itself errors (no provider configured / network failure).
     if (!answer) {
       const llm = await chatCompletion({
+      businessId: user?.businessId || req.user?.businessId,
         messages: [
           {
             role: 'system',

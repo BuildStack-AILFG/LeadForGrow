@@ -1,6 +1,7 @@
 import { verifyToken } from '@/lib/auth';
 import { dbConnect } from '@/lib/mongodb';
 import RealtimeEvent from '@/models/RealtimeEvent';
+import { tickAfterResponse } from '@/lib/jobs/tick';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,6 +15,8 @@ export const dynamic = 'force-dynamic';
  * Fluid CPU/memory the way the SSE connection did.
  */
 export async function GET(req) {
+  // Open CRM tabs poll every few seconds — use that traffic to run due automations too.
+  tickAfterResponse();
   const url = new URL(req.url);
   const token =
     url.searchParams.get('token') ||

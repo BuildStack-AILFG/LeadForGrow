@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { expireFlowWaits } from '@/lib/whatsappFlows/engine';
 import { dbConnect } from '@/lib/mongodb';
 import FlowExecution from '@/models/automation/FlowExecution';
 import { serverErrorMessage } from '@/lib/api/serverError';
@@ -13,29 +14,10 @@ export const POST = async (request) => {
     await dbConnect();
     const now = new Date();
 
-    // Find all waits that have timed out
-    const result = await FlowExecution.updateMany(
-      {
-        status: 'waiting',
-        'wait.type': 'reply',
-        'wait.until': { $exists: true, $lt: now },
-      },
-      {
-        $set: {
-          status: 'failed',
-          error: 'Wait for reply timeout exceeded',
-          completedAt: now,
-          'wait.type': null,
-        },
-      }
-    );
-
-    console.log(`[Cron] Expired ${result.modifiedCount} timed-out flow waits`);
-
-    return NextResponse.json({
-      success: true,
-      expired: result.modifiedCount,
-    });
+    // Timed-out reply waits: follow the flow's "timeout" branch if it has one, else end.
+    const result = await expireFlowWaits(200);
+    console.log(`[Cron] Flow waits: ${result.continued} continued on timeout, ${result.expired} expired`);
+    return NextResponse.json({ success: true, ...result });
   } catch (error) {
     console.error('[Cron] Expire flow waits error:', error);
     return NextResponse.json({ error: serverErrorMessage(error) }, { status: 500 });

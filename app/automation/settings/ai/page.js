@@ -86,7 +86,7 @@ export default function AiSettingsPage() {
         {settings?.configured ? <CheckCircle2 className="w-4 h-4" /> : <AlertTriangle className="w-4 h-4" />}
         <span className="text-sm">
           {settings?.configured
-            ? (settings?.provider === 'openai' && settings?.hasApiKey ? 'AI running on your own OpenAI key' : 'AI provider configured')
+            ? (settings?.provider === 'openai' && settings?.hasApiKey ? 'AI running on your own OpenAI key' : settings?.provider === 'grok' && settings?.hasApiKey ? 'AI running on your own Grok key' : 'AI provider configured')
             : 'No AI provider — use the platform default or add your own OpenAI key below'}
         </span>
       </div>
@@ -126,24 +126,27 @@ export default function AiSettingsPage() {
           >
             <option value="platform">Platform AI (included)</option>
             <option value="openai">My own OpenAI key (BYOK)</option>
+            <option value="grok">My own Grok (xAI) key</option>
           </select>
         </Field>
 
-        {settings?.provider === 'openai' && (
+        {(settings?.provider === 'openai' || settings?.provider === 'grok') && (
           <div className="space-y-4 rounded-lg border border-line dark:border-teal-900 bg-accent-subtle dark:bg-teal-950/20 p-4">
-            <Field label="OpenAI API key">
+            <Field label={settings?.provider === 'grok' ? 'Grok (xAI) API key' : 'OpenAI API key'}>
               <input
                 type="password"
                 value={apiKeyInput}
                 onChange={(e) => setApiKeyInput(e.target.value)}
-                placeholder={settings?.hasApiKey ? '•••••••••••• (saved — leave blank to keep)' : 'sk-…'}
+                placeholder={settings?.hasApiKey ? '•••••••••••• (saved — leave blank to keep)' : settings?.provider === 'grok' ? 'xai-…' : 'sk-…'}
                 autoComplete="off"
                 className="w-full text-sm px-3 py-2 border rounded-lg bg-canvas dark:bg-slate-900 font-mono"
               />
               <p className="text-xs text-fg-tertiary dark:text-fg-tertiary mt-1">
                 {settings?.hasApiKey
                   ? '✓ A key is saved and encrypted. Enter a new one only to replace it.'
-                  : 'Stored encrypted; never shown again after saving. Get it from platform.openai.com → API keys.'}
+                  : settings?.provider === 'grok'
+                    ? 'Stored encrypted; never shown again after saving. Get it from console.x.ai → API keys.'
+                    : 'Stored encrypted; never shown again after saving. Get it from platform.openai.com → API keys.'}
               </p>
             </Field>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -152,7 +155,7 @@ export default function AiSettingsPage() {
                   type="text"
                   value={settings?.replyModel || ''}
                   onChange={(e) => update('replyModel', e.target.value)}
-                  placeholder="gpt-4o-mini"
+                  placeholder={settings?.provider === 'grok' ? 'grok-3-mini' : 'gpt-4o-mini'}
                   className="w-full text-sm px-3 py-2 border rounded-lg bg-canvas dark:bg-slate-900 font-mono"
                 />
               </Field>
@@ -161,7 +164,7 @@ export default function AiSettingsPage() {
                   type="text"
                   value={settings?.baseUrl || ''}
                   onChange={(e) => update('baseUrl', e.target.value)}
-                  placeholder="https://api.openai.com/v1"
+                  placeholder={settings?.provider === 'grok' ? 'https://api.x.ai/v1' : 'https://api.openai.com/v1'}
                   className="w-full text-sm px-3 py-2 border rounded-lg bg-canvas dark:bg-slate-900 font-mono"
                 />
               </Field>

@@ -12,6 +12,7 @@ import {
   verifyMetaWebhookSignature,
   parseLeadgenFields
 } from '@/lib/meta/webhookIngress';
+import { tickAfterResponse } from '@/lib/jobs/tick';
 
 function logStep(step, message, data) {
   metaLog(`Webhook Step ${step}`, message, data);
@@ -96,6 +97,7 @@ export async function GET(request, { params }) {
  * POST - Handle Incoming Webhook Events (Lead Ads + WhatsApp)
  */
 export async function POST(request, { params }) {
+    tickAfterResponse();
     const { businessId } = await params;
     const receivedAt = new Date().toISOString();
     const routeLabel = `businessId:${businessId}`;

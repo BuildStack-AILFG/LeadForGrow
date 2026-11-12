@@ -1,0 +1,20 @@
+name: Scheduler tick
+
+# Runs due automations (sequence steps, flow delays, meeting reminders, scheduled emails)
+# by calling the app's public tick endpoint. GitHub may delay scheduled runs by a few
+# minutes; the app also ticks opportunistically on traffic. See lib/jobs/tick.js.
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Call tick
+        run: |
+          curl -fsS --max-time 90 -A "LeadForGrow-scheduler" "https://www.leadforgrow.com/api/cron/tick" || echo "tick call failed"

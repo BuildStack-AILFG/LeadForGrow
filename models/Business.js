@@ -264,7 +264,8 @@ const BusinessSettingsSchema = new mongoose.Schema({
      *  account instead of the platform's shared provider. 'platform' uses our
      *  keys; 'openai' uses the client's key/model/endpoint below. The key is
      *  encrypted at rest (lib/encryption) and never returned to the client. */
-    provider: { type: String, enum: ['platform', 'openai'], default: 'platform' },
+    // 'grok' = xAI Grok with the client's own key (OpenAI-compatible API at api.x.ai).
+    provider: { type: String, enum: ['platform', 'openai', 'grok'], default: 'platform' },
     apiKey: { type: String, select: false },
     replyModel: { type: String, default: '' },
     baseUrl: { type: String, default: '' },

@@ -17,6 +17,7 @@ import {
   verifyMetaSignatureForBusinesses,
   parseLeadgenFields
 } from '@/lib/meta/webhookIngress';
+import { tickAfterResponse } from '@/lib/jobs/tick';
 
 /**
  * Record a signature failure on the ingress row and answer 200 so Meta does
@@ -72,6 +73,7 @@ export async function GET(req) {
 }
 
 export async function POST(req) {
+  tickAfterResponse();
   const startTime = Date.now();
   const routeLabel = 'generic:/api/webhooks/meta';
   let ingressId = null;

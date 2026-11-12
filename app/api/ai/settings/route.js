@@ -11,7 +11,7 @@ export const GET = withAuth()(async (req) => {
     const settings = await getAiSettings(req.user.businessId);
     // Configured = platform provider available, OR the client wired up their
     // own OpenAI key (BYOK). Either way AI reply can run.
-    const configured = isAiConfigured() || (settings.provider === 'openai' && settings.hasApiKey);
+    const configured = isAiConfigured() || (['openai', 'grok'].includes(settings.provider) && settings.hasApiKey);
     return NextResponse.json({
       success: true,
       data: { ...settings, configured },
@@ -28,7 +28,7 @@ export const PUT = withAuth()(async (req) => {
     await updateAiSettings(req.user.businessId, body);
     // Return the client-safe view (never the encrypted key).
     const settings = await getAiSettings(req.user.businessId);
-    const configured = isAiConfigured() || (settings.provider === 'openai' && settings.hasApiKey);
+    const configured = isAiConfigured() || (['openai', 'grok'].includes(settings.provider) && settings.hasApiKey);
     return NextResponse.json({ success: true, data: { ...settings, configured } });
   } catch (error) {
     return NextResponse.json({ success: false, error: serverErrorMessage(error) }, { status: 500 });
