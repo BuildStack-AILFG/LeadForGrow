@@ -50,8 +50,8 @@ export const SMART_VIEWS = [
 
 export const SAVED_VIEWS_KEY = 'lfg_leads_saved_views';
 
-/** 11 row highlight colors for the leads table */
-export const LEAD_ROW_COLORS = [
+/** Light row highlight colors for the leads table (Tailwind 100 shades). */
+export const LEAD_ROW_COLORS_LIGHT = [
   { id: 'white', value: '#ffffff', dark: 'rgba(255, 255, 255, 0.06)', label: 'White' },
   { id: 'amber', value: '#fef3c7', dark: 'rgba(254, 243, 199, 0.15)', label: 'Amber' },
   { id: 'blue', value: '#dbeafe', dark: 'rgba(219, 234, 254, 0.15)', label: 'Blue' },
@@ -64,6 +64,34 @@ export const LEAD_ROW_COLORS = [
   { id: 'rose', value: '#ffe4e6', dark: 'rgba(255, 228, 230, 0.15)', label: 'Rose' },
   { id: 'slate', value: '#f1f5f9', dark: 'rgba(241, 245, 249, 0.12)', label: 'Slate' }
 ];
+
+/**
+ * Stronger row colors (Tailwind 300 shades) for rows that must stand out. Still light enough
+ * that the table's dark text stays readable (≥ 7:1 against #0A0B10); in dark mode they are
+ * drawn as a heavier wash than the light set (see darkRowTint in utils.js).
+ */
+export const LEAD_ROW_COLORS_STRONG = [
+  { id: 'amber-strong', value: '#fcd34d', label: 'Strong amber' },
+  { id: 'blue-strong', value: '#93c5fd', label: 'Strong blue' },
+  { id: 'green-strong', value: '#86efac', label: 'Strong green' },
+  { id: 'pink-strong', value: '#f9a8d4', label: 'Strong pink' },
+  { id: 'indigo-strong', value: '#a5b4fc', label: 'Strong indigo' },
+  { id: 'orange-strong', value: '#fdba74', label: 'Strong orange' },
+  { id: 'purple-strong', value: '#d8b4fe', label: 'Strong purple' },
+  { id: 'teal-strong', value: '#5eead4', label: 'Strong teal' },
+  { id: 'rose-strong', value: '#fda4af', label: 'Strong rose' },
+  { id: 'slate-strong', value: '#cbd5e1', label: 'Strong slate' }
+];
+
+export const LEAD_ROW_COLOR_GROUPS = [
+  { id: 'light', label: 'Light', colors: LEAD_ROW_COLORS_LIGHT },
+  { id: 'strong', label: 'Strong', colors: LEAD_ROW_COLORS_STRONG }
+];
+
+/** Every selectable row color (light then strong). */
+export const LEAD_ROW_COLORS = [...LEAD_ROW_COLORS_LIGHT, ...LEAD_ROW_COLORS_STRONG];
+
+export const STRONG_ROW_COLOR_VALUES = new Set(LEAD_ROW_COLORS_STRONG.map((c) => c.value));
 
 export const TABLE_COLUMNS = [
   { key: 'name', label: 'Name', sortable: true, minWidth: 180, align: 'left' },

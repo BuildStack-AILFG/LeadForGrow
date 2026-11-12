@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Trash2, Download, Palette } from 'lucide-react';
 import { mapTeamMemberOptions } from './utils';
-import { LEAD_ROW_COLORS } from './constants';
+import RowColorSwatches from './RowColorSwatches';
 
 export default function BulkActionsBar({
   count,
@@ -41,25 +41,16 @@ export default function BulkActionsBar({
             Row color
           </button>
           {colorOpen && (
-            <div className="absolute left-0 top-full mt-1 z-50 w-52 p-3 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg shadow-popover">
+            <div className="absolute left-0 top-full mt-1 z-50 w-[236px] p-3 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg shadow-popover">
               <p className="text-xs font-semibold text-fg-secondary dark:text-slate-200 mb-2">
                 Apply to {count} lead{count > 1 ? 's' : ''}
               </p>
-              <div className="grid grid-cols-5 gap-2">
-                {LEAD_ROW_COLORS.map((c) => (
-                  <button
-                    key={c.id}
-                    type="button"
-                    title={c.label}
-                    onClick={() => {
-                      onBulkRowColorChange?.(c.value);
-                      setColorOpen(false);
-                    }}
-                    className="w-8 h-8 rounded-lg border-2 border-line dark:border-slate-600 hover:scale-110 transition-transform"
-                    style={{ backgroundColor: c.value }}
-                  />
-                ))}
-              </div>
+              <RowColorSwatches
+                onSelect={(value) => {
+                  onBulkRowColorChange?.(value);
+                  setColorOpen(false);
+                }}
+              />
               <button
                 type="button"
                 onClick={() => {

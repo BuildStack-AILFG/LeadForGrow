@@ -13,6 +13,14 @@ Related decisions: <link to DECISIONS.md entry, if any>
 
 ---
 
+## 2026-11-12 — Leads: "Strong" row colours added
+Branch: main (UNCOMMITTED)
+Files: `app/automation/components/leads/constants.js` (`LEAD_ROW_COLORS_LIGHT`, new `LEAD_ROW_COLORS_STRONG` (10 Tailwind-300 shades), `LEAD_ROW_COLOR_GROUPS`, `LEAD_ROW_COLORS` = both, `STRONG_ROW_COLOR_VALUES`), `utils.js` (`darkRowTint` exported; strong colours get a 0.32 wash in dark mode instead of 0.15), new `RowColorSwatches.jsx` (grouped Light / Strong grid, aria-label + aria-pressed), `LeadColorPicker.jsx` + `BulkActionsBar.jsx` (use it; panel 236px), `tests/lead-row-colors.test.js` (new)
+What changed: owner said the lead row colours are too light and asked for darker options. The picker now has a "Strong" row of deeper shades next to the existing light ones. They are 300-level, not darker, so the table's dark text keeps ≥ 7:1 contrast (tested); in dark mode they draw as a heavier translucent wash. Existing saved row colours are unchanged; `rowColor` is free text on the Lead model, so no API/schema change. Suite 789/791 (same 2 unrelated failures). Not viewed in a browser.
+Related decisions: none.
+
+---
+
 ## 2026-11-11 — Instagram settings: "last event received" line
 Branch: main
 Files: `app/api/business/settings/instagram-webhooks/route.js`, `app/automation/settings/instagram/page.js`

@@ -1,4 +1,4 @@
-import { STATUS_CONFIG, LEAD_STATUS_ROW_COLORS, LEAD_STATUS_ACCENT_COLORS, PIPELINE_STAGES } from './constants';
+import { STATUS_CONFIG, LEAD_STATUS_ROW_COLORS, LEAD_STATUS_ACCENT_COLORS, PIPELINE_STAGES, STRONG_ROW_COLOR_VALUES } from './constants';
 import { normalizeLeadStatus } from '@/lib/crm/leadStages';
 
 /** Unwrap User from TeamMember { userId: {...} } or return User as-is */
@@ -170,13 +170,14 @@ export function getStatusAccentColor(status) {
  * make the light text used in dark mode unreadable, so in dark mode the same hue is drawn as a
  * translucent wash over the dark surface. 8-digit hex (status colours already carry alpha) is kept.
  */
-function darkRowTint(color) {
+export function darkRowTint(color) {
   const hex = String(color || '').trim().toLowerCase();
   if (/^#[0-9a-f]{8}$/.test(hex)) return hex;
   const m = hex.match(/^#([0-9a-f]{6})$/);
   if (!m) return color;
   const n = parseInt(m[1], 16);
-  const alpha = hex === '#ffffff' ? 0.06 : 0.15;
+  // Strong swatches get a heavier wash so they stay visibly stronger than the light set in dark mode.
+  const alpha = hex === '#ffffff' ? 0.06 : STRONG_ROW_COLOR_VALUES.has(hex) ? 0.32 : 0.15;
   return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${alpha})`;
 }
 

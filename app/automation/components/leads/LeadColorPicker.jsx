@@ -3,9 +3,9 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
-import { LEAD_ROW_COLORS } from './constants';
+import RowColorSwatches from './RowColorSwatches';
 
-const PANEL_WIDTH = 208; // w-52
+const PANEL_WIDTH = 236; // w-[236px]
 
 export default function LeadColorPicker({ open, onClose, currentColor, onSelect, anchorRef }) {
   const panelRef = useRef(null);
@@ -79,7 +79,7 @@ export default function LeadColorPicker({ open, onClose, currentColor, onSelect,
   return createPortal(
     <div
       ref={panelRef}
-      className="fixed z-[100] w-52 p-3 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg shadow-popover"
+      className="fixed z-[100] w-[236px] p-3 bg-canvas dark:bg-slate-900 border border-line dark:border-slate-700 rounded-lg shadow-popover"
       style={{ top: pos.top, left: pos.left }}
       onClick={(e) => e.stopPropagation()}
     >
@@ -93,22 +93,7 @@ export default function LeadColorPicker({ open, onClose, currentColor, onSelect,
           <X className="w-3.5 h-3.5" />
         </button>
       </div>
-      <div className="grid grid-cols-5 gap-2">
-        {LEAD_ROW_COLORS.map((c) => (
-          <button
-            key={c.id}
-            type="button"
-            title={c.label}
-            onClick={() => onSelect(c.value)}
-            className={`w-8 h-8 rounded-lg border-2 transition-transform hover:scale-110 ${
-              currentColor === c.value
-                ? 'border-accent ring-2 ring-focus dark:ring-teal-800'
-                : 'border-line dark:border-slate-600'
-            }`}
-            style={{ backgroundColor: c.value }}
-          />
-        ))}
-      </div>
+      <RowColorSwatches currentColor={currentColor} onSelect={onSelect} />
       {currentColor && (
         <button
           type="button"
